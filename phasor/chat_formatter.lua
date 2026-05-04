@@ -1,94 +1,87 @@
--- Name: chat_formatter.lua
--- Copyright (c) 2016-2018 Jericho Crosby (Chalwk)
+--[[
+=====================================================================================
+SCRIPT NAME:      chat_formatter.lua
+DESCRIPTION:      Chat formatter with placeholders, command filtering,
+                  and team-sensitive delivery. Supports global, team, and vehicle
+                  chat types.
 
--- config starts --
+Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
+LICENSE:          MIT License
+                  https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/LICENSE
+=====================================================================================
+]]
+
+-- CONFIG start ---------------------------------------------------------------
+-- Chat format templates (types 0 = global, 1 = team, 2 = vehicle)
+-- Use $name, $id, $msg as dynamic placeholders
 local chat_format = {
-
-    -- Global Chat Format:
-    [0] = "%name% [%id%]: %msg%",
-
-    -- Team Chat Format:
-    [1] = "[%name%] [%id%]: %msg%",
-
-    -- Team Vehicle Chat Format:
-    [2] = "[%name%] [%id%]: %msg%"
+    [0] = "$name [$id]: $msg",
+    [1] = "[$name] [$id]: $msg",
+    [2] = "[$name] [$id]: $msg"
 }
 
--- Messages containing these keywords will not trigger chat formatting for that message!
--- "rtv" for example, would break otherwise.
-local ignore_list = {
-    "rtv",
-    "skip",
-}
--- config ends --
-
-function GetRequiredVersion()
-    return 200
-end
+-- Messages whose first word (case-insensitive) matches a key here are ignored.
+-- Perfect for commands like rtv / skip that shouldn't be reformatted.
+local ignore_list = { rtv = true, skip = true, }
+-- CONFIG END -----------------------------------------------------------------
 
 local gametype_base
-function OnScriptLoad(_, game, _)
-    if (game == "PC") then
-        gametype_base = 0x671340
-    else
-        gametype_base = 0x5F5498
+
+local function format(template, args)
+    if not args then return template end
+    return (template:gsub("%$([%w_]+)", function(key)
+        local value = args[key] or args[key:lower()] or args[key:upper()]
+        return value ~= nil and tostring(value) or "$" .. key
+    end))
+end
+
+local function split_message(msg)
+    local words = {}
+    for w in msg:gmatch("[^%s]+") do
+        words[#words + 1] = w:lower()
     end
+    return words
 end
 
-local team_play
-function OnNewGame()
-    team_play = (readbyte(gametype_base + 0x34) == 1) or false
+local function is_command(w)
+    return w and (w:sub(1, 1) == "/" or w:sub(1, 1) == "\\")
 end
 
-local function STRSplit(Str)
-    local args = { }
+local function send_formatted(player, chat_type, msg)
+    local name = getname(player)
+    local id = resolveplayer(player)
 
-    for Params in Str:gmatch("([^%s]+)") do
-        args[#args + 1] = Params:lower()
-    end
+    local template = chat_format[chat_type]
+    if not template then return end
 
-    return args
-end
+    local formatted = format(template, { name = name, id = tostring(id), msg = msg })
 
-local function IsCommand(Str)
-    return (Str[1]:sub(1, 1) == "/" or Str[1]:sub(1, 1) == "\\")
-end
-
-local gsub = string.gsub
-local function SendMessage(Ply, Type, Msg)
-
-    local name = getname(Ply)
-    local id = resolveplayer(Ply)
-
-    Msg = gsub(gsub(gsub(chat_format[Type],
-            "%%name%%", name),
-            "%%id%%", id),
-            "%%msg%%", Msg)
-
-    if (Type == 1 or Type == 2) then
+    if chat_type == 1 or chat_type == 2 then
         for i = 0, 15 do
-            if getplayer(i) and (getteam(i) == getteam(Ply)) then
-                privatesay(i, Msg)
+            local p = getplayer(i)
+            if p and getteam(i) == getteam(player) then
+                privatesay(i, formatted)
             end
         end
     else
-        say(Msg)
+        say(formatted)
     end
 end
 
-local function Contains(KeyWord)
-    for _, v in pairs(ignore_list) do
-        if (v == KeyWord) then
-            return true
-        end
-    end
+function OnScriptLoad(_, game)
+    gametype_base = (game == "PC") and 0x671340 or 0x5F5498
+end
+
+function OnServerChat(player, chat_type, message)
+    if chat_type == 3 or chat_type == 4 then return end
+
+    local words = split_message(message)
+    if is_command(words[1]) or ignore_list[words[1]] then return end
+    send_formatted(player, chat_type, message)
+
     return false
 end
 
-function OnServerChat(Ply, Type, Msg)
-    local str = STRSplit(Msg)
-    if (not IsCommand(str) and Type ~= 4 and Type ~= 3 and not Contains(str[1])) then
-        SendMessage(Ply, Type, Msg)
-        return false
-    end
-end
+function OnScriptUnload() end
+
+function GetRequiredVersion() return 200 end
