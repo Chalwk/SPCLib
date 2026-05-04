@@ -23,7 +23,7 @@ LICENSE:          MIT License
 --
 
 local EVENTS = {
-    OnStart = { "[START] New game on $map - $mode $gt ($ffa) $scorelimit", true },
+    OnStart = { "[START] New game on $map - $mode ($ffa) | Scorelimit: $scorelimit", true },
     OnEnd = { "[END] Game ended", true },
     OnJoin = { "[JOIN] $name ($id) | $ip | $hash | Pirated: $pirated | $total/16", true },
     OnQuit = { "[QUIT] $name ($id) | $ip | $hash | Pirated: $pirated | $total/16", true },
@@ -106,7 +106,6 @@ local LOGO = {
 local players = {}
 local first_blood = true
 local ffa = false
-local gametype = ""
 local mode, map = "", ""
 local score_limit = 0
 local gametype_base
@@ -136,6 +135,18 @@ function show_ASCII_art()
     for _, line in ipairs(LOGO[2]) do
         hprintf(format(line[1], args))
     end
+end
+
+local function get_gamemode()
+    local count = 0
+    local byte_table = {}
+    for i = 1, 0x2C do
+        if readbyte(gametype_base + count) ~= 0 then
+            byte_table[i] = string.char(readbyte(gametype_base + count))
+        end
+        count = count + 2
+    end
+    return table.concat(byte_table):lower()
 end
 
 local function is_pirated(hash)
@@ -183,7 +194,7 @@ local function get_player_data(id, leaving)
     }
 end
 
-local function parse_gametype()
+local function parse_gametype() -- todo: remove (but keep note of it)
     local type = readbyte(gametype_base + 0x30)
     return type == 0 and "none" or type == 1 and "ctf" or type == 2 and "slayer" or type == 3 and "oddball" or
         type == 4 and "king" or type == 5 and "race"
@@ -204,15 +215,13 @@ function OnNewGame(map_name, unknown_var)
     first_blood = true
     players = {}
     ffa = (readbyte(gametype_base + 0x34) == 0) -- 0 = FFA, 1 = Team
-    mode = readstring(gametype_base, 0x2C)
-    gametype = parse_gametype()
+    mode = get_gamemode()
     score_limit = get_scorelimit()
     map = map_name
 
     log("OnStart", {
         map = map,
         mode = mode,
-        gt = gametype,
         ffa = get_team_play(),
         scorelimit = score_limit
     })
@@ -227,7 +236,6 @@ function OnGameEnd()
     log("OnEnd", {
         map = map,
         mode = mode,
-        gt = gametype,
         ffa = get_team_play()
     })
 end
