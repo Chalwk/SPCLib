@@ -35,7 +35,7 @@ function Broadcast()
 
     for i = 1, #messages do
         local msg = messages[i]
-        if CONSOLE then hprintf(msg) end
+        if CONSOLE then respond(msg) end
         say(msg)
     end
 

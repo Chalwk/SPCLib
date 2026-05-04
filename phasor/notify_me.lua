@@ -133,7 +133,7 @@ function show_ASCII_art()
     }
 
     for _, line in ipairs(LOGO[2]) do
-        hprintf(format(line[1], args))
+        respond(format(line[1], args))
     end
 end
 
@@ -176,7 +176,7 @@ local function log(event_name, args)
 
     local data = args and args.event_type and event[args.event_type] or event
     if data and data[2] then
-        hprintf(fmt_log(data[1], args))
+        respond(fmt_log(data[1], args))
     end
 end
 
