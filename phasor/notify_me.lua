@@ -117,8 +117,8 @@ local tostring, tonumber = tostring, tonumber
 local function format(template, args)
     if not args then return template end
 
-    return (template:gsub("%$(%w+)", function(key)
-        local value = args[key]
+    return (template:gsub("%$([%w_]+)", function(key)
+        local value = args[key] or args[key:lower()] or args[key:upper()]
         return value ~= nil and tostring(value) or "$" .. key
     end))
 end
