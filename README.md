@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="misc/logo-rebrand.jpg" alt="SPCLib - SAPP, Phasor and Chimera Library" width="250">
+  <img src="misc/hsp-logo.jpg" alt="SPCLib - SAPP, Phasor and Chimera Library" width="250">
 
   <br>
 
