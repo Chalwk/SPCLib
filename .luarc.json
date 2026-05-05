@@ -45,6 +45,7 @@
     "hud_message",
     "intersect",
     "lookup_tag",
+    "movobjectcoords",
     "objectaddrtoplayer",
     "objectidtoplayer",
     "player_alive",
