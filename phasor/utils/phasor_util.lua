@@ -43,7 +43,12 @@ local util = {
             gametype_patch = 0x481F3C,
             devmode_patch1 = 0x4A4DBF,
             devmode_patch2 = 0x4A4E7F,
-            hash_duplicate_patch = 0x59C516
+            hash_duplicate_patch = 0x59C516,
+            ctf_globals = 0x639B98,
+            koth_globals = 0x639BD0,
+            race_globals = 0x639FA0,
+            race_locs = 0x670F40,
+            stats_globals = 0x639898
         },
         ["CE"] = {
             oddball_globals = 0x5BDEB8,
@@ -61,7 +66,12 @@ local util = {
             gametype_patch = 0x45E50C,
             devmode_patch1 = 0x47DF0C,
             devmode_patch2 = 0x47DFBC,
-            hash_duplicate_patch = 0x5302E6
+            hash_duplicate_patch = 0x5302E6,
+            ctf_globals = 0x5BDBB8,
+            koth_globals = 0x5BDBF0,
+            race_globals = 0x5BDFC0,
+            race_locs = 0x5F5098,
+            stats_globals = 0x5BD8B8
         }
     },
     player_colours = {
@@ -99,6 +109,9 @@ local tostring = tostring
 local concat = table.concat
 local insert = table.insert
 local unpack = table.unpack
+local math_min = math.min
+local math_max = math.max
+local math_huge = math.huge
 
 -- Phasor API locals
 local getplayerobjectid = getplayerobjectid
@@ -107,6 +120,9 @@ local readfloat = readfloat
 local readword = readword
 local readdword = readdword
 local readbyte = readbyte
+local readshort = readshort
+local readint = readint
+local readchar = readchar
 local getplayer = getplayer
 local getname = getname
 local getteam = getteam
@@ -116,11 +132,18 @@ local writeword = writeword
 local writeshort = writeshort
 local writebyte = writebyte
 local writedword = writedword
+local writeint = writeint
+local writechar = writechar
 
 -- Game-specific memory addresses
 local map_pointer
 local gametype_base
 local gametime_base
+local slayer_globals
+local oddball_globals
+local koth_globals
+local race_globals
+local ctf_globals
 
 --- Initialises game-dependent memory addresses for PC and CE.
 -- @param game (string) "PC" or "CE" (as provided by Phasor).
@@ -128,6 +151,11 @@ function util.init_game(game)
     map_pointer = util.pointers[game].map_pointer
     gametype_base = util.pointers[game].gametype_base
     gametime_base = util.pointers[game].gametime_base
+    slayer_globals = util.pointers[game].slayer_globals
+    oddball_globals = util.pointers[game].oddball_globals
+    koth_globals = util.pointers[game].koth_globals
+    race_globals = util.pointers[game].race_globals
+    ctf_globals = util.pointers[game].ctf_globals
 end
 
 ----------------------------------------------------------------------
@@ -350,7 +378,7 @@ function util.get_players_by_expression(expression, self_id)
     elseif expression == "nearest" or expression == "closest" then
         if not self_id or not util.get_player_pos(self_id) then return nil end
         local sx, sy, sz = util.get_player_pos(self_id)
-        local min_dist, closest = math.huge, nil
+        local min_dist, closest = math_huge, nil
         for i = 0, 15 do
             if i ~= self_id and getplayer(i) then
                 local x, y, z = util.get_player_pos(i)
@@ -1022,6 +1050,45 @@ function util.get_object_tag(object_id)
     return nil
 end
 
+--- Returns the tag map ID for a given tag class and name.
+-- Scans the in-memory tag table (cached on first call per game).
+-- @param tag_class (string) e.g. "vehi", "weap"
+-- @param tag_name (string) e.g. "vehicles\\ghost\\ghost_mp"
+-- @return number|nil tag map ID, or nil if not found
+function util.get_tag_id(tag_class, tag_name)
+    if not tag_class or not tag_name then return nil end
+    -- ensure cache is built
+    if not tag_lookup_cache then
+        -- dummy object to trigger cache build, will fail but cache is empty
+        local map_base = readdword(map_pointer)
+        if not map_base then return nil end
+        local map_tag_count = util.to_decimal(util.read_string_reverse(map_base + 0xC, 3))
+        if not map_tag_count then return nil end
+
+        local tag_table_base = map_base + 0x28
+        local tag_table_size = 0x20
+        tag_lookup_cache = {}
+        for i = 0, map_tag_count - 1 do
+            local base = tag_table_base + (tag_table_size * i)
+            local tag_id = util.to_decimal(util.read_string_reverse(base + 0xC, 3))
+            local cls = util.read_string(base, 4, true)
+            local tname_addr = util.to_decimal(util.read_string_reverse(base + 0x10, 3))
+            local tname = util.read_tag_name(tname_addr)
+            tag_lookup_cache[tag_id] = { name = tname, class = cls }
+        end
+    end
+
+    for id, info in pairs(tag_lookup_cache) do
+        if info.class == tag_class and (
+                info.name == tag_name or
+                info.name:gsub("\\", "/") == tag_name:gsub("\\", "/")
+            ) then
+            return id
+        end
+    end
+    return nil
+end
+
 --- Returns the type of an object (0=biped, 1=vehicle, 2=weapon, 3=equipment, etc.).
 -- @param object_id (number) object id
 -- @return number|nil type identifier, or nil if invalid
@@ -1029,6 +1096,30 @@ function util.get_object_type(object_id)
     local obj = getobject(object_id)
     if not obj then return nil end
     return readword(obj + 0xB4)
+end
+
+--- Sets a vehicle upright by zeroing angular velocity and enabling physics.
+-- @param vehicle_id (number) object id of the vehicle
+function util.upright_vehicle(vehicle_id)
+    local obj = getobject(vehicle_id)
+    if not obj then return end
+    -- zero angular velocity
+    writefloat(obj + 0x8A, 2.3 * (10 ^ -41))
+    writefloat(obj + 0x8C, 2.3 * (10 ^ -41))
+    writefloat(obj + 0x90, 2.3 * (10 ^ -41))
+    writefloat(obj + 0x94, 2.3 * (10 ^ -41))
+    -- re-enable physics
+    util.write_bit(obj + 0x10, 0, 0) -- noCollisions bit off
+    util.write_bit(obj + 0x10, 5, 0) -- ignorePhysics bit off
+end
+
+--- Sets the player's current vehicle upright (if any).
+-- @param player_id (number) player index
+function util.upright_player_vehicle(player_id)
+    local veh_id = util.get_player_vehicle(player_id)
+    if veh_id then
+        util.upright_vehicle(veh_id)
+    end
 end
 
 ----------------------------------------------------------------------
@@ -1158,14 +1249,73 @@ function util.write_bit(address, bit_index, value)
     end
 end
 
+--- Safe write functions that clamp value to the type's valid range.
+-- These mirror Phasor's write API but avoid crashes due to out-of-range values.
+-- @param address (number) memory address
+-- @param offset (number) optional offset
+-- @param value (number) value to write
+
+function util.safe_write_byte(address, offset, value)
+    if value then address = address + offset else value = offset end
+    value = math_min(math_max(value, 0), 0xFF)
+    writebyte(address, value)
+end
+
+function util.safe_write_char(address, offset, value)
+    if value then address = address + offset else value = offset end
+    value = math_min(math_max(value, -0x80), 0x7F)
+    writechar(address, value)
+end
+
+function util.safe_write_short(address, offset, value)
+    if value then address = address + offset else value = offset end
+    value = math_min(math_max(value, -0x8000), 0x7FFF)
+    writeshort(address, value)
+end
+
+function util.safe_write_word(address, offset, value)
+    if value then address = address + offset else value = offset end
+    value = math_min(math_max(value, 0), 0xFFFF)
+    writeword(address, value)
+end
+
+function util.safe_write_int(address, offset, value)
+    if value then address = address + offset else value = offset end
+    value = math_min(math_max(value, -0x80000000), 0x7FFFFFFF)
+    writeint(address, value)
+end
+
+function util.safe_write_dword(address, offset, value)
+    if value then address = address + offset else value = offset end
+    value = math_min(math_max(value, 0), 0xFFFFFFFF)
+    writedword(address, value)
+end
+
+function util.safe_write_float(address, offset, value)
+    if value then address = address + offset else value = offset end
+    writefloat(address, value)
+end
+
 ----------------------------------------------------------------------
 -- GAME TIME / STATE
 ----------------------------------------------------------------------
+
+--- Returns the numeric gametype id (0=none, 1=ctf, 2=slayer, 3=oddball, 4=king, 5=race).
+-- @return number gametype id
+function util.get_gametype_id()
+    return readbyte(gametype_base + 0x30)
+end
 
 --- Returns the score limit of the current gametype.
 -- @return number score_limit
 function util.get_scorelimit()
     return readbyte(gametype_base + 0x58)
+end
+
+--- Sets the score limit for the current gametype.
+-- @param score (number) new score limit (0-255)
+function util.set_scorelimit(score)
+    writebyte(gametype_base + 0x58, score)
 end
 
 --- Checks whether the current gametype is Free-For-All.
@@ -1199,6 +1349,94 @@ end
 -- @return number seconds since game start
 function util.get_game_time_elapsed()
     return readdword(readdword(gametime_base) + 0xC) / 30
+end
+
+--- Returns the player's current score (gametype-dependent).
+-- @param player_id (number) player index (0-15)
+-- @return number score, or nil if player invalid
+function util.get_player_score(player_id)
+    local p = getplayer(player_id)
+    if not p then return nil end
+    local gt = util.get_gametype_id()
+    if gt == 1 then -- ctf
+        return readshort(p + 0xC8)
+    elseif gt == 2 then -- slayer
+        return readint(slayer_globals + 0x40 + player_id * 4)
+    elseif gt == 3 then -- oddball
+        local oddball_game = readbyte(gametype_base + 0x8C)
+        if oddball_game == 0 or oddball_game == 1 then
+            return readint(oddball_globals + 0x84 + player_id * 4) / 30
+        else
+            return readint(oddball_globals + player_id * 4 + 0x104)
+        end
+    elseif gt == 4 then -- king
+        return readshort(p + 0xC4)
+    elseif gt == 5 then -- race
+        return readshort(p + 0xC6)
+    end
+    return 0
+end
+
+--- Sets the player's score (gametype-dependent).
+-- @param player_id (number) player index
+-- @param score (number) new score
+function util.set_player_score(player_id, score)
+    local p = getplayer(player_id)
+    if not p then return end
+    local gt = util.get_gametype_id()
+    if gt == 1 then
+        writeshort(p + 0xC8, score)
+    elseif gt == 2 then
+        writeint(slayer_globals + 0x40 + player_id * 4, score)
+    elseif gt == 3 then
+        local oddball_game = readbyte(gametype_base + 0x8C)
+        if oddball_game == 0 or oddball_game == 1 then
+            writeint(oddball_globals + 0x84 + player_id * 4, score * 30)
+        else
+            writeint(oddball_globals + player_id * 4 + 0x104, score)
+        end
+    elseif gt == 4 then
+        writeshort(p + 0xC4, score)
+    elseif gt == 5 then
+        writeshort(p + 0xC6, score)
+    end
+end
+
+--- Returns the team score for the given team (0=red, 1=blue) – gametype-dependent.
+-- @param team (number) 0 or 1
+-- @return number score
+function util.get_team_score(team)
+    local gt = util.get_gametype_id()
+    if gt == 1 then     -- ctf
+        return readint(ctf_globals + team * 4 + 0x10)
+    elseif gt == 2 then -- slayer
+        return readint(slayer_globals + team * 4)
+    elseif gt == 3 then -- oddball
+        return readint(oddball_globals + team * 4 + 0x4) / 30
+    elseif gt == 4 then -- king
+        return readint(koth_globals + team * 4) / 30
+    elseif gt == 5 then -- race
+        return readint(race_globals + team * 4 + 0x88) / 30
+    end
+    return 0
+end
+
+--- Sets the team score for the given team (0=red, 1=blue).
+-- @param team (number) 0 or 1
+-- @param score (number) new score
+function util.set_team_score(team, score)
+    local gt = util.get_gametype_id()
+    if gt == 1 then
+        writeint(ctf_globals + team * 4 + 0x10, score)
+    elseif gt == 2 then
+        writeint(slayer_globals + team * 4, score)
+    elseif gt == 3 then
+        writeint(oddball_globals + team * 4 + 0x4, score * 30)
+    elseif gt == 4 then
+        writeint(koth_globals + team * 4, score * 30)
+    elseif gt == 5 then
+        writeint(race_globals + team * 4 + 0x88, score * 30)
+    end
 end
 
 ----------------------------------------------------------------------
