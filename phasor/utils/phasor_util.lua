@@ -96,6 +96,7 @@ local getobjectcoords = getobjectcoords
 
 -- Game-specific memory addresses
 local map_pointer
+local gametype_base
 
 --- Initialises game-dependent memory addresses for PC and CE. Pointers are pre-defined
 -- in util.pointers; this function simply selects the appropriate map pointer for the current game.
@@ -106,6 +107,7 @@ local map_pointer
 --   end
 function util.init_game(game)
     map_pointer = util.pointers[game].map_pointer
+    gametype_base = util.pointers[game].gametype_base
 end
 
 ----------------------------------------------------------------------
@@ -675,6 +677,28 @@ end
 -- MISC
 ----------------------------------------------------------------------
 
--- TODO: Add util stuff here (I'll do this soon).
+--- Returns the current score limit of the gametype as a byte value.
+-- @return number score_limit
+function util.get_scorelimit()
+    return readbyte(gametype_base + 0x58)
+end
+
+--- Checks whether the current gametype is Free-For-All.
+-- @return boolean true if FFA (0), false if Team (1)
+function util.is_ffa()
+    return readbyte(gametype_base + 0x34) == 0
+end
+
+--- Returns the gametype mode name as a string.
+-- @return string (e.g., "ctf", "slayer")
+function util.get_gametype_name()
+    local type = readbyte(gametype_base + 0x30)
+    return type == 0 and "none"
+        or type == 1 and "ctf"
+        or type == 2 and "slayer"
+        or type == 3 and "oddball"
+        or type == 4 and "king"
+        or type == 5 and "race"
+end
 
 return util
