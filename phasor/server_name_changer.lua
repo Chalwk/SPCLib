@@ -1,59 +1,52 @@
--- Name: server_name_changer.lua
--- Copyright (c) 2016-2018 Jericho Crosby (Chalwk)
+--[[
+========================================================================================
+SCRIPT NAME:      server_name_changer.lua
+DESCRIPTION:      Cycles through server names at regular intervals for dynamic branding.
 
-Server_Name = "NewServerNameHere"
+Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
+LICENSE:          MIT License
+                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+========================================================================================
+]]
 
-function GetRequiredVersion()
-    return
-    200
+api_version = "1.12.0.0"
+
+-- config starts --
+-- The script will pick a new server name every 15 seconds:
+local INTERVAL = 15
+local SERVER_NAMES = {
+    "My Cool Server",
+    "A server!",
+    " ",           -- blank
+    "Ya mom!",
+    "CoronaVirus", -- repeat the structure to add more entries.
+}
+-- config ends --
+
+local network_struct
+
+function OnScriptLoad(_, game)
+    network_struct = (game == "PC") and 0x745BA0 or 0x6C7980
+    registertimer(1000 * INTERVAL, "ChangeServerName")
 end
 
-function OnScriptUnload()
-
-end
-
-function OnScriptLoad(process, game, persistent)
-    Server_Name = getservername()
-    if game == "PC" then
-        gametype_base = 0x671340
+local function write_widestring(address, str, len)
+    for i = 0, len - 1 do
+        writeword(address + i * 2, 0)
     end
-    Server_Name = getservername()
-end
-function OnNewGame(map)
-    gametype = readbyte(gametype_base + 0x30, 0x0)
-    map_name = tostring(map)
-    if map_name == "bloodgulch" then
-        if readstring(gametype_base, 0x2C) == "owv-c" then
-            Server_Name = getservername()
-            svcmd("sv_name " .. Server_Name)
-        end
+    for i = 1, #str do
+        writebyte(address + (i - 1) * 2, string.byte(str, i))
     end
 end
 
-function readstring(address, length, endian)
-    local char_table = { }
-    local string = ""
-    local offset = offset or 0x0
-    if length == nil then
-        if readbyte(address + offset + 1) == 0 and readbyte(address + offset) ~= 0 then
-            length = 51000
-        else
-            length = 256
-        end
-    end
-    for i = 0, length do
-        if readbyte(address + (offset + i)) ~= 0 then
-            table.insert(char_table, string.char(readbyte(address + (offset + i))))
-        elseif i % 2 == 0 and readbyte(address + offset + i) == 0 then
-            break
-        end
-    end
-    for k, v in pairs(char_table) do
-        if endian == 1 then
-            string = v .. string
-        else
-            string = string .. v
-        end
-    end
-    return string
+local index = 1
+function ChangeServerName()
+    write_widestring(network_struct + 0x8, SERVER_NAMES[index], 0x42)
+    index = index + 1
+    if index > #SERVER_NAMES then index = 1 end
+    return true
 end
+
+function GetRequiredVersion() return 200 end
+
+function OnScriptUnload() end
