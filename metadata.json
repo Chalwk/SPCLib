@@ -1,1204 +1,821 @@
 {
-  "admin": {
-    "admin_add_me": {
-      "title": "Admin Add Me",
-      "shortDescription": "Quick admin access utility for testing",
-      "description": "Server administration tool featuring: '/admin me' command for instant level 4 access. Simplifies script testing and server management. Configurable default admin level. Built-in pirated hash detection. IP-based admin assignment. Quick setup for development environments.",
-      "filename": "admin_add_me.lua"
-    },
-    "admin_chat": {
-      "title": "Admin Chat",
-      "shortDescription": "Secure admin communication system",
-      "description": "Private admin messaging with toggleable visibility. Features custom commands (/ac, /adminchat), spam protection, and player management. Configurable options include message formatting, permission levels, and notification sounds. Provides secure channel for server administration with cooldown controls and permission-based access.",
-      "filename": "admin_chat.lua"
-    },
-    "admin_manager": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "admin_manager.lua"
-    },
-    "afk_system": {
-      "title": "AFK System",
-      "shortDescription": "Comprehensive AFK detection and management",
-      "description": "Advanced AFK monitoring with movement tracking, camera detection, and input analysis. Features customizable thresholds, voluntary AFK mode, admin immunity, and progressive warnings. Includes configurable timeout durations, warning intervals, and special kick messages for inactive players.",
-      "filename": "afk_system.lua"
-    },
-    "aimbot_scores": {
-      "title": "Aimbot Scores",
-      "shortDescription": "Player accuracy statistics display",
-      "description": "Displays detailed player accuracy metrics with customizable filters. Features command-based targeting (/botscore [target] [mode]) with multiple viewing options (basic/detailed). Supports individual player checks (1-16), self-checks (me), and global views (all/*). Provides real-time accuracy data with optional respawn status indicators.",
-      "filename": "aimbot_scores.lua"
-    },
-    "alias_system": {
-      "title": "Alias System",
-      "shortDescription": "Tracks and manages player aliases by hash and IP with lookup commands.",
-      "description": "Logs player name aliases tied to hash and IP. Admins can look up aliases with commands, view paginated results, and detect known pirated game hashes. Includes permission checks, cooldowns, and automatic cleanup of old records.",
-      "filename": "alias_system.lua"
-    },
-    "anti_aimbot": {
-      "title": "Anti-Aimbot",
-      "shortDescription": "Advanced aim-lock detection system",
-      "description": "Multi-layered cheat detection with velocity analysis, trajectory prediction, and behavioral pattern recognition. Features weapon-specific detection profiles, dynamic sensitivity adjustment, and false positive mitigation. Includes real-time monitoring, environmental visibility checks, and configurable enforcement actions against aim-assist cheats.",
-      "filename": "anti_aimbot.lua"
-    },
-    "anti_camp_v1": {
-      "title": "Anti-Camp (Zone)",
-      "shortDescription": "Restricted area camping prevention",
-      "description": "Zone-based camping detection with configurable restricted areas per map. Features progressive warnings, cooldown-protected punishments, and automatic reset conditions. Tracks player positions in predefined zones with customizable timers and radius parameters.",
-      "filename": "anti_camp_v1.lua"
-    },
-    "anti_camp_v2": {
-      "title": "Anti-Camp (Global)",
-      "shortDescription": "Map-wide camping prevention",
-      "description": "Global camping detection system that monitors player movement anywhere on the map. Features adjustable camping radius, progressive warnings, and punishment cooldowns. Automatically resets on spawn or significant movement with configurable thresholds.",
-      "filename": "anti_camp_v2.lua"
-    },
-    "anti_impersonator": {
-      "title": "Anti-Impersonator",
-      "shortDescription": "Identity verification and clone detection",
-      "description": "Protects against account impersonation through hash/IP verification. Features configurable actions (kick/ban), trusted member whitelisting, and detailed logging. Detects clone accounts, name spoofing, and admin impersonation attempts with adjustable security thresholds.",
-      "filename": "anti_impersonator.lua"
-    },
-    "auto_team_balance": {
-      "title": "Auto Team Balance",
-      "shortDescription": "Dynamic team balancing system",
-      "description": "Intelligent player redistribution with count-based and optional skill-aware balancing. Configurable parameters include balancing frequency (30-300s), minimum player thresholds, and force balance options. Preserves gameplay by avoiding mid-game adjustments and protecting party groups, with pre/post-balance notifications.",
-      "filename": "auto_team_balance.lua"
-    },
-    "ban_on_sight": {
-      "title": "Ban On Sight",
-      "shortDescription": "Advanced player banning system with IP enforcement",
-      "description": "Comprehensive ban management tool featuring instant player banning by ID, IP-based enforcement, ban list viewing, and real-time connection monitoring with admin notifications.",
-      "filename": "ban_on_sight.lua"
-    },
-    "block_duplicate_ips": {
-      "title": "Block Duplicate IPs",
-      "shortDescription": "Prevents multiple connections from the same IP address",
-      "description": "Advanced IP management system that detects and blocks duplicate connections with configurable actions (kick/ban), exception handling for LAN parties, and comprehensive admin notifications.",
-      "filename": "block_duplicate_ips.lua"
-    },
-    "breadcrumb_tracker": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "breadcrumb_tracker.lua"
-    },
-    "clear_chat": {
-      "title": "Clear Chat",
-      "shortDescription": "Instant chat clearing utility",
-      "description": "Provides admins with commands to instantly clear global chat with configurable access controls and notification options.",
-      "filename": "clear_chat.lua"
-    },
-    "client_crasher": {
-      "title": "Client Crasher",
-      "shortDescription": "Anti-cheat client enforcement system",
-      "description": "Anti-cheat enforcement tool that automatically crashes clients matching banned criteria (names, hashes, IPs) with admin crash commands.",
-      "filename": "client_crasher.lua"
-    },
-    "freeze_players": {
-      "title": "Player Freeze System",
-      "shortDescription": "Admin tool to temporarily immobilize players with configurable options",
-      "description": "Provides comprehensive player freezing capabilities including weapon management, movement restrictions, and customizable notifications with admin permission controls.",
-      "filename": "freeze_players.lua"
-    },
-    "multiclient_detector": {
-      "title": "MultiClient Detector",
-      "shortDescription": "Advanced multi-client detection with probability scoring",
-      "description": "Detects players using multiple clients with probability scoring (0-100%) based on port ranges, client hashes, and behavior patterns. Includes risk categorization and admin alerts.",
-      "filename": "multiclient_detector.lua"
-    },
-    "mute_system": {
-      "title": "Mute System",
-      "shortDescription": "Advanced chat mute system with anti-spam protection",
-      "description": "Comprehensive mute system with manual/spam muting, command whitelisting, time-based mutes, and admin controls. Includes anti-spam with configurable thresholds and punishments.",
-      "filename": "mute_system.lua"
-    },
-    "name_ban": {
-      "title": "Name Ban",
-      "shortDescription": "Default name protection system",
-      "description": "Detects and takes action against players using default names after configurable grace period. Supports kicking or banning with customizable messages.",
-      "filename": "name_ban.lua"
-    },
-    "name_replacer": {
-      "title": "Name Replacer",
-      "shortDescription": "Automatic name randomization system",
-      "description": "Replaces blacklisted/default names with random selections from a predefined list. Maintains name uniqueness and respects maximum length limits.",
-      "filename": "name_replacer.lua"
-    },
-    "ping_checker": {
-      "title": "Ping Checker",
-      "shortDescription": "Player latency monitoring tool",
-      "description": "Simple ping checking utility that allows players to view their own or others' latency with customizable output formatting and permission controls.",
-      "filename": "ping_checker.lua"
-    },
-    "report_system": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "report_system.lua"
-    },
-    "suicide_punisher": {
-      "title": "Suicide Punisher",
-      "shortDescription": "Automatic punishment for excessive suicides",
-      "description": "Monitors and punishes players who suicide excessively within a time window. Configurable thresholds, grace periods, and actions (kick/ban with duration).",
-      "filename": "suicide_punisher.lua"
-    },
-    "suspend_players": {
-      "title": "Suspend Players",
-      "shortDescription": "Admin tool to freeze players in place",
-      "description": "Allows admins to suspend players (freeze position, remove weapons, mute chat) with configurable persistence across sessions. Includes unsuspend functionality.",
-      "filename": "suspend_players.lua"
-    },
-    "tag_enforcer": {
-      "title": "Tag Enforcer",
-      "shortDescription": "Blocks unauthorized players from using the clan tag.",
-      "description": "This script enforces the use of a specific clan tag by verifying players against a whitelist of approved members. If a player attempts to join with the clan tag but their IP or hash is not recognized, they are automatically kicked before joining. This prevents impersonation and ensures only official members can represent the clan.",
-      "filename": "tag_enforcer.lua"
-    },
-    "team_shuffler": {
-      "title": "Team Shuffler",
-      "shortDescription": "Automatic and manual team balancing system",
-      "description": "Advanced team shuffler with configurable auto-shuffle timing, manual shuffle commands, minimum player requirements, and FFA mode detection. Temporarily disables death messages during shuffling for cleaner transitions.",
-      "filename": "team_shuffler.lua"
-    },
-    "the_punisher": {
-      "title": "The Punisher",
-      "shortDescription": "Team betrayal and friendly fire enforcement",
-      "description": "Configurable punishment system for team betrayals and friendly fire incidents. Features progressive warnings, multiple punishment actions (kill/kick/crash), customizable thresholds, and detailed offense logging with player notifications.",
-      "filename": "the_punisher.lua"
-    },
-    "timed_authentication": {
-      "title": "Timed Authentication",
-      "shortDescription": "Requires players with the clan tag to authenticate within a time limit.",
-      "description": "When a player joins with the clan tag (e.g. LIB-) in their name, they are prompted to type a secret phrase in chat within a configurable number of seconds. If they succeed, they may stay; if they fail or ignore the prompt, they are automatically kicked. This provides a lightweight form of access control for clan tags.",
-      "filename": "timed_authentication.lua"
-    },
-    "vpn_blocker": {
-      "title": "VPN/Proxy Blocker",
-      "shortDescription": "Advanced IP screening using IPQualityScore API",
-      "description": "Automatically detects and blocks VPNs, proxies, and high-risk connections using real-time IP reputation analysis. Features customizable risk thresholds, detailed logging, and configurable actions (kick/ban). Integrates with IPQualityScore API for comprehensive security screening.",
-      "filename": "vpn_blocker.lua"
-    },
-    "word_buster": {
-      "title": "Word Buster",
-      "shortDescription": "Multilingual chat moderation with progressive enforcement",
-      "description": "Comprehensive profanity detection system supporting 21+ languages with leet-speak recognition. Features configurable warnings, kick/ban thresholds, admin immunity, and real-time word list management. Includes commands for dynamic filter updates and language toggling.",
-      "filename": "word_buster.lua"
-    }
+  "CHIMERA": {},
+  "PHASOR": {
+    "admin": {},
+    "chat": {},
+    "gametypes": {},
+    "gameplay": {},
+    "modules": {},
+    "notifications": {},
+    "utility": {}
   },
-  "chat": {
-    "admin_messages": {
-      "title": "Admin Messages",
-      "shortDescription": "Customizable admin greeting system",
-      "description": "Level-based join announcements with flexible display options. Features per-admin level messages (humorous or serious), multiple output channels (chat/RCON), and customizable formatting with text alignment and colors. Easy configuration for different admin tiers with toggleable visibility.",
-      "filename": "admin_messages.lua"
-    },
-    "april_fools_chat": {
-      "title": "April Fools - Chat",
-      "shortDescription": "Randomly reroutes player chat to others",
-      "description": "Prank script that makes other players 'speak' your chat messages when triggered by certain words. Includes permission-level checks to limit who can trigger the effect.",
-      "filename": "april_fools_chat.lua"
-    },
-    "april_fools_word_shuffler": {
-      "title": "April Fools - Word Shuffler",
-      "shortDescription": "Randomly scrambles player chat messages",
-      "description": "Adds a 1 in 3 chance that any chat message will be randomly scrambled, creating humorous confusion. Perfect for April Fools' Day pranks in-game. Players' messages remain readable but become amusingly jumbled.",
-      "filename": "april_fools_word_shuffler.lua"
-    },
-    "auto_message": {
-      "title": "Auto Message",
-      "shortDescription": "Scheduled announcement system",
-      "description": "Automated multi-line message broadcaster with configurable intervals (30-300s). Features rotating message lists, color-coded text support, and dual output (in-game chat + console). Includes timestamp prefixes and server management controls for on-demand triggers and priority messaging.",
-      "filename": "auto_message.lua"
-    },
-    "chat_ids": {
-      "title": "Chat IDs",
-      "shortDescription": "Player identification system for chat messages",
-      "description": "Appends player slot numbers to chat messages with customizable formatting options for global, team and vehicle chats.",
-      "filename": "chat_ids.lua"
-    },
-    "expressions": {
-      "title": "Expressions (chat)",
-      "shortDescription": "Family-friendly chat reactions and taunts",
-      "description": "Adds playful, moderated chat commands for expressing emotions like anger (!anger), taunting opponents (!taunt), or mild frustration (!cuss). Features multiple randomized responses for each command while maintaining player identity in chat. Perfect for adding personality to gameplay without offensive language. Fully configurable with custom phrase lists and output formatting.",
-      "filename": "expressions.lua"
-    },
-    "force_chat": {
-      "title": "Force Chat",
-      "shortDescription": "Make players say custom messages",
-      "description": "Allows administrators to make any player appear to send chat messages. Useful for roleplaying scenarios, announcements, or moderation purposes. Features permission controls, customizable message formatting, and proper server prefix handling. Note: Fake messages may be detectable by some client modifications.",
-      "filename": "force_chat.lua"
-    },
-    "mvp_join_alerts": {
-      "title": "MVP Join Alerts",
-      "shortDescription": "Personalized welcome messages for VIP players",
-      "description": "Broadcasts custom welcome messages when special players join, with unique messages for MVPs and random generic greetings for regular players. Supports identification by IP, hash, or exact name. Fully configurable messages and prefixes.",
-      "filename": "mvp_join_alerts.lua"
-    },
-    "proximity_chat": {
-      "title": "Proximity Chat System",
-      "shortDescription": "Localized voice chat with configurable range",
-      "description": "Implements realistic proximity chat where players can only communicate within a set distance. Features per-map range settings, dead player communication options, team/vehicle chat modes, and admin controls for range adjustment.",
-      "filename": "proximity_chat.lua"
-    },
-    "random_fact_generator": {
-      "title": "Chuck Norris Fact Generator",
-      "shortDescription": "Periodically shares Chuck Norris facts from an API",
-      "description": "Fetches and displays random Chuck Norris facts at intervals. Can optionally replace Chuck's name with player names. Requires HTTP client plugin and JSON library.",
-      "filename": "random_fact_generator.lua"
-    },
-    "rcon_chat": {
-      "title": "RCON Chat Redirect",
-      "shortDescription": "Redirects chat messages to RCON console",
-      "description": "Displays all in-game chat messages in the RCON interface with player IDs. Supports team/vehicle chat differentiation and message filtering.",
-      "filename": "rcon_chat.lua"
-    },
-    "rules_command": {
-      "title": "Rules Command",
-      "shortDescription": "Server rules display system",
-      "description": "Provides players with easy access to server rules via chat command. Features configurable announcement intervals and customizable rule messages with timed display.",
-      "filename": "rules_command.lua"
-    },
-    "show_admin_names": {
-      "title": "Show Admin Names",
-      "shortDescription": "Admin identification utility",
-      "description": "Displays all online administrators with their permission levels via simple chat command. Helps players identify server staff quickly and easily.",
-      "filename": "show_admin_names.lua"
-    },
-    "simple_poll_system": {
-      "title": "Simple Poll System",
-      "shortDescription": "Admin-controlled in-game voting system with timed polls",
-      "description": "Allows admins to create timed polls with custom questions and options. Players can vote using /vote command, with results broadcasted when poll ends.",
-      "filename": "simple_poll_system.lua"
-    },
-    "taunt_on_end_messages": {
-      "title": "Taunt Messages",
-      "shortDescription": "Playful taunts based on player performance",
-      "description": "Displays humorous taunting messages to players at game end based on their kill count. Ranges from gentle ribbing for poor performance to backhanded compliments for better scores.",
-      "filename": "taunt_on_end_messages.lua"
-    },
-    "taunt_your_players": {
-      "title": "Taunt Your players",
-      "shortDescription": "Send player taunts",
-      "description": "Displays funny or provocative messages to players in-game.",
-      "filename": "taunt_your_players.lua"
-    },
-    "team_chat": {
-      "title": "Team Chat",
-      "shortDescription": "Private team communication system with invite functionality",
-      "description": "Comprehensive team chat system featuring private channels, invite system, multiple chat modes (team/global), and team management commands. Supports 1-3+ player private communications with configurable permissions.",
-      "filename": "team_chat.lua"
-    },
-    "team_color_voting": {
-      "title": "Team Color Voting",
-      "shortDescription": "Player-voted team color selection system",
-      "description": "Allows players to vote for team color sets between games. Features 10+ predefined color combinations, vote tallying, and automatic application of winning colors. Includes HUD display of options.",
-      "filename": "team_color_voting.lua"
-    },
-    "welcome_messages": {
-      "title": "Welcome Messages",
-      "shortDescription": "Customizable greeting system for new players",
-      "description": "Displays personalized welcome messages when players join the server. Simple implementation that can be expanded with additional features like timed messages or player-specific greetings.",
-      "filename": "welcome_messages.lua"
-    }
-  },
-  "gameplay": {
-    "air_strike": {
-      "title": "Air Strike",
-      "shortDescription": "Automated, randomized rocket strikes with player alerts",
-      "description": "Triggers periodic airstrikes over predefined map locations. Rockets spawn at random heights and trajectories, accompanied by player warnings, creating dynamic map hazards.",
-      "filename": "air_strike.lua"
-    },
-    "ammo_resupply": {
-      "title": "Ammo Resupply",
-      "shortDescription": "Resupply ammo, grenades, and energy batteries on command",
-      "description": "Provides a configurable player command to replenish ammo, magazines, frag/plasma grenades, and battery. Includes cooldowns and optional permission restrictions.",
-      "filename": "ammo_resupply.lua"
-    },
-    "auto_troll": {
-      "title": "Auto Troll",
-      "shortDescription": "Comprehensive server trolling toolkit with 17+ prank features",
-      "description": "A powerful all-in-one trolling script with 17+ customizable prank features to mess with players. Includes silent kills, damage modifiers, chat scramblers, teleportation, forced vehicle exits, ammo manipulation, fake messages, inverted controls, and more. Fully configurable with permissions and target filters for controlled chaos.",
-      "filename": "auto_troll.lua"
-    },
-    "cheat_hax": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "cheat_hax.lua"
-    },
-    "color_changer": {
-      "title": "Color Changer",
-      "shortDescription": "Allows players to customize their armor color",
-      "description": "Enables players with sufficient permissions to change their armor color using a simple command. Offers 18 different color options from white to salmon. Maintains color consistency through respawns while respecting game mechanics. Includes admin-level restrictions for controlled customization.",
-      "filename": "color_changer.lua"
-    },
-    "color_reservation": {
-      "title": "Color Reservation",
-      "shortDescription": "Reserves armor colors for VIP players based on their unique hash",
-      "description": "Allows server administrators to reserve specific armor colors for VIP players by configuring their unique player hashes. Supports all 18 armor colors in FFA Slayer mode only. Automatically assigns random colors to non-VIP players while preserving reserved colors for authorized users through respawns. Includes protection against color conflicts.",
-      "filename": "color_reservation.lua"
-    },
-    "custom_colors": {
-      "title": "Custom Colors",
-      "shortDescription": "Team and FFA color customization system",
-      "description": "Allows server administrators to customize team colors for both team-based and free-for-all game modes with extensive color options.",
-      "filename": "custom_colors.lua"
-    },
-    "custom_loadouts": {
-      "title": "Custom Loadouts",
-      "shortDescription": "Advanced player loadout customization system",
-      "description": "Allows players to select and customize weapon loadouts with configurable weapons, ammo counts, and grenades that persist between respawns.",
-      "filename": "custom_loadouts.lua"
-    },
-    "custom_teleports": {
-      "title": "Custom Teleports",
-      "shortDescription": "Configurable instant teleport points for any map",
-      "description": "Creates customizable teleportation zones that instantly transport players between locations on the same map. Supports map-specific configurations with adjustable activation radius and destination points. Optional crouch-only activation prevents accidental teleports. Perfect for creating shortcuts, secret passages, or gameplay variations in any map.",
-      "filename": "custom_teleports.lua"
-    },
-    "damage_multiplier": {
-      "title": "Damage Multiplier",
-      "shortDescription": "Admin-controlled player damage scaling",
-      "description": "Allows server administrators to dynamically adjust individual players' damage output with a simple command. Features configurable multiplier ranges (1-10x), optional reset functionality, and permission-based access control. Perfect for balancing gameplay, creating special events, or testing combat scenarios.",
-      "filename": "damage_multiplier.lua"
-    },
-    "damage_multiplier_changer": {
-      "title": "Damage Multiplier System",
-      "shortDescription": "Comprehensive weapon damage modifier configuration",
-      "description": "Allows granular control over damage values for all weapons, grenades, vehicles and environmental effects through customizable multipliers.",
-      "filename": "damage_multiplier_changer.lua"
-    },
-    "deployable_mines": {
-      "title": "Deployable Mines",
-      "shortDescription": "Adds tactical mine deployment for vehicles",
-      "description": "Introduces deployable explosive mines that players can strategically place while driving compatible vehicles. Features configurable mine limits per life, timed despawn, adjustable detonation radius, and team damage options. Mines persist through player deaths and can be used to create defensive perimeters or ambush points. Includes visual feedback and mine counters for players.",
-      "filename": "deployable_mines.lua"
-    },
-    "disable_fall_damage": {
-      "title": "Fall Damage Disabler",
-      "shortDescription": "Selective fall damage removal system",
-      "description": "Disables fall damage on specified maps while maintaining normal gameplay mechanics on others, with per-map configuration options.",
-      "filename": "disable_fall_damage.lua"
-    },
-    "flashlight_vehicle_entry": {
-      "title": "Flashlight Vehicle Entry",
-      "shortDescription": "Enter vehicles by aiming and using flashlight",
-      "description": "Adds an alternative vehicle entry system where players can enter unoccupied vehicles by aiming at them and pressing their flashlight key. Supports all standard Halo vehicles with configurable options. Provides more intuitive vehicle boarding while maintaining game balance. Works seamlessly with existing vehicle mechanics.",
-      "filename": "flashlight_vehicle_entry.lua"
-    },
-    "flip_a_coin": {
-      "title": "Flip a Coin",
-      "shortDescription": "Virtual coin flipping with statistics",
-      "description": "Adds a fun virtual coin flip command that simulates thousands of flips instantly and displays detailed statistics. Features configurable flip counts, probability percentages, and execution timing. Provides entertaining random results while demonstrating probability concepts in real-time. Simple permission system controls access.",
-      "filename": "flip_a_coin.lua"
-    },
-    "flying_vehicles": {
-      "title": "Flying Vehicles",
-      "shortDescription": "Enable flight for ground vehicles",
-      "description": "Transforms standard ground vehicles into flying machines with a simple command. Supports configurable vehicle selection, permission-based access control, and automatic reset options. Perfect for creating custom game modes or just having fun with unconventional vehicle physics. Includes safety features to prevent conflicts with normal gameplay.",
-      "filename": "flying_vehicles.lua"
-    },
-    "gravity_gun": {
-      "title": "Gravity Gun",
-      "shortDescription": "Half-Life inspired object manipulation tool",
-      "description": "Adds a physics-based gravity gun that lets players pick up, carry, and launch objects with realistic mass-based physics. Supports vehicles, weapons, equipment and devices with configurable pickup range, rotation speed, and launch velocity. Includes cooldown timers, mass restrictions, and permission controls for balanced gameplay. Perfect for creating custom game modes or just having fun with physics.",
-      "filename": "gravity_gun.lua"
-    },
-    "grenade_launcher": {
-      "title": "Grenade Launcher",
-      "shortDescription": "Convert weapons into grenade launchers",
-      "description": "Transforms standard weapons and vehicle armaments into grenade launchers with configurable projectile physics. Features map-specific grenade types, adjustable velocity settings, and toggleable activation. Supports multiple weapon types with realistic ballistic behavior. Includes permission controls and optional auto-disable on death for balanced gameplay.",
-      "filename": "grenade_launcher.lua"
-    },
-    "headshot_blocker": {
-      "title": "Headshot Blocker",
-      "shortDescription": "Disables headshot damage",
-      "description": "Prevents all headshot damage while maintaining normal body shot mechanics. Works across all weapons and gametypes. Ideal for creating more casual gameplay experiences or balancing weapon mechanics. Simple and lightweight implementation with no configuration needed.",
-      "filename": "headshot_blocker.lua"
-    },
-    "health_regeneration": {
-      "title": "Health Regeneration",
-      "shortDescription": "Gradual automatic health recovery system",
-      "description": "Implements a dynamic health regeneration system that gradually restores player health when below maximum. Features intelligent scaling that regenerates faster when health is lower. Lightweight implementation with minimal performance impact. Perfect for creating more forgiving gameplay experiences or custom game modes.",
-      "filename": "health_regeneration.lua"
-    },
-    "infinite_ammo": {
-      "title": "Infinite Ammo",
-      "shortDescription": "Grants all players unlimited ammunition in real time.",
-      "description": "This script continuously checks all players and their equipped weapons, setting their ammo and clip counts to maximum. It works dynamically during gameplay to ensure players never run out of ammo.",
-      "filename": "infinite_ammo.lua"
-    },
-    "items_from_heaven": {
-      "title": "Items From Heaven",
-      "shortDescription": "Random weapon/vehicle spawns across the map",
-      "description": "Spawns random weapons and vehicles at predefined map locations at configurable intervals. Features include adjustable spawn timing, automatic cleanup of unused items, and support for all standard Halo weapons and vehicles. Perfect for creating dynamic gameplay experiences or custom game modes where equipment availability changes throughout the match.",
-      "filename": "items_from_heaven.lua"
-    },
-    "item_sky_spawner": {
-      "title": "Item Sky Spawner",
-      "shortDescription": "Drops random weapons and vehicles from the sky at map locations",
-      "description": "Automatically spawns random weapons and vehicles at predefined map coordinates with configurable timing, height, and despawn behavior.",
-      "filename": "item_sky_spawner.lua"
-    },
-    "killer_reward": {
-      "title": "Killer Reward",
-      "shortDescription": "Drops weapons/equipment on player kills",
-      "description": "Rewards successful kills by spawning random weapons or equipment at the victim's death location. Features configurable drop tables, consecutive kill requirements, and multiple reward modes (weapons-only, equipment-only, or mixed). Includes kill streak tracking and customizable drop chances. Perfect for creating dynamic combat scenarios where players are rewarded for consistent performance.",
-      "filename": "killer_reward.lua"
-    },
-    "kill_counter": {
-      "title": "Kill Counter",
-      "shortDescription": "Real-time kill count notifications",
-      "description": "Displays current kill counts to players after each successful elimination. Features customizable message formatting and automatic tracking. Lightweight implementation with minimal performance impact. Perfect for competitive matches where players want immediate feedback on their performance.",
-      "filename": "kill_counter.lua"
-    },
-    "kill_zones": {
-      "title": "Kill Zones",
-      "shortDescription": "Configurable danger areas that eliminate players after delay",
-      "description": "Creates map-specific restricted zones that warn then kill players who remain too long, with team-specific rules, custom messages, and adjustable timers.",
-      "filename": "kill_zones.lua"
-    },
-    "liberty_vehicle_spawner": {
-      "title": "Liberty Vehicle Spawner",
-      "shortDescription": "On-demand vehicle spawning system with intelligent cleanup",
-      "description": "Allows players to instantly spawn vehicles via chat commands with automatic entry, abandonment detection, and configurable despawn timers. Includes multi-vehicle support and map-specific configurations.",
-      "filename": "liberty_vehicle_spawner.lua"
-    },
-    "market_account_saving": {
-      "title": "Market Economy System",
-      "shortDescription": "Persistent player economy with purchasable perks",
-      "description": "Implements a comprehensive in-game economy where players earn currency through combat performance and can spend it on temporary perks. Features account persistence, configurable rewards/penalties, admin controls, and a marketplace with cooldowns. Supports perks like god mode, camouflage, damage boosts and more with JSON-based account saving. Perfect for creating progression systems in persistent servers.",
-      "filename": "market_account_saving.lua"
-    },
-    "market_no_account_saving": {
-      "title": "Market (no account saving)",
-      "shortDescription": "Temporary perk market system",
-      "description": "Players earn money through gameplay to purchase temporary perks. All purchases reset when the player dies or the game ends. Includes admin money management commands.",
-      "filename": "market_no_account_saving.lua"
-    },
-    "melee_kicker": {
-      "title": "Melee Kicker",
-      "shortDescription": "Instantly kicks players killed by melee attacks",
-      "description": "A humorous mod where any melee kill results in the victim being kicked from the server. Can be configured to only allow admins to perform melee-kicks. Works with all melee weapons including flags and oddball.",
-      "filename": "melee_kicker.lua"
-    },
-    "nitrous_boost": {
-      "title": "Nitrous Boost",
-      "shortDescription": "Toggleable vehicle nitrous boost with HUD and cooldown.",
-      "description": "Adds a nitrous boost system for vehicles: activate with the flashlight key, temporarily increase velocity, manage a finite nitrous meter, and view nitrous status on a HUD with automatic cooldown and regeneration.",
-      "filename": "nitrous_boost.lua"
-    },
-    "no_damage": {
-      "title": "No Damage",
-      "shortDescription": "Player invulnerability toggle system",
-      "description": "Allows players to toggle damage immunity on/off via command. Works by manipulating game memory bits to prevent damage application.",
-      "filename": "no_damage.lua"
-    },
-    "portal_gun_type_1": {
-      "title": "Portal Gun (Vehicle-Compatible)",
-      "shortDescription": "Shoot-to-teleport system that works in vehicles",
-      "description": "Advanced teleportation system that lets players instantly teleport to where they shoot. Works both on foot and in vehicles. Features admin controls, persistent states, and customizable messages.",
-      "filename": "portal_gun_type_1.lua"
-    },
-    "portal_gun_type_2": {
-      "title": "Portal Gun (Crouch-Activated)",
-      "shortDescription": "Crouch-and-shoot teleportation system",
-      "description": "Teleportation system requiring players to crouch before shooting to activate. Features admin controls, persistent states, and customizable messages. Designed for on-foot gameplay only.",
-      "filename": "portal_gun_type_2.lua"
-    },
-    "rage_quit": {
-      "title": "Rage Quit Detector",
-      "shortDescription": "Detects and announces rage quits after deaths",
-      "description": "Identifies when players quit after being killed or during short play sessions, broadcasting humorous announcements. Features configurable detection windows and customizable messages.",
-      "filename": "rage_quit.lua"
-    },
-    "random_grenades": {
-      "title": "Random Grenades",
-      "shortDescription": "Dynamic grenade distribution system",
-      "description": "Randomizes grenade quantities on player spawn with configurable ranges. Supports both random generation and map-specific presets for frag and plasma grenades.",
-      "filename": "random_grenades.lua"
-    },
-    "random_name": {
-      "title": "Random Name Generator",
-      "shortDescription": "Replaces player names with random alternatives",
-      "description": "Assigns configurable random names to players based on name categories. Maintains unique name assignments during gameplay sessions.",
-      "filename": "random_name.lua"
-    },
-    "rank_system": {
-      "title": "Rank System",
-      "shortDescription": "Advanced ranking and progression system with persistent stats and leaderboards.",
-      "description": "Tracks player performance, awards credits for actions, and manages a multi-tier rank and grade system. Supports credit bonuses, penalties, leaderboards, and admin rank management. Stats persist across restarts using a JSON database. Highly configurable with adjustable ranks, thresholds, and credit events.",
-      "filename": "rank_system.lua"
-    },
-    "remove_grenades": {
-      "title": "Remove Grenades",
-      "shortDescription": "Gametype-specific grenade removal",
-      "description": "Disables grenade spawning for specified gametypes while maintaining pickup functionality. Ideal for SWAT and other precision-based game modes.",
-      "filename": "remove_grenades.lua"
-    },
-    "replace_weapon_projectile": {
-      "title": "Projectile Replacement System",
-      "shortDescription": "Modifies weapon projectiles with custom effects",
-      "description": "Allows server admins to replace default weapon projectiles with custom ones, including damage multiplier adjustments. Supports all standard weapons and vehicles.",
-      "filename": "replace_weapon_projectile.lua"
-    },
-    "rocket_launcher_malfunction": {
-      "title": "Rocket Launcher Malfunction",
-      "shortDescription": "Random explosive failures for rocket launcher users",
-      "description": "Causes rocket launchers to spontaneously explode at random intervals, creating chaotic gameplay moments. Features configurable explosion frequency and notification messages.",
-      "filename": "rocket_launcher_malfunction.lua"
-    },
-    "roll_the_dice": {
-      "title": "Roll The Dice Mini-Game",
-      "shortDescription": "Random effect generator with 5 possible outcomes",
-      "description": "Players can gamble with a chance-based system that provides random rewards or punishments. Includes vehicle spawning, weapon assignments, inventory wipes, temporary shields, and player launches.",
-      "filename": "roll_the_dice.lua"
-    },
-    "self_destruction": {
-      "title": "Self-Destruct Mechanic",
-      "shortDescription": "Flashlight-activated suicide explosion",
-      "description": "Allows players to trigger a powerful explosion centered on themselves using the flashlight key. Features cooldown timer, visual effects, and configurable projectile count.",
-      "filename": "self_destruction.lua"
-    },
-    "server_fun_plus": {
-      "title": "Admin Fun Commands Pack",
-      "shortDescription": "Collection of 12+ humorous admin tools",
-      "description": "Provides administrators with a suite of entertaining commands including player rocketing, forced chat, fake join/quit messages, random teleportation, slapping, spamming, zapping, god broadcasting, nuking, color changing, and client crashing.",
-      "filename": "server_fun_plus.lua"
-    },
-    "shield_regen": {
-      "title": "Instant Shield Regeneration",
-      "shortDescription": "Immediate shield recharge after taking damage",
-      "description": "Removes the shield recharge delay, causing shields to begin regenerating immediately after taking damage. Configurable delay timer.",
-      "filename": "shield_regen.lua"
-    },
-    "spawn_from_sky": {
-      "title": "Aerial Spawn System",
-      "shortDescription": "Players spawn high above map with parachute effect",
-      "description": "Drops players from the sky at spawn locations with temporary god mode until landing. Includes pre-configured spawn points for all standard maps.",
-      "filename": "spawn_from_sky.lua"
-    },
-    "spawn_protection": {
-      "title": "Spawn Protection System",
-      "shortDescription": "Temporary invulnerability after respawning",
-      "description": "Grants players a configurable period of invulnerability after spawning. Optional setting to prevent protected players from dealing damage.",
-      "filename": "spawn_protection.lua"
-    },
-    "spawn_where_killed": {
-      "title": "Death Location Respawn",
-      "shortDescription": "Players respawn at their death locations",
-      "description": "Modifies spawn system so players reappear exactly where they died, creating intense revenge opportunities. Works for both foot and vehicle deaths.",
-      "filename": "spawn_where_killed.lua"
-    },
-    "sprint_system": {
-      "title": "Advanced Sprint Mechanic",
-      "shortDescription": "Stamina-based sprinting with exhaustion effects",
-      "description": "Adds realistic sprinting with stamina management, speed boosts, exhaustion penalties, and HUD feedback. Activated by flashlight key with fully customizable parameters.",
-      "filename": "sprint_system.lua"
-    },
-    "stun_grenades": {
-      "title": "Stun Grenade Modifier",
-      "shortDescription": "Converts grenades into stunning weapons",
-      "description": "Modifies all grenade types to temporarily slow victims on explosion. Features different duration effects for frag, plasma, and stuck plasma grenades.",
-      "filename": "stun_grenades.lua"
-    },
-    "super_jump": {
-      "title": "Super Jump",
-      "shortDescription": "Enhanced jumping with cooldown",
-      "description": "Allows players to jump significantly higher than normal with a configurable cooldown period between jumps. Can be toggled on/off with commands.",
-      "filename": "super_jump.lua"
-    },
-    "tactical_airstrike": {
-      "title": "Tactical Airstrike",
-      "shortDescription": "Call in airstrikes after killstreaks",
-      "description": "Players who achieve a 5-kill streak can call in devastating airstrikes with three different targeting modes. Features map-specific strike locations, configurable projectile counts, and team-based restrictions where applicable.",
-      "filename": "tactical_airstrike.lua"
-    },
-    "tactical_insertion": {
-      "title": "Tactical Insertion",
-      "shortDescription": "Set custom spawn points during gameplay",
-      "description": "Allows players to set their next spawn location using a command. Features limited uses per game, coordinate precision, and spawn confirmation messages. Players must be alive to set their insertion point.",
-      "filename": "tactical_insertion.lua"
-    },
-    "tea_bagging": {
-      "title": "Tea Bagging Detection",
-      "shortDescription": "Automatically detects and announces tea-bagging behavior",
-      "description": "Monitors player crouching near corpses and triggers humorous announcements when tea-bagging is detected. Features configurable detection radius, required crouch count, cooldown periods, and a variety of customizable taunt messages. Includes admin toggle functionality.",
-      "filename": "tea_bagging.lua"
-    },
-    "truce": {
-      "title": "Truce",
-      "shortDescription": "Allows players to establish temporary peace agreements",
-      "description": "Enables players to request, accept, or deny truces with opponents, preventing mutual damage while active. Features request management, configurable privilege levels, persistent truce data across maps, and comprehensive status tracking. Includes commands for managing active truces and pending requests.",
-      "filename": "truce.lua"
-    },
-    "uber": {
-      "title": "Uber",
-      "shortDescription": "Team vehicle summoning system",
-      "description": "Allows players to summon themselves into teammates' vehicles with configurable seat priority, cooldowns, and restrictions. Supports vehicle validation, auto-ejection, crouch activation, and call limits.",
-      "filename": "uber.lua"
-    },
-    "vanish": {
-      "title": "Vanish",
-      "shortDescription": "Advanced player invisibility system",
-      "description": "Provides comprehensive vanish mode with configurable stealth features including invisibility, camouflage, speed boosts, invincibility, radar hiding, and objective restrictions. Includes warning system for objective carriers and admin controls.",
-      "filename": "vanish.lua"
-    },
-    "vehicle_fuel": {
-      "title": "Vehicle Fuel System",
-      "shortDescription": "Adds realistic fuel consumption, refueling stations, and an on-screen fuel gauge for vehicles.",
-      "description": "Implements a per-vehicle fuel system with configurable maximum fuel and consumption rates. Vehicles consume fuel based on speed, can refuel at designated stations, and display a live fuel gauge to the driver. Vehicles enter a reduced 'snail mode' instead of stopping when out of fuel. Supports multiple maps with map-specific refueling stations and adjustable refuel rate and station radius.",
-      "filename": "vehicle_fuel.lua"
-    },
-    "weapon_durability_jam_system": {
-      "title": "Weapon Durability & Jam System",
-      "shortDescription": "Realistic weapon degradation and malfunction mechanics",
-      "description": "Implements comprehensive weapon durability system with progressive decay, jamming mechanics, and weapon-specific failure rates. Features include melee-based jam clearing, ammo state preservation, overheat prevention, and configurable degradation rates per weapon type.",
-      "filename": "weapon_durability_jam_system.lua"
-    },
-    "weighted_weapons": {
-      "title": "Weighted Weapons System",
-      "shortDescription": "Realistic weapon weight and stamina mechanics",
-      "description": "Implements weapon-based movement penalties with configurable weight values for each weapon type. Features a comprehensive stamina system that depletes during movement and regenerates while resting, with visual feedback. Includes exhaustion penalties and supports both individual weapon and combined loadout weight calculations.",
-      "filename": "weighted_weapons.lua"
-    }
-  },
-  "gametypes": {
-    "attrition": {
-      "title": "Attrition Mode",
-      "shortDescription": "Limited-life team deathmatch with revival mechanics",
-      "description": "Implements Halo Infinite's Attrition game mode featuring limited lives per team and player revival mechanics. Players can revive teammates by crouching over their death orbs, represented by floating skulls. Includes visual revival progress indicators, team-based restrictions, and configurable revival timing.",
-      "filename": "attrition.lua"
-    },
-    "battle_royale": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "battle_royale.lua"
-    },
-    "capture_the_flag": {
-      "title": "Capture The Flag",
-      "shortDescription": "Adds CTF gameplay to Slayer modes",
-      "description": "Transforms any Slayer (FFA or Team) game into a Capture the Flag experience. Spawns a single flag that players must return to any base to score points. Features configurable scoring, flag respawning, capture points for all standard maps, and team/FFA support. Perfect for adding objective-based gameplay to traditional deathmatch modes.",
-      "filename": "capture_the_flag.lua"
-    },
-    "cranked": {
-      "title": "Cranked Mode",
-      "shortDescription": "Kill-chained speed boost with timed explosion mechanic",
-      "description": "Implements Call of Duty's Cranked game mode where players gain speed and damage boosts after kills but must chain kills within a time limit or explode. Features per-map configuration, visual countdown timers, explosive death effects, and configurable boost parameters including duration, speed multiplier, and damage bonus.",
-      "filename": "cranked.lua"
-    },
-    "divide_and_conquer": {
-      "title": "Divide and Conquer",
-      "shortDescription": "Team conversion deathmatch mode",
-      "description": "Implements a unique team-switching mechanic where killing opponents converts them to your team. Features team balancing, configurable player requirements, automatic game start conditions, and victory detection when one team eliminates the other. Includes team switch announcements and automatic map rotation on game completion.",
-      "filename": "divide_and_conquer.lua"
-    },
-    "frag_nation": {
-      "title": "Frag Nation",
-      "shortDescription": "Grenade-focused combat with resource management",
-      "description": "A grenade-centric game mode where players start with limited grenades and must strategically manage their explosive resources. Features kill-based grenade rewards, melee-only combat when out of grenades, configurable starting loadouts, and customizable victory conditions. Includes weapon/vehicle restrictions and balanced plasma pistol as primary weapon for all players.",
-      "filename": "frag_nation.lua"
-    },
-    "gun_game": {
-      "title": "Gun Game",
-      "shortDescription": "Weapon progression deathmatch with demotion mechanics",
-      "description": "Implements a competitive weapon progression system where players advance through predefined weapon tiers by scoring kills. Features include demotion on suicide/backtap, configurable starting loadouts, infinite ammo option, automatic weapon assignment, and multiple end-game scenarios. Includes leaderboard tracking and admin controls for game management.",
-      "filename": "gun_game.lua"
-    },
-    "hunter_prey": {
-      "title": "Hunter Prey",
-      "shortDescription": "Flag-based survival free-for-all",
-      "description": "A competitive free-for-all mode where players battle to control a central flag. Features timed scoring based on flag possession, automatic flag respawning, and map-specific flag locations. Includes real-time scoring updates, end-game leaderboards, and configurable match duration. Designed for classic Halo maps with optimized flag placement coordinates.",
-      "filename": "hunter_prey.lua"
-    },
-    "juggernaut": {
-      "title": "Juggernaut Mode",
-      "shortDescription": "Power role survival with enhanced juggernaut abilities",
-      "description": "A dynamic game mode where one player becomes an overpowered Juggernaut with enhanced health, speed, damage and regeneration. Features timed role rotation, automatic power balancing, and configurable attributes. Includes silent kills for role transitions, visual feedback, and works with all game types. The Juggernaut role passes to the killer when defeated or after time expiration.",
-      "filename": "juggernaut.lua"
-    },
-    "kill_confirmed": {
-      "title": "Kill Confirmed",
-      "shortDescription": "Team objective mode with dog tag collection",
-      "description": "Implements Call of Duty's Kill Confirmed mode where teams must collect enemy dog tags to score points. Features tag confirmation/denial mechanics, timed tag despawns, team scoring notifications, and configurable match settings. Includes real-time scoring, top player tracking, and works with all standard Halo game types.",
-      "filename": "kill_confirmed.lua"
-    },
-    "melee_attack": {
-      "title": "Melee Attack",
-      "shortDescription": "Intense melee-only combat with instant kill headshots",
-      "description": "Forces pure melee combat by disabling all weapons and equipment. Features skull strike instant kills, weapon pickup prevention, and configurable damage settings. Includes forced oddball melee mechanics, restricted item management, and optimized respawn system for fast-paced gameplay.",
-      "filename": "melee_attack.lua"
-    },
-    "mode_destroy_gun": {
-      "title": "Destroy Gun Mode",
-      "shortDescription": "Weapon mode that destroys objects on impact",
-      "description": "Allows players with permission to toggle a mode where their weapon fire destroys any object it hits (vehicles, weapons, equipment). Includes object type feedback and admin controls.",
-      "filename": "mode_destroy_gun.lua"
-    },
-    "mode_enter_gun": {
-      "title": "Enter Gun Mode",
-      "shortDescription": "Vehicle entry system using weapon fire",
-      "description": "Allows players to enter vehicles by shooting them when the mode is active. Supports Warthog, Ghost, Banshee, Scorpion, and other vehicles. Includes admin toggle controls and visual feedback.",
-      "filename": "mode_enter_gun.lua"
-    },
-    "mode_spawn_gun": {
-      "title": "Spawn Gun Mode",
-      "shortDescription": "Creative mode that spawns objects when firing",
-      "description": "Allows players to spawn various game objects (weapons, vehicles, powerups) by shooting. Includes 40+ spawnable objects, automatic cleanup on death, and manual cleanup commands. Perfect for creative gameplay and custom maps.",
-      "filename": "mode_spawn_gun.lua"
-    },
-    "needles_galore": {
-      "title": "Needles Galore",
-      "shortDescription": "Exclusive needler combat with customizable settings",
-      "description": "Forces all players to use needlers exclusively with configurable weapon properties. Features equipment management, infinite ammo options, and complete vehicle/weapon restrictions. Includes automatic weapon assignment, ammo management, and customizable gameplay modifiers for varied needler combat experiences.",
-      "filename": "needles_galore.lua"
-    },
-    "one_in_the_chamber": {
-      "title": "One in the Chamber",
-      "shortDescription": "High-stakes pistol duel with limited ammunition",
-      "description": "Implements a tense pistol duel mode where players start with one bullet that guarantees instant kills. Features bullet economy management (gain bullets for kills), melee combat when out of ammo, and configurable damage settings. Includes weapon restrictions, precision-based gameplay mechanics, and risk/reward decision making.",
-      "filename": "one_in_the_chamber.lua"
-    },
-    "parkour": {
-      "title": "Parkour Challenge",
-      "shortDescription": "Timed obstacle course with checkpoints and leaderboards",
-      "description": "Implements a parkour course mode where players navigate custom maps using running, jumping, and checkpoint mechanics. Tracks player progress, start/finish lines, and checkpoint order. Features statistics tracking (best times, average times, completions), respawn at last checkpoint, death limits, and full run resets. Includes optional visual aids like flags and oddball markers, and supports configurable map settings and player commands for teleporting, resetting, and viewing leaderboards.",
-      "filename": "parkour.lua"
-    },
-    "pre_game": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "pre_game.lua"
-    },
-    "sabotage": {
-      "title": "Sabotage",
-      "shortDescription": "Bomb planting/defusing team objective",
-      "description": "Teams compete to plant a bomb at the enemy base and defend their own. Features:\n- Central bomb spawn with respawn timer\n- Crouch-based planting/defusing mechanics\n- Configurable timers for planting/defusing/explosion\n- Multiple map configurations with precise bomb locations\n- Explosion effects and score rewards",
-      "filename": "sabotage.lua"
-    },
-    "shotty_snipes": {
-      "title": "Shotty Snipes",
-      "shortDescription": "Shotgun and sniper rifle only combat",
-      "description": "Intense close-quarters and long-range combat featuring:\n- Exclusive shotgun and sniper rifle gameplay\n- All other weapons and vehicles disabled\n- Equipment (grenades/powerups) remains active\n- Configurable weapon settings:\n  * Infinite ammo toggle\n  * Bottomless clip option\n  * Damage modifiers\n- Automatic weapon assignment on spawn",
-      "filename": "shotty_snipes.lua"
-    },
-    "snipers_dream_team": {
-      "title": "Snipers Dream Team",
-      "shortDescription": "Comprehensive weapon and vehicle overhaul mod for Halo, enhancing projectile physics, damage, and explosion effects.",
-      "description": "This Lua script modifies core gameplay by overhauling 20+ weapons and vehicle armaments. It includes enhancements to projectile physics, custom explosion effects, weapon-specific modifications (AR, Pistol, Sniper, etc.), vehicle weapon upgrades (Warthog, Scorpion, Banshee), and grenade behavior tweaks. Technical implementation relies on direct memory modification of game tags and supports most game modes without external dependencies. Includes global gameplay tweaks while preserving overall balance, but it is not recommended for competitive play.",
-      "filename": "snipers_dream_team.lua"
-    },
-    "survival_slayer": {
-      "title": "Survival Slayer",
-      "shortDescription": "Time-based survival with kill rewards",
-      "description": "High-stakes survival mode with unique time mechanics:\n- Countdown life timer for all players\n- +10 seconds awarded per kill (configurable)\n- Victory condition: First to reach 15 kills (configurable)\n- Real-time HUD timer display\n- Configurable settings:\n  * Base lifespan duration\n  * Time bonus per kill\n  * Win condition threshold\n- Players die when their timer reaches zero",
-      "filename": "survival_slayer.lua"
-    },
-    "swat": {
-      "title": "Swat",
-      "shortDescription": "Precision headshot-only combat",
-      "description": "Tactical shooter mode with strict rules: Headshot-only kills (pistol & sniper rifle). All other weapons and vehicles disabled. Powerups (camo/overshield) remain active. Configurable options: Infinite ammo/bottomless clip, Score limits, Weapon loadouts. Default 25-kill victory condition.",
-      "filename": "swat.lua"
-    },
-    "tag": {
-      "title": "Tag",
-      "shortDescription": "Dynamic role-swapping chase game",
-      "description": "Fast-paced tag minigame with unique mechanics: One 'Tagger' chases multiple 'Runners'. Successful tags transfer the Tagger role. Scoring system: Runners earn points over time, Tagger gets bonus points per tag. Configurable options: Auto-rotation timer, Movement speed modifiers, Score values, Game duration settings.",
-      "filename": "tag.lua"
-    },
-    "team_defender": {
-      "title": "Team Defender",
-      "shortDescription": "Objective-based team protection mode",
-      "description": "Strategic flag control gameplay featuring: Random flag spawn locations. Double team points while holding flag. +20 assist points per teammate kill. Team-based roles: Flag carrier (objective holder), Defenders (protect carrier), Attackers (reclaim objective). Configurable settings: Flag respawn timer, Point multipliers, Spawn locations, Game duration limits.",
-      "filename": "team_defender.lua"
-    },
-    "t_slayer_team_spawns": {
-      "title": "Team Slayer Spawns",
-      "shortDescription": "Enforces team-specific spawning in Team Slayer",
-      "description": "Modifies spawn system to ensure players only spawn at their team's designated locations in Team Slayer game modes. Reads map spawn points and assigns them by team.",
-      "filename": "t_slayer_team_spawns.lua"
-    },
-    "zombies_advanced": {
-      "title": "Zombies Advanced",
-      "shortDescription": "Team-based zombie survival mode with alpha zombies, last-man-standing bonuses.",
-      "description": "Zombies Advanced is a fast-paced survival script where humans fight zombies. Zombies convert humans by killing them, with Alpha and Standard zombie types, enhanced team shuffling, Last Man Standing bonuses, configurable attributes, camouflage abilities, and vehicle restrictions. Victory is achieved when all humans are eliminated.",
-      "filename": "zombies_advanced.lua"
-    },
-    "zombies_standard": {
-      "title": "Zombies Standard",
-      "shortDescription": "Classic team-based zombie survival mode with simple human vs zombie gameplay.",
-      "description": "Zombies Standard is a straightforward survival script where humans face off against zombies. Zombies convert humans upon killing them. Features include basic team conversion mechanics, simple speed and respawn adjustments, camouflage for zombies, and victory when all humans are infected.",
-      "filename": "zombies_standard.lua"
-    }
-  },
-  "modules": {
-    "map_coordinates": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "map_coordinates.lua"
-    },
-    "pagination": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "pagination.lua"
-    },
-    "rcon_text": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "rcon_text.lua"
-    },
-    "score_handler": {
-      "title": "Score Handler",
-      "shortDescription": "Advanced scoring system with custom point values",
-      "description": "Customizable scoring system that modifies points for different kill types (headshots, assassinations, etc.), game events (flag captures, betrayals), and includes special scoring for zombie modes and kill streaks.",
-      "filename": "score_handler.lua"
-    },
-    "uber_vehicles": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "uber_vehicles.lua"
-    }
-  },
-  "notifications": {
-    "beep_on_join": {
-      "title": "Beep On Join",
-      "shortDescription": "Audible alert when players join",
-      "description": "Plays a system beep sound whenever a new player joins the server, providing an audible notification of player connections. Useful for server admins who want audio cues for player activity without visual monitoring.",
-      "filename": "beep_on_join.lua"
-    },
-    "console_logo": {
-      "title": "Console Logo",
-      "shortDescription": "Custom ASCII art display for server console",
-      "description": "Displays customizable ASCII art logos in the server console with support for dynamic variables, color coding, and automatic centering.",
-      "filename": "console_logo.lua"
-    },
-    "countdown_timer": {
-      "title": "Countdown Timer",
-      "shortDescription": "Basic countdown timer for game events",
-      "description": "Simple countdown timer that displays remaining time to all players, primarily used for development and testing purposes.",
-      "filename": "countdown_timer.lua"
-    },
-    "ctf_flag_position_logger": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "ctf_flag_position_logger.lua"
-    },
-    "discord": {
-      "title": "Discord Integration",
-      "shortDescription": "Discord integration for server events",
-      "description": "Comprehensive Discord integration system for server events, with configurable event types and message formatting. Requires https://github.com/Chalwk/SAPPDiscordBot to be installed.",
-      "filename": "discord.lua"
-    },
-    "game_countdown": {
-      "title": "Game Time Tracker",
-      "shortDescription": "Displays remaining game time in HH:MM:SS format",
-      "description": "Tracks and converts in-game time limit to human-readable format, providing real-time countdown functionality for match duration.",
-      "filename": "game_countdown.lua"
-    },
-    "live_on_3": {
-      "title": "Live On 3",
-      "shortDescription": "Competitive match countdown system with automatic map reset",
-      "description": "Provides tournament-standard 'Live on 3' countdown functionality with map resets, customizable permissions, and temporary death message suppression for clean competitive play.",
-      "filename": "live_on_3.lua"
-    },
-    "notify_me": {
-      "title": "Notify Me",
-      "shortDescription": "Enhanced server event notification system",
-      "description": "Comprehensive terminal notification system with color-coded events, customizable formatting, and detailed player tracking. Includes ASCII art display and timestamp formatting.",
-      "filename": "notify_me.lua"
-    },
-    "status_timer": {
-      "title": "Status Timer",
-      "shortDescription": "Periodic player count display in console",
-      "description": "Automatically displays current player count and server capacity in the console at regular intervals (default: every 3 seconds).",
-      "filename": "status_timer.lua"
-    }
-  },
-  "utility": {
-    "auto_eject": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "auto_eject.lua"
-    },
-    "auto_lead": {
-      "title": "Auto Lead",
-      "shortDescription": "Dynamic projectile lead control",
-      "description": "Automatically configures SAPP's no-lead setting per map/gametype combination. Supports all standard Halo projectiles with map-specific presets and gametype overrides. Adjusts settings during map rotations and gametype changes without manual intervention.",
-      "filename": "auto_lead.lua"
-    },
-    "block_replace_objects": {
-      "title": "Block/Replace Objects",
-      "shortDescription": "Dynamic object management system for map customization",
-      "description": "Allows server admins to block or replace specific objects (weapons, vehicles, equipment) with per-map configuration and runtime control.",
-      "filename": "block_replace_objects.lua"
-    },
-    "block_team_damage": {
-      "title": "Block Team Damage",
-      "shortDescription": "Complete friendly fire prevention system",
-      "description": "Blocks all team damage including weapons, grenades and vehicle collisions with configurable settings and real-time monitoring of damage attempts.",
-      "filename": "block_team_damage.lua"
-    },
-    "command_spy": {
-      "title": "Command Spy",
-      "shortDescription": "Admin command monitoring and logging system",
-      "description": "Tracks and logs all admin command usage in real-time with customizable notification levels, command blacklisting, and detailed logging options.",
-      "filename": "command_spy.lua"
-    },
-    "custom_command_cooldowns": {
-      "title": "Command Cooldowns",
-      "shortDescription": "Advanced command rate-limiting system",
-      "description": "Implements customizable cooldown timers for specific commands with player-specific tracking, anti-spam protection, and detailed monitoring.",
-      "filename": "custom_command_cooldowns.lua"
-    },
-    "custom_spawns": {
-      "title": "Custom Spawns",
-      "shortDescription": "Custom player spawn point system",
-      "description": "Manages player spawn points per map and team, supports FFA mode, prevents overlapping spawns, caches spawn data for performance, and retries spawning if no valid point is available.",
-      "filename": "custom_spawns.lua"
-    },
-    "custom_vehicle_spawner": {
-      "title": "Custom Vehicle Spawner",
-      "shortDescription": "Persistent vehicle management and respawn system",
-      "description": "Manages vehicle spawns with configurable locations, automatic respawning when abandoned or destroyed, and position monitoring to prevent vehicle loss.",
-      "filename": "custom_vehicle_spawner.lua"
-    },
-    "custom_wdel": {
-      "title": "Safe Weapon Deletion",
-      "shortDescription": "Modified weapon deletion that protects objective items",
-      "description": "Enhanced version of the standard wdel command that prevents accidental deletion of flag/oddball items while maintaining normal weapon removal functionality.",
-      "filename": "custom_wdel.lua"
-    },
-    "cyborg_spawner": {
-      "title": "Cyborg Spawner",
-      "shortDescription": "Novelty cyborg character spawn system",
-      "description": "Spawns decorative cyborg characters at predefined locations on various maps for aesthetic purposes.",
-      "filename": "cyborg_spawner.lua"
-    },
-    "delay_skip": {
-      "title": "Skip Delay",
-      "shortDescription": "Prevents premature map skipping",
-      "description": "Enforces a minimum wait time before players can vote to skip the current map, with configurable delay duration and player notifications.",
-      "filename": "delay_skip.lua"
-    },
-    "dynamic_ping_kicker": {
-      "title": "Dynamic Ping Kicker",
-      "shortDescription": "Adaptive ping management system with player count-based thresholds",
-      "description": "Automatically monitors and enforces ping limits that adjust based on server population, with warning systems, admin immunity, and detailed logging capabilities.",
-      "filename": "dynamic_ping_kicker.lua"
-    },
-    "dynamic_race_laps": {
-      "title": "Dynamic Race Laps",
-      "shortDescription": "Automatically adjusts the lap score limit based on player count.",
-      "description": "This script dynamically changes the lap score limit in race games depending on the number of players. It includes per-map configurations for small, medium, large, and very long tracks, ensuring balanced gameplay across different player counts. Supports automatic announcements when the score limit changes.",
-      "filename": "dynamic_race_laps.lua"
-    },
-    "dynamic_score_limit": {
-      "title": "Dynamic Score Limit",
-      "shortDescription": "Automatically adjusts game score limits based on player count",
-      "description": "Intelligently modifies score requirements for all game types based on server population, with custom configurations for different game modes and team sizes.",
-      "filename": "dynamic_score_limit.lua"
-    },
-    "geo_location": {
-      "title": "",
-      "shortDescription": "",
-      "description": "",
-      "filename": "geo_location.lua"
-    },
-    "get_object_identity": {
-      "title": "Object Inspector",
-      "shortDescription": "Admin tool for inspecting in-game objects",
-      "description": "Provides detailed information about targeted objects including type, internal name, meta ID, and coordinates, with admin permission controls.",
-      "filename": "get_object_identity.lua"
-    },
-    "get_server_name": {
-      "title": "Server Name Utility",
-      "shortDescription": "Accesses and utilizes server name information",
-      "description": "Retrieves and displays the server name, with example implementation for welcome messages.",
-      "filename": "get_server_name.lua"
-    },
-    "item_spawner": {
-      "title": "Item Spawner",
-      "shortDescription": "Spawn weapons, vehicles, and items with seat and amount options.",
-      "description": "Advanced item spawning system for weapons, vehicles, equipment, bipeds, and projectiles with caching, cleanup, and paginated item listing.",
-      "filename": "item_spawner.lua"
-    },
-    "list_players": {
-      "title": "List Players",
-      "shortDescription": "Displays detailed player information with configurable output format",
-      "description": "Provides admins with comprehensive player listings including IP addresses, team assignments, and connection status through simple chat commands with customizable display options.",
-      "filename": "list_players.lua"
-    },
-    "mapcycle_manager": {
-      "title": "Map Rotation Manager",
-      "shortDescription": "Comprehensive map rotation system with multiple cycle types and dynamic adjustments",
-      "description": "Powerful map rotation manager featuring size-based cycles, admin controls, automatic player count adjustments, and extensive configuration options for customized server experiences.",
-      "filename": "mapcycle_manager.lua"
-    },
-    "map_list": {
-      "title": "Map List",
-      "shortDescription": "Displays current and upcoming map rotation information",
-      "description": "Provides players with detailed map cycle information including current/next maps and modes through intuitive chat commands, with support for custom mapcycle.txt configurations.",
-      "filename": "map_list.lua"
-    },
-    "map_list_with_map_spec": {
-      "title": "Map List with Map Spec",
-      "shortDescription": "Enhanced map cycle monitoring with position tracking and spec indexing",
-      "description": "Provides comprehensive map rotation management with real-time tracking, position queries, and special indexing capabilities for tournament and custom game configurations.",
-      "filename": "map_list_with_map_spec.lua"
-    },
-    "map_skip_tally": {
-      "title": "Map Skip Tally",
-      "shortDescription": "Tracks and persists map skip votes across game sessions with detailed statistics",
-      "description": "Advanced skip voting system that maintains vote counts between matches, with player-specific tracking, JSON data persistence, and admin query commands for competitive server management.",
-      "filename": "map_skip_tally.lua"
-    },
-    "map_vote_system": {
-      "title": "Map Voting System",
-      "shortDescription": "Enhanced replacement for SAPP's default voting with expanded features and customization",
-      "description": "Comprehensive voting system supporting unlimited map options, re-voting, streak protection, and configurable timing controls with detailed player feedback and vote tracking.",
-      "filename": "map_vote_system.lua"
-    },
-    "object_spawner": {
-      "title": "Object Spawner",
-      "shortDescription": "Map-specific object placement system",
-      "description": "Spawns predefined objects at specific coordinates with rotation control. Supports multiple objects per map with persistent configurations.",
-      "filename": "object_spawner.lua"
-    },
-    "on_teleport": {
-      "title": "On Teleport",
-      "shortDescription": "Player teleportation detection system",
-      "description": "Developer tool that detects player teleportation events by monitoring position changes. Useful for debugging and anti-cheat systems.",
-      "filename": "on_teleport.lua"
-    },
-    "per_map_score_limits": {
-      "title": "Per-Map Score Limits",
-      "shortDescription": "Sets the score limit at game start based on the map",
-      "description": "Applies a fixed score limit automatically when a game starts. Each map can have a predefined limit, or a default value will be used if not listed. Useful for Race and other gametypes where consistent score limits are desired.",
-      "filename": "per_map_score_limits.lua"
-    },
-    "play_time": {
-      "title": "Play Time Tracker",
-      "shortDescription": "Comprehensive player session tracking system",
-      "description": "Tracks and displays detailed playtime statistics including total hours, join counts, and session duration. Supports individual and server-wide queries with JSON data persistence.",
-      "filename": "play_time.lua"
-    },
-    "race_assistant": {
-      "title": "Race Assistant",
-      "shortDescription": "Vehicle enforcement system for race gametypes",
-      "description": "Ensures players use vehicles in race modes with configurable grace periods, warnings, and penalties. Features safe zones, admin exemptions, and multi-stage violation handling.",
-      "filename": "race_assistant.lua"
-    },
-    "reg_to_play": {
-      "title": "Reg to Play",
-      "shortDescription": "Enforces mandatory player registration with timed kick enforcement.",
-      "description": "Requires all players to register within a configurable time window upon joining. Supports password verification, persistent player data storage, automatic kicks for unregistered players, and permission-based exemptions. Stores registration data in players.txt and optionally saves immediately or at game end.",
-      "filename": "reg_to_play.lua"
-    },
-    "restart_mapcycle": {
-      "title": "Restart Mapcycle",
-      "shortDescription": "Automatic mapcycle reset system",
-      "description": "Restarts the server mapcycle after configurable delay when all players leave. Prevents empty server stagnation while maintaining current rotation.",
-      "filename": "restart_mapcycle.lua"
-    },
-    "script_manager": {
-      "title": "Script Manager",
-      "shortDescription": "Dynamic script loader by map/gametype",
-      "description": "Automatically loads and unloads scripts based on current map and gametype. Supports custom script configurations per map/gametype combination with error handling.",
-      "filename": "script_manager.lua"
-    },
-    "seed_score_protection": {
-      "title": "Seed Score Protection",
-      "shortDescription": "Prevents score loss when killing bot/seed players",
-      "description": "Protects player stats when killing seed/bot clients by preventing score deductions. Maintains kill/death ratios while allowing seed elimination. Features configurable bot names and negative score prevention.",
-      "filename": "seed_score_protection.lua"
-    },
-    "server_logger": {
-      "title": "Server Logger",
-      "shortDescription": "Advanced server logging system with customizable event tracking",
-      "description": "Comprehensive logging solution that records game events (joins, deaths, commands) with timestamped entries. Features configurable event types, sensitive command filtering, and detailed player tracking including pirated client detection.",
-      "filename": "server_logger.lua"
-    },
-    "server_name_changer": {
-      "title": "Server Name Changer",
-      "shortDescription": "Automated server name rotation system",
-      "description": "Cycles through a list of custom server names at configurable intervals. Supports blank names and special characters in server names.",
-      "filename": "server_name_changer.lua"
-    },
-    "set_respawn_time": {
-      "title": "Set Respawn Time",
-      "shortDescription": "Dynamic respawn time configuration system",
-      "description": "Allows per-map and per-gametype respawn time configuration with admin override capability. Supports both global and player-specific settings with silent execution mode.",
-      "filename": "set_respawn_time.lua"
-    },
-    "sync_admins": {
-      "title": "Sync Admins",
-      "shortDescription": "Remote synchronization of admin/user files",
-      "description": "Synchronizes admins.txt and users.txt with a remote server, with automatic fallback to local backups when offline. Features HTTP requests, validation, and backup systems.",
-      "filename": "sync_admins.lua"
-    },
-    "sync_your_files": {
-      "title": "Sync Your Files",
-      "shortDescription": "Remote file synchronization with backup fallback",
-      "description": "Synchronizes specified files with a remote server, with automatic local backup fallback when offline. Supports any file type, includes validation via keyword matching, and features HTTP functionality.",
-      "filename": "sync_your_files.lua"
-    },
-    "teleport_manager": {
-      "title": "Teleport Manager",
-      "shortDescription": "Advanced teleport system with persistent warps",
-      "description": "Comprehensive teleportation system featuring map-specific warp points, location history tracking, and admin controls. Supports warp creation, deletion, listing, and includes protection against accidental overwrites.",
-      "filename": "teleport_manager.lua"
-    },
-    "timed_server_password": {
-      "title": "Timed Password System",
-      "shortDescription": "Automatic password removal after configurable duration",
-      "description": "Automatically removes the server password after a set time period (default: 5 minutes). Useful for temporary private sessions or events. Notifies players when password is removed.",
-      "filename": "timed_server_password.lua"
-    },
-    "track_master": {
-      "title": "Track Master",
-      "shortDescription": "Real-time race tracking and leaderboard system for Halo maps.",
-      "description": "Track Master is an advanced race tracking and leaderboard system for Halo custom games. It monitors individual lap times for each player in real-time, records personal bests, map records, and global records, and calculates average lap times and total laps per player. The script maintains persistent JSON storage for both all-time and current-game statistics. Players can use in-game commands to view stats, top 5 best laps, and current race rankings. Personal bests and map record achievements are automatically announced in-game. Supports both FFA and Team race types.",
-      "filename": "track_master.lua"
-    },
-    "vehicle_blocker_v1": {
-      "title": "Vehicle Blocker (v1)",
-      "shortDescription": "Map-based vehicle restriction system",
-      "description": "Controls vehicle access by map with configurable seat restrictions (driver/passenger/gunner). Features per-map settings, automatic ejection, and customizable delay before removal.",
-      "filename": "vehicle_blocker_v1.lua"
-    },
-    "vehicle_blocker_v2": {
-      "title": "Vehicle Blocker (v2)",
-      "shortDescription": "Enhanced vehicle restriction system",
-      "description": "Improved version with better vehicle handling, player teleportation, and more granular control. Maintains map-specific configurations while adding smoother player transitions when blocked from vehicles.",
-      "filename": "vehicle_blocker_v2.lua"
-    },
-    "vehicle_tag_utility": {
-      "title": "Vehicle Tag Utility",
-      "shortDescription": "Records vehicle tag names to a file for server analysis",
-      "description": "This utility allows server operators to capture and record vehicle tag names while players are seated in vehicles. When a player uses the 'tag' command, the script writes the vehicle's tag path along with the current map name to a text file. This is useful for analyzing which vehicles are being used on your server, tracking custom vehicle implementations, or debugging vehicle-related issues. The data is appended to vehicle_tag_utility.txt in the sapp directory for easy access and review.",
-      "filename": "vehicle_tag_utility.lua"
-    },
-    "vote_kick": {
-      "title": "Vote Kick System",
-      "shortDescription": "Player-driven moderation with configurable voting thresholds",
-      "description": "Implements a democratic kick system allowing players to vote out disruptive teammates. Features include percentage-based thresholds, admin immunity, vote tracking, cooldown periods, and detailed player notifications. Supports anonymous voting and vote cancellation.",
-      "filename": "vote_kick.lua"
-    },
-    "weapon_assigner": {
-      "title": "Weapon Assigner",
-      "shortDescription": "Contextual weapon loadout management system",
-      "description": "Provides map-specific and game-mode-aware weapon distribution with support for multi-weapon loadouts (up to 4 per player). Features team-specific configurations (Red/Blue/FFA), weapon tag validation, and fallback configurations. Supports custom default weapons and flexible assignment rules.",
-      "filename": "weapon_assigner.lua"
+  "RELEASES": {},
+  "SAPP": {
+    "admin": {
+      "admin_add_me": {
+        "shortDescription": "Quick admin access utility for testing",
+        "description": "'/admin me' command for instant level 4 access. Simplifies script testing and server management. Configurable default admin level. Built in pirated hash detection. IP-based admin assignment. Fast dev setup."
+      },
+      "admin_chat": {
+        "shortDescription": "Admin communication system",
+        "description": "Private admin messaging with toggleable visibility. Includes custom commands (/ac, /adminchat), spam protection, and player management. Options include message formatting, permission levels, and notification sounds. Gives secure channel for server administration with cooldown controls and permission-based access."
+      },
+      "admin_manager": {
+        "shortDescription": "Improved admin system with hierarchical levels, integrated bans and admin chat",
+        "description": "Drop-in replacement for SAPP's built in admin system with: unlimited configurable admin levels with hierarchical command inheritance. Supports IP, hash and password-based admin addition. Built in IP-ban, hash-ban, text-ban and name-ban with time-limited or permanent durations. Integrated admin chat with level-based visibility. Command spy to monitor lower-level admin activity. Alias lookup by IP or hash. SHA-256 password hashing. Customisable join messages per level. All data stored in JSON files for easy management."
+      },
+      "afk_system": {
+        "shortDescription": "All-in-one AFK detection and management",
+        "description": "Advanced AFK monitoring with movement tracking, camera detection, and input analysis. Includes customizable thresholds, voluntary AFK mode, admin immunity, and progressive warnings. Includes configurable timeout durations, warning intervals, and special kick messages for inactive players."
+      },
+      "aimbot_scores": {
+        "shortDescription": "Player accuracy statistics display",
+        "description": "Displays detailed player accuracy metrics with customizable filters. Includes command-based targeting (/botscore [target] [mode]) with multiple viewing options (basic/detailed). Supports individual player checks (1-16), self-checks (me), and global views (all/*). Gives live accuracy data with optional respawn status indicators."
+      },
+      "alias_system": {
+        "shortDescription": "Tracks and manages player aliases by hash and IP with lookup commands.",
+        "description": "Logs player name aliases tied to hash and IP. Admins can look up aliases with commands, view paginated results, and detect known pirated game hashes. Includes permission checks, cooldowns, and auto cleanup of old records."
+      },
+      "anti_aimbot": {
+        "shortDescription": "Advanced aim-lock detection system",
+        "description": "Multi-layered cheat detection with velocity analysis, trajectory prediction, and behavioral pattern recognition. Includes weapon-specific detection profiles, sensitivity adjustment, and false positive mitigation. Includes live monitoring, environmental visibility checks, and enforcement actions against aim-assist cheats."
+      },
+      "anti_camp_v1": {
+        "shortDescription": "Restricted area camping prevention",
+        "description": "Zone-based camping detection with configurable restricted areas per map. Includes progressive warnings, cooldown-protected punishments, and auto reset conditions. Tracks player positions in predefined zones with customizable timers and radius parameters."
+      },
+      "anti_camp_v2": {
+        "shortDescription": "Map-wide camping prevention",
+        "description": "Global camping detection system that monitors player movement anywhere on the map. Includes adjustable camping radius, progressive warnings, and punishment cooldowns. Automatically resets on spawn or significant movement with configurable thresholds."
+      },
+      "anti_impersonator": {
+        "shortDescription": "Identity verification and clone detection",
+        "description": "Protects against account impersonation through hash/IP verification. Includes configurable actions (kick/ban), trusted member whitelisting, and detailed logging. Detects clone accounts, name spoofing, and admin impersonation attempts with adjustable security thresholds."
+      },
+      "auto_team_balance": {
+        "shortDescription": "Team balancing system",
+        "description": "Smart player redistribution with count-based and optional skill-aware balancing. Parameters include balancing frequency (30-300s), minimum player thresholds, and force balance options. Preserves gameplay by avoiding mid-game adjustments and protecting party groups, with pre/post-balance notifications."
+      },
+      "ban_on_sight": {
+        "shortDescription": "Advanced player banning system with IP enforcement",
+        "description": "All-in-one ban management tool with instant player banning by ID, IP-based enforcement, ban list viewing, and live connection monitoring with admin notifications."
+      },
+      "block_duplicate_ips": {
+        "shortDescription": "Prevents multiple connections from the same IP address",
+        "description": "Advanced IP management system that detects and blocks duplicate connections with configurable actions (kick/ban), exception handling for LAN parties, and all-in-one admin notifications."
+      },
+      "breadcrumb_tracker": {
+        "shortDescription": "Tracks player identity across name changes with IP, hash, and VPN detection",
+        "description": "All-in-one player identity tracking system that monitors name changes using IP (including /24 subnet), CD-key hash, and optional VPN/proxy detection via IPQualityScore API. Includes auto suspicious join alerts with composite risk scoring (0-100%). Admins can query linked identities with '/crumbs [player] [page]'. Includes known pirated CD-key hash flagging, VPN IP cross-referencing, 24h API lookup caching, and auto stale record cleanup. Stores records in JSON database with detailed event logging."
+      },
+      "clear_chat": {
+        "shortDescription": "Instant chat clearing utility",
+        "description": "Gives admins with commands to instantly clear global chat with configurable access controls and notification options."
+      },
+      "client_crasher": {
+        "shortDescription": "Anti-cheat client enforcement system",
+        "description": "Anti-cheat enforcement tool that automatically crashes clients matching banned criteria (names, hashes, IPs) with admin crash commands."
+      },
+      "freeze_players": {
+        "shortDescription": "Admin tool to temporarily immobilize players with configurable options",
+        "description": "Gives all-in-one player freezing capabilities including weapon management, movement restrictions, and customizable notifications with admin permission controls."
+      },
+      "multiclient_detector": {
+        "shortDescription": "Advanced multi-client detection with probability scoring",
+        "description": "Detects players using multiple clients with probability scoring (0-100%) based on port ranges, client hashes, and behavior patterns. Includes risk categorization and admin alerts."
+      },
+      "mute_system": {
+        "shortDescription": "Advanced chat mute system with anti-spam protection",
+        "description": "All-in-one mute system with manual/spam muting, command whitelisting, time-based mutes, and admin controls. Includes anti-spam with configurable thresholds and punishments."
+      },
+      "name_ban": {
+        "shortDescription": "Default name protection system",
+        "description": "Detects and takes action against players using default names after configurable grace period. Supports kicking or banning with customizable messages."
+      },
+      "name_replacer": {
+        "shortDescription": "Auto name randomization system",
+        "description": "Replaces blacklisted/default names with random selections from a predefined list. Maintains name uniqueness and respects maximum length limits."
+      },
+      "ping_checker": {
+        "shortDescription": "Player latency monitoring tool",
+        "description": "Simple ping checking utility that lets players view their own or others' latency with customizable output formatting and permission controls."
+      },
+      "report_system": {
+        "shortDescription": "In-game player reporting with admin management and auto-expiry",
+        "description": "In-game player reporting system with: '/s_report' command to file reports against players or submit bug/general reports, '/reports [page]' for admins to view paginated reports, '/report_clear' to clear reports by index, and '/players' to show online players with IDs. Includes cooldown system (configurable, default 60s), auto-expiry of old reports (configurable, default 600s), file logging (reports.txt), and console logging. Requires admin level 2 to manage reports."
+      },
+      "suicide_punisher": {
+        "shortDescription": "Auto punishment for excessive suicides",
+        "description": "Monitors and punishes players who suicide excessively within a time window. Configurable thresholds, grace periods, and actions (kick/ban with duration)."
+      },
+      "suspend_players": {
+        "shortDescription": "Admin tool to freeze players in place",
+        "description": "Lets admins to suspend players (freeze position, remove weapons, mute chat) with configurable persistence across sessions. Includes unsuspend functionality."
+      },
+      "tag_enforcer": {
+        "shortDescription": "Blocks unauthorized players from using the clan tag.",
+        "description": "Enforces the use of a specific clan tag by verifying players against a whitelist of approved members. If a player attempts to join with the clan tag but their IP or hash is not recognized, they are automatically kicked before joining. This prevents impersonation and ensures only official members can represent the clan."
+      },
+      "team_shuffler": {
+        "shortDescription": "Auto and manual team balancing system",
+        "description": "Advanced team shuffler with configurable auto-shuffle timing, manual shuffle commands, minimum player requirements, and FFA mode detection. Temporarily disables death messages during shuffling for cleaner transitions."
+      },
+      "the_punisher": {
+        "shortDescription": "Team betrayal and friendly fire enforcement",
+        "description": "Configurable punishment system for team betrayals and friendly fire incidents. Includes progressive warnings, multiple punishment actions (kill/kick/crash), customizable thresholds, and detailed offense logging with player notifications."
+      },
+      "timed_authentication": {
+        "shortDescription": "Requires players with the clan tag to authenticate within a time limit.",
+        "description": "When a player joins with the clan tag (e.g. LIB-) in their name, they are prompted to type a secret phrase in chat within a configurable number of seconds. If they succeed, they may stay; if they fail or ignore the prompt, they are automatically kicked. This gives a lightweight form of access control for clan tags."
+      },
+      "vpn_blocker": {
+        "shortDescription": "Advanced IP screening using IPQualityScore API",
+        "description": "Automatically detects and blocks VPNs, proxies, and high-risk connections using live IP reputation analysis. Includes customizable risk thresholds, detailed logging, and actions (kick/ban). Integrates with IPQualityScore API for all-in-one security screening."
+      },
+      "word_buster": {
+        "shortDescription": "Multilingual chat moderation with progressive enforcement",
+        "description": "All-in-one profanity detection system supporting 21+ languages with leet-speak recognition. Includes configurable warnings, kick/ban thresholds, admin immunity, and live word list management. Includes commands for filter updates and language toggling."
+      }
+    },
+    "chat": {
+      "admin_messages": {
+        "shortDescription": "Customizable admin greeting system",
+        "description": "Level-based join announcements with flexible display options. Includes per-admin level messages (humorous or serious), multiple output channels (chat/RCON), and customizable formatting with text alignment and colors. Easy configuration for different admin tiers with toggleable visibility."
+      },
+      "april_fools_chat": {
+        "shortDescription": "Randomly reroutes player chat to others",
+        "description": "Prank script that makes other players 'speak' your chat messages when triggered by certain words. Includes permission-level checks to limit who can trigger the effect."
+      },
+      "april_fools_word_shuffler": {
+        "shortDescription": "Randomly scrambles player chat messages",
+        "description": "Adds a 1 in 3 chance that any chat message will be randomly scrambled, creating humorous confusion. Perfect for April Fools' Day pranks in-game. Players' messages remain readable but become amusingly jumbled."
+      },
+      "auto_message": {
+        "shortDescription": "Scheduled announcement system",
+        "description": "Automated multi-line message broadcaster with configurable intervals (30-300s). Includes rotating message lists, color-coded text support, and dual output (in-game chat + console). Includes timestamp prefixes and server management controls for on-demand triggers and priority messaging."
+      },
+      "chat_ids": {
+        "shortDescription": "Player identification system for chat messages",
+        "description": "Appends player slot numbers to chat messages with customizable formatting options for global, team and vehicle chats."
+      },
+      "expressions": {
+        "shortDescription": "Family-friendly chat reactions and taunts",
+        "description": "Adds playful, moderated chat commands for expressing emotions like anger (!anger), taunting opponents (!taunt), or mild frustration (!cuss). Includes multiple randomized responses for each command while maintaining player identity in chat. Perfect for adding personality to gameplay without offensive language. Fully configurable with custom phrase lists and output formatting."
+      },
+      "force_chat": {
+        "shortDescription": "Make players say custom messages",
+        "description": "Lets administrators to make any player appear to send chat messages. Useful for roleplaying scenarios, announcements, or moderation purposes. Includes permission controls, customizable message formatting, and proper server prefix handling. Note: Fake messages may be detectable by some client modifications."
+      },
+      "mvp_join_alerts": {
+        "shortDescription": "Personalized welcome messages for VIP players",
+        "description": "Broadcasts custom welcome messages when special players join, with unique messages for MVPs and random generic greetings for regular players. Supports identification by IP, hash, or exact name. Fully configurable messages and prefixes."
+      },
+      "proximity_chat": {
+        "shortDescription": "Localized voice chat with configurable range",
+        "description": "Implements realistic proximity chat where players can only communicate within a set distance. Includes per-map range settings, dead player communication options, team/vehicle chat modes, and admin controls for range adjustment."
+      },
+      "random_fact_generator": {
+        "shortDescription": "Periodically shares Chuck Norris facts from an API",
+        "description": "Fetches and displays random Chuck Norris facts at intervals. Can replace Chuck's name with player names. Requires HTTP client plugin and JSON library."
+      },
+      "rcon_chat": {
+        "shortDescription": "Redirects chat messages to RCON console",
+        "description": "Displays all in-game chat messages in the RCON interface with player IDs. Supports team/vehicle chat differentiation and message filtering."
+      },
+      "rules_command": {
+        "shortDescription": "Server rules display system",
+        "description": "Gives players with easy access to server rules via chat command. Includes configurable announcement intervals and customizable rule messages with timed display."
+      },
+      "show_admin_names": {
+        "shortDescription": "Admin identification utility",
+        "description": "Displays all online administrators with their permission levels via simple chat command. Helps players identify server staff quickly and easily."
+      },
+      "simple_poll_system": {
+        "shortDescription": "Admin-controlled in-game voting system with timed polls",
+        "description": "Lets admins to create timed polls with custom questions and options. Players can vote using /vote command, with results broadcasted when poll ends."
+      },
+      "taunt_on_end_messages": {
+        "shortDescription": "Playful taunts based on player performance",
+        "description": "Displays humorous taunting messages to players at game end based on their kill count. Ranges from gentle ribbing for poor performance to backhanded compliments for better scores."
+      },
+      "taunt_your_players": {
+        "shortDescription": "Send player taunts",
+        "description": "Displays funny or provocative messages to players in-game."
+      },
+      "team_chat": {
+        "shortDescription": "Private team communication system with invite functionality",
+        "description": "All-in-one team chat system with private channels, invite system, multiple chat modes (team/global), and team management commands. Supports 1-3+ player private communications with configurable permissions."
+      },
+      "team_color_voting": {
+        "shortDescription": "Player-voted team color selection system",
+        "description": "Lets players vote for team color sets between games. Includes 10+ predefined color combinations, vote tallying, and auto application of winning colors. Includes HUD display of options."
+      },
+      "welcome_messages": {
+        "shortDescription": "Customizable greeting system for new players",
+        "description": "Displays personalized welcome messages when players join the server. Simple implementation that can be expanded with additional includes like timed messages or player-specific greetings."
+      }
+    },
+    "gameplay": {
+      "air_strike": {
+        "shortDescription": "Automated, randomized rocket strikes with player alerts",
+        "description": "Triggers periodic airstrikes over predefined map locations. Rockets spawn at random heights and trajectories, accompanied by player warnings, creating map hazards."
+      },
+      "ammo_resupply": {
+        "shortDescription": "Resupply ammo, grenades, and energy batteries on command",
+        "description": "Gives a configurable player command to replenish ammo, magazines, frag/plasma grenades, and battery. Includes cooldowns and optional permission restrictions."
+      },
+      "auto_troll": {
+        "shortDescription": "All-in-one server trolling toolkit with 17+ prank includes",
+        "description": "A powerful all-in-one trolling script with 17+ customizable prank includes to mess with players. Includes silent kills, damage modifiers, chat scramblers, teleportation, forced vehicle exits, ammo manipulation, fake messages, inverted controls, and more. Fully configurable with permissions and target filters for controlled chaos."
+      },
+      "cheat_hax": {
+        "shortDescription": "Admin command to manipulate player scores",
+        "description": "Gives admins with a '/hax' command to set a dead player's score and stat values to 9999. Works across all game types (Slayer, CTF, Oddball, King, Race) with memory-specific score manipulation. Requires admin level 4 access."
+      },
+      "color_changer": {
+        "shortDescription": "Lets players customize their armor color",
+        "description": "Enables players with sufficient permissions to change their armor color using a simple command. Offers 18 different color options from white to salmon. Maintains color consistency through respawns while respecting game mechanics. Includes admin-level restrictions for controlled customization."
+      },
+      "color_reservation": {
+        "shortDescription": "Reserves armor colors for VIP players based on their unique hash",
+        "description": "Lets server administrators to reserve specific armor colors for VIP players by configuring their unique player hashes. Supports all 18 armor colors in FFA Slayer mode only. Automatically assigns random colors to non-VIP players while preserving reserved colors for authorized users through respawns. Includes protection against color conflicts."
+      },
+      "custom_colors": {
+        "shortDescription": "Team and FFA color customization system",
+        "description": "Lets server administrators to customize team colors for both team-based and free-for-all game modes with extensive color options."
+      },
+      "custom_loadouts": {
+        "shortDescription": "Advanced player loadout customization system",
+        "description": "Lets players select and customize weapon loadouts with configurable weapons, ammo counts, and grenades that persist between respawns."
+      },
+      "custom_teleports": {
+        "shortDescription": "Configurable instant teleport points for any map",
+        "description": "Creates customizable teleportation zones that instantly transport players between locations on the same map. Supports map-specific configurations with adjustable activation radius and destination points. Optional crouch-only activation prevents accidental teleports. Perfect for creating shortcuts, secret passages, or gameplay variations in any map."
+      },
+      "damage_multiplier": {
+        "shortDescription": "Admin-controlled player damage scaling",
+        "description": "Lets server administrators to dynamically adjust individual players' damage output with a simple command. Includes configurable multiplier ranges (1-10x), optional reset functionality, and permission-based access control. Perfect for balancing gameplay, creating special events, or testing combat scenarios."
+      },
+      "damage_multiplier_changer": {
+        "shortDescription": "All-in-one weapon damage modifier configuration",
+        "description": "Lets you control damage values for all weapons, grenades, vehicles and environmental effects with configurable multipliers."
+      },
+      "deployable_mines": {
+        "shortDescription": "Adds tactical mine deployment for vehicles",
+        "description": "Introduces deployable explosive mines that players can strategically place while driving compatible vehicles. Includes configurable mine limits per life, timed despawn, adjustable detonation radius, and team damage options. Mines persist through player deaths and can be used to create defensive perimeters or ambush points. Includes visual feedback and mine counters for players."
+      },
+      "disable_fall_damage": {
+        "shortDescription": "Selective fall damage removal system",
+        "description": "Disables fall damage on specified maps while maintaining normal gameplay mechanics on others, with per-map configuration options."
+      },
+      "flashlight_vehicle_entry": {
+        "shortDescription": "Enter vehicles by aiming and using flashlight",
+        "description": "Adds an alternative vehicle entry system where players can enter unoccupied vehicles by aiming at them and pressing their flashlight key. Supports all standard Halo vehicles with configurable options. Gives more intuitive vehicle boarding while maintaining game balance. Works seamlessly with existing vehicle mechanics."
+      },
+      "flip_a_coin": {
+        "shortDescription": "Virtual coin flipping with statistics",
+        "description": "Adds a fun virtual coin flip command that simulates thousands of flips instantly and displays detailed statistics. Includes configurable flip counts, probability percentages, and execution timing. Gives entertaining random results while demonstrating probability concepts in live. Simple permission system controls access."
+      },
+      "flying_vehicles": {
+        "shortDescription": "Enable flight for ground vehicles",
+        "description": "Transforms standard ground vehicles into flying machines with a simple command. Supports configurable vehicle selection, permission-based access control, and auto reset options. Perfect for creating custom game modes or just having fun with unconventional vehicle physics. Includes safety includes to prevent conflicts with normal gameplay."
+      },
+      "gravity_gun": {
+        "shortDescription": "Half-Life inspired object manipulation tool",
+        "description": "Adds a physics-based gravity gun that lets players pick up, carry, and launch objects with realistic mass-based physics. Supports vehicles, weapons, equipment and devices with configurable pickup range, rotation speed, and launch velocity. Includes cooldown timers, mass restrictions, and permission controls for balanced gameplay. Perfect for creating custom game modes or just having fun with physics."
+      },
+      "grenade_launcher": {
+        "shortDescription": "Convert weapons into grenade launchers",
+        "description": "Transforms standard weapons and vehicle armaments into grenade launchers with configurable projectile physics. Includes map-specific grenade types, adjustable velocity settings, and toggleable activation. Supports multiple weapon types with realistic ballistic behavior. Includes permission controls and optional auto-disable on death for balanced gameplay."
+      },
+      "headshot_blocker": {
+        "shortDescription": "Disables headshot damage",
+        "description": "Prevents all headshot damage while maintaining normal body shot mechanics. Works across all weapons and gametypes. Ideal for creating more casual gameplay experiences or balancing weapon mechanics. Simple and lightweight implementation with no configuration needed."
+      },
+      "health_regeneration": {
+        "shortDescription": "Gradual auto health recovery system",
+        "description": "Implements a health regeneration system that gradually restores player health when below maximum. Includes smart scaling that regenerates faster when health is lower. Lightweight implementation with minimal performance impact. Perfect for creating more forgiving gameplay experiences or custom game modes."
+      },
+      "infinite_ammo": {
+        "shortDescription": "Grants all players unlimited ammunition in real time.",
+        "description": "Continuously checks all players and their equipped weapons, setting their ammo and clip counts to maximum. It works during gameplay so players never run out of ammo."
+      },
+      "items_from_heaven": {
+        "shortDescription": "Random weapon/vehicle spawns across the map",
+        "description": "Spawns random weapons and vehicles at predefined map locations at configurable intervals. Includes include adjustable spawn timing, auto cleanup of unused items, and support for all standard Halo weapons and vehicles. Perfect for creating gameplay experiences or custom game modes where equipment availability changes throughout the match."
+      },
+      "item_sky_spawner": {
+        "shortDescription": "Drops random weapons and vehicles from the sky at map locations",
+        "description": "Automatically spawns random weapons and vehicles at predefined map coordinates with configurable timing, height, and despawn behavior."
+      },
+      "killer_reward": {
+        "shortDescription": "Drops weapons/equipment on player kills",
+        "description": "Rewards successful kills by spawning random weapons or equipment at the victim's death location. Includes configurable drop tables, consecutive kill requirements, and multiple reward modes (weapons-only, equipment-only, or mixed). Includes kill streak tracking and customizable drop chances. Perfect for creating combat scenarios where players are rewarded for consistent performance."
+      },
+      "kill_counter": {
+        "shortDescription": "Live kill count notifications",
+        "description": "Displays current kill counts to players after each successful elimination. Includes customizable message formatting and auto tracking. Lightweight implementation with minimal performance impact. Perfect for competitive matches where players want immediate feedback on their performance."
+      },
+      "kill_zones": {
+        "shortDescription": "Configurable danger areas that eliminate players after delay",
+        "description": "Creates map-specific restricted zones that warn then kill players who remain too long, with team-specific rules, custom messages, and adjustable timers."
+      },
+      "liberty_vehicle_spawner": {
+        "shortDescription": "On-demand vehicle spawning system with smart cleanup",
+        "description": "Lets players instantly spawn vehicles via chat commands with auto entry, abandonment detection, and despawn timers. Includes multi-vehicle support and map-specific configurations."
+      },
+      "market_account_saving": {
+        "shortDescription": "Persistent player economy with purchasable perks",
+        "description": "Implements a all-in-one in-game economy where players earn currency through combat performance and can spend it on temporary perks. Includes account persistence, configurable rewards/penalties, admin controls, and a marketplace with cooldowns. Supports perks like god mode, camouflage, damage boosts and more with JSON-based account saving. Perfect for creating progression systems in persistent servers."
+      },
+      "market_no_account_saving": {
+        "shortDescription": "Temporary perk market system",
+        "description": "Players earn money through gameplay to purchase temporary perks. All purchases reset when the player dies or the game ends. Includes admin money management commands."
+      },
+      "melee_kicker": {
+        "shortDescription": "Instantly kicks players killed by melee attacks",
+        "description": "A humorous mod where any melee kill results in the victim being kicked from the server. Can be configured to only allow admins to perform melee-kicks. Works with all melee weapons including flags and oddball."
+      },
+      "nitrous_boost": {
+        "shortDescription": "Toggleable vehicle nitrous boost with HUD and cooldown.",
+        "description": "Adds a nitrous boost system for vehicles: activate with the flashlight key, temporarily increases velocity, manages a finite nitrous meter, and shows nitrous status on a HUD with automatic cooldown and regeneration."
+      },
+      "no_damage": {
+        "shortDescription": "Player invulnerability toggle system",
+        "description": "Lets players toggle damage immunity on/off via command. Works by manipulating game memory bits to prevent damage application."
+      },
+      "portal_gun_type_1": {
+        "shortDescription": "Shoot-to-teleport system that works in vehicles",
+        "description": "Advanced teleportation system that lets players instantly teleport to where they shoot. Works both on foot and in vehicles. Includes admin controls, persistent states, and customizable messages."
+      },
+      "portal_gun_type_2": {
+        "shortDescription": "Crouch-and-shoot teleportation system",
+        "description": "Teleportation system requiring players to crouch before shooting to activate. Includes admin controls, persistent states, and customizable messages. Designed for on-foot gameplay only."
+      },
+      "rage_quit": {
+        "shortDescription": "Detects and announces rage quits after deaths",
+        "description": "Identifies when players quit after being killed or during short play sessions, broadcasting humorous announcements. Includes configurable detection windows and customizable messages."
+      },
+      "random_grenades": {
+        "shortDescription": "Grenade distribution system",
+        "description": "Randomizes grenade quantities on player spawn with configurable ranges. Supports both random generation and map-specific presets for frag and plasma grenades."
+      },
+      "random_name": {
+        "shortDescription": "Replaces player names with random alternatives",
+        "description": "Assigns configurable random names to players based on name categories. Maintains unique name assignments during gameplay sessions."
+      },
+      "rank_system": {
+        "shortDescription": "Advanced ranking and progression system with persistent stats and leaderboards.",
+        "description": "Tracks player performance, awards credits for actions, and manages a multi-tier rank and grade system. Supports credit bonuses, penalties, leaderboards, and admin rank management. Stats persist across restarts using a JSON database. Highly configurable with adjustable ranks, thresholds, and credit events."
+      },
+      "remove_grenades": {
+        "shortDescription": "Gametype-specific grenade removal",
+        "description": "Disables grenade spawning for specified gametypes while maintaining pickup functionality. Ideal for SWAT and other precision-based game modes."
+      },
+      "replace_weapon_projectile": {
+        "shortDescription": "Modifies weapon projectiles with custom effects",
+        "description": "Lets server admins to replace default weapon projectiles with custom ones, including damage multiplier adjustments. Supports all standard weapons and vehicles."
+      },
+      "rocket_launcher_malfunction": {
+        "shortDescription": "Random explosive failures for rocket launcher users",
+        "description": "Causes rocket launchers to spontaneously explode at random intervals, for chaotic gameplay. Includes configurable explosion frequency and notification messages."
+      },
+      "roll_the_dice": {
+        "shortDescription": "Random effect generator with 5 possible outcomes",
+        "description": "Players can gamble with a chance-based system that gives random rewards or punishments. Includes vehicle spawning, weapon assignments, inventory wipes, temporary shields, and player launches."
+      },
+      "self_destruction": {
+        "shortDescription": "Flashlight-activated suicide explosion",
+        "description": "Lets players trigger a powerful explosion centered on themselves using the flashlight key. Includes cooldown timer, visual effects, and projectile count."
+      },
+      "server_fun_plus": {
+        "shortDescription": "Collection of 12+ humorous admin tools",
+        "description": "Gives administrators with a suite of entertaining commands including player rocketing, forced chat, fake join/quit messages, random teleportation, slapping, spamming, zapping, god broadcasting, nuking, color changing, and client crashing."
+      },
+      "shield_regen": {
+        "shortDescription": "Immediate shield recharge after taking damage",
+        "description": "Removes the shield recharge delay, causing shields to begin regenerating immediately after taking damage. Configurable delay timer."
+      },
+      "spawn_from_sky": {
+        "shortDescription": "Players spawn high above map with parachute effect",
+        "description": "Drops players from the sky at spawn locations with temporary god mode until landing. Includes pre-configured spawn points for all standard maps."
+      },
+      "spawn_protection": {
+        "shortDescription": "Temporary invulnerability after respawning",
+        "description": "Grants players a configurable period of invulnerability after spawning. Optional setting to prevent protected players from dealing damage."
+      },
+      "spawn_where_killed": {
+        "shortDescription": "Players respawn at their death locations",
+        "description": "Modifies spawn system so players reappear exactly where they died, creating intense revenge opportunities. Works for both foot and vehicle deaths."
+      },
+      "sprint_system": {
+        "shortDescription": "Stamina-based sprinting with exhaustion effects",
+        "description": "Adds realistic sprinting with stamina management, speed boosts, exhaustion penalties, and HUD feedback. Activated by flashlight key with fully customizable parameters."
+      },
+      "stun_grenades": {
+        "shortDescription": "Converts grenades into stunning weapons",
+        "description": "Modifies all grenade types to temporarily slow victims on explosion. Includes different duration effects for frag, plasma, and stuck plasma grenades."
+      },
+      "super_jump": {
+        "shortDescription": "Improved jumping with cooldown",
+        "description": "Lets players jump significantly higher than normal with a configurable cooldown period between jumps. Can be toggled on/off with commands."
+      },
+      "tactical_airstrike": {
+        "shortDescription": "Call in airstrikes after killstreaks",
+        "description": "Players who achieve a 5-kill streak can call in devastating airstrikes with three different targeting modes. Includes map-specific strike locations, configurable projectile counts, and team-based restrictions where applicable."
+      },
+      "tactical_insertion": {
+        "shortDescription": "Set custom spawn points during gameplay",
+        "description": "Lets players set their next spawn location using a command. Includes limited uses per game, coordinate precision, and spawn confirmation messages. Players must be alive to set their insertion point."
+      },
+      "tea_bagging": {
+        "shortDescription": "Automatically detects and announces tea-bagging behavior",
+        "description": "Monitors player crouching near corpses and triggers humorous announcements when tea-bagging is detected. Includes configurable detection radius, required crouch count, cooldown periods, and a variety of customizable taunt messages. Includes admin toggle functionality."
+      },
+      "truce": {
+        "shortDescription": "Lets players establish temporary peace agreements",
+        "description": "Enables players to request, accept, or deny truces with opponents, preventing mutual damage while active. Includes request management, configurable privilege levels, persistent truce data across maps, and all-in-one status tracking. Includes commands for managing active truces and pending requests."
+      },
+      "uber": {
+        "shortDescription": "Team vehicle summoning system",
+        "description": "Lets players summon themselves into teammates' vehicles with configurable seat priority, cooldowns, and restrictions. Supports vehicle validation, auto-ejection, crouch activation, and call limits."
+      },
+      "vanish": {
+        "shortDescription": "Advanced player invisibility system",
+        "description": "Gives all-in-one vanish mode with configurable stealth includes including invisibility, camouflage, speed boosts, invincibility, radar hiding, and objective restrictions. Includes warning system for objective carriers and admin controls."
+      },
+      "vehicle_fuel": {
+        "shortDescription": "Adds realistic fuel consumption, refueling stations, and an on-screen fuel gauge for vehicles.",
+        "description": "Implements a per-vehicle fuel system with configurable maximum fuel and consumption rates. Vehicles consume fuel based on speed, can refuel at designated stations, and display a live fuel gauge to the driver. Vehicles enter a reduced 'snail mode' instead of stopping when out of fuel. Supports multiple maps with map-specific refueling stations and adjustable refuel rate and station radius."
+      },
+      "weapon_durability_jam_system": {
+        "shortDescription": "Realistic weapon degradation and malfunction mechanics",
+        "description": "Implements all-in-one weapon durability system with progressive decay, jamming mechanics, and weapon-specific failure rates. Includes include melee-based jam clearing, ammo state preservation, overheat prevention, and degradation rates per weapon type."
+      },
+      "weighted_weapons": {
+        "shortDescription": "Realistic weapon weight and stamina mechanics",
+        "description": "Implements weapon-based movement penalties with configurable weight values for each weapon type. Includes a all-in-one stamina system that depletes during movement and regenerates while resting, with visual feedback. Includes exhaustion penalties and supports both individual weapon and combined loadout weight calculations."
+      }
+    },
+    "gametypes": {
+      "attrition": {
+        "shortDescription": "Limited-life team deathmatch with revival mechanics",
+        "description": "Implements Halo Infinite's Attrition game mode with limited lives per team and player revival mechanics. Players can revive teammates by crouching over their death orbs, represented by floating skulls. Includes visual revival progress indicators, team-based restrictions, and revival timing."
+      },
+      "battle_royale": {
+        "shortDescription": "",
+        "description": ""
+      },
+      "capture_the_flag": {
+        "shortDescription": "Adds CTF gameplay to Slayer modes",
+        "description": "Transforms any Slayer (FFA or Team) game into a Capture the Flag experience. Spawns a single flag that players must return to any base to score points. Includes configurable scoring, flag respawning, capture points for all standard maps, and team/FFA support. Perfect for adding objective-based gameplay to traditional deathmatch modes."
+      },
+      "cranked": {
+        "shortDescription": "Kill-chained speed boost with timed explosion mechanic",
+        "description": "Implements Call of Duty's Cranked game mode where players gain speed and damage boosts after kills but must chain kills within a time limit or explode. Includes per-map configuration, visual countdown timers, explosive death effects, and boost parameters including duration, speed multiplier, and damage bonus."
+      },
+      "divide_and_conquer": {
+        "shortDescription": "Team conversion deathmatch mode",
+        "description": "Implements a unique team-switching mechanic where killing opponents converts them to your team. Includes team balancing, configurable player requirements, auto game start conditions, and victory detection when one team eliminates the other. Includes team switch announcements and auto map rotation on game completion."
+      },
+      "frag_nation": {
+        "shortDescription": "Grenade-focused combat with resource management",
+        "description": "A grenade-centric game mode where players start with limited grenades and must strategically manage their explosive resources. Includes kill-based grenade rewards, melee-only combat when out of grenades, configurable starting loadouts, and customizable victory conditions. Includes weapon/vehicle restrictions and balanced plasma pistol as primary weapon for all players."
+      },
+      "gun_game": {
+        "shortDescription": "Weapon progression deathmatch with demotion mechanics",
+        "description": "Implements a competitive weapon progression system where players advance through predefined weapon tiers by scoring kills. Includes include demotion on suicide/backtap, configurable starting loadouts, infinite ammo option, auto weapon assignment, and multiple end-game scenarios. Includes leaderboard tracking and admin controls for game management."
+      },
+      "hunter_prey": {
+        "shortDescription": "Flag-based survival free-for-all",
+        "description": "A competitive free-for-all mode where players battle to control a central flag. Includes timed scoring based on flag possession, auto flag respawning, and map-specific flag locations. Includes live scoring updates, end-game leaderboards, and match duration. Designed for classic Halo maps with optimized flag placement coordinates."
+      },
+      "juggernaut": {
+        "shortDescription": "Power role survival with improved juggernaut abilities",
+        "description": "A game mode where one player becomes an overpowered Juggernaut with improved health, speed, damage and regeneration. Includes timed role rotation, auto power balancing, and attributes. Includes silent kills for role transitions, visual feedback, and works with all game types. The Juggernaut role passes to the killer when defeated or after time expiration."
+      },
+      "kill_confirmed": {
+        "shortDescription": "Team objective mode with dog tag collection",
+        "description": "Implements Call of Duty's Kill Confirmed mode where teams must collect enemy dog tags to score points. Includes tag confirmation/denial mechanics, timed tag despawns, team scoring notifications, and match settings. Includes live scoring, top player tracking, and works with all standard Halo game types."
+      },
+      "melee_attack": {
+        "shortDescription": "Intense melee-only combat with instant kill headshots",
+        "description": "Forces pure melee combat by disabling all weapons and equipment. Includes skull strike instant kills, weapon pickup prevention, and damage settings. Includes forced oddball melee mechanics, restricted item management, and optimized respawn system for fast-paced gameplay."
+      },
+      "mode_destroy_gun": {
+        "shortDescription": "Weapon mode that destroys objects on impact",
+        "description": "Lets players with permission to toggle a mode where their weapon fire destroys any object it hits (vehicles, weapons, equipment). Includes object type feedback and admin controls."
+      },
+      "mode_enter_gun": {
+        "shortDescription": "Vehicle entry system using weapon fire",
+        "description": "Lets players enter vehicles by shooting them when the mode is active. Supports Warthog, Ghost, Banshee, Scorpion, and other vehicles. Includes admin toggle controls and visual feedback."
+      },
+      "mode_spawn_gun": {
+        "shortDescription": "Creative mode that spawns objects when firing",
+        "description": "Lets players spawn various game objects (weapons, vehicles, powerups) by shooting. Includes 40+ spawnable objects, auto cleanup on death, and manual cleanup commands. Perfect for creative gameplay and custom maps."
+      },
+      "needles_galore": {
+        "shortDescription": "Exclusive needler combat with customizable settings",
+        "description": "Forces all players to use needlers exclusively with configurable weapon properties. Includes equipment management, infinite ammo options, and complete vehicle/weapon restrictions. Includes auto weapon assignment, ammo management, and customizable gameplay modifiers for varied needler combat experiences."
+      },
+      "one_in_the_chamber": {
+        "shortDescription": "High-stakes pistol duel with limited ammunition",
+        "description": "Implements a tense pistol duel mode where players start with one bullet that guarantees instant kills. Includes bullet economy management (gain bullets for kills), melee combat when out of ammo, and damage settings. Includes weapon restrictions, precision-based gameplay mechanics, and risk/reward decision making."
+      },
+      "parkour": {
+        "shortDescription": "Timed obstacle course with checkpoints and leaderboards",
+        "description": "Implements a parkour course mode where players navigate custom maps using running, jumping, and checkpoint mechanics. Tracks player progress, start/finish lines, and checkpoint order. Includes statistics tracking (best times, average times, completions), respawn at last checkpoint, death limits, and full run resets. Includes optional visual aids like flags and oddball markers, and supports configurable map settings and player commands for teleporting, resetting, and viewing leaderboards."
+      },
+      "pre_game": {
+        "shortDescription": "Pre-match warmup mini-game with auto LO3 map reset",
+        "description": "A simple pre-match mini-game that runs before the main match. Includes: Assault Rifle with 2 Frag grenades, infinite time/score limits. Pre-game runs until 3 or more players have joined, then executes LO3 (Live on Three) and resets the map. After reset, standard game-type settings kick in. Works on all game modes (Slayer, CTF, Race, King, Oddball)."
+      },
+      "sabotage": {
+        "shortDescription": "Bomb planting/defusing team objective",
+        "description": "Teams compete to plant a bomb at the enemy base and defend their own. Includes: - Central bomb spawn with respawn timer - Crouch-based planting/defusing mechanics - Configurable timers for planting/defusing/explosion - Multiple map configurations with precise bomb locations - Explosion effects and score rewards"
+      },
+      "shotty_snipes": {
+        "shortDescription": "Shotgun and sniper rifle only combat",
+        "description": "Intense close-quarters and long-range combat with: - Exclusive shotgun and sniper rifle gameplay - All other weapons and vehicles disabled - Equipment (grenades/powerups) remains active - Configurable weapon settings: * Infinite ammo toggle * Bottomless clip option * Damage modifiers - auto weapon assignment on spawn"
+      },
+      "snipers_dream_team": {
+        "shortDescription": "All-in-one weapon and vehicle overhaul mod for Halo, enhancing projectile physics, damage, and explosion effects.",
+        "description": "This Lua script modifies core gameplay by overhauling 20+ weapons and vehicle armaments. It includes enhancements to projectile physics, custom explosion effects, weapon-specific modifications (AR, Pistol, Sniper, etc.), vehicle weapon upgrades (Warthog, Scorpion, Banshee), and grenade behavior tweaks. Technical implementation relies on direct memory modification of game tags and supports most game modes without external dependencies. Includes global gameplay tweaks while preserving overall balance, but it is not recommended for competitive play."
+      },
+      "survival_slayer": {
+        "shortDescription": "Time-based survival with kill rewards",
+        "description": "High-stakes survival mode with unique time mechanics: - Countdown life timer for all players - +10 seconds awarded per kill (configurable) - Victory condition: First to reach 15 kills (configurable) - live HUD timer display - Configurable settings: * Base lifespan duration * Time bonus per kill * Win condition threshold - Players die when their timer reaches zero"
+      },
+      "swat": {
+        "shortDescription": "Precision headshot-only combat",
+        "description": "Tactical shooter mode with strict rules: Headshot-only kills (pistol & sniper rifle). All other weapons and vehicles disabled. Powerups (camo/overshield) remain active. Configurable options: Infinite ammo/bottomless clip, Score limits, Weapon loadouts. Default 25-kill victory condition."
+      },
+      "tag": {
+        "shortDescription": "Role-swapping chase game",
+        "description": "Fast-paced tag minigame with unique mechanics: One 'Tagger' chases multiple 'Runners'. Successful tags transfer the Tagger role. Scoring system: Runners earn points over time, Tagger gets bonus points per tag. Configurable options: Auto-rotation timer, Movement speed modifiers, Score values, Game duration settings."
+      },
+      "team_defender": {
+        "shortDescription": "Objective-based team protection mode",
+        "description": "Strategic flag control gameplay with: Random flag spawn locations. Double team points while holding flag. +20 assist points per teammate kill. Team-based roles: Flag carrier (objective holder), Defenders (protect carrier), Attackers (reclaim objective). Configurable settings: Flag respawn timer, Point multipliers, Spawn locations, Game duration limits."
+      },
+      "t_slayer_team_spawns": {
+        "shortDescription": "Enforces team-specific spawning in Team Slayer",
+        "description": "Modifies spawn system to ensure players only spawn at their team's designated locations in Team Slayer game modes. Reads map spawn points and assigns them by team."
+      },
+      "zombies_advanced": {
+        "shortDescription": "Team-based zombie survival mode with alpha zombies, last-man-standing bonuses.",
+        "description": "Zombies Advanced is a fast-paced survival script where humans fight zombies. Zombies convert humans by killing them, with Alpha and Standard zombie types, improved team shuffling, Last Man Standing bonuses, configurable attributes, camouflage abilities, and vehicle restrictions. Victory is achieved when all humans are eliminated."
+      },
+      "zombies_standard": {
+        "shortDescription": "Classic team-based zombie survival mode with simple human vs zombie gameplay.",
+        "description": "Zombies Standard is a straightforward survival script where humans face off against zombies. Zombies convert humans upon killing them. Includes include basic team conversion mechanics, simple speed and respawn adjustments, camouflage for zombies, and victory when all humans are infected."
+      }
+    },
+    "modules": {
+      "map_coordinates": {
+        "shortDescription": "Library of spawn coordinates for all standard Halo maps",
+        "description": "A all-in-one coordinate library containing spawn points, teleport locations, and map-specific data for all standard Halo maps. Designed as a reusable module for other scripts that need map-specific positional data."
+      },
+      "pagination": {
+        "shortDescription": "Standalone pagination library for displaying tabular data in pages",
+        "description": "A reusable pagination module for displaying tabular data in configurable page sizes. Includes include page navigation, boundary checking, flexible formatting, and easy integration with existing scripts. Gives navigation hints for multi-page data sets."
+      },
+      "rcon_text": {
+        "shortDescription": "Advanced RCON message system with queuing and lifecycle management",
+        "description": "Advanced RCON message system for SAPP Halo Custom Edition servers. Includes: multi-format message support (single-line, multi-line, tables), priority-based message queuing (Low/Normal/High/Critical), configurable display modes (persistent, timed, repeating), message grouping and batch operations, player-specific and global messaging, conditional message display, and all-in-one message lifecycle management."
+      },
+      "score_handler": {
+        "shortDescription": "Advanced scoring system with custom point values",
+        "description": "Customizable scoring system that modifies points for different kill types (headshots, assassinations, etc.), game events (flag captures, betrayals), and includes special scoring for zombie modes and kill streaks."
+      },
+      "uber_vehicles": {
+        "shortDescription": "Vehicle configuration library defining seat roles, insertion order, and whitelisting",
+        "description": "A configuration library that defines vehicle properties for the Uber vehicle summoning system. Specifies vehicle tag paths, seat roles (driver/passenger/gunner), enabled/disabled status, display names, and insertion order for each vehicle. Acts as a whitelist determining which vehicles are available for Uber calls. Supports both stock and custom vehicles with per-vehicle seat filling priorities."
+      }
+    },
+    "notifications": {
+      "beep_on_join": {
+        "shortDescription": "Audible alert when players join",
+        "description": "Plays a system beep sound whenever a new player joins the server, providing an audible notification of player connections. Useful for server admins who want audio cues for player activity without visual monitoring."
+      },
+      "console_logo": {
+        "shortDescription": "Custom ASCII art display for server console",
+        "description": "Displays customizable ASCII art logos in the server console with variables, color coding, and auto centering."
+      },
+      "countdown_timer": {
+        "shortDescription": "Basic countdown timer for game events",
+        "description": "Simple countdown timer that displays remaining time to all players, primarily used for development and testing purposes."
+      },
+      "ctf_flag_position_logger": {
+        "shortDescription": "Logs CTF flag spawn coordinates for map data collection",
+        "description": "Logs precise coordinates of Capture The Flag (CTF) flag spawn points at the start of each game. Ideal for map data collection or custom CTF scripting. Uses memory signature scanning to locate flag positions and outputs formatted coordinate pairs to the server console."
+      },
+      "discord": {
+        "shortDescription": "Discord integration for server events",
+        "description": "All-in-one Discord integration system for server events, with configurable event types and message formatting. Requires https://github.com/Chalwk/SAPPDiscordBot to be installed."
+      },
+      "game_countdown": {
+        "shortDescription": "Displays remaining game time in HH:MM:SS format",
+        "description": "Tracks and converts in-game time limit to human-readable format, providing live countdown functionality for match duration."
+      },
+      "live_on_3": {
+        "shortDescription": "Competitive match countdown system with auto map reset",
+        "description": "Gives tournament-standard 'Live on 3' countdown functionality with map resets, customizable permissions, and temporary death message suppression for clean competitive play."
+      },
+      "notify_me": {
+        "shortDescription": "Improved server event notification system",
+        "description": "All-in-one terminal notification system with color-coded events, customizable formatting, and detailed player tracking. Includes ASCII art display and timestamp formatting."
+      },
+      "status_timer": {
+        "shortDescription": "Periodic player count display in console",
+        "description": "Automatically displays current player count and server capacity in the console at regular intervals (default: every 3 seconds)."
+      }
+    },
+    "utility": {
+      "auto_eject": {
+        "shortDescription": "Prevents players from entering vehicles by automatically ejecting them.",
+        "description": "A simple utility script that continuously monitors all players and forces them out of any vehicle they enter. Runs a 1-second polling loop to check each player's vehicle seat, automatically calling exit_vehicle if one is detected. Works across all maps and gametypes. Ideal for infantry-only game modes or servers where vehicles need to be completely disabled."
+      },
+      "auto_lead": {
+        "shortDescription": "Projectile lead control",
+        "description": "Automatically configures SAPP's no-lead setting per map/gametype combination. Supports all standard Halo projectiles with map-specific presets and gametype overrides. Adjusts settings during map rotations and gametype changes without manual intervention."
+      },
+      "block_replace_objects": {
+        "shortDescription": "Object management system for map customization",
+        "description": "Lets server admins to block or replace specific objects (weapons, vehicles, equipment) with per-map configuration and runtime control."
+      },
+      "block_team_damage": {
+        "shortDescription": "Complete friendly fire prevention system",
+        "description": "Blocks all team damage including weapons, grenades and vehicle collisions with configurable settings and live monitoring of damage attempts."
+      },
+      "command_spy": {
+        "shortDescription": "Admin command monitoring and logging system",
+        "description": "Tracks and logs all admin command usage in live with customizable notification levels, command blacklisting, and detailed logging options."
+      },
+      "custom_command_cooldowns": {
+        "shortDescription": "Advanced command rate-limiting system",
+        "description": "Implements customizable cooldown timers for specific commands with player-specific tracking, anti-spam protection, and detailed monitoring."
+      },
+      "custom_spawns": {
+        "shortDescription": "Custom player spawn point system",
+        "description": "Manages player spawn points per map and team, supports FFA mode, prevents overlapping spawns, caches spawn data for performance, and retries spawning if no valid point is available."
+      },
+      "custom_vehicle_spawner": {
+        "shortDescription": "Persistent vehicle management and respawn system",
+        "description": "Manages vehicle spawns with configurable locations, auto respawning when abandoned or destroyed, and position monitoring to prevent vehicle loss."
+      },
+      "custom_wdel": {
+        "shortDescription": "Modified weapon deletion that protects objective items",
+        "description": "Improved version of the standard wdel command that prevents accidental deletion of flag/oddball items while maintaining normal weapon removal functionality."
+      },
+      "cyborg_spawner": {
+        "shortDescription": "Novelty cyborg character spawn system",
+        "description": "Spawns decorative cyborg characters at predefined locations on various maps for aesthetic purposes."
+      },
+      "delay_skip": {
+        "shortDescription": "Prevents premature map skipping",
+        "description": "Enforces a minimum wait time before players can vote to skip the current map, with configurable delay duration and player notifications."
+      },
+      "dynamic_ping_kicker": {
+        "shortDescription": "Adaptive ping management system with player count-based thresholds",
+        "description": "Automatically monitors and enforces ping limits that adjust based on server population, with warning systems, admin immunity, and detailed logging capabilities."
+      },
+      "dynamic_race_laps": {
+        "shortDescription": "Automatically adjusts the lap score limit based on player count.",
+        "description": "Dynamically changes the lap score limit in race games depending on the number of players. It includes per-map configurations for small, medium, large, and very long tracks, ensuring balanced gameplay across different player counts. Supports auto announcements when the score limit changes."
+      },
+      "dynamic_score_limit": {
+        "shortDescription": "Automatically adjusts game score limits based on player count",
+        "description": "Intelligently modifies score requirements for all game types based on server population, with custom configurations for different game modes and team sizes."
+      },
+      "geo_location": {
+        "shortDescription": "Geolocate joining players and optionally block countries using IP API",
+        "description": "Geolocates players on join using ip-api.com with optional country blocking. Includes include: configurable display fields (country, region, city, ISP), admin notifications, player self-view, manual '/country' lookup command, cache with configurable TTL (default 1 hour), async HTTP requests, and blocked country list with custom kick messages. Supports debug IP override for testing. Requires Lua JSON parser and SAPP HTTP client."
+      },
+      "get_object_identity": {
+        "shortDescription": "Admin tool for inspecting in-game objects",
+        "description": "Gives detailed information about targeted objects including type, internal name, meta ID, and coordinates, with admin permission controls."
+      },
+      "get_server_name": {
+        "shortDescription": "Accesses and utilizes server name information",
+        "description": "Retrieves and displays the server name, with example implementation for welcome messages."
+      },
+      "item_spawner": {
+        "shortDescription": "Spawn weapons, vehicles, and items with seat and amount options.",
+        "description": "Advanced item spawning system for weapons, vehicles, equipment, bipeds, and projectiles with caching, cleanup, and paginated item listing."
+      },
+      "list_players": {
+        "shortDescription": "Displays detailed player information with configurable output format",
+        "description": "Gives admins with all-in-one player listings including IP addresses, team assignments, and connection status through simple chat commands with customizable display options."
+      },
+      "mapcycle_manager": {
+        "shortDescription": "All-in-one map rotation system with multiple cycle types and adjustments",
+        "description": "Powerful map rotation manager with size-based cycles, admin controls, auto player count adjustments, and extensive configuration options for customized server experiences."
+      },
+      "map_list": {
+        "shortDescription": "Displays current and upcoming map rotation information",
+        "description": "Gives players with detailed map cycle information including current/next maps and modes through intuitive chat commands, with custom mapcycle.txt configurations."
+      },
+      "map_list_with_map_spec": {
+        "shortDescription": "Improved map cycle monitoring with position tracking and spec indexing",
+        "description": "Gives all-in-one map rotation management with live tracking, position queries, and special indexing capabilities for tournament and custom game configurations."
+      },
+      "map_skip_tally": {
+        "shortDescription": "Tracks and persists map skip votes across game sessions with detailed statistics",
+        "description": "Advanced skip voting system that maintains vote counts between matches, with player-specific tracking, JSON data persistence, and admin query commands for competitive server management."
+      },
+      "map_vote_system": {
+        "shortDescription": "Improved replacement for SAPP's default voting with expanded includes and customization",
+        "description": "All-in-one voting system supporting unlimited map options, re-voting, streak protection, and timing controls with detailed player feedback and vote tracking."
+      },
+      "object_spawner": {
+        "shortDescription": "Map-specific object placement system",
+        "description": "Spawns predefined objects at specific coordinates with rotation control. Supports multiple objects per map with persistent configurations."
+      },
+      "on_teleport": {
+        "shortDescription": "Player teleportation detection system",
+        "description": "Developer tool that detects player teleportation events by monitoring position changes. Useful for debugging and anti-cheat systems."
+      },
+      "per_map_score_limits": {
+        "shortDescription": "Sets the score limit at game start based on the map",
+        "description": "Applies a fixed score limit automatically when a game starts. Each map can have a predefined limit, or a default value will be used if not listed. Useful for Race and other gametypes where consistent score limits are desired."
+      },
+      "play_time": {
+        "shortDescription": "All-in-one player session tracking system",
+        "description": "Tracks and displays detailed playtime statistics including total hours, join counts, and session duration. Supports individual and server-wide queries with JSON data persistence."
+      },
+      "race_assistant": {
+        "shortDescription": "Vehicle enforcement system for race gametypes",
+        "description": "Ensures players use vehicles in race modes with configurable grace periods, warnings, and penalties. Includes safe zones, admin exemptions, and multi-stage violation handling."
+      },
+      "reg_to_play": {
+        "shortDescription": "Enforces mandatory player registration with timed kick enforcement.",
+        "description": "Requires all players to register within a configurable time window upon joining. Supports password verification, persistent player data storage, auto kicks for unregistered players, and permission-based exemptions. Stores registration data in players.txt and optionally saves immediately or at game end."
+      },
+      "restart_mapcycle": {
+        "shortDescription": "Auto mapcycle reset system",
+        "description": "Restarts the server mapcycle after configurable delay when all players leave. Prevents empty server stagnation while maintaining current rotation."
+      },
+      "script_manager": {
+        "shortDescription": "Script loader by map/gametype",
+        "description": "Automatically loads and unloads scripts based on current map and gametype. Supports custom script configurations per map/gametype combination with error handling."
+      },
+      "seed_score_protection": {
+        "shortDescription": "Prevents score loss when killing bot/seed players",
+        "description": "Protects player stats when killing seed/bot clients by preventing score deductions. Maintains kill/death ratios while allowing seed elimination. Includes configurable bot names and negative score prevention."
+      },
+      "server_logger": {
+        "shortDescription": "Advanced server logging system with customizable event tracking",
+        "description": "All-in-one logging solution that records game events (joins, deaths, commands) with timestamped entries. Includes configurable event types, sensitive command filtering, and detailed player tracking including pirated client detection."
+      },
+      "server_name_changer": {
+        "shortDescription": "Automated server name rotation system",
+        "description": "Cycles through a list of custom server names at configurable intervals. Supports blank names and special characters in server names."
+      },
+      "set_respawn_time": {
+        "shortDescription": "Respawn time configuration system",
+        "description": "Lets per-map and per-gametype respawn time configuration with admin override capability. Supports both global and player-specific settings with silent execution mode."
+      },
+      "sync_admins": {
+        "shortDescription": "Remote synchronization of admin/user files",
+        "description": "Synchronizes admins.txt and users.txt with a remote server, with auto fallback to local backups when offline. Includes HTTP requests, validation, and backup systems."
+      },
+      "sync_your_files": {
+        "shortDescription": "Remote file synchronization with backup fallback",
+        "description": "Synchronizes specified files with a remote server, with auto local backup fallback when offline. Supports any file type, includes validation via keyword matching, and includes HTTP functionality."
+      },
+      "teleport_manager": {
+        "shortDescription": "Advanced teleport system with persistent warps",
+        "description": "All-in-one teleportation system with map-specific warp points, location history tracking, and admin controls. Supports warp creation, deletion, listing, and includes protection against accidental overwrites."
+      },
+      "timed_server_password": {
+        "shortDescription": "Auto password removal after configurable duration",
+        "description": "Automatically removes the server password after a set time period (default: 5 minutes). Useful for temporary private sessions or events. Notifies players when password is removed."
+      },
+      "track_master": {
+        "shortDescription": "Live race tracking and leaderboard system for Halo maps.",
+        "description": "Track Master is an advanced race tracking and leaderboard system for Halo custom games. It monitors individual lap times for each player in live, records personal bests, map records, and global records, and calculates average lap times and total laps per player. The script maintains persistent JSON storage for both all-time and current-game statistics. Players can use in-game commands to view stats, top 5 best laps, and current race rankings. Personal bests and map record achievements are automatically announced in-game. Supports both FFA and Team race types."
+      },
+      "vehicle_blocker_v1": {
+        "shortDescription": "Map-based vehicle restriction system",
+        "description": "Controls vehicle access by map with configurable seat restrictions (driver/passenger/gunner). Includes per-map settings, auto ejection, and customizable delay before removal."
+      },
+      "vehicle_blocker_v2": {
+        "shortDescription": "Improved vehicle restriction system",
+        "description": "Improved version with better vehicle handling, player teleportation, and more granular control. Maintains map-specific configurations while adding smoother player transitions when blocked from vehicles."
+      },
+      "vehicle_tag_utility": {
+        "shortDescription": "Records vehicle tag names to a file for server analysis",
+        "description": "This utility lets server operators to capture and record vehicle tag names while players are seated in vehicles. When a player uses the 'tag' command, the script writes the vehicle's tag path along with the current map name to a text file. This is useful for analyzing which vehicles are being used on your server, tracking custom vehicle implementations, or debugging vehicle-related issues. The data is appended to vehicle_tag_utility.txt in the sapp directory for easy access and review."
+      },
+      "vote_kick": {
+        "shortDescription": "Player-driven moderation with configurable voting thresholds",
+        "description": "Implements a democratic kick system allowing players to vote out disruptive teammates. Includes include percentage-based thresholds, admin immunity, vote tracking, cooldown periods, and detailed player notifications. Supports anonymous voting and vote cancellation."
+      },
+      "weapon_assigner": {
+        "shortDescription": "Contextual weapon loadout management system",
+        "description": "Gives map-specific and game-mode-aware weapon distribution with multi-weapon loadouts (up to 4 per player). Includes team-specific configurations (Red/Blue/FFA), weapon tag validation, and fallback configurations. Supports custom default weapons and flexible assignment rules."
+      }
     }
   }
 }
