@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/images/logo.png" alt="SPCLib - Halo, SAPP, Phasor" width="250">
+  <img src="assets/images/logo.jpg" alt="SPCLib - Halo, SAPP, Phasor" width="250">
 
   <br>
 
