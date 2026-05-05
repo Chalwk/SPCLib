@@ -100,7 +100,7 @@ I'd like to recognize these amazing people:
 
 ## License
 
-By contributing to SPCLib, you agree that your contributions will be licensed under the same terms as the repository.
+By contributing to SPCLib, you agree that your contributions will be licensed under the same terms as the repository.<br>
 For details, see the [LICENSE](LICENSE) file.
 
 ---
