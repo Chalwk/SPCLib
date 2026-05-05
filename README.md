@@ -70,7 +70,7 @@ under-the-hood features.
 SAPP and Phasor are no longer actively maintained, but stable and complete in their final released versions.
 
 **[Chimera](https://github.com/SnowyMouse/chimera)** is a client-side mod for Halo Custom Edition, PC, and Trial that
-also exposes a server-side Lua API. Developed by SnowyMouse, it is actively maintained and provides event hooks,
+also exposes a Lua API. Developed by SnowyMouse, it is actively maintained and provides event hooks,
 commands, built-in map downloads, and dozens of quality-of-life fixes. Chimera scripts are fully supported in SPCLib.
 
 ---
