@@ -1,4 +1,3 @@
----@diagnostic disable: param-type-mismatch, assign-type-mismatch
 --[[
 =====================================================================================
 SCRIPT NAME:      phasor_util.lua
