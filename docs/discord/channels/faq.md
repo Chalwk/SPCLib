@@ -1,9 +1,9 @@
-## Welcome to the [SPCLib](https://github.com/Chalwk/SPCLib) Discord!
+## Welcome to the [SPCLib](https://github.com/Chalwk/SPCLib) community hub!
 
-This server is the **official community for the SPCLib GitHub repo**: a curated collection of Lua scripts and resources for the **SAPP** and **Phasor** dedicated server extensions, and the **Chimera** client-side mod, for **Halo: CE** and **Halo: PC**.
+**SPCLib** *(SAPP, Phasor and Chimera Library)* is the largest public archive of Lua scripts and resources for the **SAPP** and **Phasor** dedicated server extensions, and the **Chimera** client-side mod, for Halo PC and Custom Edition. All Lua scripts in **SPCLib** are written and curated by Chalwk unless otherwise noted in a community contribution folder.
 
 **Purpose**
-To provide a central hub for server administrators and operators (using **SAPP**, **Phasor**, or **Chimera**) to access tools, share knowledge, and collaborate on enhancing their multiplayer server experience.
+A place for players, server operators, and developers to share tools, troubleshoot issues, and collaborate on improving Halo multiplayer servers.
 
 **Community Activities**
 * 📂 **Discuss & Explore:** Review and talk about scripts from the SPCLib repo.
@@ -28,6 +28,7 @@ Shoutout to all Halo clans, past and present.
 **Q1: What scripts can I use?**
 * [**SAPP Scripts**](https://github.com/Chalwk/SPCLib/tree/master/sapp): Utilities, Custom Games, Attractive features
 * [**Phasor Scripts**](https://github.com/Chalwk/SPCLib/tree/master/phasor): Legacy scripts for older servers
+* [**Chimera**](https://github.com/Chalwk/SPCLib/tree/master/chimera): Chimera scripts
 * [**Releases**](https://github.com/Chalwk/SPCLib/releases): Larger, more complex projects
 
 **Q2: How do I get help?**

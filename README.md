@@ -47,12 +47,13 @@ port forwarding, memory offsets, and more. **All SAPP/Phasor Lua scripts are sti
 
 ## Overview
 
-**SPCLib** (SAPP, Phasor and Chimera Library) is the largest public archive of Lua scripts and resources for the
-**SAPP** and **Phasor** dedicated server extensions, and the **Chimera** client-side mod (which also supports Lua
-scripting), for Halo PC and Custom Edition.
+**SPCLib** *(SAPP, Phasor and Chimera Library)* is the largest public archive of Lua scripts and resources for the SAPP
+and Phasor dedicated server extensions, and the Chimera client-side mod, for Halo PC and Custom Edition. All Lua scripts
+in **SPCLib** are written and curated by Chalwk, unless otherwise noted in a
+community [contribution folder](./community_contributions).
 
-If you are a server administrator or operator using SAPP, Phasor, or Chimera, you will find a wide range of scripts,
-guides, and insights to enhance, customize, and extend your multiplayer server experience.
+Here, you will find a wide range of scripts, guides, and insights to enhance, customize, and extend your multiplayer
+server experience.
 
 ---
 
@@ -65,7 +66,7 @@ customization capabilities for dedicated servers.
 scripting support, anti-cheat tools, event hooks, command handling, player management, logging, and numerous
 under-the-hood features.
 
-**Phasor** is an extension with similar goals.
+**Phasor** is an earlier extension with similar goals.
 
 SAPP and Phasor are no longer actively maintained, but stable and complete in their final released versions.
 
