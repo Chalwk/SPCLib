@@ -63,6 +63,26 @@ local util = {
             devmode_patch2 = 0x47DFBC,
             hash_duplicate_patch = 0x5302E6
         }
+    },
+    player_colours = {
+        white = 0,
+        black = 1,
+        red = 2,
+        blue = 3,
+        grey = 4,
+        yellow = 5,
+        green = 6,
+        pink = 7,
+        purple = 8,
+        cyan = 9,
+        cobalt = 10,
+        orange = 11,
+        teal = 12,
+        sage = 13,
+        brown = 14,
+        tan = 15,
+        maroon = 16,
+        salmon = 17
     }
 }
 
@@ -114,6 +134,13 @@ end
 -- PLAYER STATE / INFO
 ----------------------------------------------------------------------
 
+-- Returns the player's biped object and its ID, or nil if dead/invalid
+local function get_player_biped(id)
+    local obj_id = getplayerobjectid(id)
+    if not obj_id or obj_id == 0 then return nil end
+    return getobject(obj_id), obj_id
+end
+
 --- Returns true if the player is alive (has a valid biped object).
 -- @param id (number)
 -- @return boolean
@@ -126,10 +153,7 @@ end
 -- @param id (number)
 -- @return number x, number y, number z, or nil if player invalid
 function util.get_player_pos(id)
-    local obj_id = getplayerobjectid(id)
-    if not obj_id or obj_id == 0 then return nil end
-
-    local obj = getobject(obj_id)
+    local obj, obj_id = get_player_biped(id)
     if not obj then return nil end
 
     local x = readfloat(obj, 0x5C)
@@ -158,13 +182,9 @@ end
 -- @param id (number)
 -- @return boolean (true if invisible) or false (not invisible)
 function util.is_player_camouflaged(id)
-    local player_object_id = getplayerobjectid(id)
-    if not player_object_id or player_object_id == 0 then return nil end
-
-    local player_object = getobject(player_object_id)
-    if not player_object then return nil end
-
-    return readfloat(player_object + 0x37C) == 1.0
+    local obj = get_player_biped(id)
+    if not obj then return nil end
+    return readfloat(obj + 0x37C) == 1.0
 end
 
 --- Returns a table with the player's kill, death, assist and streak counts.
@@ -186,10 +206,7 @@ end
 -- @param id (number)
 -- @return number vehicle_object_id or nil
 function util.get_player_vehicle(id)
-    local obj_id = getplayerobjectid(id)
-    if not obj_id then return nil end
-
-    local obj = getobject(obj_id)
+    local obj, obj_id = get_player_biped(id)
     if not obj then return nil end
 
     local vehicle_id = readdword(obj + 0x11C)
@@ -209,9 +226,7 @@ end
 -- @param id (number)
 -- @return number|nil health, or nil if player dead/invalid
 function util.get_player_health(id)
-    local obj_id = getplayerobjectid(id)
-    if not obj_id or obj_id == 0 then return nil end
-    local obj = getobject(obj_id)
+    local obj = get_player_biped(id)
     if not obj then return nil end
     return readfloat(obj + 0xE0)
 end
@@ -220,9 +235,7 @@ end
 -- @param id (number)
 -- @return number|nil shields, or nil if player dead/invalid
 function util.get_player_shields(id)
-    local obj_id = getplayerobjectid(id)
-    if not obj_id or obj_id == 0 then return nil end
-    local obj = getobject(obj_id)
+    local obj = get_player_biped(id)
     if not obj then return nil end
     return readfloat(obj + 0xE4)
 end
@@ -231,9 +244,7 @@ end
 -- @param id (number)
 -- @param value (number) desired health level
 function util.set_player_health(id, value)
-    local obj_id = getplayerobjectid(id)
-    if not obj_id or obj_id == 0 then return end
-    local obj = getobject(obj_id)
+    local obj = get_player_biped(id)
     if obj then
         writefloat(obj + 0xE0, value)
     end
@@ -243,9 +254,7 @@ end
 -- @param id (number)
 -- @param value (number) desired shield level
 function util.set_player_shields(id, value)
-    local obj_id = getplayerobjectid(id)
-    if not obj_id or obj_id == 0 then return end
-    local obj = getobject(obj_id)
+    local obj = get_player_biped(id)
     if obj then
         writefloat(obj + 0xE4, value)
     end
@@ -266,14 +275,12 @@ end
 -- @param slot (number|nil) weapon slot 1-4, or nil for current weapon
 -- @return number weapon_object_id or 0xFFFFFFFF if none/invalid
 function util.get_player_weapon(id, slot)
-    local obj_id = getplayerobjectid(id)
-    if not obj_id or obj_id == 0 then return 0xFFFFFFFF end
-    local obj = getobject(obj_id)
+    local obj, obj_id = get_player_biped(id)
     if not obj then return 0xFFFFFFFF end
 
     -- If the player is in a vehicle, return the vehicle's weapon.
-    local vehicle_id = readdword(obj + 0x11C)
-    if vehicle_id ~= 0xFFFFFFFF then
+    local vehicle_id = util.get_player_vehicle(id)
+    if vehicle_id then
         local veh_obj = getobject(vehicle_id)
         if veh_obj then
             return readdword(veh_obj + 0x2F8)
@@ -369,8 +376,7 @@ function util.get_players_by_expression(expression, self_id)
                 if x then
                     local d = (x - sx) ^ 2 + (y - sy) ^ 2 + (z - sz) ^ 2
                     if d > max_dist then
-                        max_dist = d
-                        farthest = i
+                        max_dist, farthest = d, i
                     end
                 end
             end
@@ -412,28 +418,6 @@ function util.get_players_by_expression(expression, self_id)
     end
 end
 
--- Colour lookup table used by get_players_by_expression and get_player_color
-util.player_colours = {
-    white = 0,
-    black = 1,
-    red = 2,
-    blue = 3,
-    grey = 4,
-    yellow = 5,
-    green = 6,
-    pink = 7,
-    purple = 8,
-    cyan = 9,
-    cobalthidden = 10,
-    orange = 11,
-    teal = 12,
-    sage = 13,
-    brown = 14,
-    tan = 15,
-    maroon = 16,
-    salmon = 17
-}
-
 --- Returns the player's current colour index (0-17) as seen by others.
 -- @param id (number)
 -- @return number|nil colour index, or nil if player invalid
@@ -447,11 +431,7 @@ end
 -- @param id (number) player index
 -- @return table object_struct, number object_id, or nil if invalid/dead
 function util.get_player_object(id)
-    local obj_id = getplayerobjectid(id)
-    if not obj_id or obj_id == 0 then return nil end
-    local obj = getobject(obj_id)
-    if not obj then return nil end
-    return obj, obj_id
+    return get_player_biped(id)
 end
 
 --- Returns the vehicle struct and object ID of the vehicle the player is in.
@@ -502,7 +482,7 @@ function util.set_player_speed(id, speed)
     writefloat(p + 0x6C, speed)
 end
 
---- Smart object coordinate retrieval. If the object is attached to a parent
+--- Object coordinate retrieval. If the object is attached to a parent
 -- (e.g. a player in a vehicle), returns the parent's coordinates instead.
 -- @param object_id (number) the object ID
 -- @return number x, number y, number z, or nil if object invalid
@@ -514,9 +494,7 @@ function util.get_object_coords(object_id)
     local parent_id = readdword(obj + 0x11C)
     if parent_id ~= 0xFFFFFFFF then
         local parent_obj = getobject(parent_id)
-        if parent_obj then
-            obj = parent_obj
-        end
+        if parent_obj then obj = parent_obj end
     end
 
     return readfloat(obj + 0x5C), readfloat(obj + 0x60), readfloat(obj + 0x64)
@@ -1224,7 +1202,7 @@ function util.get_game_time_elapsed()
 end
 
 ----------------------------------------------------------------------
--- ADVANCED / BIPED UTILITIES
+-- MISC
 ----------------------------------------------------------------------
 
 --- Returns the world position of a biped body part given its offset into the biped
@@ -1239,11 +1217,5 @@ function util.get_body_part_position(biped_object, body_part_offset)
     local z = readfloat(biped_object, body_part_offset + 0x30)
     return x, y, z
 end
-
-----------------------------------------------------------------------
--- MISC
-----------------------------------------------------------------------
-
--- todo
 
 return util
