@@ -1426,7 +1426,7 @@ function util.set_player_score(player_id, score)
     end
 end
 
---- Returns the team score for the given team (0=red, 1=blue) – gametype-dependent.
+--- Returns the team score for the given team (0=red, 1=blue) - gametype-dependent.
 -- @param team (number) 0 or 1
 -- @return number score
 function util.get_team_score(team)

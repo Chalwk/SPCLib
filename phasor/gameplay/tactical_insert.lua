@@ -94,7 +94,7 @@ function OnServerChat(id, _, message)
             privatesay(id, "No insertion point set. Use /tac set to create one.")
         end
     else
-        privatesay(id, "Usage: /tac [set|clear|status] – toggles or manages your respawn point.")
+        privatesay(id, "Usage: /tac [set|clear|status] - toggles or manages your respawn point.")
     end
 
     return false

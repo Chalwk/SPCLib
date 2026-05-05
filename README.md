@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="misc/logo.jpg" alt="SPCLib - SAPP, Phasor and Chimera Library" width="250">
+  <img src="assets/images/logo.png" alt="SPCLib - Halo, SAPP, Phasor" width="250">
 
   <br>
 
@@ -30,8 +30,8 @@ port forwarding, memory offsets, and more. **All SAPP/Phasor Lua scripts are sti
 
 * [1. Overview](#overview)
 * [2. What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
-* [3. Scripts, Releases and Knowledge Base](#scripts-releases-and-knowledge-base)
-* [4. Community Favorites](#community-favorites)
+* [3. SAPP Version Archive](#sapp-archive--mirrors)
+* [4. Scripts, Releases and Knowledge Base](#scripts-releases-and-knowledge-base)
 * [5. Integration Tools](#integration-tools)
     * [5.1 SAPPDiscordBot](#sappdiscordbot)
 * [6. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
@@ -77,9 +77,35 @@ commands, built-in map downloads, and dozens of quality-of-life fixes. Chimera s
 
 ---
 
+## SAPP Archive & Mirrors
+
+The official SAPP website (halo.isimaginary.com) is no longer accessible. To ensure that historical versions remain
+available for the community, this repository also serves as a mirror for all released SAPP binaries.
+
+You'll find the full archive of SAPP versions - from earlier builds all the way to the final release in the
+**[`./assets/sapp_downloads`](./assets/sapp_downloads)** folder. These files are unmodified and provided as-is for
+archival, preservation, and server‑maintenance purposes.
+
+Additionally, this repository hosts a mirror of the official SAPP documentation PDF
+files: [Revision 2.4](docs/SAPP%20Documentation%20Revision%202.4.pdf)
+and [Revision 2.5](docs/SAPP%20Documentation%20Revision%202.5.pdf). These documents were written by 002 (SnowyMouse) and
+are preserved here for historical reference as the original distribution site is no longer available.
+
+The community memory offsets list ([offsets.lua](reference/offsets.lua)), originally created by Wizard, is also preserved
+here as a reference. This file is provided archival purposes only.
+
+> **License notice:** The [MIT license](LICENSE) of this repository applies to the original content (Lua scripts,
+> documentation, etc.). The SAPP binaries themselves are closed‑source software created by sehé, and the mirrored
+> documentation PDFs were authored by 002 (SnowyMouse). Their inclusion here does not imply any change to their original
+> licenses. This mirror exists purely to keep these resources accessible now that the original distribution channel is
+> gone.
+
+---
+
 ## Scripts, Releases and Knowledge Base
 
 ### Structure:
+
 - **admin:** Strictly moderation & enforcement (bans, kicks, anti-cheat, rule enforcement)
 - **chat:** Chat formatting, messages, and command handling
 - **gameplay:** Gameplay mechanics, modifiers, and fun items
@@ -194,3 +220,8 @@ Enjoy these projects? Help me continue development:
 ## License
 
 SPCLib is licensed under the [MIT License](LICENSE).
+
+---
+
+Halo is a trademark of Microsoft. This project is not affiliated with or endorsed by Microsoft or its subsidiaries,
+including Halo Studios (formerly 343 Industries).

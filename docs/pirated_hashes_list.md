@@ -1,3 +1,5 @@
+# This document lists known CD-key hashes associated with cracked copies of Halo. These hashes can be used for detection, filtering, or administrative purposes within server environments.
+
 * 388e89e69b4cc08b3441f25959f74103
 * 81f9c914b3402c2702a12dc1405247ee
 * c939c09426f69c4843ff75ae704bf426
@@ -33,6 +35,6 @@
 * ac73d9785215e196074d418d1cce825b
 * 54f4d0236653a6da6429bfc79015f526
 
-#### Needs confirming:
+## Hashes requiring verification:
 
 * bf117d42b3db727f441d03786586e249
