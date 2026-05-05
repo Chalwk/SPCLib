@@ -30,23 +30,25 @@ end
 
 function OnNewGame() previous_scores = {} end
 
-function OnClientUpdate(player)
+function OnPlayerLeave(id) previous_scores[id] = nil end
+
+function OnClientUpdate(id)
     if not is_ctf() or not is_teamplay() then return end
 
-    local player_struct = getplayer(player)
+    local player_struct = getplayer(id)
     if not player_struct then return end
 
     local current_score = readword(player_struct + 0xC8)
-    local last_score = previous_scores[player] or 0
+    local last_score = previous_scores[id] or 0
 
     if current_score > last_score then
-        local name = getname(player)
-        local team = get_team_name(player)
+        local name = getname(id)
+        local team = get_team_name(id)
         respond(team .. " player " .. name .. " captured the flag! (Total: " .. current_score .. ")")
-        previous_scores[player] = current_score
+        previous_scores[id] = current_score
     end
 
-    previous_scores[player] = current_score
+    previous_scores[id] = current_score
 end
 
 function OnScriptUnload() end
