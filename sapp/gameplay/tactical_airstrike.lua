@@ -13,6 +13,8 @@ COMMANDS:
                   /nuke info           - Show mode information
                   /nuke pl             - Show online player IDs
 
+TODO: rewrite this garbage
+
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
@@ -2714,7 +2716,7 @@ function OnServerCommand(Killer, Command, _, _)
                                             Send(Killer, msg, "rcon")
                                         end
                                     else
-                                        Send(Killer, t.offline, "rcon")
+                                        --Send(Killer, t.offline, "rcon")
                                     end
 
                                     -- AIRSTRIKE COMMAND MODE A

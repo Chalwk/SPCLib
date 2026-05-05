@@ -37,7 +37,7 @@ function OnScriptLoad()
     if (get_var(0, "$gt") ~= "n/a") then
         MeleeTagAddresses()
         for i = 1, 16 do
-            if player_preset(i) then
+            if player_present(i) then
                 InitPlayer(i, false)
             end
         end

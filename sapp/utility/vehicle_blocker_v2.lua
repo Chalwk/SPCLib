@@ -28,6 +28,8 @@ SUPPORTED VEHICLES:
                   - All standard Halo vehicles
                   - Custom vehicle support
 
+TODO: rewrite this garbage
+
 Copyright (c) 2016-2025 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE

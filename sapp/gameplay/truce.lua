@@ -33,6 +33,8 @@ COMMANDS:
 MESSAGE TEMPLATES:
                   Supports variables: %target_name%, %executor_name%, %executor_id%
 
+TODO: rewrite this garbage
+
 Copyright (c) 2016-2019 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE

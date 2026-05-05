@@ -79,57 +79,22 @@ commands, built-in map downloads, and dozens of quality-of-life fixes. Chimera s
 
 ## Scripts, Releases and Knowledge Base
 
-| Category                                                           | Description                                                              |
-|--------------------------------------------------------------------|--------------------------------------------------------------------------|
-| [**SAPP Scripts**](./sapp)                                         | Attractive, Custom Games, Libraries, Utilities                           |
-| [**Phasor Scripts**](./phasor)                                     | Phasor Scripts                                                           |
-| [**Chimera Scripts**](./chimera)                                   | Chimera Scripts                                                          |
-| [**Releases**](https://github.com/Chalwk/SPCLib/releases)          | Larger SAPP projects with advanced functionality beyond standard scripts |
-| [**Knowledge Base (docs)**](https://chalwk.github.io/blog/#page-1) | Documentation and community knowledge base                               |
+### Structure:
+- **admin:** Strictly moderation & enforcement (bans, kicks, anti-cheat, rule enforcement)
+- **chat:** Chat formatting, messages, and command handling
+- **gameplay:** Gameplay mechanics, modifiers, and fun items
+- **gametypes:** Custom game modes and gametype variations
+- **modules:** Library modules for other scripts
+- **notifications:** Console output, timers, and event alerts
+- **utility:** Server configuration, spawning, map control, and miscellaneous tools
 
----
-
-## Community Favorites
-
-<details>
-<summary>Click to expand (popular SAPP scripts)</summary>
-
-| Category         | Script                                                                |
-|------------------|-----------------------------------------------------------------------|
-| **Attractive**   | [Capture The Flag](./sapp/attractive/capture_the_flag.lua)            |
-|                  | [Custom Teleports](./sapp/attractive/custom_teleports.lua)            |
-|                  | [Deployable Mines](./sapp/attractive/deployable_mines.lua)            |
-|                  | [Rank System](./sapp/attractive/rank_system.lua)                      |
-|                  | [Sprint System](./sapp/attractive/sprint_system.lua)                  |
-|                  | [Tactical Insertion](./sapp/attractive/tactical_insertion.lua)        |
-|                  | [Tea Bagging](./sapp/attractive/tea_bagging.lua)                      |
-|                  | [Uber](./sapp/attractive/uber.lua)                                    |
-|                  | [Vanish](./sapp/attractive/vanish.lua)                                |
-| **Custom Games** | [Divide and Conquer](./sapp/custom_games/divide_and_conquer.lua)      |
-|                  | [Gun Game](./sapp/custom_games/gun_game.lua)                          |
-|                  | [Kill Confirmed](./sapp/custom_games/kill_confirmed.lua)              |
-|                  | [Melee Attack](./sapp/custom_games/melee_attack.lua)                  |
-|                  | [One In The Chamber](./sapp/custom_games/one_in_the_chamber.lua)      |
-|                  | [Snipers Dream Team](./sapp/custom_games/snipers_dream_team.lua)      |
-|                  | [Tag](./sapp/custom_games/tag.lua)                                    |
-|                  | [Zombies Standard](./sapp/custom_games/zombies_standard.lua)          |
-|                  | [Zombies Advanced](./sapp/custom_games/zombies_advanced.lua)          |
-| **Utility**      | [AFK System](./sapp/utility/afk_system.lua)                           |
-|                  | [Anti Impersonator](./sapp/utility/anti_impersonator.lua)             |
-|                  | [Auto Message](./sapp/utility/auto_message.lua)                       |
-|                  | [Custom Loadouts](./sapp/utility/custom_loadouts.lua)                 |
-|                  | [Delay Skip](./sapp/utility/delay_skip.lua)                           |
-|                  | [Dynamic Ping Kicker](./sapp/utility/dynamic_ping_kicker.lua)         |
-|                  | [Dynamic Score Limit](./sapp/utility/dynamic_score_limit.lua)         |
-|                  | [Liberty Vehicle Spawner](./sapp/utility/liberty_vehicle_spawner.lua) |
-|                  | [Notify Me](./sapp/utility/notify_me.lua)                             |
-|                  | [Race Assistant](./sapp/utility/race_assistant.lua)                   |
-|                  | [Server Logger](./sapp/utility/server_logger.lua)                     |
-|                  | [Team Shuffler](./sapp/utility/team_shuffler.lua)                     |
-|                  | [Weapon Assigner](./sapp/utility/weapon_assigner.lua)                 |
-|                  | [Word Buster](./sapp/utility/word_buster.lua)                         |
-
-</details>
+| Category                                                           | Description                                                                                                                                                                                             |
+|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [**SAPP Scripts**](./sapp)                                         | [admin](./sapp/admin), [chat](./sapp/chat), [gameplay](sapp/gameplay), [gametypes](sapp/gametypes), [modules](sapp/modules), [notifications](sapp/notifications), [utility](sapp/utility)               |
+| [**Phasor Scripts**](./phasor)                                     | [admin](./phasor/admin), [chat](./phasor/chat), [gameplay](phasor/gameplay), [gametypes](phasor/gametypes), [modules](phasor/modules), [notifications](phasor/notifications), [utility](phasor/utility) |
+| [**Chimera Scripts**](./chimera)                                   | Chimera Scripts                                                                                                                                                                                         |
+| [**Releases**](https://github.com/Chalwk/SPCLib/releases)          | Larger SAPP projects with advanced functionality beyond standard scripts                                                                                                                                |
+| [**Knowledge Base (docs)**](https://chalwk.github.io/blog/#page-1) | Documentation and community knowledge base                                                                                                                                                              |
 
 ---
 
