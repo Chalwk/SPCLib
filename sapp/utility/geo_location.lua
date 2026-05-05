@@ -40,7 +40,7 @@ local NOTIFY_ADMINS = true
 local SHOW_FIELDS = { "country", "countryCode", "regionName", "city", "isp" }
 
 -- Countries to block (two-letter ISO codes in UPPERCASE). Example: {"CN","RU"}
--- Default empty – nobody's banned until you fill this in
+-- Default empty - nobody's banned until you fill this in
 local BLOCK_LIST = {}
 
 -- Message shown to blocked players

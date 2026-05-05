@@ -5,9 +5,9 @@ DESCRIPTION:      Warns when any player hasn't moved for a configurable time.
                   Displays a console message and an on-screen warning.
 
                   Commands:
-                    /afk                – toggle monitoring
-                    /afktime <seconds>  – set idle warning time (default 180)
-                    /afkradius <units>  – movement tolerance (default 0.01)
+                    /afk                - toggle monitoring
+                    /afktime <seconds>  - set idle warning time (default 180)
+                    /afkradius <units>  - movement tolerance (default 0.01)
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License

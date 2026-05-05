@@ -16,7 +16,7 @@ DESCRIPTION:      Advanced anti-cheat system designed to detect and prevent aim 
                   - Environmental Awareness: Accounts for visibility conditions and physical obstructions
                     to validate suspected aim locks
                   - Camouflage Detection: Detects when a target is using active camouflage and applies a
-                    scoring modifier – hitting invisible players is a strong indicator of cheating
+                    scoring modifier - hitting invisible players is a strong indicator of cheating
                   - Pattern Recognition: Detects robotic firing patterns and consistent interval timing
                     indicative of automated assistance
                   - Automatically executes configured moderation commands upon
