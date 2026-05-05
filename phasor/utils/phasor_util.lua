@@ -2,17 +2,16 @@
 =====================================================================================
 SCRIPT NAME:      phasor_util.lua
 DESCRIPTION:      A collection of common utility functions for Phasor Lua scripting.
-
                   Functions cover player state checks, coordinate manipulation,
                   string handling, memory reading, wildcard matching, time conversion,
-                  and more. Designed to be used via require() to keep other scripts
-                  clean and DRY.
+                  network utilities, object type detection, player health/shields,
+                  bit manipulation, game timers, and more. Designed to be used via
+                  require() to keep other scripts clean and DRY.
 
                   Example usage:
                       local util = require("phasor_util")
 
                       function OnScriptLoad(processid, game, persistent)
-                          -- Tell phasor_util whether this is PC or CE
                           util.init_game(game)
 
                           if util.is_alive(1) then
@@ -92,21 +91,23 @@ local getplayer = getplayer
 local getname = getname
 local getteam = getteam
 local getobjectcoords = getobjectcoords
+local writefloat = writefloat
+local writeword = writeword
+local writeshort = writeshort
+local writebyte = writebyte
+local writedword = writedword
 
 -- Game-specific memory addresses
 local map_pointer
 local gametype_base
+local gametime_base
 
---- Initialises game-dependent memory addresses for PC and CE. Pointers are pre-defined
--- in util.pointers; this function simply selects the appropriate map pointer for the current game.
+--- Initialises game-dependent memory addresses for PC and CE.
 -- @param game (string) "PC" or "CE" (as provided by Phasor).
--- @usage
---   function OnScriptLoad(processid, game, persistent)
---       util.init_game(game)
---   end
 function util.init_game(game)
     map_pointer = util.pointers[game].map_pointer
     gametype_base = util.pointers[game].gametype_base
+    gametime_base = util.pointers[game].gametime_base
 end
 
 ----------------------------------------------------------------------
@@ -166,9 +167,9 @@ function util.is_player_camouflaged(id)
     return readfloat(player_object + 0x37C) == 1.0
 end
 
---- Returns a table with the player's kill, death, and assist counts for the current game.
+--- Returns a table with the player's kill, death, assist and streak counts.
 -- @param id (number)
--- @return table|nil { kills = number, deaths = number, assists = number } or nil if player invalid
+-- @return table|nil { kills = number, deaths = number, assists = number, streaks = number }
 function util.get_player_stats(id)
     local p = getplayer(id)
     if not p then return nil end
@@ -177,20 +178,11 @@ function util.get_player_stats(id)
         kills = readword(p + 0x9C),
         deaths = readword(p + 0xAE),
         assists = readword(p + 0xA4),
+        streaks = readword(p + 0x98)
     }
 end
 
---- Returns the player's current killstreak (consecutive kills without dying).
--- @param id (number)
--- @return number streak, or 0 on error
-function util.get_player_killstreak(id)
-    local p = getplayer(id)
-    if not p then return 0 end
-    return readword(p + 0x98)
-end
-
---- Returns the object ID of the vehicle the player is currently riding in,
--- or nil if the player is not in a vehicle.
+--- Returns the object ID of the vehicle the player is currently riding in, or nil.
 -- @param id (number)
 -- @return number vehicle_object_id or nil
 function util.get_player_vehicle(id)
@@ -206,10 +198,105 @@ function util.get_player_vehicle(id)
     return vehicle_id
 end
 
---- Resolves player expressions (names, wildcards, "me", "red", "blue", "random", "*").
--- Example: get_players_by_expression("Player*") returns all players whose names start with "Player".
+--- Returns true if the player is currently in any vehicle.
+-- @param id (number)
+-- @return boolean
+function util.is_in_vehicle(id)
+    return util.get_player_vehicle(id) ~= nil
+end
+
+--- Returns the player's current health (0.0 to 1.0).
+-- @param id (number)
+-- @return number|nil health, or nil if player dead/invalid
+function util.get_player_health(id)
+    local obj_id = getplayerobjectid(id)
+    if not obj_id or obj_id == 0 then return nil end
+    local obj = getobject(obj_id)
+    if not obj then return nil end
+    return readfloat(obj + 0xE0)
+end
+
+--- Returns the player's current shields (0.0 to ~3.0 with overshield).
+-- @param id (number)
+-- @return number|nil shields, or nil if player dead/invalid
+function util.get_player_shields(id)
+    local obj_id = getplayerobjectid(id)
+    if not obj_id or obj_id == 0 then return nil end
+    local obj = getobject(obj_id)
+    if not obj then return nil end
+    return readfloat(obj + 0xE4)
+end
+
+--- Sets the player's health (0.0 to 1.0). Does nothing if player is dead.
+-- @param id (number)
+-- @param value (number) desired health level
+function util.set_player_health(id, value)
+    local obj_id = getplayerobjectid(id)
+    if not obj_id or obj_id == 0 then return end
+    local obj = getobject(obj_id)
+    if obj then
+        writefloat(obj + 0xE0, value)
+    end
+end
+
+--- Sets the player's shields (0.0 to 3.0). Does nothing if player is dead.
+-- @param id (number)
+-- @param value (number) desired shield level
+function util.set_player_shields(id, value)
+    local obj_id = getplayerobjectid(id)
+    if not obj_id or obj_id == 0 then return end
+    local obj = getobject(obj_id)
+    if obj then
+        writefloat(obj + 0xE4, value)
+    end
+end
+
+--- Returns the player's ping in milliseconds.
+-- @param id (number)
+-- @return number|nil ping, or nil if player invalid
+function util.get_player_ping(id)
+    local p = getplayer(id)
+    if not p then return nil end
+    return readword(p + 0xDC)
+end
+
+--- Returns the object ID of the weapon in the given slot, or the current weapon if slot nil.
+-- Slots: 1 = primary, 2 = secondary, 3 = tertiary, 4 = quaternary.
+-- @param id (number) player index
+-- @param slot (number|nil) weapon slot 1-4, or nil for current weapon
+-- @return number weapon_object_id or 0xFFFFFFFF if none/invalid
+function util.get_player_weapon(id, slot)
+    local obj_id = getplayerobjectid(id)
+    if not obj_id or obj_id == 0 then return 0xFFFFFFFF end
+    local obj = getobject(obj_id)
+    if not obj then return 0xFFFFFFFF end
+
+    -- If the player is in a vehicle, return the vehicle's weapon.
+    local vehicle_id = readdword(obj + 0x11C)
+    if vehicle_id ~= 0xFFFFFFFF then
+        local veh_obj = getobject(vehicle_id)
+        if veh_obj then
+            return readdword(veh_obj + 0x2F8)
+        end
+    end
+
+    if not slot then
+        return readdword(obj + 0x118) -- current weapon
+    end
+
+    -- Slot index 1..4 maps to offset 0x2F8+ (slot-1)*4
+    if slot >= 1 and slot <= 4 then
+        return readdword(obj + 0x2F8 + (slot - 1) * 4)
+    end
+
+    return 0xFFFFFFFF
+end
+
+--- Resolves player expressions (names, wildcards, "me", "red", "blue", "random", "*",
+--  colour names, "nearest", "farthest").
 -- @param expression (string) player identifier
--- @param self_id (number|nil) player ID of the caller (used for "me" and "random" exclusion)
+-- @param self_id (number|nil) player ID of the caller (used for "me", "random" exclusion,
+-- and as reference for "nearest"/"farthest")
 -- @return table|nil a list of player indices (0-15), or nil if no match
 function util.get_players_by_expression(expression, self_id)
     if not expression then return nil end
@@ -221,10 +308,12 @@ function util.get_players_by_expression(expression, self_id)
             if getplayer(i) then t[#t + 1] = i end
         end
         return #t > 0 and t or nil
+
         -- Self
     elseif expression == "me" then
         if self_id and getplayer(self_id) then return { self_id } end
         return nil
+
         -- Red team
     elseif expression == "red" then
         local t = {}
@@ -232,6 +321,7 @@ function util.get_players_by_expression(expression, self_id)
             if getplayer(i) and getteam(i) == 0 then t[#t + 1] = i end
         end
         return #t > 0 and t or nil
+
         -- Blue team
     elseif expression == "blue" then
         local t = {}
@@ -239,6 +329,7 @@ function util.get_players_by_expression(expression, self_id)
             if getplayer(i) and getteam(i) == 1 then t[#t + 1] = i end
         end
         return #t > 0 and t or nil
+
         -- Random player
     elseif expression == "random" or expression == "rand" then
         local t = {}
@@ -247,6 +338,44 @@ function util.get_players_by_expression(expression, self_id)
         end
         if #t > 0 then return { t[random(#t)] } end
         return nil
+
+        -- Nearest player to self
+    elseif expression == "nearest" or expression == "closest" then
+        if not self_id or not util.get_player_pos(self_id) then return nil end
+        local sx, sy, sz = util.get_player_pos(self_id)
+        local min_dist, closest = math.huge, nil
+        for i = 0, 15 do
+            if i ~= self_id and getplayer(i) then
+                local x, y, z = util.get_player_pos(i)
+                if x then
+                    local d = (x - sx) ^ 2 + (y - sy) ^ 2 + (z - sz) ^ 2
+                    if d < min_dist then
+                        min_dist = d
+                        closest = i
+                    end
+                end
+            end
+        end
+        return closest and { closest } or nil
+
+        -- Farthest player from self
+    elseif expression == "farthest" then
+        if not self_id or not util.get_player_pos(self_id) then return nil end
+        local sx, sy, sz = util.get_player_pos(self_id)
+        local max_dist, farthest = -1, nil
+        for i = 0, 15 do
+            if i ~= self_id and getplayer(i) then
+                local x, y, z = util.get_player_pos(i)
+                if x then
+                    local d = (x - sx) ^ 2 + (y - sy) ^ 2 + (z - sz) ^ 2
+                    if d > max_dist then
+                        max_dist = d
+                        farthest = i
+                    end
+                end
+            end
+        end
+        return farthest and { farthest } or nil
     else
         -- Numeric ID (1-16)
         local num = tonumber(expression)
@@ -255,6 +384,20 @@ function util.get_players_by_expression(expression, self_id)
             if getplayer(id) then return { id } end
             return nil
         end
+
+        -- Player colour name (e.g. "white", "yellow", "green", "orange", "purple", etc.)
+        local colour_index = util.player_colours[expression]
+        if colour_index then
+            local t = {}
+            for i = 0, 15 do
+                local p = getplayer(i)
+                if p and readword(p + 0x60) == colour_index then
+                    t[#t + 1] = i
+                end
+            end
+            return #t > 0 and t or nil
+        end
+
         -- Wildcard name matching (case-insensitive)
         local t = {}
         for i = 0, 15 do
@@ -267,6 +410,132 @@ function util.get_players_by_expression(expression, self_id)
         end
         return #t > 0 and t or nil
     end
+end
+
+-- Colour lookup table used by get_players_by_expression and get_player_color
+util.player_colours = {
+    white = 0,
+    black = 1,
+    red = 2,
+    blue = 3,
+    grey = 4,
+    yellow = 5,
+    green = 6,
+    pink = 7,
+    purple = 8,
+    cyan = 9,
+    cobalthidden = 10,
+    orange = 11,
+    teal = 12,
+    sage = 13,
+    brown = 14,
+    tan = 15,
+    maroon = 16,
+    salmon = 17
+}
+
+--- Returns the player's current colour index (0-17) as seen by others.
+-- @param id (number)
+-- @return number|nil colour index, or nil if player invalid
+function util.get_player_color(id)
+    local p = getplayer(id)
+    if p then return readword(p + 0x60) end
+    return nil
+end
+
+--- Returns the player's memory struct and object ID together.
+-- @param id (number) player index
+-- @return table object_struct, number object_id, or nil if invalid/dead
+function util.get_player_object(id)
+    local obj_id = getplayerobjectid(id)
+    if not obj_id or obj_id == 0 then return nil end
+    local obj = getobject(obj_id)
+    if not obj then return nil end
+    return obj, obj_id
+end
+
+--- Returns the vehicle struct and object ID of the vehicle the player is in.
+-- @param id (number) player index
+-- @return table vehicle_struct, number vehicle_id, or nil if not in vehicle
+function util.get_player_vehicle_object(id)
+    local obj, obj_id = util.get_player_object(id)
+    if not obj then return nil end
+    local veh_id = readdword(obj + 0x11C)
+    if veh_id == 0xFFFFFFFF then return nil end
+    local veh_obj = getobject(veh_id)
+    if not veh_obj then return nil end
+    return veh_obj, veh_id
+end
+
+--- Returns the weapon struct and object ID for the player's weapon.
+-- Slots: 1 = primary, 2 = secondary, 3 = tertiary, 4 = quaternary.
+-- If no slot given, returns the current weapon (including vehicle weapon).
+-- @param id (number) player index
+-- @param slot (number|nil) weapon slot (1-4), or nil for current weapon
+-- @return table weapon_struct, number weapon_id, or nil if no weapon
+function util.get_player_weapon_object(id, slot)
+    local weapon_id = util.get_player_weapon(id, slot)
+    if weapon_id == 0xFFFFFFFF then return nil end
+    local weapon_obj = getobject(weapon_id)
+    if not weapon_obj then return nil end
+    return weapon_obj, weapon_id
+end
+
+--- Returns the current speed of the player.
+-- @param id (number) player index
+-- @return number speed, or nil if player invalid
+function util.get_player_speed(id)
+    local p = getplayer(id)
+    if not p then return nil end
+    return readfloat(p + 0x6C)
+end
+
+--- Sets the player's movement speed.
+-- @param id (number) player index
+-- @param speed (number) desired speed (clamped to avoid extreme values)
+function util.set_player_speed(id, speed)
+    local p = getplayer(id)
+    if not p then return end
+    speed = tonumber(speed) or 1
+    -- safety clamp; the game can handle very large values but we cap to avoid crashes
+    if speed > 999999 then speed = 999999 end
+    writefloat(p + 0x6C, speed)
+end
+
+--- Smart object coordinate retrieval. If the object is attached to a parent
+-- (e.g. a player in a vehicle), returns the parent's coordinates instead.
+-- @param object_id (number) the object ID
+-- @return number x, number y, number z, or nil if object invalid
+function util.get_object_coords(object_id)
+    local obj = getobject(object_id)
+    if not obj then return nil end
+
+    -- Check for a parent vehicle (offset 0x11C)
+    local parent_id = readdword(obj + 0x11C)
+    if parent_id ~= 0xFFFFFFFF then
+        local parent_obj = getobject(parent_id)
+        if parent_obj then
+            obj = parent_obj
+        end
+    end
+
+    return readfloat(obj + 0x5C), readfloat(obj + 0x60), readfloat(obj + 0x64)
+end
+
+--- Sets the player's colour. This change is immediate for players who join after, but
+-- for the player themselves a respawn is usually required to fully apply the colour.
+-- @param id (number) player index
+-- @param colour (number) colour index (0-17) or name from the player_colours table
+function util.set_player_color(id, colour)
+    local p = getplayer(id)
+    if not p then return end
+
+    if type(colour) == "string" then
+        colour = util.player_colours[colour:lower()]
+    end
+    if not colour or type(colour) ~= "number" then return end
+
+    writebyte(p + 0x60, colour)
 end
 
 ----------------------------------------------------------------------
@@ -296,7 +565,6 @@ function util.is_command(str)
 end
 
 --- Strips leading slash(es) or backslash(es) from a string.
--- Useful for normalising chat commands.
 -- @param msg (string) raw input
 -- @return string cleaned string
 function util.strip_prefix(msg)
@@ -317,7 +585,6 @@ function util.split_message(msg)
 end
 
 --- Parses a chat command into a lowercase argument array.
--- Strips the prefix first, then splits by whitespace.
 -- @param s (string) raw chat input
 -- @return table args
 function util.parse_cmd(s)
@@ -330,7 +597,6 @@ function util.parse_cmd(s)
 end
 
 --- Splits a string by any of the given delimiter strings.
--- Usage: local parts = util.split_string("a,b;c", ",", ";") -> {"a","b","c"}
 -- @param str (string) the string to split
 -- @param ... delimiter strings
 -- @return table array of substrings
@@ -374,6 +640,28 @@ function util.split_string(str, ...)
         tokens[i] = token
     end
 
+    return tokens
+end
+
+--- Tokenizes a string like command line arguments, respecting double quotes.
+-- e.g., tokenize_cmd_string('say "hello world" foo') -> {"say", "hello world", "foo"}
+-- @param str (string)
+-- @return table array of tokens
+function util.tokenize_cmd_string(str)
+    local tokens = {}
+    str = str:gsub("^%s*(.-)%s*$", "%1") .. " " -- trim and add sentinel
+    local pos = 1
+    while pos <= #str do
+        local token, newPos
+        -- try double-quoted string
+        token, newPos = str:match('^"([^"]*)"%s+()', pos)
+        if not token then
+            token, newPos = str:match('^([^%s]+)%s+()', pos)
+        end
+        if not token then break end
+        tokens[#tokens + 1] = token
+        pos = newPos
+    end
     return tokens
 end
 
@@ -537,6 +825,133 @@ function util.time_to_word(s)
     return concat(parts, " ")
 end
 
+--- Formats a duration given in seconds as a "HH:MM:SS" string.
+-- @param seconds (number) total seconds
+-- @return string formatted time (e.g., "01:30:45")
+function util.format_duration(seconds)
+    seconds = tonumber(seconds) or 0
+    local h = floor(seconds / 3600)
+    local m = floor((seconds % 3600) / 60)
+    local s = floor(seconds % 60)
+    return format("%02d:%02d:%02d", h, m, s)
+end
+
+----------------------------------------------------------------------
+-- IP / NETWORK UTILITIES
+----------------------------------------------------------------------
+
+--- Validates an IPv4 address (supports wildcards, CIDR, and ranges).
+-- Normalizes 1.2.*.* to 1.2.0.0/16, etc. Returns formatted string or false.
+-- @param ip (string) IP string
+-- @return string|boolean normalized IP, or false if invalid
+function util.validate_ipv4(ip)
+    if not ip then return false end
+    ip = gsub(gsub(ip, "[%s]*", ""), "x+", "*")
+    local a, b, c, slash, d, finish = ip:match("^([^%.]+)%.([^%.]*)%.?([^%./]*)%.?(/?)([^%.]*)()")
+    a = a == "" and "*" or a:match("[%d%*]+")
+    b = b == "" and "*" or b:match("[%d%*]+")
+    c = c == "" and "*" or c:match("[%d%*]+")
+    slash = slash ~= ""
+    d = d or ""
+    if slash then
+        if d:find("/") or not d:match("[%d%*]+") then return false end
+        d = "0/" .. d
+    else
+        d = d == "" and "*" or d:match("[%d%*/]+")
+    end
+
+    if not a or not b or not c then return false end
+
+    local found, a2, b2, c2, d2 = ip:match("(%-)(%d+)%.(%d*)%.?(%d*)%.?(%d*)%c*$", finish)
+    if not found then
+        if a2 and a ~= "" then return false end
+        return format("%s.%s.%s.%s", a, b, c, d)
+    elseif slash then
+        return false
+    end
+    a2 = a2 == "" and "*" or a2:match("[%d%*]+")
+    b2 = b2 == "" and "*" or b2:match("[%d%*]+")
+    c2 = c2 == "" and "*" or c2:match("[%d%*]+")
+    d2 = d2 == "" and "*" or d2:match("[%d%*]+")
+
+    if not a2 or not b2 or not c2 then return false end
+    if c2:find("/") and d2:find("/") then return false end
+    return format("%s.%s.%s.%s-%s.%s.%s.%s", a, b, c, d, a2, b2, c2, d2)
+end
+
+--- Converts a dotted IPv4 address to a 32-bit integer.
+-- @param ip_addr (string) IPv4 address
+-- @return number|nil IP as 32-bit unsigned integer, or nil on error
+function util.ip_to_long(ip_addr)
+    local a, b, c, d = ip_addr:match("^(%d+)%.(%d+)%.(%d+)%.(%d+)$")
+    if not a then return nil end
+    a, b, c, d = tonumber(a), tonumber(b), tonumber(c), tonumber(d)
+    if not (a and b and c and d) then return nil end
+    return bit32.bor(bit32.lshift(a, 24), bit32.lshift(b, 16), bit32.lshift(c, 8), d)
+end
+
+--- Converts a 32-bit integer to a dotted IPv4 address.
+-- @param addr (number) 32-bit unsigned integer
+-- @return string IPv4 dotted notation
+function util.long_to_ip(addr)
+    local a = bit32.rshift(bit32.band(addr, 0xFF000000), 24)
+    local b = bit32.rshift(bit32.band(addr, 0x00FF0000), 16)
+    local c = bit32.rshift(bit32.band(addr, 0x0000FF00), 8)
+    local d = bit32.band(addr, 0x000000FF)
+    return format("%i.%i.%i.%i", a, b, c, d)
+end
+
+local function wildcard_to_cidr(addr)
+    local count = select(2, addr:gsub("%*", "*"))
+    if count == 1 then
+        return addr:gsub("%*", "0") .. "/24"
+    elseif count == 2 then
+        return addr:gsub("%*", "0") .. "/16"
+    elseif count == 3 then
+        return addr:gsub("%*", "0") .. "/8"
+    elseif count > 3 then
+        return "0.0.0.0/0"
+    end
+    return addr
+end
+
+--- Checks whether an IP address matches a network definition (CIDR, wildcard, range).
+-- @param network (string) network pattern (e.g., "192.168.1.0/24", "10.*.*.*", "10.0.0.1-10.0.0.255")
+-- @param ip (string) IP address to test
+-- @return string|boolean matched network string, or false
+function util.ip_matches_network(network, ip)
+    network = util.validate_ipv4(network)
+    if not ip then return network end
+    ip = util.validate_ipv4(ip)
+    if not network or not ip then return false end
+
+    -- Normalize wildcard to CID
+    if network:find("%*") then network = wildcard_to_cidr(network) end
+    if ip:find("%*") then ip = wildcard_to_cidr(ip) end
+
+    local dash = network:find("-")
+    if not dash then
+        local net_part, mask_len = network:match("^(.-)/(%d+)$")
+        mask_len = tonumber(mask_len) or 32
+        local net_long = util.ip_to_long(net_part)
+        if not net_long then return false end
+        local ip_part, ip_mask_len = ip:match("^(.-)/(%d+)$")
+        ip_mask_len = tonumber(ip_mask_len) or 32
+        local ip_long = util.ip_to_long(ip_part)
+        if not ip_long then return false end
+        local mask = bit32.lshift(0xFFFFFFFF, (32 - mask_len))
+        local ip_mask = bit32.lshift(0xFFFFFFFF, (32 - ip_mask_len))
+        return bit32.band(net_long, mask, ip_mask) == bit32.band(ip_long, mask, ip_mask)
+    else
+        local from = util.ip_to_long(network:sub(1, dash - 1))
+        local to = util.ip_to_long(network:sub(dash + 1))
+        if not from or not to then return false end
+        local ip_long = util.ip_to_long(ip)
+        if not ip_long then return false end
+        return ip_long >= from and ip_long <= to
+    end
+end
+
 ----------------------------------------------------------------------
 -- MATH / GEOMETRY
 ----------------------------------------------------------------------
@@ -560,6 +975,15 @@ function util.object_in_sphere(object_id, cx, cy, cz, radius)
     if not getobject(object_id) then return false end
     local x, y, z = getobjectcoords(object_id)
     return util.in_sphere(x, y, z, cx, cy, cz, radius)
+end
+
+--- Checks if a point (px, py) lies within a circle on the XY plane.
+-- @param px, py (number) point coordinates
+-- @param cx, cy (number) circle center
+-- @param radius (number) circle radius
+-- @return boolean
+function util.check_in_circle(px, py, cx, cy, radius)
+    return (px - cx) ^ 2 + (py - cy) ^ 2 <= radius ^ 2
 end
 
 --- Rounds a number to a specified number of decimal places.
@@ -591,7 +1015,6 @@ local tag_lookup_cache
 function util.get_object_tag(object_id)
     if not object_id then return nil end
     local obj = getobject(object_id)
-
     if not obj then return nil end
     local object_map_id = readdword(obj)
 
@@ -618,15 +1041,23 @@ function util.get_object_tag(object_id)
 
     local entry = tag_lookup_cache[object_map_id]
     if entry then return entry.name, entry.class end
-
     return nil
+end
+
+--- Returns the type of an object (0=biped, 1=vehicle, 2=weapon, 3=equipment, etc.).
+-- @param object_id (number) object id
+-- @return number|nil type identifier, or nil if invalid
+function util.get_object_type(object_id)
+    local obj = getobject(object_id)
+    if not obj then return nil end
+    return readword(obj + 0xB4)
 end
 
 ----------------------------------------------------------------------
 -- MEMORY UTILITIES
 ----------------------------------------------------------------------
 
---- Reads a C-style null-terminated string from a memory address.
+--- Reads a C-style null-terminated ASCII string from a memory address.
 -- @param address (number) starting memory address
 -- @param length (number) maximum length to read (optional)
 -- @param reverse (boolean) reverse byte order for endianness (optional)
@@ -672,11 +1103,88 @@ function util.read_string_reverse(address, offset, length)
     return result
 end
 
+--- Reads a null-terminated wide-character string (UTF-16LE with ASCII assumption).
+-- @param address (number) memory start
+-- @param length (number|nil) max bytes, optional (default 256)
+-- @return string decoded ASCII string
+function util.read_widestring(address, length)
+    length = length or 256
+    local chars = {}
+    local pos = 0
+    while pos < length do
+        local b1 = readbyte(address + pos)
+        if b1 == 0 then break end
+        local b2 = readbyte(address + pos + 1)
+        -- wide char: assume low byte is ASCII, high byte is 0
+        if b2 == 0 then
+            chars[#chars + 1] = char(b1)
+        else
+            chars[#chars + 1] = char(b1) -- fallback, non-ASCII will be ignored
+        end
+        pos = pos + 2
+    end
+    return concat(chars)
+end
+
+--- Writes a null-terminated ASCII string to memory.
+-- @param address (number) start address
+-- @param str (string) string to write
+-- @param offset (number) optional offset from address
+function util.write_string(address, str, offset)
+    offset = offset or 0
+    local addr = address + offset
+    for i = 1, #str do
+        writebyte(addr + i - 1, str:byte(i))
+    end
+    writebyte(addr + #str, 0) -- null terminator
+end
+
+--- Writes a wide (UTF-16LE) string to memory (null-terminated).
+-- @param address (number) start address
+-- @param str (string) ASCII string to write as wide
+-- @param offset (number) optional offset
+function util.write_widestring(address, str, offset)
+    offset = offset or 0
+    local addr = address + offset
+    for i = 1, #str do
+        local byte = str:byte(i)
+        writebyte(addr + (i - 1) * 2, byte)
+        writebyte(addr + (i - 1) * 2 + 1, 0)
+    end
+    writeword(addr + #str * 2, 0) -- null terminator (two bytes)
+end
+
+--- Reads a single bit from a memory address.
+-- @param address (number) memory address
+-- @param bit_index (number) 0-based bit index (0 = LSB)
+-- @return number 0 or 1
+function util.read_bit(address, bit_index)
+    local byte_addr = address + floor(bit_index / 8)
+    local bit_pos = bit_index % 8
+    local val = readbyte(byte_addr)
+    return bit32.band(bit32.rshift(val, bit_pos), 1)
+end
+
+--- Writes a single bit to a memory address.
+-- @param address (number) memory address
+-- @param bit_index (number) 0-based bit index
+-- @param value (number) 0 or 1
+function util.write_bit(address, bit_index, value)
+    local byte_addr = address + floor(bit_index / 8)
+    local bit_pos = bit_index % 8
+    local old = readbyte(byte_addr)
+    if value == 1 then
+        writebyte(byte_addr, bit32.bor(old, bit32.lshift(1, bit_pos)))
+    else
+        writebyte(byte_addr, bit32.band(old, bit32.bnot(bit32.lshift(1, bit_pos))))
+    end
+end
+
 ----------------------------------------------------------------------
--- MISC
+-- GAME TIME / STATE
 ----------------------------------------------------------------------
 
---- Returns the current score limit of the gametype as a byte value.
+--- Returns the score limit of the current gametype.
 -- @return number score_limit
 function util.get_scorelimit()
     return readbyte(gametype_base + 0x58)
@@ -688,8 +1196,8 @@ function util.is_ffa()
     return readbyte(gametype_base + 0x34) == 0
 end
 
---- Returns the gametype mode name as a string.
--- @return string (e.g., "ctf", "slayer")
+--- Returns the gametype mode name as a string (e.g., "ctf", "slayer").
+-- @return string gametype name
 function util.get_gametype_name()
     local type = readbyte(gametype_base + 0x30)
     return type == 0 and "none"
@@ -699,5 +1207,43 @@ function util.get_gametype_name()
         or type == 4 and "king"
         or type == 5 and "race"
 end
+
+--- Returns the remaining game time in seconds (based on the current gametype).
+-- @return number seconds remaining, or 0 if time is up
+function util.get_game_time_remaining()
+    local time_passed = readdword(readdword(gametime_base) + 0xC) / 30 -- in seconds
+    local time_limit = readdword(gametype_base + 0x78) / 30
+    local remaining = time_limit - time_passed
+    return remaining > 0 and remaining or 0
+end
+
+--- Returns the elapsed game time in seconds.
+-- @return number seconds since game start
+function util.get_game_time_elapsed()
+    return readdword(readdword(gametime_base) + 0xC) / 30
+end
+
+----------------------------------------------------------------------
+-- ADVANCED / BIPED UTILITIES
+----------------------------------------------------------------------
+
+--- Returns the world position of a biped body part given its offset into the biped
+-- object's unknown floats block (0x28 base). Example offsets: 0x8C4 = right hand.
+-- @param biped_object (table) the player's biped object struct (from get_player_object)
+-- @param body_part_offset (number) offset from the object's start + 0x28
+-- @return number x, number y, number z, or nil if object invalid
+function util.get_body_part_position(biped_object, body_part_offset)
+    if not biped_object then return nil end
+    local x = readfloat(biped_object, body_part_offset + 0x28)
+    local y = readfloat(biped_object, body_part_offset + 0x2C)
+    local z = readfloat(biped_object, body_part_offset + 0x30)
+    return x, y, z
+end
+
+----------------------------------------------------------------------
+-- MISC
+----------------------------------------------------------------------
+
+-- todo
 
 return util

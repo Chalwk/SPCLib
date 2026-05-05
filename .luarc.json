@@ -63,6 +63,8 @@
     "readdword",
     "readstring",
     "readword",
+    "writeshort",
+    "writedword",
     "readfloat",
     "register_callback",
     "registertimer",
