@@ -17,16 +17,7 @@ FEATURES:
 COMMANDS:
                   /shuffle - Manually shuffle teams (requires permission)
 
-CONFIGURATION:
-                  shuffle_command = 'shuffle'        - Command name
-                  shuffle_command_permission = 3     - Required permission level
-                  auto_shuffle = true                - Enable auto-shuffle
-                  shuffle_after_games = 1            - Auto-shuffle frequency
-                  shuffle_delay = 3                  - Shuffle delay (seconds)
-                  min_players_required = 2           - Minimum players to shuffle
-                  show_shuffle_message = true        - Toggle shuffle notifications
-
-Copyright (c) 2025 Jericho Crosby (Chalwk)
+Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================

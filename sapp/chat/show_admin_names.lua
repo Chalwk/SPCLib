@@ -29,13 +29,11 @@ function OnScriptLoad()
     register_callback(cb['EVENT_COMMAND'], 'checkAdmins')
 end
 
--- Checks if a player is an admin
 local function isAdmin(playerIndex)
     local playerLevel = tonumber(get_var(playerIndex, "$lvl"))
     return playerLevel and playerLevel > 0
 end
 
--- Lists the admins currently online
 function checkAdmins(playerIndex, cmd)
     if cmd:sub(1, command:len()):lower() == command then
         for i = 1, 16 do
@@ -50,7 +48,4 @@ function checkAdmins(playerIndex, cmd)
     end
 end
 
--- No action is required when the script is unloaded
-function OnScriptUnload()
-    -- N/A
-end
+function OnScriptUnload() end
