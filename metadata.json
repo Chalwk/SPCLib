@@ -1,15 +1,188 @@
 {
-  "CHIMERA": {},
-  "PHASOR": {
-    "admin": {},
-    "chat": {},
-    "gametypes": {},
-    "gameplay": {},
-    "modules": {},
-    "notifications": {},
-    "utility": {}
+  "CHIMERA": {
+    "afk_monitor": {
+      "shortDescription": "AFK detection and notification for all players",
+      "description": "Monitors all players for inactivity and alerts when someone hasn't moved for a configurable time. Displays a console message when idle threshold is reached. Use /afk to toggle, /afktime to set seconds, /afkradius to set movement tolerance."
+    },
+    "current_weapon_info": {
+      "shortDescription": "Displays current weapon name and ammo count on the HUD",
+      "description": "Shows the name of the currently equipped weapon along with its magazine and reserve ammo in the upper-left corner of the screen. Updates periodically and can be toggled with /wpninfo."
+    },
+    "idle_reminder": {
+      "shortDescription": "Reminds you if you've been idle for too long",
+      "description": "Displays a gentle reminder message ('You there?') on the HUD if your character hasn't moved for a configurable amount of time. Helpful to prevent accidental inactivity during gameplay. Toggle with /idle."
+    },
+    "low_ammo_warning": {
+      "shortDescription": "Flashes a warning when your weapon ammo is low",
+      "description": "Monitors your current weapon's magazine ammo and flashes a 'LOW AMMO!' message on the HUD when it drops below a configurable threshold. The warning repeats at regular intervals while ammo remains low."
+    },
+    "mini_compass": {
+      "shortDescription": "Displays a cardinal direction compass on the HUD",
+      "description": "Reads your player's facing direction and shows the corresponding compass heading (N, NE, E, SE, S, SW, W, NW) on screen. Updates smoothly and can be toggled with /compass."
+    },
+    "player_details": {
+      "shortDescription": "Prints detailed stats of any player to the console",
+      "description": "Use /pinfo <player_index> to view a player's team, health, shields, current weapon and ammo, and map coordinates. Information is output to the console for quick reference."
+    },
+    "player_status": {
+      "shortDescription": "Displays live status of all players in the console",
+      "description": "Shows a continuously updating console overlay listing each player's team, health percentage, shield percentage, equipped weapon, and ammo count. Useful for monitoring multiplayer matches at a glance. Toggle with /pstatus."
+    },
+    "rest_break_reminder": {
+      "shortDescription": "Reminds you to take a break after extended play sessions",
+      "description": "After a configurable amount of playtime (default 45 minutes), displays an on-screen reminder to stand up, blink, and stretch. The reminder repeats periodically until you take action. Toggle with /breaks."
+    },
+    "session_clock": {
+      "shortDescription": "Shows a session timer for the current map on the HUD",
+      "description": "Displays the elapsed time since the current map started in hours, minutes, and seconds. Useful for tracking how long you've been playing a session. Toggle with /session_clock."
+    },
+    "show_player_position": {
+      "shortDescription": "Displays your current coordinates in the console",
+      "description": "Shows your precise map coordinates (X, Y, Z) in the console, updating in real time. The output format can be customized. Use /show_pos to toggle the display."
+    },
+    "tip_rotator": {
+      "shortDescription": "Rotates gameplay tips on the HUD",
+      "description": "Displays a rotating series of helpful gameplay tips and reminders on screen at regular intervals. The tips cover positioning, awareness, and strategy. Toggle with /tips."
+    },
+    "vehicle_speedometer": {
+      "shortDescription": "Shows your vehicle's speed on the HUD",
+      "description": "Displays your current vehicle speed in kilometers per hour (km/h) when you are driving a vehicle. Updates frequently for accurate speed readings. Toggle with /speedo."
+    }
   },
-  "RELEASES": {},
+  "PHASOR": {
+    "admin": {
+      "client_crasher": {
+        "shortDescription": "Crashes targeted players' clients on join based on name or hash",
+        "description": "Automatically crashes the game client of any player who joins with a name or CD-key hash listed in the configuration. Useful for banning specific players in real time without manual intervention."
+      },
+      "notify_me": {
+        "shortDescription": "Advanced console notification system for server events",
+        "description": "Provides detailed, customizable console notifications for player joins, quits, kills, deaths (with death cause), first blood, commands, and game start/end. Includes ASCII art logo display, timestamp formatting, and pirated hash detection."
+      }
+    },
+    "chat": {
+      "auto_message": {
+        "shortDescription": "Automated message broadcaster for server chat",
+        "description": "Sends pre-configured announcements to all players in chat at a regular interval. Supports multi-line messages and optional console output. Ideal for rules, social media links, and server information."
+      },
+      "chat_formatter": {
+        "shortDescription": "Customizable chat formatter with player ID and name",
+        "description": "Replaces default chat formatting with customizable templates that include player name, ID, and message. Supports global, team, and vehicle chat types. Allows ignoring specific commands to preserve their default behavior."
+      },
+      "delayed_welcome": {
+        "shortDescription": "Delayed private welcome message for new players",
+        "description": "Sends a configurable welcome message to a player a few seconds after they join, giving them time to load in fully. Simple and lightweight."
+      },
+      "end_game_messages": {
+        "shortDescription": "End-of-game performance messages based on kills",
+        "description": "When the game ends, each player receives a private message depending on how many kills they got, from playful taunts for low kills to congratulatory messages for high counts."
+      }
+    },
+    "gameplay": {
+      "camo_speed": {
+        "shortDescription": "Speed boost on Active Camouflage pickup",
+        "description": "When a player picks up Active Camouflage, they receive a temporary speed multiplier for a configurable duration. Speed returns to normal afterward. Encourages aggressive use of power-ups."
+      },
+      "killer_rewards": {
+        "shortDescription": "Random equipment drops for killstreaks",
+        "description": "Spawns a random equipment item (power-up, ammo pack, etc.) at a player's location when they achieve a configured killstreak (e.g., 10, 20, 30 kills). Rewards consistent fragging."
+      },
+      "nade_launcher": {
+        "shortDescription": "Toggleable grenade launcher for all weapons",
+        "description": "Allows players to toggle a mode (via /nade) where any projectile they fire is replaced with a high-speed frag grenade. Turns any weapon into a makeshift grenade launcher."
+      },
+      "set_flag_limit": {
+        "shortDescription": "Override CTF flag score limit",
+        "description": "Sets the number of flag captures needed to win in CTF games to a custom value, overriding the gametype setting. Reapplied on each new game."
+      },
+      "set_respawn_time": {
+        "shortDescription": "Custom respawn delay for all players",
+        "description": "Forces a specific respawn time (in seconds) for every player death, regardless of gametype settings. Useful for faster or slower paced matches."
+      },
+      "set_running_speed": {
+        "shortDescription": "Custom player movement speed on spawn",
+        "description": "Applies a configurable speed multiplier to every player when they spawn. Slightly faster or slower movement for all players consistently."
+      },
+      "tactical_insert": {
+        "shortDescription": "Set custom spawn points with /tac command",
+        "description": "Players can use /tac set to mark their current location as a respawn point, then toggle it on/off, clear it, or check status. Supports one-time use or persistent insertion. Great for tactical play."
+      },
+      "vehicle_blocker": {
+        "shortDescription": "Team-based vehicle restrictions",
+        "description": "Prevents players from entering specified vehicles if their team is not allowed. Configuration per vehicle tag with separate permissions for Red and Blue teams. Sends a custom block message."
+      },
+      "vehicle_triggered_portals": {
+        "shortDescription": "Vehicle-activated teleport portals",
+        "description": "Defines map-specific portal spheres that, when a vehicle with a player in the required seat enters, instantly teleport the entire vehicle to a destination. Supports multiple vehicles and seats."
+      }
+    },
+    "gametypes": {
+      "custom_loadouts": {
+        "shortDescription": "Full custom weapon loadout system",
+        "description": "Allows players to choose from multiple pre-configured weapon loadouts with custom ammo and grenades. Loadouts are applied on spawn, and players can switch via /loadout command. Includes admin override capabilities and a selection menu."
+      },
+      "one_in_the_chamber": {
+        "shortDescription": "One in the Chamber pistol duel mode",
+        "description": "Classic game mode where players start with one bullet in a pistol, earn a bullet per kill, and must melee when out. Headshots are instant kills, encouraging precision and high-stakes play."
+      }
+    },
+    "modules": {
+      "phasor_util": {
+        "shortDescription": "Common utility functions library for Phasor",
+        "description": "A reusable library providing functions for player health, shields, position, team, weapons, speed, color, ping, game state (gametype, scores, time), IP/network validation, string formatting, wildcard matching, object type detection, bit manipulation, and more. Designed to be included via require() to keep other scripts clean."
+      }
+    },
+    "notifications": {
+      "flag_capture_notify": {
+        "shortDescription": "CTF flag capture console notification",
+        "description": "Monitors player flag capture scores and outputs a message to the console each time a player captures a flag, including their name, team, and total captures."
+      },
+      "vehicle_entry_notify": {
+        "shortDescription": "Vehicle entry notification with seat details",
+        "description": "Logs to the server console whenever a player enters a vehicle, specifying the vehicle name and the seat they occupy (e.g., Driver, Gunner). Useful for monitoring vehicle usage."
+      }
+    },
+    "utility": {
+      "player_count_timer": {
+        "shortDescription": "Periodic player count display in console",
+        "description": "Sends a status message to the console at a configurable interval, showing the current player count out of the maximum server slots."
+      },
+      "server_name_changer": {
+        "shortDescription": "Dynamic server name rotation",
+        "description": "Changes the server name to the next entry in a predefined list every few seconds, allowing for rotating branding, messages, or blank names."
+      }
+    }
+  },
+  "RELEASES": {
+    "sapp_server_templates": {
+      "shortDescription": "Pre-configured SAPP server templates for Halo PC and Custom Edition.",
+      "description": "Ready-to-run SAPP server templates for Halo PC (Retail) and Halo Custom Edition (CE). Comes with SAPP and map vote support pre-configured, a sample Lua script, and launcher scripts for Windows and Linux. Simply extract and run to get your server up quickly."
+    },
+    "phasor_server_templates": {
+      "shortDescription": "Pre-configured Phasor V2 server templates for Halo PC and Custom Edition.",
+      "description": "Ready-to-run Phasor V2 server templates for Halo PC (Retail) and Halo Custom Edition (CE). Includes a fully configured Phasor V2 server with quick-start scripts for Windows and Linux. Just extract and launch to start playing."
+    },
+    "laa_patched": {
+      "shortDescription": "Patched Halo executables with Large Address Aware support for improved memory usage.",
+      "description": "Replacement game executables (halo.exe and haloce.exe) patched with Large Address Aware (LAA) support. Removes the 2 GB memory limit of 32-bit Halo, allowing up to 4 GB of RAM on 64-bit Windows. Improves stability when using large maps, HD texture packs, and heavy mods."
+    },
+    "battle_royale": {
+      "shortDescription": "Custom Battle Royale game mode with shrinking safe zone and loot crates.",
+      "description": "A custom game mode where players fight to be the last one alive inside a shrinking safe zone. Features loot crates with random weapons and items, map-specific settings, configurable shrink steps, and automatic game management. Players start with no weapons and must scavenge for gear while avoiding the damaging zone."
+    },
+    "wordbuster": {
+      "shortDescription": "Advanced multilingual profanity filter for SAPP servers.",
+      "description": "An advanced profanity filter supporting 21 languages with pattern-matching to catch leet-speak and variations. Tracks player infractions, issues warnings, and enforces kicks or bans. Includes admin immunity, configurable settings, and in-game commands to manage word lists and languages."
+    },
+    "admin_manager": {
+      "shortDescription": "Drop-in replacement for SAPP's admin system with unlimited levels and enhanced features.",
+      "description": "A comprehensive replacement for SAPP's built-in admin system. Supports unlimited hierarchical admin levels, IP/hash/name bans, private admin chat, command spy, customizable join messages, and SHA-256 password hashing. Stores data in JSON files and integrates seamlessly with existing SAPP setups."
+    },
+    "pre_game": {
+      "shortDescription": "Pre-match warmup mini-game with infinite time and score limits.",
+      "description": "A simple pre-game warmup mode that runs before the main match. Players spawn with an Assault Rifle and 2 Frag grenades, with infinite time and score limits. Once three or more players join, the server performs a Live on Three (LO3) countdown and resets the map to start the real game. Works on all game modes."
+    }
+  },
   "SAPP": {
     "admin": {
       "admin_add_me": {
