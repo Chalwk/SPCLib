@@ -93,6 +93,8 @@ local getplayer = getplayer
 local getname = getname
 local getteam = getteam
 local getobjectcoords = getobjectcoords
+
+-- Game-specific memory addresses
 local map_pointer
 
 --- Initialises game-dependent memory addresses for PC and CE. Pointers are pre-defined
