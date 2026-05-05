@@ -1,4 +1,4 @@
-# HSP-Parkour
+# SPCLib-Parkour
 
 ## How to Connect
 

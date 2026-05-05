@@ -9,7 +9,7 @@ EXTERNAL DEPENDENCY:
                    placed in your server root directory (same location as sapp.dll
                    and strings.dll).
                  - Download from:
-                   https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/sapp/libraries/uber_vehicles.lua
+                   https://github.com/Chalwk/SPCLib/blob/master/sapp/libraries/uber_vehicles.lua
                  - Without this file, the script will use default (stock/vanilla) vehicles,
                    and may not work on custom maps.
 
@@ -37,7 +37,7 @@ LAST UPDATED:     21/9/2025
 
 Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
-                  https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/LICENSE
+                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 
@@ -159,7 +159,7 @@ local function loadVehicleConfig()
     if not success or not vehicles then
         cprint("[UBER] Failed to load uber_vehicles.lua.", 12)
         cprint("[UBER] Download the file from:", 12)
-        cprint("https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/sapp/libraries/uber_vehicles.lua", 12)
+        cprint("https://github.com/Chalwk/SPCLib/blob/master/sapp/libraries/uber_vehicles.lua", 12)
         cprint("[UBER] Using default vehicle settings", 12)
         return DEFAULT_VEHICLE_SETTINGS
     end

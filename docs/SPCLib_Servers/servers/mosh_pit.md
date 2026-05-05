@@ -1,4 +1,4 @@
-# HSP-Mosh Pit (ranked)
+# SPCLib-Mosh Pit (ranked)
 
 ## How to Connect
 
@@ -9,7 +9,7 @@
 
 ## Overview
 
-**HSP-Mosh Pit** is a competitive ranked server featuring fast-paced classic Halo gameplay with an advanced ranking
+**SPCLib-Mosh Pit** is a competitive ranked server featuring fast-paced classic Halo gameplay with an advanced ranking
 system. Players battle across multiple game modes while progressing through military-style ranks based on performance.
 
 ### Key Features

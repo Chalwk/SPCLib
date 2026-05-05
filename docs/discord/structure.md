@@ -1,12 +1,12 @@
-# HSP Discord Category/Channel Structure
+# SPCLib Discord Category/Channel Structure
 
 * ◉ INFO
     * 〔❓〕faq
-        * Overview of the HSP community and how to get started.
+        * Overview of the SPCLib community and how to get started.
     * 〔📕〕community-rules
         * Rules to keep the server safe, fun, and organized.
     * 〔📜〕role-selection
-        * HSP roles, hierarchy, and reaction roles explained.
+        * SPCLib roles, hierarchy, and reaction roles explained.
     * 〔👋〕introductions
         * Say hi and introduce yourself to the community.
     * 〔🌐〕communities
@@ -18,23 +18,23 @@
     * 〔👾〕code-snippets
         * Handy code snippets for SAPP and Phasor scripting.
     * 〔🛠️〕resources (forum)
-        * Guides, tutorials, and best practices for using HSP scripts.
+        * Guides, tutorials, and best practices for using SPCLib scripts.
     * 〔💡〕tips-tricks
         * Useful tips, tricks, and technical advice for Halo servers.
 
 * ◉ GITHUB
     * 〔🙋〕help
-        * Ask questions and get support with Halo, SAPP, Phasor, or HSP scripts.
+        * Ask questions and get support with Halo, SAPP, Phasor, or SPCLib scripts.
     * 〔🐛〕bug-reports
-        * Report bugs or issues with HSP scripts and resources.
+        * Report bugs or issues with SPCLib scripts and resources.
     * 〔🔔〕commits
-        * Automatic GitHub commit updates from HSP repository.
+        * Automatic GitHub commit updates from SPCLib repository.
 
 * ◉ SOCIAL
     * 〔💬〕chatter-box
-        * General discussion about Halo and the HSP community.
+        * General discussion about Halo and the SPCLib community.
     * 〔🏆〕showcase
-        * Highlight scripts you've written or customized from HSP.
+        * Highlight scripts you've written or customized from SPCLib.
 
 * ◉ COMMS
     * 〔🎤〕General
@@ -42,23 +42,23 @@
     * 〔🎤〕In-Game
         * Voice chat for live gameplay or server sessions.
 
-* ◉ HSP SERVERS
+* ◉ SPCLib SERVERS
     * 〔🔔〕updates
-        * Announcements and updates for HSP servers.
+        * Announcements and updates for SPCLib servers.
     * 〔📚〕list
-        * Details about official HSP Halo PC servers.
-    * divide-and-conquer _(only users with @HSP SERVERS can see this)_
-    * gun-game _(only users with @HSP SERVERS can see this)_
-    * kill-confirmed _(only users with @HSP SERVERS can see this)_
-    * melee-attack _(only users with @HSP SERVERS can see this)_
-    * mosh-pit _(only users with @HSP SERVERS can see this)_
-    * one-in-the-chamber _(only users with @HSP SERVERS can see this)_
-    * parkour _(only users with @HSP SERVERS can see this)_
-    * rooster-ctf _(only users with @HSP SERVERS can see this)_
-    * snipers-dream-team _(only users with @HSP SERVERS can see this)_
-    * tag _(only users with @HSP SERVERS can see this)_
-    * uber-racing _(only users with @HSP SERVERS can see this)_
-    * zombies _(only users with @HSP SERVERS can see this)_
+        * Details about official SPCLib Halo PC servers.
+    * divide-and-conquer _(only users with @SPCLib SERVERS can see this)_
+    * gun-game _(only users with @SPCLib SERVERS can see this)_
+    * kill-confirmed _(only users with @SPCLib SERVERS can see this)_
+    * melee-attack _(only users with @SPCLib SERVERS can see this)_
+    * mosh-pit _(only users with @SPCLib SERVERS can see this)_
+    * one-in-the-chamber _(only users with @SPCLib SERVERS can see this)_
+    * parkour _(only users with @SPCLib SERVERS can see this)_
+    * rooster-ctf _(only users with @SPCLib SERVERS can see this)_
+    * snipers-dream-team _(only users with @SPCLib SERVERS can see this)_
+    * tag _(only users with @SPCLib SERVERS can see this)_
+    * uber-racing _(only users with @SPCLib SERVERS can see this)_
+    * zombies _(only users with @SPCLib SERVERS can see this)_
 
 * ◉ COUNCIL CHAMBERS (hidden to the public - admin channels)
     * 〔🛡️〕watchtower

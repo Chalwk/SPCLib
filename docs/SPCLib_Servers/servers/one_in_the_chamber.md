@@ -1,4 +1,4 @@
-# HSP-One In The Chamber
+# SPCLib-One In The Chamber
 
 ## How to Connect
 

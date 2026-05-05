@@ -11,7 +11,7 @@ DESCRIPTION:      Adds a configurable '/res' command that allows players to:
 
 Copyright (c) 2019-2025 Jericho Crosby
 LICENSE:          MIT License
-                  https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/LICENSE
+                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 -- Configuration table for the resupply script

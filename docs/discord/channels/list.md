@@ -1,16 +1,16 @@
-# [About HSP Servers](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/about.md)
+# [About SPCLib Servers](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_SERVERS/about.md)
 
-* [HSP-Divide & Conquer](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/divide_and_conquer.md) - #divide-and-conquer
-* [HSP-Gun Game](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/gun_game.md) - #gun-game
-* [HSP-Kill Confirmed](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/kill_confirmed.md) - #kill-confirmed
-* [HSP-Melee Attack](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/melee_attack.md) - #melee-attack
-* [HSP-Mosh Pit](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/mosh_pit.md) - #mosh-pit
-* [HSP-One in the Chamber](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/one_in_the_chamber.md) - #one-in-the-chamber
-* [HSP-Parkour](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/parkour.md) - #parkour
-* [HSP-Rooster CTF](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/rooster_ctf.md) -#rooster-ctf
-* [HSP-Snipers Dream Team](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/snipers_dream_team.md) - #snipers-dream-team
-* [HSP-Tag](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/tag.md) - #tag
-* [HSP-Uber Racing](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/uber_racing.md) -#uber-racing
-* [HSP-Zombies](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/docs/HSP_SERVERS/servers/zombies.md) - #zombies
+* [SPCLib-Divide & Conquer](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/divide_and_conquer.md) - <#1411505649090695261>
+* [SPCLib-Gun Game](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/gun_game.md) - <#1411505912383803523>
+* [SPCLib-Kill Confirmed](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/kill_confirmed.md) - <#1411505955451179050>
+* [SPCLib-Melee Attack](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/melee_attack.md) - <#1411506078968971295>
+* [SPCLib-Mosh Pit](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/mosh_pit.md) - <#1421685416096043100>
+* [SPCLib-One in the Chamber](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/one_in_the_chamber.md) - <#1411506123210494012>
+* [SPCLib-Parkour](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/parkour.md) - <#1418136460107845703>
+* [SPCLib-Rooster CTF](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/rooster_ctf.md) -<#1411506158342246526>
+* [SPCLib-Snipers Dream Team](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/snipers_dream_team.md) - <#1411506192659910868>
+* [SPCLib-Tag](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/tag.md) - <#1411506214709362830>
+* [SPCLib-Uber Racing](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/uber_racing.md) -<#1413670966449672313>
+* [SPCLib-Zombies](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/zombies.md) - <#1413150135650877440>
 
-Get the @HSP Servers role in #〔📜〕role-selection to see real-time in-game event notifications for the official HSP Halo servers.
+Get the <@&1411842731441131601> role in <#1409724068437168250> to see real-time in-game event notifications for the official SPCLib Halo servers.

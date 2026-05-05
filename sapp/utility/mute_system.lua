@@ -18,7 +18,7 @@ FEATURES:
 
 REQUIREMENTS:     Install to the same directory as sapp.dll
                   - Lua JSON Parser:   http://regex.info/blog/lua/json
-                  - Page Browsing Lib: https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/misc/libraries/page_browsing_lib.lua
+                  - Page Browsing Lib: https://github.com/Chalwk/SPCLib/blob/master/misc/libraries/page_browsing_lib.lua
 
 USAGE:
                   - Configure settings in the MuteSystem table
@@ -27,7 +27,7 @@ USAGE:
 
 Copyright (c) 2020 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
-                  https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/LICENSE
+                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 
@@ -642,13 +642,13 @@ function report(StackTrace, Error)
 
     cprint("--------------------------------------------------------", 12)
     cprint("Please report this error on github:", 11)
-    cprint("https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/issues", 12)
+    cprint("https://github.com/Chalwk/SPCLib/issues", 12)
     cprint("Script Version: " .. script_version, 11)
     cprint("--------------------------------------------------------", 12)
 
     WriteLog(os.date("[%H:%M:%S - %d/%m/%Y]"))
     WriteLog("Please report this error on github:")
-    WriteLog("https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/issues")
+    WriteLog("https://github.com/Chalwk/SPCLib/issues")
     WriteLog("Script Version: " .. tostring(script_version))
     WriteLog(Error)
     WriteLog(StackTrace)

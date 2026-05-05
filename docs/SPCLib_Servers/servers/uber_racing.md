@@ -1,4 +1,4 @@
-# HSP-Uber Racing
+# SPCLib-Uber Racing
 
 ## How to Connect
 

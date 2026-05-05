@@ -1,4 +1,4 @@
-# HSP-Gun Game
+# SPCLib-Gun Game
 
 ## How to Connect
 

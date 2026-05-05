@@ -1,4 +1,4 @@
-# 🛡️ HSP Ban Registry
+# 🛡️ SPCLib Ban Registry
 
 **Last Updated:** 26-Aug-2025  
 **Total Active Bans:** 0 | **Expired:** 0 | **Revoked:** 0

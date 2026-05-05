@@ -13,7 +13,7 @@ CONFIGURATION:    Customize message formats in the chat table:
 
 Copyright (c) 2014-2025 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
-                  https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/LICENSE
+                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

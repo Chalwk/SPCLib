@@ -1,6 +1,6 @@
 # :tools: Help & Support
 
-Need a hand? This is the place to ask for help with anything related to Halo and the HSP community.
+Need a hand? This is the place to ask for help with anything related to Halo and the SPCLib community.
 
 > You can post questions here about:
 >

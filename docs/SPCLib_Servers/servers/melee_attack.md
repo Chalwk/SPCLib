@@ -1,4 +1,4 @@
-# HSP-Melee Attack
+# SPCLib-Melee Attack
 
 ## How to Connect
 

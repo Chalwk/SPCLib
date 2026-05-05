@@ -1,4 +1,4 @@
-# HSP-Kill Confirmed
+# SPCLib-Kill Confirmed
 
 ## How to Connect
 

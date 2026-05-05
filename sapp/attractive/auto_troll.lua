@@ -26,7 +26,7 @@ CONFIGURATION:
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
-                  https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/LICENSE
+                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 
@@ -1725,7 +1725,7 @@ function report()
     local script_version = format("%0.2f", Troll.settings.script_version)
     cprint("--------------------------------------------------------", 5 + 8)
     cprint("Please report this error on github:", 7 + 8)
-    cprint("https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/issues", 7 + 8)
+    cprint("https://github.com/Chalwk/SPCLib/issues", 7 + 8)
     cprint("Script Version: " .. script_version, 7 + 8)
     cprint("--------------------------------------------------------", 5 + 8)
 end

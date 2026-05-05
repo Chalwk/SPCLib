@@ -1,4 +1,4 @@
-# HSP-Rooster CTF
+# SPCLib-Rooster CTF
 
 ## How to Connect
 

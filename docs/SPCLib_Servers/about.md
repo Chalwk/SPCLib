@@ -1,10 +1,10 @@
-# HSP Halo Servers Overview
+# SPCLib Halo Servers Overview
 
-The HSP **Halo: Custom Edition** servers provide a diverse range of exciting and unique game modes designed to challenge
+The SPCLib **Halo: Custom Edition** servers provide a diverse range of exciting and unique game modes designed to challenge
 players, foster competition, and provide endless fun. Whether you're a fan of strategic team-based gameplay, intense
 free-for-all action, or something in between, we have something for everyone.
 
-Here's a quick overview of the current HSP **Halo: Custom Edition** servers:
+Here's a quick overview of the current SPCLib **Halo: Custom Edition** servers:
 
 | Game Mode                                               | Description                                                                                                                                                                                                                                                                                                    | Server                 |
 |---------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------|
@@ -23,7 +23,7 @@ Here's a quick overview of the current HSP **Halo: Custom Edition** servers:
 ---
 
 Each server offers a unique and custom experience, crafted to deliver the best possible gameplay. Whether you're looking
-to compete in a classic mode or try something completely new, HSP Halo servers are ready for you. Dive into the
+to compete in a classic mode or try something completely new, SPCLib Halo servers are ready for you. Dive into the
 action and join us on any of the following servers today!
 
 For more information about each game mode or to connect, check out the individual server pages linked above. Happy
@@ -33,19 +33,19 @@ gaming!
 
 # Halo Server Scripts
 
-All **HSP** servers for **Halo: Custom Edition** are equipped with several custom scripts designed to improve
+All **SPCLib** servers for **Halo: Custom Edition** are equipped with several custom scripts designed to improve
 gameplay, ensure fair play, and enhance the overall server experience. Below is a list of the scripts running on all of
 our servers:
 
 | **Script Name**                                                                                    | **Description**                                                                                                                                                                               | 
 |----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| 
-| 🛡️️ [**Admin Manager**](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/releases/tag/AdminManager) | A comprehensive drop-in replacement for SAPP's built-in admin system, offering a range of features to help administrators manage players, enforce rules, and maintain a positive environment. |
+| 🛡️️ [**Admin Manager**](https://github.com/Chalwk/SPCLib/releases/tag/AdminManager) | A comprehensive drop-in replacement for SAPP's built-in admin system, offering a range of features to help administrators manage players, enforce rules, and maintain a positive environment. |
 | 💼 [**Script Manager**](../../sapp/utility/script_manager.lua)                                     | Ensures all custom scripts run correctly, providing a smooth and enjoyable gameplay experience.                                                                                               |
 | 📝 [**Server Logger**](../../sapp/utility/server_logger.lua)                                       | Tracks important events and activities on the server, helping maintain a secure and transparent environment.                                                                                  |
 | 🗺️ [**Map Cycle Manager**](../../sapp/utility/mapcycle_manager.lua)                               | Allows administrators to manage map rotations efficiently and switch between classic and custom maps using simple commands.                                                                   |
 | 💤 [**AFK System**](../../sapp/utility/afk_system.lua)                                             | Monitors players who are inactive for extended periods, automatically warning and kicking them to prevent disruption to gameplay.                                                             |
 | 🔒 [**VPN Blocker**](../../sapp/utility/vpn_blocker.lua)                                           | Prevents players from using VPNs to connect to the servers, reducing malicious activity and ensuring legitimate players join.                                                                 |
-| 🚫 [**Word Buster**](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/releases/tag/Word-Buster)      | Filters out inappropriate language and offensive words from chat messages, maintaining a clean and respectful environment.                                                                    |
+| 🚫 [**Word Buster**](https://github.com/Chalwk/SPCLib/releases/tag/Word-Buster)      | Filters out inappropriate language and offensive words from chat messages, maintaining a clean and respectful environment.                                                                    |
 
 These scripts work together to provide an environment where players can enjoy fair, secure, and exciting gameplay. We
 are always working to improve the community experience, so be sure to check out these features in action on all of our

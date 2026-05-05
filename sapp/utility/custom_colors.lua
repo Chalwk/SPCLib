@@ -18,7 +18,7 @@ COLOR REFERENCE:  0=white, 1=black, 2=red, 3=blue, 4=gray, 5=yellow
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
-                  https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/LICENSE
+                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

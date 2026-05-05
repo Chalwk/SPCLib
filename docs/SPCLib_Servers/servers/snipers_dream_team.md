@@ -1,4 +1,4 @@
-# HSP-Snipers Dream Team
+# SPCLib-Snipers Dream Team
 
 ## How to Connect
 

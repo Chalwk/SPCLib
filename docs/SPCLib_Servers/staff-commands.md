@@ -16,7 +16,7 @@ behind-the-scenes operations.
 
 ### 👑 Senior Admin - Level 6+
 
-The highest rank in the HSP hierarchy, Owners have access to all staff commands and are responsible for
+The highest rank in the SPCLib hierarchy, Owners have access to all staff commands and are responsible for
 overseeing the entire server.
 
 ---

@@ -1,8 +1,8 @@
 [![Discord](https://img.shields.io/badge/Discord-Join_Our_Server-7289DA?style=for-the-badge&logo=discord)](https://discord.gg/D76H7RVPC9)
 
-# Contributing to the Halo Script Projects (HSP)
+# Contributing to the SPCLib
 
-Thank you for considering contributing to **Halo Script Projects (HSP)**! Your contributions help maintain, improve,
+Thank you for considering contributing to **SPCLib**! Your contributions help maintain, improve,
 and expand the collection of SAPP/Phasor Lua scripts and resources for **Halo: CE** and **Halo: PC** dedicated servers.
 Following these guidelines ensures a smooth and collaborative process.
 
@@ -13,19 +13,19 @@ Following these guidelines ensures a smooth and collaborative process.
 ### Issues and Suggestions
 
 * **Check First**: Before creating a new issue, search
-  the [Issues Section](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/issues) to see if your concern, bug, or feature
+  the [Issues Section](https://github.com/Chalwk/SPCLib/issues) to see if your concern, bug, or feature
   request has already been reported.
 * **Create an Issue**: If it's new, create an issue with a **clear title** and **detailed description**. Include server
   type (SAPP or Phasor) and any relevant context.
 
 ### Pull Requests
 
-1. **Fork the Repository**: Create your own copy of the HSP repository.
+1. **Fork the Repository**: Create your own copy of the SPCLib repository.
 2. **Create a Branch**: Make your changes in a new branch with a descriptive name (e.g., `fix-teleport-bug` or
    `add-gun-game-mode`).
 3. **Submit a PR**: When your changes are ready, submit a pull request with a clear explanation of your additions,
    changes, or bug fixes.
-4. **Follow Style Guidelines**: Ensure your Lua code follows existing HSP conventions, and maintain clear comments and
+4. **Follow Style Guidelines**: Ensure your Lua code follows existing SPCLib conventions, and maintain clear comments and
    formatting.
 
 ---
@@ -35,7 +35,7 @@ Following these guidelines ensures a smooth and collaborative process.
 ### Lua Script Guidelines
 
 * Keep code **readable and well-commented**.
-* Follow the **existing style** of HSP scripts.
+* Follow the **existing style** of SPCLib scripts.
 * Test scripts locally to ensure they function as intended before submitting.
 
 ### Markdown / Documentation
@@ -52,15 +52,15 @@ For a detailed guide on Markdown formatting, refer to [markdown guide](https://w
 
 ### Collaboration Etiquette
 
-* **Be Respectful**: Communicate kindly with contributors and HSP maintainers.
+* **Be Respectful**: Communicate kindly with contributors and SPCLib maintainers.
 * **Respond Promptly**: Address comments or questions on your PRs in a timely manner.
 * **Open to Feedback**: Accept constructive feedback and make improvements as needed.
 
 ---
 
-## Contributors to Projects and Code
+## Contributors
 
-We'd like to recognize the amazing people who contributed to HSP scripts, libraries, and server extensions:
+We'd like to recognize the amazing people who contributed to SPCLib scripts, libraries, and server extensions:
 
 | **User**                                                   | **Description**                                                                                                                                                                                                                                                                                                                                                                   | **Source**                                                                                                                                                                     |
 |------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -71,13 +71,13 @@ We'd like to recognize the amazing people who contributed to HSP scripts, librar
 | [Nuggets](http://phasor.proboards.com/user/36)             | Created the **Console Text Overload** utility (*integrated into some Phasor scripts*).                                                                                                                                                                                                                                                                                            | [Console Text Overload](http://pastebin.com/1dtn0DiM)                                                                                                                          |
 | [002 (Kavawuvi\SnowyMouse)](https://github.com/SnowyMouse) | 1. Creator of **Chimera**.<br>2. Created the **SAPP HTTP Client** (*integrated into some SAPP scripts*).<br>3. Created the **get_tag_info()** function (*integrated into some SAPP scripts*).<br>4. Created the **Comprehensive SAPP Documentation**.<br>   [SAPP Documentation](https://opencarnage.net/index.php?/topic/3806-comprehensive-sapp-documentation-rev-25-sapp-101/) | 1. [Chimera](https://opencarnage.net/index.php?/forum/78-chimera-general/) <br>2. [HTTP Client](https://opencarnage.net/index.php?/topic/5998-sapp-http-client/#comment-82077) || [giraffe](https://opencarnage.net/index.php?/profile/1463-giraffe/) | Created the **Auto Vehicle Flip** SAPP script (*integrated into some SAPP scripts*).                                                                                                            | [Auto Vehicle Flip](https://opencarnage.net/index.php?/topic/6251-auto-vehicle-flip/)                                                                                          |
 | [Jeffrey Friedl](http://regex.info/blog/)                  | Creator of the **JSON Interpreter** (Library) for Lua.                                                                                                                                                                                                                                                                                                                            | [JSON Interpreter](http://regex.info/blog/lua/json)                                                                                                                            |
-| [edgardanielgd](https://github.com/edgardanielgd)          | Contributed code to the [Admin Manager](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/releases/tag/AdminManager).                                                                                                                                                                                                                                                                |                                                                                                                                                                                |
+| [edgardanielgd](https://github.com/edgardanielgd)          | Contributed code to the [Admin Manager](https://github.com/Chalwk/SPCLib/releases/tag/AdminManager).                                                                                                                                                                                                                                                                              |                                                                                                                                                                                |
 
 ---
 
 ## License
 
-By contributing to HSP, you agree that your contributions will be licensed under the same terms as the repository. For
+By contributing to SPCLib, you agree that your contributions will be licensed under the same terms as the repository. For
 details, see the [LICENSE](LICENSE) file.
 
 ---

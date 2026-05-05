@@ -5,7 +5,7 @@ DESCRIPTION:      Rewards players with random equipment when they reach a killst
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
-                  https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/LICENSE
+                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

@@ -1,4 +1,4 @@
-# HSP-Divide and Conquer
+# SPCLib-Divide and Conquer
 
 ## How to Connect
 

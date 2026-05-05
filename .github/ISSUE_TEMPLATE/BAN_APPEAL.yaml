@@ -1,5 +1,5 @@
 name: Ban Appeal
-description: Submit a report to appeal a ban from the HSP Discord or Halo servers.
+description: Submit a report to appeal a ban from the SPCLib Discord or Halo servers.
 title: "Ban Appeal for: <name>"
 labels: [ "Ban Appeal" ]
 assignees: Chalwk
@@ -14,7 +14,7 @@ body:
     id: why-should-we-unban-you
     attributes:
       label: 🔍 Why should we unban you?
-      description: Explain why you believe you should be reinstated on the HSP Discord or Halo servers.
+      description: Explain why you believe you should be reinstated on the SPCLib Discord or Halo servers.
       placeholder: "Write your reason here"
     validations:
       required: true
@@ -34,4 +34,4 @@ body:
         >
         > 🙌 Thank you
         >
-        > **We appreciate your effort in appealing your ban from the HSP community. Your input helps us maintain a fair and enjoyable environment for everyone.**
+        > **We appreciate your effort in appealing your ban from the SPCLib community. Your input helps us maintain a fair and enjoyable environment for everyone.**

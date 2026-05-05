@@ -1,65 +1,57 @@
-## Welcome to the [HALO SCRIPT PROJECTS](../../..) Discord!
+## Welcome to the [SPCLib](https://github.com/Chalwk/SPCLib) Discord!
 
-This server is the **official community for the HSP GitHub repository**, a maintained collection of Lua scripting
-resources for **Halo: CE** and **Halo: PC** dedicated servers.
+This server is the **official community for the SPCLib GitHub repo**: a curated collection of Lua scripts and resources for the **SAPP** and **Phasor** dedicated server extensions, and the **Chimera** client-side mod, for **Halo: CE** and **Halo: PC**.
 
 **Purpose**
-To provide a central hub for server administrators and operators (using **SAPP** or **Phasor**) to access tools, share
-knowledge, and collaborate on enhancing their multiplayer server experience.
+To provide a central hub for server administrators and operators (using **SAPP**, **Phasor**, or **Chimera**) to access tools, share knowledge, and collaborate on enhancing their multiplayer server experience.
 
 **Community Activities**
+* 📂 **Discuss & Explore:** Review and talk about scripts from the SPCLib repo.
+* 💡 **Contribute Ideas:** Request new features and suggest project improvements
+* 🛠️ **Get Support:** Report bugs and receive troubleshooting assistance
+* 🎮 **Share Knowledge:** Exchange tips, game modes, and server configs with other admins
+* 🤝 **Network:** Connect with a community of dedicated Halo server operators
+* 🎭 **Roles:** See <#1409724068437168250> for self-assignable roles.
 
-* :open_file_folder: **Discuss & Explore:** Review and talk about scripts from the HSP Repository
-* :bulb: **Contribute Ideas:** Request new features and suggest project improvements
-* :tools: **Get Support:** Report bugs and receive troubleshooting assistance
-* :video_game: **Share Knowledge:** Exchange tips, game modes, and server configs with other admins
-* :handshake: **Network:** Connect with a community of dedicated Halo server operators
-* :performing_arts: **Roles:** See #〔📜〕writ-of-allegiance for self-assignable roles.
-
-**Official HSP Servers**
+**Official SPCLib Servers**
 Join the dedicated **Halo game servers** to see scripts in action and play with the community.
-See #〔📚〕list for more information.
+See <#1409752423794479134> for more information.
+
+Shoutout to all Halo clans, past and present.
+
+> \- YAS -, -db-, «§», «Ag~, «Ð²Ä», «MAD», [Aķ], [CV], [GTV], [HGE], [IG], [IS], [K2], [McK], [Nbk], [VR], [WFFF], ]ZTA[. VSA, {ATP}, {BK}, {CK}, {CRG}, {HWS}, {LoH}, {NR}, {OTH}, {ØZ}, {PWH}, {SK}, {SSC}, {V3}, {X}, {XF} = SL =, {XG}, = EP =, = NcS =, = XA=, =DN=, =RDA=, £V», ÄÄÄ, AOD, AR, BR, BZ, C#w, CAF, CB, CES, CGD, CHr, CK, ÇM, CODE, CSI, CST, DFS, DR, Ðu¥, EK, ev, FCM, Fem1, Fez`, FIG, FooK, GDS, GoD, GRO, HH, HSF, HTK3, IR, KB, KMT, KoD, KoF, LaG, LF, LIB, LNZ, LP, LTD2, M5, MR, MVL, ňc, ÑE», ñuß, OSR, OWV, P§ycho, PÕQ, PRO, RC, RSF, SAR, SB, SDR, ßE, TBR, TCS, TFT, TM, ToR, X¬, xOSHx, xT
 
 ---
 
-# :question: HSP FAQ - Quick Answers
+# ❓ SPLib FAQ - Quick Answers
 
 **Q1: What scripts can I use?**
-
-* **[SAPP Scripts](../../../sapp):** Utilities, Custom Games, Attractive features
-* **[Phasor Scripts](../../../phasor):** Legacy scripts for older servers
-* **[Releases](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/releases):** Larger, more complex projects
+* [**SAPP Scripts**](https://github.com/Chalwk/SPLib/tree/master/sapp): Utilities, Custom Games, Attractive features
+* [**Phasor Scripts**](https://github.com/Chalwk/SPLib/tree/master/phasor): Legacy scripts for older servers
+* [**Releases**](https://github.com/Chalwk/SPLib/releases): Larger, more complex projects
 
 **Q2: How do I get help?**
-
-* #〔🙋〕help - Ask questions about scripts, server setup, or technical issues
-* #〔🐛〕bug-reports - Report script bugs or server issues
+* <#1409719058730979368> - Ask questions about scripts, server setup, or technical issues
+* <#1409719114880258261> - Report script bugs or server issues
 
 **Q3: How can I contribute?**
-
-* [Feature Requests](https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/issues/new?template=FEATURE_REQUEST.yaml) - Suggest
-  new scripts or improvements
-* Share your scripts in #〔🏆〕showcase
-* **Submit Pull Requests:** Contribute code improvements, bug fixes, or new scripts directly via GitHub.
-  See [CONTRIBUTING.md](../../../CONTRIBUTING.md) for full workflow and coding style.
+* [Feature Requests](https://github.com/Chalwk/SPLib/issues/new?template=FEATURE_REQUEST.yaml) - Suggest new scripts or improvements
+* Share your scripts in <#1409768360115437600>
+* **Submit Pull Requests:** Contribute code improvements, bug fixes, or new scripts directly via GitHub. See [CONTRIBUTING.md](https://github.com/Chalwk/SPLib/blob/master/CONTRIBUTING.md) for full workflow and coding style.
 
 **Q4: How do I keep up with updates?**
-
-* #〔🔔〕commits - Live GitHub commit feed
-* #〔🔔〕updates - Official HSP server announcements
+* <#1409718980679303260> - Live GitHub commit feed
+* <#1409790318773145680> - Official SPLib server announcements
 
 **Q5: Where can I chat or meet other admins?**
-
-* #〔💬〕chatter-box - General discussion about Halo & HSP
+* <#1409750370585935943> - General discussion about Halo & SPLib
 * `〔🎤〕General` / `〔🎤〕In-Game` - Voice chat for casual or gameplay conversations
 
 **Q6: How can I start?**
-
-1. Post in #〔👋〕introductions
-2. Read #〔📕〕community-rules
-3. Browse #〔🙋〕help or the Wiki for scripting guidance
+1. Post in <#1409740090778845184>
+2. Read <#1409727652339777577>
+3. Browse <#1409719058730979368> or the Wiki for scripting guidance
 4. Read extensive docs in `◉ KNOWLEDGE BASE (forums)`:
-
-- #〔👾〕code-snippets
-- #〔🛠️〕resources
-- #〔💡〕tips-tricks
+- <#1410198420689391706>
+- <#1410155079285215273>
+- <#1410185546894020638>

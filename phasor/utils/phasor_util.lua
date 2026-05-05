@@ -21,7 +21,7 @@ DESCRIPTION:      A collection of common utility functions for Phasor Lua script
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
-                  https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/blob/master/LICENSE
+                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

@@ -1,2 +1,2 @@
 -- DOWNLOAD FROM:
--- https://github.com/Chalwk/HALO-SCRIPT-PROJECTS/releases/tag/WordBusterV2
+-- https://github.com/Chalwk/SPCLib/releases/tag/WordBusterV2

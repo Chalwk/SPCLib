@@ -1,4 +1,4 @@
-# HSP-Zombies
+# SPCLib-Zombies
 
 ## How to Connect
 
@@ -9,7 +9,7 @@
 
 ## Overview
 
-**HSP-Zombies** is a game mode where players are divided into two teams: **Humans** (Red Team) and **Zombies** (Blue
+**SPCLib-Zombies** is a game mode where players are divided into two teams: **Humans** (Red Team) and **Zombies** (Blue
 Team). The goal of the Humans is to survive until the end of the round, while Zombies aim to infect and turn Humans into
 their own team.
 
