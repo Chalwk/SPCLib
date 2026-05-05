@@ -42,6 +42,7 @@ port forwarding, memory offsets, and more. **All SAPP/Phasor Lua scripts are sti
 * [8. Community Hubs](#community-hubs)
 * [9. Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
 * [10. Support My Work](#support-my-work)
+* [11. License](#license)
 
 ---
 
@@ -224,3 +225,7 @@ Enjoy these projects? Help me continue development:
 
 - ☕ [Donate via PayPal](https://www.paypal.com/ncp/payment/XUPTKDU6LKM3G)
 - **Star ⭐ this repository** to show appreciation and stay updated!
+
+## License
+
+SPCLib is licensed under the [MIT License](LICENSE).
