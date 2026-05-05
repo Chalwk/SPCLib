@@ -7,8 +7,6 @@ DESCRIPTION:      Pistol duel mode where every shot counts:
                   - Switch to melee when out of ammo
                   - High-risk, high-reward gameplay
 
-                  todo: fix insta-kill
-
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
@@ -16,15 +14,15 @@ LICENSE:          MIT License
 ]]
 
 -- CONFIG start ---------------------------------------
+local WEAPON = 'weapons\\pistol\\pistol'
 local STARTING_PRIMARY_AMMO = 1
 local STARTING_SECONDARY_AMMO = 0
 local AMMO_PER_KILL = 1
 local STARTING_FRAGS = 0
 local STARTING_PLASMAS = 0
-local WEAPON = 'weapons\\pistol\\pistol'
 -- CONFIG end -----------------------------------------
 
-local weapon_tag
+local pistol_bullet_tag, weapon_tag
 
 local function set_pistol_ammo(player_id, clip, reserve)
     local player_object = getplayer(player_id)
@@ -84,7 +82,10 @@ end
 
 function OnScriptLoad() end
 
-function OnNewGame() weapon_tag = gettagid("weap", WEAPON) end
+function OnNewGame()
+    weapon_tag = gettagid("weap", WEAPON)
+    pistol_bullet_tag = gettagid("jpt!", "weapons\\pistol\\bullet")
+end
 
 function OnPlayerSpawn(player_id)
     registertimer(50, "SetupInventory", player_id)
@@ -95,6 +96,10 @@ function OnPlayerKill(killer, victim, mode)
     if killer == nil or killer == victim or killer < 0 then return end
     if not is_alive(killer) then return end
     set_pistol_ammo(killer, AMMO_PER_KILL, STARTING_SECONDARY_AMMO)
+end
+
+function OnDamageLookup(_, _, mapId, _)
+    if mapId == pistol_bullet_tag then odl_flags(2, 1) end
 end
 
 function OnScriptUnload() end

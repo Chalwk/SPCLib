@@ -48,6 +48,7 @@
     "movobjectcoords",
     "objectaddrtoplayer",
     "objectidtoplayer",
+    "odl_flags",
     "player_alive",
     "player_present",
     "powerup_interact",
