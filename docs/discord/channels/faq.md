@@ -23,28 +23,29 @@ Shoutout to all Halo clans, past and present.
 
 ---
 
-# ❓ SPLib FAQ - Quick Answers
+# ❓ SPCLib FAQ - Quick Answers
 
 **Q1: What scripts can I use?**
-* [**SAPP Scripts**](https://github.com/Chalwk/SPLib/tree/master/sapp): Utilities, Custom Games, Attractive features
-* [**Phasor Scripts**](https://github.com/Chalwk/SPLib/tree/master/phasor): Legacy scripts for older servers
-* [**Releases**](https://github.com/Chalwk/SPLib/releases): Larger, more complex projects
+* [**SAPP Scripts**](https://github.com/Chalwk/SPCLib/tree/master/sapp): Utilities, Custom Games, Attractive features
+* [**Phasor Scripts**](https://github.com/Chalwk/SPCLib/tree/master/phasor): Legacy scripts for older servers
+* [**Releases**](https://github.com/Chalwk/SPCLib/releases): Larger, more complex projects
 
 **Q2: How do I get help?**
 * <#1409719058730979368> - Ask questions about scripts, server setup, or technical issues
 * <#1409719114880258261> - Report script bugs or server issues
 
 **Q3: How can I contribute?**
-* [Feature Requests](https://github.com/Chalwk/SPLib/issues/new?template=FEATURE_REQUEST.yaml) - Suggest new scripts or improvements
+* [Feature Requests](https://github.com/Chalwk/SPCLib/issues/new?template=FEATURE_REQUEST.yaml) - Suggest new scripts or improvements
 * Share your scripts in <#1409768360115437600>
-* **Submit Pull Requests:** Contribute code improvements, bug fixes, or new scripts directly via GitHub. See [CONTRIBUTING.md](https://github.com/Chalwk/SPLib/blob/master/CONTRIBUTING.md) for full workflow and coding style.
+* **Submit Pull Requests:** Contribute code improvements, bug fixes, or new scripts directly via GitHub.
+  See [CONTRIBUTING.md](https://github.com/Chalwk/SPCLib/blob/master/CONTRIBUTING.md) for full workflow and coding style.
 
 **Q4: How do I keep up with updates?**
 * <#1409718980679303260> - Live GitHub commit feed
-* <#1409790318773145680> - Official SPLib server announcements
+* <#1409790318773145680> - Official SPCLib server announcements
 
 **Q5: Where can I chat or meet other admins?**
-* <#1409750370585935943> - General discussion about Halo & SPLib
+* <#1409750370585935943> - General discussion about Halo & SPCLib
 * `〔🎤〕General` / `〔🎤〕In-Game` - Voice chat for casual or gameplay conversations
 
 **Q6: How can I start?**
