@@ -87,6 +87,7 @@
     "timer",
     "to_real_index",
     "unregister_callback",
+    "updateammo",
     "write_bit",
     "write_byte",
     "write_char",
