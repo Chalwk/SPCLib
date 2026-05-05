@@ -226,7 +226,10 @@ function util.get_player_stats(id)
         kills = readword(p + 0x9C),
         deaths = readword(p + 0xAE),
         assists = readword(p + 0xA4),
-        streaks = readword(p + 0x98)
+        streaks = readword(p + 0x98),
+        flag_captures = readword(p + 0xC8),
+        flag_returns = readword(p + 0xC6),
+        flag_grabs = readword(p + 0xC4)
     }
 end
 
@@ -1324,10 +1327,29 @@ function util.is_ffa()
     return readbyte(gametype_base + 0x34) == 0
 end
 
+--- Returns the team name for a player.
+-- @param id (number)
+-- @return string team name
+function util.get_team_name(id)
+	local team_id = getteam(id)
+	return team_id == 0 and "Red" or "Blue"
+end
+
+--- Returns the current scores for both teams in CTF mode.
+-- @return table {red_score, blue_score}
+function util.get_ctf_team_scores()
+	local scores = {}
+	for team = 0, 1 do
+		local current_score = readdword(ctf_globals + team * 4 + 0x10)
+		scores[team] = current_score
+	end
+	return scores
+end
+
 --- Returns the gametype mode name as a string (e.g., "ctf", "slayer").
 -- @return string gametype name
 function util.get_gametype_name()
-    local type = readbyte(gametype_base + 0x30)
+    local type = util.get_gametype_id()
     return type == 0 and "none"
         or type == 1 and "ctf"
         or type == 2 and "slayer"
@@ -1358,7 +1380,7 @@ function util.get_player_score(player_id)
     local p = getplayer(player_id)
     if not p then return nil end
     local gt = util.get_gametype_id()
-    if gt == 1 then -- ctf
+    if gt == 1 then     -- ctf
         return readshort(p + 0xC8)
     elseif gt == 2 then -- slayer
         return readint(slayer_globals + 0x40 + player_id * 4)
