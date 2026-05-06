@@ -91,7 +91,8 @@ files: [Revision 2.4](docs/SAPP%20Documentation%20Revision%202.4.pdf)
 and [Revision 2.5](docs/SAPP%20Documentation%20Revision%202.5.pdf). These documents were written by 002 (SnowyMouse) and
 are preserved here for historical reference as the original distribution site is no longer available.
 
-The community memory offsets list ([offsets.lua](reference/offsets.lua)), originally created by Wizard, is also preserved
+The community memory offsets list ([offsets.lua](reference/offsets.lua)), originally created by Wizard, is also
+preserved
 here as a reference. This file is provided archival purposes only.
 
 > **License notice:** The [MIT license](LICENSE) of this repository applies to the original content (Lua scripts,
@@ -143,6 +144,16 @@ Discord, providing real-time alerts, structured embeds, and a GUI interface for 
 - Cross-platform (Windows & Linux)
 
 **[→ Visit SAPPDiscordBot Repository](https://github.com/Chalwk/SAPPDiscordBot)**
+
+### Script Browser
+
+[![Script Browser](https://img.shields.io/badge/Script_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chalwk.github.io/SPCLib/)
+
+A live, searchable web interface that lets you explore every script in SPCLib without touching the repository.  
+Filter by platform (SAPP, Phasor, Chimera, Releases), browse by category, search by name or description, and download
+`.lua` files directly - all from one page.
+
+**[→ Open the Script Browser](https://chalwk.github.io/SPCLib/)**
 
 ---
 
