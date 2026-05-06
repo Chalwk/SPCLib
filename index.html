@@ -572,10 +572,13 @@
 
 <script>
     (function () {
+        // Grabbing metadata from the master branch
         const METADATA_URL = 'https://raw.githubusercontent.com/Chalwk/SPCLib/master/metadata.json';
+        // These are used to build links to the source code and raw downloads
         const GITHUB_BASE = 'https://github.com/Chalwk/SPCLib/blob/master';
         const RAW_BASE = 'https://raw.githubusercontent.com/Chalwk/SPCLib/master';
 
+        // Some releases have tags that don't match their folder names, this maps the slug to the correct tag
         const RELEASE_TAG_MAP = {
             'sapp_server_templates': 'sapp-server-templates',
             'phasor_server_templates': 'phasor-server-templates',
@@ -586,6 +589,7 @@
             'pre_game': 'PreGame'
         };
 
+        // Define the platform tabs, including which ones have category subfolders
         const PLATFORMS = [
             {key: 'SAPP', label: 'SAPP', icon: '🖥', hasCategories: true},
             {key: 'PHASOR', label: 'Phasor', icon: '🖥', hasCategories: true},
@@ -593,6 +597,7 @@
             {key: 'RELEASES', label: 'Releases', icon: '📦', hasCategories: false}
         ];
 
+        // Categories to show as filter pills for SAPP and Phasor
         const CATEGORY_NAMES = ['admin', 'chat', 'gameplay', 'gametypes', 'modules', 'notifications', 'utility'];
 
         let metadata = null;
@@ -607,7 +612,9 @@
         const searchClear = document.getElementById('searchClear');
         const statsDisplay = document.getElementById('statsDisplay');
 
+        // Build the GitHub URL to view the script source
         function buildSourceUrl(platform, category, fileName) {
+            // Chimera scripts live in a global folder, releases use separate tag links
             if (platform === 'CHIMERA') {
                 return `${GITHUB_BASE}/chimera/global/${fileName}.lua`;
             }
@@ -618,6 +625,7 @@
             return `${GITHUB_BASE}/${platform.toLowerCase()}/${category}/${fileName}.lua`;
         }
 
+        // Build the direct download URL (raw file)
         function buildDownloadUrl(platform, category, fileName) {
             if (platform === 'CHIMERA') {
                 return `${RAW_BASE}/chimera/global/${fileName}.lua`;
@@ -644,6 +652,7 @@
             return map[platform] || '';
         }
 
+        // Flatten the nested metadata into a list of script objects to filter and display
         function flattenMetadata() {
             const scripts = [];
             for (const platformKey of Object.keys(metadata)) {
@@ -699,6 +708,7 @@
             return scripts;
         }
 
+        // Apply the current platform, category, and search text to the flat list
         function getFilteredScripts() {
             if (!metadata) return [];
             const allScripts = flattenMetadata();
@@ -722,6 +732,7 @@
             });
         }
 
+        // Build the tab bar, counting scripts for each platform
         function renderTabs() {
             const platformCounts = {};
             if (metadata) {
@@ -742,6 +753,7 @@
             }).join('');
         }
 
+        // Show category filter pills only for platforms that use them (SAPP and Phasor)
         function renderCategoryFilters() {
             if (activePlatform !== 'SAPP' && activePlatform !== 'PHASOR') {
                 categoryFilters.innerHTML = '';
@@ -772,6 +784,7 @@
             categoryFilters.innerHTML = html;
         }
 
+        // Generate the card grid, showing name, description, and links
         function renderScripts() {
             const scripts = getFilteredScripts();
 
@@ -891,12 +904,14 @@
             }
         });
 
+        // Intercept clicks on .lua script name links to download immediately instead of navigating, fallback to new tab on failure
         scriptGrid.addEventListener('click', async function (e) {
             const link = e.target.closest('.script-name');
             if (!link) return;
             const url = link.getAttribute('href');
             if (!url) return;
 
+            // Only handle .lua files, releases (.zip) open normally via the card's release button
             if (!url.endsWith('.lua')) return;
 
             e.preventDefault();
@@ -920,6 +935,7 @@
             }
         });
 
+        // Fetch the metadata JSON and trigger the initial render; show error if it fails
         async function fetchMetadata() {
             try {
                 const response = await fetch(METADATA_URL);
