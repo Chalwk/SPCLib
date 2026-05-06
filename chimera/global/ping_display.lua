@@ -21,7 +21,6 @@ local TEXT = "Ping: %s ms"
 
 set_callback("tick", "OnTick")
 set_callback("command", "OnCommand")
-set_callback("map load", "OnMapLoad")
 
 local function proceed(id) return ENABLED and id and server_type == "dedicated" end
 
