@@ -41,7 +41,7 @@
         .header {
             background: var(--surface);
             border-bottom: 2px solid var(--accent);
-            padding: 1.2rem 1.5rem;
+            padding: 1rem 1.5rem;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -55,14 +55,22 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.75rem;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-shrink: 0;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 700;
             color: var(--accent);
             letter-spacing: -0.5px;
+            white-space: nowrap;
         }
 
         .logo span {
@@ -72,16 +80,18 @@
         .back-btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.3rem;
-            font-size: 0.85rem;
-            color: var(--accent);
+            gap: 0.35rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text2);
             text-decoration: none;
-            padding: 0.3rem 0.8rem;
+            padding: 0.35rem 0.75rem;
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 20px;
             background: var(--surface2);
             transition: var(--transition);
             white-space: nowrap;
+            line-height: 1;
         }
 
         .back-btn:hover {
@@ -90,15 +100,31 @@
             border-color: var(--accent);
         }
 
+        .back-btn .arrow {
+            font-size: 0.85rem;
+            line-height: 1;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+            justify-content: flex-end;
+            min-width: 0;
+        }
+
         .search-box {
             display: flex;
             align-items: center;
             background: var(--surface2);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 0.4rem 1rem;
+            padding: 0.35rem 0.9rem;
             gap: 0.5rem;
-            min-width: 240px;
+            min-width: 220px;
+            max-width: 360px;
+            flex: 1;
         }
 
         .search-box:focus-within {
@@ -109,14 +135,15 @@
             background: transparent;
             border: none;
             color: var(--text);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             width: 100%;
             outline: none;
         }
 
         .search-box .search-icon {
             color: var(--text2);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            flex-shrink: 0;
         }
 
         .search-clear {
@@ -124,9 +151,11 @@
             border: none;
             color: var(--text2);
             cursor: pointer;
-            font-size: 1.1rem;
-            padding: 0 0.2rem;
+            font-size: 1rem;
+            padding: 0 0.15rem;
             display: none;
+            flex-shrink: 0;
+            line-height: 1;
         }
 
         .search-clear.visible {
@@ -138,12 +167,13 @@
         }
 
         .stats {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text2);
             background: var(--surface2);
-            padding: 0.3rem 0.8rem;
-            border-radius: 12px;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .stats strong {
@@ -265,15 +295,23 @@
             justify-content: space-between;
             margin-bottom: 0.6rem;
             gap: 0.5rem;
+            min-width: 0;
         }
 
         .script-name {
             font-weight: 600;
             font-size: 1rem;
             color: var(--accent);
-            word-break: break-word;
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
             text-decoration: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0;
+            display: inline-block;
+            max-width: 100%;
+            cursor: pointer;
+            line-height: 1.3;
         }
 
         .script-name:hover {
@@ -284,12 +322,46 @@
         .script-name .ext {
             color: var(--text2);
             font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .short-desc {
+            font-size: 0.85rem;
+            color: var(--text2);
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .long-desc {
+            font-size: 0.82rem;
+            color: var(--text);
+            flex-grow: 1;
+            line-height: 1.5;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-top: auto;
+            flex-wrap: wrap;
+        }
+
+        .card-meta {
+            font-size: 0.7rem;
+            color: var(--text2);
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
         }
 
         .card-links {
             display: flex;
             gap: 0.4rem;
             flex-shrink: 0;
+            margin-left: auto;
         }
 
         .card-link {
@@ -324,29 +396,6 @@
 
         .link-release:hover {
             opacity: 0.85;
-        }
-
-        .short-desc {
-            font-size: 0.85rem;
-            color: var(--text2);
-            margin-bottom: 0.5rem;
-            font-style: italic;
-        }
-
-        .long-desc {
-            font-size: 0.82rem;
-            color: var(--text);
-            flex-grow: 1;
-            line-height: 1.5;
-            margin-bottom: 0.8rem;
-        }
-
-        .card-meta {
-            font-size: 0.7rem;
-            color: var(--text2);
-            display: flex;
-            gap: 0.8rem;
-            align-items: center;
         }
 
         .platform-tag {
@@ -449,8 +498,24 @@
                 align-items: stretch;
             }
 
+            .header-left {
+                justify-content: space-between;
+            }
+
+            .header-right {
+                flex-wrap: wrap;
+                justify-content: stretch;
+            }
+
             .search-box {
                 min-width: unset;
+                max-width: unset;
+                flex: 1 1 100%;
+            }
+
+            .stats {
+                flex-shrink: 1;
+                text-align: center;
             }
 
             .script-grid {
@@ -472,14 +537,20 @@
 
 <header class="header">
     <div class="header-inner">
-        <div class="logo">📚 SPCLib <span>Script Browser</span></div>
-        <a href="https://github.com/Chalwk/SPCLib" class="back-btn" title="Go to repository root">← Repo</a>
-        <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input id="searchInput" placeholder="Search scripts..." type="text">
-            <button class="search-clear" id="searchClear" title="Clear">✕</button>
+        <div class="header-left">
+            <div class="logo">📚 SPCLib <span>Script Browser</span></div>
+            <a class="back-btn" href="https://github.com/Chalwk/SPCLib" title="Go to repository root">
+                <span class="arrow">←</span> Repo
+            </a>
         </div>
-        <div class="stats" id="statsDisplay">Loading...</div>
+        <div class="header-right">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input id="searchInput" placeholder="Search scripts..." type="text">
+                <button class="search-clear" id="searchClear" title="Clear">✕</button>
+            </div>
+            <div class="stats" id="statsDisplay">Loading...</div>
+        </div>
     </div>
 </header>
 
@@ -495,7 +566,8 @@
 </div>
 
 <footer class="footer">
-    <p>© 2026. Jericho Crosby (<a href="https://github.com/Chalwk" target="_blank">Chalwk</a>) - SPCLib Script Browser</p>
+    <p>© 2026. Jericho Crosby (<a href="https://github.com/Chalwk" target="_blank">Chalwk</a>) - SPCLib Script
+        Browser</p>
 </footer>
 
 <script>
@@ -685,7 +757,8 @@
             });
             const total = Object.values(catCounts).reduce((a, b) => a + b, 0);
 
-            let html = `<button class="cat-btn${activeCategory === 'all' ? ' active' : ''}" data-category="all">
+            let html =
+                `<button class="cat-btn${activeCategory === 'all' ? ' active' : ''}" data-category="all">
                     All <span class="badge">${total}</span></button>`;
 
             CATEGORY_NAMES.forEach(cat => {
@@ -723,27 +796,30 @@
                     const displayName = script.isRelease ?
                         script.fileName.replace(/_/g, ' ') :
                         script.fileName;
+                    const ext = script.isRelease ? '.zip' : '.lua';
+                    const fullFileName = displayName + ext;
                     const platformTagClass = getPlatformTagClass(script.platform);
-                    const downloadAttr = script.isRelease ? '' : ' download';
 
                     return `
                         <div class="script-card" data-platform="${script.platform}" data-category="${script.category}">
                             <div class="card-header">
-                                <a href="${script.downloadUrl}" class="script-name"${downloadAttr}>
-                                    ${escapeHtml(displayName)}<span class="ext">${script.isRelease ? '.zip' : '.lua'}</span>
+                                <a href="${script.downloadUrl}" class="script-name" title="${escapeHtml(fullFileName)}">
+                                    ${escapeHtml(displayName)}<span class="ext">${ext}</span>
                                 </a>
+                            </div>
+                            ${script.shortDescription ? `<p class="short-desc">${escapeHtml(script.shortDescription)}</p>` : ''}
+                            ${script.description ? `<p class="long-desc">${escapeHtml(script.description)}</p>` : ''}
+                            <div class="card-bottom">
+                                <div class="card-meta">
+                                    <span class="platform-tag ${platformTagClass}">${script.platform}</span>
+                                    ${!script.isRelease && script.category !== 'global' ? `<span>📁 ${script.category}</span>` : ''}
+                                </div>
                                 <div class="card-links">
                                     ${script.isRelease
                         ? `<a href="${script.sourceUrl}" target="_blank" class="card-link link-release">⬇ Release</a>`
                         : `<a href="${script.sourceUrl}" target="_blank" class="card-link link-source">📄 View Script</a>`
                     }
                                 </div>
-                            </div>
-                            ${script.shortDescription ? `<p class="short-desc">${escapeHtml(script.shortDescription)}</p>` : ''}
-                            ${script.description ? `<p class="long-desc">${escapeHtml(script.description)}</p>` : ''}
-                            <div class="card-meta">
-                                <span class="platform-tag ${platformTagClass}">${script.platform}</span>
-                                ${!script.isRelease && script.category !== 'global' ? `<span>📁 ${script.category}</span>` : ''}
                             </div>
                         </div>`;
                 }).join('');
@@ -812,6 +888,35 @@
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
                 searchInput.focus();
+            }
+        });
+
+        scriptGrid.addEventListener('click', async function (e) {
+            const link = e.target.closest('.script-name');
+            if (!link) return;
+            const url = link.getAttribute('href');
+            if (!url) return;
+
+            if (!url.endsWith('.lua')) return;
+
+            e.preventDefault();
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                const filename = url.split('/').pop() || 'download.lua';
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(blobUrl), 1500);
+            } catch (err) {
+                console.error('Download failed, opening in new tab:', err);
+                window.open(url, '_blank');
             }
         });
 
