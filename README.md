@@ -81,24 +81,23 @@ commands, built-in map downloads, and dozens of quality-of-life fixes. Chimera s
 The official SAPP website (halo.isimaginary.com) is no longer accessible. To ensure that historical versions remain
 available for the community, this repository also serves as a mirror for all released SAPP binaries.
 
-You'll find the full archive of SAPP versions - from earlier builds all the way to the final release in the
+You'll find the full archive of SAPP versions, from earlier builds all the way to the final release in the
 **[`./assets/sapp_downloads`](./assets/sapp_downloads)** folder. These files are unmodified and provided as-is for
 archival, preservation, and server‑maintenance purposes.
 
 Additionally, this repository hosts a mirror of the official SAPP documentation PDF
 files: [Revision 2.4](docs/SAPP%20Documentation%20Revision%202.4.pdf)
 and [Revision 2.5](docs/SAPP%20Documentation%20Revision%202.5.pdf). These documents were written by 002 (SnowyMouse) and
-are preserved here for historical reference as the original distribution site is no longer available.
+are preserved here for historical reference.
 
 The community memory offsets list ([offsets.lua](reference/offsets.lua)), originally created by Wizard, is also
-preserved
-here as a reference. This file is provided archival purposes only.
+preserved here as a reference.
 
 > **License notice:** The [MIT license](LICENSE) of this repository applies to the original content (Lua scripts,
 > documentation, etc.). The SAPP binaries themselves are closed‑source software created by sehé, and the mirrored
-> documentation PDFs were authored by 002 (SnowyMouse). Their inclusion here does not imply any change to their original
-> licenses. This mirror exists purely to keep these resources accessible now that the original distribution channel is
-> gone.
+> SAPP documentation PDFs were authored by 002 (SnowyMouse). Their inclusion here does not imply any change to their
+> original licenses. This mirror exists purely to keep these resources accessible now that the original distribution
+> channel is gone.
 
 ---
 
