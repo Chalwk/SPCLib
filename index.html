@@ -325,13 +325,6 @@
             white-space: nowrap;
         }
 
-        .short-desc {
-            font-size: 0.85rem;
-            color: var(--text2);
-            margin-bottom: 0.5rem;
-            font-style: italic;
-        }
-
         .long-desc {
             font-size: 0.82rem;
             color: var(--text);
@@ -668,7 +661,6 @@
                                     platform: platformKey,
                                     category: category,
                                     fileName: fileName,
-                                    shortDescription: scriptData.shortDescription || '',
                                     description: scriptData.description || '',
                                     sourceUrl: buildSourceUrl(platformKey, category, fileName),
                                     downloadUrl: buildDownloadUrl(platformKey, category, fileName),
@@ -683,7 +675,6 @@
                             platform: platformKey,
                             category: 'release',
                             fileName: fileName,
-                            shortDescription: scriptData.shortDescription || '',
                             description: scriptData.description || '',
                             sourceUrl: buildSourceUrl('RELEASES', '', fileName),
                             downloadUrl: buildDownloadUrl('RELEASES', '', fileName),
@@ -696,7 +687,6 @@
                             platform: platformKey,
                             category: 'global',
                             fileName: fileName,
-                            shortDescription: scriptData.shortDescription || '',
                             description: scriptData.description || '',
                             sourceUrl: buildSourceUrl(platformKey, 'global', fileName),
                             downloadUrl: buildDownloadUrl(platformKey, 'global', fileName),
@@ -722,7 +712,6 @@
                 if (query) {
                     const searchable = [
                         script.fileName,
-                        script.shortDescription,
                         script.description,
                         script.category
                     ].join(' ').toLowerCase();
@@ -820,7 +809,6 @@
                                     ${escapeHtml(displayName)}<span class="ext">${ext}</span>
                                 </a>
                             </div>
-                            ${script.shortDescription ? `<p class="short-desc">${escapeHtml(script.shortDescription)}</p>` : ''}
                             ${script.description ? `<p class="long-desc">${escapeHtml(script.description)}</p>` : ''}
                             <div class="card-bottom">
                                 <div class="card-meta">
