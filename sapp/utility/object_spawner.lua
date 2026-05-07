@@ -36,7 +36,6 @@ LICENSE:          MIT License
 -- CONFIG start ---------------------------------------------------------------------------------
 api_version = "1.12.0.0"
 
--- Format: { tag_type, tag_path, x, y, z, rotation, respawn_time_sec, respawn_radius }
 local maps = {
     bloodgulch = {
         { "weap", "weapons\\sniper rifle\\sniper rifle", 90.899, -159.633, 1.704, 1.587, 30, 1.5 },
