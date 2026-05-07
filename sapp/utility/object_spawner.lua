@@ -187,7 +187,7 @@ local function init_objects()
                 rot = rot,
                 respawn_time = respawn_time,
                 respawn_radius = radius,
-                is_vehicle = (type_str == "vehi"),
+                is_vehicle = (type_str == "vehi")
             })
             obj:spawn()
             table_insert(active, obj)
