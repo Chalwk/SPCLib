@@ -1,6 +1,6 @@
 {
   "CHIMERA": {
-    "afk_monitor": "Monitors all players for inactivity, alerts console when idle threshold reached. Toggle with /afk, set time with /afktime, set movement tolerance with /afkradius, AFK detection and notification for all players.",
+    "afk_monitor": "Monitors inactivity, alerts console when idle threshold reached. Toggle with /afk, set time with /afktime, set movement tolerance with /afkradius, AFK detection and notification for all players.",
     "current_weapon_info": "Displays equipped weapon name, magazine & reserve ammo top-left. Periodic updates, toggle /wpninfo, Displays current weapon name and ammo count on the HUD.",
     "idle_reminder": "HUD reminder ('You there?') after configurable idle time. Toggle /idle, Reminds you if you've been idle for too long.",
     "low_ammo_warning": "Flashes 'LOW AMMO!' HUD warning when magazine ammo below configurable threshold. Repeats while low, Flashes a warning when your weapon ammo is low.",
@@ -62,7 +62,7 @@
   },
   "SAPP": {
     "admin": {
-      "admin_add_me": "'/admin me' grants instant level 4 access. Configurable default level, pirate hash detection, IP-based assignment, Quick admin access utility for testing.",
+      "admin_add_me": "Grants instant level 4 access. Quick admin access utility for testing.",
       "admin_chat": "Private admin chat with /ac, /adminchat, spam protection, message formatting, permission levels, notification sounds, cooldowns, Admin communication system.",
       "admin_manager": "Drop-in replacement: unlimited hierarchical levels, IP/hash/name bans, admin chat, command spy, alias lookup, SHA-256 hashing, per-level join messages, JSON storage, Improved admin system with hierarchical levels, integrated bans and admin chat.",
       "afk_system": "Advanced AFK detection: movement/camera/input tracking, custom thresholds, voluntary AFK, admin immunity, progressive warnings, kick messages, All-in-one AFK detection and management.",
@@ -250,7 +250,7 @@
       "map_list_with_map_spec": "Map cycle monitor with position tracking, spec indexing, live tracking, position queries, Improved map cycle monitoring with position tracking and spec indexing.",
       "map_skip_tally": "Skip vote tally persists across matches, player-specific, JSON storage, admin queries, Tracks and persists map skip votes across game sessions with detailed statistics.",
       "map_vote_system": "Enhanced map voting: unlimited options, re-voting, streak protection, timing controls, feedback, Improved replacement for SAPP's default voting with expanded includes and customization.",
-      "object_spawner": "Spawn predefined objects at specific coords per map, rotation, persistent, Map-specific object placement system.",
+      "object_spawner": "Persistent object spawning with auto-respawn. Spawns weapons, vehicles, equipment at config coords. Respawns after pickup, destruction, or movement outside radius. Vehicles only respawn if unoccupied & moved. Held weapons safely ignored on respawn. Map-specific configuration.",
       "on_teleport": "Detects player teleports by position change, for debugging/anti-cheat, Player teleportation detection system.",
       "per_map_score_limits": "Set score limit per map at game start, default fallback, Sets the score limit at game start based on the map.",
       "play_time": "Tracks player playtime: total hours, join count, session duration. JSON persistence, individual/server queries, All-in-one player session tracking system.",
