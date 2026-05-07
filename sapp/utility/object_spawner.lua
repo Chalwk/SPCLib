@@ -1,8 +1,31 @@
 --[[
 =====================================================================================
 SCRIPT NAME:      object_spawner.lua
-DESCRIPTION:      Persistent object spawning with automatic respawn on pickup,
-                  deletion, or movement.
+DESCRIPTION:      Persistent object spawning with automatic respawn.
+
+                  Spawns configured objects (weapons, vehicles, equipment, etc.) at
+                  defined coordinates. The object automatically respawns after being
+                  picked up, destroyed, or moved beyond a set radius from its origin.
+                  Vehicles only respawn when unoccupied and moved.
+
+                  When a weapon is picked up by a player, the script will NOT destroy
+                  the held weapon on respawn, it safely ignores destruction of the
+                  old object if a player is carrying it.
+
+                  Config format:
+                   { tag_class, "tag_path", x, y, z, rotation, respawn_time, radius },
+
+                  Examples:
+                   -- Sniper rifle (weapon) at center of Blood Gulch, respawns 30s after pickup/move
+                   { "weap", "weapons\\sniper rifle\\sniper rifle", 0, 0, 0.5, 0, 30, 1.5 },
+                   -- Rocket launcher (weapon)
+                   { "weap", "weapons\\rocket launcher\\rocket launcher", 10, 10, 0.5, 90, 45, 2.0 },
+                   -- Warthog (vehicle) - respawns 60s after moving if empty
+                   { "vehi", "vehicles\\warthog\\mp_warthog", 20, 20, 0, 180, 60, 3.0 },
+                   -- Active camouflage (equipment)
+                   { "eqip", "powerups\\active camouflage", -15, 5, 0.2, 0, 45, 1.0 },
+
+                  tag_class options: "weap", "vehi", "eqip", "bipd" (biped), etc.
 
 Copyright (c) 2021-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
