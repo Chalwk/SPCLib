@@ -5,8 +5,8 @@
     "grenade_proximity_warning": "Shows warning when a live grenade is nearby, direction as clock-face (e.g., 12 = ahead). Toggle /grenwarn.",
     "idle_reminder": "HUD reminder ('You there?') after configurable idle time. Toggle /idle, Reminds you if you've been idle for too long.",
     "low_ammo_warning": "Flashes 'LOW AMMO!' HUD warning when magazine ammo below configurable threshold. Repeats while low, Flashes a warning when your weapon ammo is low.",
-    "ping_display": "Displays current ping in ms on HUD. Toggle /ping.",
     "mini_compass": "Shows cardinal direction compass (N, NE, E, SE, S, SW, W, NW) on HUD. Smooth updates, toggle /compass, Displays a cardinal direction compass on the HUD.",
+    "ping_display": "Displays current ping in ms on HUD. Toggle /ping.",
     "player_details": "/pinfo <index> displays team, health, shields, weapon, ammo, coordinates to console, Prints detailed stats of any player to the console.",
     "player_status": "Live console overlay of all players' team, health/shield %, weapon, ammo. Toggle /pstatus, Displays live status of all players in the console.",
     "rest_break_reminder": "On-screen break reminder after configurable playtime (default 45 min), repeats until acknowledged. Toggle /breaks, Reminds you to take a break after extended play sessions.",
@@ -54,13 +54,13 @@
     }
   },
   "RELEASES": {
-    "sapp_server_templates": "Ready-to-run SAPP server templates for Halo PC/CE. Includes SAPP, map vote, sample Lua, Windows/Linux launchers. Extract and run, Pre-configured SAPP server templates for Halo PC and Custom Edition.",
-    "phasor_server_templates": "Ready-to-run Phasor V2 templates for Halo PC/CE. Fully configured with Windows/Linux quick-start scripts. Extract and launch, Pre-configured Phasor V2 server templates for Halo PC and Custom Edition.",
-    "laa_patched": "LAA-patched haloce.exe/halo.exe removes 2GB memory limit, allows up to 4GB on 64-bit Windows. Improves stability with large maps/mods, Patched Halo executables with Large Address Aware support for improved memory usage.",
-    "battle_royale": "Custom BR mode: shrinking safe zone, loot crates with random weapons, map configs, auto management. Start with no weapons, scavenge to survive, Custom Battle Royale game mode with shrinking safe zone and loot crates.",
-    "wordbuster": "Advanced profanity filter (21 languages, leet-speak detection). Warns, kicks/bans, admin immunity, in-game word list management, Advanced multilingual profanity filter for SAPP servers.",
     "admin_manager": "Full SAPP admin system replacement: unlimited hierarchical levels, IP/hash/name bans, admin chat, command spy, join messages, SHA-256 hashing, JSON storage, Drop-in replacement for SAPP's admin system with unlimited levels and enhanced features.",
-    "pre_game": "Pre-match warmup: AR + 2 frags, infinite time/score. When 3+ players, LO3 countdown and map reset to start real game. All game modes, Pre-match warmup mini-game with infinite time and score limits."
+    "battle_royale": "Custom BR mode: shrinking safe zone, loot crates with random weapons, map configs, auto management. Start with no weapons, scavenge to survive, Custom Battle Royale game mode with shrinking safe zone and loot crates.",
+    "laa_patched": "LAA-patched haloce.exe/halo.exe removes 2GB memory limit, allows up to 4GB on 64-bit Windows. Improves stability with large maps/mods, Patched Halo executables with Large Address Aware support for improved memory usage.",
+    "phasor_server_templates": "Ready-to-run Phasor V2 templates for Halo PC/CE. Fully configured with Windows/Linux quick-start scripts. Extract and launch, Pre-configured Phasor V2 server templates for Halo PC and Custom Edition.",
+    "pre_game": "Pre-match warmup: AR + 2 frags, infinite time/score. When 3+ players, LO3 countdown and map reset to start real game. All game modes, Pre-match warmup mini-game with infinite time and score limits.",
+    "sapp_server_templates": "Ready-to-run SAPP server templates for Halo PC/CE. Includes SAPP, map vote, sample Lua, Windows/Linux launchers. Extract and run, Pre-configured SAPP server templates for Halo PC and Custom Edition.",
+    "wordbuster": "Advanced profanity filter (21 languages, leet-speak detection). Warns, kicks/bans, admin immunity, in-game word list management, Advanced multilingual profanity filter for SAPP servers."
   },
   "SAPP": {
     "admin": {
