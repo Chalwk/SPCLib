@@ -2,8 +2,10 @@
   "CHIMERA": {
     "afk_monitor": "Monitors inactivity, alerts console when idle threshold reached. Toggle with /afk, set time with /afktime, set movement tolerance with /afkradius, AFK detection and notification for all players.",
     "current_weapon_info": "Displays equipped weapon name, magazine & reserve ammo top-left. Periodic updates, toggle /wpninfo, Displays current weapon name and ammo count on the HUD.",
+    "grenade_proximity_warning": "Shows warning when a live grenade is nearby, direction as clock-face (e.g., 12 = ahead). Toggle /grenwarn.",
     "idle_reminder": "HUD reminder ('You there?') after configurable idle time. Toggle /idle, Reminds you if you've been idle for too long.",
     "low_ammo_warning": "Flashes 'LOW AMMO!' HUD warning when magazine ammo below configurable threshold. Repeats while low, Flashes a warning when your weapon ammo is low.",
+    "ping_display": "Displays current ping in ms on HUD. Toggle /ping.",
     "mini_compass": "Shows cardinal direction compass (N, NE, E, SE, S, SW, W, NW) on HUD. Smooth updates, toggle /compass, Displays a cardinal direction compass on the HUD.",
     "player_details": "/pinfo <index> displays team, health, shields, weapon, ammo, coordinates to console, Prints detailed stats of any player to the console.",
     "player_status": "Live console overlay of all players' team, health/shield %, weapon, ammo. Toggle /pstatus, Displays live status of all players in the console.",
