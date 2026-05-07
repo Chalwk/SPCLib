@@ -661,7 +661,7 @@
                                     platform: platformKey,
                                     category: category,
                                     fileName: fileName,
-                                    description: scriptData.description || '',
+                                    description: typeof scriptData === 'string' ? scriptData : '',
                                     sourceUrl: buildSourceUrl(platformKey, category, fileName),
                                     downloadUrl: buildDownloadUrl(platformKey, category, fileName),
                                     isRelease: false
@@ -675,7 +675,7 @@
                             platform: platformKey,
                             category: 'release',
                             fileName: fileName,
-                            description: scriptData.description || '',
+                            description: typeof scriptData === 'string' ? scriptData : '',
                             sourceUrl: buildSourceUrl('RELEASES', '', fileName),
                             downloadUrl: buildDownloadUrl('RELEASES', '', fileName),
                             isRelease: true
@@ -687,7 +687,7 @@
                             platform: platformKey,
                             category: 'global',
                             fileName: fileName,
-                            description: scriptData.description || '',
+                            description: typeof scriptData === 'string' ? scriptData : '',
                             sourceUrl: buildSourceUrl(platformKey, 'global', fileName),
                             downloadUrl: buildDownloadUrl(platformKey, 'global', fileName),
                             isRelease: false
