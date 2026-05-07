@@ -122,16 +122,16 @@ function OnTick()
                 if get_object_memory(v.object) == 0 then v.object = nil end
             end
         elseif check_movement then
-            local objAddr = get_object_memory(v.object)
-            if objAddr == 0 then
+            local object = get_object_memory(v.object)
+            if object == 0 then
                 v.object = nil
                 v.respawn_timer = now + v.respawn_time
             elseif v.is_vehicle then
-                if not is_occupied(objAddr) and has_moved(v, objAddr) then
+                if not is_occupied(object) and has_moved(v, object) then
                     v.respawn_timer = now + v.respawn_time
                 end
             else
-                if has_moved(v, objAddr) then
+                if has_moved(v, object) then
                     v.respawn_timer = now + v.respawn_time
                 end
             end
