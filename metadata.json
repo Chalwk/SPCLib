@@ -179,7 +179,6 @@
     },
     "gametypes": {
       "attrition": "Limited-life team mode with revival: crouch over death orb (skull) to revive, visual progress, team-based, config timing.",
-      "battle_royale": ".",
       "capture_the_flag": "CTF on Slayer maps: single flag, return to any base to score. Config scoring, flag respawn, map points, team/FFA support.",
       "cranked": "Cranked: speed/damage boost after kill, must chain kills or explode. Per-map config, countdown timer, explosion death, boost params.",
       "divide_and_conquer": "Killing opponent converts them to your team. Team balance, min players, auto start, victory when team eliminated, auto map rotation.",
