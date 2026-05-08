@@ -64,9 +64,9 @@
   },
   "SAPP": {
     "admin": {
-      "admin_manager": "Drop-in replacement: unlimited hierarchical levels, IP/hash/name bans, admin chat, command spy, alias lookup, SHA-256 hashing, per-level join messages, JSON storage.",
+      "admin_manager": "Drop-in replacement: hierarchical levels, IP/hash/name bans, admin chat, command spy, alias lookup, SHA-256 hashing, per-level join messages, JSON storage.",
       "afk_system": "Advanced AFK detection: movement/camera/input tracking, custom thresholds, voluntary AFK, admin immunity, progressive warnings, kick messages.",
-      "aimbot_scores": "/botscore [target] [mode] shows accuracy metrics, basic/detailed. Targets: 1-16, me, all/*. Live data, respawn status indicators.",
+      "aimbot_scores": "Shows bot score accuracy metrics.",
       "alias_system": "Logs player aliases by hash/IP. Admin lookup with pagination, pirate hash detection, cooldowns, auto cleanup.",
       "anti_aimbot": "Multi-layered aim-lock detection: velocity/trajectory/behavior analysis, weapon profiles, sensitivity adjustment, false positive mitigation, live monitoring, enforcement actions.",
       "anti_camp_v1": "Zone-based camping detection with map-specific restricted areas, progressive warnings, cooldowns, auto reset, custom timers/radius.",
@@ -102,7 +102,6 @@
     },
     "chat": {
       "admin_chat": "Private admin chat with /ac. Spam protection, message formatting, permission levels, notification sounds, cooldowns.",
-      "admin_messages": "Admin join announcements per level, chat/RCON output, customizable formatting, colors, toggleable.",
       "april_fools_chat": "Makes other players 'say' your messages when triggering words used. Permission-level limited",
       "april_fools_word_shuffler": "1/3 chance to scramble chat messages, readable but jumbled.",
       "chat_ids": "Appends player slot numbers to chat messages, customizable for global/team/vehicle.",
@@ -113,10 +112,8 @@
       "rcon_chat": "Forwards chat to RCON hud with player IDs, team/vehicle differentiation.",
       "rules_command": "/rules command displays server rules, configurable auto-announcements, timed display.",
       "simple_poll_system": "Admin-created timed polls, players vote via /vote, results broadcast at end.",
-      "taunt_on_end_messages": "End-game taunts based on kill count, from gentle ribbing to backhanded compliments.",
       "taunt_your_players": "Send funny/provocative messages to players.",
-      "team_chat": "Private team channels, invite system, team/global modes, 1-3+ player private chats, permissions.",
-      "welcome_messages": "Personalized join welcome messages, expandable for timed/player-specific greetings."
+      "team_chat": "Private team channels, invite system, team/global modes, 1-3+ player private chats, permissions."
     },
     "gameplay": {
       "air_strike": "Periodic rocket strikes at predefined map locations, random heights/trajectories, player warnings.",
@@ -212,6 +209,7 @@
       "uber_vehicles": "Vehicle config library for Uber system: tag paths, seats, enabled status, display names, insertion order, whitelist. Stock/custom vehicles."
     },
     "notifications": {
+      "admin_messages": "Admin join announcements per level, chat/RCON output, customizable formatting, colors, toggleable.",
       "auto_message": "Scheduled announcements: rotating multi-line messages, interval 30-300s, colors, chat+console, timestamps, on-demand triggers.",
       "beep_on_join": "System beep on player join, audible alert.",
       "command_spy": "Logs admin command usage with notification levels, blacklist, detailed logs.",
@@ -225,7 +223,9 @@
       "rage_quit": "Detects rage quits (quit after death/short play), humorous broadcasts, configurable windows.",
       "random_fact_generator": "Fetches Chuck Norris facts periodically, option to replace name with player. Needs HTTP client & JSON.",
       "status_timer": "Periodic console player count / max slots (default every 3s).",
-      "tea_bagging": "Detects tea-bagging (crouching near corpses), broadcasts taunts, configurable radius/crouch count/cooldown, admin toggle."
+      "taunt_on_end_messages": "End-game taunts based on kill count, from gentle ribbing to backhanded compliments.",
+      "tea_bagging": "Detects tea-bagging (crouching near corpses), broadcasts taunts, configurable radius/crouch count/cooldown, admin toggle.",
+      "welcome_messages": "Personalized join welcome messages, expandable for timed/player-specific greetings."
     },
     "utility": {
       "admin_add_me": "Grants instant level 4 access. Used for quick testing.",
