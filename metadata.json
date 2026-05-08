@@ -64,9 +64,9 @@
   },
   "SAPP": {
     "admin": {
-      "admin_add_me": "Grants instant level 4 access. Used for quick testing.",
       "admin_manager": "Drop-in replacement: unlimited hierarchical levels, IP/hash/name bans, admin chat, command spy, alias lookup, SHA-256 hashing, per-level join messages, JSON storage.",
       "afk_system": "Advanced AFK detection: movement/camera/input tracking, custom thresholds, voluntary AFK, admin immunity, progressive warnings, kick messages.",
+      "aimbot_scores": "/botscore [target] [mode] shows accuracy metrics, basic/detailed. Targets: 1-16, me, all/*. Live data, respawn status indicators.",
       "alias_system": "Logs player aliases by hash/IP. Admin lookup with pagination, pirate hash detection, cooldowns, auto cleanup.",
       "anti_aimbot": "Multi-layered aim-lock detection: velocity/trajectory/behavior analysis, weapon profiles, sensitivity adjustment, false positive mitigation, live monitoring, enforcement actions.",
       "anti_camp_v1": "Zone-based camping detection with map-specific restricted areas, progressive warnings, cooldowns, auto reset, custom timers/radius.",
@@ -78,7 +78,6 @@
       "breadcrumb_tracker": "Tracks player identity across name changes via IP/subnet, hash, optional VPN detection (IPQualityScore). Suspicious join alerts with risk score 0-100%. /crumbs query. Pirate hash flagging, 24h API cache, JSON storage, auto cleanup.",
       "clear_chat": "Instant global chat clearing with admin access controls and notification options.",
       "client_crasher": "Auto-crashes clients matching banned criteria (names/hashes/IPs), admin crash commands.",
-      "command_spy": "Logs admin command usage with notification levels, blacklist, detailed logs.",
       "dynamic_ping_kicker": "Adaptive ping kicker: limits adjust with player count, warnings, admin immunity, logging.",
       "freeze_players": "Freeze players: weapon management, movement restriction, customizable notifications, admin permissions.",
       "geo_location": "Geolocate players on join via ip-api.com, optional country block. Display fields, /country command, cache (1h TTL), debug IP. Needs JSON, HTTP client.",
@@ -108,6 +107,7 @@
       "april_fools_word_shuffler": "1/3 chance to scramble chat messages, readable but jumbled.",
       "chat_ids": "Appends player slot numbers to chat messages, customizable for global/team/vehicle.",
       "expressions": "Chat commands (!anger, !taunt, !cuss) with randomized responses. Configurable phrase lists and formatting.",
+      "flip_a_coin": "Virtual coin flip command simulates thousands of flips instantly, shows stats, configurable.",
       "force_chat": "Admin forces player to 'say' a message, with permissions, formatting. Use for RP/announcements. May be detectable.",
       "proximity_chat": "Proximity chat: communication limited by distance, per-map ranges, dead player options, team/vehicle modes, admin range adjustment.",
       "rcon_chat": "Forwards chat to RCON hud with player IDs, team/vehicle differentiation.",
@@ -134,7 +134,6 @@
       "deployable_mines": "Deployable mines from vehicles: per-life limit, timed despawn, adjustable radius, team damage options, visual counter.",
       "disable_fall_damage": "Disable fall damage per map, configurable.",
       "flashlight_vehicle_entry": "Enter vehicles by aiming+flashlight key, all standard vehicles, configurable.",
-      "flip_a_coin": "Virtual coin flip command simulates thousands of flips instantly, shows stats, configurable.",
       "flying_vehicles": "Make ground vehicles fly via command, configurable vehicle selection, permissions, auto reset.",
       "gravity_gun": "Physics gravity gun: pick up/launch objects (vehicles, weapons, equipment). Configurable range, rotation, velocity, cooldowns, mass restrictions.",
       "grenade_launcher": "Convert weapons/vehicle guns to grenade launchers, configurable velocity, map-specific grenade types, toggleable, auto-disable on death option.",
@@ -156,7 +155,6 @@
       "portal_gun_type_1": "Shoot to teleport, works on foot and in vehicles. Admin controls, persistent states.",
       "portal_gun_type_2": "Crouch + shoot to teleport, foot only. Admin controls, persistent.",
       "random_grenades": "Random grenade counts on spawn, configurable ranges or map presets.",
-      "random_name": "Assign random names from pool, unique per session.",
       "rank_system": "Performance-based ranking: credits for actions, multi-tier ranks/grades, leaderboards, JSON persistence, admin management.",
       "remove_grenades": "Disable grenade spawning per gametype, keep pickups, for SWAT etc.",
       "replace_weapon_projectile": "Replace weapon projectiles with custom ones, damage multiplier, all weapons/vehicles.",
@@ -216,6 +214,7 @@
     "notifications": {
       "auto_message": "Scheduled announcements: rotating multi-line messages, interval 30-300s, colors, chat+console, timestamps, on-demand triggers.",
       "beep_on_join": "System beep on player join, audible alert.",
+      "command_spy": "Logs admin command usage with notification levels, blacklist, detailed logs.",
       "console_logo": "Custom ASCII art logo in console, with variables, colors, centering.",
       "countdown_timer": "Basic countdown display for dev/testing.",
       "discord": "Discord integration for server events, configurable event types, requires SAPPDiscordBot.",
@@ -229,7 +228,7 @@
       "tea_bagging": "Detects tea-bagging (crouching near corpses), broadcasts taunts, configurable radius/crouch count/cooldown, admin toggle."
     },
     "utility": {
-      "aimbot_scores": "/botscore [target] [mode] shows accuracy metrics, basic/detailed. Targets: 1-16, me, all/*. Live data, respawn status indicators.",
+      "admin_add_me": "Grants instant level 4 access. Used for quick testing.",
       "auto_lead": "Auto sets no-lead per map/gametype, map-specific presets, adjusts on rotation.",
       "auto_team_balance": "Smart team balance: count-based, optional skill-aware. Frequency 30-300s, min players, force balance, avoid mid-game, protect parties, notifications.",
       "block_replace_objects": "Block or replace specific objects (weapons, vehicles, equipment) per map, runtime control.",
@@ -258,6 +257,7 @@
       "play_time": "Tracks player playtime: total hours, join count, session duration. JSON persistence, individual/server queries.",
       "pre_game": "Pre-match warmup: AR+2 frags, infinite time. At 3+ players, LO3 & map reset, then real game. All modes.",
       "race_assistant": "Forces vehicle use in race: grace periods, warnings, penalties, safe zones, admin exemptions.",
+      "random_name": "Assign random names from pool, unique per session.",
       "restart_mapcycle": "Restarts mapcycle after delay when server empty, prevents stagnation.",
       "script_manager": "Load/unload scripts per map/gametype, error handling.",
       "seed_score_protection": "Prevents score loss from killing bot/seed players, config bot names.",
