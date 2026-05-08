@@ -64,7 +64,7 @@
   },
   "SAPP": {
     "admin": {
-      "admin_add_me": "Grants instant level 4 access.",
+      "admin_add_me": "Grants instant level 4 access. Used for quick testing.",
       "admin_manager": "Drop-in replacement: unlimited hierarchical levels, IP/hash/name bans, admin chat, command spy, alias lookup, SHA-256 hashing, per-level join messages, JSON storage.",
       "afk_system": "Advanced AFK detection: movement/camera/input tracking, custom thresholds, voluntary AFK, admin immunity, progressive warnings, kick messages.",
       "alias_system": "Logs player aliases by hash/IP. Admin lookup with pagination, pirate hash detection, cooldowns, auto cleanup.",
@@ -102,12 +102,12 @@
       "word_buster": "Profanity filter (21+ languages, leet-speak). Warnings, kick/ban thresholds, admin immunity, live word list management."
     },
     "chat": {
-      "admin_chat": "Private admin chat with /ac, /adminchat, spam protection, message formatting, permission levels, notification sounds, cooldowns.",
+      "admin_chat": "Private admin chat with /ac. Spam protection, message formatting, permission levels, notification sounds, cooldowns.",
       "admin_messages": "Admin join announcements per level, chat/RCON output, customizable formatting, colors, toggleable.",
       "april_fools_chat": "Makes other players 'say' your messages when triggering words used. Permission-level limited",
       "april_fools_word_shuffler": "1/3 chance to scramble chat messages, readable but jumbled.",
       "chat_ids": "Appends player slot numbers to chat messages, customizable for global/team/vehicle.",
-      "expressions": "Chat commands (!anger, !taunt, !cuss) with randomized family-friendly responses. Configurable phrase lists and formatting.",
+      "expressions": "Chat commands (!anger, !taunt, !cuss) with randomized responses. Configurable phrase lists and formatting.",
       "force_chat": "Admin forces player to 'say' a message, with permissions, formatting. Use for RP/announcements. May be detectable.",
       "proximity_chat": "Proximity chat: communication limited by distance, per-map ranges, dead player options, team/vehicle modes, admin range adjustment.",
       "rcon_chat": "Forwards chat to RCON hud with player IDs, team/vehicle differentiation.",
