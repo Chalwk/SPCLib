@@ -1,3 +1,14 @@
+--[[
+=====================================================================================
+SCRIPT NAME:      cheat_hax.lua
+DESCRIPTION:      Applies 9999 score to a player.
+
+Copyright (c) 2025 Jericho Crosby (Chalwk)
+LICENSE:          MIT License
+                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+=====================================================================================
+]]
+
 -- CONFIG start -------------------------------------
 
 local HAX_COMMAND = "hax"
