@@ -11,12 +11,7 @@ FEATURES:         - Detects and punishes impersonators trying to use whitelisted
                   - Customizable punishment reason for logging and commands
                   - Flexible whitelist: each member can have multiple IPs/hashes
 
-CONFIGURATION:    - Select punishment type (kick | ipban | hashban)
-                  - Set ban duration (0 = permanent, >0 = minutes)
-                  - Define punishment reason for logs and commands
-                  - Maintain trusted member list with valid IPs and/or hashes
-
-NOTICE:           - Shared game copies may trigger false positives
+NOTE:             - Shared hashes may trigger false positives
                   - Dynamic IPs may require regular updates to the whitelist
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)

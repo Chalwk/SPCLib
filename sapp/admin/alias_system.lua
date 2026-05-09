@@ -20,8 +20,6 @@ COMMAND SYNTAX:
 REQUIREMENTS:   Install to the same directory as sapp.dll
                  - Lua JSON Parser: http://regex.info/blog/lua/json
 
-LAST UPDATED:     5/10/2025
-
 Copyright (c) 2025 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE

@@ -3,9 +3,6 @@
 SCRIPT NAME:      anti_aimbot.lua
 DESCRIPTION:      Advanced anti-cheat system designed to detect and prevent aim assistance cheating.
 
-                  This system has multiple verification layers including behavioral analysis,
-                  projectile prediction, and environmental awareness.
-
                   KEY FEATURES:
                   - Multi-Layered Detection: Combines angle threshold monitoring, velocity analysis, and
                     predictive trajectory calculations to identify unnatural aiming patterns
