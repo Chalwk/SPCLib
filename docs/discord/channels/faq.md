@@ -61,7 +61,7 @@ Shoutout to all Halo clans, past and present.
 
 ---
 
-# SPCLibBot Bot Commands
+# SPCLibBot Commands
 
 * **Available commands:**
   - `/script` - Browse all SPCLib scripts (web browser + GitHub folders for SAPP, Phasor, Chimera, and Releases)
