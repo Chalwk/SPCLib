@@ -49,10 +49,6 @@
 
 ## Overview
 
-> [!TIP]
-> This project is a combined library of server-side and client-side Halo scripting resources, designed for learning,
-> server management, and gameplay customization.
-
 **SPCLib** *(SAPP, Phasor and Chimera Library)* is the largest public archive of Lua scripts and resources for the SAPP
 and Phasor dedicated server extensions and the Chimera client-side mod for Halo PC and Custom Edition. All Lua scripts
 in SPCLib are written and curated by Chalwk, unless otherwise noted.
@@ -63,9 +59,6 @@ server experience.
 ---
 
 ## What are SAPP, Phasor and Chimera?
-
-> [!NOTE]
-> These tools operate at different levels of the Halo ecosystem: server-side (SAPP/Phasor) and client-side (Chimera).
 
 **SAPP** and **Phasor** are server-side extensions for `haloded.exe`/`haloceded.exe` that provide advanced scripting and
 customization capabilities for dedicated servers.
@@ -86,7 +79,7 @@ map downloads, and dozens of quality-of-life fixes. Chimera scripts are fully su
 
 ## SAPP Archive & Mirrors
 
-> [!WARNING]
+> [!NOTE]
 > SAPP is no longer officially maintained. These binaries are provided strictly for archival, preservation, and server
 > maintenance purposes.
 
@@ -100,14 +93,14 @@ This repository also preserves:
 - SAPP Documentation Revision 2.4 and 2.5 (by 002 / SnowyMouse)
 - Memory offsets reference list originally created by Wizard
 
-> [!CAUTION]
+> [!NOTE]
 > These documents and binaries are redistributed for preservation only. Licensing remains with their original authors.
 
 ---
 
 ## Scripts, Releases and Knowledge Base
 
-> [!TIP]
+> [!NOTE]
 > Start with the category that matches your setup: SAPP or Phasor for server-side scripting, or Chimera for client-side
 > scripting.
 
@@ -168,10 +161,7 @@ A live searchable interface for all scripts in SPCLib.
 > [!TIP]
 > Contributions, bug reports, and feature requests are welcome via GitHub issues and discussion templates.
 
-See the [Contributing Guide](CONTRIBUTING.md)
-
-All community interaction is governed by the
-[Code of Conduct](CODE_OF_CONDUCT.md)
+See the [Contributing Guide](CONTRIBUTING.md). All community interaction is governed by the [Code of Conduct](CODE_OF_CONDUCT.md)
 
 ### Submit Ideas
 
@@ -186,7 +176,7 @@ All community interaction is governed by the
 
 ## Halo Custom Edition Installer
 
-> [!WARNING]
+> [!NOTE]
 > You must own a valid CD key to install Halo Custom Edition.
 
 [halo_ce_installer.zip](https://drive.google.com/file/d/1TTiBYhO9JS5Js0exRlygH9pAC2yV1KsV/view?usp=sharing)  
@@ -250,4 +240,4 @@ Enjoy these projects? Help me continue development:
 > Halo is a trademark of Microsoft. This project is not affiliated with or endorsed by Microsoft or its subsidiaries,
 > including Halo Studios (formerly 343 Industries).
 
-SPCLib is licensed under the MIT License.
+**[SPCLib](https://chalwk.github.io/SPCLib/)** is licensed under the [MIT License](LICENSE).
