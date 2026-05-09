@@ -58,3 +58,15 @@ Shoutout to all Halo clans, past and present.
 - <#1410198420689391706>
 - <#1410155079285215273>
 - <#1410185546894020638>
+
+---
+
+# SPCLibBot Bot Commands
+
+* **Available commands:**
+  - `/script` - Browse all SPCLib scripts (web browser + GitHub folders for SAPP, Phasor, Chimera, and Releases)
+  - `/docs` - Get all important documentation links in one click.
+  - `/about` - Read about SPCLib's purpose and community policies.
+  - `/bugreport` - Get a direct link to the bug report template.
+  - `/featurerequest` - Get a direct link to the feature request template.
+  - `/roles` - Self-assign roles like Contributor, Tester, SAPP, Phasor, Map Maker, and SPCLib Servers.
