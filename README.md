@@ -20,9 +20,9 @@
 
 ---
 
-**Educational Content Moved:** All my Halo guides, tutorials, code snippets, and reference materials have moved to my
-personal website. Visit [chalwk.github.io](https://chalwk.github.io/blog) for articles on SAPP scripting, VPS hosting,
-port forwarding, memory offsets, and more. **All SAPP/Phasor Lua scripts are still available here.**
+> [!IMPORTANT]
+> **Educational content (guides, tutorials, reference materials) has moved to [chalwk.github.io/blog](https://chalwk.github.io/blog).**  
+> This repository now contains **only Lua scripts** for SAPP/Phasor/Chimera.
 
 ---
 
