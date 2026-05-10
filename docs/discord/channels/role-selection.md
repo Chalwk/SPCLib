@@ -13,19 +13,15 @@
 
 <@&1409756118472851547>
 * Users who operate with the SAPP.
-* **Use `/roles` to toggle this role.**
 
 <@&1409756294390218823>
 * Users who operate with the Phasor.
-* **Use `/roles` to toggle this role.**
 
 <@&1410387086175113236>
 * Users who design, test, and optimize maps.
-* **Use `/roles` to toggle this role.**
 
 <@&1411842731441131601>
 * Choose this role to see real-time in-game event notifications for the official SPCLib Halo servers.
 * See <#1409752423794479134> for more info.
-* **Use `/roles` to toggle this role.**
 
 **Use the `/roles` command to assign or remove your roles at any time.**
