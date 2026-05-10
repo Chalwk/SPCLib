@@ -63,10 +63,11 @@ Shoutout to all Halo clans, past and present.
 
 # SPCLibBot Commands
 
-- `/about` - Read about SPCLib's purpose and community policies.
-- `/bugreport` - Get a direct link to the bug report template.
-- `/docs` - Get all important documentation links in one click.
-- `/featurerequest` - Get a direct link to the feature request template.
-- `/help` - Show all available commands.
-- `/roles` - Self-assign roles like Contributor, Tester, SAPP, Phasor, Map Maker, and SPCLib Servers.
-- `/script` - Browse all SPCLib scripts (web browser + GitHub folders for SAPP, Phasor, Chimera, and Releases)
+- `/about` - Info about SPCLib with repo & policy links
+- `/bugreport` / `/featurerequest` - Issue template shortcuts
+- `/docs` - Links to official documentation
+- `/help` - Show all available commands
+- `/roles` - Interactive role selection menu (manual roles)
+- `/poll` - Create a poll
+- `/script` - Displays an embed with links to script browser & GitHub folders (SAPP, Phasor, Chimera, Releases)
+- `/status` - Displays an embed with repository stats (stars, forks, open issues, latest release)
