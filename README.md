@@ -34,7 +34,7 @@
 * [3. SAPP Version Archive](#sapp-archive--mirrors)
 * [4. Scripts, Releases and Knowledge Base](#scripts-releases-and-knowledge-base)
 * [5. Integration Tools](#integration-tools)
-    * [5.1 SAPPDiscordBot](#sappdiscordbot)
+    * [5.1 HaloDiscordBot](#halodiscordbot)
 * [6. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
     * [6.1 Submit Ideas](#submit-ideas)
     * [6.2 Report Issues](#report-issues)
@@ -129,22 +129,13 @@ This repository also preserves:
 > [!NOTE]
 > These tools extend Halo server functionality by connecting it with external platforms like Discord and web interfaces.
 
-### SAPPDiscordBot
+### HaloDiscordBot
 
-[![Java](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://github.com/Chalwk/SAPPDiscordBot)
-[![GitHub release](https://img.shields.io/github/v/release/Chalwk/SAPPDiscordBot)](https://github.com/Chalwk/SAPPDiscordBot/releases)
+A Java application that connects multiple Halo servers to Discord, forwarding in-game events as rich Discord embeds. Supports SAPP and Phasor.
 
-A Java application using the JDA API to connect Halo SAPP server events to Discord.
+[![GitHub release](https://img.shields.io/github/v/release/Chalwk/HaloDiscordBot)](https://github.com/Chalwk/HaloDiscordBot/releases)
 
-Features:
-
-- Real-time event monitoring
-- Rich Discord embeds
-- GUI configuration tool
-- Multi-server support
-- Cross-platform (Windows & Linux)
-
-**[→ Visit SAPPDiscordBot Repository](https://github.com/Chalwk/SAPPDiscordBot)**
+**[Visit HaloDiscordBot Repository](https://github.com/Chalwk/HaloDiscordBot)**
 
 ### Script Browser
 

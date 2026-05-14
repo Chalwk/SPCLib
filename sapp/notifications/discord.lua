@@ -4,12 +4,7 @@ SCRIPT NAME:      discord.lua
 DESCRIPTION:      Logs Halo server events and exports them
                   to a text file for external processing by a Discord bot.
 
-                  This script REQUIRES the SAPPDiscordBot to be installed and running.
-                  Download it from: https://github.com/Chalwk/SAPPDiscordBot
-
-LAST UPDATED:     17/11/2025
-
-Copyright (c) 2025 Jericho Crosby (Chalwk)
+Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
