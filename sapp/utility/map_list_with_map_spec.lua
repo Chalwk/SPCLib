@@ -188,9 +188,9 @@ function OnScriptLoad()
         end
         file:close()
 
-        register_callback(cb["EVENT_GAME_END"], "OnEnd")
-        register_callback(cb["EVENT_COMMAND"], "OnCommand")
-        register_callback(cb["EVENT_GAME_START"], "OnStart")
+        register_callback(cb.EVENT_GAME_END, "OnEnd")
+        register_callback(cb.EVENT_COMMAND, "OnCommand")
+        register_callback(cb.EVENT_GAME_START, "OnStart")
 
         OnStart()
     end

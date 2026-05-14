@@ -51,11 +51,11 @@ local REQUIRED_PERMISSION_LEVEL = 4
 local players = {}
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_JOIN'], 'OnPlayerJoin')
-    register_callback(cb['EVENT_LEAVE'], 'OnPlayerQuit')
-    register_callback(cb['EVENT_COMMAND'], 'OnCommandReceived')
-    register_callback(cb['EVENT_GAME_START'], 'OnGameStart')
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], 'OnDamageApplication')
+    register_callback(cb.EVENT_JOIN, 'OnPlayerJoin')
+    register_callback(cb.EVENT_LEAVE, 'OnPlayerQuit')
+    register_callback(cb.EVENT_COMMAND, 'OnCommandReceived')
+    register_callback(cb.EVENT_GAME_START, 'OnGameStart')
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, 'OnDamageApplication')
     OnGameStart()
 end
 

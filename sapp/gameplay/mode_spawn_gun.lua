@@ -57,11 +57,11 @@ end
 obj_in_memory = {}
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_COMMAND'], "OnServerCommand")
-    register_callback(cb['EVENT_OBJECT_SPAWN'], "OnObjectSpawn")
-    register_callback(cb['EVENT_PRESPAWN'], "OnPlayerPrespawn")
-    register_callback(cb['EVENT_DIE'], "OnPlayerDeath")
-    register_callback(cb['EVENT_JOIN'], "OnPlayerJoin")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
+    register_callback(cb.EVENT_OBJECT_SPAWN, "OnObjectSpawn")
+    register_callback(cb.EVENT_PRESPAWN, "OnPlayerPrespawn")
+    register_callback(cb.EVENT_DIE, "OnPlayerDeath")
+    register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
 end
 
 function OnScriptUnload()

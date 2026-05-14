@@ -55,9 +55,9 @@ local time = os.time
 
 -- Register needed event callbacks:
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], 'OnTick')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], "OnDamage")
+    register_callback(cb.EVENT_TICK, 'OnTick')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamage")
     OnStart()
 end
 

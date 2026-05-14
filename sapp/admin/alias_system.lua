@@ -695,10 +695,10 @@ function OnScriptLoad()
         cprint("[alias_system] Warning: Could not load aliases database, starting with empty database", 12)
     end
 
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
-    register_callback(cb["EVENT_COMMAND"], "OnCommand")
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
 
     OnStart(true)
 

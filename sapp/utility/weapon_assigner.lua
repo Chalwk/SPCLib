@@ -163,14 +163,14 @@ function OnStart()
     map_name, game_mode, is_ffa = get_var(0, '$map'), get_var(0, '$mode'), get_var(0, '$ffa') == '1'
 
     if initialize() then
-        register_callback(cb['EVENT_SPAWN'], 'OnSpawn')
+        register_callback(cb.EVENT_SPAWN, 'OnSpawn')
     else
-        unregister_callback(cb['EVENT_SPAWN'])
+        unregister_callback(cb.EVENT_SPAWN)
     end
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 

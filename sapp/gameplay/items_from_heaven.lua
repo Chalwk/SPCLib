@@ -155,9 +155,9 @@ local gmatch, lower = string.gmatch, string.lower
 api_version = "1.12.0.0"
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_TICK"], "OnTick")
-    register_callback(cb["EVENT_GAME_START"], "OnGameStart")
-    register_callback(cb["EVENT_COMMAND"], "OnServerCommand")
+    register_callback(cb.EVENT_TICK, "OnTick")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
     OnGameStart()
 end
 

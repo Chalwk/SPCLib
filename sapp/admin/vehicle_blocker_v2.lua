@@ -47,12 +47,12 @@ end
 map_settings = {}
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_VEHICLE_ENTER'], "OnVehicleEntry")
-    register_callback(cb['EVENT_JOIN'], "OnPlayerJoin")
-    register_callback(cb['EVENT_LEAVE'], "OnPlayerLeave")
-    register_callback(cb['EVENT_GAME_START'], "OnGameStart")
-    register_callback(cb['EVENT_GAME_END'], "OnGameEnd")
-    register_callback(cb['EVENT_PRESPAWN'], "OnPlayerPrespawn")
+    register_callback(cb.EVENT_VEHICLE_ENTER, "OnVehicleEntry")
+    register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerLeave")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_PRESPAWN, "OnPlayerPrespawn")
     mapname = get_var(0, "$map")
     VehicleSettings()
 end

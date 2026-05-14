@@ -588,8 +588,8 @@ local function modifyTags()
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], "OnDamage")
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamage")
     OnStart()
 end
 

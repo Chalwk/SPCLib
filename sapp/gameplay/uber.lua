@@ -138,17 +138,17 @@ local get_object_memory, get_dynamic_player = get_object_memory, get_dynamic_pla
 local read_dword, read_word, read_byte, read_bit = read_dword, read_word, read_byte, read_bit
 
 local sapp_events = {
-    [cb['EVENT_TICK']] = 'OnTick',
-    [cb['EVENT_JOIN']] = 'OnJoin',
-    [cb['EVENT_LEAVE']] = 'OnQuit',
-    [cb['EVENT_CHAT']] = 'OnChat',
-    [cb['EVENT_GAME_END']] = 'OnEnd',
-    [cb['EVENT_COMMAND']] = 'OnCommand',
-    [cb['EVENT_DIE']] = 'HandleEjection',
-    [cb['EVENT_TEAM_SWITCH']] = 'OnTeamSwitch',
-    [cb['EVENT_VEHICLE_ENTER']] = 'OnVehicleEnter',
-    [cb['EVENT_VEHICLE_EXIT']] = 'HandleEjection',
-    [cb['EVENT_DAMAGE_APPLICATION']] = 'OnDamageApplication'
+    [cb.EVENT_TICK] = 'OnTick',
+    [cb.EVENT_JOIN] = 'OnJoin',
+    [cb.EVENT_LEAVE] = 'OnQuit',
+    [cb.EVENT_CHAT] = 'OnChat',
+    [cb.EVENT_GAME_END] = 'OnEnd',
+    [cb.EVENT_COMMAND] = 'OnCommand',
+    [cb.EVENT_DIE] = 'HandleEjection',
+    [cb.EVENT_TEAM_SWITCH] = 'OnTeamSwitch',
+    [cb.EVENT_VEHICLE_ENTER] = 'OnVehicleEnter',
+    [cb.EVENT_VEHICLE_EXIT] = 'HandleEjection',
+    [cb.EVENT_DAMAGE_APPLICATION] = 'OnDamageApplication'
 }
 
 local function loadVehicleConfig()
@@ -569,7 +569,7 @@ end
 
 function OnScriptLoad()
     VEHICLES = loadVehicleConfig()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 

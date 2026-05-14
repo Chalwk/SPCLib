@@ -37,8 +37,8 @@ local OriginalMessageAddress
 -- Called when the script is loaded
 function OnScriptLoad()
     -- Register event callbacks
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
 
     -- Find the death message address
     DeathMessageAddress = sig_scan('8B42348A8C28D500000084C9') + 3

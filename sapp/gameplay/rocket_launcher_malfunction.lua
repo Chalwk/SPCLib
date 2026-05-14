@@ -38,7 +38,7 @@ local players = {}
 local rocketProjectileTag, rocketLauncherTag
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'onStart')
+    register_callback(cb.EVENT_GAME_START, 'onStart')
 end
 
 local function GetTag(class, name)
@@ -118,15 +118,15 @@ function onStart()
     rocketLauncherTag = GetTag('weap', 'weapons\\rocket launcher\\rocket launcher')
 
     if rocketProjectileTag and rocketLauncherTag then
-        register_callback(cb['EVENT_TICK'], 'OnTick')
-        register_callback(cb['EVENT_JOIN'], 'onJoin')
-        register_callback(cb['EVENT_LEAVE'], 'onQuit')
-        register_callback(cb['EVENT_SPAWN'], 'onSpawn')
+        register_callback(cb.EVENT_TICK, 'OnTick')
+        register_callback(cb.EVENT_JOIN, 'onJoin')
+        register_callback(cb.EVENT_LEAVE, 'onQuit')
+        register_callback(cb.EVENT_SPAWN, 'onSpawn')
     else
-        unregister_callback(cb['EVENT_TICK'])
-        unregister_callback(cb['EVENT_JOIN'])
-        unregister_callback(cb['EVENT_LEAVE'])
-        unregister_callback(cb['EVENT_SPAWN'])
+        unregister_callback(cb.EVENT_TICK)
+        unregister_callback(cb.EVENT_JOIN)
+        unregister_callback(cb.EVENT_LEAVE)
+        unregister_callback(cb.EVENT_SPAWN)
     end
 end
 

@@ -42,7 +42,7 @@ local MAPS = {
 api_version = "1.12.0.0"
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'SetScoreLimit')
+    register_callback(cb.EVENT_GAME_START, 'SetScoreLimit')
     SetScoreLimit()
 end
 

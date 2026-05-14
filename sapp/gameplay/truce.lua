@@ -82,11 +82,11 @@ local truce, ip_table, requests, members, tracker, pending = { }, { }, { }, { },
 local lower, gsub = string.lower, string.gsub
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_COMMAND'], "OnServerCommand")
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], "OnDamageApplication")
-    register_callback(cb['EVENT_LEAVE'], "OnPlayerDisconnect")
-    register_callback(cb['EVENT_JOIN'], "OnPlayerConnect")
-    register_callback(cb['EVENT_GAME_END'], "OnGameEnd")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamageApplication")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerDisconnect")
+    register_callback(cb.EVENT_JOIN, "OnPlayerConnect")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
 end
 
 local function clearData()

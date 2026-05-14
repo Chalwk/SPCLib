@@ -86,8 +86,8 @@ local meta_ids = {}
 
 function OnScriptLoad()
 
-    register_callback(cb["EVENT_DAMAGE_APPLICATION"], "OnDamage")
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamage")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
 
     OnStart()
 end

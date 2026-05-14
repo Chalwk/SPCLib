@@ -64,10 +64,10 @@ local game_started = false  -- Flag to track if the game has started
 
 -- Load script and register callbacks
 function OnScriptLoad()
-    register_callback(cb["EVENT_COMMAND"], "HandleCommand")
-    register_callback(cb["EVENT_GAME_END"], "OnGameEnd")
-    register_callback(cb["EVENT_GAME_START"], "OnGameStart")
-    register_callback(cb["EVENT_TICK"], "OnTick")
+    register_callback(cb.EVENT_COMMAND, "HandleCommand")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_TICK, "OnTick")
 
     OnGameStart()  -- Initialize game state
 end

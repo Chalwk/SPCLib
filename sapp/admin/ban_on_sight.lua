@@ -111,9 +111,9 @@ end
 function OnScriptLoad()
     ban_file = getConfigPath() .. "\\sapp\\" .. BAN_FILE
 
-    register_callback(cb["EVENT_JOIN"], "OnJoin")
-    register_callback(cb["EVENT_PREJOIN"], "OnPreJoin")
-    register_callback(cb["EVENT_COMMAND"], "OnCommand")
+    register_callback(cb.EVENT_JOIN, "OnJoin")
+    register_callback(cb.EVENT_PREJOIN, "OnPreJoin")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
 
     -- in case script is loaded mid-game
     if get_var(0, "$gt") ~= "n/a" then

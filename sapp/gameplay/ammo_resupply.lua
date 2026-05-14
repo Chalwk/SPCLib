@@ -101,7 +101,7 @@ function OnCommand(player_id, command)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
 end
 
 function OnScriptUnload() end

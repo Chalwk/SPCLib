@@ -67,8 +67,8 @@ function OnCommand(playerId, command)
 end
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_COMMAND"], "OnCommand")
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     OnStart() -- in case script is loaded mid-game
 end
 

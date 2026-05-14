@@ -80,9 +80,9 @@ local current_poll
 local last_poll_time = 0
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], "OnStart")
-    register_callback(cb['EVENT_COMMAND'], "OnCommand")
-    register_callback(cb['EVENT_TICK'], "OnTick")  -- Adding the tick event
+    register_callback(cb.EVENT_GAME_START, "OnStart")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_TICK, "OnTick")  -- Adding the tick event
     OnStart() -- Ensure the script initializes on game start
 end
 

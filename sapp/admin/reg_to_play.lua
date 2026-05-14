@@ -126,14 +126,14 @@ function OnScriptLoad()
 	local path = read_string(read_dword(sig_scan('68??????008D54245468') + 0x1))
     file_path = path .. "\\sapp\\" .. CONFIG.filename
 
-    register_callback(cb["EVENT_JOIN"], "OnPlayerJoin")
-    register_callback(cb["EVENT_LEAVE"], "OnPlayerLeave")
-    register_callback(cb["EVENT_COMMAND"], "OnCommand")
-    register_callback(cb["EVENT_TICK"], "OnTick")
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerLeave")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_TICK, "OnTick")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
 
     if not CONFIG.save_on_register then
-        register_callback(cb["EVENT_GAME_END"], "OnEnd")
+        register_callback(cb.EVENT_GAME_END, "OnEnd")
     end
 
     OnStart()

@@ -31,7 +31,7 @@ function OnScriptLoad()
     -- The pointer is 3 bytes ahead of the signature start
     ctf_globals = read_dword(address + 3)
 
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
 end
 
 function OnStart()

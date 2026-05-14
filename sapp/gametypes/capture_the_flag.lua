@@ -142,11 +142,11 @@ local CONFIG = {
 api_version = '1.12.0.0'
 
 local sapp_events = {
-    [cb['EVENT_DIE']] = 'OnDie',
-    [cb['EVENT_TICK']] = 'OnTick',
-    [cb['EVENT_JOIN']] = 'OnJoin',
-    [cb['EVENT_LEAVE']] = 'OnQuit',
-    [cb['EVENT_TEAM_SWITCH']] = 'OnTeamSwitch',
+    [cb.EVENT_DIE] = 'OnDie',
+    [cb.EVENT_TICK] = 'OnTick',
+    [cb.EVENT_JOIN] = 'OnJoin',
+    [cb.EVENT_LEAVE] = 'OnQuit',
+    [cb.EVENT_TEAM_SWITCH] = 'OnTeamSwitch',
 }
 
 local flag, players = {}, {}
@@ -334,7 +334,7 @@ end
 
 -- SAPP EVENTS ----------------------------
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 

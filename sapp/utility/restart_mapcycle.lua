@@ -40,10 +40,10 @@ local time = os.time
 api_version = '1.12.0.0'
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], 'OnTick')
-    register_callback(cb['EVENT_JOIN'], 'Cancel')
-    register_callback(cb['EVENT_LEAVE'], 'OnQuit')
-    register_callback(cb['EVENT_GAME_END'], 'Cancel')
+    register_callback(cb.EVENT_TICK, 'OnTick')
+    register_callback(cb.EVENT_JOIN, 'Cancel')
+    register_callback(cb.EVENT_LEAVE, 'OnQuit')
+    register_callback(cb.EVENT_GAME_END, 'Cancel')
 end
 
 local function NewTimer()

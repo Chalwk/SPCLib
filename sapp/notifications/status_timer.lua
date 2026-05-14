@@ -28,7 +28,7 @@ api_version = "1.12.0.0"
 
 -- Event handlers
 function OnScriptLoad()
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     -- Call OnStart to initialize the script on load
     OnStart()
 end

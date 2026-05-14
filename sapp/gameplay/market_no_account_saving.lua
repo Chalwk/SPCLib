@@ -89,15 +89,15 @@ api_version = '1.12.0.0'
 
 -- Event Callbacks
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], 'OnTick')
-    register_callback(cb['EVENT_DIE'], 'OnDeath')
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_SPAWN'], 'OnSpawn')
-    register_callback(cb['EVENT_SCORE'], 'OnScore')
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
-    register_callback(cb['EVENT_TEAM_SWITCH'], 'OnSwitch')
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], 'OnDeath')
+    register_callback(cb.EVENT_TICK, 'OnTick')
+    register_callback(cb.EVENT_DIE, 'OnDeath')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_SPAWN, 'OnSpawn')
+    register_callback(cb.EVENT_SCORE, 'OnScore')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_TEAM_SWITCH, 'OnSwitch')
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, 'OnDeath')
     OnStart()
 end
 

@@ -121,11 +121,11 @@ local spawn_projectile, spawn_object = spawn_projectile, spawn_object
 local get_object_memory, get_dynamic_player = get_object_memory, get_dynamic_player
 
 local event_handlers = {
-    [cb['EVENT_TICK']] = 'OnTick',
-    [cb['EVENT_JOIN']] = 'OnJoin',
-    [cb['EVENT_LEAVE']] = 'OnQuit',
-    [cb['EVENT_SPAWN']] = 'OnSpawn',
-    [cb['EVENT_TEAM_SWITCH']] = 'OnTeamSwitch'
+    [cb.EVENT_TICK] = 'OnTick',
+    [cb.EVENT_JOIN] = 'OnJoin',
+    [cb.EVENT_LEAVE] = 'OnQuit',
+    [cb.EVENT_SPAWN] = 'OnSpawn',
+    [cb.EVENT_TEAM_SWITCH] = 'OnTeamSwitch'
 }
 
 local function patchDeathMessages(address, value)
@@ -447,7 +447,7 @@ function OnScriptLoad()
     death_message_address = sig_scan('8B42348A8C28D500000084C9') + 3
     original_death_message_address = read_dword(death_message_address)
 
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart() -- in case script is loaded mid-game
 end
 

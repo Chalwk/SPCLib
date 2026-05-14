@@ -32,7 +32,7 @@ local prefix = '**SAPP**'
 api_version = '1.12.0.0'
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
 end
 
 local function hasPerm(id)

@@ -105,7 +105,7 @@ local function tryGrantAdmin(playerId)
 end
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_COMMAND"], "OnCommand")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
     for _, v in ipairs(APPROVED_USERS) do
         approved_lookup[v] = true
     end

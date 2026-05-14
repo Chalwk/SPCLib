@@ -25,7 +25,7 @@ local function is_admin(id)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_COMMAND'], "OnCommand")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
 end
 
 function OnCommand(id, cmd)

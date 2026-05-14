@@ -86,11 +86,11 @@ local Crash = {
 -- Configuration [end] -----------------------------
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], "OnTick")
-    register_callback(cb['EVENT_JOIN'], "OnPlayerJoin")
-    register_callback(cb['EVENT_LEAVE'], "OnPlayerQuit")
-    register_callback(cb['EVENT_GAME_START'], "OnGameStart")
-    register_callback(cb['EVENT_COMMAND'], "OnServerCommand")
+    register_callback(cb.EVENT_TICK, "OnTick")
+    register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerQuit")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
     OnGameStart()
 end
 

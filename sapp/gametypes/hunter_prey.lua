@@ -236,7 +236,7 @@ function HunterPrey:CheckForFlag(dyn)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 

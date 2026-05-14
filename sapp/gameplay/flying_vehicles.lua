@@ -42,9 +42,9 @@ local tag_address, tag_count
 
 -- Event Handlers
 function OnScriptLoad()
-    register_callback(cb["EVENT_COMMAND"], "OnCommand")
-    register_callback(cb["EVENT_LEAVE"], "OnPlayerQuit")
-    register_callback(cb["EVENT_GAME_START"], "OnGameStart")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerQuit")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
     OnGameStart()
 end
 

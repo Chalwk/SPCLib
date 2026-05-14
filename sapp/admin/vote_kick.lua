@@ -195,11 +195,11 @@ local function clean_kicked_players(now)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], 'OnTick')
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_LEAVE'], 'OnLeave')
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_TICK, 'OnTick')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_LEAVE, 'OnLeave')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 

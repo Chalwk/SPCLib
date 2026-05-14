@@ -33,8 +33,8 @@ LICENSE:          MIT License
 api_version = "1.12.0.0"
 MapSettings = {}
 function OnScriptLoad()
-    register_callback(cb['EVENT_VEHICLE_ENTER'], "OnVehicleEntry")
-    register_callback(cb['EVENT_GAME_START'], "OnNewGame")
+    register_callback(cb.EVENT_VEHICLE_ENTER, "OnVehicleEntry")
+    register_callback(cb.EVENT_GAME_START, "OnNewGame")
     mapname = get_var(0, "$map")
     VehicleSettings()
 end

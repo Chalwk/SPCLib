@@ -112,11 +112,11 @@ local spawn_object, destroy_object = spawn_object, destroy_object
 local get_dynamic_player, get_object_memory = get_dynamic_player, get_object_memory
 
 local sapp_events = {
-    [cb['EVENT_JOIN']] = 'OnJoin',
-    [cb['EVENT_CHAT']] = 'OnChat',
-    [cb['EVENT_SPAWN']] = 'OnSpawn',
-    [cb['EVENT_GAME_END']] = 'OnEnd',
-    [cb['EVENT_COMMAND']] = 'OnCommand'
+    [cb.EVENT_JOIN] = 'OnJoin',
+    [cb.EVENT_CHAT] = 'OnChat',
+    [cb.EVENT_SPAWN] = 'OnSpawn',
+    [cb.EVENT_GAME_END] = 'OnEnd',
+    [cb.EVENT_COMMAND] = 'OnCommand'
 }
 
 local function fmtMsg(str, ...)
@@ -264,7 +264,7 @@ function OnScriptLoad()
     timer(1000 * POLL_INTERVAL, "DespawnVehicles")
 
     CUSTOM_TAGS = mapNamesToLower()
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
 
     OnStart() -- in case script is loaded mid-game
 end

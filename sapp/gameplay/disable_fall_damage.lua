@@ -1,11 +1,11 @@
 --[[
 ===============================================================================
- SCRIPT NAME:      disable_fall_damage.lua
- DESCRIPTION:      Disables fall damage on configured maps
+SCRIPT NAME:      disable_fall_damage.lua
+DESCRIPTION:      Disables fall damage on configured maps
 
- Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
- LICENSE:          MIT License
-                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
+LICENSE:          MIT License
+               https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 
@@ -36,7 +36,7 @@ local maps = {
 -- CONFIG end -----------------------------------------
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], "OnStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     OnStart()
 end
 

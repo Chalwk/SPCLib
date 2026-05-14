@@ -108,7 +108,7 @@ end
 function OnScriptLoad()
     log_file_path = getConfigPath() .. log_file_path
 
-    register_callback(cb["EVENT_COMMAND"], "OnCommand")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
     timer(30 * 1000, "CleanupTimer")
 end
 

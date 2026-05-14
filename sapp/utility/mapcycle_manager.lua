@@ -272,11 +272,11 @@ end
 
 function OnScriptLoad()
 
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
-    register_callback(cb['EVENT_GAME_END'], 'OnGameEnd')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_LEAVE'], 'OnQuit')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
+    register_callback(cb.EVENT_GAME_END, 'OnGameEnd')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_LEAVE, 'OnQuit')
 
     commandCooldowns = {}
     initializeMapCycle()

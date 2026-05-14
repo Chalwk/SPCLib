@@ -47,12 +47,12 @@ local players = { }
 local time = os.time
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], 'OnTick')
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_LEAVE'], 'OnQuit')
-    register_callback(cb['EVENT_SPAWN'], 'OnSpawn')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], 'OnDamage')
+    register_callback(cb.EVENT_TICK, 'OnTick')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_LEAVE, 'OnQuit')
+    register_callback(cb.EVENT_SPAWN, 'OnSpawn')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, 'OnDamage')
     OnStart()
 end
 

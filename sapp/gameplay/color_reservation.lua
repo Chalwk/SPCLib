@@ -65,7 +65,7 @@ color_table[18] = { 17, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" }    -- salmon
 -- Configuration [ends] -----------------------------------------------------------------
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], "OnNewGame")
+    register_callback(cb.EVENT_GAME_START, "OnNewGame")
 end
 
 function OnScriptUnload()
@@ -77,8 +77,8 @@ function OnNewGame()
         -- Call getTeamPlay() | Returns true/false (is team play / not team play)
         if not getTeamPlay() then
             -- Game is FFA, register SAPP events to listener functions.
-            register_callback(cb['EVENT_JOIN'], "OnPlayerConnect")
-            register_callback(cb['EVENT_SPAWN'], "OnPlayerSpawn")
+            register_callback(cb.EVENT_JOIN, "OnPlayerConnect")
+            register_callback(cb.EVENT_SPAWN, "OnPlayerSpawn")
         else
             cprint("[!] Warning: Color Reservation doesn't support Team Play!", 4 + 8)
         end

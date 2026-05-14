@@ -33,12 +33,12 @@ local open = io.open
 -- Script Initialization
 function OnScriptLoad()
     dir = read_string(read_dword(sig_scan('68??????008D54245468') + 0x1)) .. '\\sapp\\' .. file_name
-    register_callback(cb['EVENT_CHAT'], 'OnChat')
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_LEAVE'], 'OnQuit')
-    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
-    register_callback(cb['EVENT_COMMAND'], 'HandleCommand')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_CHAT, 'OnChat')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_LEAVE, 'OnQuit')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    register_callback(cb.EVENT_COMMAND, 'HandleCommand')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 

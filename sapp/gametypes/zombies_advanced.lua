@@ -145,16 +145,16 @@ local TEAM_BLUE = 'blue'
 local death_message_signature = "8B42348A8C28D500000084C9"
 
 local sapp_events = {
-    [cb['EVENT_TICK']] = 'OnTick',
-    [cb['EVENT_DIE']] = 'OnDeath',
-    [cb['EVENT_JOIN']] = 'OnJoin',
-    [cb['EVENT_LEAVE']] = 'OnQuit',
-    [cb['EVENT_SPAWN']] = 'OnSpawn',
-    [cb['EVENT_GAME_END']] = 'OnEnd',
-    [cb['EVENT_COMMAND']] = 'OnCommand',
-    [cb['EVENT_TEAM_SWITCH']] = 'OnTeamSwitch',
-    [cb['EVENT_WEAPON_DROP']] = 'OnWeaponDrop',
-    [cb['EVENT_DAMAGE_APPLICATION']] = 'OnDamage'
+    [cb.EVENT_TICK] = 'OnTick',
+    [cb.EVENT_DIE] = 'OnDeath',
+    [cb.EVENT_JOIN] = 'OnJoin',
+    [cb.EVENT_LEAVE] = 'OnQuit',
+    [cb.EVENT_SPAWN] = 'OnSpawn',
+    [cb.EVENT_GAME_END] = 'OnEnd',
+    [cb.EVENT_COMMAND] = 'OnCommand',
+    [cb.EVENT_TEAM_SWITCH] = 'OnTeamSwitch',
+    [cb.EVENT_WEAPON_DROP] = 'OnWeaponDrop',
+    [cb.EVENT_DAMAGE_APPLICATION] = 'OnDamage'
 }
 
 local function registerCallbacks(team_game)
@@ -564,7 +564,7 @@ end
 -- SAPP Events
 function OnScriptLoad()
     death_message_hook_enabled = SetupDeathMessageHook()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     execute_command('sv_tk_ban 0')
     execute_command('sv_friendly_fire 1')
     OnStart()

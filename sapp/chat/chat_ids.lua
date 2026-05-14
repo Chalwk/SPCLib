@@ -37,7 +37,7 @@ api_version = "1.12.0.0"
 
 -- Register the callback when the script is loaded
 function OnScriptLoad()
-    register_callback(cb['EVENT_CHAT'], "ShowChatIDs")
+    register_callback(cb.EVENT_CHAT, "ShowChatIDs")
 end
 
 -- Helper function to check if a message is a chat command

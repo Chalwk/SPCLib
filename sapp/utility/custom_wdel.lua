@@ -35,7 +35,7 @@ local permission_required = 1
 api_version = '1.12.0.0'
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_COMMAND'], 'DeleteWeapons')
+    register_callback(cb.EVENT_COMMAND, 'DeleteWeapons')
 end
 
 local function Respond(Ply, Msg)

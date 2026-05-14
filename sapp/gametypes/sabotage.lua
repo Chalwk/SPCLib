@@ -274,7 +274,7 @@ local time = os.time
 api_version = '1.12.0.0'
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 
@@ -449,23 +449,23 @@ function OnStart()
                     end
                 end
 
-                register_callback(cb['EVENT_TICK'], 'OnTick')
-                register_callback(cb['EVENT_JOIN'], 'OnJoin')
-                register_callback(cb['EVENT_LEAVE'], 'OnQuit')
-                register_callback(cb['EVENT_DIE'], 'SpawnDeath')
-                register_callback(cb['EVENT_SPAWN'], 'SpawnDeath')
-                register_callback(cb['EVENT_TEAM_SWITCH'], 'OnTeamSwitch')
+                register_callback(cb.EVENT_TICK, 'OnTick')
+                register_callback(cb.EVENT_JOIN, 'OnJoin')
+                register_callback(cb.EVENT_LEAVE, 'OnQuit')
+                register_callback(cb.EVENT_DIE, 'SpawnDeath')
+                register_callback(cb.EVENT_SPAWN, 'SpawnDeath')
+                register_callback(cb.EVENT_TEAM_SWITCH, 'OnTeamSwitch')
 
                 Sabotage:spawnBomb()
                 return
             end
 
-            unregister_callback(cb['EVENT_DIE'])
-            unregister_callback(cb['EVENT_TICK'])
-            unregister_callback(cb['EVENT_JOIN'])
-            unregister_callback(cb['EVENT_SPAWN'])
-            unregister_callback(cb['EVENT_LEAVE'])
-            unregister_callback(cb['EVENT_TEAM_SWITCH'])
+            unregister_callback(cb.EVENT_DIE)
+            unregister_callback(cb.EVENT_TICK)
+            unregister_callback(cb.EVENT_JOIN)
+            unregister_callback(cb.EVENT_SPAWN)
+            unregister_callback(cb.EVENT_LEAVE)
+            unregister_callback(cb.EVENT_TEAM_SWITCH)
             error('Map not configured!')
         else
             error('This script only supports Team Slayer.')

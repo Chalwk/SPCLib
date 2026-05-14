@@ -93,10 +93,10 @@ local players = { }
 api_version = '1.12.0.0'
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_DIE'], 'OnDeath')
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_LEAVE'], 'OnQuit')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_DIE, 'OnDeath')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_LEAVE, 'OnQuit')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 

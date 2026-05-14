@@ -170,12 +170,12 @@ local function process_command(player, args)
 end
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_JOIN"], "OnJoin")
-    register_callback(cb["EVENT_LEAVE"], "OnQuit")
-    register_callback(cb["EVENT_SPAWN"], "OnSpawn")
-    register_callback(cb["EVENT_COMMAND"], "OnCommand")
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
-    register_callback(cb["EVENT_OBJECT_SPAWN"], "OnObjectSpawn")
+    register_callback(cb.EVENT_JOIN, "OnJoin")
+    register_callback(cb.EVENT_LEAVE, "OnQuit")
+    register_callback(cb.EVENT_SPAWN, "OnSpawn")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
+    register_callback(cb.EVENT_OBJECT_SPAWN, "OnObjectSpawn")
     OnStart()
 end
 

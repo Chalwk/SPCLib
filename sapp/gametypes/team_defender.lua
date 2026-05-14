@@ -143,7 +143,7 @@ api_version = "1.12.0.0"
 -- This function is called when the script is loaded into SAPP:
 --
 function OnScriptLoad()
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     OnStart()
 end
 
@@ -452,19 +452,19 @@ function TD:Init()
 
                     execute_command('scorelimit ' .. self.scoring[5])
 
-                    register_callback(cb['EVENT_DIE'], 'OnDeath')
-                    register_callback(cb['EVENT_TICK'], 'OnTick')
-                    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
-                    register_callback(cb['EVENT_DAMAGE_APPLICATION'], 'OnDeath')
+                    register_callback(cb.EVENT_DIE, 'OnDeath')
+                    register_callback(cb.EVENT_TICK, 'OnTick')
+                    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+                    register_callback(cb.EVENT_DAMAGE_APPLICATION, 'OnDeath')
                     goto done
                 end
             end
         end
 
-        unregister_callback(cb['EVENT_DIE'])
-        unregister_callback(cb['EVENT_TICK'])
-        unregister_callback(cb['EVENT_GAME_END'])
-        unregister_callback(cb['EVENT_DAMAGE_APPLICATION'])
+        unregister_callback(cb.EVENT_DIE)
+        unregister_callback(cb.EVENT_TICK)
+        unregister_callback(cb.EVENT_GAME_END)
+        unregister_callback(cb.EVENT_DAMAGE_APPLICATION)
 
         :: done ::
     end

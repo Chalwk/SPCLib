@@ -147,10 +147,10 @@ end
 
 -- Callbacks --
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], 'OnTick')
-    register_callback(cb['EVENT_JOIN'], 'InitPlayer')
-    register_callback(cb['EVENT_SPAWN'], 'InitPlayer')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_TICK, 'OnTick')
+    register_callback(cb.EVENT_JOIN, 'InitPlayer')
+    register_callback(cb.EVENT_SPAWN, 'InitPlayer')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 

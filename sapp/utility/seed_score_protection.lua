@@ -26,7 +26,7 @@ local bots = {
 
 -- Script load event handler
 function OnScriptLoad()
-    register_callback(cb["EVENT_DIE"], "OnPlayerDeath")
+    register_callback(cb.EVENT_DIE, "OnPlayerDeath")
 end
 
 -- Script unload event handler

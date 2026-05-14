@@ -64,8 +64,8 @@ projectiles = {
 -- Configuration [ends] --------------------------------------------------------
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_OBJECT_SPAWN'], "OnObjectSpawn")
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], "OnDamageApplication")
+    register_callback(cb.EVENT_OBJECT_SPAWN, "OnObjectSpawn")
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamageApplication")
 end
 
 local function getTag(a, b)

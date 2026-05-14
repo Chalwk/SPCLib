@@ -60,8 +60,8 @@ local manual_grenades = {
 local map
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_SPAWN'], "OnPlayerSpawn")
-    register_callback(cb['EVENT_GAME_START'], "OnStart")
+    register_callback(cb.EVENT_SPAWN, "OnPlayerSpawn")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
 end
 
 function OnStart()

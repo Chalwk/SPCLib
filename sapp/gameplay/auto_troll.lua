@@ -619,20 +619,20 @@ local flag, globals, ls, network_struct = { }, nil
 function OnScriptLoad()
 
     -- Register needed event callbacks:
-    register_callback(cb["EVENT_TICK"], "OnTick")
+    register_callback(cb.EVENT_TICK, "OnTick")
 
-    register_callback(cb['EVENT_PREJOIN'], "OnPlayerPreJoin")
-    register_callback(cb["EVENT_LEAVE"], "OnPlayerDisconnect")
+    register_callback(cb.EVENT_PREJOIN, "OnPlayerPreJoin")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerDisconnect")
 
-    register_callback(cb["EVENT_CHAT"], "OnPlayerChat")
-    register_callback(cb["EVENT_PRESPAWN"], "OnPreSpawn")
-    register_callback(cb["EVENT_COMMAND"], "OnServerCommand")
+    register_callback(cb.EVENT_CHAT, "OnPlayerChat")
+    register_callback(cb.EVENT_PRESPAWN, "OnPreSpawn")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
 
-    register_callback(cb["EVENT_GAME_END"], "OnGameEnd")
-    register_callback(cb["EVENT_GAME_START"], "OnGameStart")
-    register_callback(cb["EVENT_VEHICLE_ENTER"], "OnVehicleEntry")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_VEHICLE_ENTER, "OnVehicleEntry")
 
-    register_callback(cb["EVENT_DAMAGE_APPLICATION"], "OnDamageApplication")
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamageApplication")
 
     local gp = sig_scan("8B3C85????????3BF9741FE8????????8B8E2C0200008B4610") + 3
     if (gp == 3) then

@@ -41,9 +41,9 @@ local PERMISSION_LEVEL = 4
 local active_admins = {}
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], "OnTick")
-    register_callback(cb['EVENT_COMMAND'], "OnCommand")
-    register_callback(cb['EVENT_GAME_START'], "OnGameStart")
+    register_callback(cb.EVENT_TICK, "OnTick")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
     OnGameStart()
 end
 

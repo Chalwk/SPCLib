@@ -58,7 +58,7 @@ api_version = "1.12.0.0"
 
 function OnScriptLoad()
 
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
 
     sig = sig_scan("741F8B482085C9750C")
     if (sig == 0) then
@@ -92,8 +92,8 @@ function OnStart()
         WriteSig(true)
         ffa = get_var(0, "$ffa")
 
-        register_callback(cb["EVENT_JOIN"], "SetColor")
-        register_callback(cb["EVENT_TEAM_SWITCH"], "SetColor")
+        register_callback(cb.EVENT_JOIN, "SetColor")
+        register_callback(cb.EVENT_TEAM_SWITCH, "SetColor")
     end
 end
 

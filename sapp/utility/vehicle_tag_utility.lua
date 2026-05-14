@@ -41,8 +41,8 @@ api_version = '1.12.0.0'
 local file_path, current_map
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
 
     local sig_address = sig_scan('68??????008D54245468') + 0x1
     local directory = read_string(read_dword(sig_address))

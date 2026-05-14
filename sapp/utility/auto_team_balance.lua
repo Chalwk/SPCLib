@@ -105,20 +105,20 @@ local function balance()
 end
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     OnStart() -- just in case script is loaded mid-game
 end
 
 function OnStart()
-    unregister_callback(cb['EVENT_TICK'])
-    unregister_callback(cb['EVENT_COMMAND'])
-    unregister_callback(cb['EVENT_GAME_END'])
+    unregister_callback(cb.EVENT_TICK)
+    unregister_callback(cb.EVENT_COMMAND)
+    unregister_callback(cb.EVENT_GAME_END)
 
     if get_var(0, "$gt") == "n/a" then return end
     if get_var(0, "$ffa") == "0" then
-        register_callback(cb["EVENT_TICK"], "OnTick")
-        register_callback(cb["EVENT_GAME_END"], "OnEnd")
-        register_callback(cb["EVENT_COMMAND"], "OnCommand")
+        register_callback(cb.EVENT_TICK, "OnTick")
+        register_callback(cb.EVENT_GAME_END, "OnEnd")
+        register_callback(cb.EVENT_COMMAND, "OnCommand")
         last_tick = 0
         last_move_time = {}
     end

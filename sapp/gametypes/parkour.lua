@@ -124,15 +124,15 @@ local map_cfg, game_over, stats_file
 local stats, players, oddballs, alias_to_command = {}, {}, {}, {}
 
 local sapp_events = {
-    [cb['EVENT_TICK']] = 'OnTick',
-    [cb['EVENT_DIE']] = 'OnDeath',
-    [cb['EVENT_JOIN']] = 'OnJoin',
-    [cb['EVENT_LEAVE']] = 'OnQuit',
-    [cb['EVENT_SPAWN']] = 'OnSpawn',
-    [cb['EVENT_GAME_END']] = 'OnEnd',
-    [cb['EVENT_COMMAND']] = 'OnCommand',
-    [cb['EVENT_PRESPAWN']] = 'OnPreSpawn',
-    [cb['EVENT_DAMAGE_APPLICATION']] = 'SpawnProtection'
+    [cb.EVENT_TICK] = 'OnTick',
+    [cb.EVENT_DIE] = 'OnDeath',
+    [cb.EVENT_JOIN] = 'OnJoin',
+    [cb.EVENT_LEAVE] = 'OnQuit',
+    [cb.EVENT_SPAWN] = 'OnSpawn',
+    [cb.EVENT_GAME_END] = 'OnEnd',
+    [cb.EVENT_COMMAND] = 'OnCommand',
+    [cb.EVENT_PRESPAWN] = 'OnPreSpawn',
+    [cb.EVENT_DAMAGE_APPLICATION] = 'SpawnProtection'
 }
 
 local function getTime()
@@ -515,7 +515,7 @@ function OnScriptLoad()
         end
     end
 
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
 
     local config_path = getConfigPath()
     stats_file = config_path .. "\\sapp\\" .. CONFIG.DATABASE_FILE

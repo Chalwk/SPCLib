@@ -80,11 +80,11 @@ local players = {}
 local gsub, lower, upper, gmatch = string.gsub, string.lower, string.upper, string.gmatch
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_CHAT"], "OnPlayerChat")
-    register_callback(cb["EVENT_SPAWN"], "OnPlayerSpawn")
-    register_callback(cb["EVENT_GAME_START"], "OnGameStart")
-    register_callback(cb["EVENT_COMMAND"], "OnServerCommand")
-    register_callback(cb["EVENT_LEAVE"], "OnPlayerDisconnect")
+    register_callback(cb.EVENT_CHAT, "OnPlayerChat")
+    register_callback(cb.EVENT_SPAWN, "OnPlayerSpawn")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerDisconnect")
 
     if get_var(0, "$gt") ~= "n/a" then
         players = {}

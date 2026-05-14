@@ -145,10 +145,10 @@ local function change_score_limit(quit_flag)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_LEAVE'], 'OnQuit')
-    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_LEAVE, 'OnQuit')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 

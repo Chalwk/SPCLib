@@ -40,7 +40,7 @@ local modes = {
 }
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     OnStart()
 end
 
@@ -49,11 +49,11 @@ function OnStart()
 
         local mode = get_var(0, "$mode")
         if (modes[mode]) then
-            register_callback(cb["EVENT_SPAWN"], "OnSpawn")
+            register_callback(cb.EVENT_SPAWN, "OnSpawn")
             cprint('Disabling grenades', 10)
             return true
         end
-        unregister_callback(cb["EVENT_SPAWN"])
+        unregister_callback(cb.EVENT_SPAWN)
     end
 end
 

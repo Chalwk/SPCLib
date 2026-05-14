@@ -80,10 +80,10 @@ function onStart()
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_JOIN'], 'onJoin')
-    register_callback(cb['EVENT_LEAVE'], 'onQuit')
-    register_callback(cb['EVENT_DIE'], 'onDeath')
-    register_callback(cb['EVENT_GAME_START'], 'onStart')
+    register_callback(cb.EVENT_JOIN, 'onJoin')
+    register_callback(cb.EVENT_LEAVE, 'onQuit')
+    register_callback(cb.EVENT_DIE, 'onDeath')
+    register_callback(cb.EVENT_GAME_START, 'onStart')
     onStart()
 end
 

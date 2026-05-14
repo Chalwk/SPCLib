@@ -25,8 +25,8 @@ local network_struct, server_name
 local concat, char = table.concat, string.char
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     network_struct = read_dword(sig_scan('F3ABA1????????BA????????C740??????????E8????????668B0D') + 3)
     OnStart()
 end

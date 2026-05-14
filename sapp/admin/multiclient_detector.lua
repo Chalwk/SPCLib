@@ -138,11 +138,11 @@ function OnScriptLoad()
     Multiclient.dir = dir .. '\\sapp\\' .. Multiclient.file
     Multiclient.db = Multiclient:LoadDB()
 
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_LEAVE'], 'OnQuit')
-    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_LEAVE, 'OnQuit')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
 
     OnStart()
 end

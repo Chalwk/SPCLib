@@ -82,9 +82,9 @@ function OnQuit(id)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_JOIN'], "OnJoin")
-    register_callback(cb['EVENT_CHAT'], "OnChat")
-    register_callback(cb['EVENT_LEAVE'], "OnQuit")
+    register_callback(cb.EVENT_JOIN, "OnJoin")
+    register_callback(cb.EVENT_CHAT, "OnChat")
+    register_callback(cb.EVENT_LEAVE, "OnQuit")
 end
 
 function OnScriptUnload() end

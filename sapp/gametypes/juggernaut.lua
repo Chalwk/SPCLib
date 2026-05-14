@@ -78,14 +78,14 @@ local game = {
 }
 
 local sapp_events = {
-    [cb['EVENT_TICK']] = 'OnTick',
-    [cb['EVENT_DIE']] = 'OnDeath',
-    [cb['EVENT_JOIN']] = 'OnJoin',
-    [cb['EVENT_LEAVE']] = 'OnQuit',
-    [cb['EVENT_SPAWN']] = 'OnSpawn',
-    [cb['EVENT_GAME_END']] = 'OnEnd',
-    [cb['EVENT_COMMAND']] = 'OnCommand',
-    [cb['EVENT_DAMAGE_APPLICATION']] = 'OnDamage'
+    [cb.EVENT_TICK] = 'OnTick',
+    [cb.EVENT_DIE] = 'OnDeath',
+    [cb.EVENT_JOIN] = 'OnJoin',
+    [cb.EVENT_LEAVE] = 'OnQuit',
+    [cb.EVENT_SPAWN] = 'OnSpawn',
+    [cb.EVENT_GAME_END] = 'OnEnd',
+    [cb.EVENT_COMMAND] = 'OnCommand',
+    [cb.EVENT_DAMAGE_APPLICATION] = 'OnDamage'
 }
 
 local function registerCallbacks(juggernaut_game)
@@ -248,7 +248,7 @@ end
 
 -- SAPP Events
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 

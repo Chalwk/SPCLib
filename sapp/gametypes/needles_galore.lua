@@ -82,10 +82,10 @@ function OnSpawn(id)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_SPAWN'], 'OnSpawn')
-    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
-    register_callback(cb['EVENT_ALIVE'], 'UpdateAmmo')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_SPAWN, 'OnSpawn')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    register_callback(cb.EVENT_ALIVE, 'UpdateAmmo')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart() -- in case script is loaded mid-game
 end
 

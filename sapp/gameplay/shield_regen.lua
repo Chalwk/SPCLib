@@ -24,7 +24,7 @@ api_version = "1.12.0.0"
 local delay = 0 -- in seconds
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], 'OnTick')
+    register_callback(cb.EVENT_TICK, 'OnTick')
 end
 
 function OnTick()

@@ -72,7 +72,7 @@ local function loadZones()
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], "OnStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
 end
 
 function OnStart()
@@ -81,15 +81,15 @@ function OnStart()
         ffa = (get_var(0, '$ffa') == '1')
 
         if loadZones() then
-            register_callback(cb['EVENT_TICK'], "OnTick")
-            register_callback(cb['EVENT_JOIN'], "OnJoin")
-            register_callback(cb['EVENT_LEAVE'], "OnQuit")
-            register_callback(cb['EVENT_TEAM_SWITCH'], "OnTeamSwitch")
+            register_callback(cb.EVENT_TICK, "OnTick")
+            register_callback(cb.EVENT_JOIN, "OnJoin")
+            register_callback(cb.EVENT_LEAVE, "OnQuit")
+            register_callback(cb.EVENT_TEAM_SWITCH, "OnTeamSwitch")
         else
-            unregister_callback(cb['EVENT_TICK'])
-            unregister_callback(cb['EVENT_JOIN'])
-            unregister_callback(cb['EVENT_LEAVE'])
-            unregister_callback(cb['EVENT_TEAM_SWITCH'])
+            unregister_callback(cb.EVENT_TICK)
+            unregister_callback(cb.EVENT_JOIN)
+            unregister_callback(cb.EVENT_LEAVE)
+            unregister_callback(cb.EVENT_TEAM_SWITCH)
         end
     end
 end

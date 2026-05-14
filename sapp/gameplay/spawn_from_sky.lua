@@ -117,7 +117,7 @@ local coords = {}
 local players = { }
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 
@@ -127,15 +127,15 @@ function OnStart()
         local map = get_var(0, '$map')
         if (maps[map]) then
             coords = maps[map]
-            register_callback(cb['EVENT_TICK'], 'OnTick')
-            register_callback(cb['EVENT_JOIN'], 'OnJoin')
-            register_callback(cb['EVENT_SPAWN'], 'OnSpawn')
-            register_callback(cb['EVENT_PRESPAWN'], 'OnPreSpawn')
+            register_callback(cb.EVENT_TICK, 'OnTick')
+            register_callback(cb.EVENT_JOIN, 'OnJoin')
+            register_callback(cb.EVENT_SPAWN, 'OnSpawn')
+            register_callback(cb.EVENT_PRESPAWN, 'OnPreSpawn')
         else
-            register_callback(cb['EVENT_JOIN'])
-            register_callback(cb['EVENT_TICK'])
-            register_callback(cb['EVENT_SPAWN'])
-            register_callback(cb['EVENT_PRESPAWN'])
+            register_callback(cb.EVENT_JOIN)
+            register_callback(cb.EVENT_TICK)
+            register_callback(cb.EVENT_SPAWN)
+            register_callback(cb.EVENT_PRESPAWN)
         end
     end
 end

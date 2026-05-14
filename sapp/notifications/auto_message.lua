@@ -39,8 +39,8 @@ local game_active = false
 
 function OnScriptLoad()
     timer(1000 * INTERVAL, "BroadcastAnnouncement")
-    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart() -- in case script is loaded mid-game
 end
 

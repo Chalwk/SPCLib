@@ -132,14 +132,14 @@ function OnScriptLoad()
 
     -- Register needed Event Callbacks:
 
-    register_callback(cb['EVENT_GAME_START'], "OnGameStart")
-    register_callback(cb['EVENT_TICK'], "OnTick")
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], "OnDamageApplication")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_TICK, "OnTick")
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamageApplication")
 
-    register_callback(cb['EVENT_BETRAY'], "OnPlayerBetray")
-    register_callback(cb['EVENT_DIE'], "OnPlayerDeath")
-    register_callback(cb['EVENT_JOIN'], "OnPlayerConnect")
-    register_callback(cb['EVENT_LEAVE'], "OnPlayerDisconnect")
+    register_callback(cb.EVENT_BETRAY, "OnPlayerBetray")
+    register_callback(cb.EVENT_DIE, "OnPlayerDeath")
+    register_callback(cb.EVENT_JOIN, "OnPlayerConnect")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerDisconnect")
 
     if (get_var(0, "$gt") ~= "n/a") then
         punish:Reset()

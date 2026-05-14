@@ -72,9 +72,9 @@ local function overrideTeamColours(state)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_SPAWN'], 'OnSpawn')
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_SPAWN, 'OnSpawn')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart(true)
 end
 

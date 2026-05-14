@@ -36,7 +36,7 @@ LICENSE:          MIT License
 api_version = "1.12.0.0"
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_COMMAND'], "OnServerCommand")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
     SyncFiles()
     backup_table = {}
 end

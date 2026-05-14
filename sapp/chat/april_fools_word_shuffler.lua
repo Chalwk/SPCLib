@@ -30,7 +30,7 @@ api_version = '1.12.0.0'
 
 -- Event handler for script load
 function OnScriptLoad()
-    register_callback(cb['EVENT_CHAT'], 'OnChat')
+    register_callback(cb.EVENT_CHAT, 'OnChat')
 end
 
 -- Function to get a random seed

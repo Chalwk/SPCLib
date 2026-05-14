@@ -21,7 +21,7 @@ api_version = '1.12.0.0'
 local output = "Kill Counter: $kills"
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_DIE'], 'OnDeath')
+    register_callback(cb.EVENT_DIE, 'OnDeath')
 end
 
 function OnDeath(Victim, Killer)

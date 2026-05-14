@@ -105,11 +105,11 @@ function OnScriptLoad()
     -- register needed event callbacks:
     --
 
-    register_callback(cb["EVENT_GAME_END"], "OnGameEnd")
-    register_callback(cb["EVENT_JOIN"], "OnPlayerConnect")
-    register_callback(cb["EVENT_GAME_START"], "OnGameStart")
-    register_callback(cb["EVENT_COMMAND"], "OnServerCommand")
-    register_callback(cb["EVENT_LEAVE"], "OnPlayerDisconnect")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_JOIN, "OnPlayerConnect")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerDisconnect")
     --
 
     TimePlayed:CheckFile(true)

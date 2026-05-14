@@ -232,20 +232,20 @@ local globals
 
 function OnScriptLoad()
 
-    register_callback(cb["EVENT_SCORE"], "OnScore")
+    register_callback(cb.EVENT_SCORE, "OnScore")
 
-    register_callback(cb["EVENT_GAME_START"], "OnNewGame")
-    register_callback(cb["EVENT_GAME_END"], "OnGameEnd")
+    register_callback(cb.EVENT_GAME_START, "OnNewGame")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
 
-    register_callback(cb["EVENT_TEAM_SWITCH"], "TeamChange")
+    register_callback(cb.EVENT_TEAM_SWITCH, "TeamChange")
 
-    register_callback(cb["EVENT_JOIN"], "OnPlayerJoin")
-    register_callback(cb["EVENT_LEAVE"], "OnPlayerQuit")
+    register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerQuit")
 
-    register_callback(cb["EVENT_SPAWN"], "OnPlayerSpawn")
+    register_callback(cb.EVENT_SPAWN, "OnPlayerSpawn")
 
-    register_callback(cb["EVENT_DIE"], "DeathHandler")
-    register_callback(cb["EVENT_DAMAGE_APPLICATION"], "DeathHandler")
+    register_callback(cb.EVENT_DIE, "DeathHandler")
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "DeathHandler")
 
     local gp = sig_scan("8B3C85????????3BF9741FE8????????8B8E2C0200008B4610") + 3
     if (gp == 3) then

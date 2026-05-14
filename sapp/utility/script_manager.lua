@@ -58,8 +58,8 @@ local ScriptManager = {
 
 function OnScriptLoad()
     cprint('[Script Manager] Initialized')
-    register_callback(cb['EVENT_GAME_START'], 'OnGameStart')
-    register_callback(cb['EVENT_GAME_END'], 'OnGameEnd')
+    register_callback(cb.EVENT_GAME_START, 'OnGameStart')
+    register_callback(cb.EVENT_GAME_END, 'OnGameEnd')
     ScriptManager.loaded = {}    -- Tracks currently loaded scripts
     ScriptManager.scheduled = {} -- Scripts scheduled for loading/unloading
 end

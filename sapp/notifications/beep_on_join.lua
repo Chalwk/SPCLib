@@ -22,7 +22,7 @@ LICENSE:          MIT License
 api_version = '1.12.0.0'
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
 end
 
 function OnJoin(_)

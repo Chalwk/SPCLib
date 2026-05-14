@@ -43,9 +43,9 @@ end
 
 function OnScriptLoad()
 
-    register_callback(cb["EVENT_COMMAND"], "OnCommand")
-    register_callback(cb["EVENT_GAME_END"], "OnEnd")
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
 
     local tick_counter_sig = sig_scan("8B2D????????807D0000C644240600")
     if tick_counter_sig == 0 then return end

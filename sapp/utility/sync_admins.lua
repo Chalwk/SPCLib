@@ -68,7 +68,7 @@ local users_table = {
 }
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_COMMAND'], "OnServerCommand")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
 end
 
 function OnScriptUnload()

@@ -148,11 +148,11 @@ end
 function OnScriptLoad()
     init_formats()
 
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_LEAVE'], 'OnQuit')
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
-    register_callback(cb['EVENT_TEAM_SWITCH'], 'OnTeamSwitch')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_LEAVE, 'OnQuit')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_TEAM_SWITCH, 'OnTeamSwitch')
 
     if get_var(0, '$gt') ~= 'n/a' then
         OnStart()

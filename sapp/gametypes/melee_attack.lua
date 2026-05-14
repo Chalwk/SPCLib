@@ -25,10 +25,10 @@ local BASE_TAG_TABLE = 0x40440000
 local TAG_ENTRY_SIZE, TAG_DATA_OFFSET, BIT_CHECK_OFFSET, BIT_INDEX = 0x20, 0x14, 0x308, 3
 
 local sapp_events = {
-    [cb['EVENT_DIE']] = 'OnDeath',
-    [cb['EVENT_LEAVE']] = 'OnQuit',
-    [cb['EVENT_SPAWN']] = 'OnSpawn',
-    [cb['EVENT_WEAPON_DROP']] = 'OnWeaponDrop',
+    [cb.EVENT_DIE] = 'OnDeath',
+    [cb.EVENT_LEAVE] = 'OnQuit',
+    [cb.EVENT_SPAWN] = 'OnSpawn',
+    [cb.EVENT_WEAPON_DROP] = 'OnWeaponDrop',
 }
 
 local function registerCallbacks(enable)

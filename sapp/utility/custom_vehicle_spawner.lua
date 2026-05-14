@@ -162,12 +162,12 @@ local function initVehicles()
         end
     end
 
-    register_callback(cb['EVENT_TICK'], 'CheckVehicles')
+    register_callback(cb.EVENT_TICK, 'CheckVehicles')
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnGameStart')
-    register_callback(cb['EVENT_GAME_END'], 'OnGameEnd')
+    register_callback(cb.EVENT_GAME_START, 'OnGameStart')
+    register_callback(cb.EVENT_GAME_END, 'OnGameEnd')
     OnGameStart()
 end
 
@@ -178,7 +178,7 @@ function OnGameStart()
 end
 
 function OnGameEnd()
-    unregister_callback(cb['EVENT_TICK'])
+    unregister_callback(cb.EVENT_TICK)
 end
 
 function OnScriptUnload() end

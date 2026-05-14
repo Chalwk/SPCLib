@@ -237,8 +237,8 @@ local function manual_lookup(admin_id, ip)
 end
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_JOIN"], "OnJoin")
-    register_callback(cb["EVENT_COMMAND"], "OnCommand")
+    register_callback(cb.EVENT_JOIN, "OnJoin")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
 
     -- Precompute blocked codes for a quick O(1) check later
     for _, code in ipairs(BLOCK_LIST) do

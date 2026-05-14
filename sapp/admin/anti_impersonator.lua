@@ -122,7 +122,7 @@ function OnJoin(playerId)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
 end
 
 function OnScriptUnload() end

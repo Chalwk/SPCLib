@@ -58,7 +58,7 @@ end
 
 -- Event Handlers
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 
@@ -68,18 +68,18 @@ function OnStart()
     weapon_id = getTag('weap', WEAPON)
 
     if not weapon_id then
-        unregister_callback(cb['EVENT_DIE'])
-        unregister_callback(cb["EVENT_SPAWN"])
-        unregister_callback(cb['EVENT_DAMAGE_APPLICATION'])
+        unregister_callback(cb.EVENT_DIE)
+        unregister_callback(cb.EVENT_SPAWN)
+        unregister_callback(cb.EVENT_DAMAGE_APPLICATION)
         return
     end
 
     execute_command("disable_all_vehicles 0 1")
     disableMapObjects()
 
-    register_callback(cb['EVENT_DIE'], "OnKill")
-    register_callback(cb["EVENT_SPAWN"], "OnSpawn")
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], "OnDamage")
+    register_callback(cb.EVENT_DIE, "OnKill")
+    register_callback(cb.EVENT_SPAWN, "OnSpawn")
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamage")
 end
 
 function OnKill(victimId, killerId)

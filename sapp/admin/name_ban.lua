@@ -27,7 +27,7 @@ api_version = "1.12.0.0"
 local BANNED_LOWER = {}
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_JOIN"], "OnPlayerJoin")
+    register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
 
     for _, name in ipairs(BANNED_NAMES) do
         table.insert(BANNED_LOWER, name:lower())

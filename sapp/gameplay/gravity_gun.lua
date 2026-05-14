@@ -237,12 +237,12 @@ function OnTick()
 end
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_TICK"], "OnTick")
-    register_callback(cb["EVENT_JOIN"], "OnJoin")
-    register_callback(cb["EVENT_LEAVE"], "OnQuit")
-    register_callback(cb["EVENT_SPAWN"], "OnSpawn")
-    register_callback(cb["EVENT_COMMAND"], "OnCommand")
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
+    register_callback(cb.EVENT_TICK, "OnTick")
+    register_callback(cb.EVENT_JOIN, "OnJoin")
+    register_callback(cb.EVENT_LEAVE, "OnQuit")
+    register_callback(cb.EVENT_SPAWN, "OnSpawn")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     OnStart()
 end
 

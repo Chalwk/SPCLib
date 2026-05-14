@@ -60,7 +60,7 @@ function OnChat(playerId, message)
 end
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_CHAT"], "OnChat")
+    register_callback(cb.EVENT_CHAT, "OnChat")
 end
 
 function OnScriptUnload() end

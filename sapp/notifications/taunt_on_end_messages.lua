@@ -21,7 +21,7 @@ function OnScriptUnload()
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_END'], "OnGameEnd")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
 end
 
 function OnGameEnd(PlayerIndex)

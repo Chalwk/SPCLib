@@ -43,11 +43,11 @@ local original_death_message_bytes = nil
 local DEATH_MESSAGE_SIGNATURE = "8B42348A8C28D500000084C9"
 
 local sapp_events = {
-    [cb['EVENT_DIE']] = 'OnDeath',
-    [cb['EVENT_JOIN']] = 'OnJoin',
-    [cb['EVENT_LEAVE']] = 'OnQuit',
-    [cb['EVENT_GAME_END']] = 'OnEnd',
-    [cb['EVENT_TEAM_SWITCH']] = 'OnTeamSwitch'
+    [cb.EVENT_DIE] = 'OnDeath',
+    [cb.EVENT_JOIN] = 'OnJoin',
+    [cb.EVENT_LEAVE] = 'OnQuit',
+    [cb.EVENT_GAME_END] = 'OnEnd',
+    [cb.EVENT_TEAM_SWITCH] = 'OnTeamSwitch'
 }
 
 local function register_callbacks(team_game)
@@ -201,7 +201,7 @@ end
 -- SAPP Events
 function OnScriptLoad()
     death_message_hook_enabled = SetupDeathMessageHook()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
 
     execute_command('sv_tk_ban 0')
     execute_command('sv_friendly_fire 0')

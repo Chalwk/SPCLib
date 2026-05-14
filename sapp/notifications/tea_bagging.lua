@@ -157,12 +157,12 @@ function OnServerCommand(id, command)
 end
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_JOIN"], "OnJoin")
-    register_callback(cb["EVENT_LEAVE"], "OnQuit")
-    register_callback(cb["EVENT_SPAWN"], "OnSpawn")
-    register_callback(cb["EVENT_DIE"], "OnDeath")
-    register_callback(cb["EVENT_TICK"], "OnTick")
-    register_callback(cb["EVENT_COMMAND"], "OnServerCommand")
+    register_callback(cb.EVENT_JOIN, "OnJoin")
+    register_callback(cb.EVENT_LEAVE, "OnQuit")
+    register_callback(cb.EVENT_SPAWN, "OnSpawn")
+    register_callback(cb.EVENT_DIE, "OnDeath")
+    register_callback(cb.EVENT_TICK, "OnTick")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
 
     if get_var(0, "$gt") ~= "n/a" then
         for i = 1, 16 do

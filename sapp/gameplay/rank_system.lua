@@ -884,16 +884,16 @@ function OnScriptLoad()
         COMMAND_LOOKUP[cmd_data[1]:lower()] = cmd_data[2]
     end
 
-    register_callback(cb['EVENT_DIE'], 'OnDeath')
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_LEAVE'], 'OnQuit')
-    register_callback(cb['EVENT_SPAWN'], 'OnSpawn')
-    register_callback(cb['EVENT_SCORE'], 'OnScore')
-    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
-    register_callback(cb['EVENT_TEAM_SWITCH'], 'OnSwitch')
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], 'OnDamage')
+    register_callback(cb.EVENT_DIE, 'OnDeath')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_LEAVE, 'OnQuit')
+    register_callback(cb.EVENT_SPAWN, 'OnSpawn')
+    register_callback(cb.EVENT_SCORE, 'OnScore')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    register_callback(cb.EVENT_TEAM_SWITCH, 'OnSwitch')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, 'OnDamage')
 
     OnStart() -- in case the script is loaded mid-game
 end

@@ -114,11 +114,11 @@ function OnDamage(victim_id, killer_id, _, damage, hit_string)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_SPAWN'], 'OnSpawn')
-    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
-    register_callback(cb['EVENT_ALIVE'], 'UpdateAmmo')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], 'OnDamage')
+    register_callback(cb.EVENT_SPAWN, 'OnSpawn')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    register_callback(cb.EVENT_ALIVE, 'UpdateAmmo')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, 'OnDamage')
     OnStart() -- in case script is loaded mid-game
 end
 

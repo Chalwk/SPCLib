@@ -63,10 +63,10 @@ function OnScriptLoad()
     local cg_dir = read_string(read_dword(sig_scan("68??????008D54245468") + 0x1))
     TeleportManager.dir = cg_dir .. "\\sapp\\" .. TeleportManager.file
 
-    register_callback(cb["EVENT_LEAVE"], "OnPlayerLeave")
-    register_callback(cb["EVENT_JOIN"], "OnPlayerJoin")
-    register_callback(cb["EVENT_COMMAND"], "OnCommandReceived")
-    register_callback(cb["EVENT_GAME_START"], "OnGameStart")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerLeave")
+    register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
+    register_callback(cb.EVENT_COMMAND, "OnCommandReceived")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
 
     TeleportManager:CheckFile(true)
 end

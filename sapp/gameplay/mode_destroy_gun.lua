@@ -109,9 +109,9 @@ function OnServerCommand(PlayerIndex, Command)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], "OnTick")
-    register_callback(cb['EVENT_SPAWN'], "OnPlayerSpawn")
-    register_callback(cb['EVENT_COMMAND'], "OnServerCommand")
+    register_callback(cb.EVENT_TICK, "OnTick")
+    register_callback(cb.EVENT_SPAWN, "OnPlayerSpawn")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
 end
 
 function OnScriptUnload()

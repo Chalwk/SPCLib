@@ -31,7 +31,7 @@ local spawns = {}
 local insert = table.insert
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 
@@ -60,12 +60,12 @@ function OnStart()
     local ffa = get_var(0, '$ffa') == '1'
 
     if gametype == 'n/a' or ffa then
-        unregister_callback(cb['EVENT_PRESPAWN'])
+        unregister_callback(cb.EVENT_PRESPAWN)
         return
     end
 
     load_spawns()
-    register_callback(cb['EVENT_PRESPAWN'], 'PreSpawn')
+    register_callback(cb.EVENT_PRESPAWN, 'PreSpawn')
 end
 
 function PreSpawn(id)

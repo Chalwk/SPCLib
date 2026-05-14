@@ -31,11 +31,11 @@ local command = 'damage'
 local protectedPlayers = {}
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_LEAVE'], 'OnPlayerLeave')
-    register_callback(cb['EVENT_SPAWN'], 'OnSpawn')
-    register_callback(cb['EVENT_COMMAND'], 'OnPlayerCommand')
-    register_callback(cb['EVENT_GAME_START'], 'OnGameStart')
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], 'OnDamageApplication')
+    register_callback(cb.EVENT_LEAVE, 'OnPlayerLeave')
+    register_callback(cb.EVENT_SPAWN, 'OnSpawn')
+    register_callback(cb.EVENT_COMMAND, 'OnPlayerCommand')
+    register_callback(cb.EVENT_GAME_START, 'OnGameStart')
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, 'OnDamageApplication')
     OnGameStart()
 end
 

@@ -108,8 +108,8 @@ function OnEnd()
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_END'], "OnEnd")
-    register_callback(cb['EVENT_DIE'], "OnDeath")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
+    register_callback(cb.EVENT_DIE, "OnDeath")
 end
 
 function OnScriptUnload() end

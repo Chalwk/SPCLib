@@ -186,7 +186,7 @@ api_version = '1.12.0.0'
 local cyborg = { 'bipd', 'characters\\cyborg_mp\\cyborg_mp' }
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
 end
 
 local function GetTag(Class, Name)

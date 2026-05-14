@@ -682,9 +682,9 @@ end
 
 function OnScriptLoad()
     load_db()
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
-    register_callback(cb['EVENT_COMMAND'], 'OnCommand')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_COMMAND, 'OnCommand')
     log_event('Breadcrumb Tracker loaded')
 
     timer(3600000, 'CleanStaleRecords') -- hourly cleanup

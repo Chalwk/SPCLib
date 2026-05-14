@@ -28,12 +28,12 @@ api_version = "1.12.0.0"
 local content = {}
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_DIE"], "OnPlayerDeath")
-    register_callback(cb["EVENT_SPAWN"], "OnPlayerSpawn")
-    register_callback(cb["EVENT_JOIN"], "OnPlayerConnect")
-    register_callback(cb["EVENT_GAME_START"], "OnGameStart")
-    register_callback(cb["EVENT_LEAVE"], "OnPlayerDisconnect")
-    register_callback(cb["EVENT_DAMAGE_APPLICATION"], "OnDamageApplication")
+    register_callback(cb.EVENT_DIE, "OnPlayerDeath")
+    register_callback(cb.EVENT_SPAWN, "OnPlayerSpawn")
+    register_callback(cb.EVENT_JOIN, "OnPlayerConnect")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerDisconnect")
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamageApplication")
     if (get_var(0, "$gt") ~= "n/a") then
         MeleeTagAddresses()
         for i = 1, 16 do

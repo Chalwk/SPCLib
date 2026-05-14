@@ -94,10 +94,10 @@ local function update_nitrous_hud(player_id, nitrous, state)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], 'OnTick')
-    register_callback(cb['EVENT_JOIN'], 'OnJoin')
-    register_callback(cb['EVENT_LEAVE'], 'OnLeave')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_TICK, 'OnTick')
+    register_callback(cb.EVENT_JOIN, 'OnJoin')
+    register_callback(cb.EVENT_LEAVE, 'OnLeave')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
 end
 
 function OnStart()

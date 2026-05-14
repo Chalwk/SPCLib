@@ -84,7 +84,7 @@ local function processConfig(config)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], "OnStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     OnStart()
 end
 
@@ -98,11 +98,11 @@ function OnStart()
     local config = TAGS_CONFIG[gametype]
     if config then
         processConfig(config)
-        register_callback(cb['EVENT_OBJECT_SPAWN'], "OnObjectSpawn")
+        register_callback(cb.EVENT_OBJECT_SPAWN, "OnObjectSpawn")
         return
     end
 
-    unregister_callback(cb['EVENT_OBJECT_SPAWN'])
+    unregister_callback(cb.EVENT_OBJECT_SPAWN)
 end
 
 function OnObjectSpawn(_, object_id)

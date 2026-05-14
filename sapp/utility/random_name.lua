@@ -33,9 +33,9 @@ function OnScriptLoad()
     network_struct = read_dword(sig_scan("F3ABA1????????BA????????C740??????????E8????????668B0D") + 3)
     ce = (halo_type == 'PC' and 0x0 or 0x40)
     math.randomseed(os.clock())
-    register_callback(cb["EVENT_GAME_START"], "OnStart")
-    register_callback(cb["EVENT_LEAVE"], "OnQuit")
-    register_callback(cb["EVENT_PREJOIN"], "OnPreJoin")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
+    register_callback(cb.EVENT_LEAVE, "OnQuit")
+    register_callback(cb.EVENT_PREJOIN, "OnPreJoin")
     OnStart()
 end
 

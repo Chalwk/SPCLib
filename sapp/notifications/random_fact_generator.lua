@@ -48,10 +48,10 @@ local players = {}
 
 -- Function to handle script load event
 function OnScriptLoad()
-    register_callback(cb["EVENT_JOIN"], "OnPlayerJoin")
-    register_callback(cb["EVENT_LEAVE"], "OnPlayerLeave")
-    register_callback(cb["EVENT_GAME_END"], "OnGameEnd")
-    register_callback(cb["EVENT_GAME_START"], "OnGameStart")
+    register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerLeave")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
     OnGameStart()
 end
 

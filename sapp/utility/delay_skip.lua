@@ -47,9 +47,9 @@ local function immune(id)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_CHAT'], 'OnChat')
-    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_CHAT, 'OnChat')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
 end
 
 function OnChat(id, msg)

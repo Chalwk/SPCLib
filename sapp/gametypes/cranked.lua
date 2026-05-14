@@ -396,7 +396,7 @@ function OnScriptLoad()
     _G['start'] = function()
         game:start()
     end
-    register_callback(cb['EVENT_GAME_START'], 'start')
+    register_callback(cb.EVENT_GAME_START, 'start')
 
     game:start()
 end

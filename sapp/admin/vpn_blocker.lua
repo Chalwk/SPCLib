@@ -169,7 +169,7 @@ local client = ffi.load('lua_http_client')
 api_version = '1.12.0.0'
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_PREJOIN'], 'PreJoin')
+    register_callback(cb.EVENT_PREJOIN, 'PreJoin')
 end
 
 --[[

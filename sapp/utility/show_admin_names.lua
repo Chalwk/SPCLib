@@ -26,7 +26,7 @@ api_version = '1.12.0.0'
 
 -- Event handlers
 function OnScriptLoad()
-    register_callback(cb['EVENT_COMMAND'], 'checkAdmins')
+    register_callback(cb.EVENT_COMMAND, 'checkAdmins')
 end
 
 local function isAdmin(playerIndex)

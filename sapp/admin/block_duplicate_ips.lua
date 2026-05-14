@@ -155,7 +155,7 @@ end
 
 -- Script load and unload callbacks:
 function OnScriptLoad()
-    register_callback(cb["EVENT_PREJOIN"], "OnPreJoin")
+    register_callback(cb.EVENT_PREJOIN, "OnPreJoin")
 end
 
 function OnScriptUnload()

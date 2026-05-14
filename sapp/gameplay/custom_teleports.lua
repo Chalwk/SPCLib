@@ -101,8 +101,8 @@ local player_present = player_present
 local get_dynamic_player = get_dynamic_player
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_LEAVE'], 'OnQuit')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_LEAVE, 'OnQuit')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 
@@ -139,9 +139,9 @@ function OnStart()
         precompute_teleports(tmp)
         map_cfg = tmp
 
-        register_callback(cb['EVENT_TICK'], 'OnTick')
+        register_callback(cb.EVENT_TICK, 'OnTick')
     else
-        unregister_callback(cb['EVENT_TICK'])
+        unregister_callback(cb.EVENT_TICK)
     end
 end
 

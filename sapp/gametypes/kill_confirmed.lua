@@ -43,13 +43,13 @@ local BASE_TAG_TABLE = 0x40440000
 local TAG_ENTRY_SIZE, TAG_DATA_OFFSET, BIT_CHECK_OFFSET, BIT_INDEX = 0x20, 0x14, 0x308, 3
 
 local sapp_events = {
-    [cb['EVENT_TICK']] = 'OnTick',
-    [cb['EVENT_JOIN']] = 'OnJoin',
-    [cb['EVENT_DIE']] = 'OnDeath',
-    [cb['EVENT_LEAVE']] = 'OnQuit',
-    [cb['EVENT_GAME_END']] = 'OnEnd',
-    [cb['EVENT_DAMAGE_APPLICATION']] = 'OnDamage',
-    [cb['EVENT_WEAPON_PICKUP']] = 'OnWeaponPickup'
+    [cb.EVENT_TICK] = 'OnTick',
+    [cb.EVENT_JOIN] = 'OnJoin',
+    [cb.EVENT_DIE] = 'OnDeath',
+    [cb.EVENT_LEAVE] = 'OnQuit',
+    [cb.EVENT_GAME_END] = 'OnEnd',
+    [cb.EVENT_DAMAGE_APPLICATION] = 'OnDamage',
+    [cb.EVENT_WEAPON_PICKUP] = 'OnWeaponPickup'
 }
 
 local function registerCallbacks(enable)
@@ -213,7 +213,7 @@ local function collectDogTag(player_id, object_memory)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], "OnStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     OnStart()
 end
 

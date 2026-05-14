@@ -63,15 +63,15 @@ jumping_state = {}
 cooldown_bool = { }
 players = { }
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], "OnTick")
-    register_callback(cb['EVENT_COMMAND'], "OnServerCommand")
+    register_callback(cb.EVENT_TICK, "OnTick")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
 
-    register_callback(cb['EVENT_SPAWN'], "OnPlayerSpawn")
-    register_callback(cb['EVENT_JOIN'], "OnPlayerConnect")
-    register_callback(cb['EVENT_LEAVE'], "OnPlayerDisconnect")
+    register_callback(cb.EVENT_SPAWN, "OnPlayerSpawn")
+    register_callback(cb.EVENT_JOIN, "OnPlayerConnect")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerDisconnect")
 
-    register_callback(cb['EVENT_GAME_END'], "OnGameEnd")
-    register_callback(cb['EVENT_GAME_START'], "OnNewGame")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_START, "OnNewGame")
 
     for i = 1, 16 do
         if player_present(i) then

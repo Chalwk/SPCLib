@@ -150,7 +150,7 @@ local function update_fuel_gauge(player, _, current_fuel, max_fuel, at_station)
 end
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 
@@ -171,8 +171,8 @@ function OnStart()
     vehicle_state = {}
 
     if not fuel_stations[map] or #fuel_stations[map] == 0 then
-        unregister_callback(cb['EVENT_TICK'])
-        unregister_callback(cb['EVENT_OBJECT_SPAWN'])
+        unregister_callback(cb.EVENT_TICK)
+        unregister_callback(cb.EVENT_OBJECT_SPAWN)
         return
     end
 
@@ -187,8 +187,8 @@ function OnStart()
         end
     end
 
-    register_callback(cb['EVENT_TICK'], 'OnTick')
-    register_callback(cb['EVENT_OBJECT_SPAWN'], 'OnObjectSpawn')
+    register_callback(cb.EVENT_TICK, 'OnTick')
+    register_callback(cb.EVENT_OBJECT_SPAWN, 'OnObjectSpawn')
 end
 
 function OnTick()

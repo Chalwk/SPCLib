@@ -88,11 +88,11 @@ local SRT = {
 api_version = "1.12.0.0"
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_DIE'], "OnPlayerDeath")
-    register_callback(cb['EVENT_JOIN'], "OnPlayerJoin")
-    register_callback(cb['EVENT_LEAVE'], "OnPlayerQuit")
-    register_callback(cb['EVENT_GAME_START'], "OnNewGame")
-    register_callback(cb['EVENT_COMMAND'], "OnServerCommand")
+    register_callback(cb.EVENT_DIE, "OnPlayerDeath")
+    register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerQuit")
+    register_callback(cb.EVENT_GAME_START, "OnNewGame")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
     OnNewGame()
 end
 

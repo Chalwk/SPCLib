@@ -27,9 +27,9 @@ local output_msg = "Game will begin in: %02d seconds"
 local timer
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_TICK'], 'OnTick')
-    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_TICK, 'OnTick')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
 
     OnStart() -- in case script is loaded mid-game
 end

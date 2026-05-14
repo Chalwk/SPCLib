@@ -86,9 +86,9 @@ local gsub = string.gsub
 local gmatch, lower = string.gmatch, string.lower
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_CHAT"], "OnPlayerChat")
-    register_callback(cb["EVENT_GAME_START"], "OnGameStart")
-    register_callback(cb["EVENT_COMMAND"], "OnServerCommand")
+    register_callback(cb.EVENT_CHAT, "OnPlayerChat")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
     OnGameStart()
 end
 

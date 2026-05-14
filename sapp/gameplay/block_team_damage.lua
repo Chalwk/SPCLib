@@ -20,7 +20,7 @@ LICENSE:          MIT License
 api_version = '1.12.0.0'
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     OnStart()
 end
 
@@ -30,9 +30,9 @@ function OnStart()
     if game_type == 'n/a' then return end
 
     if get_var(0, '$ffa') == '0' then
-        register_callback(cb['EVENT_DAMAGE_APPLICATION'], 'BlockDamage')
+        register_callback(cb.EVENT_DAMAGE_APPLICATION, 'BlockDamage')
     else
-        unregister_callback(cb['EVENT_DAMAGE_APPLICATION'])
+        unregister_callback(cb.EVENT_DAMAGE_APPLICATION)
     end
 end
 

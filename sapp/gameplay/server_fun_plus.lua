@@ -98,11 +98,11 @@ crash_command = "crash"
 crash_permission_level = 1
 
 function OnScriptLoad()
-    register_callback(cb['EVENT_CHAT'], "OnPlayerChat")
-    register_callback(cb['EVENT_COMMAND'], "OnServerCommand")
-    register_callback(cb['EVENT_TICK'], "OnTick")
-    register_callback(cb['EVENT_JOIN'], "OnPlayerJoin")
-    register_callback(cb['EVENT_LEAVE'], "OnPlayerLeave")
+    register_callback(cb.EVENT_CHAT, "OnPlayerChat")
+    register_callback(cb.EVENT_COMMAND, "OnServerCommand")
+    register_callback(cb.EVENT_TICK, "OnTick")
+    register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
+    register_callback(cb.EVENT_LEAVE, "OnPlayerLeave")
 end
 
 function OnScriptUnload()

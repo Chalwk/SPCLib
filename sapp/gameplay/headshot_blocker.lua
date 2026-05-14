@@ -12,7 +12,7 @@ LICENSE:          MIT License
 api_version = "1.12.0.0"
 
 function OnScriptLoad()
-    register_callback(cb["EVENT_DAMAGE_APPLICATION"], "BlockHeadshots")
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "BlockHeadshots")
 end
 
 function BlockHeadshots(victim, killer, _, _, hit_string, _)
