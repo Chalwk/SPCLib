@@ -11,38 +11,76 @@ DESCRIPTION:      Extended replacement for Phasor's native sendconsoletext().
                   Rewritten from scratch and optimized for lower overhead
                   than the original implementation.
 
-                  Example Usage:
+                  EXAMPLE USAGE:
 
-                      local console = require("sendconsoletext_extended")
-                      local sendconsoletext = console.sendconsoletext
-                      local get_message = console.get_message
+                  -- Load the module
+                  local console = require("sendconsoletext_extended")
+                  local sendconsoletext = console.sendconsoletext
+                  local get_message = console.get_message
+                  local get_messages = console.get_messages
+                  local get_message_block = console.get_message_block
+                  local next_id = console.next_id
+                  local console_center = console.console_center
+                  local opairs = console.opairs
 
-                      local order = { welcome = 0, kills = 1 }
+                  -- 1) Basic usage: show a centered message for 10 seconds at order 0
+                  sendconsoletext(player, "Hello, world!", 10, 0, "center")
 
-                      function OnPlayerJoin(player)
-                          sendconsoletext(
-                              player,
-                              "Welcome to the server!",
-                              10,
-                              order.welcome,
-                              "center"
-                          )
+                  -- 2) Right-aligned message with callback (callback returns false to keep alive)
+                  sendconsoletext(player, "Remaining: 5", 1, 1, "right", function(p)
+                      return true   -- keep refreshing while condition holds
+                  end)
+
+                  -- 3) Retrieve a message and modify it
+                  local msg = get_message(player, 1)
+                  if msg then
+                      msg:append("Updated text")           -- change message
+                      msg:append("Reset timer", true)      -- append and reset timer
+                      msg:append("New time", 3.5)          -- set new duration
+                      msg:shift(2)                         -- move to order bucket 2
+                      msg:pause(2.0)                       -- pause countdown for 2 sec
+                      msg:delete()                         -- remove message early
+                  end
+
+                  -- 4) Iterate over all messages of a player
+                  local all = get_messages(player)
+                  if all then
+                      for id, msg in pairs(all) do
+                          print("Message " .. id .. ": " .. msg:get_message())
                       end
+                  end
 
-                      function OnPlayerKill(killer)
-                          local msg = get_message(killer, order.kills)
+                  -- 5) Get all messages that share the same order bucket
+                  local bucket = get_message_block(player, 0)
+                  for _, msg in ipairs(bucket) do
+                      console_center(msg:get_message())   -- center each line manually
+                  end
 
-                          if msg then
-                              msg:append("You're popping off!", true)
-                          else
-                              sendconsoletext(
-                                  killer,
-                                  "First kill!",
-                                  5,
-                                  order.kills
-                              )
-                          end
-                      end
+                  -- 6) Generate ascending numeric order values automatically
+                  local order_kills = next_id(player)      -- returns a unique number
+                  sendconsoletext(player, "Kill streak!", 3, order_kills)
+
+                  -- 7) Center arbitrary text (e.g., for static console output)
+                  local centered = console_center("This line will be centered")
+                  original_sendconsoletext(player, centered)
+
+                  -- 8) Iterate over a table in a consistent, predictable order
+                  local scores = { John = 10, Alice = 5, Bob = 8 }
+                  for name, score in opairs(scores) do
+                      sendconsoletext(player, name .. ": " .. score, 2, 0)
+                  end
+
+                  -- 9) Multi-line persistent status display
+                  sendconsoletext(player, "Health: 100", 0, 0, "left")   -- never expires
+                  local ammoMsg = sendconsoletext(player, "Ammo: 30", 0, 1, "left")
+                  -- later, update only the ammo line
+                  ammoMsg:append("Ammo: 29")
+
+                  -- 10) Using the callback to keep a message alive conditionally
+                  local function isBossAlive(player)
+                      return bossHealth > 0   -- return true to keep message
+                  end
+                  sendconsoletext(player, "BOSS FIGHT ACTIVE", 1, 2, "center", isBossAlive)
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -97,6 +135,7 @@ local function pad_center(text, width)
     local total = width - len
     local left = floor(total / 2)
     local right = total - left
+    ---@diagnostic disable-next-line: param-type-mismatch
     return str_rep(" ", left) .. text .. str_rep(" ", right)
 end
 
@@ -224,6 +263,7 @@ end
 
 local function cleanup_player(player)
     local state = console_state.players[player]
+    ---@diagnostic disable-next-line: unnecessary-if
     if state and not next(state.messages) then
         console_state.players[player] = nil
     end
