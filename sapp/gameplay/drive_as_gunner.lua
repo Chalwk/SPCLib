@@ -29,7 +29,7 @@ function OnStart()
     if get_var(0, '$gt') == 'n/a' then return end
     for path in pairs(VEHICLES) do
         local tag = lookup_tag('vehi', path)
-        if tag then VEHICLES[read_dword(tag + 0xC)] = true end
+        if tag ~= 0 then VEHICLES[read_dword(tag + 0xC)] = true end
     end
 end
 
