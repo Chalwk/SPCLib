@@ -80,6 +80,7 @@
     "safe_write",
     "say",
     "say_all",
+    "sendconsoletext",
     "server_type",
     "set_callback",
     "setspeed",

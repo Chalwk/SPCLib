@@ -41,7 +41,8 @@
       "one_in_the_chamber": "Pistol with 1 bullet, +1 per kill, melee when empty. Headshot insta-kills."
     },
     "modules": {
-      "phasor_util": "Reusable library: player health/shields/pos/team/weapons/speed/color/ping, game state, IP validation, string formatting, wildcard matching, object type detection, bit manipulation, designed for require()."
+      "phasor_util": "Reusable library: player health/shields/pos/team/weapons/speed/color/ping, game state, IP validation, string formatting, wildcard matching, object type detection, bit manipulation, designed for require().",
+      "sendconsoletext_extended": "Extended replacement for sendconsoletext with persistent messages, ordered queues, centered/right alignment, dynamic updates, pausing, shifting, timed expiration, and conditional callbacks."
     },
     "notifications": {
       "auto_message": "Sends configurable announcements at intervals, multi-line, optional console output.",
