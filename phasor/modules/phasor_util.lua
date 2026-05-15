@@ -8,7 +8,8 @@ DESCRIPTION:      A collection of common utility functions for Phasor Lua script
                   bit manipulation, game timers, and more. Designed to be used via
                   require() to keep other scripts clean and DRY.
 
-                  Example usage:
+                  EXAMPLE USAGE:
+
                       local util = require("phasor_util")
 
                       function OnScriptLoad(processid, game, persistent)
@@ -109,7 +110,6 @@ local format = string.format
 local tonumber = tonumber
 local tostring = tostring
 local concat = table.concat
-local insert = table.insert
 local unpack = table.unpack
 local math_min = math.min
 local math_max = math.max
@@ -124,7 +124,6 @@ local readdword = readdword
 local readbyte = readbyte
 local readshort = readshort
 local readint = readint
-local readchar = readchar
 local getplayer = getplayer
 local getname = getname
 local getteam = getteam
@@ -333,7 +332,7 @@ function util.get_player_weapon(id, slot)
 end
 
 --- Resolves player expressions (names, wildcards, "me", "red", "blue", "random", "*",
---  colour names, "nearest", "farthest").
+-- colour names, "nearest", "farthest").
 -- @param expression (string) player identifier
 -- @param self_id (number|nil) player ID of the caller (used for "me", "random" exclusion,
 -- and as reference for "nearest"/"farthest")
@@ -560,7 +559,7 @@ end
 -- @return string formatted output
 function util.format(template, args)
     if not args then return template end
-    return (template:gsub("%$([%w_]+)", function(key)
+    return (template:gsub("%$([%w_]+)", function (key)
         local value = args[key] or args[key:lower()] or args[key:upper()]
         return value ~= nil and tostring(value) or "$" .. key
     end))
@@ -627,7 +626,7 @@ function util.split_string(str, ...)
     end
 
     -- Sort delimiters by length descending so the longest match wins
-    table.sort(delims, function(a, b) return #a > #b end)
+    table.sort(delims, function (a, b) return #a > #b end)
 
     -- Escape magic characters in each delimiter for Lua pattern
     local escaped = {}
@@ -1011,7 +1010,9 @@ end
 --- Converts a hexadecimal string to a number.
 -- @param hex (string) hexadecimal representation
 -- @return number|nil decimal value, or nil on failure
-function util.to_decimal(hex) return tonumber(hex, 16) end
+function util.to_decimal(hex)
+    return tonumber(hex, 16)
+end
 
 ----------------------------------------------------------------------
 -- OBJECT UTILITIES
@@ -1084,10 +1085,7 @@ function util.get_tag_id(tag_class, tag_name)
     end
 
     for id, info in pairs(tag_lookup_cache) do
-        if info.class == tag_class and (
-                info.name == tag_name or
-                info.name:gsub("\\", "/") == tag_name:gsub("\\", "/")
-            ) then
+        if info.class == tag_class and (info.name == tag_name or info.name:gsub("\\", "/") == tag_name:gsub("\\", "/")) then
             return id
         end
     end
@@ -1147,7 +1145,9 @@ function util.read_string(address, length, reverse)
     end
     if reverse then
         local rev = {}
-        for j = #t, 1, -1 do rev[#rev + 1] = t[j] end
+        for j = #t, 1, -1 do
+            rev[#rev + 1] = t[j]
+        end
         return concat(rev)
     end
     return concat(t)
@@ -1173,7 +1173,9 @@ function util.read_string_reverse(address, offset, length)
         hex[#hex + 1] = format("%02X", b)
     end
     local result = ""
-    for i = #hex, 1, -1 do result = result .. hex[i] end
+    for i = #hex, 1, -1 do
+        result = result .. hex[i]
+    end
     return result
 end
 
@@ -1261,43 +1263,71 @@ end
 -- @param value (number) value to write
 
 function util.safe_write_byte(address, offset, value)
-    if value then address = address + offset else value = offset end
+    if value then
+        address = address + offset
+    else
+        value = offset
+    end
     value = math_min(math_max(value, 0), 0xFF)
     writebyte(address, value)
 end
 
 function util.safe_write_char(address, offset, value)
-    if value then address = address + offset else value = offset end
+    if value then
+        address = address + offset
+    else
+        value = offset
+    end
     value = math_min(math_max(value, -0x80), 0x7F)
     writechar(address, value)
 end
 
 function util.safe_write_short(address, offset, value)
-    if value then address = address + offset else value = offset end
+    if value then
+        address = address + offset
+    else
+        value = offset
+    end
     value = math_min(math_max(value, -0x8000), 0x7FFF)
     writeshort(address, value)
 end
 
 function util.safe_write_word(address, offset, value)
-    if value then address = address + offset else value = offset end
+    if value then
+        address = address + offset
+    else
+        value = offset
+    end
     value = math_min(math_max(value, 0), 0xFFFF)
     writeword(address, value)
 end
 
 function util.safe_write_int(address, offset, value)
-    if value then address = address + offset else value = offset end
+    if value then
+        address = address + offset
+    else
+        value = offset
+    end
     value = math_min(math_max(value, -0x80000000), 0x7FFFFFFF)
     writeint(address, value)
 end
 
 function util.safe_write_dword(address, offset, value)
-    if value then address = address + offset else value = offset end
+    if value then
+        address = address + offset
+    else
+        value = offset
+    end
     value = math_min(math_max(value, 0), 0xFFFFFFFF)
     writedword(address, value)
 end
 
 function util.safe_write_float(address, offset, value)
-    if value then address = address + offset else value = offset end
+    if value then
+        address = address + offset
+    else
+        value = offset
+    end
     writefloat(address, value)
 end
 
@@ -1333,31 +1363,64 @@ end
 -- @param id (number)
 -- @return string team name
 function util.get_team_name(id)
-	local team_id = getteam(id)
-	return team_id == 0 and "Red" or "Blue"
+    local team_id = getteam(id)
+    return team_id == 0 and "Red" or "Blue"
 end
 
 --- Returns the current scores for both teams in CTF mode.
 -- @return table {red_score, blue_score}
 function util.get_ctf_team_scores()
-	local scores = {}
-	for team = 0, 1 do
-		local current_score = readdword(ctf_globals + team * 4 + 0x10)
-		scores[team] = current_score
-	end
-	return scores
+    local scores = {}
+    for team = 0, 1 do
+        local current_score = readdword(ctf_globals + team * 4 + 0x10)
+        scores[team] = current_score
+    end
+    return scores
 end
 
---- Returns the gametype mode name as a string (e.g., "ctf", "slayer").
+--- Returns the gametype mode name as a string (e.g., "CTF", "Slayer").
 -- @return string gametype name
 function util.get_gametype_name()
     local type = util.get_gametype_id()
-    return type == 0 and "none"
-        or type == 1 and "ctf"
-        or type == 2 and "slayer"
-        or type == 3 and "oddball"
-        or type == 4 and "king"
-        or type == 5 and "race"
+    return type == 1 and "CTF" or type == 2 and "Slayer"
+        or type == 3 and "Oddball" or type == 4 and "KOTH"
+        or type == 5 and "Race"
+end
+
+function util.get_score(player)
+    local score = 0
+    local timed = false
+    local p = getplayer(player)
+    local game_type = util.get_gametype_id()
+    local team_play = util.is_ffa()
+
+    if game_type == 1 then
+        score = readword(p + 0xC8)
+    elseif game_type == 2 then
+        local kills = readword(p + 0x9C)
+        local suicides = 0
+        if not team_play then
+            suicides = readword(p + 0xB0)
+        else
+            suicides = readword(p + 0xAC)
+        end
+        score = kills - suicides
+    elseif game_type == 3 then
+        local oddball_type = readbyte(gametype_base + 0x8C)
+        if oddball_type == 0 or oddball_type == 1 then
+            timed = true
+            score = readdword(0x639E5C + player)
+        else
+            score = readword(p + 0xC8)
+        end
+    elseif game_type == 4 then
+        timed = true
+        score = readword(p + 0xC4)
+    elseif game_type == 5 then
+        score = readword(p + 0xC6)
+    end
+    if timed then score = floor(score / 30) end
+    return score
 end
 
 --- Returns the remaining game time in seconds (based on the current gametype).
@@ -1382,7 +1445,7 @@ function util.get_player_score(player_id)
     local p = getplayer(player_id)
     if not p then return nil end
     local gt = util.get_gametype_id()
-    if gt == 1 then     -- ctf
+    if gt == 1 then -- ctf
         return readshort(p + 0xC8)
     elseif gt == 2 then -- slayer
         return readint(slayer_globals + 0x40 + player_id * 4)
@@ -1431,7 +1494,7 @@ end
 -- @return number score
 function util.get_team_score(team)
     local gt = util.get_gametype_id()
-    if gt == 1 then     -- ctf
+    if gt == 1 then -- ctf
         return readint(ctf_globals + team * 4 + 0x10)
     elseif gt == 2 then -- slayer
         return readint(slayer_globals + team * 4)
