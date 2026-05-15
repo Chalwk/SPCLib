@@ -242,6 +242,7 @@
       "delay_skip": "Delays map skip vote for configurable time, with notifications.",
       "dynamic_race_laps": "Adjusts race lap limit based on player count, per-map size configs, auto announce.",
       "dynamic_score_limit": "Adjusts score limits dynamically by player count, per gametype configs.",
+      "game_time_manager": "Per-map game time manager. Overrides timelimit for stock gametypes (CTF, Slayer, Oddball, KOTH, Race) and custom modes per map.",
       "get_object_identity": "Admin object inspector: type, name, meta ID, coordinates, permissions.",
       "get_server_name": "Retrieves server name, example for welcome messages.",
       "item_spawner": "Spawn weapons, vehicles, equipment, bipeds, projectiles. Caching, cleanup, paginated listing, and items with seat and amount options.",
