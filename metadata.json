@@ -268,7 +268,6 @@
       "set_respawn_time": "Config respawn time per map/gametype, admin override, global/player-specific, silent mode.",
       "show_admin_names": "Command to list online admins with permission levels.",
       "sync_admins": "Sync admins.txt/users.txt with remote server, fallback to local backups, HTTP, validation.",
-      "sync_your_files": "Sync specified files with remote, local backup fallback, keyword validation.",
       "t_slayer_team_spawns": "Enforces team-specific spawn points in Team Slayer.",
       "team_shuffler": "Auto/manual team shuffle with min players, FFA detection, suppress death messages during shuffle.",
       "teleport_manager": "Teleport system: map-specific warps, create/delete/list, location history, overwrite protection.",
