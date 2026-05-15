@@ -81,6 +81,8 @@ local function apply_timelimit()
     local current_ticks = read_dword(gameinfo + 0xC)
 
     write_dword(gametype_base + 0x78, (limit * TICKS_PER_MINUTE) + current_ticks)
+
+    -- print("Set game time limit to " .. limit .. " minutes for " .. mode .. " on " .. map)
 end
 
 function OnScriptLoad()
