@@ -159,6 +159,7 @@
       "replace_weapon_projectile": "Replace weapon projectiles with custom ones, damage multiplier, all weapons/vehicles.",
       "rocket_launcher_malfunction": "Rockets randomly explode while held, config frequency, chaotic.",
       "roll_the_dice": "Gamble command: random outcomes like vehicle spawn, weapon, inventory wipe, temp shield, launch.",
+      "score_handler": "Advanced scoring system with configurable points and custom messages.",
       "self_destruction": "Flashlight key triggers self-explosion, cooldown, visual effects.",
       "server_fun_plus": "Admin fun commands: rocketing, forced chat, fake joins/quits, random teleport, slap, spam, zap, nuke, color change, crash.",
       "shield_regen": "Instant shield recharge after damage, configurable delay.",
@@ -206,7 +207,6 @@
       "map_coordinates": "Library of spawn/teleport coordinates for all standard maps, for reuse.",
       "pagination": "Pagination library: config page size, navigation, boundary checks, flexible formatting, hints.",
       "rcon_text": "Advanced RCON messages: multi-format, priority queues (Low-High-Critical), display modes (persistent/timed/repeating), grouping, player/global, conditional, lifecycle management.",
-      "score_handler": "Custom scoring: point values for headshots, assassinations, flag captures, betrayals, zombies, kill streaks.",
       "uber_vehicles": "Vehicle config library for Uber system: tag paths, seats, enabled status, display names, insertion order, whitelist. Stock/custom vehicles."
     },
     "notifications": {
