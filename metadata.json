@@ -8,6 +8,7 @@
     "idle_reminder": "HUD reminder ('You there?') after configurable idle time. Toggle /idle.",
     "low_ammo_warning": "Flashes 'LOW AMMO!' HUD warning when magazine ammo below configurable threshold. Repeats while low.",
     "mini_compass": "Shows cardinal direction compass (N, NE, E, SE, S, SW, W, NW) on HUD. Smooth updates, toggle /compass.",
+    "nearest_player_tracker": "Display nearest player name and distance. Shows 'No nearby players found' when alone.",
     "ping_display": "Displays current ping in ms on HUD. Toggle /ping.",
     "player_details": "/pinfo <index> displays team, health, shields, weapon, ammo, coordinates to console.",
     "player_status": "Live console overlay of all players' team, health/shield %, weapon, ammo. Toggle /pstatus.",
