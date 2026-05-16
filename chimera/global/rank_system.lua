@@ -46,6 +46,7 @@ local CONFIG = {
         SETRANK_SET = "Set rank to %s Grade %d (%d credits)",
         LOAD_OK = "Rank System loaded. Use /rank, /ranks, /top",
         SAVE_ERROR = "Error saving stats: %s",
+        SAVE_OK = "Stats saved successfully.",
         MALFORMED_FILE = "Warning: stats file malformed, using defaults."
     },
     RANKS = {
@@ -75,6 +76,15 @@ local SYMBOL = CONFIG.SYMBOL
 local CREDITS_PER_KILL = CONFIG.CREDITS_PER_KILL
 local RANKS = CONFIG.RANKS
 local M = CONFIG.MESSAGES
+
+local COLOR_RED = { 1, 0, 0 }
+local COLOR_GREEN = { 0, 1, 0 }
+local COLOR_ORANGE = { 1, 0.5, 0 }
+local COLOR_GOLD = { 1, 0.8, 0 }
+local COLOR_LIGHT_BLUE = { 0.5, 0.8, 1 }
+local COLOR_WHITE = { 1, 1, 1 }
+local COLOR_LIGHT_GREEN = { 0.5, 1, 0.5 }
+local COLOR_YELLOW = { 1, 1, 0 }
 
 local in_game = false
 
@@ -179,9 +189,9 @@ local function refresh_rank(silent)
         or (stats.rank == old_rank and stats.grade > old_grade)
 
     if promoted then
-        console_out(fmt(M.RANK_UP, stats.rank, stats.grade))
+        console_out(fmt(M.RANK_UP, stats.rank, stats.grade), table.unpack(COLOR_GREEN))
     elseif stats.rank ~= old_rank or stats.grade ~= old_grade then
-        console_out(fmt(M.RANK_DOWN, stats.rank, stats.grade))
+        console_out(fmt(M.RANK_DOWN, stats.rank, stats.grade), table.unpack(COLOR_ORANGE))
     end
 end
 
@@ -189,20 +199,20 @@ local function award_credits(amount, message)
     if amount == 0 then return end
     stats.credits = stats.credits + amount
     refresh_rank(false)
-    console_out(message)
+    console_out(message, table.unpack(COLOR_GOLD))
 end
 
 local function save_stats()
     local f, err = io_open(SAVE_FILE, "w")
     if not f then
-        console_out(fmt(M.SAVE_ERROR, tostring(err)))
+        console_out(fmt(M.SAVE_ERROR, tostring(err)), table.unpack(COLOR_RED))
         return
     end
 
     local line = fmt("%d;%d;%d;%s;%d", stats.kills, stats.deaths, stats.credits, stats.rank, stats.grade)
     f:write(line)
     f:close()
-    console_out(M.SAVE_OK)
+    console_out(M.SAVE_OK, table.unpack(COLOR_GREEN))
 end
 
 local function load_stats()
@@ -226,7 +236,7 @@ local function load_stats()
     end
 
     if #parts < 5 then
-        console_out(M.MALFORMED_FILE)
+        console_out(M.MALFORMED_FILE, table.unpack(COLOR_RED))
         stats = default_stats()
         return
     end
@@ -285,41 +295,44 @@ end
 local function cmd_rank()
     local next_entry = find_next_threshold(stats.credits)
 
-    console_out(M.RANK_HEADER)
-    console_out(fmt(M.RANK_CURRENT, stats.rank, stats.grade))
-    console_out(fmt(M.RANK_CREDITS, stats.credits, SYMBOL))
+    console_out(M.RANK_HEADER, table.unpack(COLOR_LIGHT_BLUE))
+    console_out(fmt(M.RANK_CURRENT, stats.rank, stats.grade), table.unpack(COLOR_WHITE))
+    console_out(fmt(M.RANK_CREDITS, stats.credits, SYMBOL), table.unpack(COLOR_WHITE))
     console_out(
-        fmt(M.RANK_STATS, stats.kills, stats.deaths, stats.deaths > 0 and stats.kills / stats.deaths or stats.kills)
+        fmt(M.RANK_STATS, stats.kills, stats.deaths, stats.deaths > 0 and stats.kills / stats.deaths or stats.kills),
+        table.unpack(COLOR_WHITE)
     )
 
     if next_entry then
         console_out(
-            fmt(M.RANK_NEXT, next_entry.rank_name, next_entry.grade, next_entry.credits - stats.credits, SYMBOL)
+            fmt(M.RANK_NEXT, next_entry.rank_name, next_entry.grade, next_entry.credits - stats.credits, SYMBOL),
+            table.unpack(COLOR_LIGHT_GREEN)
         )
     else
-        console_out(M.RANK_MAX)
+        console_out(M.RANK_MAX, table.unpack(COLOR_YELLOW))
     end
 end
 
 local function cmd_ranks()
-    console_out(M.RANKS_HEADER)
+    console_out(M.RANKS_HEADER, table.unpack(COLOR_LIGHT_BLUE))
     for i, rank in ipairs(RANKS) do
-        console_out(fmt(M.RANKS_LINE, i, rank[1], concat(rank[2], ", ")))
+        console_out(fmt(M.RANKS_LINE, i, rank[1], concat(rank[2], ", ")), table.unpack(COLOR_WHITE))
     end
 end
 
 local function cmd_top()
-    console_out(M.TOP_HEADER)
-    console_out(fmt(M.TOP_RANK, stats.rank, stats.grade))
-    console_out(fmt(M.TOP_CREDITS, stats.credits, SYMBOL))
+    console_out(M.TOP_HEADER, table.unpack(COLOR_LIGHT_BLUE))
+    console_out(fmt(M.TOP_RANK, stats.rank, stats.grade), table.unpack(COLOR_WHITE))
+    console_out(fmt(M.TOP_CREDITS, stats.credits, SYMBOL), table.unpack(COLOR_WHITE))
     console_out(
-        fmt(M.TOP_STATS, stats.kills, stats.deaths, stats.deaths > 0 and stats.kills / stats.deaths or stats.kills)
+        fmt(M.TOP_STATS, stats.kills, stats.deaths, stats.deaths > 0 and stats.kills / stats.deaths or stats.kills),
+        table.unpack(COLOR_WHITE)
     )
 end
 
 local function cmd_set_rank(args)
     if #args < 3 then
-        console_out(M.SETRANK_USAGE)
+        console_out(M.SETRANK_USAGE, table.unpack(COLOR_RED))
         return
     end
 
@@ -327,13 +340,13 @@ local function cmd_set_rank(args)
     local grade = tonumber(args[3])
 
     if not rid or rid < 1 or rid > #RANKS then
-        console_out(M.SETRANK_INVALID_RID)
+        console_out(M.SETRANK_INVALID_RID, table.unpack(COLOR_RED))
         return
     end
 
     local rank_data = RANKS[rid]
     if not grade or grade < 1 or grade > #rank_data[2] then
-        console_out(fmt(M.SETRANK_INVALID_GRADE, #rank_data[2]))
+        console_out(fmt(M.SETRANK_INVALID_GRADE, #rank_data[2]), table.unpack(COLOR_RED))
         return
     end
 
@@ -344,7 +357,7 @@ local function cmd_set_rank(args)
     refresh_rank(false)
     save_stats()
 
-    console_out(fmt(M.SETRANK_SET, rank_data[1], grade, stats.credits))
+    console_out(fmt(M.SETRANK_SET, rank_data[1], grade, stats.credits), table.unpack(COLOR_GREEN))
 end
 
 local function parse_cmd(s)
@@ -409,7 +422,7 @@ end
 
 function OnMapLoad()
     refresh_rank(true)
-    console_out(M.LOAD_OK)
+    console_out(M.LOAD_OK, table.unpack(COLOR_GREEN))
 end
 
 function OnScriptUnload()

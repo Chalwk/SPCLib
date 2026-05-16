@@ -94,6 +94,7 @@
     "to_real_index",
     "unregister_callback",
     "updateammo",
+    "unpack",
     "widestring",
     "write_bit",
     "write_byte",
