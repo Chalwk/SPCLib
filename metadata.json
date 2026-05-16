@@ -1,8 +1,10 @@
 {
   "CHIMERA": {
     "afk_monitor": "Monitors inactivity, alerts console when idle threshold reached. Toggle with /afk, set time with /afktime, set movement tolerance with /afkradius.",
+    "ctf_hud": "Displays current flag carriers for both teams in CTF mode. Updates every tick, shows 'None' if flag not held. Customizable message colors.",
     "current_weapon_info": "Displays equipped weapon name, magazine & reserve ammo top-left. Periodic updates, toggle /wpninfo.",
     "grenade_proximity_warning": "Shows warning when a live grenade is nearby, direction as clock-face (e.g., 12 = ahead). Toggle /grenwarn.",
+    "killstreak": "Announces when players reach kill streak milestones (e.g., 3, 5, 10, 15+ kills). Configurable milestone list, outputs to console with custom colors.",
     "idle_reminder": "HUD reminder ('You there?') after configurable idle time. Toggle /idle.",
     "low_ammo_warning": "Flashes 'LOW AMMO!' HUD warning when magazine ammo below configurable threshold. Repeats while low.",
     "mini_compass": "Shows cardinal direction compass (N, NE, E, SE, S, SW, W, NW) on HUD. Smooth updates, toggle /compass.",
