@@ -29,17 +29,6 @@ local char, format = string.char, string.format
 set_callback("tick", "OnTick")
 set_callback("command", "OnCommand")
 
-local function read_string(addr)
-    if not addr or addr == 0 or addr == 0xFFFFFFFF then return nil end
-    local bytes = {}
-    for i = 0, 127 do
-        local b = read_byte(addr + i)
-        if b == 0 then break end
-        bytes[#bytes + 1] = char(b)
-    end
-    return concat(bytes)
-end
-
 local function get_object_name(obj)
     if not obj then return "N/A" end
     local tag = get_tag(read_dword(obj))
