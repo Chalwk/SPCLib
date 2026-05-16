@@ -9,6 +9,7 @@
     "ping_display": "Displays current ping in ms on HUD. Toggle /ping.",
     "player_details": "/pinfo <index> displays team, health, shields, weapon, ammo, coordinates to console.",
     "player_status": "Live console overlay of all players' team, health/shield %, weapon, ammo. Toggle /pstatus.",
+    "rank_system": "Rank progression system: tracks kills/deaths, awards credits per kill with streak bonuses, advances through configurable ranks/grades.",
     "rest_break_reminder": "On-screen break reminder after configurable playtime (default 45 min), repeats until acknowledged. Toggle /breaks.",
     "session_clock": "HUD elapsed time since map start (HH:MM:SS). Toggle /session_clock.",
     "show_player_position": "Real-time console display of precise X,Y,Z coordinates, customizable format. Toggle /show_pos.",
