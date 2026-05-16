@@ -14,9 +14,9 @@ LICENSE:          MIT License
 -- CONFIG --
 clua_version = 2.056
 
-local enabled = true
-local custom_command = "compass"    -- command to toggle
-local update_interval = 10          -- ticks between refreshes
+local ENABLED = true
+local COMMAND = "compass"    -- command to toggle
+local UPDATE_INTERVAL = 10          -- ticks between refreshes
 -- END CONFIG --
 
 local timer = 0
@@ -43,9 +43,9 @@ set_callback("tick", "OnTick")
 set_callback("command", "OnCommand")
 
 function OnTick()
-    if not enabled then return end
+    if not ENABLED then return end
     timer = timer + 1
-    if timer < update_interval then return end
+    if timer < UPDATE_INTERVAL then return end
     timer = 0
 
     local player = get_dynamic_player()
@@ -73,9 +73,9 @@ function OnTick()
 end
 
 function OnCommand(command)
-    if command:lower() == custom_command then
-        enabled = not enabled
-        console_out("Compass " .. (enabled and "enabled" or "disabled") .. ".")
+    if command:lower() == COMMAND then
+        ENABLED = not ENABLED
+        console_out("Compass " .. (ENABLED and "ENABLED" or "disabled") .. ".")
         return false
     end
 end

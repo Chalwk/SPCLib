@@ -8,7 +8,7 @@ LICENSE:          MIT License
 =====================================================================================
 ]]
 
--- CONFIG START --
+-- CONFIG --
 clua_version = 2.056
 
 local RED_CARRIER_MSG = "Red flag carrier : %s"
@@ -19,6 +19,7 @@ local COLOR_BLUE = { 0.35, 0.55, 1.0 }
 -- CONFIG END --
 
 set_callback("tick", "OnTick")
+
 local table_concat = table.concat
 local string_char = string.char
 local format = string.format

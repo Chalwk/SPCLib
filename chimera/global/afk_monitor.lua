@@ -18,13 +18,13 @@ LICENSE:          MIT License
 -- CONFIG --
 clua_version = 2.056
 
-local enabled = true
-local idle_seconds = 2   -- 3 minutes
-local move_radius = 0.01 -- movement below this is considered still
-local afk_notify_message = "[AFK] %s [%d] has been idle for %d seconds"
+local ENABLED = true
+local IDLE_SECONDS = 2   -- 3 minutes
+local MOVE_RADIUS = 0.01 -- movement below this is considered still
+local AFK_NOTIFY_MESSAGE = "[AFK] %s [%d] has been idle for %d seconds"
 -- END CONFIG --
 
-local idle_ticks = idle_seconds * 30
+local idle_ticks = IDLE_SECONDS * 30
 local last_pos = {}
 local timers = {}
 
@@ -33,31 +33,30 @@ set_callback("command", "OnCommand")
 set_callback("map load", "OnMapLoad")
 
 local fmt = string.format
-local concat = table.concat
+local table_concat = table.concat
+local string_char = string.char
 
 function OnMapLoad()
     last_pos = {}
     timers = {}
 end
 
-local function getPlayerName(index)
+local function get_player_name(index)
     local obj = get_player(index)
     local address = obj + 0x4
     local length = 12
-
     local bytes = {}
-
     for i = 1, length do
         local byte = read_byte(address + (i - 1) * 2)
         if byte == 0 then break end
-        bytes[#bytes + 1] = string.char(byte)
+        bytes[#bytes + 1] = string_char(byte)
     end
 
-    return concat(bytes)
+    return table_concat(bytes)
 end
 
 function OnTick()
-    if not enabled then return end
+    if not ENABLED then return end
 
     for i = 0, 16 - 1 do
         local dyn = get_dynamic_player(i)
@@ -71,11 +70,11 @@ function OnTick()
                 local dx = x - prev[1]
                 local dy = y - prev[2]
                 local dz = z - prev[3]
-                if dx * dx + dy * dy + dz * dz < move_radius * move_radius then
+                if dx * dx + dy * dy + dz * dz < MOVE_RADIUS * MOVE_RADIUS then
                     timers[i] = (timers[i] or 0) + 1
                     if timers[i] == idle_ticks then
-                        local name = getPlayerName(i)
-                        console_out(fmt(afk_notify_message, name, i + 1, idle_seconds))
+                        local name = get_player_name(i)
+                        console_out(fmt(AFK_NOTIFY_MESSAGE, name, i + 1, IDLE_SECONDS))
                     end
                 else
                     timers[i] = 0
@@ -102,15 +101,15 @@ function OnCommand(cmd)
     local command = (args[1] or ""):lower()
 
     if command == "afk" then
-        enabled = not enabled
-        console_out("AFK monitor " .. (enabled and "enabled" or "disabled") .. ".")
+        ENABLED = not ENABLED
+        console_out("AFK monitor " .. (ENABLED and "ENABLED" or "disabled") .. ".")
         return false
     end
 
     if command == "afktime" then
         local num = tonumber(args[2])
         if num and num > 0 then
-            idle_seconds = num
+            IDLE_SECONDS = num
             idle_ticks = num * 30
             console_out("AFK idle time set to " .. num .. " seconds.")
         else
@@ -122,7 +121,7 @@ function OnCommand(cmd)
     if command == "afkradius" then
         local num = tonumber(args[2])
         if num and num >= 0 then
-            move_radius = num
+            MOVE_RADIUS = num
             console_out("AFK movement radius set to " .. num .. ".")
         else
             console_out("Usage: /afkradius <units>")

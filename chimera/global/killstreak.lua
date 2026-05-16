@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
 SCRIPT NAME:      killstreak.lua
-DESCRIPTION:      Announces when players reach kill streak milestones
+DESCRIPTION:      Announces when players reach kill streak MILESTONES
                   (e.g., 3, 5, 10, 15+ kills).
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
@@ -9,10 +9,10 @@ LICENSE:          MIT License
 =====================================================================================
 ]]
 
--- CONFIG START --
+-- CONFIG --
 clua_version = 2.056
 
-local milestones = { 3, 5, 10, 15, 20, 25, 30, 40, 50 }
+local MILESTONES = { 3, 5, 10, 15, 20, 25, 30, 40, 50 }
 local CONSOLE_COLOR = { 0, 1, 0 } -- green (r, g, b)
 local MESSAGE_TEMPLATE = "%s reached a %d-kill streak!"
 -- CONFIG END --
@@ -48,7 +48,7 @@ function OnTick()
         local kills = read_word(static + 0x9C)
         announced[i] = announced[i] or {}
 
-        for _, milestone in ipairs(milestones) do
+        for _, milestone in ipairs(MILESTONES) do
             if kills >= milestone and not announced[i][milestone] then
                 announced[i][milestone] = true
                 local name = get_player_name(i)

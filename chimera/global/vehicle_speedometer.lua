@@ -3,7 +3,7 @@
 SCRIPT NAME:      vehicle_speedometer.lua
 DESCRIPTION:      Displays the player's current vehicle speed in km/h on the HUD.
                   The script calculates speed using the vehicle's velocity vector
-                  and updates it at a configurable interval.
+                  and updates it at a configurable INTERVAL.
 
                   Command: /speedo - Toggle speed display on/off
 
@@ -16,10 +16,10 @@ LICENSE:          MIT License
 -- CONFIG --
 clua_version = 2.056
 
-local enabled = true            -- enable the script
-local custom_command = "speedo" -- command to toggle the script
-local interval = 15             -- update every 15 ticks (~0.25 sec)
-local factor = 30 * 3.6         -- 108: ticks/sec * world_units_to_kmh
+local ENABLED = true     -- enable the script
+local COMMAND = "speedo" -- command to toggle the script
+local INTERVAL = 15      -- update every 15 ticks (~0.25 sec)
+local FACTOR = 30 * 3.6  -- 108: ticks/sec * world_units_to_kmh
 -- END CONFIG --
 
 local timer = 0
@@ -28,9 +28,9 @@ set_callback("tick", "OnTick")
 set_callback("command", "OnCommand")
 
 function OnTick()
-    if not enabled then return end
+    if not ENABLED then return end
     timer = timer + 1
-    if timer < interval then return end
+    if timer < INTERVAL then return end
     timer = 0
 
     local player = get_dynamic_player()
@@ -47,18 +47,20 @@ function OnTick()
     local vz = read_float(vehicle + 0x70)
 
     local raw_speed = math.sqrt(vx * vx + vy * vy + vz * vz)
-    local kmh = raw_speed * factor
+    local kmh = raw_speed * FACTOR
 
     -- Clear previous HUD messages (prevents spam)
-    for _ = 1, 10 do hud_message(" ") end
+    for _ = 1, 10 do
+        hud_message(" ")
+    end
 
     hud_message(string.format("Speed: %.0f km/h", kmh))
 end
 
 function OnCommand(command)
-    if command:lower() == custom_command then
-        enabled = not enabled -- set to the opposite of current state
-        console_out("Speedometer " .. (enabled and "enabled" or "disabled") .. ".")
+    if command:lower() == COMMAND then
+        ENABLED = not ENABLED -- set to the opposite of current state
+        console_out("Speedometer " .. (ENABLED and "ENABLED" or "disabled") .. ".")
         return false
     end
 end

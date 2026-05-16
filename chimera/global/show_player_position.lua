@@ -14,9 +14,9 @@ LICENSE:          MIT License
 -- CONFIG --
 clua_version = 2.056
 
-local enabled = true                                           -- enable the script
-local custom_command = "show_pos"                              -- command to toggle the script
-local output_format = "Player position is X={x}, Y={y}, Z={z}" -- message format
+local ENABLED = true
+local COMMAND = "show_pos"
+local OUTPUT = "Player position is X={x}, Y={y}, Z={z}"
 -- END CONFIG --
 
 local fmt = string.format
@@ -25,7 +25,7 @@ set_callback("tick", "OnTick")
 set_callback("command", "OnCommand")
 
 function OnTick()
-    if not enabled then return end
+    if not ENABLED then return end
 
     local player = get_dynamic_player()
     if player then
@@ -37,7 +37,7 @@ function OnTick()
         local ys = fmt("%.2f", y)
         local zs = fmt("%.2f", z)
 
-        local message = output_format
+        local message = OUTPUT
             :gsub("{x}", xs)
             :gsub("{y}", ys)
             :gsub("{z}", zs)
@@ -48,9 +48,9 @@ function OnTick()
 end
 
 function OnCommand(command)
-    if command:lower() == custom_command then
-        enabled = not enabled
-        console_out("Position display " .. (enabled and "enabled." or "disabled."))
+    if command:lower() == COMMAND then
+        ENABLED = not ENABLED
+        console_out("Position display " .. (ENABLED and "ENABLED." or "disabled."))
         return false
     end
 end

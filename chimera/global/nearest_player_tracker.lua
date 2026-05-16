@@ -9,9 +9,15 @@ LICENSE:          MIT License
 =====================================================================================
 ]]
 
+-- CONFIG --
 clua_version = 2.056
 
+local ENABLED = true
+local COMMAND = "nearest"
+-- CONFIG END --
+
 set_callback("unload", "OnScriptUnload")
+set_callback("command", "OnCommand")
 
 local timer_id = nil
 local last_message = ""
@@ -43,6 +49,8 @@ local function distance(ax, ay, az, bx, by, bz)
 end
 
 function UpdateNearestPlayer()
+    if not ENABLED then return true end
+
     local dynamic_player = get_dynamic_player()
     if not dynamic_player then return end
 
@@ -81,6 +89,14 @@ function UpdateNearestPlayer()
         last_message = msg
         execute_script("cls")
         console_out(msg)
+    end
+end
+
+function OnCommand(command)
+    if command:lower() == COMMAND then
+        ENABLED = not ENABLED
+        console_out("Nearest player tracker " .. (ENABLED and "ENABLED" or "disabled") .. ".")
+        return false
     end
 end
 

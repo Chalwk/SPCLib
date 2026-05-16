@@ -14,8 +14,8 @@ LICENSE:          MIT License
 -- CONFIG --
 clua_version = 2.056
 
-local command = "pinfo"
-local max_players = 16
+local COMMAND = "pinfo"
+local MAX_PLAYERS = 16
 -- END CONFIG --
 
 local floor = math.floor
@@ -46,10 +46,10 @@ end
 
 function OnCommand(cmd)
     local lower = cmd:lower()
-    local index = tonumber(lower:match("^" .. command .. " (%d+)$"))
+    local index = tonumber(lower:match("^" .. COMMAND .. " (%d+)$"))
     if not index then return end
-    if index < 1 or index > max_players then
-        console_out("Invalid player index. Must be 1-" .. max_players)
+    if index < 1 or index > MAX_PLAYERS then
+        console_out("Invalid player index. Must be 1-" .. MAX_PLAYERS)
         return false
     end
     local i = index - 1

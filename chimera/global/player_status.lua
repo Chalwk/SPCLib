@@ -15,10 +15,10 @@ LICENSE:          MIT License
 -- CONFIG --
 clua_version = 2.056
 
-local enabled = true
-local command = "pstatus"
-local interval = 15
-local max_players = 16
+local ENABLED = true
+local COMMAND = "pstatus"
+local INTERVAL = 15
+local MAX_PLAYERS = 16
 -- END CONFIG --
 
 local timer = 0
@@ -54,16 +54,16 @@ local function get_player_name(index)
 end
 
 function OnTick()
-    if not enabled then return end
+    if not ENABLED then return end
 
     timer = timer + 1
-    if timer < interval then return end
+    if timer < INTERVAL then return end
     timer = 0
 
     execute_script("cls")
     console_out("PLAYER STATUS:")
 
-    for i = 0, max_players - 1 do
+    for i = 0, MAX_PLAYERS - 1 do
         local player_obj = get_dynamic_player(i)
         if player_obj then
             local p = get_player(i)
@@ -98,9 +98,9 @@ function OnTick()
 end
 
 function OnCommand(cmd)
-    if cmd:lower() == command then
-        enabled = not enabled
-        console_out("Player status monitor " .. (enabled and "enabled" or "disabled") .. ".")
+    if cmd:lower() == COMMAND then
+        ENABLED = not ENABLED
+        console_out("Player status monitor " .. (ENABLED and "ENABLED" or "disabled") .. ".")
         return false
     end
 end

@@ -17,9 +17,9 @@ LICENSE:          MIT License
 -- CONFIG --
 clua_version = 2.056
 
-local enabled = true
-local command = "wpninfo"
-local update_interval = 5 -- ticks between refreshes
+local ENABLED = true
+local COMMAND = "wpninfo"
+local UPDATE_INTERVAL = 5 -- ticks between refreshes
 -- END CONFIG --
 
 set_callback("tick", "OnTick")
@@ -28,10 +28,10 @@ set_callback("command", "OnCommand")
 local timer = 0
 
 function OnTick()
-    if not enabled then return end
+    if not ENABLED then return end
 
     timer = timer + 1
-    if timer < update_interval then return end
+    if timer < UPDATE_INTERVAL then return end
     timer = 0
 
     local player = get_dynamic_player()
@@ -58,9 +58,9 @@ function OnTick()
 end
 
 function OnCommand(cmd)
-    if cmd:lower() == command then
-        enabled = not enabled
-        console_out("Weapon info display " .. (enabled and "enabled" or "disabled") .. ".")
+    if cmd:lower() == COMMAND then
+        ENABLED = not ENABLED
+        console_out("Weapon info display " .. (ENABLED and "ENABLED" or "disabled") .. ".")
         return false
     end
 end

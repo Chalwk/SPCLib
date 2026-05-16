@@ -16,7 +16,7 @@ LICENSE:          MIT License
 ================================================================================================
 ]]
 
--- ======================== CONFIG START ======================== --
+-- CONFIG --
 clua_version = 2.056
 
 local CONFIG = {
@@ -65,7 +65,7 @@ local CONFIG = {
         { "General", { 47000, 48000, 49000, 50000 } }
     }
 }
--- ======================== CONFIG END ======================== --
+-- CONFIG END --
 
 local ipairs, tonumber, tostring = ipairs, tonumber, tostring
 local io_open, os_time, floor = io.open, os.time, math.floor

@@ -14,9 +14,9 @@ LICENSE:          MIT License
 -- CONFIG --
 clua_version = 2.056
 
-local enabled = true
-local custom_command = "tips"
-local update_interval = 600 -- ticks between tips
+local ENABLED = true
+local COMMAND = "tips"
+local UPDATE_INTERVAL = 600 -- ticks between tips
 -- END CONFIG --
 
 local ticks = 0
@@ -57,13 +57,13 @@ local function show_tip()
 end
 
 function OnMapPreload()
-    if enabled then console_out("Tip rotator warming up.") end
+    if ENABLED then console_out("Tip rotator warming up.") end
 end
 
 function OnMapLoad()
     ticks = 0
     tip_index = 0
-    if enabled then show_tip() end
+    if ENABLED then show_tip() end
 end
 
 function OnUnload()
@@ -72,19 +72,19 @@ function OnUnload()
 end
 
 function OnTick()
-    if not enabled then return end
+    if not ENABLED then return end
 
     ticks = ticks + 1
-    if ticks % update_interval ~= 0 then return end
+    if ticks % UPDATE_INTERVAL ~= 0 then return end
 
     show_tip()
 end
 
 function OnCommand(command)
-    if command:lower() == custom_command then
-        enabled = not enabled
+    if command:lower() == COMMAND then
+        ENABLED = not ENABLED
         clear_hud()
-        console_out("Tip rotator " .. (enabled and "enabled" or "disabled") .. ".")
+        console_out("Tip rotator " .. (ENABLED and "ENABLED" or "disabled") .. ".")
         return false
     end
 end

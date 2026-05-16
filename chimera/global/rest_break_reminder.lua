@@ -14,15 +14,15 @@ LICENSE:          MIT License
 -- CONFIG --
 clua_version = 2.056
 
-local enabled = true
-local custom_command = "breaks"
-local reminder_minutes = 45
-local hud_interval = 30
+local ENABLED = true
+local COMMAND = "breaks"
+local REMINDER_MINUTES = 45
+local HUD_INTERVAL = 30
 -- END CONFIG --
 
 local ticks = 0
 local warned = false
-local reminder_ticks = reminder_minutes * 60 * 30
+local reminder_ticks = REMINDER_MINUTES * 60 * 30
 
 set_callback("tick", "OnTick")
 set_callback("map load", "OnMapLoad")
@@ -49,7 +49,7 @@ function OnUnload()
 end
 
 function OnTick()
-    if not enabled then return end
+    if not ENABLED then return end
 
     ticks = ticks + 1
 
@@ -60,14 +60,14 @@ function OnTick()
         return
     end
 
-    if ticks % hud_interval == 0 and warned then draw_reminder() end
+    if ticks % HUD_INTERVAL == 0 and warned then draw_reminder() end
 end
 
 function OnCommand(command)
-    if command:lower() == custom_command then
-        enabled = not enabled
+    if command:lower() == COMMAND then
+        ENABLED = not ENABLED
         clear_hud()
-        console_out("Break reminders " .. (enabled and "enabled" or "disabled") .. ".")
+        console_out("Break reminders " .. (ENABLED and "ENABLED" or "disabled") .. ".")
         return false
     end
 end

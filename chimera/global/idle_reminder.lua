@@ -14,9 +14,9 @@ LICENSE:          MIT License
 -- CONFIG --
 clua_version = 2.056
 
-local enabled = true
-local command_name = "idle"
-local idle_ticks = 500
+local ENABLED = true
+local COMMAND = "idle"
+local IDLE_TICKS = 500
 -- END CONFIG --
 
 local last_x, last_y, last_z
@@ -26,7 +26,7 @@ set_callback("tick", "OnTick")
 set_callback("command", "OnCommand")
 
 function OnTick()
-    if not enabled then return end
+    if not ENABLED then return end
 
     local player = get_dynamic_player()
     if not player then return end
@@ -39,16 +39,16 @@ function OnTick()
 
     last_x, last_y, last_z = x, y, z
 
-    if timer >= idle_ticks then
+    if timer >= IDLE_TICKS then
         hud_message("You there?")
         timer = 0
     end
 end
 
 function OnCommand(cmd)
-    if cmd:lower() == command_name then
-        enabled = not enabled
-        console_out("Idle reminder " .. (enabled and "enabled." or "disabled."))
+    if cmd:lower() == COMMAND then
+        ENABLED = not ENABLED
+        console_out("Idle reminder " .. (ENABLED and "ENABLED." or "disabled."))
         return false
     end
 end

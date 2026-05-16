@@ -94,6 +94,7 @@
     "svcmd",
     "sync_ammo",
     "sync_ammo",
+    "ticks",
     "timer",
     "to_real_index",
     "unpack",

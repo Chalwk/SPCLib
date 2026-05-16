@@ -14,9 +14,9 @@ LICENSE:          MIT License
 -- CONFIG --
 clua_version = 2.056
 
-local enabled = true
-local custom_command = "session_clock"
-local update_interval = 30 -- ticks
+local ENABLED = true
+local COMMAND = "session_clock"
+local UPDATE_INTERVAL = 30 -- ticks
 -- END CONFIG --
 
 local ticks = 0
@@ -47,7 +47,7 @@ end
 
 function OnMapLoad()
     ticks = 0
-    if enabled then console_out("Session clock ready.") end
+    if ENABLED then console_out("Session clock ready.") end
 end
 
 function OnUnload()
@@ -55,19 +55,19 @@ function OnUnload()
 end
 
 function OnTick()
-    if not enabled then return end
+    if not ENABLED then return end
 
     ticks = ticks + 1
-    if ticks % update_interval ~= 0 then return end
+    if ticks % UPDATE_INTERVAL ~= 0 then return end
 
     draw_clock()
 end
 
 function OnCommand(command)
-    if command:lower() == custom_command then
-        enabled = not enabled
+    if command:lower() == COMMAND then
+        ENABLED = not ENABLED
         clear_hud()
-        console_out("Session clock " .. (enabled and "enabled" or "disabled") .. ".")
+        console_out("Session clock " .. (ENABLED and "ENABLED" or "disabled") .. ".")
         return false
     end
 end
