@@ -64,6 +64,18 @@ function OnServerChat(player, type, message)
 end
 ```
 
+### `OnServerCommand`
+
+Called when a player executes a server command.
+
+```lua
+function OnServerCommand(player, command)
+    -- player  : number (the player's memory id)
+    -- command : string (the command being executed)
+    -- Return: optional boolean allow
+end
+```
+
 ### `OnServerCommandAttempt`
 
 Called when a player without the correct password is trying to execute a server command.
