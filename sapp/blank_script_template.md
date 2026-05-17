@@ -44,7 +44,7 @@ function OnScriptLoad()
     register_callback(cb['EVENT_AREA_ENTER'], "OnAreaEnter")
 end
 
-function OnScriptUnload()
+function OnScriptUnload() -- If this is not present when you unload, you will get a Lua error
     -- Cleanup code (optional)
 end
 
