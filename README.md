@@ -20,13 +20,6 @@
 
 ---
 
-> [!IMPORTANT]
-> Educational content (guides, tutorials, reference materials) has moved
-> to [chalwk.github.io/blog](https://chalwk.github.io/blog).  
-> This repository now contains **only Lua scripts** for SAPP/Phasor/Chimera.
-
----
-
 ## Table of Contents
 
 * [1. Overview](#overview)
