@@ -1,7 +1,7 @@
 # Chimera Blank Script Template
 
-Every Chimera Lua script **must** define `clua_version` and set it the API-specific value (e.g. `2.056`). Without this,
-the script will not load.
+Every Chimera Lua script **must** define `clua_version` and set it to the API-specific version (e.g. `2.056`). Without
+this, the script will not load.
 
 ```lua
 clua_version = 2.056
