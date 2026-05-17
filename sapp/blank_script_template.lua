@@ -1,5 +1,5 @@
 --[[
-    SAPP Blank Script Template (Annotated)
+    SAPP Blank Script Template
 
     Every SAPP Lua script must define both `api_version`
     and `OnScriptLoad()`.
@@ -94,16 +94,7 @@ end
 -- "1+" = player index as a string
 ---@param PlayerIndex number The victim's player index
 ---@param Causer      string The killer source as a string
-function OnDie(PlayerIndex, Causer)
-    local killer = tonumber(Causer)
-    if killer == -1 then
-        -- Killed by the server / falling / team-switch
-    elseif killer == 0 then
-        -- Killed by a vehicle or non-player object
-    elseif killer > 0 then
-        -- Killed by another player
-    end
-end
+function OnDie(PlayerIndex, Causer) end
 
 --- `EVENT_ASSIST`
 -- Called when a player gets an assist.
