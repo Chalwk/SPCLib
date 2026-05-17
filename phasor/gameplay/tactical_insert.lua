@@ -61,7 +61,6 @@ function OnServerChat(id, _, message)
     local args = parse_cmd(message)
 
     if args[1] ~= COMMAND then return end
-    respond("Got here")
 
     local sub = args[2]
     local p = player_data[id] or {}

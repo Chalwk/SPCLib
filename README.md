@@ -117,13 +117,14 @@ This repository also preserves:
 
 ### Essential Guides
 
-| Guide                                                                                                           | Description                                                                                                                                |
-|-----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| [**Scripting with SAPP**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp/)                   | Comprehensive guide to server-side Lua scripting using SAPP's Lua API, including signature scanning, global variables, and core functions. |
-| [**Scripting with Phasor**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor/)               | Server-side Lua scripting with Phasor, covering version handling and hardcoded addresses.                                                  |
-| [**Scripting with Chimera**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera/)             | Client-side Lua scripting with Chimera, including event callbacks, script placement, and version compatibility.                            |
-| [**SAPP Command Reference**](https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference/)             | Complete reference for SAPP server configuration commands, admin levels, and usage.                                                        |
-| [**Understanding Memory Offsets**](https://chalwk.github.io/blog/2025/09/08/halo-understanding-memory-offsets/) | Foundational guide to memory addresses, offsets, signature scanning, and tools for finding offsets in Halo PC/CE.                          |
+| Guide                                                                                                           | Description                                                                                                                                          |
+|-----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [**Scripting with SAPP**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp/)                   | Comprehensive guide to server-side Lua scripting using SAPP's Lua API, including signature scanning, global variables, and core functions.           |
+| [**Scripting with Phasor**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor/)               | Server-side Lua scripting with Phasor, covering version handling and hardcoded addresses.                                                            |
+| [**Scripting with Chimera**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera/)             | Client-side Lua scripting with Chimera, including event callbacks, script placement, and version compatibility.                                      |
+| [**SAPP Command Reference**](https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference/)             | Complete reference for SAPP server configuration commands, admin levels, and usage.                                                                  |
+| [**Understanding Memory Offsets**](https://chalwk.github.io/blog/2025/09/08/halo-understanding-memory-offsets/) | Foundational guide to memory addresses, offsets, signature scanning, and tools for finding offsets in Halo PC/CE.                                    |
+| [**Common Lua References**](https://chalwk.github.io/blog/2026/05/17/halo-lua-common-references/)               | A practical reference collection of common Lua patterns, utilities, and scripting helpers used across Halo server and client scripting environments. |
 
 ---
 
