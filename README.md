@@ -122,6 +122,16 @@ This repository also preserves:
 | [**Releases**](https://github.com/Chalwk/SPCLib/releases)          | Larger advanced projects                                          |
 | [**Knowledge Base (docs)**](https://chalwk.github.io/blog/#page-1) | Documentation and guides                                          |
 
+### Essential Guides
+
+| Guide                                                                                                           | Description                                                                                                                                |
+|-----------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| [**Scripting with SAPP**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp/)                   | Comprehensive guide to server-side Lua scripting using SAPP's Lua API, including signature scanning, global variables, and core functions. |
+| [**Scripting with Phasor**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor/)               | Server-side Lua scripting with Phasor, covering version handling and hardcoded addresses.                                                  |
+| [**Scripting with Chimera**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera/)             | Client-side Lua scripting with Chimera, including event callbacks, script placement, and version compatibility.                            |
+| [**SAPP Command Reference**](https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference/)             | Complete reference for SAPP server configuration commands, admin levels, and usage.                                                        |
+| [**Understanding Memory Offsets**](https://chalwk.github.io/blog/2025/09/08/halo-understanding-memory-offsets/) | Foundational guide to memory addresses, offsets, signature scanning, and tools for finding offsets in Halo PC/CE.                          |
+
 ---
 
 ## Integration Tools
@@ -131,7 +141,8 @@ This repository also preserves:
 
 ### HaloDiscordBot
 
-A Java application that connects multiple Halo servers to Discord, forwarding in-game events as rich Discord embeds. Supports SAPP and Phasor.
+A Java application that connects multiple Halo servers to Discord, forwarding in-game events as rich Discord embeds.
+Supports SAPP and Phasor.
 
 [![GitHub release](https://img.shields.io/github/v/release/Chalwk/HaloDiscordBot)](https://github.com/Chalwk/HaloDiscordBot/releases)
 
@@ -152,7 +163,8 @@ A live searchable interface for all scripts in SPCLib.
 > [!TIP]
 > Contributions, bug reports, and feature requests are welcome via GitHub issues and discussion templates.
 
-See the [Contributing Guide](CONTRIBUTING.md). All community interaction is governed by the [Code of Conduct](CODE_OF_CONDUCT.md)
+See the [Contributing Guide](CONTRIBUTING.md). All community interaction is governed by
+the [Code of Conduct](CODE_OF_CONDUCT.md)
 
 ### Submit Ideas
 
