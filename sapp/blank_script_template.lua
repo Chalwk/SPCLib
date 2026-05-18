@@ -19,40 +19,40 @@ function OnScriptLoad()
     -- Register your callbacks here
     --
 
-    register_callback(cb['EVENT_ECHO'], "OnEcho")
-    register_callback(cb['EVENT_OBJECT_SPAWN'], "OnObjectSpawn")
-    register_callback(cb['EVENT_DIE'], "OnDie")
-    register_callback(cb['EVENT_PRESPAWN'], "OnPreSpawn")
-    register_callback(cb['EVENT_CUSTOM'], "OnCustom")
-    register_callback(cb['EVENT_WEAPON_PICKUP'], "OnWeaponPickup")
-    register_callback(cb['EVENT_ASSIST'], "OnAssist")
-    register_callback(cb['EVENT_AREA_EXIT'], "OnAreaExit")
-    register_callback(cb['EVENT_CHAT'], "OnChat")
-    register_callback(cb['EVENT_SCORE'], "OnScore")
-    register_callback(cb['EVENT_VEHICLE_EXIT'], "OnVehicleExit")
-    register_callback(cb['EVENT_TEAM_SWITCH'], "OnTeamSwitch")
-    register_callback(cb['EVENT_TICK'], "OnTick")
-    register_callback(cb['EVENT_ALIVE'], "OnAlive")
-    register_callback(cb['EVENT_BETRAY'], "OnBetray") -- Team kill
-    register_callback(cb['EVENT_STICK'], "OnStick")
-    register_callback(cb['EVENT_LOGIN'], "OnLogin")
-    register_callback(cb['EVENT_PREJOIN'], "OnPreJoin")
-    register_callback(cb['EVENT_KILL'], "OnKill")
-    register_callback(cb['EVENT_GAME_START'], "OnGameStart")
-    register_callback(cb['EVENT_DAMAGE_APPLICATION'], "OnDamageApplication")
-    register_callback(cb['EVENT_MAP_RESET'], "OnMapReset")
-    register_callback(cb['EVENT_SNAP'], "OnSnap")
-    register_callback(cb['EVENT_GAME_END'], "OnGameEnd")
-    register_callback(cb['EVENT_SUICIDE'], "OnSuicide")
-    register_callback(cb['EVENT_COMMAND'], "OnCommand")
-    register_callback(cb['EVENT_JOIN'], "OnJoin")
-    register_callback(cb['EVENT_CAMP'], "OnCamp")
-    register_callback(cb['EVENT_SPAWN'], "OnSpawn")
-    register_callback(cb['EVENT_WARP'], "OnWarp")
-    register_callback(cb['EVENT_LEAVE'], "OnLeave")
-    register_callback(cb['EVENT_WEAPON_DROP'], "OnWeaponDrop")
-    register_callback(cb['EVENT_VEHICLE_ENTER'], "OnVehicleEnter")
-    register_callback(cb['EVENT_AREA_ENTER'], "OnAreaEnter")
+    register_callback(cb.EVENT_ECHO, "OnEcho")
+    register_callback(cb.EVENT_OBJECT_SPAWN, "OnObjectSpawn")
+    register_callback(cb.EVENT_DIE, "OnDie")
+    register_callback(cb.EVENT_PRESPAWN, "OnPreSpawn")
+    register_callback(cb.EVENT_CUSTOM, "OnCustom")
+    register_callback(cb.EVENT_WEAPON_PICKUP, "OnWeaponPickup")
+    register_callback(cb.EVENT_ASSIST, "OnAssist")
+    register_callback(cb.EVENT_AREA_EXIT, "OnAreaExit")
+    register_callback(cb.EVENT_CHAT, "OnChat")
+    register_callback(cb.EVENT_SCORE, "OnScore")
+    register_callback(cb.EVENT_VEHICLE_EXIT, "OnVehicleExit")
+    register_callback(cb.EVENT_TEAM_SWITCH, "OnTeamSwitch")
+    register_callback(cb.EVENT_TICK, "OnTick")
+    register_callback(cb.EVENT_ALIVE, "OnAlive")
+    register_callback(cb.EVENT_BETRAY, "OnBetray") -- Team kill
+    register_callback(cb.EVENT_STICK, "OnStick")
+    register_callback(cb.EVENT_LOGIN, "OnLogin")
+    register_callback(cb.EVENT_PREJOIN, "OnPreJoin")
+    register_callback(cb.EVENT_KILL, "OnKill")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamageApplication")
+    register_callback(cb.EVENT_MAP_RESET, "OnMapReset")
+    register_callback(cb.EVENT_SNAP, "OnSnap")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_SUICIDE, "OnSuicide")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_JOIN, "OnJoin")
+    register_callback(cb.EVENT_CAMP, "OnCamp")
+    register_callback(cb.EVENT_SPAWN, "OnSpawn")
+    register_callback(cb.EVENT_WARP, "OnWarp")
+    register_callback(cb.EVENT_LEAVE, "OnLeave")
+    register_callback(cb.EVENT_WEAPON_DROP, "OnWeaponDrop")
+    register_callback(cb.EVENT_VEHICLE_ENTER, "OnVehicleEnter")
+    register_callback(cb.EVENT_AREA_ENTER, "OnAreaEnter")
 end
 
 --- Called when the script is unloaded (optional cleanup).
@@ -94,16 +94,7 @@ end
 -- "1+" = player index as a string
 ---@param PlayerIndex number The victim's player index
 ---@param Causer      string The killer source as a string
-function OnDie(PlayerIndex, Causer)
-    local killer = tonumber(Causer)
-    if killer == -1 then
-        -- Killed by the server / falling / team-switch
-    elseif killer == 0 then
-        -- Killed by a vehicle or non-player object
-    elseif killer > 0 then
-        -- Killed by another player
-    end
-end
+function OnDie(PlayerIndex, Causer) end
 
 --- `EVENT_ASSIST`
 -- Called when a player gets an assist.
