@@ -1,5 +1,5 @@
 --[[
-    Chimera Blank Script Template (Annotated)
+    Chimera Blank Script Template
 
     Every Chimera Lua script must define `clua_version`
     and set it to the appropriate Chimera API version

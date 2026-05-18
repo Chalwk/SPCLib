@@ -1,5 +1,5 @@
 --[[
-    Phasor Blank Script Template (Annotated)
+    Phasor Blank Script Template
 
     Every Phasor Lua script must define both `GetRequiredVersion()`
     and `OnScriptLoad()`.

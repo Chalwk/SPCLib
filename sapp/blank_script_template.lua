@@ -1,5 +1,5 @@
 --[[
-    SAPP Blank Script Template (Annotated)
+    SAPP Blank Script Template
 
     Every SAPP Lua script must define both `api_version`
     and `OnScriptLoad()`.
