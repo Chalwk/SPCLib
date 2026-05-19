@@ -107,10 +107,6 @@ map downloads, and dozens of quality-of-life fixes. Chimera scripts are fully su
 <details>
 <summary>📦 Archival SAPP binaries and documentation (click to expand)</summary>
 
-> [!NOTE]
-> SAPP is no longer officially maintained. These binaries are provided strictly for archival, preservation, and server
-> maintenance purposes.
-
 The official SAPP website (halo.isimaginary.com) is no longer accessible. To ensure historical versions remain
 available, this repository mirrors all released SAPP binaries.
 
@@ -121,8 +117,7 @@ This repository also preserves:
 - SAPP Documentation Revision 2.4 and 2.5 (by 002 / SnowyMouse)
 - Memory offsets reference list originally created by Wizard
 
-> [!NOTE]
-> These documents and binaries are redistributed for preservation only. Licensing remains with their original authors.
+**These documents and binaries are redistributed for preservation only. Licensing remains with their original authors.**
 
 </details>
 
@@ -174,7 +169,6 @@ A live searchable interface for all scripts in SPCLib.
 <details>
 <summary>🌐 Active and legacy Halo PC/CE communities (click to expand)</summary>
 
-> [!NOTE]
 > Community activity varies across hubs. Some are active, others are legacy archives.
 
 | Hub                                                                                                                                                    | Description                                                                                 |
@@ -199,7 +193,6 @@ A live searchable interface for all scripts in SPCLib.
 <details>
 <summary>🎖️ Honouring Halo PC/CE clans across decades (click to expand)</summary>
 
-> [!NOTE]
 > This list represents historical and current Halo PC/CE clans and communities over many years of multiplayer history.
 
 > \- YAS -, -db-, «§», «Ag~, «Ð²Ä», «MAD», [Aķ], [CV], [GTV], [HGE], [IG], [IS], [K2], [McK], [Nbk], [VR], [WFFF], ]
