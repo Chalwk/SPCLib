@@ -24,10 +24,11 @@
 
 * [1. Overview](#overview)
 * [2. What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
-* [3. SAPP Version Archive](#sapp-archive--mirrors)
+* [3. SAPP Archive & Mirrors](#sapp-archive--mirrors)
 * [4. Scripts, Releases and Knowledge Base](#scripts-releases-and-knowledge-base)
 * [5. Integration Tools](#integration-tools)
     * [5.1 HaloDiscordBot](#halodiscordbot)
+    * [5.2 Script Browser](#script-browser)
 * [6. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
     * [6.1 Submit Ideas](#submit-ideas)
     * [6.2 Report Issues](#report-issues)
@@ -107,18 +108,14 @@ This repository also preserves:
 - **notifications:** Console output, timers, and event alerts
 - **utility:** Server configuration, spawning, map control, and miscellaneous tools
 
-| Category                                                           | Description                                                       |
-|--------------------------------------------------------------------|-------------------------------------------------------------------|
-| [**SAPP Scripts**](./sapp)                                         | admin, chat, gameplay, gametypes, modules, notifications, utility |
-| [**Phasor Scripts**](./phasor)                                     | admin, chat, gameplay, gametypes, modules, notifications, utility |
-| [**Chimera Scripts**](./chimera)                                   | Client-side Chimera Lua scripts                                   |
-| [**Releases**](https://github.com/Chalwk/SPCLib/releases)          | Larger advanced projects                                          |
-| [**Knowledge Base (docs)**](https://chalwk.github.io/blog/#page-1) | Documentation and guides                                          |
-
-### Essential Guides
-
-| Guide                                                                                                           | Description                                                                                                                                          |
+| Category                                                                                                        | Description                                                                                                                                          |
 |-----------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [**SAPP Scripts**](./sapp)                                                                                      | admin, chat, gameplay, gametypes, modules, notifications, utility                                                                                    |
+| [**Phasor Scripts**](./phasor)                                                                                  | admin, chat, gameplay, gametypes, modules, notifications, utility                                                                                    |
+| [**Chimera Scripts**](./chimera)                                                                                | Client-side Chimera Lua scripts                                                                                                                      |
+| [**Script Packages**](https://github.com/Chalwk/SPCLib/releases)                                                | Bundled projects with multiple files and resources available as a ZIP                                                                                |
+|                                                                                                                 |                                                                                                                                                      |
+| **GUIDES**                                                                                                      |                                                                                                                                                      |
 | [**Scripting with SAPP**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp/)                   | Comprehensive guide to server-side Lua scripting using SAPP's Lua API, including signature scanning, global variables, and core functions.           |
 | [**Scripting with Phasor**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor/)               | Server-side Lua scripting with Phasor, covering version handling and hardcoded addresses.                                                            |
 | [**Scripting with Chimera**](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera/)             | Client-side Lua scripting with Chimera, including event callbacks, script placement, and version compatibility.                                      |
