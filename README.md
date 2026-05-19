@@ -24,18 +24,16 @@
 
 * [1. Overview](#overview)
 * [2. What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
-* [3. SAPP Archive & Mirrors](#sapp-archive--mirrors)
-* [4. Scripts, Releases and Knowledge Base](#scripts-releases-and-knowledge-base)
+* [3. Scripts, Releases and Knowledge Base](#scripts-releases-and-knowledge-base)
+* [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
 * [5. Integration Tools](#integration-tools)
     * [5.1 HaloDiscordBot](#halodiscordbot)
     * [5.2 Script Browser](#script-browser)
-* [6. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
-    * [6.1 Submit Ideas](#submit-ideas)
-    * [6.2 Report Issues](#report-issues)
-* [7. Halo Custom Edition Installer](#halo-custom-edition-installer)
-    * [7.1 LAA Patched Executables](#laa-patched-executables)
-* [8. Community Hubs](#community-hubs)
-* [9. Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
+* [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
+    * [6.1 LAA Patched Executables](#laa-patched-executables)
+* [7. Community Hubs](#community-hubs)
+* [8. Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
+* [9. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
 * [10. Support My Work](#support-my-work)
 * [11. License](#license)
 
@@ -68,27 +66,6 @@ SAPP and Phasor are no longer actively maintained, but stable and complete in th
 **[Chimera](https://github.com/SnowyMouse/chimera)** is a client-side mod for Halo Custom Edition, PC, and Trial that
 also exposes a Lua API. Developed by SnowyMouse, it is actively maintained and provides event hooks, commands, built-in
 map downloads, and dozens of quality-of-life fixes. Chimera scripts are fully supported in SPCLib.
-
----
-
-## SAPP Archive & Mirrors
-
-> [!NOTE]
-> SAPP is no longer officially maintained. These binaries are provided strictly for archival, preservation, and server
-> maintenance purposes.
-
-The official SAPP website (halo.isimaginary.com) is no longer accessible. To ensure historical versions remain
-available, this repository mirrors all released SAPP binaries.
-
-You'll find the full archive of SAPP versions in the **[`./assets/sapp_downloads`](./assets/sapp_downloads)** folder.
-
-This repository also preserves:
-
-- SAPP Documentation Revision 2.4 and 2.5 (by 002 / SnowyMouse)
-- Memory offsets reference list originally created by Wizard
-
-> [!NOTE]
-> These documents and binaries are redistributed for preservation only. Licensing remains with their original authors.
 
 ---
 
@@ -125,6 +102,32 @@ This repository also preserves:
 
 ---
 
+## SAPP Archive & Mirrors
+
+<details>
+<summary>📦 Archival SAPP binaries and documentation (click to expand)</summary>
+
+> [!NOTE]
+> SAPP is no longer officially maintained. These binaries are provided strictly for archival, preservation, and server
+> maintenance purposes.
+
+The official SAPP website (halo.isimaginary.com) is no longer accessible. To ensure historical versions remain
+available, this repository mirrors all released SAPP binaries.
+
+You'll find the full archive of SAPP versions in the **[`./assets/sapp_downloads`](./assets/sapp_downloads)** folder.
+
+This repository also preserves:
+
+- SAPP Documentation Revision 2.4 and 2.5 (by 002 / SnowyMouse)
+- Memory offsets reference list originally created by Wizard
+
+> [!NOTE]
+> These documents and binaries are redistributed for preservation only. Licensing remains with their original authors.
+
+</details>
+
+---
+
 ## Integration Tools
 
 > [!NOTE]
@@ -149,25 +152,6 @@ A live searchable interface for all scripts in SPCLib.
 
 ---
 
-## Contributors, Community Guidelines & Request Features
-
-> [!TIP]
-> Contributions, bug reports, and feature requests are welcome via GitHub issues and discussion templates.
-
-See the [Contributing Guide](CONTRIBUTING.md). All community interaction is governed by
-the [Code of Conduct](CODE_OF_CONDUCT.md)
-
-### Submit Ideas
-
-[Submit Feature Request](https://github.com/Chalwk/SPCLib/issues/new?template=FEATURE_REQUEST.yaml)
-
-### Report Issues
-
-- [Bug Report](https://github.com/Chalwk/SPCLib/issues/new?assignees=Chalwk&labels=Bug%2CNeeds+Triage&template=BUG_REPORT.yaml)
-- [Feature Request](https://github.com/Chalwk/SPCLib/issues/new?assignees=Chalwk&labels=Feature%2CNeeds+Review&template=FEATURE_REQUEST.yaml)
-
----
-
 ## Halo Custom Edition Installer
 
 > [!NOTE]
@@ -187,6 +171,9 @@ the [Code of Conduct](CODE_OF_CONDUCT.md)
 
 ## Community Hubs
 
+<details>
+<summary>🌐 Active and legacy Halo PC/CE communities (click to expand)</summary>
+
 > [!NOTE]
 > Community activity varies across hubs. Some are active, others are legacy archives.
 
@@ -203,9 +190,14 @@ the [Code of Conduct](CODE_OF_CONDUCT.md)
 | **Reclaimers** - [Website](https://c20.reclaimers.net/) · [Discord](https://discord.reclaimers.net/)                                                   | Community wiki & resource hub for Halo CE and MCC modding tools.                            |
 | **Realworld CE** - [Website](https://www.realworldce.com/)                                                                                             | Guild & custom map blog offering hundreds of exclusive multiplayer maps.                    |
 
+</details>
+
 ---
 
 ## Shoutout to Clans (Past and Present)
+
+<details>
+<summary>🎖️ Honouring Halo PC/CE clans across decades (click to expand)</summary>
 
 > [!NOTE]
 > This list represents historical and current Halo PC/CE clans and communities over many years of multiplayer history.
@@ -216,6 +208,27 @@ the [Code of Conduct](CODE_OF_CONDUCT.md)
 > CST, DFS, DR, Ðu¥, EK, ev, FCM, Fem1, Fez`, FIG, FooK, GDS, GoD, GRO, HH, HSF, HTK3, IR, KB, KMT, KoD, KoF, LaG, LF,
 > LIB, LNZ, LP, LTD2, M5, MR, MVL, ňc, ÑE», ñuß, OSR, OWV, P§ycho, PÕQ, PRO, RC, RSF, SAR, SB, SDR, ßE, TBR, TCS, TFT,
 > TM, ToR, X¬, xOSHx, xT
+
+</details>
+
+---
+
+## Contributors, Community Guidelines & Request Features
+
+> [!TIP]
+> Contributions, bug reports, and feature requests are welcome via GitHub issues and discussion templates.
+
+See the [Contributing Guide](CONTRIBUTING.md). All community interaction is governed by
+the [Code of Conduct](CODE_OF_CONDUCT.md)
+
+### Submit Ideas
+
+[Submit Feature Request](https://github.com/Chalwk/SPCLib/issues/new?template=FEATURE_REQUEST.yaml)
+
+### Report Issues
+
+- [Bug Report](https://github.com/Chalwk/SPCLib/issues/new?assignees=Chalwk&labels=Bug%2CNeeds+Triage&template=BUG_REPORT.yaml)
+- [Feature Request](https://github.com/Chalwk/SPCLib/issues/new?assignees=Chalwk&labels=Feature%2CNeeds+Review&template=FEATURE_REQUEST.yaml)
 
 ---
 
