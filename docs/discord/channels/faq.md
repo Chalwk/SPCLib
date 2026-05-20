@@ -29,7 +29,7 @@ Shoutout to all Halo clans, past and present.
 * [**SAPP Scripts**](https://github.com/Chalwk/SPCLib/tree/master/sapp): Utilities, Custom Games, Attractive features
 * [**Phasor Scripts**](https://github.com/Chalwk/SPCLib/tree/master/phasor): Legacy scripts for older servers
 * [**Chimera**](https://github.com/Chalwk/SPCLib/tree/master/chimera): Chimera scripts
-* [**Releases**](https://github.com/Chalwk/SPCLib/releases): Larger, more complex projects
+* [**Script Packages**](https://github.com/Chalwk/SPCLib/releases): Bundled projects with multiple files and resources available as a ZIP
 * [**Script Browser**](https://chalwk.github.io/SPCLib/): Web interface for expl,oring all scripts in SPCLib
 
 **Q2: How do I get help?**
@@ -53,11 +53,10 @@ Shoutout to all Halo clans, past and present.
 **Q6: How can I start?**
 1. Post in <#1409740090778845184>
 2. Read <#1409727652339777577>
-3. Browse <#1409719058730979368> or the Wiki for scripting guidance
-4. Read extensive docs in `◉ KNOWLEDGE BASE (forums)`:
-- <#1410198420689391706>
-- <#1410155079285215273>
-- <#1410185546894020638>
+3. Browse <#1409719058730979368> for community guidance
+4. Read docs in `◉ KNOWLEDGE BASE (forums)`:
+- <#1506578546892603463>
+- <#1506576078670401546>
 
 ---
 

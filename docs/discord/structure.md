@@ -14,14 +14,11 @@
     * 〔🚪〕arrivals-departures
         * Tracks member joins and leaves.
 
-* ◉ KNOWLEDGE BASE (forums)
-    * 〔👾〕code-snippets
-        * Handy code snippets for SAPP and Phasor scripting.
-    * 〔🛠️〕resources (forum)
-        * Guides, tutorials, and best practices for using SPCLib scripts.
-    * 〔💡〕tips-tricks
-        * Useful tips, tricks, and technical advice for Halo servers.
-
+* ◉ KNOWLEDGE BASE
+    * 〔📌〕references
+        * Links to useful guides, tutorials, etc.
+    * 〔🗂️〕resource-forum
+        * Share and browse community resources, tutorials, scripts, tools, tips, and troubleshooting.
 * ◉ GITHUB
     * 〔🙋〕help
         * Ask questions and get support with Halo, SAPP, Phasor, or SPCLib scripts.
