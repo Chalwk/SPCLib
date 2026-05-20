@@ -5,11 +5,9 @@
 
 <@&1409725032158199828>
 * Those who have contributed through code submissions, documentation, and shared expertise.
-* **Use `/roles` to toggle this role.**
 
 <@&1409725391266123877>
 * Quality and stress-testing scripts, reporting issues, and validating deployments across servers.
-* **Use `/roles` to toggle this role.**
 
 <@&1409756118472851547>
 * Users who operate with the SAPP.

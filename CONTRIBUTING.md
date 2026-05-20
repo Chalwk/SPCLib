@@ -1,9 +1,9 @@
-[![Discord](https://img.shields.io/badge/Discord-Join_Our_Server-7289DA?style=for-the-badge&logo=discord)](https://discord.gg/D76H7RVPC9)
+[![Discord](https://img.shields.io/badge/Discord-Join_Our_Server-7289DA?style=for-the-badge&logo=discord)][discord_invite]
 
 # Contributing to the SPCLib
 
 Thank you for considering contributing to **SPCLib**! Your contributions help maintain, improve,
-and expand the collection of SAPP/Phasor Lua scripts and resources for **Halo: CE** and **Halo: PC** dedicated servers.
+and expand the collection of Lua scripts and resources for **Halo: PC** and **Halo: CE** dedicated servers.
 Following these guidelines ensures a smooth and collaborative process.
 
 ---
@@ -13,7 +13,7 @@ Following these guidelines ensures a smooth and collaborative process.
 ### Issues and Suggestions
 
 * **Check First**: Before creating a new issue, search
-  the [Issues Section](https://github.com/Chalwk/SPCLib/issues) to see if your concern, bug, or feature
+  the [Issues Section][issues_section] to see if your concern, bug, or feature
   request has already been reported.
 * **Create an Issue**: If it's new, create an issue with a **clear title** and **detailed description**. Include server
   type (SAPP or Phasor) and any relevant context.
@@ -48,7 +48,7 @@ repository, please follow these additional steps:
   before merging.
 
 Scripts that do not adhere to these guidelines may be asked for revision or rejected. By contributing, you agree that
-your script will be licensed under the same terms as the rest of the repository (see [LICENSE](LICENSE)).
+your script will be licensed under the same terms as the rest of the repository (see [LICENSE][license]).
 
 ---
 
@@ -66,7 +66,7 @@ your script will be licensed under the same terms as the rest of the repository 
 * Keep content **clear, concise, and structured**.
 * Reference related scripts, server setups, or wiki pages when appropriate.
 
-For a detailed guide on Markdown formatting, refer to [markdown guide](https://www.markdownguide.org/).
+For a detailed guide on Markdown formatting, refer to [markdown guide][markdown_guide].
 
 ---
 
@@ -84,24 +84,24 @@ For a detailed guide on Markdown formatting, refer to [markdown guide](https://w
 
 I'd like to recognize these amazing people:
 
-| **User**                                                            | **Description**                                                                                                                                                                                                                                | **Source**                                                                                                                                                                                                                                                                                                                                                                 |
-|---------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [urbanyoung](https://github.com/urbanyoung)                         | Author of Halo server extension **Phasor**.                                                                                                                                                                                                    | [Phasor Repository](https://github.com/urbanyoung/Phasor)                                                                                                                                                                                                                                                                                                                  |
-| [sehé°°](http://halo.isimaginary.com/forum/user-1.html)             | 1. Author of Halo server extension **SAPP**.<br>2. Created **death message patch** (*integrated into some Phasor scripts*).                                                                                                                    | [User Profile](http://halo.isimaginary.com/forum/user-1.html)                                                                                                                                                                                                                                                                                                              |
-| [AelitePrime](http://phasor.proboards.com/user/37)                  | Created **commands script** for Phasor.                                                                                                                                                                                                        | [Commands Script](http://pastebin.com/gHiz0A51)                                                                                                                                                                                                                                                                                                                            |
-| [Benjamin Auquite (Wizard)](https://github.com/th3w1zard1)          | Created addresses & offsets list.                                                                                                                                                                                                              | [Offsets List](reference/offsets.lua)                                                                                                                                                                                                                                                                                                                                      |
-| [Nuggets](http://phasor.proboards.com/user/36)                      | Created original **sendconsole_text_override**.                                                                                                                                                                                                | [sendconsole_text_override](http://pastebin.com/1dtn0DiM)                                                                                                                                                                                                                                                                                                                  |
-| [002 (Kavawuvi\SnowyMouse)](https://github.com/SnowyMouse)          | 1. Creator of **Chimera (OC)**.<br>2. Created **SAPP HTTP Client** (*integrated into some SAPP scripts*).<br>3. Created **get_tag_info()** function (*integrated into some SAPP scripts*).<br>4. Created **Comprehensive SAPP Documentation**. | 1. [Chimera (OC)](https://opencarnage.net/index.php?/forum/78-chimera-general/) / [Chimera (GitHub)](https://github.com/SnowyMouse/chimera)<br>2. [HTTP Client](https://opencarnage.net/index.php?/topic/5998-sapp-http-client/#comment-82077)<br>3. [SAPP Documentation](https://opencarnage.net/index.php?/topic/3806-comprehensive-sapp-documentation-rev-25-sapp-101/) |
-| [giraffe](https://opencarnage.net/index.php?/profile/1463-giraffe/) | Created **Auto Vehicle Flip** SAPP script (*integrated into some SAPP scripts*).                                                                                                                                                               | [Auto Vehicle Flip](https://opencarnage.net/index.php?/topic/6251-auto-vehicle-flip/)                                                                                                                                                                                                                                                                                      |
-| [Jeffrey Friedl](http://regex.info/blog/)                           | Creator of **JSON Interpreter** (Library) for Lua.                                                                                                                                                                                             | [JSON Interpreter](http://regex.info/blog/lua/json)                                                                                                                                                                                                                                                                                                                        |
-| [edgardanielgd](https://github.com/edgardanielgd)                   | Contributed code to [Admin Manager](https://github.com/Chalwk/SPCLib/releases/tag/AdminManager).                                                                                                                                               |                                                                                                                                                                                                                                                                                                                                                                            |
+| **User**                                | **Description**                                                                                                                                                                                                                                | **Source**                                                                                                                                |
+|-----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| [urbanyoung][urbanyoung]                | Author of Halo server extension **Phasor**.                                                                                                                                                                                                    | [Phasor Repository][phasor_repo]                                                                                                          |
+| [sehé°°][sehe]                          | 1. Author of Halo server extension **SAPP**.<br>2. Created **death message patch** (*integrated into some Phasor scripts*).                                                                                                                    | [User Profile][sehe_profile]                                                                                                              |
+| [AelitePrime][aeliteprime]              | Created **commands script** for Phasor.                                                                                                                                                                                                        | [Commands Script][commands_script]                                                                                                        |
+| [Benjamin Auquite (Wizard)][wizard]     | Created addresses & offsets list.                                                                                                                                                                                                              | [Offsets List][offsets_list]                                                                                                              |
+| [Nuggets][nuggets]                      | Created original **sendconsole_text_override**.                                                                                                                                                                                                | [sendconsole_text_override][sendconsole_override]                                                                                         |
+| [002 (Kavawuvi\SnowyMouse)][snowymouse] | 1. Creator of **Chimera (OC)**.<br>2. Created **SAPP HTTP Client** (*integrated into some SAPP scripts*).<br>3. Created **get_tag_info()** function (*integrated into some SAPP scripts*).<br>4. Created **Comprehensive SAPP Documentation**. | 1. [Chimera (OC)][chimera_oc] / [Chimera (GitHub)][chimera_github]<br>2. [HTTP Client][http_client]<br>3. [SAPP Documentation][sapp_docs] |
+| [giraffe][giraffe]                      | Created **Auto Vehicle Flip** SAPP script (*integrated into some SAPP scripts*).                                                                                                                                                               | [Auto Vehicle Flip][auto_vehicle_flip]                                                                                                    |
+| [Jeffrey Friedl][jeffrey_friedl]        | Creator of **JSON Interpreter** (Library) for Lua.                                                                                                                                                                                             | [JSON Interpreter][json_interpreter]                                                                                                      |
+| [edgardanielgd][edgardanielgd]          | Contributed code to [Admin Manager][admin_manager].                                                                                                                                                                                            |                                                                                                                                           |
 
 ---
 
 ## License
 
 By contributing to SPCLib, you agree that your contributions will be licensed under the same terms as the
-repository. For details, see the [LICENSE](LICENSE) file.
+repository. For details, see the [LICENSE][license] file.
 
 ---
 
@@ -110,3 +110,55 @@ repository. For details, see the [LICENSE](LICENSE) file.
 * **Keep Scripts Updated**: Help ensure scripts remain functional and compatible with SAPP or Phasor.
 * **Support the Community**: Assist server admins and operators with better tools and resources.
 * **Enhance Gameplay**: Every improvement or new feature enriches the Halo multiplayer experience.
+
+---
+
+[aeliteprime]: http://phasor.proboards.com/user/37
+
+[admin_manager]: https://github.com/Chalwk/SPCLib/releases/tag/AdminManager
+
+[auto_vehicle_flip]: https://opencarnage.net/index.php?/topic/6251-auto-vehicle-flip/
+
+[chimera_github]: https://github.com/SnowyMouse/chimera
+
+[chimera_oc]: https://opencarnage.net/index.php?/forum/78-chimera-general/
+
+[commands_script]: http://pastebin.com/gHiz0A51
+
+[discord_invite]: https://discord.gg/D76H7RVPC9
+
+[edgardanielgd]: https://github.com/edgardanielgd
+
+[giraffe]: https://opencarnage.net/index.php?/profile/1463-giraffe/
+
+[http_client]: https://opencarnage.net/index.php?/topic/5998-sapp-http-client/#comment-82077
+
+[issues_section]: https://github.com/Chalwk/SPCLib/issues
+
+[jeffrey_friedl]: http://regex.info/blog/
+
+[json_interpreter]: http://regex.info/blog/lua/json
+
+[license]: LICENSE
+
+[markdown_guide]: https://www.markdownguide.org/
+
+[nuggets]: http://phasor.proboards.com/user/36
+
+[offsets_list]: reference/offsets.lua
+
+[phasor_repo]: https://github.com/urbanyoung/Phasor
+
+[sapp_docs]: https://opencarnage.net/index.php?/topic/3806-comprehensive-sapp-documentation-rev-25-sapp-101/
+
+[sehe]: http://halo.isimaginary.com/forum/user-1.html
+
+[sehe_profile]: http://halo.isimaginary.com/forum/user-1.html
+
+[sendconsole_override]: http://pastebin.com/1dtn0DiM
+
+[snowymouse]: https://github.com/SnowyMouse
+
+[urbanyoung]: https://github.com/urbanyoung
+
+[wizard]: https://github.com/th3w1zard1

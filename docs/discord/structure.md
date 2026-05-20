@@ -14,11 +14,6 @@
     * 〔🚪〕arrivals-departures
         * Tracks member joins and leaves.
 
-* ◉ KNOWLEDGE BASE
-    * 〔📌〕references
-        * Links to useful guides, tutorials, etc.
-    * 〔🗂️〕resource-forum
-        * Share and browse community resources, tutorials, scripts, tools, tips, and troubleshooting.
 * ◉ GITHUB
     * 〔🙋〕help
         * Ask questions and get support with Halo, SAPP, Phasor, or SPCLib scripts.
@@ -40,8 +35,6 @@
         * Voice chat for live gameplay or server sessions.
 
 * ◉ SPCLib SERVERS
-    * 〔🔔〕updates
-        * Announcements and updates for SPCLib servers.
     * 〔📚〕list
         * Details about official SPCLib Halo PC servers.
     * divide-and-conquer _(only users with @SPCLib SERVERS can see this)_

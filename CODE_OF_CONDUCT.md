@@ -2,10 +2,10 @@
 
 # Contributor Covenant Code of Conduct
 
-## My Pledge
+## Our Pledge
 
-In the interest of fostering an open and welcoming environment, I, as the maintainer of this project, pledge to make
-participation in this project and community a harassment-free experience for everyone, regardless of:
+We as members, contributors, and maintainers of this project pledge to make participation in our community a
+harassment‑free experience for everyone, regardless of:
 
 * Age
 * Body size
@@ -19,62 +19,61 @@ participation in this project and community a harassment-free experience for eve
 * Religion
 * Sexual identity and orientation
 
-Anyone who wishes to contribute is expected to uphold these same standards.
+We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
-## My Standards
+## Our Standards
 
-Examples of behavior that contribute to creating a positive environment include:
+Examples of behavior that contribute to a positive environment for our community include:
 
 * Using welcoming and inclusive language
 * Being respectful of differing viewpoints and experiences
 * Gracefully accepting constructive criticism
-* Focusing on what is best for the community
+* Focusing on what is best for the overall community
 * Showing empathy towards other community members
 
 Examples of unacceptable behavior include:
 
 * The use of sexualized language or imagery, and unwelcome sexual attention or advances
-* Trolling, insulting/derogatory comments, and personal or political attacks
+* Trolling, insulting or derogatory comments, and personal or political attacks
 * Public or private harassment
-* Publishing others' private information (e.g., a physical or electronic address) without explicit permission
+* Publishing others’ private information (e.g., a physical or electronic address) without explicit permission
 * Other conduct that could reasonably be considered inappropriate in a professional setting
 
-## Maintainer's Responsibilities
+## Our Responsibilities
 
-As the sole maintainer of this project, I am responsible for clarifying the standards of acceptable behavior and will
-take appropriate and fair corrective action in response to any instances of unacceptable behavior.
+Project maintainers are responsible for clarifying the standards of acceptable behavior and are expected to take
+appropriate and fair corrective action in response to any instances of unacceptable behavior.
 
-I reserve the right to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that
-do not align with this Code of Conduct. I may also temporarily or permanently ban any contributor for behaviors deemed
-inappropriate, threatening, offensive, or harmful.
+Maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues,
+and other contributions that are not aligned with this Code of Conduct, and to temporarily or permanently ban any
+contributor for behaviors they deem inappropriate, threatening, offensive, or harmful.
 
 ## Scope
 
-This Code of Conduct applies both within project spaces and in public spaces when an individual is representing the
-project or its community. Examples of representation include:
+This Code of Conduct applies within all project spaces (including GitHub, Discord, and SPCLib Halo Servers), and also
+applies when an individual is officially representing the project in public spaces. Examples of representing the project
+include:
 
-* Using an official project e-mail address
+* Using an official project e‑mail address
 * Posting via an official social media account
 * Acting as an appointed representative at an online or offline event
 
-Representation of a project may be further defined and clarified by me, the project maintainer.
-
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting me
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project maintainer
 on [Discord](https://discord.gg/D76H7RVPC9).
 
-Reports will be reviewed and investigated, and I will respond in a manner deemed appropriate to the circumstances.
-Confidentiality will be maintained regarding the reporter of an incident.
+All complaints will be reviewed and investigated promptly and fairly. The maintainer is obligated to respect the privacy
+and security of the reporter of any incident.
 
-If I fail to enforce this Code of Conduct in good faith, contributors are free to stop participating in or supporting
-the project.
+If a maintainer fails to enforce this Code of Conduct in good faith, community members are free to stop participating in
+or supporting the project.
 
 ## Attribution
 
 This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4, available
-at [http://contributor-covenant.org/version/1/4][version].
+at [https://www.contributor-covenant.org/version/1/4/code-of-conduct][version].
 
 [homepage]: http://contributor-covenant.org
 
-[version]: http://contributor-covenant.org/version/1/4/
+[version]: https://www.contributor-covenant.org/version/1/4/code-of-conduct
