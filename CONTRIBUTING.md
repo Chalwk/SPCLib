@@ -141,7 +141,7 @@ repository. For details, see the [LICENSE][license] file.
 
 [license]: LICENSE
 
-[markdown_guide]: https://www.markdownguide.org/
+[markdown_guide]: https://chalwk.github.io/blog/2026/04/07/markdown-tutorial/
 
 [nuggets]: http://phasor.proboards.com/user/36
 
