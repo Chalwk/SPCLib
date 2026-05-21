@@ -62,7 +62,7 @@ our servers:
 
 [ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
 
-[bans]: https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/bans.html
+[bans]: https://chalwk.github.io/SPCLib/docs/SPCLib_Servers/bans
 
 [server_logger]: ../../sapp/utility/server_logger.lua
 

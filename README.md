@@ -24,7 +24,7 @@
 
 * [1. Overview](#overview)
 * [2. What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
-* [3. Scripts, Releases and Knowledge Base](#scripts-releases-and-knowledge-base)
+* [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
 * [5. Integration Tools](#integration-tools)
     * [5.1 HaloDiscordBot](#halodiscordbot)
@@ -35,7 +35,8 @@
 * [8. Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
 * [9. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
 * [10. Support My Work](#support-my-work)
-* [11. License](#license)
+* [11. Ban Appeals](#ban-appeals)
+* [12. License](#license)
 
 ---
 
@@ -239,6 +240,28 @@ Enjoy these projects? Help me continue development:
 
 ---
 
+## Ban Appeals
+
+<details>
+<summary>⚖️ Submit or review a ban appeal (click to expand)</summary>
+
+If you believe you have been banned in error from the **SPCLib Discord** or any **SPCLib Halo server**, you may submit a
+formal appeal. All appeals are reviewed through the repository’s structured process to ensure fairness and consistency.
+
+> **Important**  
+> Before submitting an appeal, locate your ban in the [Ban Registry][ban_registry]. You will need your **Ban ID** (first
+> column) to complete the appeal form.
+
+* [Submit a Ban Appeal][ban_appeal_template] – use this GitHub issue template.
+* [List of active bans][ban_registry] – view all current, expired, and revoked bans.
+
+Appeals without a valid Ban ID may be delayed. For full details on prohibited behaviour and enforcement tiers, please
+read our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+</details>
+
+---
+
 ## License
 
 > [!CAUTION]
@@ -249,19 +272,23 @@ Enjoy these projects? Help me continue development:
 
 ---
 
-[bug_report]: https://github.com/Chalwk/SPCLib/issues/new?assignees=Chalwk&labels=Bug%2CNeeds+Triage&template=BUG_REPORT.yaml
+[ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
+
+[ban_registry]: https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/bans.html
 
 [bk_website]: https://www.blackshalo.com
 
-[chalwk_website]: https://chalwk.github.io/
+[bug_report]: https://github.com/Chalwk/SPCLib/issues/new?assignees=Chalwk&labels=Bug%2CNeeds+Triage&template=BUG_REPORT.yaml
 
-[chimera]: https://github.com/SnowyMouse/chimera
+[chalwk_website]: https://chalwk.github.io/
 
 [chimera_discord]: https://discord.gg/ZwQeBE2
 
 [chimera_forum]: https://opencarnage.net/index.php?/topic/6916-chimera-download-source-code-and-discord/
 
 [chimera_scripts]: ./chimera
+
+[chimera]: https://github.com/SnowyMouse/chimera
 
 [feature_request]: https://github.com/Chalwk/SPCLib/issues/new?template=FEATURE_REQUEST.yaml
 
@@ -305,11 +332,11 @@ Enjoy these projects? Help me continue development:
 
 [repo_homepage]: https://github.com/Chalwk/SPCLib
 
-[sapp_scripts]: ./sapp
-
 [sapp_command_ref]: https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference
 
 [sapp_downloads_dir]: ./assets/sapp_downloads
+
+[sapp_scripts]: ./sapp
 
 [sapp_server_guide]: https://chalwk.github.io/blog/2026/04/03/halo-sapp-server-guide/
 
