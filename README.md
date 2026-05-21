@@ -242,14 +242,10 @@ Enjoy these projects? Help me continue development:
 
 ## Ban Appeals
 
-<details>
-<summary>⚖️ Submit or review a ban appeal (click to expand)</summary>
-
 If you believe you have been banned in error from the **SPCLib Discord or Halo servers**, you may submit a formal appeal:
 
 * [Submit a Ban Appeal][ban_appeal_template]
-
-</details>
+* [List of active bans][bans]
 
 ---
 
@@ -265,7 +261,7 @@ If you believe you have been banned in error from the **SPCLib Discord or Halo s
 
 [ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
 
-[ban_registry]: https://chalwk.github.io/SPCLib/docs/SPCLib_Servers/bans
+[bans]: https://chalwk.github.io/SPCLib/docs/SPCLib_Servers/bans
 
 [bk_website]: https://www.blackshalo.com
 
