@@ -1,6 +1,6 @@
 # Community Rules & Code of Conduct:
 
-- [Community Rules](https://github.com/Chalwk/SPCLib/blob/master/docs/policies/community-rules.md)
+- [Community Rules](https://github.com/Chalwk/SPCLib/blob/master/COMMUNITY_RULES.md)
 - [Code of Conduct](https://github.com/Chalwk/SPCLib/blob/master/CODE_OF_CONDUCT.md)
 > These are available in the [SPCLib repository](https://github.com/Chalwk/SPCLib).
 
