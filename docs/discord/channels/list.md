@@ -1,4 +1,4 @@
-# [About SPCLib Servers](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_SERVERS/about.md)
+# [About SPCLib Servers](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/about.md)
 
 * [SPCLib-Divide & Conquer](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/divide_and_conquer.md) - <#1411505649090695261>
 * [SPCLib-Gun Game](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/servers/gun_game.md) - <#1411505912383803523>

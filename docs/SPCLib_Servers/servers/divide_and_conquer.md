@@ -1,4 +1,4 @@
-# SPCLib-Divide and Conquer
+# SPCLib-Divide & Conquer
 
 ## How to Connect
 
