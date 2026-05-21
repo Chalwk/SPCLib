@@ -274,7 +274,7 @@ read our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 [ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
 
-[ban_registry]: https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/bans.html
+[ban_registry]: https://chalwk.github.io/SPCLib/docs/SPCLib_Servers/bans
 
 [bk_website]: https://www.blackshalo.com
 
