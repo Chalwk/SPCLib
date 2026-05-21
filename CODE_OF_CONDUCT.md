@@ -1,43 +1,93 @@
-[![Discord](https://img.shields.io/badge/Discord-Join_Our_Server-7289DA?style=for-the-badge&logo=discord)](https://discord.gg/D76H7RVPC9)
+# SPCLib Code of Conduct & Community Rules
 
-# Contributor Covenant Code of Conduct
+This document combines our Code of Conduct and Community Rules to ensure a **positive, productive, and respectful
+environment** for all users. By joining and/or contributing, you agree to follow these guidelines. Violations may
+result in warnings, temporary restrictions, or permanent bans.
+
+---
+
+## Scope & Enforcement
+
+These rules apply to **all users**, including staff and volunteers, across **Discord, GitHub, and the SPCLib Halo
+Servers**. They are enforced to maintain a safe, collaborative, and professional environment. Questions? Ask staff or
+moderators.
+
+---
+
+## VPN / Proxy Advisory
+
+The SPCLib Halo Servers use **IP-based moderation systems**. Using VPNs or proxies can trigger false flags. Avoid
+free/shared VPNs. If you believe a ban was accidental (e.g., shared IP), contact staff for review.
+
+---
 
 ## Our Pledge
 
 We as members, contributors, and maintainers of this project pledge to make participation in our community a
 harassment‑free experience for everyone, regardless of:
 
-* Age
-* Body size
-* Disability
-* Ethnicity
-* Gender identity and expression
-* Level of experience
-* Nationality
-* Personal appearance
-* Race
-* Religion
-* Sexual identity and orientation
+- Age
+- Body size
+- Disability
+- Ethnicity
+- Gender identity and expression
+- Level of experience
+- Nationality
+- Personal appearance
+- Race
+- Religion
+- Sexual identity and orientation
 
 We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
 
+---
+
 ## Our Standards
 
-Examples of behavior that contribute to a positive environment for our community include:
+### Positive Behaviors
 
-* Using welcoming and inclusive language
-* Being respectful of differing viewpoints and experiences
-* Gracefully accepting constructive criticism
-* Focusing on what is best for the overall community
-* Showing empathy towards other community members
+Examples of behavior that contribute to a positive environment:
+
+- Using welcoming and inclusive language
+- Being respectful of differing viewpoints and experiences
+- Gracefully accepting constructive criticism
+- Focusing on what is best for the overall community
+- Showing empathy towards other community members
+- Using appropriate channels and respecting @mentions
+- Collaborating respectfully in pull requests, issues, and discussions
+
+### Unacceptable Behaviors
 
 Examples of unacceptable behavior include:
 
-* The use of sexualized language or imagery, and unwelcome sexual attention or advances
-* Trolling, insulting or derogatory comments, and personal or political attacks
-* Public or private harassment
-* Publishing others’ private information (e.g., a physical or electronic address) without explicit permission
-* Other conduct that could reasonably be considered inappropriate in a professional setting
+- The use of sexualized language or imagery, and unwelcome sexual attention or advances
+- Trolling, insulting or derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others’ private information (e.g., physical or electronic address) without explicit permission
+- Other conduct that could reasonably be considered inappropriate in a professional setting
+
+**Additional Specific Prohibitions:**
+
+| Category                   | Prohibited Conduct                                                                 |
+|----------------------------|------------------------------------------------------------------------------------|
+| **Offensive Content**      | Offensive usernames, avatars, code comments, messages, or uploads on any platform. |
+| **Harassment & Trolling**  | Any form of trolling, harassment, or intimidation.                                 |
+| **Impersonation**          | Impersonating staff, community members, or SPCLib/related brands.                  |
+| **Scamming / Deception**   | Dishonesty in collaborations, trades, or server/admin interactions.                |
+| **Privacy Violations**     | Sharing personal information (your own or others’) without consent.                |
+| **Controversial Topics**   | Discussions of politics, religion, or personal drama in public channels.           |
+| **Spam / Advertising**     | Excessive messages, irrelevant links, self-promotion, or unsolicited invites.      |
+| **Circumvention**          | Bypassing moderation, anti-cheat, bot filters, or other security measures.         |
+| **Unauthorized Changes**   | Altering scripts, repos, or servers without permission.                            |
+| **Malicious Code / Links** | Sharing malware, trojans, backdoors, or unsafe scripts.                            |
+| **Performance Disruption** | Actions that degrade server performance (e.g., resource-heavy scripts).            |
+| **NSFW / Illegal Content** | Sexually explicit, violent, or illegal material.                                   |
+| **Channel Misuse**         | Posting off-topic content or ignoring channel purposes.                            |
+| **@Mention Abuse**         | Abusing @everyone, @here, or staff mentions.                                       |
+| **Alt Accounts**           | Using alternate accounts to evade punishments.                                     |
+| **Command Misuse**         | Irresponsible use of bots, scripts, or server commands.                            |
+
+---
 
 ## Our Responsibilities
 
@@ -48,26 +98,65 @@ Maintainers have the right and responsibility to remove, edit, or reject comment
 and other contributions that are not aligned with this Code of Conduct, and to temporarily or permanently ban any
 contributor for behaviors they deem inappropriate, threatening, offensive, or harmful.
 
-## Scope
-
-This Code of Conduct applies within all project spaces (including GitHub, Discord, and SPCLib Halo Servers), and also
-applies when an individual is officially representing the project in public spaces. Examples of representing the project
-include:
-
-* Using an official project e‑mail address
-* Posting via an official social media account
-* Acting as an appointed representative at an online or offline event
-
-## Enforcement
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project maintainer
-on [Discord](https://discord.gg/D76H7RVPC9).
-
-All complaints will be reviewed and investigated promptly and fairly. The maintainer is obligated to respect the privacy
-and security of the reporter of any incident.
-
 If a maintainer fails to enforce this Code of Conduct in good faith, community members are free to stop participating in
 or supporting the project.
+
+---
+
+## Enforcement & Punishment System
+
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project maintainer
+on [Discord][discord_invite_link]. All complaints will be reviewed and investigated promptly and fairly. The
+maintainer is obligated to respect the privacy and security of the reporter of any incident.
+
+Offenses are categorized by severity. Staff discretion applies. Repeat offenses across Discord, GitHub, or SPCLib Halo
+Servers may escalate consequences.
+
+### Tier 1: Severe Offenses – Permanent Ban
+
+| Offense                           | Description                                       |
+|-----------------------------------|---------------------------------------------------|
+| **Malicious Code**                | Uploading malware, backdoors, or harmful scripts. |
+| **Scamming or Fraud**             | Deceiving members for personal gain.              |
+| **Impersonation**                 | Pretending to be staff or SPCLib representatives. |
+| **Discrimination or Hate Speech** | Promoting harm or prejudice.                      |
+| **Threats & Harassment**          | Targeted threats or severe harassment.            |
+| **Privacy Violations**            | Sharing personal data without consent.            |
+| **NSFW/Illegal Content**          | Sharing sexually explicit or illegal material.    |
+
+### Tier 2: Moderate Offenses – 1 to 2-Week Ban
+
+| Offense                       | Description                                              |
+|-------------------------------|----------------------------------------------------------|
+| **Unauthorized Code Changes** | Modifying scripts, repos, or servers without permission. |
+| **Inappropriate Content**     | Offensive memes, comments, or images in Discord/GitHub.  |
+| **Abusive Communication**     | Harsh language, disrespect, or aggressive tones.         |
+| **Harassment & Disruption**   | Trolling, spamming, or ignoring staff guidance.          |
+| **Account Misuse**            | Sharing accounts or evading previous bans.               |
+| **Exploiting Bugs/Glitches**  | Using server/script bugs to gain unfair advantages.      |
+| **Discord Feature Misuse**    | Bot spam, reaction abuse, or irrelevant pings.           |
+
+### Tier 3: Minor Offenses – Up to 1-Week Ban
+
+| Offense                             | Description                                   |
+|-------------------------------------|-----------------------------------------------|
+| **Unwanted Communication**          | Excessive unsolicited messages or pinging.    |
+| **Inappropriate Roleplay/Comments** | Offensive or NSFW-themed roleplay/comments.   |
+| **Minor Slang/Language Issues**     | Language that may mildly offend.              |
+| **Off-topic Discussions**           | Excessive derailing of conversations.         |
+| **Voice Chat Etiquette**            | Background noise, mic spam, or interruptions. |
+
+---
+
+## Final Note
+
+**SPCLib Discord and GitHub are extensions of our SPCLib Halo Servers.** Treat them professionally, responsibly, and
+respectfully. Follow **common sense**, Discord's [Terms of Service][discord_terms], and
+GitHub's [Community Guidelines][github_community_guidelines].
+
+Thank you for helping **SPCLib** remain a collaborative, safe, and productive environment!
+
+---
 
 ## Attribution
 
@@ -77,3 +166,11 @@ at [https://www.contributor-covenant.org/version/1/4/code-of-conduct][version].
 [homepage]: http://contributor-covenant.org
 
 [version]: https://www.contributor-covenant.org/version/1/4/code-of-conduct
+
+[discord_invite_link]: https://discord.gg/D76H7RVPC9
+
+[join_shield]: https://img.shields.io/badge/Discord-Join_Our_Server-7289DA?style=for-the-badge&logo=discord
+
+[discord_terms]: https://discord.com/terms
+
+[github_community_guidelines]: https://docs.github.com/en/site-policy/github-community-guidelines
