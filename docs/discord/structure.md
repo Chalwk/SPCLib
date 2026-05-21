@@ -3,7 +3,7 @@
 * ◉ INFO
     * 〔❓〕faq
         * Overview of the SPCLib community and how to get started.
-    * 〔📕〕community-rules
+    * 〔📕〕code-of-conduct
         * Rules to keep the server safe, fun, and organized.
     * 〔📜〕role-selection
         * SPCLib roles, hierarchy, and reaction roles explained.

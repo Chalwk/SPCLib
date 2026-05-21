@@ -1,6 +1,6 @@
 # Code of Conduct
 
-The Code of Conduct is hosted on the [SPCLib GitHub](https://github.com/Chalwk/SPCLib):
+The Code of Conduct is hosted on GitHub:
 
 * [CODE_OF_CONDUCT](https://github.com/Chalwk/SPCLib/blob/master/CODE_OF_CONDUCT.md)
 
