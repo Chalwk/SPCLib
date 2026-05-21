@@ -7,9 +7,21 @@ body:
   - type: markdown
     attributes:
       value: |
-        **📌 Describe the reason for your ban**
+        **🔍 Find Your Ban ID**
+        > Before submitting, locate your ban in the [Ban Registry](https://github.com/Chalwk/SPCLib/blob/master/docs/SPCLib_Servers/bans.html).
+        > You will need your **Ban ID** to complete this form. The Ban ID is shown in the first column of the table.
+        >
+        > **📌 Describe the reason for your ban**
         > Provide a clear and concise description of the events leading to your ban.
         > Use headers (`#`) or lists (`-`) to organize your thoughts.
+  - type: input
+    id: ban-id
+    attributes:
+      label: 🆔 Ban ID
+      description: Your unique Ban ID as shown in the Ban Registry.
+      placeholder: "e.g., 12345"
+    validations:
+      required: true
   - type: textarea
     id: why-should-we-unban-you
     attributes:
@@ -26,6 +38,14 @@ body:
       placeholder: "Discord: YourUsername | Halo: YourGamertag"
     validations:
       required: true
+  - type: input
+    id: user-id
+    attributes:
+      label: 🆔 User ID (Optional)
+      description: If you know your User ID from the Ban Registry, please provide it.
+      placeholder: "e.g., abc123"
+    validations:
+      required: false
   - type: markdown
     attributes:
       value: |

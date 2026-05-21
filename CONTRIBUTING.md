@@ -1,5 +1,3 @@
-[![Discord](https://img.shields.io/badge/Discord-Join_Our_Server-7289DA?style=for-the-badge&logo=discord)][discord_invite]
-
 # Contributing to the SPCLib
 
 Thank you for considering contributing to **SPCLib**! Your contributions help maintain, improve,
@@ -124,8 +122,6 @@ repository. For details, see the [LICENSE][license] file.
 [chimera_oc]: https://opencarnage.net/index.php?/forum/78-chimera-general/
 
 [commands_script]: http://pastebin.com/gHiz0A51
-
-[discord_invite]: https://discord.gg/D76H7RVPC9
 
 [edgardanielgd]: https://github.com/edgardanielgd
 
