@@ -245,18 +245,9 @@ Enjoy these projects? Help me continue development:
 <details>
 <summary>⚖️ Submit or review a ban appeal (click to expand)</summary>
 
-If you believe you have been banned in error from the **SPCLib Discord** or any **SPCLib Halo server**, you may submit a
-formal appeal. All appeals are reviewed through the repository’s structured process to ensure fairness and consistency.
+If you believe you have been banned in error from the **SPCLib Discord or Halo servers**, you may submit a formal appeal:
 
-> **Important**  
-> Before submitting an appeal, locate your ban in the [Ban Registry][ban_registry]. You will need your **Ban ID** (first
-> column) to complete the appeal form.
-
-* [Submit a Ban Appeal][ban_appeal_template] – use this GitHub issue template.
-* [List of active bans][ban_registry] – view all current, expired, and revoked bans.
-
-Appeals without a valid Ban ID may be delayed. For full details on prohibited behaviour and enforcement tiers, please
-read our [Code of Conduct](CODE_OF_CONDUCT.md).
+* [Submit a Ban Appeal][ban_appeal_template]
 
 </details>
 

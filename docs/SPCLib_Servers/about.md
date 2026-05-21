@@ -27,12 +27,9 @@ gaming!
 
 ## Ban Appeals
 
-If you believe you have been banned in error or wish to request a review of your ban, you may submit a formal appeal
-using the GitHub issue template below. All appeals are handled through the repository’s structured review process to
-ensure fairness and consistency.
+If you believe you have been banned in error from the **SPCLib Discord or Halo servers**, you may submit a formal appeal:
 
 * [Submit a Ban Appeal][ban_appeal_template]
-* [List of active bans][bans]
 
 ---
 
