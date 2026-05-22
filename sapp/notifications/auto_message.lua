@@ -17,18 +17,14 @@ LICENSE:          MIT License
 
 -- CONFIG start -----------------------------------------
 local ANNOUNCEMENTS = {
-    { 'Multi-Line Support | Message 1, line 1', 'Message 2, line 2' },
-    { 'Like us on Facebook | facebook.com/page_id' },
-    { 'Follow us on Twitter | twitter.com/twitter_id' },
-    { 'We are recruiting. Sign up on our website | website url' },
-    { 'Rules / Server Information' },
-    { 'Announcement 6' },
-    { 'Other information here' },
+    { 'Multi-Line Support | Message 1, line 1', 'Message 2, line 2' }, { 'Like us on Facebook | facebook.com/page_id' },
+    { 'Follow us on Twitter | twitter.com/twitter_id' }, { 'We are recruiting. Sign up on our website | website url' },
+    { 'Rules / Server Information' }, { 'Announcement 6' }, { 'Other information here' }
 }
 
 local INTERVAL = 180      -- Interval in seconds
 local CONSOLE = false     -- Console output
-local PREFIX = ""         -- Message prefix
+local PREFIX = "**SAPP**" -- Message prefix
 local START_OVER = true   -- Restart from beginning of ANNOUNCEMENTS when a new game begins (false to disable)
 -- CONFIG end -----------------------------------------
 
@@ -60,10 +56,12 @@ end
 
 function OnStart()
     if get_var(0, '$gt') == 'n/a' then return end
-    index = START_OVER and 1 or index;
+    index = START_OVER and 1 or index
     game_active = true
 end
 
-function OnEnd() game_active = false end
+function OnEnd()
+    game_active = false
+end
 
 function OnScriptUnload() end

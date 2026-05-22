@@ -29,6 +29,7 @@
 * [5. Integration Tools](#integration-tools)
     * [5.1 HaloDiscordBot](#halodiscordbot)
     * [5.2 Script Browser](#script-browser)
+    * [5.3 Alias Browser](#alias-browser)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
     * [6.1 LAA Patched Executables](#laa-patched-executables)
 * [7. Community Hubs](#community-hubs)
@@ -135,20 +136,28 @@ This repository also preserves:
 
 ### HaloDiscordBot
 
+[![HaloDiscordBot](https://img.shields.io/badge/HaloDiscordBot-Repository-5865F2?style=for-the-badge&logo=discord&logoColor=white)][halodiscordbot_repo]
+
 A Java application that connects multiple Halo servers to Discord, forwarding in-game events as rich Discord embeds.
 Supports SAPP and Phasor.
-
-[![GitHub release](https://img.shields.io/github/v/release/Chalwk/HaloDiscordBot)](https://github.com/Chalwk/HaloDiscordBot/releases)
 
 **[Visit HaloDiscordBot Repository][halodiscordbot_repo]**
 
 ### Script Browser
 
-[![Script Browser](https://img.shields.io/badge/Script_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chalwk.github.io/SPCLib/)
+[![Script Browser](https://img.shields.io/badge/Script_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white)][script_browser]
 
-A live searchable interface for all scripts in SPCLib.
+A live web interface to search all scripts in SPCLib.
 
 **[→ Open Script Browser][script_browser]**
+
+### Alias Browser
+
+[![Alias Browser](https://img.shields.io/badge/Alias_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white)][alias_browser]
+
+Standalone web interface for **[alias_system.lua](./sapp/admin/alias_system.lua)**
+
+**[→ Open Alias Browser][alias_browser]**
 
 ---
 
@@ -242,7 +251,8 @@ Enjoy these projects? Help me continue development:
 
 ## Ban Appeals
 
-If you believe you have been banned in error from the **SPCLib Discord or Halo servers**, you may submit a formal appeal:
+If you believe you have been banned in error from the **SPCLib Discord or Halo servers**, you may submit a formal
+appeal:
 
 * [Submit a Ban Appeal][ban_appeal_template]
 * [List of active bans][bans]
@@ -258,6 +268,8 @@ If you believe you have been banned in error from the **SPCLib Discord or Halo s
 **[SPCLib][repo_homepage]** is licensed under the [MIT License](LICENSE).
 
 ---
+
+[alias_browser]: https://chalwk.github.io/SPCLib/tools/alias-browser.html
 
 [ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
 
