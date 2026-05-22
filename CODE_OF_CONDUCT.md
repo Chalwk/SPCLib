@@ -124,6 +124,16 @@ Servers may escalate consequences.
 
 ---
 
+## Ban Appeals
+
+If you believe you have been banned in error from the **SPCLib Discord or Halo servers**, you may submit a formal
+appeal:
+
+* [Submit a Ban Appeal][ban_appeal_template]
+* [List of active bans][bans]
+
+---
+
 ## Final Note
 
 **SPCLib Discord and GitHub are extensions of our SPCLib Halo Servers.** Treat them professionally, responsibly, and
@@ -150,3 +160,7 @@ at [https://www.contributor-covenant.org/version/1/4/code-of-conduct][version].
 [discord_terms]: https://discord.com/terms
 
 [github_community_guidelines]: https://docs.github.com/en/site-policy/github-community-guidelines
+
+[ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
+
+[bans]: https://chalwk.github.io/SPCLib/docs/SPCLib_Servers/bans

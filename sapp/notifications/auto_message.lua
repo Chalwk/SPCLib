@@ -7,9 +7,9 @@ DESCRIPTION:      Automated rotating message system that broadcasts:
                   - Optional console output for monitoring
                   - Customizable interval
 
-LAST UPDATED:     7/10/2025
+LAST UPDATED:     22 May 2026
 
-Copyright (c) 2024-2025 Jericho Crosby (Chalwk)
+Copyright (c) 2024-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
@@ -28,7 +28,7 @@ local ANNOUNCEMENTS = {
 
 local INTERVAL = 180      -- Interval in seconds
 local CONSOLE = false     -- Console output
-local PREFIX = '**SAPP**' -- Message prefix
+local PREFIX = ""         -- Message prefix
 local START_OVER = true   -- Restart from beginning of ANNOUNCEMENTS when a new game begins (false to disable)
 -- CONFIG end -----------------------------------------
 
