@@ -1,0 +1,1020 @@
+<!-- Copyright (c) 2026. Jericho Crosby (Chalwk) -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
+    <title>Rank Viewer | Player Progression & Leaderboard (rank_system.lua)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0b1120 0%, #0a0f1a 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #eef2ff;
+        }
+
+        /* scrollbar stuff, cuz why not */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3b4e6e;
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5b7cae;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* header area, looks fancy */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+            border-bottom: 1px solid #2d3a4e;
+            padding-bottom: 1rem;
+        }
+
+        h1 {
+            font-weight: 600;
+            font-size: 1.9rem;
+            background: linear-gradient(135deg, #c0e0ff, #8ab3ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .sub {
+            color: #8aa2c2;
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+        }
+
+        /* stats row - shiny little cards */
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(18, 25, 40, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            padding: 0.7rem 1.4rem;
+            border: 1px solid #2c3f5c;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #bbd9ff;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7b95bf;
+        }
+
+        /* drag and drop zone, kinda neat */
+        .file-upload-area {
+            background: #0f1422;
+            border-radius: 28px;
+            padding: 1.2rem 1.5rem;
+            text-align: center;
+            margin: 1rem 0 1.8rem;
+            border: 1px dashed #4c6b9b;
+            transition: all 0.2s;
+        }
+
+        .upload-label {
+            background: #3266a4;
+            padding: 8px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            display: inline-block;
+            margin: 0 10px;
+            font-weight: 500;
+            transition: 0.2s;
+            border: none;
+            color: white;
+        }
+
+        .upload-label:hover {
+            background: #4078b5;
+            transform: scale(1.02);
+        }
+
+        /* controls row with search/dropdowns */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+            background: #101624;
+            padding: 0.8rem 1.2rem;
+            border-radius: 60px;
+            border: 1px solid #2f3e5c;
+        }
+
+        .search-area {
+            flex: 2;
+            min-width: 200px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-input {
+            background: #0b0f19;
+            border: 1px solid #334155;
+            padding: 0.6rem 1rem;
+            border-radius: 40px;
+            color: white;
+            width: 260px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #6b8ed6;
+            box-shadow: 0 0 0 2px rgba(107, 142, 214, 0.3);
+        }
+
+        select, .page-size {
+            background: #0f1622;
+            border: 1px solid #2c3f5c;
+            padding: 0.5rem 1rem;
+            border-radius: 32px;
+            color: #e0edff;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        button {
+            background: #1f2a46;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 32px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        button:hover {
+            background: #2f3e64;
+        }
+
+        .clear-btn {
+            background: #2d2f42;
+        }
+
+        .clear-btn:hover {
+            background: #4a3e5c;
+        }
+
+        /* modal for rank editor (casual but works) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #0f1624;
+            border-radius: 32px;
+            padding: 1.5rem;
+            width: 90%;
+            max-width: 800px;
+            border: 1px solid #3b5a8c;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content h3 {
+            margin-bottom: 1rem;
+            color: #bbd9ff;
+        }
+
+        .rank-config-textarea {
+            width: 100%;
+            background: #0b0f19;
+            border: 1px solid #2f3e5c;
+            border-radius: 20px;
+            padding: 1rem;
+            color: #eef2ff;
+            font-family: monospace;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+            height: 400px;
+            resize: vertical;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1rem;
+        }
+
+        /* table wrapper, scrollable */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 24px;
+            background: #0f1624cc;
+            backdrop-filter: blur(2px);
+            border: 1px solid #28344e;
+        }
+
+        .rank-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 800px;
+        }
+
+        .rank-table th {
+            text-align: left;
+            padding: 1rem 0.8rem;
+            background: #121b2c;
+            color: #bbd4ff;
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 1px solid #2f3f60;
+        }
+
+        .rank-table th:hover {
+            background: #1f2c44;
+        }
+
+        .rank-table td {
+            padding: 0.8rem 0.8rem;
+            border-bottom: 1px solid #26334d;
+            vertical-align: middle;
+        }
+
+        .rank-table tr:hover td {
+            background: #1a233ccc;
+        }
+
+        /* progress bar thingy */
+        .progress-container {
+            background: #1e2a44;
+            border-radius: 20px;
+            height: 6px;
+            width: 100px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+
+        .progress-fill {
+            background: #6faaff;
+            width: 0;
+            height: 100%;
+            border-radius: 20px;
+        }
+
+        .next-rank-text {
+            font-size: 0.7rem;
+            color: #aac6ff;
+            white-space: nowrap;
+        }
+
+        .badge-rank {
+            background: #2a3958;
+            border-radius: 30px;
+            padding: 2px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            background: #1a2338;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+        }
+
+        .page-btn.disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding: 1rem 0.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            border-top: 1px solid #2d3a4e;
+            background: rgba(10, 15, 26, 0.7);
+            border-radius: 40px;
+        }
+
+        footer a {
+            color: #c0a8ff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 3rem;
+            background: #101624;
+            border-radius: 40px;
+        }
+
+        .sort-indicator {
+            font-size: 0.7rem;
+            margin-left: 5px;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: 28px;
+            }
+
+            .search-area {
+                justify-content: center;
+            }
+
+            .rank-table th, .rank-table td {
+                padding: 0.6rem 0.5rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div>
+            <h1>🏆 RANK VIEWER</h1>
+            <div class="sub">Player progression, credits & leaderboard · from rank_system.lua</div>
+        </div>
+        <div class="stat-card" style="background:#0c1120;">
+            <span id="statusMsg">📁 Upload ranks.json to begin</span>
+        </div>
+    </div>
+
+    <!-- quick stats summary cards -->
+    <div class="stats-row" id="statsSummary">
+        <div class="stat-card"><span class="stat-number" id="totalPlayers">0</span>
+            <div class="stat-label">Total Players</div>
+        </div>
+        <div class="stat-card"><span class="stat-number" id="sumCredits">0</span>
+            <div class="stat-label">Total Credits</div>
+        </div>
+        <div class="stat-card"><span class="stat-number" id="totalKills">0</span>
+            <div class="stat-label">Total Kills</div>
+        </div>
+        <div class="stat-card"><span class="stat-number" id="avgKDR">0.00</span>
+            <div class="stat-label">Avg KDR</div>
+        </div>
+        <div class="stat-card"><span class="stat-number" id="highestRank">—</span>
+            <div class="stat-label">Highest Rank</div>
+        </div>
+    </div>
+
+    <!-- file upload area, clicky click -->
+    <div class="file-upload-area" id="manualUploadArea">
+        <span>📂 Select your ranks.json file (generated by rank_system.lua)</span>
+        <label class="upload-label" for="jsonUpload">📁 Choose file</label>
+        <input accept=".json" id="jsonUpload" style="display:none;" type="file">
+        <button id="clearCacheBtn" style="margin-left: 10px; background:#3a2c4a;">🗑️ Clear cached data</button>
+        <button id="editRanksBtn" style="margin-left: 5px; background:#2f4f6f;">⚙️ Edit rank thresholds</button>
+    </div>
+
+    <div class="controls">
+        <div class="search-area">
+            <label for="searchInput"></label><input class="search-input" id="searchInput"
+                                                    placeholder="🔎 Search by player name..." type="text">
+            <label for="sortSelect"></label><select id="sortSelect">
+            <option value="credits_desc">💰 Credits (high to low)</option>
+            <option value="credits_asc">💰 Credits (low to high)</option>
+            <option value="rank_grade">🏅 Rank + Grade</option>
+            <option value="kills_desc">⚔️ Kills (most)</option>
+            <option value="kdr_desc">📊 KDR (best)</option>
+            <option value="name_asc">🔤 Name A-Z</option>
+            <option value="deaths_asc">💀 Fewest Deaths</option>
+        </select>
+            <label for="pageSizeSelect"></label><select class="page-size" id="pageSizeSelect">
+            <option value="10">10 per page</option>
+            <option value="20">20 per page</option>
+            <option value="35">35 per page</option>
+            <option value="50">50 per page</option>
+        </select>
+            <button class="clear-btn" id="clearFiltersBtn">✖️ Clear filters</button>
+        </div>
+    </div>
+
+    <div class="table-wrapper" id="tableContainer">
+        <table class="rank-table" id="rankTable">
+            <thead>
+            <tr>
+                <th data-sort="name">Player 🎮</th>
+                <th data-sort="rank_grade">Rank / Grade ⭐</th>
+                <th data-sort="credits">Credits 💰</th>
+                <th data-sort="kills">Kills 🔪</th>
+                <th data-sort="deaths">Deaths 💀</th>
+                <th data-sort="kdr">K/D Ratio 📈</th>
+                <th>Next Progression 🚀</th>
+            </tr>
+            </thead>
+            <tbody id="tableBody">
+            <tr>
+                <td class="empty-message" colspan="7">⬆ Upload ranks.json to view leaderboard</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination" id="paginationControls">
+        <button class="page-btn" id="prevPageBtn">◀ Prev</button>
+        <span id="pageInfo" style="font-weight:500;">Page 0</span>
+        <button class="page-btn" id="nextPageBtn">Next ▶</button>
+    </div>
+
+    <footer>
+        <div class="footer-note">
+            © 2026. Jericho Crosby (<a href="https://github.com/Chalwk" target="_blank">Chalwk</a>) - Rank Viewer for
+            <a href="https://github.com/Chalwk/SPCLib/blob/master/sapp/gameplay/rank_system.lua" target="_blank">rank_system.lua</a><br>
+        </div>
+    </footer>
+</div>
+
+<!-- modal for rank config -->
+<div class="modal-overlay" id="rankModal">
+    <div class="modal-content">
+        <h3>✏️ Edit rank thresholds (JSON format)</h3>
+        <p style="font-size:0.8rem; margin-bottom:10px;">Structure: array of { name, grades: [credits] } . Grades order
+            = grade1, grade2...<br>⚠️ Credits thresholds must be increasing numbers. Click Apply to recalc ranks.</p>
+        <label for="rankConfigEditor"></label><textarea class="rank-config-textarea" id="rankConfigEditor"
+                                                        spellcheck="false"></textarea>
+        <div class="modal-buttons">
+            <button id="resetRankBtn">🔁 Reset to defaults</button>
+            <button id="applyRankBtn" style="background:#2e6b3e;">✅ Apply & recalc</button>
+            <button id="closeModalBtn">❌ Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ----- RANK CONFIG (mutable, yay) -----
+    let DEFAULT_RANKS_CONFIG = [
+        {name: "Recruit", grades: [0]},
+        {name: "Apprentice", grades: [3000, 6000]},
+        {name: "Private", grades: [9000, 12000]},
+        {name: "Corporal", grades: [13000, 14000]},
+        {name: "Sergeant", grades: [15000, 16000, 17000, 18000]},
+        {name: "Gunnery Sergeant", grades: [19000, 20000, 21000, 22000]},
+        {name: "Lieutenant", grades: [23000, 24000, 25000, 26000]},
+        {name: "Captain", grades: [27000, 28000, 29000, 30000]},
+        {name: "Major", grades: [31000, 32000, 33000, 34000]},
+        {name: "Commander", grades: [35000, 36000, 37000, 38000]},
+        {name: "Colonel", grades: [39000, 40000, 41000, 42000]},
+        {name: "Brigadier", grades: [43000, 44000, 45000, 46000]},
+        {name: "General", grades: [47000, 48000, 49000, 50000]}
+    ];
+    let currentRanksConfig = [];     // will be loaded from storage or default
+    let thresholdEntries = [];       // flat sorted array {credits, rankName, grade, rankIndex}
+    let rankGradeMinMap = new Map(); // for fast lookup if needed
+
+    // raw stats from uploaded json (without computed rank/grades)
+    let rawStats = []; // each: { name, credits, kills, deaths }
+    let computedPlayers = []; // fully computed (rank, grade, progression, kdr etc)
+    let filteredPlayers = [];
+    let currentPage = 1;
+    let pageSize = 10;
+    let searchTerm = '';
+    let sortCriterion = 'credits_desc';
+
+    // rebuild threshold maps from current config
+    function rebuildThresholds() {
+        thresholdEntries = [];
+        rankGradeMinMap.clear();
+        currentRanksConfig.forEach((rank, idx) => {
+            rank.grades.forEach((cred, gIdx) => {
+                const grade = gIdx + 1;
+                thresholdEntries.push({
+                    credits: cred,
+                    rankName: rank.name,
+                    grade: grade,
+                    rankIndex: idx + 1
+                });
+                rankGradeMinMap.set(`${rank.name}|${grade}`, cred);
+            });
+        });
+        thresholdEntries.sort((a, b) => a.credits - b.credits);
+    }
+
+    // get rank & grade from credits using current thresholds
+    function getRankAndGradeFromCredits(credits) {
+        if (!thresholdEntries.length) return {rankName: "Recruit", grade: 1, rankIndex: 1};
+        let selected = thresholdEntries[0]; // fallback to first (lowest)
+        for (let i = thresholdEntries.length - 1; i >= 0; i--) {
+            if (credits >= thresholdEntries[i].credits) {
+                selected = thresholdEntries[i];
+                break;
+            }
+        }
+        return {
+            rankName: selected.rankName,
+            grade: selected.grade,
+            rankIndex: selected.rankIndex
+        };
+    }
+
+    // progression logic using current rank/grade/credits
+    function getNextProgressionDynamic(rankName, grade, credits) {
+        let currentIdx = -1;
+        for (let i = 0; i < currentRanksConfig.length; i++) {
+            if (currentRanksConfig[i].name === rankName) {
+                currentIdx = i;
+                break;
+            }
+        }
+        if (currentIdx === -1) return null;
+        const currentRank = currentRanksConfig[currentIdx];
+        const maxGrade = currentRank.grades.length;
+        if (grade < maxGrade) {
+            const nextGradeCredits = currentRank.grades[grade]; // grade index (0-based)
+            const needed = Math.max(0, nextGradeCredits - credits);
+            const currentMin = currentRank.grades[grade - 1] || 0;
+            return {
+                type: 'grade',
+                targetRank: currentRank.name,
+                targetGrade: grade + 1,
+                neededCredits: needed,
+                threshold: nextGradeCredits,
+                currentMin: currentMin
+            };
+        } else {
+            if (currentIdx + 1 < currentRanksConfig.length) {
+                const nextRank = currentRanksConfig[currentIdx + 1];
+                const nextFirstGradeCredits = nextRank.grades[0];
+                const needed = Math.max(0, nextFirstGradeCredits - credits);
+                const currentMin = currentRank.grades[currentRank.grades.length - 1];
+                return {
+                    type: 'rank',
+                    targetRank: nextRank.name,
+                    targetGrade: 1,
+                    neededCredits: needed,
+                    threshold: nextFirstGradeCredits,
+                    currentMin: currentMin
+                };
+            } else {
+                return {type: 'max'};
+            }
+        }
+    }
+
+    function getProgressPercent(currentCredits, currentMin, targetThreshold) {
+        if (!targetThreshold || currentMin === undefined) return 0;
+        const range = targetThreshold - currentMin;
+        if (range <= 0) return 0;
+        let progress = (currentCredits - currentMin) / range;
+        return Math.min(100, Math.max(0, progress));
+    }
+
+    function computeKDR(kills, deaths) {
+        deaths = deaths || 0;
+        kills = kills || 0;
+        if (deaths === 0) return kills > 0 ? kills : 0;
+        return kills / deaths;
+    }
+
+    // recompute all players from rawStats using current rank config
+    function recomputeAllPlayers() {
+        if (!rawStats.length) {
+            computedPlayers = [];
+            return;
+        }
+        computedPlayers = rawStats.map(stat => {
+            const {rankName, grade, rankIndex} = getRankAndGradeFromCredits(stat.credits);
+            const kdr = computeKDR(stat.kills, stat.deaths);
+            const prog = getNextProgressionDynamic(rankName, grade, stat.credits);
+            let progressPercent = 0;
+            if (prog && prog.type !== 'max') {
+                progressPercent = getProgressPercent(stat.credits, prog.currentMin, prog.threshold);
+            }
+            return {
+                name: stat.name,
+                rank: rankName,
+                grade: grade,
+                credits: stat.credits,
+                kills: stat.kills,
+                deaths: stat.deaths,
+                kdr: kdr,
+                nextProg: prog,
+                progressPercent: progressPercent,
+                rankIndex: rankIndex
+            };
+        });
+        // update stats summary cards after recompute
+        updateStatsUIFromPlayers(computedPlayers);
+    }
+
+    function updateStatsUIFromPlayers(players) {
+        if (!players.length) {
+            document.getElementById('totalPlayers').innerText = '0';
+            document.getElementById('sumCredits').innerText = '0';
+            document.getElementById('totalKills').innerText = '0';
+            document.getElementById('avgKDR').innerText = '0.00';
+            document.getElementById('highestRank').innerText = '—';
+            return;
+        }
+        let totalCredits = 0, totalKills = 0, totalDeaths = 0;
+        players.forEach(p => {
+            totalCredits += p.credits;
+            totalKills += p.kills;
+            totalDeaths += p.deaths;
+        });
+        const avgKDR = players.reduce((sum, p) => sum + p.kdr, 0) / players.length;
+        let highestRankEntry = {rankName: "None", rankIndex: 0, grade: 1};
+        for (const p of players) {
+            if (p.rankIndex > highestRankEntry.rankIndex) {
+                highestRankEntry = {rankName: p.rank, rankIndex: p.rankIndex, grade: p.grade};
+            }
+        }
+        document.getElementById('totalPlayers').innerText = players.length;
+        document.getElementById('sumCredits').innerText = totalCredits.toLocaleString();
+        document.getElementById('totalKills').innerText = totalKills.toLocaleString();
+        document.getElementById('avgKDR').innerText = avgKDR.toFixed(2);
+        document.getElementById('highestRank').innerText = highestRankEntry.rankIndex > 0 ? `${highestRankEntry.rankName} G${highestRankEntry.grade}` : '—';
+    }
+
+    // filter & sort using computedPlayers
+    function filterAndSortPlayersFromComputed() {
+        let filtered = [...computedPlayers];
+        if (searchTerm && searchTerm.trim() !== '') {
+            const lower = searchTerm.toLowerCase();
+            filtered = filtered.filter(p => p.name.toLowerCase().includes(lower));
+        }
+        switch (sortCriterion) {
+            case 'credits_desc':
+                filtered.sort((a, b) => b.credits - a.credits);
+                break;
+            case 'credits_asc':
+                filtered.sort((a, b) => a.credits - b.credits);
+                break;
+            case 'rank_grade':
+                filtered.sort((a, b) => (a.rankIndex - b.rankIndex) || (a.grade - b.grade));
+                break;
+            case 'kills_desc':
+                filtered.sort((a, b) => b.kills - a.kills);
+                break;
+            case 'kdr_desc':
+                filtered.sort((a, b) => b.kdr - a.kdr);
+                break;
+            case 'name_asc':
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            case 'deaths_asc':
+                filtered.sort((a, b) => (a.deaths || 0) - (b.deaths || 0));
+                break;
+            default:
+                filtered.sort((a, b) => b.credits - a.credits);
+        }
+        return filtered;
+    }
+
+    function refreshFilterAndRender() {
+        if (!computedPlayers.length) {
+            filteredPlayers = [];
+            renderTable();
+            return;
+        }
+        filteredPlayers = filterAndSortPlayersFromComputed();
+        currentPage = 1;
+        renderTable();
+    }
+
+    function formatProgression(player) {
+        if (!player.nextProg) return '<span class="next-rank-text">🏆 MAX RANK</span>';
+        if (player.nextProg.type === 'max') return '<span class="next-rank-text">✨ Max rank reached</span>';
+        const needed = player.nextProg.neededCredits;
+        const targetRank = player.nextProg.targetRank;
+        const targetGrade = player.nextProg.targetGrade;
+        const percent = player.progressPercent || 0;
+        const typeLabel = player.nextProg.type === 'rank' ? 'Rank' : 'Grade';
+        return `<div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <span class="next-rank-text">${typeLabel} ${targetRank} G${targetGrade} (need ${needed}💰)</span>
+                    <div class="progress-container"><div class="progress-fill" style="width: ${percent}%;"></div></div>
+                </div>`;
+    }
+
+    function renderTable() {
+        const tbody = document.getElementById('tableBody');
+        if (!filteredPlayers.length) {
+            tbody.innerHTML = '<tr><td colspan="7" class="empty-message">✨ No players match the filters. Try different search or upload another file.</td></tr>';
+            document.getElementById('pageInfo').innerText = `Page 0 of 0`;
+            document.getElementById('prevPageBtn').classList.add('disabled');
+            document.getElementById('nextPageBtn').classList.add('disabled');
+            return;
+        }
+        const totalPages = Math.ceil(filteredPlayers.length / pageSize);
+        let page = Math.min(currentPage, totalPages);
+        if (page < 1) page = 1;
+        currentPage = page;
+        const start = (currentPage - 1) * pageSize;
+        const pageData = filteredPlayers.slice(start, start + pageSize);
+        document.getElementById('pageInfo').innerText = `Page ${currentPage} / ${totalPages === 0 ? 1 : totalPages}`;
+        const prevBtn = document.getElementById('prevPageBtn');
+        const nextBtn = document.getElementById('nextPageBtn');
+        currentPage <= 1 ? prevBtn.classList.add('disabled') : prevBtn.classList.remove('disabled');
+        currentPage >= totalPages ? nextBtn.classList.add('disabled') : nextBtn.classList.remove('disabled');
+        let html = '';
+        for (const p of pageData) {
+            const rankGradeDisplay = `<span class="badge-rank">${escapeHtml(p.rank)} G${p.grade}</span>`;
+            html += `<tr>
+                        <td style="font-weight:500;">${escapeHtml(p.name)}</td>
+                        <td>${rankGradeDisplay}</td>
+                        <td>${p.credits.toLocaleString()}</td>
+                        <td>${p.kills.toLocaleString()}</td>
+                        <td>${p.deaths.toLocaleString()}</td>
+                        <td>${p.kdr.toFixed(2)}</td>
+                        <td>${formatProgression(p)}</td>
+                     </tr>`;
+        }
+        tbody.innerHTML = html;
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function (m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // save rank config to local storage and apply
+    function saveRankConfigToLocalStorage() {
+        localStorage.setItem('rankThresholds', JSON.stringify(currentRanksConfig));
+    }
+
+    function loadRankConfigFromLocalStorage() {
+        const stored = localStorage.getItem('rankThresholds');
+        if (stored) {
+            try {
+                const parsed = JSON.parse(stored);
+                if (Array.isArray(parsed) && parsed.length && parsed[0].name && parsed[0].grades) {
+                    currentRanksConfig = parsed;
+                    return;
+                }
+            } catch (e) {
+            }
+        }
+        currentRanksConfig = JSON.parse(JSON.stringify(DEFAULT_RANKS_CONFIG));
+    }
+
+    function resetRankConfigToDefault() {
+        currentRanksConfig = JSON.parse(JSON.stringify(DEFAULT_RANKS_CONFIG));
+        rebuildThresholds();
+        saveRankConfigToLocalStorage();
+        if (rawStats.length) {
+            recomputeAllPlayers();
+            refreshFilterAndRender();
+        }
+        document.getElementById('statusMsg').innerHTML = `🔄 Rank thresholds reset to default.`;
+    }
+
+    function applyNewRankConfigFromEditor(jsonStr) {
+        try {
+            const parsed = JSON.parse(jsonStr);
+            if (!Array.isArray(parsed) || !parsed.length || !parsed[0].name || !parsed[0].grades) throw new Error('Invalid structure');
+            currentRanksConfig = parsed;
+            rebuildThresholds();
+            saveRankConfigToLocalStorage();
+            if (rawStats.length) {
+                recomputeAllPlayers();
+                refreshFilterAndRender();
+            }
+            document.getElementById('statusMsg').innerHTML = `✅ Rank thresholds updated & reapplied.`;
+            closeModal();
+        } catch (err) {
+            alert('Invalid rank config JSON. Keep structure: [{ name: "RankName", grades: [credits...] }]');
+        }
+    }
+
+    // cache the uploaded raw data
+    function cacheRawStats(statsArray) {
+        localStorage.setItem('cachedRanksDataRaw', JSON.stringify(statsArray));
+    }
+
+    function loadCachedRawStats() {
+        const cached = localStorage.getItem('cachedRanksDataRaw');
+        if (cached) {
+            try {
+                const parsed = JSON.parse(cached);
+                if (Array.isArray(parsed)) {
+                    rawStats = parsed;
+                    recomputeAllPlayers();
+                    refreshFilterAndRender();
+                    document.getElementById('statusMsg').innerHTML = `📀 Loaded ${rawStats.length} players from browser cache. Upload a new file to refresh.`;
+                    return true;
+                }
+            } catch (e) {
+            }
+        }
+        return false;
+    }
+
+    function clearCache() {
+        localStorage.removeItem('cachedRanksDataRaw');
+        rawStats = [];
+        computedPlayers = [];
+        filteredPlayers = [];
+        renderTable();
+        updateStatsUIFromPlayers([]);
+        document.getElementById('statusMsg').innerHTML = `🗑️ Cache cleared. Upload ranks.json to start fresh.`;
+    }
+
+    // parse uploaded json and store raw stats (only credits/kills/deaths/name)
+    function handleUploadJson(jsonObj) {
+        const newRawStats = [];
+        for (const [name, stats] of Object.entries(jsonObj)) {
+            if (typeof stats !== 'object') continue;
+            newRawStats.push({
+                name: name,
+                credits: stats.credits || 0,
+                kills: stats.kills || 0,
+                deaths: stats.deaths || 0
+            });
+        }
+        if (!newRawStats.length) throw new Error('No player entries');
+        rawStats = newRawStats;
+        cacheRawStats(rawStats);
+        recomputeAllPlayers();
+        searchTerm = '';
+        document.getElementById('searchInput').value = '';
+        sortCriterion = 'credits_desc';
+        document.getElementById('sortSelect').value = 'credits_desc';
+        refreshFilterAndRender();
+        document.getElementById('statusMsg').innerHTML = `✅ Loaded ${rawStats.length} players • custom rank thresholds active`;
+    }
+
+    // modal handling (casual)
+    const modal = document.getElementById('rankModal');
+
+    function openModal() {
+        document.getElementById('rankConfigEditor').value = JSON.stringify(currentRanksConfig, null, 2);
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    // event listeners
+    function setupEventListeners() {
+        document.getElementById('jsonUpload').onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try {
+                    const json = JSON.parse(ev.target.result);
+                    handleUploadJson(json);
+                } catch (err) {
+                    alert('Invalid JSON file');
+                    document.getElementById('statusMsg').innerHTML = '❌ Parse error';
+                }
+            };
+            reader.readAsText(file);
+        };
+        document.getElementById('clearCacheBtn').addEventListener('click', () => clearCache());
+        document.getElementById('editRanksBtn').addEventListener('click', openModal);
+        document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+        document.getElementById('applyRankBtn').addEventListener('click', () => {
+            const editorVal = document.getElementById('rankConfigEditor').value;
+            applyNewRankConfigFromEditor(editorVal);
+        });
+        document.getElementById('resetRankBtn').addEventListener('click', () => {
+            resetRankConfigToDefault();
+            document.getElementById('rankConfigEditor').value = JSON.stringify(currentRanksConfig, null, 2);
+        });
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            refreshFilterAndRender();
+        });
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+            sortCriterion = e.target.value;
+            refreshFilterAndRender();
+        });
+        document.getElementById('pageSizeSelect').addEventListener('change', (e) => {
+            pageSize = parseInt(e.target.value, 10);
+            currentPage = 1;
+            refreshFilterAndRender();
+        });
+        document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+            document.getElementById('searchInput').value = '';
+            searchTerm = '';
+            sortCriterion = 'credits_desc';
+            document.getElementById('sortSelect').value = 'credits_desc';
+            refreshFilterAndRender();
+        });
+        document.getElementById('prevPageBtn').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        });
+        document.getElementById('nextPageBtn').addEventListener('click', () => {
+            const total = Math.ceil(filteredPlayers.length / pageSize);
+            if (currentPage < total) {
+                currentPage++;
+                renderTable();
+            }
+        });
+        document.querySelectorAll('#rankTable th[data-sort]').forEach(th => {
+            th.addEventListener('click', () => {
+                const key = th.getAttribute('data-sort');
+                if (key === 'name') sortCriterion = 'name_asc';
+                else if (key === 'rank_grade') sortCriterion = 'rank_grade';
+                else if (key === 'credits') sortCriterion = 'credits_desc';
+                else if (key === 'kills') sortCriterion = 'kills_desc';
+                else if (key === 'deaths') sortCriterion = 'deaths_asc';
+                else if (key === 'kdr') sortCriterion = 'kdr_desc';
+                document.getElementById('sortSelect').value = sortCriterion;
+                refreshFilterAndRender();
+            });
+        });
+    }
+
+    function init() {
+        loadRankConfigFromLocalStorage();
+        rebuildThresholds();
+        setupEventListeners();
+        if (!loadCachedRawStats()) {
+            // no cache, show empty
+            renderTable();
+            updateStatsUIFromPlayers([]);
+        }
+    }
+
+    init();
+</script>
+</body>
+</html>

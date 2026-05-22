@@ -134,6 +134,9 @@ This repository also preserves:
 > [!NOTE]
 > These tools extend Halo server functionality by connecting it with external platforms like Discord and web interfaces.
 
+<details>
+<summary>Click here to expand/collapse</summary>
+
 ### HaloDiscordBot
 
 [![HaloDiscordBot](https://img.shields.io/badge/HaloDiscordBot-Repository-5865F2?style=for-the-badge&logo=discord&logoColor=white)][halodiscordbot_repo]
@@ -158,6 +161,14 @@ A live web interface to search all scripts in SPCLib.
 Standalone web interface for **[alias_system.lua](./sapp/admin/alias_system.lua)**
 
 **[→ Open Alias Browser][alias_browser]**
+
+### Rank Browser
+
+Standalone web interface for **[rank_system.lua](./sapp/admin/rank_system.lua)**
+
+**[→ Open Rank Browser][rank_browser]**
+
+</details>
 
 ---
 
@@ -251,11 +262,13 @@ Enjoy these projects? Help me continue development:
 
 ## Ban Appeals
 
-If you believe you have been banned in error from the **SPCLib Discord or Halo servers**, you may submit a formal
-appeal:
+<details>
+<summary>If you believe you have been banned in error from the **SPCLib Discord or Halo servers**, you may submit a formal appeal.</summary>
 
 * [Submit a Ban Appeal][ban_appeal_template]
 * [List of active bans][bans]
+
+</details>
 
 ---
 
@@ -320,6 +333,8 @@ appeal:
 [poq_website]: http://poqclan.com/
 
 [port_forwarding]: https://chalwk.github.io/blog/2025/09/01/halo-server-port-forwarding/
+
+[rank_browser]: https://chalwk.github.io/SPCLib/tools/rank-browser.html
 
 [realworld_website]: https://www.realworldce.com/
 
