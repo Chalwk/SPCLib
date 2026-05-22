@@ -204,7 +204,7 @@
             background: #4a3e5c;
         }
 
-        /* modal for rank editor (casual but works) */
+        /* modal for rank editor */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -915,7 +915,7 @@
         document.getElementById('statusMsg').innerHTML = `✅ Loaded ${rawStats.length} players • custom rank thresholds active`;
     }
 
-    // modal handling (casual)
+    // modal handling
     const modal = document.getElementById('rankModal');
 
     function openModal() {
@@ -1008,7 +1008,6 @@
         rebuildThresholds();
         setupEventListeners();
         if (!loadCachedRawStats()) {
-            // no cache, show empty
             renderTable();
             updateStatsUIFromPlayers([]);
         }
