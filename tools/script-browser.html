@@ -749,6 +749,7 @@
                 const newPlatform = btn.getAttribute('data-platform');
                 if (newPlatform && newPlatform !== activePlatform) {
                     activePlatform = newPlatform;
+                    renderTabs();
                     activeCategory = 'all';
                     searchQuery = '';
                     document.getElementById('searchInput').value = '';
@@ -787,6 +788,7 @@
                     activeCategory = newCat;
                     currentPage = 1;
                     updateStatsAndRender();
+                    renderCategoryFilters();
                 }
             });
         });
