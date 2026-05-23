@@ -134,11 +134,12 @@ This repository also preserves:
 
 The home page provides direct access to:
 
-- **[Script Browser][script_browser]** - Live search and filtering of all SPCLib scripts.
-- **[Alias Browser][alias_browser]** - Standalone interface for `alias_system.lua` (IP/hash tracking).
-- **[Rank Browser][rank_browser]** - Standalone interface for `rank_system.lua`.
+- **[Alias Browser][alias_browser]** - Standalone interface for [alias_system.lua](./sapp/admin/alias_system.lua) (IP/hash tracking).
 - **[Ban Registry][ban_registry]** - Public record of active, expired, and revoked bans.
 - **[HaloDiscordBot][halo_discord_bot]** - Java application linking Halo servers to Discord.
+- **[Rank Browser][rank_browser]** - Standalone interface for [rank_system.lua](./sapp/gameplay/rank_system.lua).
+- **[Script Browser][script_browser]** - Live search and filtering of all SPCLib scripts.
+- **[Track Master - Stats Browser][track_master_stats_browser]** - Standalone interface for [track_master.lua](./sapp/utility/track_master.lua).
 
 Use the home page as a central dashboard to explore tools and community resources without leaving your browser.
 
@@ -326,7 +327,6 @@ Enjoy these projects? Help me continue development:
 
 [sapp_server_guide]: https://chalwk.github.io/blog/2026/04/03/halo-sapp-server-guide/
 
-
 [script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser.html
 
 [scripting_with_chimera]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera
@@ -336,6 +336,8 @@ Enjoy these projects? Help me continue development:
 [scripting_with_sapp]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp
 
 [spclib_discord]: https://discord.gg/D76H7RVPC9
+
+[track_master_stats_browser]: https://chalwk.github.io/SPCLib/tools/track-master-stats-browser.html
 
 [vps_host_guide]: https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/
 
