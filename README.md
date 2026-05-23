@@ -135,6 +135,8 @@ This repository also preserves:
 
 ## SPCLib Web Tools & Apps
 
+🔗 [SPCLib Website HomePage][repo_homepage]
+
 #### Script Browser
 
 Live search and filtering of all SPCLib scripts.
