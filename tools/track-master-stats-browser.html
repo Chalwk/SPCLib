@@ -317,10 +317,10 @@
         <div class="stat-card"><span class="stat-number" id="totalPlayersGlobal">0</span>
             <div class="stat-label">Unique Players</div>
         </div>
-        <div class="stat-card"><span class="stat-number" id="globalBestTime">—</span>
+        <div class="stat-card"><span class="stat-number" id="globalBestTime">-</span>
             <div class="stat-label">🌍 Global Best Lap</div>
         </div>
-        <div class="stat-card"><span class="stat-number" id="globalBestHolder">—</span>
+        <div class="stat-card"><span class="stat-number" id="globalBestHolder">-</span>
             <div class="stat-label">Record Holder</div>
         </div>
     </div>
@@ -397,7 +397,7 @@
     };
 
     function formatRaceTime(seconds) {
-        if (!seconds || seconds === Infinity || seconds === 0) return "—";
+        if (!seconds || seconds === Infinity || seconds === 0) return "-";
         const absSec = Math.abs(seconds);
         const totalMs = Math.floor(absSec * 1000);
         const minutes = Math.floor(totalMs / 60000);
@@ -409,7 +409,7 @@
     }
 
     function formatAvgTime(seconds) {
-        if (!seconds || seconds === Infinity) return "—";
+        if (!seconds || seconds === Infinity) return "-";
         return formatRaceTime(seconds);
     }
 
@@ -438,7 +438,7 @@
             mapsArray.push({
                 mapName: mapName,
                 bestTime: currentBest?.time || Infinity,
-                bestPlayer: currentBest?.player || "—",
+                bestPlayer: currentBest?.player || "-",
                 players: playersList,
                 totalPlayers: playersList.length,
                 rawPlayersObj: playersObj
@@ -447,8 +447,8 @@
 
         mapsArray.sort((a, b) => (a.bestTime || Infinity) - (b.bestTime || Infinity));
         let globalBestTime = globalBestFromFile?.time || Infinity;
-        let globalBestPlayer = globalBestFromFile?.player || "—";
-        let globalBestMap = globalBestFromFile?.map || "—";
+        let globalBestPlayer = globalBestFromFile?.player || "-";
+        let globalBestMap = globalBestFromFile?.map || "-";
         if (globalBestTime === Infinity && mapsArray.length > 0) {
             let fastest = mapsArray.reduce((min, m) => (m.bestTime < min.bestTime ? m : min), mapsArray[0]);
             if (fastest.bestTime < Infinity) {
@@ -498,7 +498,7 @@
             }
         }
 
-        if (globalBest && globalBest.player && globalBest.player !== "—") {
+        if (globalBest && globalBest.player && globalBest.player !== "-") {
             const globalHolder = globalBest.player;
             if (playerStatsMap.has(globalHolder)) {
                 playerStatsMap.get(globalHolder).points += SCORE.GLOBAL_RECORD_WEIGHT;
@@ -553,7 +553,7 @@
                 <td><span class="badge-record">${formatRaceTime(m.bestTime)}</span></td>
                 <td>${escapeHtml(m.bestPlayer)}</td>
                 <td>${m.totalPlayers}</td>
-                <td>${fastestPlayerEntry ? `${escapeHtml(fastestPlayerEntry.name)} (${formatRaceTime(fastestPlayerEntry.best)})` : '—'}</td>
+                <td>${fastestPlayerEntry ? `${escapeHtml(fastestPlayerEntry.name)} (${formatRaceTime(fastestPlayerEntry.best)})` : '-'}</td>
             </tr>`;
         }
         html += `</tbody></table>`;
@@ -585,7 +585,7 @@
         const modal = document.getElementById('mapModal');
         const modalTitle = document.getElementById('modalTitle');
         const modalBody = document.getElementById('modalBody');
-        modalTitle.innerText = `🏁 ${map.mapName} — Top Players`;
+        modalTitle.innerText = `🏁 ${map.mapName} - Top Players`;
         let sortedPlayers = [...map.players];
         sortedPlayers.sort((a, b) => (a.best || Infinity) - (b.best || Infinity));
         let html = `<table class="data-table" style="min-width:auto;"><thead><tr><th>#</th><th>Player</th><th>Best Lap</th><th>Average Lap</th><th>Laps</th></tr></thead><tbody>`;
@@ -641,7 +641,7 @@
         let html = `<h3 style="margin-bottom:12px;">🏎️ Stats for ${escapeHtml(query)} (${playerMaps.length} maps)</h3>
         <table class="data-table"><thead><tr><th>Map</th><th>Best Lap</th><th>Average</th><th>Laps</th><th>Map Record</th><th>Difference</th></tr></thead><tbody>`;
         for (const pm of playerMaps) {
-            const diffFormatted = pm.diffToRecord ? `+${formatRaceTime(pm.diffToRecord)}` : (pm.best === pm.mapRecordTime ? "🏆 RECORD" : "—");
+            const diffFormatted = pm.diffToRecord ? `+${formatRaceTime(pm.diffToRecord)}` : (pm.best === pm.mapRecordTime ? "🏆 RECORD" : "-");
             html += `<tr><td>${escapeHtml(pm.mapName)}</td><td>${formatRaceTime(pm.best)}</td><td>${formatAvgTime(pm.average)}</td><td>${pm.laps}</td><td>${formatRaceTime(pm.mapRecordTime)} (${escapeHtml(pm.recordHolder)})</td><td>${diffFormatted}</td></tr>`;
         }
         html += `</tbody></table>`;
@@ -701,8 +701,8 @@
         if (!mapsData.length) {
             document.getElementById('totalMaps').innerText = '0';
             document.getElementById('totalPlayersGlobal').innerText = '0';
-            document.getElementById('globalBestTime').innerText = '—';
-            document.getElementById('globalBestHolder').innerText = '—';
+            document.getElementById('globalBestTime').innerText = '-';
+            document.getElementById('globalBestHolder').innerText = '-';
             return;
         }
         const uniquePlayers = new Set();
@@ -711,8 +711,8 @@
         }
         document.getElementById('totalMaps').innerText = mapsData.length;
         document.getElementById('totalPlayersGlobal').innerText = uniquePlayers.size;
-        document.getElementById('globalBestTime').innerText = globalBestCache.time !== Infinity ? formatRaceTime(globalBestCache.time) : "—";
-        document.getElementById('globalBestHolder').innerText = globalBestCache.player !== "—" ? `${globalBestCache.player} (${globalBestCache.map})` : "—";
+        document.getElementById('globalBestTime').innerText = globalBestCache.time !== Infinity ? formatRaceTime(globalBestCache.time) : "-";
+        document.getElementById('globalBestHolder').innerText = globalBestCache.player !== "-" ? `${globalBestCache.player} (${globalBestCache.map})` : "-";
     }
 
     function processUpload(jsonObj) {
@@ -761,8 +761,8 @@
         document.getElementById('tableContainer').innerHTML = `<div class="empty-message">🗑️ Cache cleared. Upload race_stats.json to start.</div>`;
         document.getElementById('totalMaps').innerText = '0';
         document.getElementById('totalPlayersGlobal').innerText = '0';
-        document.getElementById('globalBestTime').innerText = '—';
-        document.getElementById('globalBestHolder').innerText = '—';
+        document.getElementById('globalBestTime').innerText = '-';
+        document.getElementById('globalBestHolder').innerText = '-';
         document.getElementById('statusMsg').innerHTML = '📁 Upload race_stats.json';
         refreshCurrentView();
     }

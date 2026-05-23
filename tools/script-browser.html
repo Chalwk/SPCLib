@@ -643,7 +643,7 @@
         }
         document.getElementById('totalScripts').innerText = totalAll;
         document.getElementById('platformScripts').innerText = totalPlatform;
-        document.getElementById('activeCategories').innerText = uniqueCategories || '—';
+        document.getElementById('activeCategories').innerText = uniqueCategories || '-';
         const totalPages = Math.ceil(filteredScriptsCache.length / pageSize);
         let validPage = currentPage;
         if (validPage > totalPages && totalPages > 0) validPage = totalPages;

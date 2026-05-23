@@ -140,6 +140,7 @@ The home page provides direct access to:
 - **[Rank Browser][rank_browser]** - Standalone interface for [rank_system.lua](./sapp/gameplay/rank_system.lua).
 - **[Script Browser][script_browser]** - Live search and filtering of all SPCLib scripts.
 - **[Track Master - Stats Browser][track_master_stats_browser]** - Standalone interface for [track_master.lua](./sapp/utility/track_master.lua).
+- **[HaloDiscordBot Config Editor][halo_discord_bot_config_editor]** - config.yml GUI editor.
 
 Use the home page as a central dashboard to explore tools and community resources without leaving your browser.
 
@@ -280,6 +281,8 @@ Enjoy these projects? Help me continue development:
 [halo_ce_installer]: https://drive.google.com/file/d/1TTiBYhO9JS5Js0exRlygH9pAC2yV1KsV/view?usp=sharing
 
 [halo_discord_bot]: https://github.com/Chalwk/HaloDiscordBot
+
+[halo_discord_bot_config_editor]: https://chalwk.github.io/SPCLib/tools/HaloDiscordBot-Config-Editor.html
 
 [haloce_patch]: https://drive.google.com/file/d/1CIPg3XZ3VIm4ngUnDqLCRNSn9x-jxD6W/view?usp=drive_link
 

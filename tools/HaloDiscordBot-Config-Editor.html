@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
+    <title>HaloDiscordBot · Config Editor</title>
+    <link href="../assets/css/core.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+          rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #0a0f1a, #05090f);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: #eef4ff;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: #0b1020cc;
+            backdrop-filter: blur(8px);
+            padding: 1.2rem 2rem;
+            border-radius: 48px;
+            border: 1px solid #2e3a55;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #ffe6c7, #9bc5ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .sub {
+            font-size: 0.85rem;
+            color: #99b0e0;
+            margin-top: 6px;
+        }
+
+        .stat-card {
+            background: rgba(18, 25, 40, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid #2c3f5c;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #bbd9ff;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background: #1e2a48;
+            border: none;
+            padding: 0.7rem 1.8rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: white;
+            font-family: inherit;
+            border: 1px solid #3b4a70;
+        }
+
+        .btn-primary {
+            background: #2d4b8c;
+            border-color: #5f7eb0;
+        }
+
+        .btn-primary:hover {
+            background: #3e62a5;
+            transform: scale(0.98);
+        }
+
+        .btn-danger {
+            background: #6e2a2a;
+            border-color: #b15a5a;
+        }
+
+        .btn-danger:hover {
+            background: #8b3737;
+        }
+
+        .section-card {
+            background: #0f1622cc;
+            backdrop-filter: blur(4px);
+            border-radius: 36px;
+            border: 1px solid #2a3855;
+            padding: 1.5rem;
+            margin-bottom: 2.2rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #5e8bcf;
+            padding-left: 1rem;
+        }
+
+        .server-grid, .perms-grid, .embeds-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .server-card, .perm-row, .embed-card {
+            background: #0c1222e0;
+            border-radius: 28px;
+            border: 1px solid #293656;
+            padding: 1.2rem 1.4rem;
+            transition: all 0.15s;
+        }
+
+        .flex-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: flex-start;
+        }
+
+        /* Fix for checkboxes row alignment */
+        .checkboxes-row {
+            align-items: center;
+        }
+
+        .field-group {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #8ea4dd;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        input, select, textarea {
+            background: #010612;
+            border: 1px solid #33415e;
+            border-radius: 20px;
+            padding: 8px 14px;
+            width: 100%;
+            color: #f0f4ff;
+            font-family: 'Inter', monospace;
+            font-size: 0.85rem;
+            transition: 0.1s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #6a8fd6;
+            box-shadow: 0 0 0 2px rgba(106, 143, 214, 0.3);
+        }
+
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+            align-items: center;
+        }
+
+        .chip {
+            background: #1f2a46;
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .chip .remove-chip {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #ffb7a7;
+            font-weight: bold;
+            margin-left: 4px;
+        }
+
+        .add-btn-sm {
+            background: #253656;
+            border: none;
+            border-radius: 60px;
+            padding: 6px 14px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            color: white;
+        }
+
+        .channel-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        .inline-icon {
+            cursor: pointer;
+            background: #1f2b44;
+            border-radius: 30px;
+            padding: 4px 10px;
+            font-size: 0.7rem;
+        }
+
+        hr {
+            border-color: #293656;
+            margin: 12px 0;
+        }
+
+        .mode-switch {
+            display: flex;
+            gap: 20px;
+            margin: 12px 0;
+            align-items: center;
+        }
+
+        .mode-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #030914;
+            padding: 5px 15px;
+            border-radius: 40px;
+        }
+
+        .subtype-table, .fields-table {
+            margin-top: 12px;
+            background: #030a17;
+            padding: 12px;
+            border-radius: 24px;
+        }
+
+        .subtype-row, .field-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #293b62;
+            border: none;
+            border-radius: 30px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: white;
+            transition: 0.1s;
+        }
+
+        button:hover {
+            background: #3e5a8b;
+        }
+
+        .remove-card {
+            background: #631d1d;
+            margin-left: auto;
+        }
+
+        .add-ip-input, .add-ip-btn {
+            margin-top: 2px;
+        }
+
+        .event-info {
+            background: #0b1120;
+            border-radius: 16px;
+            padding: 8px 12px;
+            margin: 10px 0;
+            font-size: 0.75rem;
+            border-left: 3px solid #5e8bcf;
+        }
+
+        .event-info summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: #b9ceff;
+        }
+
+        .placeholder-badge {
+            background: #1e2a48;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-family: monospace;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin: 2px 4px 2px 0;
+        }
+
+        .subtype-note {
+            background: #1e2a3a;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            color: #ffd966;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div>
+            <h1>HALO DISCORD BOT · CONFIG EDITOR</h1>
+            <div class="sub">Halo Discord Bot Configuration · YAML editor</div>
+        </div>
+        <div class="stat-card">
+            ⚙️ Live YAML editor
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <label class="btn" style="background:#2f3d64; cursor:pointer;">Upload config.yml
+            <input accept=".yml,.yaml" id="uploadConfigInput" style="display:none;" type="file">
+        </label>
+        <button class="btn btn-primary" id="exportBtn">⬇Export as config.yml</button>
+        <button class="btn" id="resetDefaultBtn">Load default example</button>
+    </div>
+
+    <div class="section-card">
+        <div class="section-title">HALO SERVERS (TCP listeners)</div>
+        <div class="server-grid" id="serversContainer"></div>
+        <button id="addServerBtn" style="margin-top: 18px;">+ Add new server</button>
+    </div>
+
+    <div class="section-card">
+        <div class="section-title">COMMAND PERMISSIONS</div>
+        <div class="perms-grid" id="permsContainer"></div>
+        <button id="addPermBtn" style="margin-top: 12px;">+ Add permission mapping</button>
+    </div>
+
+    <div class="section-card">
+        <div class="section-title">GAME EVENTS · EMBEDS</div>
+        <div class="embeds-grid" id="embedsContainer"></div>
+        <button id="addEmbedBtn" style="margin-top: 18px;">+ New event embed</button>
+        <div class="sub" style="margin-top: 12px;">
+            <strong>Subtype messages</strong> are only available for <code>event_death</code> and
+            <code>event_score</code>.
+            For all other events, use a <strong>description</strong> or switch to <strong>fields mode</strong>.
+            Each embed supports either a single description OR a list of structured fields.
+        </div>
+    </div>
+</div>
+
+<script>
+    const EVENT_METADATA = {
+        event_chat: {desc: "Player sends a chat message.", placeholders: ["name", "msg", "type", "id"]},
+        event_command: {desc: "Player executes a console/chat command.", placeholders: ["name", "cmd", "type", "id"]},
+        event_death: {
+            desc: "A player dies (supports subtype mapping 1-10).",
+            placeholders: ["killer_name", "victim_name"]
+        },
+        event_end: {desc: "Game session ends.", placeholders: ["map", "gt", "ffa"]},
+        event_join: {
+            desc: "Player joins the server.",
+            placeholders: ["name", "total", "ip", "hash", "ping", "pirated"]
+        },
+        event_leave: {
+            desc: "Player leaves the server.",
+            placeholders: ["name", "total", "ip", "hash", "ping", "pirated"]
+        },
+        event_login: {desc: "Player logs in as admin.", placeholders: ["name", "lvl"]},
+        event_map_reset: {desc: "Map is reset (rare).", placeholders: ["map", "gt", "ffa"]},
+        event_score: {
+            desc: "Score event (CTF, race, slayer) with subtypes 1-5.",
+            placeholders: ["name", "team", "score", "red_score", "blue_score", "scorelimit", "total_team_laps"]
+        },
+        event_snap: {desc: "Bot/cheat detection triggered.", placeholders: ["name"]},
+        event_spawn: {desc: "Player respawns.", placeholders: ["name", "team"]},
+        event_start: {desc: "Game starts.", placeholders: ["map", "mode", "gt", "ffa"]},
+        event_team_switch: {desc: "Player changes team.", placeholders: ["name", "team"]},
+        event_echo: {desc: "Command output from server (internal).", placeholders: ["message", "playerIndex"]}
+    };
+
+    function getEventInfo(eventType) {
+        return EVENT_METADATA[eventType] || {
+            desc: "Custom event. Placeholders depend on what the Lua script sends.",
+            placeholders: ["name", "id", "custom fields..."]
+        };
+    }
+
+    function updateSubtypeVisibility(card, eventType) {
+        const isDeathOrScore = (eventType === "event_death" || eventType === "event_score");
+        const subtypeArea = card.querySelector('.subtypes-area');
+        const addSubtypeBtn = card.querySelector('.add-subtype-btn');
+        if (subtypeArea) {
+            if (isDeathOrScore) {
+                subtypeArea.style.display = 'block';
+                if (addSubtypeBtn) addSubtypeBtn.style.display = 'inline-flex';
+            } else {
+                subtypeArea.style.display = 'none';
+                if (addSubtypeBtn) addSubtypeBtn.style.display = 'none';
+            }
+        }
+        let note = card.querySelector('.subtype-note-msg');
+        if (!note && !isDeathOrScore) {
+            const container = card.querySelector('.desc-mode-area');
+            if (container && !container.querySelector('.subtype-note-msg')) {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = 'subtype-note subtype-note-msg';
+                msgDiv.innerHTML = 'Subtype messages are only supported for <strong>event_death</strong> and <strong>event_score</strong>. Use description or fields mode for this event.';
+                container.appendChild(msgDiv);
+            }
+        } else if (note && isDeathOrScore) {
+            note.remove();
+        } else if (!isDeathOrScore && note) {
+            note.style.display = 'block';
+        }
+    }
+
+    function addSubtypeRow(container, subtype, description) {
+        const row = document.createElement('div');
+        row.className = 'subtype-row';
+        row.innerHTML = `
+            <input type="number" class="subtype-num" placeholder="subtype (1)" value="${escapeHtml(subtype)}" style="width:100px;">
+            <input class="subtype-desc" placeholder="Description text" value="${escapeHtml(description)}" style="flex:2;">
+            <button class="remove-subtype">✖</button>
+        `;
+        row.querySelector('.remove-subtype').addEventListener('click', () => row.remove());
+        container.appendChild(row);
+    }
+
+    function addFieldRow(container, name, value, inline) {
+        const row = document.createElement('div');
+        row.className = 'field-row';
+        row.innerHTML = `
+            <input class="field-name" placeholder="Field name" value="${escapeHtml(name)}" style="width:180px;">
+            <input class="field-value" placeholder="Value (supports {placeholders})" value="${escapeHtml(value)}" style="flex:2;">
+            <label style="display:flex; align-items:center;"><input type="checkbox" class="field-inline" ${inline ? 'checked' : ''}> inline</label>
+            <button class="remove-field">🗑️</button>
+        `;
+        row.querySelector('.remove-field').addEventListener('click', () => row.remove());
+        container.appendChild(row);
+    }
+
+    function renderEmbeds(embedsDict) {
+        const container = document.getElementById('embedsContainer');
+        container.innerHTML = '';
+        Object.entries(embedsDict).forEach(([eventType, embedCfg]) => {
+            const card = document.createElement('div');
+            card.className = 'embed-card';
+            card.dataset.eventType = eventType;
+            const hasFields = embedCfg.fields && embedCfg.fields.length > 0;
+            const mode = hasFields ? 'fields' : 'description';
+            const info = getEventInfo(eventType);
+            card.innerHTML = `
+                <div class="flex-row">
+                    <div class="field-group"><label>Event type key</label><input class="embed-event-type" value="${escapeHtml(eventType)}" placeholder="event_chat"></div>
+                    <div class="field-group"><label>Channel key</label><input class="embed-channel" value="${escapeHtml(embedCfg.channel || 'general')}"></div>
+                    <div class="field-group"><label>Title</label><input class="embed-title" value="${escapeHtml(embedCfg.title || '')}"></div>
+                    <div class="field-group"><label>Color</label><input class="embed-color" value="${escapeHtml(embedCfg.color || 'WHITE')}" placeholder="WHITE / #ffaa33"></div>
+                    <button class="remove-embed-btn" style="background:#6e2a2a;">🗑️ Remove</button>
+                </div>
+                <div class="flex-row checkboxes-row">
+                    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" class="embed-enabled" ${embedCfg.enabled !== false ? 'checked' : ''}> Enabled</label>
+                    <label style="display:flex; align-items:center; gap:8px;"><input type="checkbox" class="embed-show-server" ${embedCfg.show_server_name ? 'checked' : ''}> Show server name footer</label>
+                </div>
+                <details class="event-info">
+                    <summary>Event info & placeholders</summary>
+                    <div>${escapeHtml(info.desc)}</div>
+                    <div style="margin-top:6px;"><strong>Supported placeholders:</strong> ${info.placeholders.map(p => `<span class="placeholder-badge">{${p}}</span>`).join(' ')}</div>
+                </details>
+                <div class="mode-switch">
+                    <label class="mode-option"><input type="radio" name="mode-${eventType}" class="mode-desc" value="description" ${mode === 'description' ? 'checked' : ''}> Description + subtypes (only death/score)</label>
+                    <label class="mode-option"><input type="radio" name="mode-${eventType}" class="mode-fields" value="fields" ${mode === 'fields' ? 'checked' : ''}> Fields list (advanced)</label>
+                </div>
+                <div class="desc-mode-area" style="${mode === 'description' ? 'display:block' : 'display:none'}">
+                    <div class="field-group"><label>Description (supports {placeholders})</label><textarea class="embed-desc" rows="2">${escapeHtml(embedCfg.description || '')}</textarea></div>
+                    <div class="subtypes-area" style="margin-top:8px;">
+                        <label>Type subtypes (for death / score events)</label>
+                        <div class="subtypes-container" data-event="${eventType}"></div>
+                        <button class="add-subtype-btn" data-event="${eventType}">+ Add subtype</button>
+                    </div>
+                </div>
+                <div class="fields-mode-area" style="${mode === 'fields' ? 'display:block' : 'display:none'}">
+                    <div class="fields-list-container" data-event="${eventType}"></div>
+                    <button class="add-field-btn" data-event="${eventType}">➕ Add field</button>
+                </div>
+            `;
+            container.appendChild(card);
+
+            const subtypesContainer = card.querySelector('.subtypes-container');
+            if (embedCfg.type && typeof embedCfg.type === 'object') {
+                Object.entries(embedCfg.type).forEach(([subtype, desc]) => {
+                    addSubtypeRow(subtypesContainer, subtype, desc, eventType);
+                });
+            }
+
+            const fieldsContainer = card.querySelector('.fields-list-container');
+            if (embedCfg.fields && embedCfg.fields.length) {
+                embedCfg.fields.forEach(f => {
+                    addFieldRow(fieldsContainer, f.name || '', f.value || '', f.inline || false, eventType);
+                });
+            }
+
+            const subtypeAreaDiv = card.querySelector('.subtypes-area');
+            const addSubtypeBtnSpan = card.querySelector('.add-subtype-btn');
+            if (subtypeAreaDiv) {
+                const isDeathScore = (eventType === "event_death" || eventType === "event_score");
+                if (!isDeathScore) {
+                    subtypeAreaDiv.style.display = 'none';
+                    if (addSubtypeBtnSpan) addSubtypeBtnSpan.style.display = 'none';
+                    const descArea = card.querySelector('.desc-mode-area');
+                    if (descArea && !descArea.querySelector('.subtype-note-msg')) {
+                        const noteDiv = document.createElement('div');
+                        noteDiv.className = 'subtype-note subtype-note-msg';
+                        noteDiv.innerHTML = 'Subtype messages are only supported for <strong>event_death</strong> and <strong>event_score</strong>. Use description or fields mode for this event.';
+                        descArea.appendChild(noteDiv);
+                    }
+                } else {
+                    subtypeAreaDiv.style.display = 'block';
+                    if (addSubtypeBtnSpan) addSubtypeBtnSpan.style.display = 'inline-flex';
+                }
+            }
+
+            const descRadio = card.querySelector('.mode-desc');
+            const fieldsRadio = card.querySelector('.mode-fields');
+            const descArea = card.querySelector('.desc-mode-area');
+            const fieldsArea = card.querySelector('.fields-mode-area');
+
+            descRadio.addEventListener('change', () => {
+                if (descRadio.checked) {
+                    descArea.style.display = 'block';
+                    fieldsArea.style.display = 'none';
+                }
+            });
+            fieldsRadio.addEventListener('change', () => {
+                if (fieldsRadio.checked) {
+                    descArea.style.display = 'none';
+                    fieldsArea.style.display = 'block';
+                }
+            });
+
+            const addSubtypeBtn = card.querySelector('.add-subtype-btn');
+            if (addSubtypeBtn) {
+                addSubtypeBtn.addEventListener('click', () => {
+                    const currType = card.querySelector('.embed-event-type').value.trim();
+                    if (currType !== "event_death" && currType !== "event_score") {
+                        alert("Subtypes are only allowed for event_death and event_score. Change the event type if needed.");
+                        return;
+                    }
+                    addSubtypeRow(subtypesContainer, '', '', currType);
+                });
+            }
+
+            card.querySelector('.add-field-btn').addEventListener('click', () => {
+                addFieldRow(fieldsContainer, '', '', false, eventType);
+            });
+            card.querySelector('.remove-embed-btn').addEventListener('click', () => card.remove());
+
+            const eventTypeInput = card.querySelector('.embed-event-type');
+            eventTypeInput.addEventListener('input', (e) => {
+                const newType = e.target.value.trim();
+                card.dataset.eventType = newType;
+                updateSubtypeVisibility(card, newType);
+                const newInfo = getEventInfo(newType);
+                const detailsDiv = card.querySelector('.event-info');
+                if (detailsDiv) {
+                    const descSpan = detailsDiv.querySelector('div:first-child');
+                    const placeholderSpan = detailsDiv.querySelector('div:last-child');
+                    if (descSpan) descSpan.innerHTML = escapeHtml(newInfo.desc);
+                    if (placeholderSpan) {
+                        placeholderSpan.innerHTML = `<strong>Supported placeholders:</strong> ${newInfo.placeholders.map(p => `<span class="placeholder-badge">{${p}}</span>`).join(' ')}`;
+                    }
+                }
+            });
+        });
+    }
+
+    function gatherEmbedsFromUI() {
+        const embeds = {};
+        const embedCards = document.querySelectorAll('#embedsContainer .embed-card');
+        embedCards.forEach(card => {
+            const eventType = card.querySelector('.embed-event-type').value.trim();
+            if (!eventType) return;
+            const enabled = card.querySelector('.embed-enabled').checked;
+            const show_server_name = card.querySelector('.embed-show-server').checked;
+            const channel = card.querySelector('.embed-channel').value.trim();
+            const title = card.querySelector('.embed-title').value;
+            const color = card.querySelector('.embed-color').value.trim();
+            const isFieldsMode = card.querySelector('.mode-fields').checked;
+            const embedObj = {enabled, show_server_name, channel, title, color};
+            if (isFieldsMode) {
+                const fields = [];
+                const fieldRows = card.querySelectorAll('.fields-list-container .field-row');
+                fieldRows.forEach(row => {
+                    const name = row.querySelector('.field-name').value.trim();
+                    const value = row.querySelector('.field-value').value;
+                    const inline = row.querySelector('.field-inline').checked;
+                    if (name) fields.push({name, value, inline});
+                });
+                if (fields.length) embedObj.fields = fields;
+            } else {
+                const description = card.querySelector('.embed-desc').value;
+                if (description) embedObj.description = description;
+                if (eventType === "event_death" || eventType === "event_score") {
+                    const subtypeRows = card.querySelectorAll('.subtypes-container .subtype-row');
+                    const typeMap = {};
+                    subtypeRows.forEach(row => {
+                        const subNum = row.querySelector('.subtype-num').value.trim();
+                        const subDesc = row.querySelector('.subtype-desc').value;
+                        if (subNum !== '' && subDesc) {
+                            typeMap[parseInt(subNum, 10)] = subDesc;
+                        }
+                    });
+                    if (Object.keys(typeMap).length) embedObj.type = typeMap;
+                } else {
+                    if (embedObj.type) delete embedObj.type;
+                }
+            }
+            embeds[eventType] = embedObj;
+        });
+        return embeds;
+    }
+
+    function getDefaultConfig() {
+        return {
+            HALO_SERVERS: [
+                {
+                    name: "DEV SERVER",
+                    port: 47652,
+                    bind_address: "0.0.0.0",
+                    secret_key: "your-very-secret-key",
+                    allowed_ips: ["192.168.1.100", "203.0.113.0/24"],
+                    channels: {general: "1504095256184881163", admin: "1504095321918275765"}
+                }
+            ],
+            COMMAND_PERMISSIONS: {game_status: "ADMINISTRATOR", halo: "ADMINISTRATOR"},
+            GAME_EVENTS: {
+                embeds: {
+                    event_chat: {
+                        enabled: true,
+                        show_server_name: false,
+                        channel: "general",
+                        title: " ",
+                        color: "WHITE",
+                        description: "**💬 Chat** → `{name}`: *{msg}*"
+                    },
+                    event_command: {
+                        enabled: true,
+                        show_server_name: true,
+                        channel: "admin",
+                        title: " ",
+                        color: "FUCHSIA",
+                        description: "**⌘ Command** → `{name}`: `{cmd}`"
+                    },
+                    event_death: {
+                        enabled: true,
+                        show_server_name: false,
+                        channel: "general",
+                        title: " ",
+                        color: "DARK_PURPLE",
+                        type: {
+                            1: "**☠️ Death:** `{killer_name}` drew first blood on `{victim_name}`",
+                            2: "**☠️ Death:** `{victim_name}` was killed from the grave by `{killer_name}`",
+                            3: "**☠️ Death:** `{victim_name}` was run over by `{killer_name}`",
+                            4: "**☠️ Death:** `{victim_name}` was killed by `{killer_name}`",
+                            5: "**☠️ Death:** `{victim_name}` committed suicide",
+                            6: "**☠️ Death:** `{victim_name}` was betrayed by `{killer_name}`",
+                            7: "**☠️ Death:** `{victim_name}` was squashed by a vehicle",
+                            8: "**☠️ Death:** `{victim_name}` fell to their death",
+                            9: "**☠️ Death:** `{victim_name}` was killed by the server",
+                            10: "**☠️ Death:** `{victim_name}` died"
+                        }
+                    },
+                    event_end: {
+                        enabled: true,
+                        show_server_name: false,
+                        channel: "general",
+                        title: " ",
+                        color: "DARK_GREY",
+                        description: "**🏁 Game Ended** → `{map}` **-** `{gt} (FFA: {ffa})`"
+                    },
+                    event_join: {
+                        enabled: true,
+                        show_server_name: false,
+                        channel: "general",
+                        title: " ",
+                        color: "GREEN",
+                        description: "**🟢 Join** → `{name}` **-** `{total}/16`"
+                    },
+                    event_leave: {
+                        enabled: true,
+                        show_server_name: false,
+                        channel: "general",
+                        title: " ",
+                        color: "RED",
+                        description: "**🔴 Quit** → `{name}` **-** `{total}/16`"
+                    },
+                    event_login: {
+                        enabled: true,
+                        show_server_name: true,
+                        channel: "admin",
+                        title: " ",
+                        color: "PURPLE",
+                        description: "**🔐 Login** → `{name}`\n\n**Admin Level:** `{lvl}`"
+                    },
+                    event_map_reset: {
+                        enabled: false,
+                        show_server_name: false,
+                        channel: "general",
+                        title: " ",
+                        color: "ORANGE",
+                        description: "**♻️ Map Reset** → `{map}` **-** `{gt} ({ffa})`"
+                    },
+                    event_score: {
+                        enabled: true,
+                        show_server_name: false,
+                        channel: "general",
+                        title: " ",
+                        color: "YELLOW",
+                        type: {
+                            1: "**{name}** captured the flag for the **{team}** team!\n\n🟥 Red Score: **{red_score}**\n🟦 Blue Score: **{blue_score}**\n🏁 Scorelimit: **{scorelimit}**",
+                            2: "**{name}** completed a lap for **{team}** team!\n🏁 Team Total Laps: **{total_team_laps}/{scorelimit}**\n🚩 Player Laps: **{score}**",
+                            3: "**{name}** finished a lap.\n🏆 Total Laps Completed: **{score}/{scorelimit}**",
+                            4: "**{name}** scored for **{team}** team!\n\n🟥 Red Score: **{red_score}**\n🟦 Blue Score: **{blue_score}**\n🏁 Scorelimit: **{scorelimit}**",
+                            5: "**{name}** scored!\n\n🟥 Red Score: **{red_score}**\n🟦 Blue Score: **{blue_score}**\n🏁 Scorelimit: **{scorelimit}**"
+                        }
+                    },
+                    event_snap: {
+                        enabled: true,
+                        show_server_name: true,
+                        channel: "admin",
+                        title: " ",
+                        color: "RED",
+                        description: "{name} snapped (bot detection)"
+                    },
+                    event_spawn: {
+                        enabled: false,
+                        show_server_name: false,
+                        channel: "general",
+                        title: " ",
+                        color: "LIGHT_GREY",
+                        description: "**✨ Spawn** → `{name}` Team: `{team}`"
+                    },
+                    event_start: {
+                        enabled: true,
+                        show_server_name: false,
+                        channel: "general",
+                        title: " ",
+                        color: "LIGHT_BLUE",
+                        description: "**🗺️ Game Started** → `{map}` **-** `{gt} (FFA: {ffa})`"
+                    },
+                    event_team_switch: {
+                        enabled: false,
+                        show_server_name: false,
+                        channel: "general",
+                        title: " ",
+                        color: "AQUA",
+                        description: "**🔄 Team Switch** → `{name}` → `{team}`"
+                    }
+                }
+            }
+        };
+    }
+
+    function loadConfigIntoUI(cfg) {
+        const servers = cfg.HALO_SERVERS || [];
+        renderServers(servers);
+        const perms = cfg.COMMAND_PERMISSIONS || {};
+        renderPermissions(perms);
+        const embeds = (cfg.GAME_EVENTS && cfg.GAME_EVENTS.embeds) ? cfg.GAME_EVENTS.embeds : {};
+        renderEmbeds(embeds);
+    }
+
+    function renderServers(serversList) {
+        const container = document.getElementById('serversContainer');
+        container.innerHTML = '';
+        serversList.forEach((server, idx) => {
+            const card = document.createElement('div');
+            card.className = 'server-card';
+            card.dataset.index = idx;
+            card.innerHTML = `
+                <div class="flex-row">
+                    <div class="field-group"><label>Server name</label>
+                        <input class="sv-name" placeholder="e.g., Main Server" value="${escapeHtml(server.name || '')}">
+                    </div>
+                    <div class="field-group"><label>Port</label>
+                        <input class="sv-port" type="number" value="${server.port || 47652}">
+                    </div>
+                    <div class="field-group"><label>Bind address</label>
+                        <input class="sv-bind" value="${escapeHtml(server.bind_address || '0.0.0.0')}">
+                    </div>
+                    <div class="field-group"><label>Secret key (optional)</label>
+                        <input class="sv-secret" value="${escapeHtml(server.secret_key || '')}">
+                    </div>
+                    <button class="remove-server-btn" data-idx="${idx}" style="background:#6e2a2a;">🗑️ Remove</button>
+                </div>
+                <div class="flex-row">
+                    <div class="field-group"><label>Allowed IPs (CIDR or single)</label>
+                        <div class="allowed-ips-container" data-idx="${idx}"></div>
+                        <div style="margin-top: 8px; display: flex; gap: 8px;">
+                            <input class="add-ip-input" placeholder="e.g., 192.168.1.0/24" style="width:160px;">
+                            <button class="add-ip-btn" data-idx="${idx}">+ Add IP</button>
+                        </div>
+                    </div>
+                    <div class="field-group"><label>Channels (key -> discordID)</label>
+                        <div class="channels-list" data-idx="${idx}"></div>
+                        <div class="flex-row" style="gap:6px;"><input class="channel-key" placeholder="key (general)" size="10"><input
+                                class="channel-id" placeholder="channel id" size="18">
+                            <button class="add-channel-btn" data-idx="${idx}">➕</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+            const allowedIps = server.allowed_ips || [];
+            const ipsContainer = card.querySelector('.allowed-ips-container');
+            allowedIps.forEach(ip => addIpChip(ipsContainer, ip, idx));
+            const channelsObj = server.channels || {};
+            const channelsDiv = card.querySelector('.channels-list');
+            Object.entries(channelsObj).forEach(([k, v]) => addChannelRow(channelsDiv, k, v, idx));
+            card.querySelector('.remove-server-btn').addEventListener('click', () => {
+                const newServers = gatherServersFromUI().filter((_, i) => i != idx);
+                renderServers(newServers);
+            });
+            card.querySelector('.add-ip-btn').addEventListener('click', (e) => {
+                const ipInput = card.querySelector('.add-ip-input');
+                const ipVal = ipInput.value.trim();
+                if (ipVal) {
+                    addIpChip(ipsContainer, ipVal, idx);
+                    ipInput.value = '';
+                }
+            });
+            card.querySelector('.add-channel-btn').addEventListener('click', () => {
+                const keyInp = card.querySelector('.channel-key');
+                const idInp = card.querySelector('.channel-id');
+                const key = keyInp.value.trim();
+                const chanId = idInp.value.trim();
+                if (key && chanId) {
+                    addChannelRow(channelsDiv, key, chanId, idx);
+                    keyInp.value = '';
+                    idInp.value = '';
+                }
+            });
+        });
+    }
+
+    function addIpChip(container, ip) {
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        chip.innerHTML = `${escapeHtml(ip)} <span class="remove-chip" data-ip="${escapeHtml(ip)}">✖</span>`;
+        chip.querySelector('.remove-chip').addEventListener('click', () => chip.remove());
+        container.appendChild(chip);
+    }
+
+    function addChannelRow(container, key, channelId) {
+        const row = document.createElement('div');
+        row.className = 'channel-item';
+        row.innerHTML = `
+            <input class="chan-key" style="width:100px;" value="${escapeHtml(key)}">
+            <input class="chan-id" style="width:180px;" value="${escapeHtml(channelId)}">
+            <button class="remove-channel">❌</button>
+        `;
+        row.querySelector('.remove-channel').addEventListener('click', () => row.remove());
+        container.appendChild(row);
+    }
+
+    function renderPermissions(permsObj) {
+        const container = document.getElementById('permsContainer');
+        container.innerHTML = '';
+        Object.entries(permsObj).forEach(([cmd, perm]) => {
+            const row = document.createElement('div');
+            row.className = 'perm-row';
+            row.innerHTML = `
+            <div class="flex-row">
+                <div class="field-group"><label>Command name</label><input class="perm-cmd" value="${escapeHtml(cmd)}"></div>
+                <div class="field-group"><label>Discord Permission</label><input class="perm-val" placeholder="ADMINISTRATOR" value="${escapeHtml(perm)}"></div>
+                <button class="remove-perm" style="background:#631d1d;">Remove</button>
+            </div>
+        `;
+            row.querySelector('.remove-perm').addEventListener('click', () => row.remove());
+            container.appendChild(row);
+        });
+    }
+
+    function gatherServersFromUI() {
+        const servers = [];
+        const serverCards = document.querySelectorAll('#serversContainer .server-card');
+        serverCards.forEach(card => {
+            const name = card.querySelector('.sv-name').value.trim();
+            const port = parseInt(card.querySelector('.sv-port').value, 10);
+            const bind_address = card.querySelector('.sv-bind').value.trim();
+            const secret_key = card.querySelector('.sv-secret').value.trim();
+            const allowedIps = [];
+            card.querySelectorAll('.allowed-ips-container .chip').forEach(chip => {
+                let ipText = chip.innerText.replace('✖', '').trim();
+                if (ipText) allowedIps.push(ipText);
+            });
+            const channels = {};
+            card.querySelectorAll('.channels-list .channel-item').forEach(row => {
+                const key = row.querySelector('.chan-key').value.trim();
+                const id = row.querySelector('.chan-id').value.trim();
+                if (key && id) channels[key] = id;
+            });
+            if (name && !isNaN(port)) servers.push({
+                name,
+                port,
+                bind_address,
+                secret_key,
+                allowed_ips: allowedIps,
+                channels
+            });
+        });
+        return servers;
+    }
+
+    function gatherPermissionsFromUI() {
+        const perms = {};
+        document.querySelectorAll('#permsContainer .perm-row').forEach(row => {
+            const cmd = row.querySelector('.perm-cmd').value.trim();
+            const permVal = row.querySelector('.perm-val').value.trim();
+            if (cmd && permVal) perms[cmd] = permVal;
+        });
+        return perms;
+    }
+
+    function gatherConfigFromUI() {
+        const HALO_SERVERS = gatherServersFromUI();
+        const COMMAND_PERMISSIONS = gatherPermissionsFromUI();
+        const embeds = gatherEmbedsFromUI();
+        const GAME_EVENTS = {embeds};
+        return {HALO_SERVERS, COMMAND_PERMISSIONS, GAME_EVENTS};
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function (m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    document.getElementById('resetDefaultBtn').addEventListener('click', () => {
+        loadConfigIntoUI(getDefaultConfig());
+    });
+    document.getElementById('addServerBtn').addEventListener('click', () => {
+        const currentServers = gatherServersFromUI();
+        currentServers.push({
+            name: "New Server",
+            port: 47653,
+            bind_address: "0.0.0.0",
+            secret_key: "",
+            allowed_ips: [],
+            channels: {general: "000000000000000000"}
+        });
+        renderServers(currentServers);
+    });
+    document.getElementById('addPermBtn').addEventListener('click', () => {
+        const permsDiv = document.getElementById('permsContainer');
+        const newRow = document.createElement('div');
+        newRow.className = 'perm-row';
+        newRow.innerHTML = `
+        <div class="flex-row">
+            <div class="field-group"><label>Command name</label><input class="perm-cmd" placeholder="mycmd"></div>
+            <div class="field-group"><label>Discord Permission</label><input class="perm-val" placeholder="ADMINISTRATOR"></div>
+            <button class="remove-perm" style="background:#631d1d;">Remove</button>
+        </div>
+        `;
+        newRow.querySelector('.remove-perm').addEventListener('click', () => newRow.remove());
+        permsDiv.appendChild(newRow);
+    });
+    document.getElementById('addEmbedBtn').addEventListener('click', () => {
+        const newEmbedKey = "event_custom_" + Date.now();
+        const tempEmbed = {
+            enabled: true,
+            show_server_name: false,
+            channel: "general",
+            title: "Custom Event",
+            color: "AQUA",
+            description: "Event occurred: {name}"
+        };
+        const currentEmbeds = gatherEmbedsFromUI();
+        currentEmbeds[newEmbedKey] = tempEmbed;
+        renderEmbeds(currentEmbeds);
+    });
+    document.getElementById('uploadConfigInput').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            try {
+                const parsed = jsyaml.load(ev.target.result);
+                loadConfigIntoUI(parsed);
+            } catch (err) {
+                alert("Invalid YAML: " + err.message);
+            }
+        };
+        reader.readAsText(file);
+    });
+    document.getElementById('exportBtn').addEventListener('click', () => {
+        const configObj = gatherConfigFromUI();
+        try {
+            const yamlStr = jsyaml.dump(configObj, {indent: 2, lineWidth: 120});
+            const blob = new Blob([yamlStr], {type: 'application/x-yaml'});
+            const a = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            a.href = url;
+            a.download = 'config.yml';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } catch (err) {
+            alert("Export error: " + err);
+        }
+    });
+    loadConfigIntoUI(getDefaultConfig());
+</script>
+<script defer src="../assets/js/script.js"></script>
+</body>
+</html>
