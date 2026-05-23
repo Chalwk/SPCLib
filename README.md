@@ -30,9 +30,9 @@
 * [2. What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
 * [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
-* [5. SPCLib Web Tools & Apps](#spclib-web-tools--apps)
+* [5. SPCLib Web Interfaces & Apps](#spclib-web-tools--apps)
     * [5.1 Script Browser](#script-browser)
-    * [5.2 Stats & Tracking Browsers](#stats--tracking-browsers)
+    * [5.2 Web Interfaces for Lua Scripts](#web-tools-for-lua-scripts)
     * [5.3 HaloDiscordBot](#halodiscordbot)
     * [5.4 Ban Appeals](#ban-appeals)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
@@ -133,41 +133,37 @@ This repository also preserves:
 
 ---
 
-## SPCLib Web Tools & Apps
+## SPCLib Web Interfaces & Apps
 
-🔗 [SPCLib Website HomePage][repo_homepage]
+🔗 [SPCLib Website Homepage][repo_homepage]
 
-#### Script Browser
+#### Script Browser:
 
-Live search and filtering of all SPCLib scripts.
+Live search and filtering for all SPCLib scripts.
 
-- **[Script Browser][script_browser]**
+* **[Script Browser][script_browser]**
 
-#### Stats & Tracking Browsers
+#### Web Tools for Lua Scripts
 
-- **[Alias Browser (alias_system.lua)][alias_browser]** - Web interface
-  for [alias_system.lua](./sapp/admin/alias_system.lua) (IP/hash
-  tracking).
-- **[Rank System - Stats Browser][rank_browser]** - Web interface
-  for [rank_system.lua](./sapp/gameplay/rank_system.lua).
-- **[Track Master - Stats Browser][track_master_stats_browser]** - Web interface
-  for [track_master.lua](./sapp/utility/track_master.lua).
+* **[Alias Browser][alias_browser]** - for [alias_system.lua](./sapp/admin/alias_system.lua)
+* **[Rank System - Stats Browser][rank_browser]** - for [rank_system.lua](./sapp/gameplay/rank_system.lua)
+* **[Track Master - Stats Browser][track_master_stats_browser]** -
+  for [track_master.lua](./sapp/utility/track_master.lua)
 
 #### HaloDiscordBot
 
-A Java application that connects multiple Halo servers to Discord, forwarding in-game events as rich Discord embeds.
-Supports SAPP and Phasor.
+Java-based integration for connecting Halo servers to Discord with rich event embeds.
+Supports both SAPP and Phasor servers.
 
-- **[HaloDiscordBot][halo_discord_bot]** - Java application linking Halo servers to Discord.
-- **[HaloDiscordBot - config.yml Editor][halo_discord_bot_config_editor]** - config.yml GUI editor.
+* **[HaloDiscordBot][halo_discord_bot]** - Main application
+* **[Config.yml Editor][halo_discord_bot_config_editor]** - GUI editor for `config.yml`
 
 #### Ban Appeals
 
-If you believe you have been banned in error from the SPCLib Discord or Halo servers,
-submit an appeal here:
+Think you were banned by mistake from the SPCLib Discord or Halo servers?
 
-* [Submit a Ban Appeal][ban_appeal_template]
-* [List of active bans][ban_page]
+* **[Submit a Ban Appeal][ban_appeal_template]**
+* **[View Active Bans][ban_page]**
 
 ---
 
