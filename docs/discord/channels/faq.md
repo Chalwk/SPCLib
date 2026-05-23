@@ -1,8 +1,8 @@
 ## Welcome to the [SPCLib](https://github.com/Chalwk/SPCLib) community hub!
 
-**SPCLib** *(SAPP, Phasor and Chimera Library)* is the largest public archive of Lua scripts and resources for the *
-*SAPP** and **Phasor** dedicated server extensions, and the **Chimera** client-side mod, for Halo: PC/CE. All Lua
-scripts in **SPCLib** are written and curated by Chalwk unless otherwise noted.
+**SPCLib** *(SAPP, Phasor and Chimera Library)* is the largest public archive of Lua scripts and resources
+for the **SAPP** and **Phasor** dedicated server extensions, and the **Chimera** client-side mod, for
+Halo: PC/CE. All Lua scripts in **SPCLib** are written and curated by Chalwk unless otherwise noted.
 
 **Purpose**
 A place for players, server operators, and developers to share related tools, troubleshoot issues, and collaborate on
@@ -23,12 +23,13 @@ improving Halo servers.
 
 **Q1: What scripts can I use?**
 
-* [**SAPP Scripts**](https://github.com/Chalwk/SPCLib/tree/master/sapp): Utilities, Custom Games, Attractive features
-* [**Phasor Scripts**](https://github.com/Chalwk/SPCLib/tree/master/phasor): Legacy scripts for older servers
-* [**Chimera**](https://github.com/Chalwk/SPCLib/tree/master/chimera): Chimera scripts
-* [**Script Packages**](https://github.com/Chalwk/SPCLib/releases): Bundled projects with multiple files and resources
+* [SAPP Scripts](https://github.com/Chalwk/SPCLib/tree/master/sapp): Utilities, Custom Games, Attractive features
+* [Phasor Scripts](https://github.com/Chalwk/SPCLib/tree/master/phasor): Legacy scripts for older servers
+* [Chimera](https://github.com/Chalwk/SPCLib/tree/master/chimera): Chimera scripts
+* [Script Packages](https://github.com/Chalwk/SPCLib/releases): Bundled projects with multiple files and resources
   available as a ZIP
-* [**Script Browser**](https://chalwk.github.io/SPCLib/): Web interface for exploring all scripts in SPCLib
+* [Script Browser (web interface)](https://chalwk.github.io/SPCLib/tools/script-browser) - Live search and filtering of
+  all SPCLib scripts.
 
 **Q2: How do I get help?**
 
