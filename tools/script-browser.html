@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
+    <title>SPCLib Script Browser | Community Script Hub</title>
+    <link href="/assets/css/core.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0b1120 0%, #0a0f1a 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1.5rem;
+            color: #eef2ff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #3b4e6e;
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5b7cae;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+            border-bottom: 1px solid #2d3a4e;
+            padding-bottom: 1rem;
+        }
+
+        h1 {
+            font-weight: 600;
+            font-size: 1.9rem;
+            background: linear-gradient(135deg, #c0e0ff, #8ab3ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .sub {
+            color: #8aa2c2;
+            font-size: 0.85rem;
+        }
+
+        .stats-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(18, 25, 40, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 24px;
+            padding: 0.7rem 1.4rem;
+            border: 1px solid #2c3f5c;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #bbd9ff;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7b95bf;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1.5rem 0 1.2rem;
+            border-bottom: 1px solid #263449;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.7rem 1.8rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 40px 40px 0 0;
+            color: #9ab3d4;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #1e2a44;
+            color: white;
+            box-shadow: 0 -2px 0 #5f8bd9;
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #1a253d;
+            color: #cdddfc;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.2rem;
+            background: #0f1624;
+            padding: 0.6rem 1rem;
+            border-radius: 48px;
+            align-items: center;
+        }
+
+        .cat-btn {
+            background: #1a253d;
+            border: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #bbd4ff;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .cat-btn.active {
+            background: #5f8bd9;
+            color: white;
+        }
+
+        .cat-btn:hover:not(.active) {
+            background: #2e3f60;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.8rem;
+            background: #101624;
+            padding: 0.8rem 1.2rem;
+            border-radius: 60px;
+            border: 1px solid #2f3e5c;
+        }
+
+        .search-area {
+            flex: 2;
+            min-width: 200px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-input {
+            background: #0b0f19;
+            border: 1px solid #334155;
+            padding: 0.6rem 1rem;
+            border-radius: 40px;
+            color: white;
+            width: 260px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #6b8ed6;
+            box-shadow: 0 0 0 2px rgba(107, 142, 214, 0.3);
+        }
+
+        select, .page-size {
+            background: #0f1622;
+            border: 1px solid #2c3f5c;
+            padding: 0.5rem 1rem;
+            border-radius: 32px;
+            color: #e0edff;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        button {
+            background: #1f2a46;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 32px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        button:hover {
+            background: #2f3e64;
+        }
+
+        .clear-btn {
+            background: #2d2f42;
+        }
+
+        .clear-btn:hover {
+            background: #4a3e5c;
+        }
+
+        .script-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 1.3rem;
+            margin-top: 0.5rem;
+        }
+
+        .script-card {
+            background: #111826e6;
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            border: 1px solid #28344e;
+            padding: 1rem 1.2rem 1.2rem;
+            transition: transform 0.1s ease, border-color 0.2s;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .script-card:hover {
+            border-color: #4c6b9b;
+            background: #121b2ce6;
+        }
+
+        .script-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .script-name {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-weight: 600;
+            font-size: 0.95rem;
+            background: #03070f80;
+            padding: 0.25rem 0.8rem;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            word-break: break-all;
+            color: #bbd9ff;
+            text-decoration: none;
+            transition: 0.1s;
+        }
+
+        .script-name:hover {
+            background: #2f3e64;
+            color: white;
+            cursor: pointer;
+        }
+
+        .platform-tag {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .tag-sapp {
+            background: #1b5e20;
+            color: #c8e6c9;
+        }
+
+        .tag-phasor {
+            background: #0d3b66;
+            color: #bbdef5;
+        }
+
+        .tag-chimera {
+            background: #4a148c;
+            color: #e1bee7;
+        }
+
+        .tag-release {
+            background: #bf360c;
+            color: #ffccbc;
+        }
+
+        .script-desc {
+            font-size: 0.8rem;
+            color: #b9d0f0;
+            margin: 0.7rem 0 0.8rem;
+            line-height: 1.4;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .card-meta {
+            font-size: 0.7rem;
+            color: #8aa9d0;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .card-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .card-link {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.9rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .link-source {
+            background: #1f2a44;
+            color: #a5c1ff;
+            border: 1px solid #3d567c;
+        }
+
+        .link-source:hover {
+            background: #3a5580;
+            color: white;
+        }
+
+        .link-release {
+            background: #ff8c42;
+            color: #1c1f2e;
+            border: none;
+        }
+
+        .link-release:hover {
+            background: #ffaa66;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            background: #1a2338;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+        }
+
+        .page-btn.disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: #101624;
+            border-radius: 40px;
+            grid-column: 1 / -1;
+        }
+
+        .error-box {
+            background: #2c1a2a;
+            border-left: 6px solid #ff7b72;
+            padding: 1rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 1rem;
+            }
+
+            .script-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: 28px;
+            }
+
+            .search-area {
+                justify-content: center;
+            }
+
+            .tabs {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div>
+            <h1>📚 SCRIPT BROWSER</h1>
+            <div class="sub">SPCLib scripts · SAPP / Phasor / Chimera</div>
+        </div>
+        <div class="stat-card" style="background:#0c1120;">
+            <span id="statusMsg">🌐 Live metadata from GitHub</span>
+        </div>
+    </div>
+
+    <div class="stats-row" id="statsSummary">
+        <div class="stat-card"><span class="stat-number" id="totalScripts">0</span>
+            <div class="stat-label">Total Scripts</div>
+        </div>
+        <div class="stat-card"><span class="stat-number" id="platformScripts">0</span>
+            <div class="stat-label">Current Platform</div>
+        </div>
+        <div class="stat-card"><span class="stat-number" id="activeCategories">0</span>
+            <div class="stat-label">Categories (SAPP/Phasor)</div>
+        </div>
+    </div>
+
+    <div class="tabs" id="platformTabs"></div>
+    <div class="category-filters" id="categoryFiltersContainer"></div>
+
+    <div class="controls">
+        <div class="search-area">
+            <label for="searchInput"></label><input class="search-input" id="searchInput"
+                                                    placeholder="🔎 Filter by name, description..." type="text">
+            <label for="sortSelect"></label><select id="sortSelect">
+            <option value="name_asc">📖 Name A → Z</option>
+            <option value="name_desc">📖 Name Z → A</option>
+        </select>
+            <label for="pageSizeSelect"></label><select class="page-size" id="pageSizeSelect">
+            <option value="10">10 per page</option>
+            <option value="20">20 per page</option>
+            <option value="35">35 per page</option>
+            <option value="50">50 per page</option>
+        </select>
+            <button class="clear-btn" id="clearFiltersBtn">✖️ Clear filters</button>
+        </div>
+    </div>
+
+    <div class="script-grid" id="scriptGrid">
+        <div class="empty-state">⏳ Loading scripts from SPCLib repository...</div>
+    </div>
+
+    <div class="pagination" id="paginationControls">
+        <button class="page-btn" id="prevPageBtn">◀ Prev</button>
+        <span id="pageInfo" style="font-weight:500;">Page 0</span>
+        <button class="page-btn" id="nextPageBtn">Next ▶</button>
+    </div>
+</div>
+<script>
+    const METADATA_URL = 'https://raw.githubusercontent.com/Chalwk/SPCLib/master/metadata.json';
+    const GITHUB_BASE = 'https://github.com/Chalwk/SPCLib/blob/master';
+    const RAW_BASE = 'https://raw.githubusercontent.com/Chalwk/SPCLib/master';
+
+    const RELEASE_TAG_MAP = {
+        'sapp_server_templates': 'sapp-server-templates',
+        'phasor_server_templates': 'phasor-server-templates',
+        'laa_patched': 'laa_patched',
+        'battle_royale': 'battle_royale',
+        'wordbuster': 'wordbuster',
+        'admin_manager': 'AdminManager',
+        'pre_game': 'PreGame'
+    };
+
+    const PLATFORMS = [
+        {key: 'SAPP', label: 'SAPP', icon: '🖥️'},
+        {key: 'PHASOR', label: 'Phasor', icon: '⚡'},
+        {key: 'CHIMERA', label: 'Chimera', icon: '🐉'},
+        {key: 'RELEASES', label: 'Releases', icon: '📦'}
+    ];
+
+    let metadata = null;
+    let activePlatform = 'SAPP';
+    let activeCategory = 'all';
+    let searchQuery = '';
+    let sortCriterion = 'name_asc';
+    let currentPage = 1;
+    let pageSize = 10;
+    let filteredScriptsCache = [];
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function (m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function buildSourceUrl(platform, category, fileName) {
+        if (platform === 'CHIMERA') return `${GITHUB_BASE}/chimera/global/${fileName}.lua`;
+        if (platform === 'RELEASES') {
+            const tag = RELEASE_TAG_MAP[fileName] || fileName;
+            return `https://github.com/Chalwk/SPCLib/releases/tag/${tag}`;
+        }
+        return `${GITHUB_BASE}/${platform.toLowerCase()}/${category}/${fileName}.lua`;
+    }
+
+    function buildDownloadUrl(platform, category, fileName) {
+        if (platform === 'CHIMERA') return `${RAW_BASE}/chimera/global/${fileName}.lua`;
+        if (platform === 'RELEASES') return buildSourceUrl(platform, category, fileName);
+        return `${RAW_BASE}/${platform.toLowerCase()}/${category}/${fileName}.lua`;
+    }
+
+    function flattenMetadata() {
+        const scripts = [];
+        if (!metadata) return scripts;
+        for (const platformKey of Object.keys(metadata)) {
+            const platformData = metadata[platformKey];
+            const isCategoryBased = (platformKey === 'SAPP' || platformKey === 'PHASOR');
+            if (isCategoryBased && typeof platformData === 'object') {
+                for (const [category, scriptsObj] of Object.entries(platformData)) {
+                    if (scriptsObj && typeof scriptsObj === 'object') {
+                        for (const [fileName, description] of Object.entries(scriptsObj)) {
+                            scripts.push({
+                                platform: platformKey,
+                                category: category,
+                                fileName: fileName,
+                                description: typeof description === 'string' ? description : '',
+                                sourceUrl: buildSourceUrl(platformKey, category, fileName),
+                                downloadUrl: buildDownloadUrl(platformKey, category, fileName),
+                                isRelease: false
+                            });
+                        }
+                    }
+                }
+            } else if (platformKey === 'RELEASES') {
+                for (const [fileName, description] of Object.entries(platformData)) {
+                    scripts.push({
+                        platform: platformKey,
+                        category: 'release',
+                        fileName: fileName,
+                        description: typeof description === 'string' ? description : '',
+                        sourceUrl: buildSourceUrl('RELEASES', '', fileName),
+                        downloadUrl: buildDownloadUrl('RELEASES', '', fileName),
+                        isRelease: true
+                    });
+                }
+            } else if (platformKey === 'CHIMERA') {
+                for (const [fileName, description] of Object.entries(platformData)) {
+                    scripts.push({
+                        platform: platformKey,
+                        category: 'global',
+                        fileName: fileName,
+                        description: typeof description === 'string' ? description : '',
+                        sourceUrl: buildSourceUrl('CHIMERA', 'global', fileName),
+                        downloadUrl: buildDownloadUrl('CHIMERA', 'global', fileName),
+                        isRelease: false
+                    });
+                }
+            }
+        }
+        return scripts;
+    }
+
+    function getPlatformTagClass(platform) {
+        const map = {'SAPP': 'tag-sapp', 'PHASOR': 'tag-phasor', 'CHIMERA': 'tag-chimera', 'RELEASES': 'tag-release'};
+        return map[platform] || 'tag-sapp';
+    }
+
+    function filterAndSortScripts() {
+        let allScripts = flattenMetadata();
+        let filtered = allScripts.filter(script => script.platform === activePlatform);
+        if ((activePlatform === 'SAPP' || activePlatform === 'PHASOR') && activeCategory !== 'all') {
+            filtered = filtered.filter(script => script.category === activeCategory);
+        }
+        if (searchQuery.trim() !== '') {
+            const lowerQuery = searchQuery.toLowerCase();
+            filtered = filtered.filter(script =>
+                script.fileName.toLowerCase().includes(lowerQuery) ||
+                (script.description && script.description.toLowerCase().includes(lowerQuery)) ||
+                script.category.toLowerCase().includes(lowerQuery)
+            );
+        }
+        if (sortCriterion === 'name_asc') {
+            filtered.sort((a, b) => a.fileName.localeCompare(b.fileName));
+        } else if (sortCriterion === 'name_desc') {
+            filtered.sort((a, b) => b.fileName.localeCompare(a.fileName));
+        }
+        return filtered;
+    }
+
+    function updateStatsAndRender() {
+        const allRaw = flattenMetadata();
+        const totalAll = allRaw.length;
+        const platformFiltered = filterAndSortScripts();
+        filteredScriptsCache = platformFiltered;
+        const totalPlatform = platformFiltered.length;
+        let uniqueCategories = 0;
+        if (activePlatform === 'SAPP' || activePlatform === 'PHASOR') {
+            const cats = new Set(platformFiltered.map(s => s.category));
+            uniqueCategories = cats.size;
+        } else {
+            uniqueCategories = 0;
+        }
+        document.getElementById('totalScripts').innerText = totalAll;
+        document.getElementById('platformScripts').innerText = totalPlatform;
+        document.getElementById('activeCategories').innerText = uniqueCategories || '—';
+        const totalPages = Math.ceil(filteredScriptsCache.length / pageSize);
+        let validPage = currentPage;
+        if (validPage > totalPages && totalPages > 0) validPage = totalPages;
+        if (validPage < 1) validPage = 1;
+        currentPage = validPage;
+        renderScripts();
+        updatePaginationUI(totalPages);
+    }
+
+    function renderScripts() {
+        const grid = document.getElementById('scriptGrid');
+        if (!filteredScriptsCache.length) {
+            grid.innerHTML = `<div class="empty-state">✨ No scripts found. Try different filters or search.</div>`;
+            return;
+        }
+        const start = (currentPage - 1) * pageSize;
+        const pageData = filteredScriptsCache.slice(start, start + pageSize);
+        let html = '';
+        for (const script of pageData) {
+            const displayName = script.isRelease ? script.fileName.replace(/_/g, ' ') : script.fileName;
+            const ext = script.isRelease ? '.zip' : '.lua';
+            const platformClass = getPlatformTagClass(script.platform);
+            const isReleaseScript = script.isRelease;
+            html += `
+                <div class="script-card">
+                    <div class="script-header">
+                        <span class="script-name" data-download-url="${escapeHtml(script.downloadUrl)}" data-filename="${escapeHtml(displayName + ext)}">
+                            ${escapeHtml(displayName)}<span style="opacity:0.7;">${ext}</span>
+                        </span>
+                        <span class="platform-tag ${platformClass}">${script.platform}</span>
+                    </div>
+                    ${script.description ? `<div class="script-desc">${escapeHtml(script.description)}</div>` : ''}
+                    <div class="card-bottom">
+                        <div class="card-meta">
+                            ${!script.isRelease && script.category !== 'global' ? `<span>📁 ${script.category}</span>` : ''}
+                        </div>
+                        <div class="card-links">
+                            ${isReleaseScript ?
+                `<a href="${script.sourceUrl}" target="_blank" class="card-link link-release">⬇ Release</a>` :
+                `<a href="${script.sourceUrl}" target="_blank" class="card-link link-source">📄 Source</a>`
+            }
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        grid.innerHTML = html;
+        document.querySelectorAll('.script-name').forEach(el => {
+            el.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const url = el.getAttribute('data-download-url');
+                const filename = el.getAttribute('data-filename');
+                if (!url || url.endsWith('/tag/') || url.includes('releases/tag/')) {
+                    window.open(url, '_blank');
+                    return;
+                }
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error();
+                    const blob = await response.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = filename || 'script.lua';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 1500);
+                } catch (err) {
+                    window.open(url, '_blank');
+                }
+            });
+        });
+    }
+
+    function updatePaginationUI(totalPages) {
+        const pageInfo = document.getElementById('pageInfo');
+        const prevBtn = document.getElementById('prevPageBtn');
+        const nextBtn = document.getElementById('nextPageBtn');
+        if (totalPages === 0) {
+            pageInfo.innerText = `Page 0 of 0`;
+            prevBtn.classList.add('disabled');
+            nextBtn.classList.add('disabled');
+            return;
+        }
+        pageInfo.innerText = `Page ${currentPage} / ${totalPages}`;
+        if (currentPage <= 1) prevBtn.classList.add('disabled');
+        else prevBtn.classList.remove('disabled');
+        if (currentPage >= totalPages) nextBtn.classList.add('disabled');
+        else nextBtn.classList.remove('disabled');
+    }
+
+    function renderTabs() {
+        const container = document.getElementById('platformTabs');
+        let html = '';
+        for (const plat of PLATFORMS) {
+            const activeClass = plat.key === activePlatform ? 'active' : '';
+            html += `<button class="tab-btn ${activeClass}" data-platform="${plat.key}">${plat.icon} ${plat.label}</button>`;
+        }
+        container.innerHTML = html;
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const newPlatform = btn.getAttribute('data-platform');
+                if (newPlatform && newPlatform !== activePlatform) {
+                    activePlatform = newPlatform;
+                    activeCategory = 'all';
+                    searchQuery = '';
+                    document.getElementById('searchInput').value = '';
+                    currentPage = 1;
+                    updateStatsAndRender();
+                    renderCategoryFilters();
+                }
+            });
+        });
+    }
+
+    function renderCategoryFilters() {
+        const container = document.getElementById('categoryFiltersContainer');
+        if (activePlatform !== 'SAPP' && activePlatform !== 'PHASOR') {
+            container.innerHTML = '';
+            return;
+        }
+        const allScripts = flattenMetadata();
+        const catMap = new Map();
+        for (const script of allScripts) {
+            if (script.platform === activePlatform) {
+                catMap.set(script.category, (catMap.get(script.category) || 0) + 1);
+            }
+        }
+        const categories = Array.from(catMap.keys()).sort();
+        let html = `<button class="cat-btn ${activeCategory === 'all' ? 'active' : ''}" data-category="all">All (${Array.from(catMap.values()).reduce((a, b) => a + b, 0)})</button>`;
+        for (const cat of categories) {
+            const count = catMap.get(cat);
+            html += `<button class="cat-btn ${activeCategory === cat ? 'active' : ''}" data-category="${cat}">${cat} (${count})</button>`;
+        }
+        container.innerHTML = html;
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const newCat = btn.getAttribute('data-category');
+                if (newCat && newCat !== activeCategory) {
+                    activeCategory = newCat;
+                    currentPage = 1;
+                    updateStatsAndRender();
+                }
+            });
+        });
+    }
+
+    function attachGlobalEvents() {
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchQuery = e.target.value;
+            currentPage = 1;
+            updateStatsAndRender();
+        });
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+            sortCriterion = e.target.value;
+            currentPage = 1;
+            updateStatsAndRender();
+        });
+        document.getElementById('pageSizeSelect').addEventListener('change', (e) => {
+            pageSize = parseInt(e.target.value, 10);
+            currentPage = 1;
+            updateStatsAndRender();
+        });
+        document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+            document.getElementById('searchInput').value = '';
+            searchQuery = '';
+            sortCriterion = 'name_asc';
+            document.getElementById('sortSelect').value = 'name_asc';
+            activeCategory = 'all';
+            currentPage = 1;
+            updateStatsAndRender();
+            renderCategoryFilters();
+        });
+        document.getElementById('prevPageBtn').addEventListener('click', () => {
+            const total = Math.ceil(filteredScriptsCache.length / pageSize);
+            if (currentPage > 1) {
+                currentPage--;
+                renderScripts();
+                updatePaginationUI(total);
+            }
+        });
+        document.getElementById('nextPageBtn').addEventListener('click', () => {
+            const total = Math.ceil(filteredScriptsCache.length / pageSize);
+            if (currentPage < total) {
+                currentPage++;
+                renderScripts();
+                updatePaginationUI(total);
+            }
+        });
+    }
+
+    async function fetchMetadata() {
+        const statusSpan = document.getElementById('statusMsg');
+        try {
+            const resp = await fetch(METADATA_URL);
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            metadata = await resp.json();
+            statusSpan.innerHTML = '✅ Metadata loaded · ready';
+            renderTabs();
+            renderCategoryFilters();
+            updateStatsAndRender();
+        } catch (err) {
+            console.error(err);
+            statusSpan.innerHTML = '❌ Failed to load metadata. Check network.';
+            document.getElementById('scriptGrid').innerHTML = `<div class="empty-state">⚠️ Could not fetch metadata.json from GitHub. Please try again later.</div>`;
+        }
+    }
+
+    function init() {
+        attachGlobalEvents();
+        fetchMetadata();
+    }
+
+    init();
+</script>
+<script defer src="/assets/js/script.js"></script>
+</body>
+</html>

@@ -1,155 +1,49 @@
-<!-- Copyright (c) 2026. Jericho Crosby (Chalwk) -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
     <title>SPCLib · Ban Registry</title>
+    <link href="/assets/css/core.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: #f6f8fa;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-            line-height: 1.5;
-            color: #1f2328;
-            padding: 2rem 1.5rem;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-            overflow-x: auto;
-            padding: 1.8rem 2rem 2.5rem 2rem;
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 0.5rem;
-            border-bottom: 2px solid #eaeef2;
-            padding-bottom: 0.75rem;
-        }
-
-        .header-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            margin: 1.2rem 0 1rem 0;
-            gap: 12px;
-        }
-
-        .last-updated {
-            font-size: 0.85rem;
-            background: #f0f3f5;
-            padding: 4px 12px;
-            border-radius: 40px;
-            color: #2c3e4e;
-            font-weight: 500;
-        }
-
-        .badge-strip {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin: 10px 0 16px 0;
-        }
-
-        .badge-strip a, .badge-strip img {
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .summary-card {
-            background: #f0f4f9;
-            border-radius: 20px;
-            padding: 0.9rem 1.6rem;
-            margin: 1.5rem 0 1.8rem 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 12px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            border: 1px solid #e2e8f0;
-        }
-
-        .totals span {
-            font-weight: 700;
-            background: white;
-            padding: 2px 8px;
-            border-radius: 40px;
-            margin: 0 2px;
-        }
-
-        .refresh-btn {
-            background: white;
-            border: 1px solid #cbd5e1;
-            padding: 5px 12px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s;
-            color: #1f2937;
-        }
-
-        .refresh-btn:hover {
-            background: #eef2ff;
-            border-color: #94a3b8;
-        }
-
         .table-wrapper {
             overflow-x: auto;
-            border-radius: 18px;
-            border: 1px solid #e9edf2;
-            background: white;
+            border-radius: 24px;
+            background: #0f1624cc;
+            backdrop-filter: blur(2px);
+            border: 1px solid #28344e;
             margin-top: 1rem;
         }
 
-        table {
+        .ban-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.8rem;
-            min-width: 960px;
+            min-width: 1000px;
         }
 
-        th {
-            background: #f8fafc;
+        .ban-table th {
+            background: #121b2c;
             padding: 12px 10px;
             font-weight: 600;
-            color: #1e2a3e;
-            border-bottom: 1px solid #e2e8f0;
+            color: #bbd4ff;
+            border-bottom: 1px solid #2f3f60;
             text-align: center;
             font-size: 0.75rem;
             letter-spacing: 0.3px;
             text-transform: uppercase;
         }
 
-        td {
+        .ban-table td {
             padding: 10px 8px;
-            border-bottom: 1px solid #edf2f7;
+            border-bottom: 1px solid #26334d;
             text-align: center;
             vertical-align: middle;
-            color: #1e293b;
+            color: #eef2ff;
         }
 
-        tr:hover td {
-            background-color: #fefce8;
+        .ban-table tr:hover td {
+            background: #1a233ccc;
         }
 
         .status-badge {
@@ -163,68 +57,92 @@
         }
 
         .status-active {
-            background: #e0f2e9;
-            color: #0b5e42;
-            border: 1px solid #b2dfc5;
+            background: #0b5e42cc;
+            color: #d0ffea;
+            border: 1px solid #2e8b57;
         }
 
         .status-expired {
-            background: #ffe6e5;
-            color: #b91c1c;
-            border: 1px solid #fbc5c5;
+            background: #b91c1ccc;
+            color: #ffd4d4;
+            border: 1px solid #ff6b6b;
         }
 
         .status-revoked {
-            background: #e6edfc;
-            color: #1e40af;
-            border: 1px solid #cbdffc;
+            background: #1e40afcc;
+            color: #c3d9ff;
+            border: 1px solid #5f8bd9;
         }
 
         .status-unknown {
-            background: #f1f3f4;
-            color: #5f6c7a;
+            background: #5f6c7acc;
+            color: #e2e8f0;
         }
 
-        .placeholder-dash {
-            color: #8ba0b0;
-            font-family: monospace;
+        .summary-card {
+            background: #0f1624cc;
+            border-radius: 28px;
+            padding: 0.9rem 1.6rem;
+            margin: 1.5rem 0 1.8rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid #2c3f5c;
         }
 
-        .footer-note {
-            margin-top: 2rem;
-            font-size: 0.7rem;
-            color: #6c7a8a;
-            text-align: right;
-            border-top: 1px solid #eef2f5;
-            padding-top: 1rem;
+        .totals span {
+            font-weight: 700;
+            background: #1a2338;
+            padding: 2px 8px;
+            border-radius: 40px;
+            margin: 0 2px;
+            color: #bbd9ff;
         }
 
-        @media (max-width: 700px) {
-            .container {
-                padding: 1rem;
-            }
+        .header-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 1.2rem 0 1rem 0;
+            gap: 12px;
+        }
 
-            .summary-card {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+        .last-updated {
+            font-size: 0.85rem;
+            background: #1a2338;
+            padding: 4px 12px;
+            border-radius: 40px;
+            color: #aac6ff;
+            font-weight: 500;
+        }
+
+        .badge-strip {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>🛡️ SPCLib Ban Registry</h1>
+    <div class="header">
+        <div>
+            <h1>🛡️ Ban Registry</h1>
+            <div class="sub">SPCLib · Active, expired & revoked bans</div>
+        </div>
+        <div class="stat-card" style="background:#0c1120;">
+            <span id="statusMsg">📁 Loading bans.txt...</span>
+        </div>
+    </div>
 
     <div class="header-meta">
         <div class="last-updated">📅 Last Updated: <span id="lastUpdatedStatic">--</span></div>
-        <div class="badge-strip">
-            <img alt="Active Bans" id="badgeActive"
-                 src="https://img.shields.io/badge/ACTIVE-0-00AA00?style=flat-square">
-            <img alt="Expired Bans" id="badgeExpired"
-                 src="https://img.shields.io/badge/EXPIRED-0-AA0000?style=flat-square">
-            <img alt="Revoked Bans" id="badgeRevoked"
-                 src="https://img.shields.io/badge/REVOKED-0-5555FF?style=flat-square">
-        </div>
+        <div class="badge-strip" id="badgeStrip"></div>
     </div>
 
     <div class="summary-card">
@@ -233,11 +151,14 @@
             <strong>Expired:</strong> <span id="expiredCountSpan">0</span> &nbsp;|&nbsp;
             <strong>Revoked:</strong> <span id="revokedCountSpan">0</span>
         </div>
-        <button class="refresh-btn" id="refreshBtn">⟳ Refresh data</button>
+        <button class="refresh-btn" id="refreshBtn"
+                style="background:#1f2a46; padding:5px 16px; border-radius:40px; border:none; color:white; cursor:pointer;">
+            ⟳ Refresh data
+        </button>
     </div>
 
     <div class="table-wrapper">
-        <table id="banTable">
+        <table class="ban-table" id="banTable">
             <thead>
             <tr>
                 <th>🔢 Ban ID</th>
@@ -260,20 +181,14 @@
             </tbody>
         </table>
     </div>
-    <div class="footer-note">© 2026. Jericho Crosby (<a href="https://github.com/Chalwk" target="_blank">Chalwk</a>)
-    </div>
-
 </div>
-
 <script>
     (function () {
         const tbody = document.getElementById('banTableBody');
         const activeSpan = document.getElementById('activeCountSpan');
         const expiredSpan = document.getElementById('expiredCountSpan');
         const revokedSpan = document.getElementById('revokedCountSpan');
-        const badgeActive = document.getElementById('badgeActive');
-        const badgeExpired = document.getElementById('badgeExpired');
-        const badgeRevoked = document.getElementById('badgeRevoked');
+        const badgeStrip = document.getElementById('badgeStrip');
         const lastUpdatedSpan = document.getElementById('lastUpdatedStatic');
         const refreshBtn = document.getElementById('refreshBtn');
 
@@ -298,7 +213,6 @@
                 tbody.innerHTML = '<tr><td colspan="11" style="text-align:center; padding:2rem;">📭 No ban records found in bans.txt</td></tr>';
                 return;
             }
-
             let html = '';
             for (const ban of bans) {
                 const statusClass = getStatusClass(ban.status);
@@ -321,7 +235,7 @@
         }
 
         function escapeHtml(str) {
-            if (!str) return '—';
+            if (!str) return '-';
             return String(str).replace(/[&<>]/g, function (m) {
                 if (m === '&') return '&amp;';
                 if (m === '<') return '&lt;';
@@ -329,7 +243,7 @@
                 return m;
             }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function (c) {
                 return c;
-            }) || '—';
+            }) || '-';
         }
 
         function updateCountersAndBadges(bans) {
@@ -343,9 +257,13 @@
             if (activeSpan) activeSpan.innerText = active;
             if (expiredSpan) expiredSpan.innerText = expired;
             if (revokedSpan) revokedSpan.innerText = revoked;
-            if (badgeActive) badgeActive.src = `https://img.shields.io/badge/ACTIVE-${active}-00AA00?style=flat-square`;
-            if (badgeExpired) badgeExpired.src = `https://img.shields.io/badge/EXPIRED-${expired}-AA0000?style=flat-square`;
-            if (badgeRevoked) badgeRevoked.src = `https://img.shields.io/badge/REVOKED-${revoked}-5555FF?style=flat-square`;
+            if (badgeStrip) {
+                badgeStrip.innerHTML = `
+                    <img alt="Active Bans" src="https://img.shields.io/badge/ACTIVE-${active}-00AA00?style=flat-square">
+                    <img alt="Expired Bans" src="https://img.shields.io/badge/EXPIRED-${expired}-AA0000?style=flat-square">
+                    <img alt="Revoked Bans" src="https://img.shields.io/badge/REVOKED-${revoked}-5555FF?style=flat-square">
+                `;
+            }
         }
 
         function parseBanFile(text) {
@@ -380,9 +298,11 @@
         }
 
         async function loadAndRender() {
+            const statusSpan = document.getElementById('statusMsg');
             try {
+                statusSpan.innerHTML = '⏳ Fetching bans.txt ...';
                 tbody.innerHTML = '<tr><td colspan="11" style="text-align:center; padding:2rem;">⏳ Fetching bans.txt ...</td></tr>';
-                const response = await fetch('bans.txt?t=' + Date.now());
+                const response = await fetch('../data/bans.txt?t=' + Date.now());
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const rawText = await response.text();
                 const bans = parseBanFile(rawText);
@@ -390,17 +310,23 @@
                 updateCountersAndBadges(bans);
                 const now = new Date();
                 lastUpdatedSpan.innerText = now.toLocaleString();
+                statusSpan.innerHTML = `✅ Loaded ${bans.length} ban records`;
             } catch (err) {
                 console.error(err);
-                tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:2rem; color:#b91c1c;">⚠️ Failed to load bans.txt — make sure the file exists in the same directory. Error: ${err.message}</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:2rem; color:#ffa2a2;">⚠️ Failed to load bans.txt - make sure the file exists in the data/ directory. Error: ${err.message}</td></tr>`;
                 updateCountersAndBadges([]);
                 lastUpdatedSpan.innerText = new Date().toLocaleString() + ' (error)';
                 if (activeSpan) activeSpan.innerText = '0';
                 if (expiredSpan) expiredSpan.innerText = '0';
                 if (revokedSpan) revokedSpan.innerText = '0';
-                if (badgeActive) badgeActive.src = 'https://img.shields.io/badge/ACTIVE-0-00AA00?style=flat-square';
-                if (badgeExpired) badgeExpired.src = 'https://img.shields.io/badge/EXPIRED-0-AA0000?style=flat-square';
-                if (badgeRevoked) badgeRevoked.src = 'https://img.shields.io/badge/REVOKED-0-5555FF?style=flat-square';
+                if (badgeStrip) {
+                    badgeStrip.innerHTML = `
+                        <img alt="Active Bans" src="https://img.shields.io/badge/ACTIVE-0-00AA00?style=flat-square">
+                        <img alt="Expired Bans" src="https://img.shields.io/badge/EXPIRED-0-AA0000?style=flat-square">
+                        <img alt="Revoked Bans" src="https://img.shields.io/badge/REVOKED-0-5555FF?style=flat-square">
+                    `;
+                }
+                document.getElementById('statusMsg').innerHTML = '❌ Failed to load bans.txt';
             }
         }
 
@@ -414,9 +340,9 @@
                 }, 120);
             });
         }
-
         loadAndRender();
     })();
 </script>
+<script defer src="/assets/js/script.js"></script>
 </body>
 </html>

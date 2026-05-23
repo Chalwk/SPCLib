@@ -1,952 +1,303 @@
-<!-- Copyright (c) 2026. Jericho Crosby (Chalwk) -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>SPCLib Script Browser</title>
+    <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
+    <meta content="SPCLib - Largest public archive of Lua scripts and resources for SAPP, Phasor server extensions & Chimera client-side mod for Halo PC/Custom Edition."
+          name="description">
+    <title>SPCLib | SAPP · Phasor · Chimera Library</title>
+    <link href="/assets/css/core.css" rel="stylesheet">
     <style>
-        :root {
-            --bg: #0a0e14;
-            --surface: #141b22;
-            --surface2: #1c242e;
-            --border: #2a3644;
-            --accent: #64b5f6;
-            --accent2: #ffb74d;
-            --text: #c8d6e5;
-            --text2: #8899aa;
-            --danger: #ef5350;
-            --success: #66bb6a;
-            --warning: #ffa726;
-            --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-            --radius: 8px;
-            --transition: 0.2s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            min-height: 100vh;
-        }
-
-        .header {
-            background: var(--surface);
-            border-bottom: 2px solid var(--accent);
-            padding: 1rem 1.5rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(8px);
-        }
-
-        .header-inner {
-            max-width: 1400px;
-            margin: 0 auto;
+        .hero {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.75rem;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #2d3a4e;
+            padding-bottom: 1.5rem;
         }
 
-        .header-left {
+        .logo-area {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            flex-shrink: 0;
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--accent);
-            letter-spacing: -0.5px;
-            white-space: nowrap;
-        }
-
-        .logo span {
-            color: var(--accent2);
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--text2);
-            text-decoration: none;
-            padding: 0.35rem 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            background: var(--surface2);
-            transition: var(--transition);
-            white-space: nowrap;
-            line-height: 1;
-        }
-
-        .back-btn:hover {
-            background: var(--accent);
-            color: #000;
-            border-color: var(--accent);
-        }
-
-        .back-btn .arrow {
-            font-size: 0.85rem;
-            line-height: 1;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex: 1;
-            justify-content: flex-end;
-            min-width: 0;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 0.35rem 0.9rem;
-            gap: 0.5rem;
-            min-width: 220px;
-            max-width: 360px;
-            flex: 1;
-        }
-
-        .search-box:focus-within {
-            border-color: var(--accent);
-        }
-
-        .search-box input {
-            background: transparent;
-            border: none;
-            color: var(--text);
-            font-size: 0.85rem;
-            width: 100%;
-            outline: none;
-        }
-
-        .search-box .search-icon {
-            color: var(--text2);
-            font-size: 0.85rem;
-            flex-shrink: 0;
-        }
-
-        .search-clear {
-            background: none;
-            border: none;
-            color: var(--text2);
-            cursor: pointer;
-            font-size: 1rem;
-            padding: 0 0.15rem;
-            display: none;
-            flex-shrink: 0;
-            line-height: 1;
-        }
-
-        .search-clear.visible {
-            display: inline;
-        }
-
-        .search-clear:hover {
-            color: var(--danger);
-        }
-
-        .stats {
-            font-size: 0.8rem;
-            color: var(--text2);
-            background: var(--surface2);
-            padding: 0.35rem 0.75rem;
-            border-radius: 20px;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .stats strong {
-            color: var(--accent2);
-        }
-
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.5rem;
-        }
-
-        .tab-nav {
-            display: flex;
-            gap: 0.25rem;
-            margin-bottom: 1.5rem;
-            background: var(--surface);
-            border-radius: var(--radius);
-            padding: 0.3rem;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .tab-btn {
-            padding: 0.6rem 1.4rem;
-            border: none;
-            background: transparent;
-            color: var(--text2);
-            cursor: pointer;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            white-space: nowrap;
-            transition: var(--transition);
-        }
-
-        .tab-btn:hover {
-            color: var(--text);
-            background: var(--surface2);
-        }
-
-        .tab-btn.active {
-            background: var(--accent);
-            color: #000;
-            font-weight: 600;
-        }
-
-        .tab-btn .badge {
-            display: inline-block;
-            background: rgba(0, 0, 0, 0.15);
-            padding: 0.1rem 0.5rem;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            margin-left: 0.4rem;
-        }
-
-        .tab-btn.active .badge {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .category-filters {
-            display: flex;
-            gap: 0.3rem;
-            margin-bottom: 1.2rem;
-            flex-wrap: wrap;
-        }
-
-        .cat-btn {
-            padding: 0.35rem 0.9rem;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text2);
-            cursor: pointer;
-            border-radius: 16px;
-            font-size: 0.8rem;
-            transition: var(--transition);
-            white-space: nowrap;
-            text-transform: capitalize;
-        }
-
-        .cat-btn:hover {
-            border-color: var(--accent);
-            color: var(--text);
-        }
-
-        .cat-btn.active {
-            background: var(--accent);
-            color: #000;
-            border-color: var(--accent);
-            font-weight: 600;
-        }
-
-        .script-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1rem;
-        }
-
-        .script-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 1.2rem;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            box-shadow: var(--shadow);
-        }
-
-        .script-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 0.6rem;
-            gap: 0.5rem;
-            min-width: 0;
-        }
-
-        .script-name {
-            font-weight: 600;
-            font-size: 1rem;
-            color: var(--accent);
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            text-decoration: none;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            min-width: 0;
-            display: inline-block;
-            max-width: 100%;
-            cursor: pointer;
-            line-height: 1.3;
-        }
-
-        .script-name:hover {
-            text-decoration: underline;
-            color: var(--accent2);
-        }
-
-        .script-name .ext {
-            color: var(--text2);
-            font-weight: 400;
-            white-space: nowrap;
-        }
-
-        .long-desc {
-            font-size: 0.82rem;
-            color: var(--text);
-            flex-grow: 1;
-            line-height: 1.5;
-            margin-bottom: 0.8rem;
-        }
-
-        .card-bottom {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.5rem;
-            margin-top: auto;
             flex-wrap: wrap;
         }
 
-        .card-meta {
-            font-size: 0.7rem;
-            color: var(--text2);
+        .logo-img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 40px;
+            background: #101624;
+            padding: 4px;
+            border: 1px solid #3b5a8c;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-text h1 {
+            font-weight: 700;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #e0efff, #8ab3ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text p {
+            color: #8aa2c2;
+            font-size: 0.85rem;
+        }
+
+        .badge-strip {
             display: flex;
             gap: 0.8rem;
-            align-items: center;
+            flex-wrap: wrap;
         }
 
-        .card-links {
-            display: flex;
-            gap: 0.4rem;
-            flex-shrink: 0;
-            margin-left: auto;
-        }
-
-        .card-link {
+        .badge-link {
+            background: #1a2338;
+            border-radius: 40px;
+            padding: 6px 18px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: 0.2s;
             display: inline-flex;
             align-items: center;
-            gap: 0.2rem;
-            font-size: 0.75rem;
+            gap: 8px;
             text-decoration: none;
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            transition: var(--transition);
-            white-space: nowrap;
-            border: 1px solid transparent;
+            color: #eef2ff;
+            border: 1px solid #2f3e5c;
         }
 
-        .link-source {
-            background: var(--surface2);
-            color: var(--accent);
-            border-color: var(--border);
+        .badge-link:hover {
+            background: #2a3958;
+            transform: translateY(-2px);
+            border-color: #6b8ed6;
         }
 
-        .link-source:hover {
-            background: var(--accent);
-            color: #000;
-        }
-
-        .link-release {
-            background: var(--accent2);
-            color: #000;
+        .section-title {
+            font-size: 1.6rem;
             font-weight: 600;
-        }
-
-        .link-release:hover {
-            opacity: 0.85;
-        }
-
-        .platform-tag {
+            margin: 2rem 0 1rem 0;
+            letter-spacing: -0.3px;
             display: inline-block;
-            padding: 0.15rem 0.5rem;
-            border-radius: 10px;
+            background: linear-gradient(120deg, #cde4ff, #9bb9ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            border-left: 4px solid #5b7cae;
+            padding-left: 1rem;
+        }
+
+        .grid-2col, .grid-3col, .grid-4col {
+            display: grid;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .grid-2col {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .grid-3col {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .grid-4col {
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+        }
+
+        .feature-card {
+            background: rgba(18, 25, 40, 0.65);
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            padding: 1.4rem 1.3rem;
+            border: 1px solid #2c3f5c;
+            transition: 0.2s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card:hover {
+            border-color: #5b7cae;
+            background: rgba(25, 35, 55, 0.8);
+            transform: translateY(-3px);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
             font-weight: 600;
-            font-size: 0.7rem;
-            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .tag-sapp {
-            background: #1b5e20;
-            color: #a5d6a7;
-        }
-
-        .tag-phasor {
-            background: #0d3b66;
-            color: #90caf9;
-        }
-
-        .tag-chimera {
-            background: #4a148c;
-            color: #ce93d8;
-        }
-
-        .tag-release {
-            background: #e65100;
-            color: #ffe0b2;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--text2);
-        }
-
-        .empty-state .icon {
-            font-size: 3rem;
+        .card-desc {
+            font-size: 0.85rem;
+            color: #cbd5e6;
+            line-height: 1.4;
             margin-bottom: 1rem;
         }
 
-        .empty-state p {
-            font-size: 0.95rem;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text2);
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .error-banner {
-            background: #4a1515;
-            border: 1px solid var(--danger);
-            color: #ef9a9a;
-            padding: 1rem;
-            border-radius: var(--radius);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 1.5rem;
-            font-size: 0.8rem;
-            color: var(--text2);
-            border-top: 1px solid var(--border);
-            margin-top: 2rem;
-        }
-
-        .footer a {
-            color: var(--accent);
+        .btn-link {
+            background: #1f2a46;
+            padding: 5px 14px;
+            border-radius: 40px;
             text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #eef2ff;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+            border: 1px solid #3f557a;
         }
 
-        .footer a:hover {
-            text-decoration: underline;
+        .btn-link:hover {
+            background: #2f4468;
+            border-color: #8ab3ff;
         }
 
-        @media (max-width: 768px) {
-            .header-inner {
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 0.8rem;
+        }
+
+        @media (max-width: 700px) {
+            .hero {
                 flex-direction: column;
-                align-items: stretch;
-            }
-
-            .header-left {
-                justify-content: space-between;
-            }
-
-            .header-right {
-                flex-wrap: wrap;
-                justify-content: stretch;
-            }
-
-            .search-box {
-                min-width: unset;
-                max-width: unset;
-                flex: 1 1 100%;
-            }
-
-            .stats {
-                flex-shrink: 1;
-                text-align: center;
-            }
-
-            .script-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .tab-nav {
-                gap: 0.15rem;
-            }
-
-            .tab-btn {
-                padding: 0.5rem 0.8rem;
-                font-size: 0.8rem;
+                align-items: flex-start;
             }
         }
     </style>
 </head>
 <body>
-
-<header class="header">
-    <div class="header-inner">
-        <div class="header-left">
-            <div class="logo">📚 SPCLib <span>Script Browser</span></div>
-            <a class="back-btn" href="https://github.com/Chalwk/SPCLib" title="Go to repository root">
-                <span class="arrow">←</span> Repo
-            </a>
-        </div>
-        <div class="header-right">
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input id="searchInput" placeholder="Search scripts..." type="text">
-                <button class="search-clear" id="searchClear" title="Clear">✕</button>
+<div class="container">
+    <div class="hero">
+        <div class="logo-area">
+            <img alt="SPCLib Logo" class="logo-img"
+                 src="assets/images/logo.jpg">
+            <div class="logo-text">
+                <h1>SPCLib <span style="font-size: 1rem;">- SAPP · Phasor · Chimera Library</span></h1>
+                <p>The largest public archive of Lua scripts and resources for</p>
+                <p>the SAPP and Phasor dedicated server extensions and</p>
+                <p>the Chimera client-side mod for Halo PC and Custom Edition.</p>
             </div>
-            <div class="stats" id="statsDisplay">Loading...</div>
+        </div>
+        <div class="badge-strip">
+            <a class="badge-link" href="mailto:chalwk.dev@gmail.com">📧 chalwk.dev@gmail.com</a>
+            <a class="badge-link" href="https://discord.gg/D76H7RVPC9" target="_blank">💬 Discord Server</a>
+            <a class="badge-link" href="https://chalwk.github.io/" target="_blank">🌐 Chalwk's Website</a>
+            <a class="badge-link" href="https://github.com/Chalwk/SPCLib" target="_blank">⭐ GitHub Repo</a>
         </div>
     </div>
-</header>
 
-<div class="main-container">
-    <nav class="tab-nav" id="tabNav"></nav>
-    <div class="category-filters" id="categoryFilters"></div>
-    <div class="script-grid" id="scriptGrid">
-        <div class="loading">
-            <div class="spinner"></div>
-            <p>Loading script metadata...</p>
+    <div class="section-title">SAPP, Phasor & Chimera Scripts</div>
+    <div class="grid-2col">
+        <div class="feature-card">
+            <div class="card-title">SAPP</div>
+            <div class="card-desc">Most advanced server-side extension for haloceded.exe. Lua scripting, anti-cheat,
+                event hooks, admin tools, and more.
+            </div>
+            <a class="btn-link" href="https://github.com/Chalwk/SPCLib/tree/master/sapp" target="_blank">📂 SAPP Scripts
+                →</a>
+        </div>
+        <div class="feature-card">
+            <div class="card-title">Phasor</div>
+            <div class="card-desc">Earlier server extension with similar goals to SAPP. Legacy support + custom scripts.
+            </div>
+            <a class="btn-link" href="https://github.com/Chalwk/SPCLib/tree/master/phasor" target="_blank">📂 Phasor
+                Scripts →</a>
+        </div>
+        <div class="feature-card">
+            <div class="card-title">Chimera</div>
+            <div class="card-desc">Active client-side mod for Halo CE/PC/Trial. Lua API, map downloads, renderer fixes,
+                QoL improvements. Developed by SnowyMouse.
+            </div>
+            <a class="btn-link" href="https://github.com/Chalwk/SPCLib/tree/master/chimera" target="_blank">📂 Chimera
+                Scripts →</a>
+        </div>
+        <div class="feature-card">
+            <div class="card-title">Script Packages</div>
+            <div class="card-desc">Organized Lua scripts for server administration, gameplay, gametypes, utilities &
+                client-side mods.
+            </div>
+            <a class="btn-link" href="https://github.com/Chalwk/SPCLib/releases" target="_blank">📂 Script Packages →</a>
+        </div>
+    </div>
+
+    <div class="section-title">Knowledge Base</div>
+    <div class="grid-3col">
+        <div class="feature-card">
+            <div class="card-title">Server Setup & Hosting</div>
+            <div class="card-desc">From VPS (Ubuntu) to port forwarding & SAPP server guide.</div>
+            <div class="button-group">
+                <a class="btn-link" href="https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/"
+                   target="_blank">Linux VPS Guide</a>
+                <a class="btn-link" href="https://chalwk.github.io/blog/2025/09/01/halo-server-port-forwarding/"
+                   target="_blank">Port Forwarding</a>
+                <a class="btn-link" href="https://chalwk.github.io/blog/2026/04/03/halo-sapp-server-guide/"
+                   target="_blank">🖥 SAPP Server Guide</a>
+            </div>
+        </div>
+        <div class="feature-card">
+            <div class="card-title">Scripting Guides</div>
+            <div class="button-group" style="flex-direction: column;">
+                <a class="btn-link" href="https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp"
+                   target="_blank">🔵 Scripting with SAPP</a>
+                <a class="btn-link" href="https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor"
+                   target="_blank">🟢 Scripting with Phasor</a>
+                <a class="btn-link" href="https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera"
+                   target="_blank">🔴 Scripting with Chimera</a>
+                <a class="btn-link" href="https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference"
+                   target="_blank">SAPP Command Reference</a>
+            </div>
+        </div>
+        <div class="feature-card">
+            <div class="card-title">Advanced References</div>
+            <div class="button-group" style="flex-direction: column;">
+                <a class="btn-link" href="https://chalwk.github.io/blog/2026/05/17/halo-lua-common-references"
+                   target="_blank">Common Lua Patterns</a>
+                <a class="btn-link" href="https://chalwk.github.io/blog/2025/09/08/halo-understanding-memory-offsets"
+                   target="_blank">Memory Offsets & Scanning</a>
+                <a class="btn-link" href="https://chalwk.github.io/blog/2025/09/08/halo-modding-references/"
+                   target="_blank">Modding References (tags, maps)</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">Integration Tools</div>
+    <div class="grid-4col">
+        <div class="feature-card">
+            <div class="card-title">HaloDiscordBot</div>
+            <div class="card-desc">Java app linking Halo servers → Discord. Rich embeds for SAPP events.</div>
+            <a class="btn-link" href="https://github.com/Chalwk/HaloDiscordBot" style="margin-top: 8px;"
+               target="_blank">GitHub Repo →</a>
+        </div>
+        <div class="feature-card">
+            <div class="card-title">Script Browser</div>
+            <div class="card-desc">Live web interface to search all SPCLib scripts.</div>
+            <a class="btn-link" href="./tools/script-browser.html" target="_blank">Open Script Browser →</a>
+        </div>
+        <div class="feature-card">
+            <div class="card-title">Alias Browser</div>
+            <div class="card-desc">Standalone interface for alias_system.lua.</div>
+            <a class="btn-link" href="./tools/alias-browser.html" target="_blank">Open Alias Browser →</a>
+        </div>
+        <div class="feature-card">
+            <div class="card-title">Rank Browser</div>
+            <div class="card-desc">Visual leaderboard & progression viewer for rank_system.lua</div>
+            <a class="btn-link" href="./tools/rank-browser.html" target="_blank">Open Rank Browser →</a>
         </div>
     </div>
 </div>
-
-<footer class="footer">
-    <p>© 2026. Jericho Crosby (<a href="https://github.com/Chalwk" target="_blank">Chalwk</a>) - SPCLib Script
-        Browser</p>
-</footer>
-
-<script>
-    (function () {
-        // Grabbing metadata from the master branch
-        const METADATA_URL = 'https://raw.githubusercontent.com/Chalwk/SPCLib/master/metadata.json';
-        // These are used to build links to the source code and raw downloads
-        const GITHUB_BASE = 'https://github.com/Chalwk/SPCLib/blob/master';
-        const RAW_BASE = 'https://raw.githubusercontent.com/Chalwk/SPCLib/master';
-
-        // Some releases have tags that don't match their folder names, this maps the slug to the correct tag
-        const RELEASE_TAG_MAP = {
-            'sapp_server_templates': 'sapp-server-templates',
-            'phasor_server_templates': 'phasor-server-templates',
-            'laa_patched': 'laa_patched',
-            'battle_royale': 'battle_royale',
-            'wordbuster': 'wordbuster',
-            'admin_manager': 'AdminManager',
-            'pre_game': 'PreGame'
-        };
-
-        // Define the platform tabs, including which ones have category subfolders
-        const PLATFORMS = [
-            {key: 'SAPP', label: 'SAPP', icon: '🖥', hasCategories: true},
-            {key: 'PHASOR', label: 'Phasor', icon: '🖥', hasCategories: true},
-            {key: 'CHIMERA', label: 'Chimera', icon: '🖥️', hasCategories: false},
-            {key: 'RELEASES', label: 'Releases', icon: '📦', hasCategories: false}
-        ];
-
-        // Categories to show as filter pills for SAPP and Phasor
-        const CATEGORY_NAMES = ['admin', 'chat', 'gameplay', 'gametypes', 'modules', 'notifications', 'utility'];
-
-        let metadata = null;
-        let activePlatform = 'SAPP';
-        let activeCategory = 'all';
-        let searchQuery = '';
-
-        const tabNav = document.getElementById('tabNav');
-        const categoryFilters = document.getElementById('categoryFilters');
-        const scriptGrid = document.getElementById('scriptGrid');
-        const searchInput = document.getElementById('searchInput');
-        const searchClear = document.getElementById('searchClear');
-        const statsDisplay = document.getElementById('statsDisplay');
-
-        // Build the GitHub URL to view the script source
-        function buildSourceUrl(platform, category, fileName) {
-            // Chimera scripts live in a global folder, releases use separate tag links
-            if (platform === 'CHIMERA') {
-                return `${GITHUB_BASE}/chimera/global/${fileName}.lua`;
-            }
-            if (platform === 'RELEASES') {
-                const tag = RELEASE_TAG_MAP[fileName] || fileName;
-                return `https://github.com/Chalwk/SPCLib/releases/tag/${tag}`;
-            }
-            return `${GITHUB_BASE}/${platform.toLowerCase()}/${category}/${fileName}.lua`;
-        }
-
-        // Build the direct download URL (raw file)
-        function buildDownloadUrl(platform, category, fileName) {
-            if (platform === 'CHIMERA') {
-                return `${RAW_BASE}/chimera/global/${fileName}.lua`;
-            }
-            if (platform === 'RELEASES') {
-                return buildSourceUrl(platform, category, fileName);
-            }
-            return `${RAW_BASE}/${platform.toLowerCase()}/${category}/${fileName}.lua`;
-        }
-
-        function escapeHtml(str) {
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
-
-        function getPlatformTagClass(platform) {
-            const map = {
-                'SAPP': 'tag-sapp',
-                'PHASOR': 'tag-phasor',
-                'CHIMERA': 'tag-chimera',
-                'RELEASES': 'tag-release'
-            };
-            return map[platform] || '';
-        }
-
-        // Flatten the nested metadata into a list of script objects to filter and display
-        function flattenMetadata() {
-            const scripts = [];
-            for (const platformKey of Object.keys(metadata)) {
-                const platformData = metadata[platformKey];
-                const platformInfo = PLATFORMS.find(p => p.key === platformKey) || {hasCategories: false};
-
-                if (platformInfo.hasCategories) {
-                    for (const [category, scriptsObj] of Object.entries(platformData)) {
-                        if (typeof scriptsObj === 'object' && scriptsObj !== null && !Array.isArray(
-                            scriptsObj)) {
-                            for (const [fileName, scriptData] of Object.entries(scriptsObj)) {
-                                scripts.push({
-                                    platform: platformKey,
-                                    category: category,
-                                    fileName: fileName,
-                                    description: typeof scriptData === 'string' ? scriptData : '',
-                                    sourceUrl: buildSourceUrl(platformKey, category, fileName),
-                                    downloadUrl: buildDownloadUrl(platformKey, category, fileName),
-                                    isRelease: false
-                                });
-                            }
-                        }
-                    }
-                } else if (platformKey === 'RELEASES') {
-                    for (const [fileName, scriptData] of Object.entries(platformData)) {
-                        scripts.push({
-                            platform: platformKey,
-                            category: 'release',
-                            fileName: fileName,
-                            description: typeof scriptData === 'string' ? scriptData : '',
-                            sourceUrl: buildSourceUrl('RELEASES', '', fileName),
-                            downloadUrl: buildDownloadUrl('RELEASES', '', fileName),
-                            isRelease: true
-                        });
-                    }
-                } else {
-                    for (const [fileName, scriptData] of Object.entries(platformData)) {
-                        scripts.push({
-                            platform: platformKey,
-                            category: 'global',
-                            fileName: fileName,
-                            description: typeof scriptData === 'string' ? scriptData : '',
-                            sourceUrl: buildSourceUrl(platformKey, 'global', fileName),
-                            downloadUrl: buildDownloadUrl(platformKey, 'global', fileName),
-                            isRelease: false
-                        });
-                    }
-                }
-            }
-            return scripts;
-        }
-
-        // Apply the current platform, category, and search text to the flat list
-        function getFilteredScripts() {
-            if (!metadata) return [];
-            const allScripts = flattenMetadata();
-            const query = searchQuery.toLowerCase().trim();
-
-            return allScripts.filter(script => {
-                if (script.platform !== activePlatform) return false;
-                if (activePlatform === 'SAPP' || activePlatform === 'PHASOR') {
-                    if (activeCategory !== 'all' && script.category !== activeCategory) return false;
-                }
-                if (query) {
-                    const searchable = [
-                        script.fileName,
-                        script.description,
-                        script.category
-                    ].join(' ').toLowerCase();
-                    if (!searchable.includes(query)) return false;
-                }
-                return true;
-            });
-        }
-
-        // Build the tab bar, counting scripts for each platform
-        function renderTabs() {
-            const platformCounts = {};
-            if (metadata) {
-                const allScripts = flattenMetadata();
-                for (const plat of PLATFORMS) {
-                    platformCounts[plat.key] = allScripts.filter(s => s.platform === plat.key).length;
-                }
-            }
-
-            tabNav.innerHTML = PLATFORMS.map(plat => {
-                const count = platformCounts[plat.key] || 0;
-                const activeClass = plat.key === activePlatform ? ' active' : '';
-                return `
-                        <button class="tab-btn${activeClass}" data-platform="${plat.key}">
-                            ${plat.icon} ${plat.label}
-                            <span class="badge">${count}</span>
-                        </button>`;
-            }).join('');
-        }
-
-        // Show category filter pills only for platforms that use them (SAPP and Phasor)
-        function renderCategoryFilters() {
-            if (activePlatform !== 'SAPP' && activePlatform !== 'PHASOR') {
-                categoryFilters.innerHTML = '';
-                return;
-            }
-
-            const allScripts = flattenMetadata();
-            const catCounts = {};
-            CATEGORY_NAMES.forEach(cat => {
-                catCounts[cat] = allScripts.filter(s =>
-                    s.platform === activePlatform && s.category === cat
-                ).length;
-            });
-            const total = Object.values(catCounts).reduce((a, b) => a + b, 0);
-
-            let html =
-                `<button class="cat-btn${activeCategory === 'all' ? ' active' : ''}" data-category="all">
-                    All <span class="badge">${total}</span></button>`;
-
-            CATEGORY_NAMES.forEach(cat => {
-                const count = catCounts[cat] || 0;
-                const activeClass = cat === activeCategory ? ' active' : '';
-                if (count > 0 || metadata) {
-                    html += `<button class="cat-btn${activeClass}" data-category="${cat}">
-                            ${cat} <span class="badge">${count}</span></button>`;
-                }
-            });
-            categoryFilters.innerHTML = html;
-        }
-
-        // Generate the card grid, showing name, description, and links
-        function renderScripts() {
-            const scripts = getFilteredScripts();
-
-            if (!metadata) {
-                scriptGrid.innerHTML = `
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Loading script metadata...</p>
-                        </div>`;
-                return;
-            }
-
-            if (scripts.length === 0) {
-                scriptGrid.innerHTML = `
-                        <div class="empty-state">
-                            <div class="icon">📭</div>
-                            <p>No scripts found matching your criteria.</p>
-                            <p style="font-size:0.85rem;margin-top:0.5rem;">Try adjusting your search or filters.</p>
-                        </div>`;
-            } else {
-                scriptGrid.innerHTML = scripts.map(script => {
-                    const displayName = script.isRelease ?
-                        script.fileName.replace(/_/g, ' ') :
-                        script.fileName;
-                    const ext = script.isRelease ? '.zip' : '.lua';
-                    const fullFileName = displayName + ext;
-                    const platformTagClass = getPlatformTagClass(script.platform);
-
-                    return `
-                        <div class="script-card" data-platform="${script.platform}" data-category="${script.category}">
-                            <div class="card-header">
-                                <a href="${script.downloadUrl}" class="script-name" title="${escapeHtml(fullFileName)}">
-                                    ${escapeHtml(displayName)}<span class="ext">${ext}</span>
-                                </a>
-                            </div>
-                            ${script.description ? `<p class="long-desc">${escapeHtml(script.description)}</p>` : ''}
-                            <div class="card-bottom">
-                                <div class="card-meta">
-                                    <span class="platform-tag ${platformTagClass}">${script.platform}</span>
-                                    ${!script.isRelease && script.category !== 'global' ? `<span>📁 ${script.category}</span>` : ''}
-                                </div>
-                                <div class="card-links">
-                                    ${script.isRelease
-                        ? `<a href="${script.sourceUrl}" target="_blank" class="card-link link-release">⬇ Release</a>`
-                        : `<a href="${script.sourceUrl}" target="_blank" class="card-link link-source">📄 View Script</a>`
-                    }
-                                </div>
-                            </div>
-                        </div>`;
-                }).join('');
-            }
-
-            updateStats(scripts.length);
-        }
-
-        function updateStats(visibleCount) {
-            const total = metadata ? flattenMetadata().length : 0;
-            const platformTotal = metadata ?
-                flattenMetadata().filter(s => s.platform === activePlatform).length : 0;
-            statsDisplay.innerHTML =
-                `Showing <strong>${visibleCount}</strong> of <strong>${platformTotal}</strong> scripts (Total: <strong>${total}</strong>)`;
-        }
-
-        function renderAll() {
-            renderTabs();
-            renderCategoryFilters();
-            renderScripts();
-        }
-
-        tabNav.addEventListener('click', function (e) {
-            const btn = e.target.closest('.tab-btn');
-            if (!btn) return;
-            const platform = btn.getAttribute('data-platform');
-            if (platform && platform !== activePlatform) {
-                activePlatform = platform;
-                activeCategory = 'all';
-                searchInput.value = '';
-                searchQuery = '';
-                searchClear.classList.remove('visible');
-                renderAll();
-            }
-        });
-
-        categoryFilters.addEventListener('click', function (e) {
-            const btn = e.target.closest('.cat-btn');
-            if (!btn) return;
-            const category = btn.getAttribute('data-category');
-            if (category && category !== activeCategory) {
-                activeCategory = category;
-                renderAll();
-            }
-        });
-
-        searchInput.addEventListener('input', function () {
-            searchQuery = this.value;
-            if (searchQuery.trim()) {
-                searchClear.classList.add('visible');
-            } else {
-                searchClear.classList.remove('visible');
-            }
-            renderScripts();
-        });
-
-        searchClear.addEventListener('click', function () {
-            searchInput.value = '';
-            searchQuery = '';
-            searchClear.classList.remove('visible');
-            renderScripts();
-            searchInput.focus();
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                searchInput.focus();
-            }
-        });
-
-        // Intercept clicks on .lua script name links to download immediately instead of navigating, fallback to new tab on failure
-        scriptGrid.addEventListener('click', async function (e) {
-            const link = e.target.closest('.script-name');
-            if (!link) return;
-            const url = link.getAttribute('href');
-            if (!url) return;
-
-            // Only handle .lua files, releases (.zip) open normally via the card's release button
-            if (!url.endsWith('.lua')) return;
-
-            e.preventDefault();
-
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const blob = await response.blob();
-                const blobUrl = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = blobUrl;
-                const filename = url.split('/').pop() || 'download.lua';
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                setTimeout(() => URL.revokeObjectURL(blobUrl), 1500);
-            } catch (err) {
-                console.error('Download failed, opening in new tab:', err);
-                window.open(url, '_blank');
-            }
-        });
-
-        // Fetch the metadata JSON and trigger the initial render; show error if it fails
-        async function fetchMetadata() {
-            try {
-                const response = await fetch(METADATA_URL);
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                metadata = await response.json();
-            } catch (err) {
-                console.error('Failed to fetch metadata:', err);
-                scriptGrid.innerHTML = `
-                        <div class="error-banner">
-                            <p>⚠️ Failed to load script metadata from GitHub.</p>
-                            <p style="font-size:0.85rem;margin-top:0.5rem;">
-                                Please check your connection or try again later.
-                                <br><a href="${METADATA_URL}" target="_blank" style="color:#90caf9;">View raw metadata.json</a>
-                            </p>
-                        </div>`;
-                statsDisplay.textContent = 'Error loading data';
-            }
-            renderAll();
-        }
-
-        renderTabs();
-        fetchMetadata();
-    })();
-</script>
+<script defer src="/assets/js/script.js"></script>
 </body>
 </html>

@@ -36,15 +36,12 @@ LICENSE:          MIT License
 api_version = "1.12.0.0"
 
 local TimePlayed = {
-
     -- Custom command used to check playtime & join count:
     --
     command = "playtime",
-
     -- Minimum permission lvl required to execute "/playtime"
     --
     permission = 1,
-
     -- During what events should the PlayTime.json database be updated?
     --
     update_file_database = {
@@ -52,11 +49,9 @@ local TimePlayed = {
         ["event_leave"] = true,
         ["event_game_end"] = true
     },
-
     -- Custom messages seen when checking playtime:
     --
     output = {
-
         -- Your playtime:
         --
         {
@@ -66,7 +61,6 @@ local TimePlayed = {
             " ", -- line break
             "You have joined %joins% time%s%"
         },
-
         -- Someone else's playtime:
         --
         {
@@ -77,16 +71,13 @@ local TimePlayed = {
             "%name% has joined %joins% time%s%"
         }
     },
-
     -- ADVANCED USERS ONLY:
     --
     --
-
     -- A JSON database containing player stats.
     -- This file will be located in the server's root directory.
     --
     dir = "PlayTime.json",
-
     -- Client data is saved as a json array.
     -- The array index for each client will either be "IP", or "IP:PORT" or the players Hash.
     -- Set to 1 for IP:PORT indexing.
@@ -101,7 +92,6 @@ local TimePlayed = {
 local json = (loadfile "json.lua")()
 
 function OnScriptLoad()
-
     -- register needed event callbacks:
     --
 
@@ -128,7 +118,6 @@ function OnGameEnd()
 end
 
 function TimePlayed:UpdateJSON(TYPE)
-
     -- saves local database (self.database) to self.dir:
     --
     if (self.update_file_database[TYPE]) then
@@ -153,14 +142,13 @@ function OnPlayerDisconnect(Ply)
 end
 
 function TimePlayed:AddNewPlayer(Ply, ManualLoad)
-
     local index = self:GetClientIndex(Ply)
     local name = get_var(Ply, "$name")
 
     local db = self.database
     if (db[index] == nil) then
         db[index] = {
-            time = 0, -- set initial play time to zero
+            time = 0,  -- set initial play time to zero
             joins = 0, -- set initial joins to zero
             name = name
         }
@@ -168,7 +156,7 @@ function TimePlayed:AddNewPlayer(Ply, ManualLoad)
 
     self.database = db
 
-    self.players[Ply] = { }
+    self.players[Ply] = {}
     self.players[Ply] = db[index]
     self.players[Ply].name = name -- update name
     self.players[Ply].joins = db[index].joins + 1 -- match joins on file (+1)
@@ -186,11 +174,9 @@ function TimePlayed:GetLocalDB()
     local db = self.database
     if (db) then
         for i = 1, 16 do
-
             -- update self.database:
             --
             if (player_present(i) and self.players[i]) then
-
                 local time = os.time() - self.play_time[i]
                 self.players[i].time = self.players[i].time + time
 
@@ -220,38 +206,35 @@ end
 
 local function FormatMessage(y, w, d, h, m, s, n, j)
     return {
-
-        ["%%Y%%"] = y, -- years
-        ["%%W%%"] = w, -- weeks
-        ["%%D%%"] = d, -- days
-        ["%%H%%"] = h, -- hours
-        ["%%M%%"] = m, -- minutes
-        ["%%S%%"] = s, -- seconds
-        ["%%name%%"] = n, -- name
+        ["%%Y%%"] = y,     -- years
+        ["%%W%%"] = w,     -- weeks
+        ["%%D%%"] = d,     -- days
+        ["%%H%%"] = h,     -- hours
+        ["%%M%%"] = m,     -- minutes
+        ["%%S%%"] = s,     -- seconds
+        ["%%name%%"] = n,  -- name
         ["%%joins%%"] = j, -- joins
-
         -- determine pluralize word (join):
-        ["%%s%%"] = function()
+        ["%%s%%"] = function ()
             return (j > 1 and "s") or ""
         end
     }
 end
 
 function TimePlayed:OnCommand(Ply, CMD)
-
-    local Args = { }
+    local Args = {}
     for Params in CMD:gmatch("([^%s]+)") do
         Args[#Args + 1] = Params:lower()
     end
 
     if (#Args > 0) then
         local lvl = tonumber(get_var(Ply, "$lvl"))
+
         if (Args[1] == self.command) then
             if (lvl >= self.permission or Ply == 0) then
                 local pl = self:GetPlayers(Ply, Args)
-                if (pl) then
+                if pl then
                     for i = 1, #pl do
-
                         local TID = tonumber(pl[i])
                         local name = self.players[TID].name
                         local joins = self.players[TID].joins
@@ -259,20 +242,27 @@ function TimePlayed:OnCommand(Ply, CMD)
                         local session_time = self.play_time[TID]
                         local time_on_file = self.players[TID].time
                         local time = (os.time() + time_on_file) - session_time
-                        local y, w, d, h, m, s = secondsToTime(time)
 
+                        local y, w, d, h, m, s = secondsToTime(time)
                         local str_format = FormatMessage(y, w, d, h, m, s, name, joins)
-                        for _, str in pairs(Ply == TID and self.output[1] or self.output[2]) do
+
+                        local output_list = (Ply == TID and self.output[1] or self.output[2])
+
+                        for _, str in pairs(output_list) do
+                            local formatted = str
+
                             for k, v in pairs(str_format) do
-                                str = str:gsub(k, v)
+                                formatted = formatted:gsub(k, v)
                             end
-                            self:Respond(Ply, str)
+
+                            self:Respond(Ply, formatted)
                         end
                     end
                 end
             else
                 self:Respond(Ply, "You do not have permission to execute this command!")
             end
+
             return false
         end
     end
@@ -287,7 +277,6 @@ function TimePlayed:Respond(Ply, Msg)
 end
 
 function TimePlayed:GetClientIndex(Ply)
-
     local ip = get_var(Ply, "$ip")
 
     -- ip:port
@@ -310,7 +299,7 @@ function TimePlayed:GetClientIndex(Ply)
 end
 
 function TimePlayed:GetPlayers(Ply, Args)
-    local pl = { }
+    local pl = {}
     if (Args[2] == "me" or Args[2] == nil) then
         if (Ply ~= 0) then
             table.insert(pl, Ply)
@@ -339,20 +328,17 @@ function TimePlayed:GetPlayers(Ply, Args)
 end
 
 function TimePlayed:CheckFile(ScriptLoad)
-
     if (ScriptLoad) then
         self.database = nil
     end
 
-    self.players, self.play_time = { }, { }
+    self.players, self.play_time = {}, {}
     self.game_started = false
 
     if (get_var(0, "$gt") ~= "n/a") then
-
         self.game_started = true
 
         if (self.database == nil) then
-
             -- Check if self.dir exists (create if not):
             --
             local content = ""
@@ -368,7 +354,7 @@ function TimePlayed:CheckFile(ScriptLoad)
             if (not db) then
                 file = assert(io.open(self.dir, "w"))
                 if (file) then
-                    db = { }
+                    db = {}
                     file:write(json:encode_pretty(db))
                     file:close()
                 end

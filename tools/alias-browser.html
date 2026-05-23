@@ -1,206 +1,11 @@
-<!-- Copyright (c) 2026. Jericho Crosby (Chalwk) -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
     <title>Alias Browser | Player Identity Tracker + Pirated Hash Detection</title>
+    <link href="/assets/css/core.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(145deg, #0b1120 0%, #0a0f1a 100%);
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            padding: 2rem 1.5rem;
-            color: #eef2ff;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #1e293b;
-            border-radius: 8px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #3b4e6e;
-            border-radius: 8px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #5b7cae;
-        }
-
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 1rem;
-            margin-bottom: 1.8rem;
-            border-bottom: 1px solid #2d3a4e;
-            padding-bottom: 1rem;
-        }
-
-        h1 {
-            font-weight: 600;
-            font-size: 1.9rem;
-            background: linear-gradient(135deg, #c0e0ff, #8ab3ff);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-        }
-
-        .sub {
-            color: #8aa2c2;
-            font-size: 0.85rem;
-        }
-
-        .stats-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: rgba(18, 25, 40, 0.7);
-            backdrop-filter: blur(4px);
-            border-radius: 24px;
-            padding: 0.7rem 1.4rem;
-            border: 1px solid #2c3f5c;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #bbd9ff;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #7b95bf;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin: 1.5rem 0 1.2rem;
-            border-bottom: 1px solid #263449;
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            padding: 0.7rem 1.8rem;
-            font-weight: 600;
-            font-size: 1rem;
-            border-radius: 40px 40px 0 0;
-            color: #9ab3d4;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .tab-btn.active {
-            background: #1e2a44;
-            color: white;
-            box-shadow: 0 -2px 0 #5f8bd9;
-        }
-
-        .tab-btn:hover:not(.active) {
-            background: #1a253d;
-            color: #cdddfc;
-        }
-
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.8rem;
-            background: #101624;
-            padding: 0.8rem 1.2rem;
-            border-radius: 60px;
-            border: 1px solid #2f3e5c;
-        }
-
-        .search-area {
-            flex: 2;
-            min-width: 200px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .search-input {
-            background: #0b0f19;
-            border: 1px solid #334155;
-            padding: 0.6rem 1rem;
-            border-radius: 40px;
-            color: white;
-            width: 260px;
-            font-size: 0.85rem;
-            outline: none;
-            transition: 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: #6b8ed6;
-            box-shadow: 0 0 0 2px rgba(107, 142, 214, 0.3);
-        }
-
-        select, .page-size {
-            background: #0f1622;
-            border: 1px solid #2c3f5c;
-            padding: 0.5rem 1rem;
-            border-radius: 32px;
-            color: #e0edff;
-            font-size: 0.8rem;
-            cursor: pointer;
-        }
-
-        button {
-            background: #1f2a46;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 32px;
-            color: white;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.15s;
-        }
-
-        button:hover {
-            background: #2f3e64;
-        }
-
-        .clear-btn {
-            background: #2d2f42;
-        }
-
-        .clear-btn:hover {
-            background: #4a3e5c;
-        }
-
         .pirate-filter-wrapper {
             display: inline-flex;
             align-items: center;
@@ -346,92 +151,6 @@
             gap: 6px;
             margin-top: 6px;
         }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .page-btn {
-            background: #1a2338;
-            padding: 0.4rem 1rem;
-            border-radius: 40px;
-            font-weight: 500;
-        }
-
-        .page-btn.disabled {
-            opacity: 0.4;
-            pointer-events: none;
-        }
-
-        .error-box {
-            background: #2c1a2a;
-            border-left: 6px solid #ff7b72;
-            padding: 1rem;
-            border-radius: 20px;
-            margin: 2rem 0;
-        }
-
-        footer {
-            margin-top: 3rem;
-            padding: 1rem 0.5rem;
-            text-align: center;
-            font-size: 0.8rem;
-            border-top: 1px solid #2d3a4e;
-            background: rgba(10, 15, 26, 0.7);
-            border-radius: 40px;
-            backdrop-filter: blur(2px);
-        }
-
-        .footer-note {
-            color: #a5b9d4;
-        }
-
-        footer a {
-            color: #c0a8ff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s, text-shadow 0.2s;
-        }
-
-        footer a:hover {
-            color: #e0ccff;
-            text-decoration: underline;
-            text-shadow: 0 0 4px rgba(192, 168, 255, 0.4);
-        }
-
-        .file-upload-area {
-            background: #0f1422;
-            border-radius: 24px;
-            padding: 1.2rem;
-            text-align: center;
-            margin: 1rem 0;
-            border: 1px dashed #4c6b9b;
-        }
-
-        @media (max-width: 700px) {
-            body {
-                padding: 1rem;
-            }
-
-            .records-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-                border-radius: 28px;
-            }
-
-            .search-area {
-                justify-content: center;
-            }
-        }
     </style>
 </head>
 <body>
@@ -463,11 +182,11 @@
 
     <div class="file-upload-area" id="manualUploadArea">
         <span>📂 Select your aliases.json file</span>
-        <label for="jsonUpload"
-               style="background:#3266a4; padding:8px 20px; border-radius:40px; cursor:pointer; display:inline-block; margin:0 10px;">📁
-            Choose file</label>
+        <label class="upload-label" for="jsonUpload">📁 Choose file</label>
         <input accept=".json" id="jsonUpload" style="display:none;" type="file">
-        <div style="font-size:0.7rem; margin-top:10px;">Supports JSON format from SPCLib alias_system.lua</div>
+        <div style="font-size:0.7rem; margin-top:10px;">Supports JSON format from SPCLib alias_system.lua<br>✨ Data is
+            cached in your browser - upload again to refresh
+        </div>
     </div>
 
     <div class="tabs">
@@ -478,8 +197,7 @@
     <div class="controls">
         <div class="search-area">
             <label for="searchInput"></label><input class="search-input" id="searchInput"
-                                                    placeholder="🔎 Filter by IP/hash or any player name..."
-                                                    type="text">
+                                                    placeholder="🔎 Filter by IP/hash or any player name..." type="text">
             <label for="sortSelect"></label><select id="sortSelect">
             <option value="last_seen_desc">🕒 Last Seen (newest first)</option>
             <option value="last_seen_asc">⏫ Last Seen (oldest first)</option>
@@ -495,7 +213,6 @@
             <option value="50">50 per page</option>
         </select>
             <button class="clear-btn" id="clearFiltersBtn">✖️ Clear filters</button>
-
             <div class="pirate-filter-wrapper" id="piratedFilterContainer" style="display: none;">
                 <input id="piratedOnlyCheckbox" type="checkbox">
                 <label for="piratedOnlyCheckbox">🏴‍☠️ PIRATED ONLY</label>
@@ -512,18 +229,8 @@
         <span id="pageInfo" style="font-weight:500;">Page 0</span>
         <button class="page-btn" id="nextPageBtn">Next ▶</button>
     </div>
-    <footer>
-        <div class="footer-note">
-            © 2026. Jericho Crosby (<a href="https://github.com/Chalwk" target="_blank">Chalwk</a>) - Alias browser
-            designed for
-            <a href="https://github.com/Chalwk/SPCLib/blob/master/sapp/admin/alias_system.lua" target="_blank">SPCLib
-                alias_system.lua</a>
-        </div>
-    </footer>
 </div>
-
 <script>
-    // known pirated CD-key hashes
     const PIRATED_HASH_SET = new Set([
         "388e89e69b4cc08b3441f25959f74103",
         "81f9c914b3402c2702a12dc1405247ee",
@@ -546,7 +253,7 @@
         "40da66d41e9c79172a84eef745739521",
         "2863ab7e0e7371f9a6b3f0440c06c560",
         "34146dc35d583f2b34693a83469fac2a",
-        "b315d022891afedf2e6bc7e5aaf2d357",
+        "b315d022891afedf2e6bc7e5aaf2d157",
         "63bf3d5a51b292cd0702135f6f566bd1",
         "6891d0a75336a75f9d03bb5e51a53095",
         "325a53c37324e4adb484d7a9c6741314",
@@ -562,19 +269,20 @@
         "bf117d42b3db727f441d03786586e249"
     ]);
 
-    // where we keep the raw records after parsing the JSON
     let rawIPRecords = [];
     let rawHashRecords = [];
-    let currentTab = 'ip';               // 'ip' or 'hash'
-    let filteredData = [];               // after filtering/sorting
+    let currentTab = 'ip';
+    let filteredData = [];
     let currentPage = 1;
     let pageSize = 10;
     let searchTerm = '';
     let sortCriterion = 'last_seen_desc';
-    let piratedOnlyActive = false;        // only relevant for hash tab
+    let piratedOnlyActive = false;
     let dataLoaded = false;
+    let listenersAttached = false;
 
-    // avoids XSS when displaying names/IPs
+    const CACHE_KEY = "alias_browser_cached_json";
+
     function escapeHtml(str) {
         if (!str) return '';
         return str.replace(/[&<>]/g, function (m) {
@@ -585,7 +293,6 @@
         });
     }
 
-    // turns unix timestamp into something readable for humans
     function formatDate(unixTs) {
         if (!unixTs || unixTs === 0) return 'unknown';
         const date = new Date(unixTs * 1000);
@@ -598,7 +305,6 @@
         });
     }
 
-    // takes the raw JSON from alias_system and converts into nice arrays we can use
     function processData(data) {
         const ipRec = data.ip_records || {};
         const hashRec = data.hash_records || {};
@@ -645,7 +351,6 @@
         };
     }
 
-    // filter & sort the current active tab's records based on search, pirate flag, and sorting preference
     function getFilteredSorted(rawArray, search) {
         let filtered = [...rawArray];
 
@@ -661,7 +366,6 @@
             });
         }
 
-        // sorting logic: newest first, most aliases, alphabetical etc.
         switch (sortCriterion) {
             case 'last_seen_desc':
                 filtered.sort((a, b) => (b.last_seen || 0) - (a.last_seen || 0));
@@ -687,7 +391,6 @@
         return filtered;
     }
 
-    // updates the big numbers at the top (IP count, hash count, etc)
     function updateStatsUI(ipCount, hashCount, uniqueNames, piratedCount) {
         document.getElementById('totalIPs').innerText = ipCount;
         document.getElementById('totalHashes').innerText = hashCount;
@@ -695,7 +398,6 @@
         document.getElementById('piratedHashCount').innerText = piratedCount;
     }
 
-    // main render function: builds cards for current page, handles expand/copy buttons
     function render() {
         const container = document.getElementById('recordsContainer');
         if (!filteredData.length) {
@@ -742,7 +444,6 @@
 
             let visibleChips = visibleNames.map(n => `<span class="name-chip">${escapeHtml(n)}</span>`).join('');
             let hiddenChipsHtml = '';
-            // random-ish id so expand/collapse doesn't conflict across many cards
             const hiddenIdSuffix = `hidden-${escapedIdentifier.replace(/[^a-zA-Z0-9]/g, '_')}-${Date.now()}-${Math.random()}`;
             if (hasMore) {
                 hiddenChipsHtml = `<div class="hidden-names" id="${hiddenIdSuffix}">${hiddenNames.map(n => `<span class="name-chip">${escapeHtml(n)}</span>`).join('')}</div>`;
@@ -773,7 +474,6 @@
         }
         container.innerHTML = cardsHtml;
 
-        // attach copy-to-clipboard listeners after inserting HTML
         document.querySelectorAll('.copy-icon').forEach(el => {
             el.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -791,7 +491,6 @@
             });
         });
 
-        // show/hide extra names when clicking "show more"
         document.querySelectorAll('.expand-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -812,7 +511,6 @@
         });
     }
 
-    // re-run filtering and reset to page 1
     function refreshDataAndRender() {
         const rawSource = (currentTab === 'ip') ? rawIPRecords : rawHashRecords;
         filteredData = getFilteredSorted(rawSource, searchTerm);
@@ -820,7 +518,6 @@
         render();
     }
 
-    // switching between IP and hash tabs, plus show/hide pirate-only checkbox
     function handleTabSwitch(tab) {
         currentTab = tab;
         document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -838,8 +535,30 @@
         refreshDataAndRender();
     }
 
-    // set up all event listeners (search, sort, pagination, etc.)
+    function saveToCache(rawJson) {
+        try {
+            localStorage.setItem(CACHE_KEY, JSON.stringify(rawJson));
+        } catch (e) {
+            console.warn("cache save failed", e);
+        }
+    }
+
+    function loadFromCache() {
+        try {
+            const cached = localStorage.getItem(CACHE_KEY);
+            if (cached) {
+                return JSON.parse(cached);
+            }
+        } catch (e) {
+            console.warn("cache load failed", e);
+        }
+        return null;
+    }
+
     function attachEventListeners() {
+        if (listenersAttached) return;
+        listenersAttached = true;
+
         const searchInput = document.getElementById('searchInput');
         const sortSelect = document.getElementById('sortSelect');
         const pageSizeSelect = document.getElementById('pageSizeSelect');
@@ -849,36 +568,29 @@
         const pirateCheckbox = document.getElementById('piratedOnlyCheckbox');
 
         if (searchInput) {
-            searchInput.removeEventListener('input', this._searchHandler);
-            this._searchHandler = (e) => {
+            searchInput.addEventListener('input', (e) => {
                 searchTerm = e.target.value;
                 refreshDataAndRender();
-            };
-            searchInput.addEventListener('input', this._searchHandler);
+            });
         }
 
         if (sortSelect) {
-            sortSelect.removeEventListener('change', this._sortHandler);
-            this._sortHandler = (e) => {
+            sortSelect.addEventListener('change', (e) => {
                 sortCriterion = e.target.value;
                 refreshDataAndRender();
-            };
-            sortSelect.addEventListener('change', this._sortHandler);
+            });
         }
 
         if (pageSizeSelect) {
-            pageSizeSelect.removeEventListener('change', this._pageSizeHandler);
-            this._pageSizeHandler = (e) => {
+            pageSizeSelect.addEventListener('change', (e) => {
                 pageSize = parseInt(e.target.value, 10);
                 currentPage = 1;
                 refreshDataAndRender();
-            };
-            pageSizeSelect.addEventListener('change', this._pageSizeHandler);
+            });
         }
 
         if (clearBtn) {
-            clearBtn.removeEventListener('click', this._clearHandler);
-            this._clearHandler = () => {
+            clearBtn.addEventListener('click', () => {
                 if (searchInput) searchInput.value = '';
                 searchTerm = '';
                 sortCriterion = 'last_seen_desc';
@@ -888,53 +600,43 @@
                     piratedOnlyActive = false;
                 }
                 refreshDataAndRender();
-            };
-            clearBtn.addEventListener('click', this._clearHandler);
+            });
         }
 
         if (prevBtn) {
-            prevBtn.removeEventListener('click', this._prevHandler);
-            this._prevHandler = () => {
+            prevBtn.addEventListener('click', () => {
                 if (currentPage > 1) {
                     currentPage--;
                     render();
                 }
-            };
-            prevBtn.addEventListener('click', this._prevHandler);
+            });
         }
 
         if (nextBtn) {
-            nextBtn.removeEventListener('click', this._nextHandler);
-            this._nextHandler = () => {
+            nextBtn.addEventListener('click', () => {
                 const totalPages = Math.ceil(filteredData.length / pageSize);
                 if (currentPage < totalPages) {
                     currentPage++;
                     render();
                 }
-            };
-            nextBtn.addEventListener('click', this._nextHandler);
+            });
         }
 
         if (pirateCheckbox) {
-            pirateCheckbox.removeEventListener('change', this._pirateHandler);
-            this._pirateHandler = (e) => {
+            pirateCheckbox.addEventListener('change', (e) => {
                 piratedOnlyActive = e.target.checked;
                 refreshDataAndRender();
-            };
-            pirateCheckbox.addEventListener('change', this._pirateHandler);
+            });
         }
 
         document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.removeEventListener('click', this._tabHandler);
-            this._tabHandler = () => {
+            btn.addEventListener('click', () => {
                 const tab = btn.getAttribute('data-tab');
                 if (tab) handleTabSwitch(tab);
-            };
-            btn.addEventListener('click', this._tabHandler);
+            });
         });
     }
 
-    // called after user uploads a valid JSON file
     function onUploadSuccess(jsonData) {
         try {
             const processed = processData(jsonData);
@@ -942,7 +644,6 @@
             rawHashRecords = processed.hashArray;
             updateStatsUI(processed.ipCount, processed.hashCount, processed.uniqueNamesCount, processed.piratedCount);
 
-            // reset filters to a clean state
             searchTerm = '';
             sortCriterion = 'last_seen_desc';
             piratedOnlyActive = false;
@@ -957,11 +658,12 @@
             currentPage = 1;
             render();
 
-            document.getElementById('statusMsg').innerHTML = '✅ Data loaded • Pirated hash detection active';
+            saveToCache(jsonData);
+
+            document.getElementById('statusMsg').innerHTML = '✅ Data loaded • Pirated hash detection active (cached)';
             const uploadArea = document.getElementById('manualUploadArea');
             if (uploadArea) uploadArea.style.opacity = '0.7';
             dataLoaded = true;
-            attachEventListeners();
         } catch (e) {
             console.error(e);
             document.getElementById('statusMsg').innerHTML = '❌ Invalid JSON structure';
@@ -969,7 +671,6 @@
         }
     }
 
-    // let the user pick a file from their computer
     function setupManualUpload() {
         const fileInput = document.getElementById('jsonUpload');
         if (!fileInput) return;
@@ -986,6 +687,7 @@
                 try {
                     const jsonData = JSON.parse(result);
                     onUploadSuccess(jsonData);
+                    document.getElementById('statusMsg').innerHTML = '✅ Data loaded (manual upload) • Cached for next visit';
                 } catch (parseErr) {
                     alert('Invalid JSON file');
                 }
@@ -996,14 +698,22 @@
 
     function init() {
         setupManualUpload();
-        document.getElementById('recordsContainer').innerHTML = `<div style="text-align:center; padding: 3rem;">📂 Upload aliases.json to browse records</div>`;
-        document.getElementById('pageInfo').innerText = `Page 0`;
-        document.getElementById('prevPageBtn').classList.add('disabled');
-        document.getElementById('nextPageBtn').classList.add('disabled');
         attachEventListeners();
+
+        const cachedData = loadFromCache();
+        if (cachedData) {
+            onUploadSuccess(cachedData);
+            document.getElementById('statusMsg').innerHTML = '📀 Cached data loaded • Upload new file to refresh';
+        } else {
+            document.getElementById('recordsContainer').innerHTML = `<div style="text-align:center; padding: 3rem;">📂 Upload aliases.json to browse records</div>`;
+            document.getElementById('pageInfo').innerText = `Page 0`;
+            document.getElementById('prevPageBtn').classList.add('disabled');
+            document.getElementById('nextPageBtn').classList.add('disabled');
+        }
     }
 
     init();
 </script>
+<script defer src="/assets/js/script.js"></script>
 </body>
 </html>

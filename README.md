@@ -27,11 +27,8 @@
 * [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
 * [5. Integration Tools](#integration-tools)
-    * [5.1 HaloDiscordBot](#halodiscordbot)
-    * [5.2 Script Browser](#script-browser)
-    * [5.3 Alias Browser](#alias-browser)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
-    * [6.1 LAA Patched Executables](#laa-patched-executables)
+  * [6.1 LAA Patched Executables](#laa-patched-executables)
 * [7. Community Hubs](#community-hubs)
 * [8. Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
 * [9. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
@@ -134,41 +131,12 @@ This repository also preserves:
 > [!NOTE]
 > These tools extend Halo server functionality by connecting it with external platforms like Discord and web interfaces.
 
-<details>
-<summary>Click here to expand/collapse</summary>
-
-### HaloDiscordBot
-
-[![HaloDiscordBot](https://img.shields.io/badge/HaloDiscordBot-Repository-5865F2?style=for-the-badge&logo=discord&logoColor=white)][halodiscordbot_repo]
-
-A Java application that connects multiple Halo servers to Discord, forwarding in-game events as rich Discord embeds.
-Supports SAPP and Phasor.
-
-**[Visit HaloDiscordBot Repository][halodiscordbot_repo]**
-
-### Script Browser
-
-[![Script Browser](https://img.shields.io/badge/Script_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white)][script_browser]
-
-A live web interface to search all scripts in SPCLib.
-
-**[→ Open Script Browser][script_browser]**
-
-### Alias Browser
-
-[![Alias Browser](https://img.shields.io/badge/Alias_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white)][alias_browser]
-
-Standalone web interface for **[alias_system.lua](./sapp/admin/alias_system.lua)**
-
-**[→ Open Alias Browser][alias_browser]**
-
-### Rank Browser
-
-Standalone web interface for **[rank_system.lua](./sapp/admin/rank_system.lua)**
-
-**[→ Open Rank Browser][rank_browser]**
-
-</details>
+| Tool           | Badge                                                            | Description                                                                                                                                    |
+|----------------|------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| HaloDiscordBot | [![HaloDiscordBot][halo_discord_bot_badge]][halodiscordbot_repo] | A Java application that connects multiple Halo servers to Discord, forwarding in-game events as rich Discord embeds. Supports SAPP and Phasor. |
+| Script Browser | [![Script Browser][script_browser_badge]][script_browser]        | A live web interface to search all scripts in SPCLib.                                                                                          |
+| Alias Browser  | [![Alias Browser][alias_browser_badge]][alias_browser]           | Standalone web interface for `alias_system.lua`.                                                                                               |
+| Rank Browser   | [![Rank Browser][rank_browser_badge]][rank_browser]              | Standalone web interface for `rank_system.lua`.                                                                                                |
 
 ---
 
@@ -282,11 +250,13 @@ Enjoy these projects? Help me continue development:
 
 ---
 
+[alias_browser_badge]: https://img.shields.io/badge/Alias_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white
+
 [alias_browser]: https://chalwk.github.io/SPCLib/tools/alias-browser.html
 
 [ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
 
-[bans]: https://chalwk.github.io/SPCLib/docs/SPCLib_Servers/bans
+[bans]: https://chalwk.github.io/SPCLib/tools/bans.html
 
 [bk_website]: https://www.blackshalo.com
 
@@ -306,9 +276,11 @@ Enjoy these projects? Help me continue development:
 
 [halo_ce_installer]: https://drive.google.com/file/d/1TTiBYhO9JS5Js0exRlygH9pAC2yV1KsV/view?usp=sharing
 
-[haloce_patch]: https://drive.google.com/file/d/1CIPg3XZ3VIm4ngUnDqLCRNSn9x-jxD6W/view?usp=drive_link
+[halo_discord_bot_badge]: https://img.shields.io/badge/HaloDiscordBot-Repository-5865F2?style=for-the-badge&logo=discord&logoColor=white
 
 [halodiscordbot_repo]: https://github.com/Chalwk/HaloDiscordBot
+
+[haloce_patch]: https://drive.google.com/file/d/1CIPg3XZ3VIm4ngUnDqLCRNSn9x-jxD6W/view?usp=drive_link
 
 [halonet_website]: https://halonet.net/
 
@@ -334,6 +306,8 @@ Enjoy these projects? Help me continue development:
 
 [port_forwarding]: https://chalwk.github.io/blog/2025/09/01/halo-server-port-forwarding/
 
+[rank_browser_badge]: https://img.shields.io/badge/Rank_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white
+
 [rank_browser]: https://chalwk.github.io/SPCLib/tools/rank-browser.html
 
 [realworld_website]: https://www.realworldce.com/
@@ -354,7 +328,9 @@ Enjoy these projects? Help me continue development:
 
 [sapp_server_guide]: https://chalwk.github.io/blog/2026/04/03/halo-sapp-server-guide/
 
-[script_browser]: https://chalwk.github.io/SPCLib/
+[script_browser_badge]: https://img.shields.io/badge/Script_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white
+
+[script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser.html
 
 [scripting_with_chimera]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera
 
