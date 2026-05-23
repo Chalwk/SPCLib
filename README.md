@@ -31,6 +31,10 @@
 * [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
 * [5. SPCLib Web Tools & Apps](#spclib-web-tools--apps)
+    * [5.1 Script Browser](#script-browser)
+    * [5.2 Stats & Tracking Browsers](#stats--tracking-browsers)
+    * [5.3 HaloDiscordBot](#halodiscordbot)
+    * [5.4 Ban Appeals](#ban-appeals)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
     * [6.1 LAA Patched Executables](#laa-patched-executables)
 * [7. Community Hubs](#community-hubs)
@@ -131,16 +135,37 @@ This repository also preserves:
 
 ## SPCLib Web Tools & Apps
 
-- **[Script Browser][script_browser]** - Live search and filtering of all SPCLib scripts.
-- **[Alias Browser (alias_system.lua)][alias_browser]** - Web interface for [alias_system.lua](./sapp/admin/alias_system.lua) (IP/hash
+#### Script Browser
+
+Live search and filtering of all SPCLib scripts.
+
+- **[Script Browser][script_browser]**
+
+#### Stats & Tracking Browsers
+
+- **[Alias Browser (alias_system.lua)][alias_browser]** - Web interface
+  for [alias_system.lua](./sapp/admin/alias_system.lua) (IP/hash
   tracking).
-- **[Rank System - Stats Browser][rank_browser]** - Web interface for [rank_system.lua](./sapp/gameplay/rank_system.lua).
-- **[HaloDiscordBot][halo_discord_bot]** - Java application linking Halo servers to Discord.
-- **[HaloDiscordBot - config.yml Editor][halo_discord_bot_config_editor]** - config.yml GUI editor.
+- **[Rank System - Stats Browser][rank_browser]** - Web interface
+  for [rank_system.lua](./sapp/gameplay/rank_system.lua).
 - **[Track Master - Stats Browser][track_master_stats_browser]** - Web interface
   for [track_master.lua](./sapp/utility/track_master.lua).
-- **[Community Bans][ban_page]** - If you believe you have been banned in error from the SPCLib Discord or Halo servers,
-  submit an appeal here.
+
+#### HaloDiscordBot
+
+A Java application that connects multiple Halo servers to Discord, forwarding in-game events as rich Discord embeds.
+Supports SAPP and Phasor.
+
+- **[HaloDiscordBot][halo_discord_bot]** - Java application linking Halo servers to Discord.
+- **[HaloDiscordBot - config.yml Editor][halo_discord_bot_config_editor]** - config.yml GUI editor.
+
+#### Ban Appeals
+
+If you believe you have been banned in error from the SPCLib Discord or Halo servers,
+submit an appeal here:
+
+* [Submit a Ban Appeal][ban_appeal_template]
+* [List of active bans][ban_page]
 
 ---
 
@@ -242,9 +267,9 @@ Enjoy these projects? Help me continue development:
 
 ---
 
-[alias_browser]: https://chalwk.github.io/SPCLib/tools/alias-browser.html
+[alias_browser]: https://chalwk.github.io/SPCLib/tools/alias-browser
 
-[ban_page]: https://chalwk.github.io/SPCLib/tools/community-bans.html
+[ban_page]: https://chalwk.github.io/SPCLib/tools/community-bans
 
 [bk_website]: https://www.blackshalo.com
 
@@ -264,7 +289,7 @@ Enjoy these projects? Help me continue development:
 
 [halo_ce_installer]: https://drive.google.com/file/d/1TTiBYhO9JS5Js0exRlygH9pAC2yV1KsV/view?usp=sharing
 
-[halo_discord_bot_config_editor]: https://chalwk.github.io/SPCLib/tools/HaloDiscordBot-Config-Editor.html
+[halo_discord_bot_config_editor]: https://chalwk.github.io/SPCLib/tools/HaloDiscordBot-Config-Editor
 
 [halo_discord_bot]: https://github.com/Chalwk/HaloDiscordBot
 
@@ -294,7 +319,7 @@ Enjoy these projects? Help me continue development:
 
 [port_forwarding]: https://chalwk.github.io/blog/2025/09/01/halo-server-port-forwarding/
 
-[rank_browser]: https://chalwk.github.io/SPCLib/tools/rank-browser.html
+[rank_browser]: https://chalwk.github.io/SPCLib/tools/rank-browser
 
 [realworld_website]: https://www.realworldce.com/
 
@@ -316,7 +341,7 @@ Enjoy these projects? Help me continue development:
 
 [sapp_server_guide]: https://chalwk.github.io/blog/2026/04/03/halo-sapp-server-guide/
 
-[script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser.html
+[script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser
 
 [scripting_with_chimera]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera
 
@@ -326,7 +351,9 @@ Enjoy these projects? Help me continue development:
 
 [spclib_discord]: https://discord.gg/D76H7RVPC9
 
-[track_master_stats_browser]: https://chalwk.github.io/SPCLib/tools/track-master-stats-browser.html
+[ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
+
+[track_master_stats_browser]: https://chalwk.github.io/SPCLib/tools/track-master-stats-browser
 
 [vps_host_guide]: https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/
 
