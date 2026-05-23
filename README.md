@@ -26,9 +26,9 @@
 * [2. What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
 * [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
-* [5. Integration Tools](#integration-tools)
+* [5. SPCLib Web Tools & Home Page](#spclib-web-tools--home-page)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
-  * [6.1 LAA Patched Executables](#laa-patched-executables)
+    * [6.1 LAA Patched Executables](#laa-patched-executables)
 * [7. Community Hubs](#community-hubs)
 * [8. Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
 * [9. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
@@ -126,17 +126,23 @@ This repository also preserves:
 
 ---
 
-## Integration Tools
+## SPCLib Web Tools & Home Page
 
 > [!NOTE]
-> These tools extend Halo server functionality by connecting it with external platforms like Discord and web interfaces.
+> The [SPCLib Home Page](https://chalwk.github.io/SPCLib/) brings together integrated tools, the ban registry, and
+> a quick overview of the project in one place.
 
-| Tool           | Badge                                                            | Description                                                                                                                                    |
-|----------------|------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| HaloDiscordBot | [![HaloDiscordBot][halo_discord_bot_badge]][halodiscordbot_repo] | A Java application that connects multiple Halo servers to Discord, forwarding in-game events as rich Discord embeds. Supports SAPP and Phasor. |
-| Script Browser | [![Script Browser][script_browser_badge]][script_browser]        | A live web interface to search all scripts in SPCLib.                                                                                          |
-| Alias Browser  | [![Alias Browser][alias_browser_badge]][alias_browser]           | Standalone web interface for `alias_system.lua`.                                                                                               |
-| Rank Browser   | [![Rank Browser][rank_browser_badge]][rank_browser]              | Standalone web interface for `rank_system.lua`.                                                                                                |
+[![SPCLib Home Page](https://img.shields.io/badge/SPCLib_Home_Page-Visit-0A66C2?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chalwk.github.io/SPCLib/)
+
+The home page provides direct access to:
+
+- **Script Browser** - Live search and filtering of all SPCLib scripts.
+- **Alias Browser** - Standalone interface for `alias_system.lua` (IP/hash tracking).
+- **Rank Browser** - Standalone interface for `rank_system.lua`.
+- **Ban Registry** - Public record of active, expired, and revoked bans.
+- **HaloDiscordBot** - Java application linking Halo servers to Discord.
+
+Use the home page as a central dashboard to explore tools and community resources without leaving your browser.
 
 ---
 
