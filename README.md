@@ -30,7 +30,7 @@
 * [2. What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
 * [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
-* [5. SPCLib Web Interfaces & Apps](#spclib-web-tools--apps)
+* [5. SPCLib Web Interfaces & Apps](#spclib-web-interfaces--apps)
     * [5.1 Script Browser](#script-browser)
     * [5.2 Web Interfaces for Lua Scripts](#web-tools-for-lua-scripts)
     * [5.3 HaloDiscordBot](#halodiscordbot)
