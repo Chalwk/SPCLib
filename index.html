@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
     <meta content="SPCLib - The largest public archive of Lua scripts and resources for SAPP, Phasor, and Chimera for Halo PC/Custom Edition."
           name="description">
-    <title>SPCLib · Halo Scripting Hub</title>
+    <title>SPCLib · Home</title>
     <link href="assets/css/core.css" rel="stylesheet">
     <style>
         body {
@@ -19,7 +19,7 @@
         }
 
         .minimal-card {
-            max-width: 650px;
+            max-width: 750px;
             background: rgba(18, 25, 40, 0.75);
             backdrop-filter: blur(8px);
             border-radius: 48px;
@@ -29,14 +29,26 @@
             box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
         }
 
-        .logo-img {
-            width: 90px;
-            height: 90px;
-            border-radius: 40px;
+        .logo-wrap {
+            width: 150px;
+            height: 150px;
+            border-radius: 25%;
+            overflow: hidden;
             background: #101624;
-            padding: 4px;
             border: 1px solid #3b5a8c;
-            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem auto;
+            box-sizing: border-box;
+        }
+
+        .logo-img {
+            width: 145px;
+            height: 145px;
+            border-radius: 25%;
+            object-fit: cover;
+            display: block;
         }
 
         h1 {
@@ -50,66 +62,12 @@
             letter-spacing: -0.5px;
         }
 
-        .tagline {
-            color: #9ab3d4;
-            margin-bottom: 1.8rem;
-            font-size: 0.95rem;
-            border-top: 1px solid #2f3e5c;
-            display: inline-block;
-            padding-top: 0.75rem;
-        }
-
-        .desc {
-            color: #cbd5e6;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin: 1.2rem 0;
-        }
-
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            margin: 1.5rem 0 1rem;
-        }
-
-        .btn {
-            background: #1f2a46;
-            padding: 0.65rem 1.6rem;
-            border-radius: 60px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid #3f557a;
-            color: #eef2ff;
-        }
-
-        .btn-primary {
-            background: #2d4b8c;
-            border-color: #5f7eb0;
-        }
-
-        .btn-primary:hover {
-            background: #3e62a5;
-            transform: scale(1.02);
-        }
-
-        .btn:hover {
-            background: #2f4468;
-            border-color: #8ab3ff;
-        }
-
         .badge-strip {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 0.8rem;
-            margin-top: 1rem;
+            margin: 0.5rem 0 1.8rem 0;
         }
 
         .badge-link {
@@ -129,7 +87,87 @@
             color: white;
         }
 
-        hr {
+        .tools-heading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #c9e0ff;
+            margin: 1.5rem 0 1rem 0;
+            letter-spacing: -0.2px;
+        }
+
+        .tools-heading:before,
+        .tools-heading:after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #3f5a7c, transparent);
+        }
+
+        .tools-heading:before {
+            margin-right: 12px;
+        }
+
+        .tools-heading:after {
+            margin-left: 12px;
+        }
+
+        .tool-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.7rem;
+            margin: 0.75rem 0 0.5rem;
+        }
+
+        .tool-pill {
+            background: #111a2c;
+            border-radius: 40px;
+            padding: 0.5rem 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: #cde2ff;
+            border: 1px solid #2f456a;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(2px);
+        }
+
+        .tool-pill:hover {
+            background: #1f2f52;
+            border-color: #7b9ad4;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .tool-pill.script-main {
+            background: #1a6d3b;
+            border-color: #6ae2a0;
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(70, 230, 120, 0.5), 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-weight: 700;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .tool-pill.script-main:hover {
+            background: #2c8e52;
+            border-color: #a0f0c0;
+            box-shadow: 0 0 14px rgba(80, 240, 130, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .tool-pill.java-tool {
+            background: #1e2a3a;
+            border-color: #5f6f8a;
+        }
+
+        .hr-light {
             border-color: #2f3e5c;
             margin: 1.2rem 0 0.8rem;
         }
@@ -148,29 +186,60 @@
             h1 {
                 font-size: 1.8rem;
             }
+
+            .tool-pill {
+                padding: 0.4rem 1rem;
+                font-size: 0.7rem;
+            }
         }
     </style>
 </head>
 <body>
 <div class="minimal-card">
-    <img alt="SPCLib Logo" class="logo-img" src="assets/images/logo.jpg">
+
+    <div class="logo-wrap">
+        <img alt="SPCLib Logo" class="logo-img" src="assets/images/logo.jpg">
+    </div>
+
     <h1>SPCLib</h1>
-    <div class="tagline">SAPP, Phasor, Chimera Library</div>
-    <div class="desc">
-        Largest public archive of Lua scripts and resources for SAPP, Phasor server extensions & Chimera client-side mod
-        for Halo PC/Custom Edition.
-    </div>
-    <div class="btn-group">
-        <a class="btn btn-primary" href="https://github.com/Chalwk/SPCLib">⭐ GitHub Repository</a>
-        <a class="btn" href="https://github.com/Chalwk/SPCLib#spclib-web-tools--home-page">🛠️ Interactive Tools</a>
-    </div>
     <div class="badge-strip">
         <a class="badge-link" href="mailto:chalwk.dev@gmail.com">📧 chalwk.dev@gmail.com</a>
-        <a class="badge-link" href="https://discord.gg/D76H7RVPC9">💬 Discord</a>
-        <a class="badge-link" href="https://chalwk.github.io/">🌐 Chalwk's Personal Website</a>
+        <a class="badge-link" href="https://discord.gg/D76H7RVPC9" rel="noopener" target="_blank">💬 Discord</a>
+        <a class="badge-link" href="https://chalwk.github.io/" rel="noopener" target="_blank">🌐 Chalwk's Personal
+            Website</a>
+        <a class="badge-link" href="tools/community-bans.html" rel="noopener" target="_blank">⚖️ Ban Appeal Info</a>
     </div>
-    <hr>
-    <div class="footer-note">© 2026 Jericho Crosby (Chalwk)</div>
+
+    <div class="tools-heading"><span>Web Tools</span></div>
+    <div class="tool-grid">
+        <a class="tool-pill script-main" href="tools/script-browser.html" rel="noopener" target="_blank">
+            ★ Script Browser
+        </a>
+        <a class="tool-pill" href="tools/alias-browser.html" rel="noopener" target="_blank">
+            Alias Browser
+        </a>
+        <a class="tool-pill" href="tools/rank-browser.html" rel="noopener" target="_blank">
+            Rank System - Stats Browser
+        </a>
+        <a class="tool-pill" href="tools/track-master-stats-browser.html" rel="noopener" target="_blank">
+            Track Master - Stats Browser
+        </a>
+        <a class="tool-pill" href="tools/HaloDiscordBot-Config-Editor.html" rel="noopener" target="_blank">
+            HaloDiscordBot - config.yml Editor
+        </a>
+    </div>
+
+    <div class="tools-heading">
+        <span>External Apps</span>
+    </div>
+    <div class="tool-grid">
+        <a class="tool-pill java-tool" href="https://github.com/Chalwk/HaloDiscordBot" rel="noopener" target="_blank">
+            HaloDiscordBot (Java App)
+        </a>
+    </div>
+
+    <hr class="hr-light">
+    <div class="footer-note">© 2026 Jericho Crosby (Chalwk) · SPCLib</div>
 </div>
 </body>
 </html>

@@ -26,7 +26,7 @@
 * [2. What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
 * [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
-* [5. SPCLib Web Tools](#spclib-web-tools)
+* [5. SPCLib Web Tools](#spclib-web-tools--apps)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
     * [6.1 LAA Patched Executables](#laa-patched-executables)
 * [7. Community Hubs](#community-hubs)
@@ -125,17 +125,17 @@ This repository also preserves:
 
 ---
 
-## SPCLib Web Tools
+## SPCLib Web Tools & Apps
 
-- **[Alias Browser][alias_browser]** - Web interface for [alias_system.lua](./sapp/admin/alias_system.lua) (IP/hash
-  tracking).
-- **[HaloDiscordBot][halo_discord_bot]** - Java application linking Halo servers to Discord.
-- **[Rank Browser][rank_browser]** - Web interface for [rank_system.lua](./sapp/gameplay/rank_system.lua).
 - **[Script Browser][script_browser]** - Live search and filtering of all SPCLib scripts.
+- **[Alias Browser (alias_system.lua)][alias_browser]** - Web interface for [alias_system.lua](./sapp/admin/alias_system.lua) (IP/hash
+  tracking).
+- **[Rank System - Stats Browser][rank_browser]** - Web interface for [rank_system.lua](./sapp/gameplay/rank_system.lua).
+- **[HaloDiscordBot][halo_discord_bot]** - Java application linking Halo servers to Discord.
+- **[HaloDiscordBot - config.yml Editor][halo_discord_bot_config_editor]** - config.yml GUI editor.
 - **[Track Master - Stats Browser][track_master_stats_browser]** - Web interface
   for [track_master.lua](./sapp/utility/track_master.lua).
-- **[HaloDiscordBot Config Editor][halo_discord_bot_config_editor]** - config.yml GUI editor.
-- **[Ban Appeals][ban_page]** - If you believe you have been banned in error from the SPCLib Discord or Halo servers,
+- **[Community Bans][ban_page]** - If you believe you have been banned in error from the SPCLib Discord or Halo servers,
   submit an appeal here.
 
 ---
@@ -240,7 +240,7 @@ Enjoy these projects? Help me continue development:
 
 [alias_browser]: https://chalwk.github.io/SPCLib/tools/alias-browser.html
 
-[ban_page]: https://chalwk.github.io/SPCLib/tools/bans.html
+[ban_page]: https://chalwk.github.io/SPCLib/tools/community-bans.html
 
 [bk_website]: https://www.blackshalo.com
 
