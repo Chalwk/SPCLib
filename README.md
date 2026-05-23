@@ -33,7 +33,7 @@
 * [8. Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
 * [9. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
 * [10. Support My Work](#support-my-work)
-* [12. License](#license)
+* [11. License](#license)
 
 ---
 
@@ -131,16 +131,19 @@ This repository also preserves:
 > The [SPCLib Home Page](https://chalwk.github.io/SPCLib/) brings together integrated tools and a quick overview of the
 > project in one place.
 
-The home page provides direct access to:
+The home page provides access to:
 
-- **[Alias Browser][alias_browser]** - Standalone interface for [alias_system.lua](./sapp/admin/alias_system.lua) (
-  IP/hash tracking).
+- **[Alias Browser][alias_browser]** - Web interface for [alias_system.lua](./sapp/admin/alias_system.lua) (IP/hash
+  tracking).
 - **[HaloDiscordBot][halo_discord_bot]** - Java application linking Halo servers to Discord.
-- **[Rank Browser][rank_browser]** - Standalone interface for [rank_system.lua](./sapp/gameplay/rank_system.lua).
+- **[Rank Browser][rank_browser]** - Web interface for [rank_system.lua](./sapp/gameplay/rank_system.lua).
 - **[Script Browser][script_browser]** - Live search and filtering of all SPCLib scripts.
-- **[Track Master - Stats Browser][track_master_stats_browser]** - Standalone interface
+- **[Track Master - Stats Browser][track_master_stats_browser]** - Web interface
   for [track_master.lua](./sapp/utility/track_master.lua).
 - **[HaloDiscordBot Config Editor][halo_discord_bot_config_editor]** - config.yml GUI editor.
+- **[Ban Appeals][ban_page]** - If you believe you have been banned in error from the SPCLib Discord or Halo servers,
+  submit an appeal here.
+-
 
 And more...
 
@@ -246,6 +249,8 @@ Enjoy these projects? Help me continue development:
 
 [alias_browser]: https://chalwk.github.io/SPCLib/tools/alias-browser.html
 
+[ban_page]: https://chalwk.github.io/SPCLib/tools/bans.html
+
 [bk_website]: https://www.blackshalo.com
 
 [bug_report]: https://github.com/Chalwk/SPCLib/issues/new?assignees=Chalwk&labels=Bug%2CNeeds+Triage&template=BUG_REPORT.yaml
@@ -264,9 +269,9 @@ Enjoy these projects? Help me continue development:
 
 [halo_ce_installer]: https://drive.google.com/file/d/1TTiBYhO9JS5Js0exRlygH9pAC2yV1KsV/view?usp=sharing
 
-[halo_discord_bot]: https://github.com/Chalwk/HaloDiscordBot
-
 [halo_discord_bot_config_editor]: https://chalwk.github.io/SPCLib/tools/HaloDiscordBot-Config-Editor.html
+
+[halo_discord_bot]: https://github.com/Chalwk/HaloDiscordBot
 
 [haloce_patch]: https://drive.google.com/file/d/1CIPg3XZ3VIm4ngUnDqLCRNSn9x-jxD6W/view?usp=drive_link
 
