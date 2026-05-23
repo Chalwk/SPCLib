@@ -132,15 +132,13 @@ This repository also preserves:
 > The [SPCLib Home Page](https://chalwk.github.io/SPCLib/) brings together integrated tools, the ban registry, and
 > a quick overview of the project in one place.
 
-[![SPCLib Home Page](https://img.shields.io/badge/SPCLib_Home_Page-Visit-0A66C2?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chalwk.github.io/SPCLib/)
-
 The home page provides direct access to:
 
-- **Script Browser** - Live search and filtering of all SPCLib scripts.
-- **Alias Browser** - Standalone interface for `alias_system.lua` (IP/hash tracking).
-- **Rank Browser** - Standalone interface for `rank_system.lua`.
-- **Ban Registry** - Public record of active, expired, and revoked bans.
-- **HaloDiscordBot** - Java application linking Halo servers to Discord.
+- **[Script Browser][script_browser]** - Live search and filtering of all SPCLib scripts.
+- **[Alias Browser][alias_browser]** - Standalone interface for `alias_system.lua` (IP/hash tracking).
+- **[Rank Browser][rank_browser]** - Standalone interface for `rank_system.lua`.
+- **[Ban Registry][ban_registry]** - Public record of active, expired, and revoked bans.
+- **[HaloDiscordBot][halo_discord_bot]** - Java application linking Halo servers to Discord.
 
 Use the home page as a central dashboard to explore tools and community resources without leaving your browser.
 
@@ -240,7 +238,7 @@ Enjoy these projects? Help me continue development:
 <summary>If you believe you have been banned in error from the **SPCLib Discord or Halo servers**, you may submit a formal appeal.</summary>
 
 * [Submit a Ban Appeal][ban_appeal_template]
-* [List of active bans][bans]
+* [List of active bans][ban_registry]
 
 </details>
 
@@ -256,13 +254,11 @@ Enjoy these projects? Help me continue development:
 
 ---
 
-[alias_browser_badge]: https://img.shields.io/badge/Alias_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white
-
 [alias_browser]: https://chalwk.github.io/SPCLib/tools/alias-browser.html
 
 [ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
 
-[bans]: https://chalwk.github.io/SPCLib/tools/bans.html
+[ban_registry]: https://chalwk.github.io/SPCLib/tools/bans.html
 
 [bk_website]: https://www.blackshalo.com
 
@@ -282,9 +278,7 @@ Enjoy these projects? Help me continue development:
 
 [halo_ce_installer]: https://drive.google.com/file/d/1TTiBYhO9JS5Js0exRlygH9pAC2yV1KsV/view?usp=sharing
 
-[halo_discord_bot_badge]: https://img.shields.io/badge/HaloDiscordBot-Repository-5865F2?style=for-the-badge&logo=discord&logoColor=white
-
-[halodiscordbot_repo]: https://github.com/Chalwk/HaloDiscordBot
+[halo_discord_bot]: https://github.com/Chalwk/HaloDiscordBot
 
 [haloce_patch]: https://drive.google.com/file/d/1CIPg3XZ3VIm4ngUnDqLCRNSn9x-jxD6W/view?usp=drive_link
 
@@ -312,8 +306,6 @@ Enjoy these projects? Help me continue development:
 
 [port_forwarding]: https://chalwk.github.io/blog/2025/09/01/halo-server-port-forwarding/
 
-[rank_browser_badge]: https://img.shields.io/badge/Rank_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white
-
 [rank_browser]: https://chalwk.github.io/SPCLib/tools/rank-browser.html
 
 [realworld_website]: https://www.realworldce.com/
@@ -334,7 +326,6 @@ Enjoy these projects? Help me continue development:
 
 [sapp_server_guide]: https://chalwk.github.io/blog/2026/04/03/halo-sapp-server-guide/
 
-[script_browser_badge]: https://img.shields.io/badge/Script_Browser-Open_Now-7289DA?style=for-the-badge&logo=google-chrome&logoColor=white
 
 [script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser.html
 
