@@ -33,7 +33,6 @@
 * [8. Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
 * [9. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
 * [10. Support My Work](#support-my-work)
-* [11. Ban Appeals](#ban-appeals)
 * [12. License](#license)
 
 ---
@@ -129,20 +128,21 @@ This repository also preserves:
 ## SPCLib Web Tools & Home Page
 
 > [!NOTE]
-> The [SPCLib Home Page](https://chalwk.github.io/SPCLib/) brings together integrated tools, the ban registry, and
-> a quick overview of the project in one place.
+> The [SPCLib Home Page](https://chalwk.github.io/SPCLib/) brings together integrated tools and a quick overview of the
+> project in one place.
 
 The home page provides direct access to:
 
-- **[Alias Browser][alias_browser]** - Standalone interface for [alias_system.lua](./sapp/admin/alias_system.lua) (IP/hash tracking).
-- **[Ban Registry][ban_registry]** - Public record of active, expired, and revoked bans.
+- **[Alias Browser][alias_browser]** - Standalone interface for [alias_system.lua](./sapp/admin/alias_system.lua) (
+  IP/hash tracking).
 - **[HaloDiscordBot][halo_discord_bot]** - Java application linking Halo servers to Discord.
 - **[Rank Browser][rank_browser]** - Standalone interface for [rank_system.lua](./sapp/gameplay/rank_system.lua).
 - **[Script Browser][script_browser]** - Live search and filtering of all SPCLib scripts.
-- **[Track Master - Stats Browser][track_master_stats_browser]** - Standalone interface for [track_master.lua](./sapp/utility/track_master.lua).
+- **[Track Master - Stats Browser][track_master_stats_browser]** - Standalone interface
+  for [track_master.lua](./sapp/utility/track_master.lua).
 - **[HaloDiscordBot Config Editor][halo_discord_bot_config_editor]** - config.yml GUI editor.
 
-Use the home page as a central dashboard to explore tools and community resources without leaving your browser.
+And more...
 
 ---
 
@@ -234,18 +234,6 @@ Enjoy these projects? Help me continue development:
 
 ---
 
-## Ban Appeals
-
-<details>
-<summary>If you believe you have been banned in error from the **SPCLib Discord or Halo servers**, you may submit a formal appeal.</summary>
-
-* [Submit a Ban Appeal][ban_appeal_template]
-* [List of active bans][ban_registry]
-
-</details>
-
----
-
 ## License
 
 > [!CAUTION]
@@ -257,10 +245,6 @@ Enjoy these projects? Help me continue development:
 ---
 
 [alias_browser]: https://chalwk.github.io/SPCLib/tools/alias-browser.html
-
-[ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
-
-[ban_registry]: https://chalwk.github.io/SPCLib/tools/bans.html
 
 [bk_website]: https://www.blackshalo.com
 
