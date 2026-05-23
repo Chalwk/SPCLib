@@ -14,6 +14,10 @@
   <a href="https://chalwk.github.io/">
     <img src="https://img.shields.io/badge/Chalwk's Website-Visit-0A66C2?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Portfolio Website">
   </a>
+
+  <a href="https://chalwk.github.io/SPCLib">
+    <img src="https://img.shields.io/badge/SPCLib_Homepage-Visit-0A66C2?style=for-the-badge&logo=github&logoColor=white" alt="Repo Homepage">
+  </a>
 </div>
 
 <br>
@@ -234,7 +238,7 @@ Enjoy these projects? Help me continue development:
 > Halo is a trademark of Microsoft. This project is not affiliated with or endorsed by Microsoft or its subsidiaries,
 > including Halo Studios (formerly 343 Industries).
 
-**[SPCLib][repo_homepage]** is licensed under the [MIT License](LICENSE).
+**[SPCLib][repo_url]** is licensed under the [MIT License](LICENSE).
 
 ---
 
@@ -300,7 +304,9 @@ Enjoy these projects? Help me continue development:
 
 [releases]: https://github.com/Chalwk/SPCLib/releases
 
-[repo_homepage]: https://github.com/Chalwk/SPCLib
+[repo_homepage]: https://chalwk.github.io/SPCLib
+
+[repo_url]: https://github.com/Chalwk/SPCLib
 
 [sapp_command_ref]: https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference
 
