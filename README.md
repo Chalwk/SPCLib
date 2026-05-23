@@ -153,7 +153,6 @@ Live search and filtering for all SPCLib scripts.
 #### HaloDiscordBot
 
 Java-based integration for connecting Halo servers to Discord with rich event embeds.
-Supports both SAPP and Phasor servers.
 
 * **[HaloDiscordBot][halo_discord_bot]** - Main application
 * **[Config.yml Editor][halo_discord_bot_config_editor]** - GUI editor for `config.yml`
