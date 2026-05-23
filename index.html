@@ -3,315 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
-    <meta content="SPCLib - Largest public archive of Lua scripts and resources for SAPP, Phasor server extensions & Chimera client-side mod for Halo PC/Custom Edition."
+    <meta content="SPCLib - The largest public archive of Lua scripts and resources for SAPP, Phasor, and Chimera for Halo PC/Custom Edition."
           name="description">
-    <title>SPCLib</title>
+    <title>SPCLib · Halo Scripting Hub</title>
     <link href="assets/css/core.css" rel="stylesheet">
     <style>
-        .hero {
+        body {
+            background: radial-gradient(circle at 10% 20%, #0a0f1a, #05090f);
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
             align-items: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #2d3a4e;
-            padding-bottom: 1.5rem;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
         }
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
+        .minimal-card {
+            max-width: 650px;
+            background: rgba(18, 25, 40, 0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 48px;
+            border: 1px solid #2c3f5c;
+            padding: 2rem 2rem 2.2rem;
+            text-align: center;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
         }
 
         .logo-img {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
+            width: 90px;
+            height: 90px;
             border-radius: 40px;
             background: #101624;
             padding: 4px;
             border: 1px solid #3b5a8c;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1rem;
         }
 
-        .logo-text h1 {
+        h1 {
+            font-size: 2.2rem;
             font-weight: 700;
-            font-size: 2rem;
             background: linear-gradient(135deg, #e0efff, #8ab3ff);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
+            margin: 0.2rem 0 0.5rem;
             letter-spacing: -0.5px;
         }
 
-        .logo-text p {
-            color: #8aa2c2;
-            font-size: 0.85rem;
+        .tagline {
+            color: #9ab3d4;
+            margin-bottom: 1.8rem;
+            font-size: 0.95rem;
+            border-top: 1px solid #2f3e5c;
+            display: inline-block;
+            padding-top: 0.75rem;
+        }
+
+        .desc {
+            color: #cbd5e6;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 1.2rem 0;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .btn {
+            background: #1f2a46;
+            padding: 0.65rem 1.6rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #3f557a;
+            color: #eef2ff;
+        }
+
+        .btn-primary {
+            background: #2d4b8c;
+            border-color: #5f7eb0;
+        }
+
+        .btn-primary:hover {
+            background: #3e62a5;
+            transform: scale(1.02);
+        }
+
+        .btn:hover {
+            background: #2f4468;
+            border-color: #8ab3ff;
         }
 
         .badge-strip {
             display: flex;
-            gap: 0.8rem;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-top: 1rem;
         }
 
         .badge-link {
             background: #1a2338;
             border-radius: 40px;
-            padding: 6px 18px;
-            font-size: 0.8rem;
+            padding: 5px 16px;
+            font-size: 0.75rem;
             font-weight: 500;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
             text-decoration: none;
-            color: #eef2ff;
+            color: #bbd4ff;
             border: 1px solid #2f3e5c;
+            transition: 0.15s;
         }
 
         .badge-link:hover {
             background: #2a3958;
-            transform: translateY(-2px);
-            border-color: #6b8ed6;
+            color: white;
         }
 
-        .section-title {
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin: 2rem 0 1rem 0;
-            letter-spacing: -0.3px;
-            display: inline-block;
-            background: linear-gradient(120deg, #cde4ff, #9bb9ff);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            border-left: 4px solid #5b7cae;
-            padding-left: 1rem;
+        hr {
+            border-color: #2f3e5c;
+            margin: 1.2rem 0 0.8rem;
         }
 
-        .grid-2col, .grid-3col, .grid-4col {
-            display: grid;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
+        .footer-note {
+            font-size: 0.7rem;
+            color: #7b95bf;
+            margin-top: 1rem;
         }
 
-        .grid-2col {
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        }
+        @media (max-width: 550px) {
+            .minimal-card {
+                padding: 1.5rem;
+            }
 
-        .grid-3col {
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        }
-
-        .grid-4col {
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-        }
-
-        .feature-card {
-            background: rgba(18, 25, 40, 0.65);
-            backdrop-filter: blur(4px);
-            border-radius: 28px;
-            padding: 1.4rem 1.3rem;
-            border: 1px solid #2c3f5c;
-            transition: 0.2s ease;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .feature-card:hover {
-            border-color: #5b7cae;
-            background: rgba(25, 35, 55, 0.8);
-            transform: translateY(-3px);
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card-desc {
-            font-size: 0.85rem;
-            color: #cbd5e6;
-            line-height: 1.4;
-            margin-bottom: 1rem;
-        }
-
-        .btn-link {
-            background: #1f2a46;
-            padding: 5px 14px;
-            border-radius: 40px;
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: #eef2ff;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.2s;
-            border: 1px solid #3f557a;
-        }
-
-        .btn-link:hover {
-            background: #2f4468;
-            border-color: #8ab3ff;
-        }
-
-        .button-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 0.8rem;
-        }
-
-        @media (max-width: 700px) {
-            .hero {
-                flex-direction: column;
-                align-items: flex-start;
+            h1 {
+                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="hero">
-        <div class="logo-area">
-            <img alt="SPCLib Logo" class="logo-img"
-                 src="assets/images/logo.jpg">
-            <div class="logo-text">
-                <h1>SPCLib</h1>
-            </div>
-        </div>
-        <div class="badge-strip">
-            <a class="badge-link" href="mailto:chalwk.dev@gmail.com">📧 chalwk.dev@gmail.com</a>
-            <a class="badge-link" href="https://discord.gg/D76H7RVPC9" target="_blank">💬 Discord Server</a>
-            <a class="badge-link" href="https://chalwk.github.io/" target="_blank">🌐 Chalwk's Website</a>
-            <a class="badge-link" href="https://github.com/Chalwk/SPCLib" target="_blank">⭐ GitHub Repo</a>
-        </div>
+<div class="minimal-card">
+    <img alt="SPCLib Logo" class="logo-img" src="assets/images/logo.jpg">
+    <h1>SPCLib</h1>
+    <div class="tagline">SAPP, Phasor, Chimera Library</div>
+    <div class="desc">
+        Largest public archive of Lua scripts and resources for SAPP, Phasor server extensions & Chimera client-side mod
+        for Halo PC/Custom Edition.
     </div>
-
-    <div class="section-title">SCRIPTS</div>
-    <div class="grid-2col">
-        <div class="feature-card">
-            <div class="card-title">SAPP</div>
-            <div class="card-desc">Most advanced server-side extension for haloceded.exe. Lua scripting, anti-cheat,
-                event hooks, admin tools, and more.
-            </div>
-            <a class="btn-link" href="https://github.com/Chalwk/SPCLib/tree/master/sapp" target="_blank">📂 SAPP Scripts
-                →</a>
-        </div>
-        <div class="feature-card">
-            <div class="card-title">Phasor</div>
-            <div class="card-desc">Earlier server extension with similar goals to SAPP. Legacy support + custom scripts.
-            </div>
-            <a class="btn-link" href="https://github.com/Chalwk/SPCLib/tree/master/phasor" target="_blank">📂 Phasor
-                Scripts →</a>
-        </div>
-        <div class="feature-card">
-            <div class="card-title">Chimera</div>
-            <div class="card-desc">Active client-side mod for Halo CE/PC/Trial. Lua API, map downloads, renderer fixes,
-                QoL improvements. Developed by SnowyMouse.
-            </div>
-            <a class="btn-link" href="https://github.com/Chalwk/SPCLib/tree/master/chimera" target="_blank">📂 Chimera
-                Scripts →</a>
-        </div>
-        <div class="feature-card">
-            <div class="card-title">Script Packages</div>
-            <div class="card-desc">Organized Lua scripts for server administration, gameplay, gametypes, utilities &
-                client-side mods.
-            </div>
-            <a class="btn-link" href="https://github.com/Chalwk/SPCLib/releases" target="_blank">📂 Script Packages →</a>
-        </div>
+    <div class="btn-group">
+        <a class="btn btn-primary" href="https://github.com/Chalwk/SPCLib">⭐ GitHub Repository</a>
+        <a class="btn" href="https://github.com/Chalwk/SPCLib#spclib-web-tools--home-page">🛠️ Interactive Tools</a>
     </div>
-
-    <div class="section-title">KNOWLEDGE BASE</div>
-    <div class="grid-3col">
-        <div class="feature-card">
-            <div class="card-title">Server Setup & Hosting</div>
-            <div class="card-desc">From VPS (Ubuntu) to port forwarding & SAPP server guide.</div>
-            <div class="button-group">
-                <a class="btn-link" href="https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/"
-                   target="_blank">Linux VPS Guide →</a>
-                <a class="btn-link" href="https://chalwk.github.io/blog/2025/09/01/halo-server-port-forwarding/"
-                   target="_blank">Port Forwarding →</a>
-                <a class="btn-link" href="https://chalwk.github.io/blog/2026/04/03/halo-sapp-server-guide/"
-                   target="_blank">🖥 SAPP Server Guide →</a>
-            </div>
-        </div>
-        <div class="feature-card">
-            <div class="card-title">Scripting Guides</div>
-            <div class="button-group" style="flex-direction: column;">
-                <a class="btn-link" href="https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp"
-                   target="_blank">Scripting with SAPP →</a>
-                <a class="btn-link" href="https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor"
-                   target="_blank">Scripting with Phasor →</a>
-                <a class="btn-link" href="https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera"
-                   target="_blank">Scripting with Chimera →</a>
-                <a class="btn-link" href="https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference"
-                   target="_blank">SAPP Command Reference →</a>
-            </div>
-        </div>
-        <div class="feature-card">
-            <div class="card-title">Advanced References</div>
-            <div class="button-group" style="flex-direction: column;">
-                <a class="btn-link" href="https://chalwk.github.io/blog/2026/05/17/halo-lua-common-references"
-                   target="_blank">Common Lua Patterns →</a>
-                <a class="btn-link" href="https://chalwk.github.io/blog/2025/09/08/halo-understanding-memory-offsets"
-                   target="_blank">Memory Offsets & Scanning →</a>
-                <a class="btn-link" href="https://chalwk.github.io/blog/2025/09/08/halo-modding-references/"
-                   target="_blank">Modding References (tags, maps) →</a>
-            </div>
-        </div>
+    <div class="badge-strip">
+        <a class="badge-link" href="mailto:chalwk.dev@gmail.com">📧 chalwk.dev@gmail.com</a>
+        <a class="badge-link" href="https://discord.gg/D76H7RVPC9">💬 Discord</a>
+        <a class="badge-link" href="https://chalwk.github.io/">🌐 Chalwk's Personal Website</a>
     </div>
-
-    <div class="section-title">INTEGRATION TOOLS</div>
-    <div class="grid-4col">
-        <div class="feature-card">
-            <div class="card-title">HaloDiscordBot</div>
-            <div class="card-desc">Java app linking Halo servers → Discord. Rich embeds for SAPP events.</div>
-            <a class="btn-link" href="https://github.com/Chalwk/HaloDiscordBot" style="margin-top: 8px;"
-               target="_blank">GitHub Repo →</a>
-        </div>
-        <div class="feature-card">
-            <div class="card-title">Script Browser</div>
-            <div class="card-desc">Live web interface to search all SPCLib scripts.</div>
-            <a class="btn-link" href="./tools/script-browser.html">Open Script Browser →</a>
-        </div>
-        <div class="feature-card">
-            <div class="card-title">Alias Browser</div>
-            <div class="card-desc">Standalone interface for alias_system.lua.</div>
-            <a class="btn-link" href="./tools/alias-browser.html">Open Alias Browser →</a>
-        </div>
-        <div class="feature-card">
-            <div class="card-title">Rank Browser</div>
-            <div class="card-desc">Visual leaderboard & progression viewer for rank_system.lua</div>
-            <a class="btn-link" href="./tools/rank-browser.html">Open Rank Browser →</a>
-        </div>
-        <div class="feature-card">
-            <div class="card-title">TrackMaster Stats Browser</div>
-            <div class="card-desc">Visual leaderboard & progression viewer for track_master.lua</div>
-            <a class="btn-link" href="./tools/track-master-stats-browser.html">Open TrackMaster Stats Browser →</a>
-        </div>
-        <div class="feature-card">
-            <div class="card-title">Config Editor</div>
-            <div class="card-desc">Edit HaloDiscordBot config.yml with GUI interface</div>
-            <a class="btn-link" href="./tools/HaloDiscordBot-Config-Editor.html">Open Config Editor →</a>
-        </div>
-        <div class="feature-card">
-            <div class="card-title">Ban Registry</div>
-            <div class="card-desc">If you believe you have been banned in error from the SPCLib Discord or Halo
-                servers, you may submit a formal appeal.
-            </div>
-            <a class="btn-link" href="./tools/bans.html">Open Ban Registry →</a>
-        </div>
-    </div>
+    <hr>
+    <div class="footer-note">© 2026 Jericho Crosby (Chalwk)</div>
 </div>
-<script defer src="assets/js/script.js"></script>
 </body>
 </html>

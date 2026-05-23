@@ -26,7 +26,7 @@
 * [2. What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
 * [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
-* [5. SPCLib Web Tools & Home Page](#spclib-web-tools--home-page)
+* [5. SPCLib Web Tools](#spclib-web-tools)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
     * [6.1 LAA Patched Executables](#laa-patched-executables)
 * [7. Community Hubs](#community-hubs)
@@ -125,13 +125,7 @@ This repository also preserves:
 
 ---
 
-## SPCLib Web Tools & Home Page
-
-> [!NOTE]
-> The [SPCLib Home Page](https://chalwk.github.io/SPCLib/) brings together integrated tools and a quick overview of the
-> project in one place.
-
-The home page provides access to:
+## SPCLib Web Tools
 
 - **[Alias Browser][alias_browser]** - Web interface for [alias_system.lua](./sapp/admin/alias_system.lua) (IP/hash
   tracking).
@@ -143,9 +137,6 @@ The home page provides access to:
 - **[HaloDiscordBot Config Editor][halo_discord_bot_config_editor]** - config.yml GUI editor.
 - **[Ban Appeals][ban_page]** - If you believe you have been banned in error from the SPCLib Discord or Halo servers,
   submit an appeal here.
--
-
-And more...
 
 ---
 
