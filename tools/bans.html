@@ -126,6 +126,45 @@
             gap: 12px;
             flex-wrap: wrap;
         }
+
+        .appeal-section {
+            background: rgba(25, 35, 55, 0.8);
+            border-radius: 28px;
+            padding: 1rem 1.6rem;
+            margin: 1rem 0 1rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid #4c6b9b;
+        }
+
+        .appeal-text {
+            font-size: 0.9rem;
+            color: #e0edff;
+        }
+
+        .appeal-btn {
+            background: #c44536;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .appeal-btn:hover {
+            background: #a03426;
+            transform: scale(1.02);
+        }
     </style>
 </head>
 <body>
@@ -140,14 +179,25 @@
         </div>
     </div>
 
+    <div class="appeal-section">
+        <div class="appeal-text">
+            If you believe you have been banned in error from the SPCLib Discord or Halo servers, you may submit a
+            formal appeal:
+        </div>
+        <a class="appeal-btn" href="https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml"
+           target="_blank">
+            📝 Submit Ban Appeal
+        </a>
+    </div>
+
     <div class="header-meta">
-        <div class="last-updated">📅 Last Updated: <span id="lastUpdatedStatic">--</span></div>
+        <div class="last-updated">Last Updated: <span id="lastUpdatedStatic">--</span></div>
         <div class="badge-strip" id="badgeStrip"></div>
     </div>
 
     <div class="summary-card">
         <div class="totals" id="totalsText">
-            📊 <strong>Total Active Bans:</strong> <span id="activeCountSpan">0</span> &nbsp;|&nbsp;
+            <strong>Total Active Bans:</strong> <span id="activeCountSpan">0</span> &nbsp;|&nbsp;
             <strong>Expired:</strong> <span id="expiredCountSpan">0</span> &nbsp;|&nbsp;
             <strong>Revoked:</strong> <span id="revokedCountSpan">0</span>
         </div>
@@ -161,17 +211,17 @@
         <table class="ban-table" id="banTable">
             <thead>
             <tr>
-                <th>🔢 Ban ID</th>
-                <th>👤 User ID</th>
-                <th>🖥 Server ID</th>
-                <th>❌ Reason</th>
-                <th>📅 Date & Time of Ban</th>
-                <th>⏳ Ban Length</th>
-                <th>⏰ Ban Expiry Date & Time</th>
-                <th>👮 Ban Issuer</th>
-                <th>🚨 Ban Status</th>
-                <th>📜 Ban Type</th>
-                <th>🎚 Tier</th>
+                <th>Ban ID</th>
+                <th>User ID</th>
+                <th>Server ID</th>
+                <th>Reason</th>
+                <th>Date & Time of Ban</th>
+                <th>Ban Length</th>
+                <th>Ban Expiry Date & Time</th>
+                <th>Ban Issuer</th>
+                <th>Ban Status</th>
+                <th>Ban Type</th>
+                <th>Tier</th>
             </tr>
             </thead>
             <tbody id="banTableBody">
@@ -310,7 +360,7 @@
                 updateCountersAndBadges(bans);
                 const now = new Date();
                 lastUpdatedSpan.innerText = now.toLocaleString();
-                statusSpan.innerHTML = `✅ Loaded ${bans.length} ban records`;
+                statusSpan.innerHTML = `Loaded ${bans.length} ban records`;
             } catch (err) {
                 console.error(err);
                 tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:2rem; color:#ffa2a2;">⚠️ Failed to load bans.txt - make sure the file exists in the data/ directory. Error: ${err.message}</td></tr>`;

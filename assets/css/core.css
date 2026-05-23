@@ -361,3 +361,29 @@ footer a:hover {
         padding: 0.3rem 0.7rem;
     }
 }
+
+.home-button-wrapper {
+    margin-bottom: 1rem;
+    text-align: right;
+}
+
+.home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #1f2a46;
+    border: 1px solid #3b5a8c;
+    padding: 0.5rem 1.2rem;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #eef2ff;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.home-btn:hover {
+    background: #2f3e64;
+    transform: translateY(-2px);
+    border-color: #6b8ed6;
+}
