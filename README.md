@@ -26,7 +26,7 @@
 * [2. What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
 * [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
-* [5. SPCLib Web Tools](#spclib-web-tools--apps)
+* [5. SPCLib Web Tools & Apps](#spclib-web-tools--apps)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
     * [6.1 LAA Patched Executables](#laa-patched-executables)
 * [7. Community Hubs](#community-hubs)
