@@ -34,7 +34,7 @@
     * 〔🎤〕In-Game
         * Voice chat for live gameplay or server sessions.
 
-* ◉ SPCLib SERVERS
+* ◉ SPCLib CE Servers
     * 〔📚〕list
         * Details about official SPCLib Halo PC servers.
     * divide-and-conquer _(only users with @SPCLib SERVERS can see this)_
