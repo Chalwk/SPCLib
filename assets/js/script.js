@@ -1,3 +1,5 @@
+/* Copyright (c) 2026. Jericho Crosby (Chalwk) */
+
 (function() {
     function addHomeButton() {
         const container = document.querySelector('.container');
