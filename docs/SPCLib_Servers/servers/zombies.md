@@ -29,7 +29,7 @@ their own team.
 
 ## Maps
 
-`the_narrows`, `division`, `graveyard`, `homestead`, `church`, `rev_sanctuary_cavebeta`, `immure`,  
-`quagmire`, `portent`, `overgrown`
+`church`,`Division`,`GraveYard`, `homestead`, `immure`, `OverGrown`, `portent`, `quagmire`, `rev_sanctuary_cavebeta`,
+`the_narrows`
 
 ---
