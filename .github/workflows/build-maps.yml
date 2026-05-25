@@ -3,7 +3,7 @@ name: Build Maps
 on:
   push:
     tags:
-      - 'SPCLib-maps v*.*.*'
+      - 'map-bundle-*.*.*'
 
 jobs:
   download-and-package:
