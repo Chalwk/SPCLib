@@ -163,4 +163,4 @@ at [https://www.contributor-covenant.org/version/1/4/code-of-conduct][version].
 
 [ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
 
-[bans]: https://chalwk.github.io/SPCLib/docs/SPCLib_Servers/bans
+[bans]: https://chalwk.github.io/SPCLib/tools/community-bans
