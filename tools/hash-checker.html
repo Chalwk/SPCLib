@@ -317,10 +317,7 @@
                 <button class="example-btn" id="exampleCrackedBtn">📋 Try Cracked Example</button>
             </div>
         </div>
-        <div class="result-area" id="singleResult">
-            <div style="opacity: 0.7;">Result...
-            </div>
-        </div>
+        <div class="result-area" id="singleResult"></div>
     </div>
 
     <div class="check-card" id="bulkTab" style="display: none;">
@@ -338,11 +335,7 @@ c939c09426f69c4843ff75ae704bf426
                 <button class="example-btn" id="clearBulkBtn">🗑️ Clear</button>
             </div>
         </div>
-        <div class="result-area" id="bulkResult">
-            <div style="opacity: 0.7;">Paste multiple CD key hashes (each 32‑char hex) to see which are cracked /
-                safe.
-            </div>
-        </div>
+        <div class="result-area" id="bulkResult"></div>
     </div>
 
     <div class="warning-note">
@@ -468,7 +461,7 @@ c939c09426f69c4843ff75ae704bf426
             singleResultDiv.innerHTML = `
                 <div class="result-badge badge-cracked">🏴‍☠️ CRACKED / PIRATED CD KEY</div>
                 <div><strong style="color:#ffbf9f;">Hash: ${escapeHtml(normalized)}</strong> is present in the known cracked hash database.</div>
-                <div style="margin-top: 8px; font-size:0.85rem;">⚠️ This CD key is widely shared among cracked clients. Granting admin privileges (adminadd) to this hash may allow random players to abuse permissions. Use with extreme caution + IP whitelist.</div>
+                <div style="margin-top: 8px; font-size:0.85rem;">This CD key is widely shared among cracked clients. Granting admin privileges (adminadd) to this hash may allow random players to abuse permissions. Use with extreme caution + IP whitelist.</div>
                 <div style="margin-top: 6px;">🔒 Recommendation: <strong>Do NOT trust this hash alone</strong> for admin access.</div>
             `;
             updateGlobalStats('cracked', true);
