@@ -24,15 +24,16 @@ local KICK_MESSAGE = "$name was kicked for being AFK!"
 local MAX_AFK_TIME = 140             -- Maximum allowed AFK time (seconds)
 local GRACE_PERIOD = 60              -- Grace period before kicking (seconds)
 local WARNING_INTERVAL = 30          -- Warning frequency (seconds)
+
 local AIM_THRESHOLD = 0.05           -- Camera aim detection sensitivity (increased to ignore tiny shakes)
 local AFK_PERMISSION = 3             -- Minimum admin level required (-1 = public, 1-4 = admin levels)
 local AFK_COMMAND = "afk"            -- Command to toggle AFK status
 local AFK_STATUS_COMMAND = "afklist" -- Command to list AFK players
 local AFK_KICK_IMMUNITY = {          -- Admin levels with kick immunity (true = immunity, false = no immunity)
-    [1] = false,
-    [2] = false,
-    [3] = false,
-    [4] = false
+    [1] = true,
+    [2] = true,
+    [3] = true,
+    [4] = true
 }
 
 local MONITOR_INPUT = {    -- Inputs to monitor for activity (true = enabled, false = disabled)
