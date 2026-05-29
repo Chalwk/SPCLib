@@ -3,60 +3,57 @@
 SCRIPT NAME:      track_master.lua
 DESCRIPTION:      Advanced racing tracker and leaderboard system for Halo SAPP.
 
-FEATURES:         - Tracks player lap times with checkpoint validation
-                  - Supports both sequential and non-sequential race modes
-                  - Records personal bests per player and all-time map records
+REQUIRED:         * Lua JSON Parser: http://regex.info/blog/lua/json
+                    Place json.lua in the same directory as sapp.dll
+
+FEATURES:         - Tracks player lap times with checkpoint validation.
+                  - Supports both sequential and non-sequential race modes.
+                  - Records personal bests per player and all-time map records.
                   - Maintains detailed per-map player statistics:
-                      * laps completed
-                      * best lap time
-                      * average lap time
-                  - Real-time checkpoint tracking with optional time display
+                    * laps completed
+                    * best lap time
+                    * average lap time
+                  - Checkpoint tracking with optional time display.
                   - Calculates global rankings across all maps using weighted scoring:
-                      * MAP_RECORD_WEIGHT: points for holding map records
-                      * GLOBAL_RECORD_WEIGHT: bonus for overall best lap
-                      * PERFORMANCE_WEIGHT: points based on lap time vs record
-                      * TOP_FINISH_THRESHOLD: counts near-record laps
-                      * Participation adjustment for players with few maps
-                  - In-game announcements:
-                      * New personal bests
-                      * New map records
-                      * Checkpoint completion times
-                  - Player commands:
-                      * /stats [player|all] - Personal/player stats for current map
-                      * /top [page] - Paginated top laps for current map
-                      * /global [page] - Paginated top overall players (all maps)
-                      * /reset - Reset personal checkpoint progress
+                    * MAP_RECORD_WEIGHT: points for holding map records
+                    * GLOBAL_RECORD_WEIGHT: bonus for overall best lap
+                    * PERFORMANCE_WEIGHT: points based on lap time vs record
+                    * TOP_FINISH_THRESHOLD: counts near-record laps
+                    * Participation adjustment for players with few maps
+                  - Announcements:
+                    * New personal bests
+                    * New map records
+                    * Checkpoint completion times
                   - Automatic data persistence with JSON export
                   - Optional text file export of lap records
                   - Configurable race validation (driver seat requirement)
                   - End-of-game leaderboard display (map or global)
 
 COMMAND SYNTAX:
-    /stats                    - Show your personal stats on current map
-    /stats [player_name]      - Show stats for specific player on current map
-    /stats [player_id]        - Show stats for player by ID on current map
-    /stats all                - Show stats for all online players on current map
-    /top                      - Show first page of top laps for current map
-    /top [page_number]        - Show specific page of top laps for current map
-    /global                   - Show first page of top overall players
-    /global [page_number]     - Show specific page of top overall players
-    /reset                    - Reset your current checkpoint progress
+                  /stats                    - Show your personal stats on current map
+                  /stats [player_name]      - Show stats for specific player on current map
+                  /stats [player_id]        - Show stats for player by ID on current map
+                  /stats all                - Show stats for all online players on current map
+                  /top                      - Show first page of top laps for current map
+                  /top [page_number]        - Show specific page of top laps for current map
+                  /global                   - Show first page of top overall players
+                  /global [page_number]     - Show specific page of top overall players
+                  /reset                    - Reset your current checkpoint progress
+                  /purge map <mapname>      - Delete all records for the specified map
+                  /purge player "<playername>" <mapname> - Delete a player's records from the specified map
 
 SCORING SYSTEM:
-    Global rankings are calculated using a weighted system:
-    - Map Record: +200 points per map record held
-    - Global Record: +300 bonus points for overall best lap
-    - Performance: Up to +50 points based on lap time relative to map record
-    - Top Finishes: Laps within 95% of record time count as top finishes (tiebreaker)
-    - Participation: Players with fewer than 3 maps played get 50% point penalty
-    - Tiebreakers: map records > global record > top finishes
+                 Global rankings are calculated using a weighted system:
+                   - Map Record: +200 points per map record held
+                   - Global Record: +300 bonus points for overall best lap
+                   - Performance: Up to +50 points based on lap time relative to map record
+                   - Top Finishes: Laps within 95% of record time count as top finishes (tiebreaker)
+                   - Participation: Players with fewer than 3 maps played get 50% point penalty
+                   - Tiebreakers: map records > global record > top finishes
 
-REQUIREMENTS:     Install to the same directory as sapp.dll
-                  - Lua JSON Parser:  http://regex.info/blog/lua/json
+LAST UPDATED:     30/5/2026
 
-LAST UPDATED:     12/10/2025
-
-Copyright (c) 2025 Jericho Crosby (Chalwk)
+Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
@@ -67,33 +64,29 @@ local CONFIG = {
     -- File names (in the SAPP config directory):
     STATS_FILE = "race_stats.json",
     TEXT_EXPORT_FILE = "lap_records.txt",
-
     -- Commands:
     STATS_COMMAND = "stats",            -- Command to show player's personal best lap (current map)
     MAP_TOP_COMMAND = "top",            -- Command to show top 5 global best laps (current map)
     GLOBAL_TOP_COMMAND = "global",      -- Command to show top 5 overall players (all maps)
     RESET_CHECKPOINT_COMMAND = "reset", -- Command to reset checkpoint for yourself
-
+    PURGE_COMMAND = "purge",            -- Command to purge map/player records (console only)
     -- Settings:
-    LIST_SIZE = 5,              -- Number of top laps to display (applies to top command and game end)
-    MIN_LAP_TIME = 10.0,        -- Minimum valid lap time in seconds
-    EXPORT_LAP_RECORDS = true,  -- Export lap records to a text file
-    DRIVER_REQUIRED = true,     -- Only count laps if the player is the driver of the vehicle
-    SHOW_FINAL_TOP = true,      -- Show top results on game end
-    TOP_FINAL_GLOBAL = false,   -- true = GLOBAL map results | false = CURRENT map results | This setting requires SHOW_FINAL_TOP = true
-    SHOW_CHECKPOINT_HUD = true, -- Show checkpoint HUD while racing
-    MSG_PREFIX = "**SAPP**",    -- Some functions temporarily change the message msg_prefix; this restores it.
-
+    LIST_SIZE = 5,                      -- Number of top laps to display (applies to top command and game end)
+    MIN_LAP_TIME = 10.0,                -- Minimum valid lap time in seconds
+    EXPORT_LAP_RECORDS = true,          -- Export lap records to a text file
+    DRIVER_REQUIRED = true,             -- Only count laps if the player is the driver of the vehicle
+    SHOW_FINAL_TOP = true,              -- Show top results on game end
+    TOP_FINAL_GLOBAL = false,           -- true = GLOBAL map results | false = CURRENT map results | This setting requires SHOW_FINAL_TOP = true
+    SHOW_CHECKPOINT_HUD = true,         -- Show checkpoint HUD while racing
+    MSG_PREFIX = "**SAPP**",            -- Some functions temporarily change the message msg_prefix; this restores it.
     -- Pagination settings
-    TOP_PAGE_SIZE = 10,    -- Default results per page for /top command
-    GLOBAL_PAGE_SIZE = 10, -- Default results per page for /global command
-
+    TOP_PAGE_SIZE = 10,                 -- Default results per page for /top command
+    GLOBAL_PAGE_SIZE = 10,              -- Default results per page for /global command
     -- Scoring weights
-    MAP_RECORD_WEIGHT = 200,     -- Points for holding a map record
-    GLOBAL_RECORD_WEIGHT = 300,  -- Bonus points for holding the global best lap
-    PERFORMANCE_WEIGHT = 50,     -- Max points for performance relative to record
-    TOP_FINISH_THRESHOLD = 0.95, -- Ratio threshold for counting top finishes
-
+    MAP_RECORD_WEIGHT = 200,            -- Points for holding a map record
+    GLOBAL_RECORD_WEIGHT = 300,         -- Bonus points for holding the global best lap
+    PERFORMANCE_WEIGHT = 50,            -- Max points for performance relative to record
+    TOP_FINISH_THRESHOLD = 0.95,        -- Ratio threshold for counting top finishes
     -- Add game modes that are non-sequential (any order) here:
     NON_SEQUENTIAL_MODES = {
         ["ANY_ORDER"] = true
@@ -108,8 +101,7 @@ local os_clock = os.clock
 
 local band = bit.band
 
-local math_abs, math_ceil, math_floor, math_huge, math_min =
-    math.abs, math.ceil, math.floor, math.huge, math.min
+local math_abs, math_ceil, math_floor, math_huge, math_min = math.abs, math.ceil, math.floor, math.huge, math.min
 
 local table_concat, table_insert, table_sort = table.concat, table.insert, table.sort
 local tonumber, pcall, pairs, ipairs, select = tonumber, pcall, pairs, ipairs, select
@@ -126,11 +118,7 @@ local stats_file, txt_export_file
 local current_map = ""
 local json = loadfile('json.lua')()
 
-local global_best_lap = {
-    time = math_huge,
-    player = "",
-    map = ""
-}
+local global_best_lap = { time = math_huge, player = "", map = "" }
 
 local function fmt(str, ...)
     return select('#', ...) > 0 and str:format(...) or str
@@ -194,6 +182,16 @@ local function fmtTime(time, is_difference)
     end
 end
 
+local function getPaginationIndices(page, total_entries, page_size)
+    local total_pages = math_ceil(total_entries / page_size)
+    page = page or 1
+    if page < 1 then page = 1 end
+    if page > total_pages then page = total_pages end
+    local start_index = (page - 1) * page_size + 1
+    local end_index = math_min(start_index + page_size - 1, total_entries)
+    return start_index, end_index, total_pages, page
+end
+
 local function readJSON(default)
     local file = io_open(stats_file, "r")
     if not file then return default end
@@ -202,7 +200,6 @@ local function readJSON(default)
     if content == "" then return default end
     local success, data = pcall(json.decode, json, content)
 
-    -- Load global best lap if available
     if success and data.global_best then
         global_best_lap = data.global_best
     end
@@ -229,7 +226,7 @@ local function exportLapRecords()
             table_insert(maps, map)
         end
     end
-    table_sort(maps, function(a, b) return a:lower() < b:lower() end)
+    table_sort(maps, function (a, b) return a:lower() < b:lower() end)
 
     for _, map in ipairs(maps) do
         local data = stats[map]
@@ -241,8 +238,7 @@ local function exportLapRecords()
 
     -- Add global best lap to export
     if global_best_lap.time < math_huge then
-        local line = fmt("GLOBAL_BEST, %s, %s (%s)", global_best_lap.time,
-            global_best_lap.player, global_best_lap.map)
+        local line = fmt("GLOBAL_BEST, %s, %s (%s)", global_best_lap.time, global_best_lap.player, global_best_lap.map)
         table_insert(lines, line)
     end
 
@@ -258,6 +254,100 @@ local function saveStats()
     if CONFIG.EXPORT_LAP_RECORDS then
         exportLapRecords()
     end
+end
+
+-- Recalculate global best lap from all maps and players
+local function recalcGlobalBest()
+    local best_time = math_huge
+    local best_player = ""
+    local best_map = ""
+
+    for map_name, map_data in pairs(stats) do
+        if map_name ~= "global_best" and map_data.current_best and map_data.current_best.time < best_time then
+            best_time = map_data.current_best.time
+            best_player = map_data.current_best.player
+            best_map = map_name
+        end
+    end
+
+    global_best_lap = { time = best_time, player = best_player, map = best_map }
+end
+
+-- Recalculate a map's current best from its players' best laps
+local function updateMapBest(map_name)
+    local map_data = stats[map_name]
+    if not map_data then return end
+
+    local best_time = math_huge
+    local best_player = ""
+
+    for player_name, player_stats in pairs(map_data.players or {}) do
+        if player_stats.best < best_time then
+            best_time = player_stats.best
+            best_player = player_name
+        end
+    end
+
+    if best_time == math_huge then
+        -- No players left, remove the map entirely
+        stats[map_name] = nil
+        recalcGlobalBest()
+    else
+        map_data.current_best = { time = best_time, player = best_player }
+    end
+end
+
+-- Purge an entire map's records (console only)
+local function purgeMap(id, map_name)
+    if id ~= 0 then
+        rprint(id, "This command is restricted to console.")
+        return
+    end
+
+    if not stats[map_name] then
+        rprint(id, fmt("Map '%s' not found in records.", map_name))
+        return
+    end
+
+    stats[map_name] = nil
+    recalcGlobalBest()
+    saveStats()
+    rprint(id, fmt("All records for map '%s' have been purged.", map_name))
+end
+
+-- Purge a specific player's records from a specific map (console only)
+local function purgePlayerRecord(id, player_name, map_name)
+    if id ~= 0 then
+        rprint(id, "This command is restricted to console.")
+        return
+    end
+
+    local map_data = stats[map_name]
+    if not map_data then
+        rprint(id, fmt("Map '%s' not found in records.", map_name))
+        return
+    end
+
+    if not map_data.players or not map_data.players[player_name] then
+        rprint(id, fmt("Player '%s' not found on map '%s'.", player_name, map_name))
+        return
+    end
+
+    -- Remove player entry
+    map_data.players[player_name] = nil
+
+    -- If no players left, delete the entire map
+    if not next(map_data.players) then
+        stats[map_name] = nil
+        rprint(id, fmt("Map '%s' had no remaining records and has been removed.", map_name))
+    else
+        -- Otherwise recalc the map's current best
+        updateMapBest(map_name)
+    end
+
+    recalcGlobalBest()
+    saveStats()
+    rprint(id, fmt("Player '%s' records on map '%s' have been purged.", player_name, map_name))
 end
 
 local function considerOccupant(id)
@@ -320,11 +410,13 @@ local function updatePlayerStats(player, lap_time)
     elseif is_personal_best then
         sendPublic(fmt("NEW PERSONAL BEST: [%s - %s]", name, lap_time_formatted))
     else
-        rprint(player.id,
-            fmt("Lap completed: %s (Best: %s | %s)",
-                lap_time_formatted,
-                fmtTime(previous_best),
-                fmtTime(lap_time - previous_best, true)))
+        rprint(
+            player.id,
+            fmt(
+                "Lap completed: %s (Best: %s | %s)", lap_time_formatted, fmtTime(previous_best),
+                fmtTime(lap_time - previous_best, true)
+            )
+        )
     end
 end
 
@@ -337,7 +429,10 @@ local function parseArgs(input)
 end
 
 local function showTopPlayers(id, page)
-    local send = id and function(msg) rprint(id, msg) end or sendPublic
+    local send = id
+        and function (msg)
+            rprint(id, msg)
+        end or sendPublic
     local map_data = stats[current_map]
     local map_best_laps = {}
 
@@ -360,22 +455,15 @@ local function showTopPlayers(id, page)
     end
 
     -- Sort by best lap time
-    table_sort(map_best_laps, function(a, b) return a.best_lap < b.best_lap end)
+    table_sort(map_best_laps, function (a, b) return a.best_lap < b.best_lap end)
 
-    -- Pagination logic
-    local page_size = CONFIG.TOP_PAGE_SIZE
-    local total_entries = #map_best_laps
-    local total_pages = math_ceil(total_entries / page_size)
-
-    page = page or 1
-    if page < 1 then page = 1 end
-    if page > total_pages then page = total_pages end
-
-    local start_index = (page - 1) * page_size + 1
-    local end_index = math_min(start_index + page_size - 1, total_entries)
+    -- Pagination using shared helper
+    local start_index, end_index, total_pages, current_page = getPaginationIndices(
+        page, #map_best_laps, CONFIG.TOP_PAGE_SIZE
+    )
 
     -- Display results
-    send(fmt("Top players for %s [Page %d/%d]:", current_map, page, total_pages))
+    send(fmt("Top players for %s [Page %d/%d]:", current_map, current_page, total_pages))
 
     for i = start_index, end_index do
         local entry = map_best_laps[i]
@@ -383,7 +471,7 @@ local function showTopPlayers(id, page)
     end
 
     if total_pages > 1 then
-        send(fmt("Use '/top %d' for next page", page + 1))
+        send(fmt("Use '/top %d' for next page", current_page + 1))
     end
 end
 
@@ -395,12 +483,7 @@ local function getTopOverallPlayers(n)
         if map_name ~= "global_best" and map_data.players then -- Skip global best entry
             for player_name, player_stats in pairs(map_data.players) do
                 if not player_totals[player_name] then
-                    player_totals[player_name] = {
-                        points = 0,
-                        map_records = 0,
-                        top_finishes = 0,
-                        maps_played = 0
-                    }
+                    player_totals[player_name] = { points = 0, map_records = 0, top_finishes = 0, maps_played = 0 }
                 end
 
                 local player = player_totals[player_name]
@@ -452,7 +535,7 @@ local function getTopOverallPlayers(n)
     end
 
     -- Sort by points (descending)
-    table_sort(players_array, function(a, b)
+    table_sort(players_array, function (a, b)
         if a.points == b.points then
             -- Tiebreaker: more map records
             if a.map_records == b.map_records then
@@ -474,7 +557,10 @@ local function getTopOverallPlayers(n)
 end
 
 local function showGlobalStats(id, page, page_size)
-    local send = id and function(msg) rprint(id, msg) end or sendPublic
+    local send = id
+        and function (msg)
+            rprint(id, msg)
+        end or sendPublic
 
     -- Get all players (not limited by page size yet)
     local all_players = getTopOverallPlayers(10000) -- Large number to get all players
@@ -484,20 +570,13 @@ local function showGlobalStats(id, page, page_size)
         return
     end
 
-    -- Pagination logic
-    page_size = page_size or CONFIG.GLOBAL_PAGE_SIZE
-    local total_entries = #all_players
-    local total_pages = math_ceil(total_entries / page_size)
-
-    page = page or 1
-    if page < 1 then page = 1 end
-    if page > total_pages then page = total_pages end
-
-    local start_index = (page - 1) * page_size + 1
-    local end_index = math_min(start_index + page_size - 1, total_entries)
+    local effective_page_size = page_size or CONFIG.GLOBAL_PAGE_SIZE
+    local start_index, end_index, total_pages, current_page = getPaginationIndices(
+        page, #all_players, effective_page_size
+    )
 
     -- Display results
-    send(fmt("Top players [Page %d/%d]:", page, total_pages))
+    send(fmt("Top players [Page %d/%d]:", current_page, total_pages))
 
     for i = start_index, end_index do
         local player = all_players[i]
@@ -505,12 +584,14 @@ local function showGlobalStats(id, page, page_size)
     end
 
     if total_pages > 1 then
-        send(fmt("Use '/global %d' for next page", page + 1))
+        send(fmt("Use '/global %d' for next page", current_page + 1))
     end
 end
 
 local function showPlayerStats(id, target)
-    local send = function(msg) rprint(id, msg) end
+    local send = function (msg)
+        rprint(id, msg)
+    end
     local map_data = stats[current_map]
 
     if not map_data or not map_data.players then
@@ -525,10 +606,12 @@ local function showPlayerStats(id, target)
                 local player_name = player_data.name
                 local player_stats = map_data.players[player_name]
                 if player_stats then
-                    send(fmt("%s: Best [%s], Avg [%s]",
-                        player_name,
-                        fmtTime(player_stats.best),
-                        fmtTime(player_stats.average)))
+                    send(
+                        fmt(
+                            "%s: Best [%s], Avg [%s]", player_name, fmtTime(player_stats.best),
+                            fmtTime(player_stats.average)
+                        )
+                    )
                 else
                     send(fmt("%s: No laps recorded", player_name))
                 end
@@ -548,10 +631,7 @@ local function showPlayerStats(id, target)
 
         local player_stats = map_data.players[player_name]
         if player_stats then
-            send(fmt("%s: Best [%s], Avg [%s]",
-                player_name,
-                fmtTime(player_stats.best),
-                fmtTime(player_stats.average)))
+            send(fmt("%s: Best [%s], Avg [%s]", player_name, fmtTime(player_stats.best), fmtTime(player_stats.average)))
         else
             send(fmt("No records found for %s on %s", player_name, current_map))
         end
@@ -574,7 +654,8 @@ local function getCheckpointNumber(bitmask)
 end
 
 local function setPlayerState(player, racing, time, checkpoint)
-    player.racing = racing; player.start_time = time
+    player.racing = racing
+    player.start_time = time
     player.last_checkpoint = checkpoint
 end
 
@@ -709,9 +790,11 @@ function OnQuit(id)
     players[id] = nil
 end
 
-function OnCommand(id, command)
-    if id == 0 then return true end
+local function hasPermission(id)
+    return id == 0 or tonumber(get_var(id, '$lvl')) >= CONFIG.ADMIN_LEVEL
+end
 
+function OnCommand(id, command)
     local args = parseArgs(command)
     if #args == 0 then return false end
 
@@ -729,6 +812,31 @@ function OnCommand(id, command)
         return false
     elseif args[1] == CONFIG.RESET_CHECKPOINT_COMMAND then
         resetCheckpoint(id)
+        return false
+    elseif args[1] == CONFIG.PURGE_COMMAND then
+        if not hasPermission(id) then
+            rprint(id, "You do not have permission to use this command.")
+            return
+        end
+        if #args < 3 then
+            rprint(id, "Usage: /purge map <mapname>")
+            rprint(id, "   or: /purge player \"<playername>\" <mapname>")
+            return false
+        end
+        local sub_cmd = args[2]
+        if sub_cmd == "map" then
+            local map_name = table_concat(args, " ", 3)
+            purgeMap(id, map_name)
+        elseif sub_cmd == "player" then
+            local _, player_name, map_name = command:match("^/%S+%s+player%s+(['\"])(.-)%1%s+(.+)$")
+            if not player_name or not map_name then
+                rprint(id, "Usage: /purge player \"<playername>\" <mapname>")
+                return false
+            end
+            purgePlayerRecord(id, player_name, map_name)
+        else
+            rprint(id, "Invalid subcommand. Use 'map' or 'player'.")
+        end
         return false
     end
 end
