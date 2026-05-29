@@ -1,17 +1,20 @@
 --[[
 ================================================================================================
 SCRIPT NAME:      rank_system.lua
-DESCRIPTION:      Advanced player ranking and progression system that tracks
-                  player statistics, awards credits for in-game actions, and
-                  implements a multi-tier ranking system with grade progression.
-                  Player stats save when game ends OR script unloaded.
+DESCRIPTION:      Tracks player stats and awards credits for certain actions. Credits determine
+                  your rank & grade. Each rank has grade thresholds; reaching a threshold
+                  promotes you. Demotion is possible if credits drop.
 
-COMMANDS:        - rank [player_id]    - Check your or another player's rank and statistics
-                 - ranks               - List all available ranks and their credit thresholds
-                 - top [limit]         - Display leaderboard with top players by composite score
+                  Credits are earned from kills, headshots, sprees, multi-kills, revenge, avenge,
+                  flag captures, race laps, certain vehicle/weapon kills, first blood,
+                  and close calls. Lost from suicides, betrayals, falls, and environment kills.
+
+COMMANDS:        - rank [player_id]            - Check your or another player's rank and statistics
+                 - ranks                       - List all available ranks and their credit thresholds
+                 - top [limit]                 - Display leaderboard with top players by composite score
                  - setrank <id> <rank> <grade> - Admin command to set player rank
 
-REQUIREMENTS:    * Lua JSON Parser: http://regex.info/blog/lua/json
+REQUIRED:        * Lua JSON Parser: http://regex.info/blog/lua/json
                    Place json.lua in the same directory as sapp.dll
 
 Copyright (c) 2019-2026 Jericho Crosby (Chalwk)
@@ -24,133 +27,143 @@ LICENSE:          MIT License
 -- CONFIG START.
 --
 
-api_version = '1.12.0.0'
+api_version = "1.12.0.0"
 
-local CONFIG = {
-    -- Symbol displayed in credit messages
-    SYMBOL = 'cR',
-    -- Command cooldown in seconds (prevents command spam)
-    COOLDOWN = 3,
-    -- Whether to display top players on game end
-    SHOW_STATS_ON_END = true,
-    -- Number of top players to display
-    STATS_LIMIT = 5,
-    -- Commands and required permission levels (-1 = all players, 1-4 = admin levels)
-    COMMANDS = {
-        { 'rank', -1 },
-        { 'ranks', -1 },
-        { 'top', -1 },
-        { 'setrank', 4 }
+-- Symbol displayed in credit messages
+local SYMBOL = "cR"
+
+-- Command cooldown in seconds
+local COOLDOWN = 3
+
+-- Whether to display top players on game end
+local SHOW_STATS_ON_END = true
+
+-- Number of top players to display
+local STATS_LIMIT = 5
+
+-- Commands and required permission levels (-1 = all players, 1-4 = admin levels)
+local COMMANDS = {
+    { "rank", -1 },
+    { "ranks", -1 },
+    { "top", -1 },
+    { "setrank", 4 }
+}
+
+-- Rank definitions: { "Rank Name", { grade1_threshold, grade2_threshold, ... } }
+local RANKS = {
+    { "Recruit", { [1] = 0 } },
+    { "Apprentice", { [1] = 3000, [2] = 6000 } },
+    { "Private", { [1] = 9000, [2] = 12000 } },
+    { "Corporal", { [1] = 13000, [2] = 14000 } },
+    { "Sergeant", { [1] = 15000, [2] = 16000, [3] = 17000, [4] = 18000 } },
+    { "Gunnery Sergeant", { [1] = 19000, [2] = 20000, [3] = 21000, [4] = 22000 } },
+    { "Lieutenant", { [1] = 23000, [2] = 24000, [3] = 25000, [4] = 26000 } },
+    { "Captain", { [1] = 27000, [2] = 28000, [3] = 29000, [4] = 30000 } },
+    { "Major", { [1] = 31000, [2] = 32000, [3] = 33000, [4] = 34000 } },
+    { "Commander", { [1] = 35000, [2] = 36000, [3] = 37000, [4] = 38000 } },
+    { "Colonel", { [1] = 39000, [2] = 40000, [3] = 41000, [4] = 42000 } },
+    { "Brigadier", { [1] = 43000, [2] = 44000, [3] = 45000, [4] = 46000 } },
+    { "General", { [1] = 47000, [2] = 48000, [3] = 49000, [4] = 50000 } }
+}
+
+-- NOTES:     1. Set to 0 to disable a credit event.
+--            2. %s will be replaced with currency symbol.
+local CREDITS = {
+    head_shot = { 8, '+8 %s (Headshot)' },
+    revenge = { 12, '+12 %s (Revenge)' },
+    avenge = { 10, '+10 %s (Avenge)' },
+    reload_this = { 5, '+5 %s (Reload This!)' },
+    close_call = { 12, '+12 %s (Close Call)' },
+    server = { 0, '+0 %s (Server)' },
+    guardians = { -8, '-8 %s (Guardians)' },
+    suicide = { -12, '-12 %s (Suicide)' },
+    betrayal = { -20, '-20 %s (Betrayal)' },
+    killed_from_the_grave = { 20, '+20 %s (Killed From Grave)' },
+    first_blood = { 35, '+35 %s (First Blood)' },
+
+    spree = {
+        [5] = { 15, '+15 %s (Spree)' },
+        [10] = { 25, '+25 %s (Spree)' },
+        [15] = { 35, '+35 %s (Spree)' },
+        [20] = { 50, '+50 %s (Spree)' },
+        [25] = { 65, '+65 %s (Spree)' },
+        [30] = { 80, '+80 %s (Spree)' },
+        [35] = { 95, '+95 %s (Spree)' },
+        [40] = { 110, '+110 %s (Spree)' },
+        [45] = { 125, '+125 %s (Spree)' },
+        [50] = { 150, '+150 %s (Spree)' }
     },
-    -- Rank definitions: { "Rank Name", { grade1_threshold, grade2_threshold, ... } }
-    RANKS = {
-        { "Recruit", { [1] = 0 } },
-        { "Apprentice", { [1] = 3000, [2] = 6000 } },
-        { "Private", { [1] = 9000, [2] = 12000 } },
-        { "Corporal", { [1] = 13000, [2] = 14000 } },
-        { "Sergeant", { [1] = 15000, [2] = 16000, [3] = 17000, [4] = 18000 } },
-        { "Gunnery Sergeant", { [1] = 19000, [2] = 20000, [3] = 21000, [4] = 22000 } },
-        { "Lieutenant", { [1] = 23000, [2] = 24000, [3] = 25000, [4] = 26000 } },
-        { "Captain", { [1] = 27000, [2] = 28000, [3] = 29000, [4] = 30000 } },
-        { "Major", { [1] = 31000, [2] = 32000, [3] = 33000, [4] = 34000 } },
-        { "Commander", { [1] = 35000, [2] = 36000, [3] = 37000, [4] = 38000 } },
-        { "Colonel", { [1] = 39000, [2] = 40000, [3] = 41000, [4] = 42000 } },
-        { "Brigadier", { [1] = 43000, [2] = 44000, [3] = 45000, [4] = 46000 } },
-        { "General", { [1] = 47000, [2] = 48000, [3] = 49000, [4] = 50000 } }
+
+    multi_kill = {
+        [2] = { 8, '+8 %s (Double Kill)' },
+        [3] = { 15, '+15 %s (Triple Kill)' },
+        [4] = { 25, '+25 %s (Multi-Kill)' },
+        [5] = { 35, '+35 %s (Multi-Kill)' },
+        [6] = { 45, '+45 %s (Multi-Kill)' },
+        [7] = { 55, '+55 %s (Multi-Kill)' },
+        [8] = { 65, '+65 %s (Multi-Kill)' },
+        [9] = { 75, '+75 %s (Multi-Kill)' },
+        [10] = { 100, '+100 %s (Ultra Kill)' }
     },
-    -- NOTES:     1. Set to 0 to disable a credit event.
-    --            2. %s will be replaced with currency symbol.
-    CREDITS = {
-        head_shot = { 8, '+8 %s (Headshot)' },
-        revenge = { 12, '+12 %s (Revenge)' },
-        avenge = { 10, '+10 %s (Avenge)' },
-        reload_this = { 5, '+5 %s (Reload This!)' },
-        close_call = { 12, '+12 %s (Close Call)' },
-        server = { 0, '+0 %s (Server)' },
-        guardians = { -8, '-8 %s (Guardians)' },
-        suicide = { -12, '-12 %s (Suicide)' },
-        betrayal = { -20, '-20 %s (Betrayal)' },
-        killed_from_the_grave = { 20, '+20 %s (Killed From Grave)' },
-        first_blood = { 35, '+35 %s (First Blood)' },
-        spree = {
-            [5] = { 15, '+15 %s (Spree)' },
-            [10] = { 25, '+25 %s (Spree)' },
-            [15] = { 35, '+35 %s (Spree)' },
-            [20] = { 50, '+50 %s (Spree)' },
-            [25] = { 65, '+65 %s (Spree)' },
-            [30] = { 80, '+80 %s (Spree)' },
-            [35] = { 95, '+95 %s (Spree)' },
-            [40] = { 110, '+110 %s (Spree)' },
-            [45] = { 125, '+125 %s (Spree)' },
-            [50] = { 150, '+150 %s (Spree)' }
+
+    game_score = {
+        [1] = { 150, '+150 %s (Flag Capture)' },
+        [2] = { 125, '+125 %s (Lap)' },
+        [3] = { 100, '+100 %s (Lap)' }
+    },
+
+    damage_tags = {
+        falling = { -5, '-5 %s (Fall)' },
+        distance = { -5, '-5 %s (Distance)' },
+        collision = 'globals\\vehicle_collision',
+
+        vehicles = {
+            ['vehicles\\ghost\\ghost_mp'] = { 15, '+15 %s (Ghost)' },
+            ['vehicles\\rwarthog\\rwarthog'] = { 20, '+20 %s (R-Hog)' },
+            ['vehicles\\warthog\\mp_warthog'] = { 25, '+25 %s (Warthog)' },
+            ['vehicles\\banshee\\banshee_mp'] = { 30, '+30 %s (Banshee)' },
+            ['vehicles\\scorpion\\scorpion_mp'] = { 35, '+35 %s (Tank)' },
+            ['vehicles\\c gun turret\\c gun turret_mp'] = { 40, '+40 %s (Turret)' }
         },
-        multi_kill = {
-            [2] = { 8, '+8 %s (Double Kill)' },
-            [3] = { 15, '+15 %s (Triple Kill)' },
-            [4] = { 25, '+25 %s (Multi-Kill)' },
-            [5] = { 35, '+35 %s (Multi-Kill)' },
-            [6] = { 45, '+45 %s (Multi-Kill)' },
-            [7] = { 55, '+55 %s (Multi-Kill)' },
-            [8] = { 65, '+65 %s (Multi-Kill)' },
-            [9] = { 75, '+75 %s (Multi-Kill)' },
-            [10] = { 100, '+100 %s (Ultra Kill)' }
-        },
-        game_score = {
-            [1] = { 150, '+150 %s (Flag Capture)' },
-            [2] = { 125, '+125 %s (Lap)' },
-            [3] = { 100, '+100 %s (Lap)' }
-        },
-        damage_tags = {
-            falling = { -5, '-5 %s (Fall)' },
-            distance = { -5, '-5 %s (Distance)' },
-            collision = 'globals\\vehicle_collision',
-            vehicles = {
-                ['vehicles\\ghost\\ghost_mp'] = { 15, '+15 %s (Ghost)' },
-                ['vehicles\\rwarthog\\rwarthog'] = { 20, '+20 %s (R-Hog)' },
-                ['vehicles\\warthog\\mp_warthog'] = { 25, '+25 %s (Warthog)' },
-                ['vehicles\\banshee\\banshee_mp'] = { 30, '+30 %s (Banshee)' },
-                ['vehicles\\scorpion\\scorpion_mp'] = { 35, '+35 %s (Tank)' },
-                ['vehicles\\c gun turret\\c gun turret_mp'] = { 40, '+40 %s (Turret)' }
-            },
-            { 'vehicles\\ghost\\ghost bolt', 12, '+12 %s (Ghost)' },
-            { 'vehicles\\scorpion\\bullet', 10, '+10 %s (Tank)' },
-            { 'vehicles\\warthog\\bullet', 10, '+10 %s (Warthog)' },
-            { 'vehicles\\c gun turret\\mp bolt', 12, '+12 %s (Turret)' },
-            { 'vehicles\\banshee\\banshee bolt', 12, '+12 %s (Banshee)' },
-            { 'vehicles\\scorpion\\shell explosion', 20, '+20 %s (Tank Shell)' },
-            { 'vehicles\\banshee\\mp_fuel rod explosion', 20, '+20 %s (Fuel Rod)' },
-            { 'vehicles\\doozy\\bullet', 8, '+8 %s (Doozy)' },
-            { 'weapons\\pistol\\bullet', 8, '+8 %s (Pistol)' },
-            { 'weapons\\shotgun\\pellet', 12, '+12 %s (Shotgun)' },
-            { 'weapons\\plasma rifle\\bolt', 6, '+6 %s (Plasma Rifle)' },
-            { 'weapons\\needler\\explosion', 15, '+15 %s (Needler)' },
-            { 'weapons\\plasma pistol\\bolt', 6, '+6 %s (Plasma Pistol)' },
-            { 'weapons\\assault rifle\\bullet', 8, '+8 %s (Assault Rifle)' },
-            { 'weapons\\needler\\impact damage', 6, '+6 %s (Needler)' },
-            { 'weapons\\flamethrower\\explosion', 12, '+12 %s (Flamethrower)' },
-            { 'weapons\\flamethrower\\burning', 12, '+12 %s (Flamethrower)' },
-            { 'weapons\\flamethrower\\impact damage', 12, '+12 %s (Flamethrower)' },
-            { 'weapons\\rocket launcher\\explosion', 18, '+18 %s (Rocket Launcher)' },
-            { 'weapons\\needler\\detonation damage', 6, '+6 %s (Needler)' },
-            { 'weapons\\plasma rifle\\charged bolt', 8, '+8 %s (Plasma Rifle)' },
-            { 'weapons\\sniper rifle\\sniper bullet', 15, '+15 %s (Sniper Rifle)' },
-            { 'weapons\\plasma_cannon\\effects\\plasma_cannon_explosion', 18, '+18 %s (Plasma Cannon)' },
-            { 'weapons\\frag grenade\\explosion', 15, '+15 %s (Frag)' },
-            { 'weapons\\plasma grenade\\attached', 15, '+15 %s (Plasma Grenade)' },
-            { 'weapons\\plasma grenade\\explosion', 10, '+10 %s (Plasma Grenade)' },
-            { 'weapons\\flag\\melee', 8, '+8 %s (Flag)' },
-            { 'weapons\\ball\\melee', 8, '+8 %s (Ball)' },
-            { 'weapons\\pistol\\melee', 6, '+6 %s (Pistol)' },
-            { 'weapons\\needler\\melee', 6, '+6 %s (Needler)' },
-            { 'weapons\\shotgun\\melee', 8, '+8 %s (Shotgun)' },
-            { 'weapons\\flamethrower\\melee', 8, '+8 %s (Flamethrower)' },
-            { 'weapons\\sniper rifle\\melee', 8, '+8 %s (Sniper Rifle)' },
-            { 'weapons\\plasma rifle\\melee', 6, '+6 %s (Plasma Rifle)' },
-            { 'weapons\\plasma pistol\\melee', 6, '+6 %s (Plasma Pistol)' },
-            { 'weapons\\assault rifle\\melee', 6, '+6 %s (Assault Rifle)' },
-            { 'weapons\\rocket launcher\\melee', 15, '+15 %s (Rocket Launcher)' },
-            { 'weapons\\plasma_cannon\\effects\\plasma_cannon_melee', 15, '+15 %s (Plasma Cannon)' }
-        }
+
+        { 'vehicles\\ghost\\ghost bolt', 12, '+12 %s (Ghost)' },
+        { 'vehicles\\scorpion\\bullet', 10, '+10 %s (Tank)' },
+        { 'vehicles\\warthog\\bullet', 10, '+10 %s (Warthog)' },
+        { 'vehicles\\c gun turret\\mp bolt', 12, '+12 %s (Turret)' },
+        { 'vehicles\\banshee\\banshee bolt', 12, '+12 %s (Banshee)' },
+        { 'vehicles\\scorpion\\shell explosion', 20, '+20 %s (Tank Shell)' },
+        { 'vehicles\\banshee\\mp_fuel rod explosion', 20, '+20 %s (Fuel Rod)' },
+        { 'vehicles\\doozy\\bullet', 8, '+8 %s (Doozy)' },
+        { 'weapons\\pistol\\bullet', 8, '+8 %s (Pistol)' },
+        { 'weapons\\shotgun\\pellet', 12, '+12 %s (Shotgun)' },
+        { 'weapons\\plasma rifle\\bolt', 6, '+6 %s (Plasma Rifle)' },
+        { 'weapons\\needler\\explosion', 15, '+15 %s (Needler)' },
+        { 'weapons\\plasma pistol\\bolt', 6, '+6 %s (Plasma Pistol)' },
+        { 'weapons\\assault rifle\\bullet', 8, '+8 %s (Assault Rifle)' },
+        { 'weapons\\needler\\impact damage', 6, '+6 %s (Needler)' },
+        { 'weapons\\flamethrower\\explosion', 12, '+12 %s (Flamethrower)' },
+        { 'weapons\\flamethrower\\burning', 12, '+12 %s (Flamethrower)' },
+        { 'weapons\\flamethrower\\impact damage', 12, '+12 %s (Flamethrower)' },
+        { 'weapons\\rocket launcher\\explosion', 18, '+18 %s (Rocket Launcher)' },
+        { 'weapons\\needler\\detonation damage', 6, '+6 %s (Needler)' },
+        { 'weapons\\plasma rifle\\charged bolt', 8, '+8 %s (Plasma Rifle)' },
+        { 'weapons\\sniper rifle\\sniper bullet', 15, '+15 %s (Sniper Rifle)' },
+        { 'weapons\\plasma_cannon\\effects\\plasma_cannon_explosion', 18, '+18 %s (Plasma Cannon)' },
+        { 'weapons\\frag grenade\\explosion', 15, '+15 %s (Frag)' },
+        { 'weapons\\plasma grenade\\attached', 15, '+15 %s (Plasma Grenade)' },
+        { 'weapons\\plasma grenade\\explosion', 10, '+10 %s (Plasma Grenade)' },
+        { 'weapons\\flag\\melee', 8, '+8 %s (Flag)' },
+        { 'weapons\\ball\\melee', 8, '+8 %s (Ball)' },
+        { 'weapons\\pistol\\melee', 6, '+6 %s (Pistol)' },
+        { 'weapons\\needler\\melee', 6, '+6 %s (Needler)' },
+        { 'weapons\\shotgun\\melee', 8, '+8 %s (Shotgun)' },
+        { 'weapons\\flamethrower\\melee', 8, '+8 %s (Flamethrower)' },
+        { 'weapons\\sniper rifle\\melee', 8, '+8 %s (Sniper Rifle)' },
+        { 'weapons\\plasma rifle\\melee', 6, '+6 %s (Plasma Rifle)' },
+        { 'weapons\\plasma pistol\\melee', 6, '+6 %s (Plasma Pistol)' },
+        { 'weapons\\assault rifle\\melee', 6, '+6 %s (Assault Rifle)' },
+        { 'weapons\\rocket launcher\\melee', 15, '+15 %s (Rocket Launcher)' },
+        { 'weapons\\plasma_cannon\\effects\\plasma_cannon_melee', 15, '+15 %s (Plasma Cannon)' }
     }
 }
 
@@ -176,11 +189,7 @@ local damage_rewards, vehicle_rewards = {}, {}
 local ffa, first_blood, game_type = false, true, nil
 local players = setmetatable({}, { __index = function () return nil end })
 
-local RANKS = CONFIG.RANKS
-local CREDITS = CONFIG.CREDITS
 local DAMAGE_TAGS = CREDITS.damage_tags
-local SYMBOL = CONFIG.SYMBOL
-
 local DEFAULT_STATS = { rank = RANKS[1][1], grade = 1, credits = RANKS[1][2][1] or 0, kills = 0, deaths = 0 }
 local stats_mt = { __index = DEFAULT_STATS }
 
@@ -394,7 +403,7 @@ end
 
 local function build_command_registry()
     command_registry = {}
-    for _, cmd in ipairs(CONFIG.COMMANDS) do
+    for _, cmd in ipairs(COMMANDS) do
         local name = tostring(cmd[1]):lower()
         command_registry[name] = { level = cmd[2] }
     end
@@ -602,7 +611,7 @@ local function collect_top(limit)
 end
 
 local function show_top(limit, recipient, broadcast)
-    limit = math_max(1, math_min(tonumber(limit) or CONFIG.STATS_LIMIT, 15))
+    limit = math_max(1, math_min(tonumber(limit) or STATS_LIMIT, 15))
 
     local top = collect_top(limit)
     if #top == 0 then
@@ -633,8 +642,8 @@ local function on_cooldown(id, cmd)
     local now = os_time()
     local last = command_cooldowns[key]
 
-    if last and now - last < CONFIG.COOLDOWN then
-        return true, CONFIG.COOLDOWN - (now - last)
+    if last and now - last < COOLDOWN then
+        return true, COOLDOWN - (now - last)
     end
     command_cooldowns[key] = now
 
@@ -782,8 +791,8 @@ end
 
 function OnEnd()
     save_stats()
-    if CONFIG.SHOW_STATS_ON_END then
-        show_top(CONFIG.STATS_LIMIT, nil, true)
+    if SHOW_STATS_ON_END then
+        show_top(STATS_LIMIT, nil, true)
     end
 end
 
