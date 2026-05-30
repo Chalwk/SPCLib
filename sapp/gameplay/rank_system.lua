@@ -26,15 +26,24 @@ local CREDITS_PER_KILL = 10   -- self-explanatory
 local SAVE_ON_LEAVE = false   -- Save stats when player leaves (true/false)
 local SET_RANK_PERMISSION = 4 -- Permission level for /setrank
 local TOP_PLAYERS_COUNT = 10  -- Number of top players to display in /top command
+local MSG_PREFIX = ""         -- Prefix removed temporarily; restored to this after msg relay.
 
 -- ========================= RANK CONFIG =========================
+-- Format: { "Rank", { grade thresholds } }
 local RANKS = {
-    { "Recruit", { 0 } }, { "Apprentice", { 3000, 6000 } }, { "Private", { 9000, 12000 } },
-    { "Corporal", { 13000, 14000 } }, { "Sergeant", { 15000, 16000, 17000, 18000 } },
-    { "Gunnery Sergeant", { 19000, 20000, 21000, 22000 } }, { "Lieutenant", { 23000, 24000, 25000, 26000 } },
-    { "Captain", { 27000, 28000, 29000, 30000 } }, { "Major", { 31000, 32000, 33000, 34000 } },
-    { "Commander", { 35000, 36000, 37000, 38000 } }, { "Colonel", { 39000, 40000, 41000, 42000 } },
-    { "Brigadier", { 43000, 44000, 45000, 46000 } }, { "General", { 47000, 48000, 49000, 50000 } }
+    { "Recruit", { 0 } },
+    { "Apprentice", { 3000, 6000 } },
+    { "Private", { 9000, 12000 } },
+    { "Corporal", { 13000, 14000 } },
+    { "Sergeant", { 15000, 16000, 17000, 18000 } },
+    { "Gunnery Sergeant", { 19000, 20000, 21000, 22000 } },
+    { "Lieutenant", { 23000, 24000, 25000, 26000 } },
+    { "Captain", { 27000, 28000, 29000, 30000 } },
+    { "Major", { 31000, 32000, 33000, 34000 } },
+    { "Commander", { 35000, 36000, 37000, 38000 } },
+    { "Colonel", { 39000, 40000, 41000, 42000 } },
+    { "Brigadier", { 43000, 44000, 45000, 46000 } },
+    { "General", { 47000, 48000, 49000, 50000 } }
 }
 
 -- ========================= KILL STREAK CONFIG  =========================
@@ -62,15 +71,15 @@ local KILL_CREDITS = {
 
 -- ========================= MESSAGES =========================
 local MESSAGES = {
-    RANK_UP = "Rank Up! %s Grade %d",
-    RANK_DOWN = "Rank Down: %s Grade %d",
+    RANK_UP = "RANK UP - %s: %s G%d",
+    RANK_DOWN = "RANK DOWN - %s: %s G%d",
     KILL = "+%d cR (Kill)",
     STREAK_SUFFIX = " + Streak",
     RANK_HEADER = "=== Rank ===",
-    RANK_CURRENT = "%s Grade %d",
+    RANK_CURRENT = "%s: G%d",
     RANK_CREDITS = "Credits: %d cR",
     RANK_STATS = "Kills: %d  Deaths: %d  K/D: %.2f",
-    RANK_NEXT = "Next: %s Grade %d in %d cR",
+    RANK_NEXT = "Next: %s: G%d in %d cR",
     RANKS_HEADER = "=== Available Ranks ===",
     RANKS_LINE = "%d. %s: [%s]",
     RANK_MAX = "Maximum rank reached!",
@@ -80,7 +89,8 @@ local MESSAGES = {
     SET_RANK_HEADER = "Rank updated for %s",
     SET_RANK_INFO = "New Rank: %s, G%d",
     CREDIT_CHANGE = "%+d cR (%s)",
-    CREDIT_LOSS = "-%d cR lost (%s)"
+    CREDIT_LOSS = "-%d cR lost (%s)",
+    WELCOME_MESSAGE = "[RANK SYSTEM]: Use /rank, /top, /ranks"
 }
 -- CONFIG END -------------------------------------------------------------------
 
@@ -196,7 +206,10 @@ local function refresh_rank(pl, silent)
         local promoted = (best.rank_index > (rank_lookup[old_rank] or 0))
             or (old_rank == s.rank and s.grade > old_grade)
 
-        respond(pl.id, string_format(promoted and MESSAGES.RANK_UP or MESSAGES.RANK_DOWN, s.rank, s.grade))
+        local msg = string_format(promoted and MESSAGES.RANK_UP or MESSAGES.RANK_DOWN, pl.name, s.rank, s.grade)
+        execute_command('msg_prefix ""')
+        say_all(msg)
+        execute_command('msg_prefix "' .. MSG_PREFIX .. '"')
     end
 end
 
@@ -270,8 +283,16 @@ function OnJoin(id)
     local name = get_var(id, "$name")
     local stats = stats_db[name] or default_stats()
     stats_db[name] = stats
-    players[id] = { id = id, name = name, stats = stats, team = get_var(id, '$team'), switched = nil, last_damage = nil }
+    players[id] = {
+        id = id,
+        name = name,
+        stats = stats,
+        team = get_var(id, '$team'),
+        switched = nil,
+        last_damage = nil
+    }
     refresh_rank(players[id], true)
+    rprint(id, MESSAGES.WELCOME_MESSAGE)
 end
 
 function OnLeave(id)
@@ -452,6 +473,9 @@ function OnSpawn(id)
 end
 
 function OnScriptLoad()
+    local sapp_dir = read_string(read_dword(sig_scan('68??????008D54245468') + 0x1))
+    SAVE_FILE = sapp_dir .. "\\sapp\\" .. SAVE_FILE
+
     build_rank_tables()
     load_stats()
 
