@@ -26,6 +26,7 @@ api_version = "1.12.0.0"
 -- ========================= GENERAL SETTINGS =========================
 local SAVE_FILE = "ranks.txt" -- DB file name
 local SAVE_ON_LEAVE = false   -- Save stats when player leaves (true/false)
+local SHOW_TOP_END = true     -- Show top players when game ends (true/false)
 local COMMAND_PERM_LEVEL = 4  -- Permission level for /setrank
 local TOP_PLAYERS_COUNT = 10  -- Number of top players to display in /top command
 local MSG_PREFIX = ""         -- Prefix removed temporarily; restored to this after msg relay.
@@ -33,19 +34,12 @@ local MSG_PREFIX = ""         -- Prefix removed temporarily; restored to this af
 -- ========================= RANK CONFIG =========================
 -- Format: { "Rank", { grade thresholds } }
 local RANKS = {
-    { "Recruit", { 0 } },
-    { "Apprentice", { 3000, 6000 } },
-    { "Private", { 9000, 12000 } },
-    { "Corporal", { 13000, 14000 } },
-    { "Sergeant", { 15000, 16000, 17000, 18000 } },
-    { "Gunnery Sergeant", { 19000, 20000, 21000, 22000 } },
-    { "Lieutenant", { 23000, 24000, 25000, 26000 } },
-    { "Captain", { 27000, 28000, 29000, 30000 } },
-    { "Major", { 31000, 32000, 33000, 34000 } },
-    { "Commander", { 35000, 36000, 37000, 38000 } },
-    { "Colonel", { 39000, 40000, 41000, 42000 } },
-    { "Brigadier", { 43000, 44000, 45000, 46000 } },
-    { "General", { 47000, 48000, 49000, 50000 } }
+    { "Recruit", { 0 } }, { "Apprentice", { 3000, 6000 } }, { "Private", { 9000, 12000 } },
+    { "Corporal", { 13000, 14000 } }, { "Sergeant", { 15000, 16000, 17000, 18000 } },
+    { "Gunnery Sergeant", { 19000, 20000, 21000, 22000 } }, { "Lieutenant", { 23000, 24000, 25000, 26000 } },
+    { "Captain", { 27000, 28000, 29000, 30000 } }, { "Major", { 31000, 32000, 33000, 34000 } },
+    { "Commander", { 35000, 36000, 37000, 38000 } }, { "Colonel", { 39000, 40000, 41000, 42000 } },
+    { "Brigadier", { 43000, 44000, 45000, 46000 } }, { "General", { 47000, 48000, 49000, 50000 } }
 }
 
 -- ========================= KILL STREAK CONFIG  =========================
@@ -282,6 +276,49 @@ local function reset_game_state()
     first_blood_flag = true
 end
 
+local function get_top_leaderboard()
+    local leaderboard = {}
+    local count = 0
+
+    for name, stats in pairs(stats_db) do
+        count = count + 1
+        leaderboard[count] = { name = name, stats = stats }
+    end
+
+    if count == 0 then
+        return { string_format(MESSAGES.TOP_HEADER, 0) }
+    end
+
+    table_sort(leaderboard, function (a, b)
+        return a.stats.credits > b.stats.credits
+    end)
+
+    local display_count = math_min(TOP_PLAYERS_COUNT, count)
+    local lines = { string_format(MESSAGES.TOP_HEADER, display_count) }
+
+    for i = 1, display_count do
+        local entry = leaderboard[i]
+        local s = entry.stats
+        local kd = s.deaths > 0 and s.kills / s.deaths or s.kills
+        lines[#lines + 1] = string_format(MESSAGES.TOP_LINE, i, entry.name, kd, s.credits, s.rank, s.grade)
+    end
+
+    return lines
+end
+
+local function show_top_stats(id)
+    execute_command('msg_prefix ""')
+    local lines = get_top_leaderboard()
+    for _, line in ipairs(lines) do
+        if not id then
+            say_all(line)
+        else
+            respond(id, line)
+        end
+    end
+    execute_command('msg_prefix "' .. MSG_PREFIX .. '"')
+end
+
 function OnJoin(id)
     local name = get_var(id, "$name")
     local stats = stats_db[name]
@@ -391,35 +428,6 @@ local function show_rank(id, target)
     end
 end
 
-local function show_top_stats(id)
-    local leaderboard = {}
-    local count = 0
-
-    for name, stats in pairs(stats_db) do
-        count = count + 1
-        leaderboard[count] = { name = name, stats = stats }
-    end
-
-    if count == 0 then
-        respond(id, string_format(MESSAGES.TOP_HEADER, 0))
-        return
-    end
-
-    table_sort(leaderboard, function (a, b)
-        return a.stats.credits > b.stats.credits
-    end)
-
-    local display_count = math_min(TOP_PLAYERS_COUNT, count)
-    respond(id, string_format(MESSAGES.TOP_HEADER, display_count))
-
-    for i = 1, display_count do
-        local entry = leaderboard[i]
-        local s = entry.stats
-        local kd = s.deaths > 0 and s.kills / s.deaths or s.kills
-        respond(id, string_format(MESSAGES.TOP_LINE, i, entry.name, kd, s.credits, s.rank, s.grade))
-    end
-end
-
 local function is_admin(id)
     if id == 0 then return true end
     return tonumber(get_var(id, '$lvl')) >= COMMAND_PERM_LEVEL
@@ -480,6 +488,9 @@ end
 
 function OnGameEnd()
     save_stats()
+    if SHOW_TOP_END then
+        show_top_stats()
+    end
 end
 
 function OnSwitch(id)
