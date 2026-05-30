@@ -297,7 +297,7 @@ local function updateMapBest(map_name)
     end
 end
 
--- Purge an entire map's records (console only)
+-- Purge an entire map's records
 local function purgeMap(id, map_name)
     if id ~= 0 then
         rprint(id, "This command is restricted to console.")
@@ -315,7 +315,7 @@ local function purgeMap(id, map_name)
     rprint(id, fmt("All records for map '%s' have been purged.", map_name))
 end
 
--- Purge a specific player's records from a specific map (console only)
+-- Purge a specific player's records from a specific map
 local function purgePlayerRecord(id, player_name, map_name)
     if id ~= 0 then
         rprint(id, "This command is restricted to console.")

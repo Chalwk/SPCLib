@@ -9,7 +9,7 @@ EXTERNAL DEPENDENCY:
                    placed in your server root directory (same location as sapp.dll
                    and strings.dll).
                  - Download from:
-                   https://github.com/Chalwk/SPCLib/blob/master/sapp/libraries/uber_vehicles.lua
+                   https://github.com/Chalwk/SPCLib/blob/master/sapp/modules/uber_vehicles.lua
                  - Without this file, the script will use default (stock/vanilla) vehicles,
                    and may not work on custom maps.
 
@@ -35,10 +35,10 @@ CONFIGURATION OPTIONS:
 
 LAST UPDATED:     21/9/2025
 
-Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
+Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
-=====================================================================================
+===============================================================================
 ]]
 
 ---------------------------------------------------------------------------
@@ -58,19 +58,14 @@ local EJECT_WITHOUT_DRIVER = true          -- Eject passengers if vehicle has no
 local EJECT_WITHOUT_DRIVER_TIME = 5        -- Delay before ejecting without driver (seconds)
 
 -- Chat keywords players can use to call an Uber
-local PHRASES = {
-    ['uber'] = true,
-    ['taxi'] = true,
-    ['cab']  = true,
-    ['taxo'] = true
-}
+local PHRASES = { ['uber'] = true, ['taxi'] = true, ['axi'] = true, ['cab'] = true, ['taxo'] = true }
 
 -- Accept/Reject settings
 local ACCEPT_REJECT = false      -- Allow drivers to accept or decline incoming Uber requests
 local ACCEPT_REJECT_TIMEOUT = 10 -- Timeout (seconds) for responding
 
-local ACCEPT_COMMAND = 'accept'  -- Command to accept an Uber request
-local REJECT_COMMAND = 'reject'  -- Command to reject an Uber request
+local ACCEPT_COMMAND = 'accept' -- Command to accept an Uber request
+local REJECT_COMMAND = 'reject' -- Command to reject an Uber request
 
 -- Player-facing messages
 local MESSAGES = {
@@ -93,16 +88,28 @@ local MESSAGES = {
 -- DO NOT TOUCH UNLESS YOU KNOW WHAT YOU'RE DOING
 -------------------------------------------------
 local DEFAULT_VEHICLE_SETTINGS = {
-    { 'vehicles\\warthog\\mp_warthog', {
-        [0] = 'driver',
-        [1] = 'passenger',
-        [2] = 'gunner',
-    }, true, 'Chain Gun Hog', { 0, 2, 1 } },
-    { 'vehicles\\rwarthog\\rwarthog', {
-        [0] = 'driver',
-        [1] = 'passenger',
-        [2] = 'gunner'
-    }, true, 'Rocket Hog', { 0, 2, 1 } },
+    {
+        'vehicles\\warthog\\mp_warthog',
+        {
+            [0] = 'driver',
+            [1] = 'passenger',
+            [2] = 'gunner'
+        },
+        true,
+        'Chain Gun Hog',
+        { 0, 2, 1 }
+    },
+    {
+        'vehicles\\rwarthog\\rwarthog',
+        {
+            [0] = 'driver',
+            [1] = 'passenger',
+            [2] = 'gunner'
+        },
+        true,
+        'Rocket Hog',
+        { 0, 2, 1 }
+    }
 }
 -- CONFIG END -------------------------------------------------------------
 
@@ -138,36 +145,43 @@ local get_object_memory, get_dynamic_player = get_object_memory, get_dynamic_pla
 local read_dword, read_word, read_byte, read_bit = read_dword, read_word, read_byte, read_bit
 
 local sapp_events = {
-    [cb.EVENT_TICK] = 'OnTick',
-    [cb.EVENT_JOIN] = 'OnJoin',
-    [cb.EVENT_LEAVE] = 'OnQuit',
-    [cb.EVENT_CHAT] = 'OnChat',
-    [cb.EVENT_GAME_END] = 'OnEnd',
-    [cb.EVENT_COMMAND] = 'OnCommand',
-    [cb.EVENT_DIE] = 'HandleEjection',
-    [cb.EVENT_TEAM_SWITCH] = 'OnTeamSwitch',
-    [cb.EVENT_VEHICLE_ENTER] = 'OnVehicleEnter',
-    [cb.EVENT_VEHICLE_EXIT] = 'HandleEjection',
-    [cb.EVENT_DAMAGE_APPLICATION] = 'OnDamageApplication'
+    [cb['EVENT_TICK']] = 'OnTick',
+    [cb['EVENT_JOIN']] = 'OnJoin',
+    [cb['EVENT_LEAVE']] = 'OnQuit',
+    [cb['EVENT_CHAT']] = 'OnChat',
+    [cb['EVENT_GAME_END']] = 'OnEnd',
+    [cb['EVENT_COMMAND']] = 'OnCommand',
+    [cb['EVENT_DIE']] = 'HandleEjection',
+    [cb['EVENT_TEAM_SWITCH']] = 'OnTeamSwitch',
+    [cb['EVENT_VEHICLE_ENTER']] = 'OnVehicleEnter',
+    [cb['EVENT_VEHICLE_EXIT']] = 'HandleEjection',
+    [cb['EVENT_DAMAGE_APPLICATION']] = 'OnDamageApplication'
 }
 
 local function loadVehicleConfig()
-    local success, vehicles = pcall(function()
-        return loadfile('uber_vehicles.lua')()
+    local ok, chunk = pcall(function ()
+        return assert(loadfile("uber_vehicles.lua"))
     end)
-
-    if not success or not vehicles then
-        cprint("[UBER] Failed to load uber_vehicles.lua.", 12)
-        cprint("[UBER] Download the file from:", 12)
-        cprint("https://github.com/Chalwk/SPCLib/blob/master/sapp/libraries/uber_vehicles.lua", 12)
-        cprint("[UBER] Using default vehicle settings", 12)
+    if not ok then
+        print("[UBER] Failed to load uber_vehicles.lua: " .. tostring(chunk))
+        print("[UBER] Download the file from:")
+        print("https://github.com/Chalwk/SPCLib/blob/master/sapp/modules/uber_vehicles.lua")
+        print("[UBER] Using default vehicle settings")
         return DEFAULT_VEHICLE_SETTINGS
     end
+
+    local ok2, vehicles = pcall(chunk)
+    if not ok2 then
+        print("[UBER] Error executing uber_vehicles.lua: " .. tostring(vehicles))
+        return DEFAULT_VEHICLE_SETTINGS
+    end
+
     return vehicles
 end
 
-local function fmt(str, ...)
-    return select('#', ...) > 0 and str:format(...) or str
+local function fmt(message, ...)
+    if select('#', ...) > 0 then return message:format(...) end
+    return message
 end
 
 local function getTag(class, name)
@@ -203,10 +217,7 @@ local function validateVehicle(object_memory)
 end
 
 local function newEject(object, delay)
-    return {
-        object = object,
-        finish = game_time + delay,
-    }
+    return { object = object, finish = game_time + delay }
 end
 
 local function send(player, message)
@@ -221,12 +232,7 @@ end
 
 local function scheduleEjectionIfDisabled(player, vehicle_obj, config_entry)
     if EJECT_FROM_DISABLED_VEHICLE and not config_entry.enabled then
-        scheduleEjection(
-            player,
-            vehicle_obj,
-            EJECT_FROM_DISABLED_VEHICLE_TIME,
-            fmt(MESSAGES.vehicle_not_enabled)
-        )
+        scheduleEjection(player, vehicle_obj, EJECT_FROM_DISABLED_VEHICLE_TIME, fmt(MESSAGES.vehicle_not_enabled))
     end
 end
 
@@ -319,10 +325,7 @@ local function doChecks(player, dyn)
 end
 
 local function isValidPlayer(player, id)
-    return player_present(id) and
-        player_alive(id) and
-        id ~= player.id and
-        get_var(id, '$team') == player.team
+    return player_present(id) and player_alive(id) and id ~= player.id and get_var(id, '$team') == player.team
 end
 
 local function getAvailableVehicles(player, caller_x, caller_y, caller_z)
@@ -352,7 +355,7 @@ local function getAvailableVehicles(player, caller_x, caller_y, caller_z)
         ::continue::
     end
 
-    sort(available, function(a, b)
+    sort(available, function (a, b)
         return a.occupants < b.occupants
     end)
 
@@ -428,10 +431,12 @@ local function callUber(player, dyn)
             if ACCEPT_REJECT then
                 local driver = players[vehicle.driver]
                 if driver then
-                    send(driver,
-                        player.name ..
-                        " is requesting to join your vehicle. Type '" ..
-                        ACCEPT_COMMAND .. "' or '" .. REJECT_COMMAND .. "' to respond.")
+                    send(
+                        driver,
+                        player.name .. " is requesting to join your vehicle. Type '"
+                            .. ACCEPT_COMMAND .. "' or '"
+                            .. REJECT_COMMAND .. "' to respond."
+                    )
 
                     player.pending_request = {
                         driver_id = vehicle.driver,
@@ -477,12 +482,7 @@ local function ejectionCheck(player)
     local vehicle_obj = get_object_memory(vehicle_id)
     for id, other_player in pairs(players) do
         if id ~= player.id and other_player.current_vehi_obj == vehicle_obj then
-            scheduleEjection(
-                other_player,
-                vehicle_obj,
-                EJECT_WITHOUT_DRIVER_TIME,
-                fmt(MESSAGES.driver_left)
-            )
+            scheduleEjection(other_player, vehicle_obj, EJECT_WITHOUT_DRIVER_TIME, fmt(MESSAGES.driver_left))
         end
     end
 end
@@ -569,7 +569,7 @@ end
 
 function OnScriptLoad()
     VEHICLES = loadVehicleConfig()
-    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb['EVENT_GAME_START'], 'OnStart')
     OnStart()
 end
 
@@ -622,10 +622,7 @@ function OnQuit(id)
         for other_id, other_player in pairs(players) do
             if other_id ~= id and other_player.current_vehi_obj == player.current_vehi_obj then
                 scheduleEjection(
-                    other_player,
-                    player.current_vehi_obj,
-                    EJECT_WITHOUT_DRIVER_TIME,
-                    fmt(MESSAGES.driver_left)
+                    other_player, player.current_vehi_obj, EJECT_WITHOUT_DRIVER_TIME, fmt(MESSAGES.driver_left)
                 )
             end
         end
@@ -691,12 +688,7 @@ function OnVehicleEnter(id, seat)
     if seat ~= 0 and EJECT_WITHOUT_DRIVER then
         local driver = read_dword(vehicle_obj + 0x324) -- check if the vehicle has a driver
         if driver == 0xFFFFFFFF then
-            scheduleEjection(
-                player,
-                vehicle_obj,
-                EJECT_WITHOUT_DRIVER_TIME,
-                fmt(MESSAGES.vehicle_no_driver)
-            )
+            scheduleEjection(player, vehicle_obj, EJECT_WITHOUT_DRIVER_TIME, fmt(MESSAGES.vehicle_no_driver))
         end
     end
 

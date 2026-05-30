@@ -107,6 +107,18 @@ return {
         [2] = 'gunner'
     }, true, 'Missile Warthog', { 0, 2, 1 } },
 
+    -- atephobia
+    { 'vehicles\\warthog\\rw mp_warthog', {
+        [0] = 'driver',
+        [1] = 'passenger'
+    }, true, 'Warthog', { 0, 2, 1 } },
+
+    -- atephobia
+    { 'vehicles\\rwarthog\\rw rwarthog', {
+        [0] = 'driver',
+        [1] = 'passenger'
+    }, true, 'RWarthog', { 0, 2, 1 } },
+
     -- atomic
     { 'vehicles\\dangermobile\\dangermobile', {
         [0] = 'driver',
@@ -452,6 +464,36 @@ return {
         [0] = 'driver',
         [1] = 'passenger'
     }, true, 'Mongoose', { 0, 1 } },
+
+    -- liberty_nightglow
+    { 'altis\\vehicles\\mongoose\\mongoose', {
+        [0] = 'driver',
+        [1] = 'passenger'
+    }, true, 'Quad', { 0, 1 } },
+
+    -- liberty_blockfort_race
+    { 'altis\\vehicles\\mongoose\\mongoose', {
+        [0] = 'driver',
+        [1] = 'passenger'
+    }, true, 'Quad', { 0, 1 } },
+
+    -- liberty_blockfort_race
+    { 'bourrin\\halo reach\\vehicles\\warthog\\h2 mp_warthog', {
+        [0] = 'driver',
+        [1] = 'passenger'
+    }, true, 'Warthog', { 0, 1 } },
+
+    -- liberty_blockfort_race
+    { 'bourrin\\halo reach\\vehicles\\warthog\\rocket warthog', {
+        [0] = 'driver',
+        [1] = 'passenger'
+    }, true, 'Rocket hog', { 0, 1 } },
+
+    -- liberty_blockfort_race
+    { 'bourrin\\halo reach\\vehicles\\warthog\\reach gauss hog', {
+        [0] = 'driver',
+        [1] = 'passenger'
+    }, true, 'Rocket hog', { 0, 1 } },
 
     -- mystic_mod
     { 'vehicles\\puma\\puma_lt', {
