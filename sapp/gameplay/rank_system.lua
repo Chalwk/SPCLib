@@ -4,13 +4,16 @@ SCRIPT NAME:      rank_system.lua
 DESCRIPTION:      Rank progression system. Tracks kills, deaths, awards credits,
                   and advances through ranks/grades.
 
+                  Stats are saved when the game ends, and optionally when a
+                  player leaves.
+
                   Commands:
                     /rank      - Show your current rank and progress
                     /ranks     - List all ranks and credit thresholds
                     /top       - Show top players by credits
                     /setrank <id> <rank_id> <grade> - admin only
 
-Copyright (c) 2026 Jericho Crosby (Chalwk)
+Copyright (c) 2017-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
@@ -22,9 +25,8 @@ api_version = "1.12.0.0"
 
 -- ========================= GENERAL SETTINGS =========================
 local SAVE_FILE = "ranks.txt" -- DB file name
-local CREDITS_PER_KILL = 10   -- self-explanatory
 local SAVE_ON_LEAVE = false   -- Save stats when player leaves (true/false)
-local SET_RANK_PERMISSION = 4 -- Permission level for /setrank
+local COMMAND_PERM_LEVEL = 4  -- Permission level for /setrank
 local TOP_PLAYERS_COUNT = 10  -- Number of top players to display in /top command
 local MSG_PREFIX = ""         -- Prefix removed temporarily; restored to this after msg relay.
 
@@ -57,16 +59,16 @@ local MILESTONES = { [3] = 10, [5] = 15, [10] = 20, [15] = 25, [20] = 30, [25] =
 -- negative -> deducted from the victim
 -- zero     -> no effect
 local KILL_CREDITS = {
-    [1] = 15,               -- first blood
-    [2] = 10,               -- kill someone while dead (i.e., w/sticky)
-    [3] = 15,               -- run someone over
-    [4] = CREDITS_PER_KILL, -- pvp
-    [5] = -5,               -- suicide
-    [6] = -5,               -- betrayal
-    [7] = -5,               -- squashed
-    [8] = -5,               -- falling/distance
-    [9] = 0,                -- killed by server
-    [10] = -3               -- generic/unknown death
+    [1] = 20,  -- first blood
+    [2] = 12,  -- kill someone while dead (i.e., w/sticky)
+    [3] = 15,  -- run someone over
+    [4] = 15,  -- pvp
+    [5] = -8,  -- suicide
+    [6] = -10, -- betrayal
+    [7] = -8,  -- squashed
+    [8] = -6,  -- falling/distance
+    [9] = 0,   -- killed by server
+    [10] = -5  -- generic/unknown death
 }
 
 -- ========================= MESSAGES =========================
@@ -100,7 +102,6 @@ local rank_lookup = {}
 local threshold_entries = {}
 
 local first_blood_flag = true
-local last_damage_map = {}
 local falling_tag_id = nil
 local distance_tag_id = nil
 local ffa_flag = false
@@ -108,19 +109,21 @@ local ffa_flag = false
 local io_open = io.open
 local math_min = math.min
 local string_format = string.format
+local string_gmatch = string.gmatch
+local tonumber = tonumber
 local pairs, ipairs = pairs, ipairs
 local table_sort = table.sort
 local table_concat = table.concat
-local table_insert = table.insert
 
 local function default_stats()
     return { kills = 0, deaths = 0, credits = 0, rank = "Recruit", grade = 1 }
 end
 
-local function tokenize(string, delimiter)
-    local args = {}
-    for token in string:gmatch("([^" .. delimiter .. "]+)") do
-        args[#args + 1] = token
+local function tokenize(str, delimiter)
+    local args, n = {}, 0
+    for token in string_gmatch(str, "([^" .. delimiter .. "]+)") do
+        n = n + 1
+        args[n] = token
     end
     return args
 end
@@ -131,11 +134,14 @@ local function respond(id, msg)
 end
 
 local function build_rank_tables()
+    local entry_count = 0
     for i, rank in ipairs(RANKS) do
         rank_lookup[rank[1]] = i
-        for grade, credits in ipairs(rank[2]) do
-            threshold_entries[#threshold_entries + 1] = {
-                credits = credits,
+        local thresholds = rank[2]
+        for grade = 1, #thresholds do
+            entry_count = entry_count + 1
+            threshold_entries[entry_count] = {
+                credits = thresholds[grade],
                 rank_name = rank[1],
                 rank_index = i,
                 grade = grade
@@ -146,10 +152,12 @@ local function build_rank_tables()
 end
 
 local function find_rank(credits)
-    local best = threshold_entries[1]
-    for i = 1, #threshold_entries do
-        if credits >= threshold_entries[i].credits then
-            best = threshold_entries[i]
+    local entries = threshold_entries
+    local best = entries[1]
+    for i = 1, #entries do
+        local entry = entries[i]
+        if credits >= entry.credits then
+            best = entry
         else
             break
         end
@@ -158,9 +166,11 @@ local function find_rank(credits)
 end
 
 local function find_next_threshold(credits)
-    for i = 1, #threshold_entries do
-        if threshold_entries[i].credits > credits then
-            return threshold_entries[i]
+    local entries = threshold_entries
+    for i = 1, #entries do
+        local entry = entries[i]
+        if entry.credits > credits then
+            return entry
         end
     end
 end
@@ -168,15 +178,19 @@ end
 local function save_stats()
     local f = io_open(SAVE_FILE, "w")
     if not f then return end
+
+    local write = f.write
     for name, s in pairs(stats_db) do
-        f:write(table_concat({ name, s.kills, s.deaths, s.credits, s.rank, s.grade }, ";") .. "\n")
+        write(f, table_concat({ name, s.kills, s.deaths, s.credits, s.rank, s.grade }, ";") .. "\n")
     end
+
     f:close()
 end
 
 local function load_stats()
     local f = io_open(SAVE_FILE, "r")
     if not f then return end
+
     for line in f:lines() do
         local p = tokenize(line, ";")
         if #p >= 6 then
@@ -189,6 +203,7 @@ local function load_stats()
             }
         end
     end
+
     f:close()
 end
 
@@ -200,17 +215,15 @@ local function refresh_rank(pl, silent)
     s.rank = best.rank_name
     s.grade = best.grade
 
-    if silent then return end
+    if silent or (old_rank == s.rank and old_grade == s.grade) then return end
 
-    if old_rank ~= s.rank or old_grade ~= s.grade then
-        local promoted = (best.rank_index > (rank_lookup[old_rank] or 0))
-            or (old_rank == s.rank and s.grade > old_grade)
+    local old_rank_index = rank_lookup[old_rank] or 0
+    local promoted = (best.rank_index > old_rank_index) or (old_rank == s.rank and s.grade > old_grade)
 
-        local msg = string_format(promoted and MESSAGES.RANK_UP or MESSAGES.RANK_DOWN, pl.name, s.rank, s.grade)
-        execute_command('msg_prefix ""')
-        say_all(msg)
-        execute_command('msg_prefix "' .. MSG_PREFIX .. '"')
-    end
+    local msg = string_format(promoted and MESSAGES.RANK_UP or MESSAGES.RANK_DOWN, pl.name, s.rank, s.grade)
+    execute_command('msg_prefix ""')
+    say_all(msg)
+    execute_command('msg_prefix "' .. MSG_PREFIX .. '"')
 end
 
 local function get_current_streak(id)
@@ -234,25 +247,16 @@ local function apply_kill_credits(killer, victim, kill_type)
     if not change or change == 0 then return end
 
     -- Determine who gets the change
-    local target = nil
-    local amount = change
     local is_reward = change > 0
-
-    if is_reward then
-        target = killer
-    else
-        target = victim
-        amount = -change -- positive amount for display
-    end
-
+    local target = is_reward and killer or victim
     if not target then return end
 
     -- Apply streak bonus only if the killer is receiving a positive reward
-    local streak_bonus = 0
+    local amount = math.abs(change)
     if is_reward and killer then
         local streak = get_current_streak(killer.id)
-        if MILESTONES[streak] then
-            streak_bonus = MILESTONES[streak]
+        local streak_bonus = MILESTONES[streak]
+        if streak_bonus then
             amount = amount + streak_bonus
             respond(killer.id, string_format(MESSAGES.KILL, streak_bonus) .. MESSAGES.STREAK_SUFFIX)
         end
@@ -276,14 +280,17 @@ local function reset_game_state()
     falling_tag_id = get_tag_id('jpt!', 'globals\\falling')
     distance_tag_id = get_tag_id('jpt!', 'globals\\distance')
     first_blood_flag = true
-    last_damage_map = {}
 end
 
 function OnJoin(id)
     local name = get_var(id, "$name")
-    local stats = stats_db[name] or default_stats()
-    stats_db[name] = stats
-    players[id] = {
+    local stats = stats_db[name]
+    if not stats then
+        stats = default_stats()
+        stats_db[name] = stats
+    end
+
+    local player = {
         id = id,
         name = name,
         stats = stats,
@@ -291,7 +298,9 @@ function OnJoin(id)
         switched = nil,
         last_damage = nil
     }
-    refresh_rank(players[id], true)
+
+    players[id] = player
+    refresh_rank(player, true)
     rprint(id, MESSAGES.WELCOME_MESSAGE)
 end
 
@@ -302,7 +311,9 @@ end
 
 function OnDamage(victim_id, _, meta_id)
     local victim = players[tonumber(victim_id)]
-    if victim then victim.last_damage = meta_id end
+    if victim then
+        victim.last_damage = meta_id
+    end
 end
 
 function OnDeath(victim_id, killer_id)
@@ -312,7 +323,7 @@ function OnDeath(victim_id, killer_id)
     local victim_data = players[victim]
     if not victim_data then return end
 
-    local killer_data = players[killer]
+    local killer_data = killer and players[killer] or nil
     local kill_type = 10
 
     if killer == -1 and not victim_data.switched then -- server or falling/distance
@@ -356,6 +367,11 @@ function OnStart()
 end
 
 local function show_rank(id, target)
+    if not target then
+        respond(id, "Player data not available.")
+        return
+    end
+
     local s = target.stats
     local next_rank = find_next_threshold(s.credits)
 
@@ -377,18 +393,26 @@ end
 
 local function show_top_stats(id)
     local leaderboard = {}
+    local count = 0
+
     for name, stats in pairs(stats_db) do
-        table_insert(leaderboard, { name = name, stats = stats })
+        count = count + 1
+        leaderboard[count] = { name = name, stats = stats }
+    end
+
+    if count == 0 then
+        respond(id, string_format(MESSAGES.TOP_HEADER, 0))
+        return
     end
 
     table_sort(leaderboard, function (a, b)
         return a.stats.credits > b.stats.credits
     end)
 
-    local count = math_min(TOP_PLAYERS_COUNT, #leaderboard)
-    respond(id, string_format(MESSAGES.TOP_HEADER, count))
+    local display_count = math_min(TOP_PLAYERS_COUNT, count)
+    respond(id, string_format(MESSAGES.TOP_HEADER, display_count))
 
-    for i = 1, count do
+    for i = 1, display_count do
         local entry = leaderboard[i]
         local s = entry.stats
         local kd = s.deaths > 0 and s.kills / s.deaths or s.kills
@@ -398,7 +422,7 @@ end
 
 local function is_admin(id)
     if id == 0 then return true end
-    return tonumber(get_var(id, '$lvl')) >= SET_RANK_PERMISSION
+    return tonumber(get_var(id, '$lvl')) >= COMMAND_PERM_LEVEL
 end
 
 local function setrank_usage(id, msg)
