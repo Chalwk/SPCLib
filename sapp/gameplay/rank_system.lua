@@ -401,15 +401,15 @@ function OnLeave(id)
 end
 
 function OnDamage(victim_id, _, meta_id)
-    local victim = players[victim_id]
+    local victim = players[tonumber(victim_id)]
     if victim then
         victim.last_damage = meta_id
     end
 end
 
 function OnDeath(victim_id, killer_id)
-    local victim = victim_id
-    local killer = killer_id
+    local victim = tonumber(victim_id)
+    local killer = tonumber(killer_id)
 
     local victim_data = players[victim]
     if not victim_data then return end
@@ -417,24 +417,24 @@ function OnDeath(victim_id, killer_id)
     local killer_data = killer and players[killer] or nil
     local kill_type = 10
 
-    if killer == -1 and not victim_data.switched then
+    if killer == -1 and not victim_data.switched then -- server or falling/distance
         local last = victim_data.last_damage
         kill_type = (last == falling_tag_id or last == distance_tag_id) and 8 or 9
     elseif killer == 0 then
-        kill_type = 7
+        kill_type = 7 -- squashed by unoccupied vehicle
     elseif killer and killer > 0 then
         if killer == victim then
-            kill_type = 5
+            kill_type = 5 -- suicide
         elseif not ffa_flag and killer_data and victim_data.team == killer_data.team then
-            kill_type = 6
+            kill_type = 6 -- betrayal
         elseif first_blood_flag then
             first_blood_flag, kill_type = false, 1
         elseif not player_alive(killer) then
-            kill_type = 2
+            kill_type = 2 -- killed from grave
         elseif in_vehicle(victim) then
-            kill_type = 3
+            kill_type = 3 -- run someone over
         else
-            kill_type = 4
+            kill_type = 4 -- pvp
         end
     end
 
