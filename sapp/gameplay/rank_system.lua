@@ -52,7 +52,7 @@ api_version = "1.12.0.0"
 local SAVE_FILE = "ranks.txt" -- DB file name
 local SAVE_ON_LEAVE = false   -- Save stats when player leaves (true/false)
 local SHOW_TOP_END = true     -- Show top players when game ends (true/false)
-local COMMAND_PERM_LEVEL = 4  -- Permission level for /setrank
+local SETRANK_ADMIN_LEVEL = 4 -- Permission level for /setrank
 local TOP_PLAYERS_COUNT = 10  -- Number of top players to display in /top command
 local MSG_PREFIX = ""         -- Prefix removed temporarily; restored to this after msg relay.
 
@@ -144,6 +144,7 @@ local table_concat = table.concat
 
 local rank_abbrev_cache = {}
 local players = {}
+
 local stats_db = {}
 local rank_lookup = {}
 local threshold_entries = {}
@@ -214,36 +215,20 @@ local function build_rank_tables()
     table_sort(threshold_entries, function (a, b) return a.credits < b.credits end)
 end
 
-local function find_rank(credits)
+local function find_threshold_index(credits)
     local entries = threshold_entries
     local lo, hi = 1, #entries
-    local best = entries[1]
+    local idx = 0
     while lo <= hi do
         local mid = math_floor((lo + hi) / 2)
-        local entry = entries[mid]
-        if entry.credits <= credits then
-            best = entry
+        if entries[mid].credits <= credits then
+            idx = mid
             lo = mid + 1
         else
             hi = mid - 1
         end
     end
-    return best
-end
-
-local function find_next_threshold(credits)
-    local entries = threshold_entries
-    local lo, hi = 1, #entries
-    while lo <= hi do
-        local mid = math_floor((lo + hi) / 2)
-        local entry = entries[mid]
-        if entry.credits > credits then
-            hi = mid - 1
-        else
-            lo = mid + 1
-        end
-    end
-    return entries[lo]
+    return idx
 end
 
 local function save_stats()
@@ -277,7 +262,11 @@ end
 local function refresh_rank(pl, silent)
     local s = pl.stats
     local old_rank, old_grade = s.rank, s.grade
-    local best = find_rank(s.credits)
+
+    local idx = find_threshold_index(s.credits)
+    local best = threshold_entries[idx] or threshold_entries[1]
+    if not best then return nil end
+
     s.rank = best.rank_name
     s.grade = best.grade
 
@@ -315,11 +304,11 @@ local function apply_kill_credits(killer, victim, kill_type)
     local target = is_reward and killer or victim
     if not target then return end
 
-    -- Apply streak bonus only if the killer is receiving a positive reward
     local amount = math_abs(change)
     if is_reward and killer then
         local streak = get_current_streak(killer.id)
         local streak_bonus = MILESTONES[streak]
+
         if streak_bonus then
             amount = amount + streak_bonus
             respond(killer.id, string_format(MESSAGES.KILL, streak_bonus) .. MESSAGES.STREAK_SUFFIX)
@@ -395,7 +384,7 @@ function OnJoin(id)
         stats_db[name] = stats
     end
 
-    local player = {
+    local new_player = {
         id = id,
         name = name,
         stats = stats,
@@ -403,9 +392,9 @@ function OnJoin(id)
         switched = nil,
         last_damage = nil
     }
-    players[id] = player
-    refresh_rank(player, true)
 
+    players[id] = new_player
+    refresh_rank(new_player, true)
     if MESSAGES.WELCOME_MESSAGE_HEADER ~= "" and MESSAGES.WELCOME_MESSAGE ~= "" then
         rprint(id, MESSAGES.WELCOME_MESSAGE_HEADER)
         rprint(id, MESSAGES.WELCOME_MESSAGE)
@@ -417,16 +406,16 @@ function OnLeave(id)
     players[id] = nil
 end
 
-function OnDamage(victim_id, _, meta_id)
-    local victim = players[tonumber(victim_id)]
+function OnDamage(victim, _, meta_id)
+    victim = players[victim]
     if victim then
+        print('got player')
         victim.last_damage = meta_id
     end
 end
 
-function OnDeath(victim_id, killer_id)
-    local victim = tonumber(victim_id)
-    local killer = tonumber(killer_id)
+function OnDeath(victim, killer)
+    killer = tonumber(killer) -- killer id is a string
 
     local victim_data = players[victim]
     if not victim_data then return end
@@ -481,7 +470,9 @@ local function show_rank(id, target)
     end
 
     local s = target.stats
-    local next_rank = find_next_threshold(s.credits)
+    local idx = find_threshold_index(s.credits)
+    local next_rank = threshold_entries[idx + 1] -- nil if at max
+    if not next_rank then return end
 
     respond(id, MESSAGES.RANK_HEADER)
     respond(id, string_format(MESSAGES.RANK_CURRENT, s.rank, s.grade))
@@ -491,8 +482,12 @@ local function show_rank(id, target)
     respond(id, string_format(MESSAGES.RANK_STATS, s.kills, s.deaths, kd))
 
     if next_rank then
-        respond(
-            id, string_format(MESSAGES.RANK_NEXT, next_rank.rank_name, next_rank.grade, next_rank.credits - s.credits)
+        respond(id, string_format(
+            MESSAGES.RANK_NEXT,
+            next_rank.rank_name,
+            next_rank.grade,
+            next_rank.credits - s.credits
+            )
         )
     else
         respond(id, MESSAGES.RANK_MAX)
@@ -501,17 +496,13 @@ end
 
 local function is_admin(id)
     if id == 0 then return true end
-    return tonumber(get_var(id, '$lvl')) >= COMMAND_PERM_LEVEL
-end
-
-local function setrank_usage(id, msg)
-    if msg then respond(id, msg) end
-    respond(id, "Usage: /setrank <id> <rank> <grade>")
-    return false
+    return tonumber(get_var(id, '$lvl')) >= SETRANK_ADMIN_LEVEL
 end
 
 function OnCommand(id, cmd)
     local args = tokenize(cmd, " ")
+    if not args then return false end
+
     local c = (args[1] or ""):lower()
 
     if c == "rank" then
@@ -532,19 +523,41 @@ function OnCommand(id, cmd)
             return false
         end
 
-        local target = players[tonumber(args[2])]
+        if not args[2] or not args[3] or not args[4] then
+            respond(id, "Usage: /setrank <id> <rank> <grade>")
+            return false
+        end
+
+        local target_id = tonumber(args[2])
+        if not target_id then
+            respond(id, "Player ID must be a number!")
+            return false
+        end
+
+        local target = players[target_id]
         if not target then
-            return setrank_usage(id, "Invalid player ID.")
+            respond(id, "Player not found or not online.")
+            return false
         end
 
         local rid = tonumber(args[3])
-        if not rid or rid < 1 or rid > #RANKS then
-            return setrank_usage(id, "Invalid rank ID.")
+        if not rid then
+            respond(id, "Rank ID must be a number!")
+            return false
+        end
+        if rid < 1 or rid > #RANKS then
+            respond(id, "Valid Rank IDs are 1-" .. #RANKS)
+            return false
         end
 
         local grade = tonumber(args[4])
-        if not grade or grade < 1 or grade > #RANKS[rid][2] then
-            return setrank_usage(id, "Invalid grade ID.")
+        if not grade then
+            respond(id, "Grade must be a number.")
+            return false
+        end
+        if grade < 1 or grade > #RANKS[rid][2] then
+            respond(id, "Valid grades: 1-" .. #RANKS[rid][2])
+            return false
         end
 
         target.stats.credits = RANKS[rid][2][grade]
@@ -559,9 +572,7 @@ end
 
 function OnGameEnd()
     save_stats()
-    if SHOW_TOP_END then
-        show_top_stats()
-    end
+    if SHOW_TOP_END then show_top_stats() end
 end
 
 function OnSwitch(id)
