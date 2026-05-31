@@ -18,7 +18,7 @@ being the fastest driver, it's about teamwork, strategy, and leveraging multiple
   you and automatically enter the driver's seat.
 * **The Uber System:** Use chat commands like `uber` or `taxi` to instantly join a teammate's vehicle. Perfect for
   recovering from wipeouts or coordinating team movements.
-* **Deployable Mines:** Place tactical explosives from your vehicle to create defensive traps for pursuing enemies.
+* **Proximity Mines:** Place tactical explosives from your vehicle to create defensive traps for pursuing enemies.
 * **Race Enforcement:** Automated system ensures fair play by requiring players to stay in vehicles during races.
 * **Advanced Lap Tracking:** Comprehensive system tracks lap times, validates laps, and maintains personal bests and
   all-time map records.

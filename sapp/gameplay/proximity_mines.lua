@@ -1,13 +1,12 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      deployable_mines.lua
+SCRIPT NAME:      proximity_mines.lua
 DESCRIPTION:      Tactical mine deployment system allowing players to place
                   explosive traps that trigger when enemies approach.
 
 FEATURES:         - Vehicle-based mine deployment system
                   - Configurable mine count per life
                   - Timed despawn for placed mines
-                  - Adjustable explosion radius
                   - Team damage toggle
                   - Death message customization
                   - Vehicle-specific deployment restrictions
@@ -20,7 +19,7 @@ FEATURES:         - Vehicle-based mine deployment system
 
                     [!] Important: Ensure your maps have the tag addresses for the objects you want to use.
 
-LAST UPDATED:     18/12/2025
+LAST UPDATED:     2026-05-31 (converted TRIGGER_RADIUS to feet)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -30,15 +29,15 @@ LICENSE:          MIT License
 
 -- CONFIG START -----------------------------------------------
 
--- Maximum number of mines a player can deploy in a single life
+-- Maximum number of mines a player can drop in a single life
 -- Set to 0 for unlimited mines, or any positive integer to limit mine usage
 local MINES_PER_LIFE = 20
 
--- Time in seconds before a deployed mine automatically despawns
+-- Time in seconds before a deployed mine despawns
 local DESPAWN_RATE = 30
 
--- Detection radius in world units for mine activation
-local TRIGGER_RADIUS = 0.7
+-- Mines blow up when players are this close to one
+local TRIGGER_RADIUS_FEET = 4.5
 
 -- Time in seconds after deployment before the mine becomes active
 local MINE_ARM_DELAY = 1.0
@@ -94,8 +93,13 @@ local VEHICLES = {
     ['cmt\\vehicles\\evolved_h1-spirit\\warthog\\_warthog_rocket\\warthog_rocket'] = true, -- tsce_multiplayerv1
     ['halo3\\vehicles\\warthog\\rwarthog'] = true,                                         -- hornets_nest
     ['vehicles\\warthog\\art_cwarthog'] = true,                                            -- grove_final
-    ['vehicles\\rwarthog\\art_rwarthog_shiny'] = true,                                     -- grove_final
+    ['vehicles\\rwarthog\\art_rwarthog_shiny'] = true                                      -- grove_final
 }
+
+local FEET_PER_WORLD_UNIT = 3.0
+local TRIGGER_RADIUS_WU = TRIGGER_RADIUS_FEET / FEET_PER_WORLD_UNIT
+local TRIGGER_RADIUS_SQ = TRIGGER_RADIUS_WU * TRIGGER_RADIUS_WU
+
 -- CONFIG END -------------------------------------------------
 
 api_version = '1.12.0.0'
@@ -178,7 +182,8 @@ local function getPos(dyn_player)
 
     if vehicle_id == 0xFFFFFFFF then
         pos.x, pos.y, pos.z = read_vector3d(dyn_player + 0x5c)
-        pos.vehicle = nil; pos.seat = nil
+        pos.vehicle = nil
+        pos.seat = nil
     elseif vehicle_obj ~= 0 then
         pos.vehicle = vehicle_obj
         pos.seat = read_word(dyn_player + 0x2F0)
@@ -192,7 +197,7 @@ local function inRange(x1, y1, z1, x2, y2, z2)
     local dx = x1 - x2
     local dy = y1 - y2
     local dz = z1 - z2
-    return (dx * dx + dy * dy + dz * dz) <= TRIGGER_RADIUS
+    return (dx * dx + dy * dy + dz * dz) <= TRIGGER_RADIUS_SQ
 end
 
 local function getTagID(class, name)
@@ -210,8 +215,8 @@ local function createExplosion(mine_x, mine_y, mine_z, owner_id)
     if projectile_id ~= 0xFFFFFFFF then
         local projectile_object = get_object_memory(projectile_id)
         if projectile_object ~= 0 then
-            write_float(projectile_object + 0x68, 0)     -- Velocity X
-            write_float(projectile_object + 0x6C, 0)     -- Velocity Y
+            write_float(projectile_object + 0x68, 0) -- Velocity X
+            write_float(projectile_object + 0x6C, 0) -- Velocity Y
             write_float(projectile_object + 0x70, -9999) -- Velocity Z
         end
     end
@@ -413,25 +418,26 @@ local function initGame()
     if get_var(0, '$gt') == 'n/a' then return false end
 
     map_name = get_var(0, '$map')
-    players = {};
-    jpt_data = {};
+    players = {}
+    jpt_data = {}
     active_mines = {}
 
     -- Set mine object representation
     MINE_TAG_ID = getTagID('eqip', MINE_OBJECT)
     if not MINE_TAG_ID then
         MINE_TAG_ID = getTagID('eqip', MINE_OBJECT_FALLBACK)
-        print(fmt(
-            "Deployable Mines [%s]: Failed to find (%s). Trying fallback mine tag (%s)",
-            map_name,
-            MINE_OBJECT,
-            MINE_OBJECT_FALLBACK))
+        print(
+            fmt(
+                "Proximity Mines [%s]: Failed to find (%s). Trying fallback mine tag (%s)", map_name, MINE_OBJECT,
+                MINE_OBJECT_FALLBACK
+            )
+        )
     end
 
     PROJECTILE_TAG_ID = getTagID('proj', PROJECTILE_OBJECT)
 
     if not MINE_TAG_ID or not PROJECTILE_TAG_ID then
-        return false, 'Deployable Mines [%s]: Failed to load! Could not find valid mine or projectile tags.'
+        return false, 'Proximity Mines [%s]: Failed to load! Could not find valid mine or projectile tags.'
     end
 
     -- Initialize JPT data for explosion effects
@@ -521,7 +527,9 @@ function EditRocket(rollback)
 end
 
 function OnScriptUnload()
-    for mine_id, _ in pairs(active_mines) do destroy_object(mine_id) end
-    active_mines = {};
+    for mine_id, _ in pairs(active_mines) do
+        destroy_object(mine_id)
+    end
+    active_mines = {}
     players = {}
 end
