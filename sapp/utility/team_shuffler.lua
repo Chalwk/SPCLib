@@ -8,7 +8,6 @@ FEATURES:		  - Automatic shuffling after configurable delay
                   - Manual shuffle command with permissions
                   - Minimum player count requirement
                   - Game frequency controls (every X games)
-                  - Customizable notification messages
                   - Anti-duplicate team assignment protection
                   - Death message suppression during shuffles
 
@@ -30,7 +29,6 @@ local shuffle_command_permission = 3 -- Permission level for shuffle command
 local auto_shuffle = true            -- Enable auto-shuffle [true/false]
 local shuffle_after_games = 1        -- Auto-shuffle every X games (min 1)
 local shuffle_delay = 3              -- Delay after game start (seconds)
-local show_shuffle_message = true    -- Show shuffle messages [true/false]
 local min_players_required = 2       -- Minimum players required to shuffle teams
 
 ---------------------------------
@@ -38,10 +36,8 @@ local min_players_required = 2       -- Minimum players required to shuffle team
 ---------------------------------
 
 local messages = {
-    shuffle_auto = "Teams have been shuffled automatically!",
-    shuffle_manual = "Teams have been shuffled by $name!",
-    shuffle_soon = "Shuffling teams in $delay seconds!",
-    not_enough_players = "Not enough players to shuffle teams",
+    shuffle_manual_private = "Teams have been shuffled successfully!",
+    not_enough_players = "Not enough players to shuffle teams.",
     no_permission = "You don't have permission to shuffle teams!",
     not_team_game = "Team shuffling is only available in team games!"
 }
@@ -94,7 +90,7 @@ local function restoreDeathMessages()
 end
 
 function OnScriptLoad()
-    math.randomseed(os.time()) -- Ensure proper randomness
+    math.randomseed(os.time())
     death_message_hook_enabled = SetupDeathMessageHook()
     register_callback(cb.EVENT_GAME_START, 'OnStart')
     register_callback(cb.EVENT_COMMAND, 'OnCommand')
@@ -115,15 +111,13 @@ local function shuffle(t)
     return t
 end
 
--- Check if this is a team-based game
 local function is_team_game()
     return get_var(0, "$ffa") == "0"
 end
 
--- Returns true if shuffle succeeded, false if not enough players
 local function shuffleTeams()
     local players = {}
-    local original_teams = {} -- Store original team for each player
+    local original_teams = {}
 
     for i = 1, 16 do
         if player_present(i) then
@@ -133,9 +127,6 @@ local function shuffleTeams()
     end
 
     if #players < min_players_required then
-        if show_shuffle_message then
-            say_all(messages.not_enough_players)
-        end
         return false
     end
 
@@ -167,11 +158,7 @@ end
 
 function DelayedShuffle()
     if not is_team_game() then return end
-    local success = shuffleTeams()
-
-    if success and show_shuffle_message then
-        say_all(messages.shuffle_auto)
-    end
+    shuffleTeams()
 end
 
 function OnStart()
@@ -180,9 +167,6 @@ function OnStart()
 
     game_count = game_count + 1
     if auto_shuffle and game_count % shuffle_after_games == 0 then
-        if show_shuffle_message then
-            say_all(messages.shuffle_soon:gsub('$delay', shuffle_delay))
-        end
         timer(shuffle_delay * 1000, "DelayedShuffle")
     end
 end
@@ -201,9 +185,10 @@ function OnCommand(id, command)
 
         if has_permission(id) then
             local success = shuffleTeams()
-
-            if success and show_shuffle_message then
-                say_all(messages.shuffle_manual:gsub('$name', get_var(id, '$name')))
+            if success then
+                rprint(id, messages.shuffle_manual_private)
+            else
+                rprint(id, messages.not_enough_players)
             end
         else
             rprint(id, messages.no_permission)

@@ -10,7 +10,6 @@ CONFIGURATION:
                 HELP_COMMAND:           Command to list available vehicles
                 COOLDOWN_PERIOD:        Cooldown time (seconds) between vehicle spawns per player
                 DESPAWN_DELAY_SECONDS:  Time (in seconds) before a spawned vehicle despawns
-                POLL_INTERVAL:          Interval (in seconds) for periodic vehicle despawn checks
                 DEFAULT_TAGS: Base vehicle definitions
                     Format: ["keyword"] = "tag_path"
                         - keyword: What players type in chat to spawn the vehicle
@@ -26,30 +25,26 @@ CONFIGURATION:
                         - If keyword conflicts occur, custom vehicles are automatically renamed (hog -> hog2, etc.)
                         - For maps not listed: Only DEFAULT_TAGS are available
 
-LAST UPDATED:     13/10/2025
+LAST UPDATED:     31 May 2026
 
-Copyright (c) 2025 Jericho Crosby (Chalwk)
+Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 
 -- CONFIG START ----------------------------------------------------------------
-
 local HELP_COMMAND = "vlist"
 local DESPAWN_DELAY_SECONDS = 7
 local COOLDOWN_PERIOD = 7
-local POLL_INTERVAL = 1 -- do not touch unless you know what you're doing
+-- CONFIG START ----------------------------------------------------------------
 
-local DEFAULT_TAGS = {
-    ["hog"] = "vehicles\\warthog\\mp_warthog",
-    ["rhog"] = "vehicles\\rwarthog\\rwarthog"
-}
+local DEFAULT_TAGS = { ["hog"] = "vehicles\\warthog\\mp_warthog", ["rhog"] = "vehicles\\rwarthog\\rwarthog" }
 
 local CUSTOM_TAGS = {
     ["[h3]_sandtrap"] = {
         ["hog"] = "halo3\\vehicles\\warthog\\mp_warthog",
-        ["mon"] = "halo3\\vehicles\\mongoose\\mongoose"
+        ["hog2"] = "halo3\\vehicles\\mongoose\\mongoose"
     },
     ["bc_raceway_final_mp"] = {
         ["hog"] = "levels\\test\\racetrack\\custom_hogs\\mp_warthog_green",   -- green
@@ -59,15 +54,16 @@ local CUSTOM_TAGS = {
         ["hog5"] = "levels\\test\\racetrack\\custom_hogs\\mp_warthog_multi3"  -- blue, red, green, pink
     },
     ["cityscape-adrenaline"] = {
-        ["civ"] = "vehicles\\civvi\\civvi",
+        ["hog2"] = "vehicles\\civvi\\civvi",
         ["hog"] = "vehicles\\g_warthog\\g_warthog",
-        ["rhog"] = "vehicles\\rwarthog\\boogerhawg",
+        ["rhog"] = "vehicles\\rwarthog\\boogerhawg"
     },
     ["hypothermia_race"] = {
         ["hog"] = "vehicles\\g_warthog\\g_warthog"
     },
     ["mongoose_point"] = {
-        ["mon"] = "vehicles\\m257_multvp\\m257_multvp"
+        ["hog"] = "vehicles\\m257_multvp\\m257_multvp",
+        ["hog2"] = "vehicles\\m257_multvp\\m257_multvp2"
     },
     ["mystic_mod"] = {
         ["hog"] = "vehicles\\puma\\puma_lt",
@@ -81,12 +77,38 @@ local CUSTOM_TAGS = {
         ["hog"] = "halo3\\vehicles\\warthog\\mp_warthog",
         ["rhog"] = "halo3\\vehicles\\warthog\\rwarthog"
     },
+    ["liberty_hornets_nest"] = {
+        ["quad"] = "altis\\vehicles\\mongoose\\mongoose"
+    },
     ["grove_final"] = {
         ["hog"] = "vehicles\\warthog\\art_cwarthog",
         ["rhog"] = "vehicles\\rwarthog\\art_rwarthog_shiny"
     },
+    ["liberty_nightglow"] = {
+        ["quad"] = "altis\\vehicles\\mongoose\\mongoose"
+    },
+    ["liberty_blockfort_race"] = {
+        ["hog"] = "bourrin\\halo reach\\vehicles\\warthog\\h2 mp_warthog",
+        ["rhog"] = "bourrin\\halo reach\\vehicles\\warthog\\rocket warthog",
+        ["quad"] = "altis\\vehicles\\mongoose\\mongoose"
+    },
+    ["liberty_blockfort_quad"] = {
+        ["hog1"] = "altis\\vehicles\\mongoose\\mongoose",
+        ["hog2"] = "altis\\vehicles\\mortargoose\\mortargoose",
+        ["hog3"] = "altis\\vehicles\\mongoose\\elara",
+        ["hog4"] = "altis\\vehicles\\mongoose\\empire",
+        ["hog5"] = "altis\\vehicles\\mongoose\\icarus",
+        ["hog6"] = "altis\\vehicles\\mortargoose\\mortargoose_no_target"
+    },
+    ["liberty_race_me_now"] = {
+        ["hog1"] = "altis\\vehicles\\mongoose\\mongoose",
+        ["hog2"] = "altis\\vehicles\\mortargoose\\mortargoose_no_target",
+        ["hog3"] = "altis\\vehicles\\mongoose\\elara",
+        ["hog4"] = "altis\\vehicles\\mongoose\\empire",
+        ["hog5"] = "altis\\vehicles\\mongoose\\icarus"
+    },
     ["yoyorast_island"] = {
-        ["mon"] = "vehicles\\mongoose\\mongoose"
+        ["hog"] = "vehicles\\mongoose\\mongoose"
     }
 }
 -- CONFIG ENDS ----------------------------------------------------------------
@@ -112,11 +134,11 @@ local spawn_object, destroy_object = spawn_object, destroy_object
 local get_dynamic_player, get_object_memory = get_dynamic_player, get_object_memory
 
 local sapp_events = {
-    [cb.EVENT_JOIN] = 'OnJoin',
-    [cb.EVENT_CHAT] = 'OnChat',
-    [cb.EVENT_SPAWN] = 'OnSpawn',
-    [cb.EVENT_GAME_END] = 'OnEnd',
-    [cb.EVENT_COMMAND] = 'OnCommand'
+    [cb['EVENT_JOIN']] = 'OnJoin',
+    [cb['EVENT_CHAT']] = 'OnChat',
+    [cb['EVENT_SPAWN']] = 'OnSpawn',
+    [cb['EVENT_GAME_END']] = 'OnEnd',
+    [cb['EVENT_COMMAND']] = 'OnCommand'
 }
 
 local function fmtMsg(str, ...)
@@ -202,7 +224,7 @@ local function canSpawnVehicle(id)
 end
 
 local function showKeyWords(id)
-    rprint(id, "Vehicle spawn keywords (map-specific):")
+    rprint(id, "== VEHICLE SUMMON PHRASES ==")
     rprint(id, vehicle_meta_cache[map_name].hud)
 end
 
@@ -218,7 +240,7 @@ local function addVehicle(merged_config, hud_strings, keyword, tag_path)
     local meta_id = getTag("vehi", tag_path)
     if meta_id then
         merged_config[keyword] = meta_id
-        table_insert(hud_strings, "[" .. keyword .. "]")
+        table_insert(hud_strings, keyword)
         return true
     end
     return false
@@ -256,15 +278,15 @@ local function buildVehicleConfig(map_name_lower)
 
     return {
         vehicles = merged_config,
-        hud = table_concat(hud_strings, " ")
+        hud = table_concat(hud_strings, ", ")
     }
 end
 
 function OnScriptLoad()
-    timer(1000 * POLL_INTERVAL, "DespawnVehicles")
+    timer(1000, "DespawnVehicles")
 
     CUSTOM_TAGS = mapNamesToLower()
-    register_callback(cb.EVENT_GAME_START, "OnStart")
+    register_callback(cb["EVENT_GAME_START"], "OnStart")
 
     OnStart() -- in case script is loaded mid-game
 end

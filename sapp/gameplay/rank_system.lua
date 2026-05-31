@@ -86,7 +86,8 @@ local MESSAGES = {
     SET_RANK_INFO = "New Rank: %s, G%d",
     CREDIT_CHANGE = "%+d cR (%s)",
     CREDIT_LOSS = "-%d cR lost (%s)",
-    WELCOME_MESSAGE = "[RANK SYSTEM]: Use /rank, /top, /ranks"
+    WELCOME_MESSAGE_HEADER = "",
+    WELCOME_MESSAGE = ""
 }
 -- CONFIG END -------------------------------------------------------------------
 
@@ -338,6 +339,9 @@ function OnJoin(id)
 
     players[id] = player
     refresh_rank(player, true)
+
+    if MESSAGES.WELCOME_MESSAGE_HEADER == "" or MESSAGES.WELCOME_MESSAGE == "" then return end
+    rprint(id, MESSAGES.WELCOME_MESSAGE_HEADER)
     rprint(id, MESSAGES.WELCOME_MESSAGE)
 end
 
