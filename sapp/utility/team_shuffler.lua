@@ -53,7 +53,6 @@ local death_message_address = nil
 local original_death_message_bytes = nil
 local DEATH_MESSAGE_SIGNATURE = "8B42348A8C28D500000084C9"
 
--- Death message handling
 local function SetupDeathMessageHook()
     local address = sig_scan(DEATH_MESSAGE_SIGNATURE)
     if address == 0 then
@@ -132,7 +131,6 @@ local function shuffleTeams()
 
     players = shuffle(players)
 
-    -- Check if new assignment is identical to original
     local identical = true
     for i, id in ipairs(players) do
         local new_team = (i <= #players / 2) and "red" or "blue"
@@ -142,7 +140,6 @@ local function shuffleTeams()
         end
     end
 
-    -- Force change by swapping first/last players if identical
     if identical then
         players[1], players[#players] = players[#players], players[1]
     end
