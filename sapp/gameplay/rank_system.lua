@@ -77,7 +77,7 @@ local MESSAGES = {
     RANK_STATS = "Kills: %d  Deaths: %d  K/D: %.2f",
     RANK_NEXT = "Next: %s: G%d in %d cR",
     RANKS_HEADER = "=== Available Ranks ===",
-    RANKS_LINE = "%d. %s: [%s]",
+    RANKS_LINE = "%d. %s: %s",
     RANK_MAX = "Maximum rank reached!",
     NO_PERMISSION = "You do not have permission to use this command.",
     TOP_HEADER = "=== Top %d ===",
