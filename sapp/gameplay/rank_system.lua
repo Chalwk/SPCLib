@@ -80,8 +80,8 @@ local MESSAGES = {
     RANKS_LINE = "%d. %s: [%s]",
     RANK_MAX = "Maximum rank reached!",
     NO_PERMISSION = "You do not have permission to use this command.",
-    TOP_HEADER = "=== Top %d Players ===",
-    TOP_LINE = "%d. %s | K/D: %.2f | cR: %d | %s G%d",
+    TOP_HEADER = "=== Top %d ===",
+    TOP_LINE = "%d. %s - %s - %s%d",
     SET_RANK_HEADER = "Rank updated for %s",
     SET_RANK_INFO = "New Rank: %s, G%d",
     CREDIT_CHANGE = "%+d cR (%s)",
@@ -91,6 +91,34 @@ local MESSAGES = {
 }
 -- CONFIG END -------------------------------------------------------------------
 
+local get_player = get_player
+local read_word = read_word
+local read_dword = read_dword
+local lookup_tag = lookup_tag
+local get_dynamic_player = get_dynamic_player
+local get_var = get_var
+local player_present = player_present
+local player_alive = player_alive
+local execute_command = execute_command
+local say_all = say_all
+local rprint = rprint
+local cprint = cprint
+local read_string = read_string
+
+local io_open = io.open
+local math_abs = math.abs
+local math_min = math.min
+local math_floor = math.floor
+local string_format = string.format
+local string_gmatch = string.gmatch
+local tonumber = tonumber
+local tostring = tostring
+local pairs = pairs
+local ipairs = ipairs
+local table_sort = table.sort
+local table_concat = table.concat
+
+local rank_abbrev_cache = {}
 local players = {}
 local stats_db = {}
 local rank_lookup = {}
@@ -101,17 +129,37 @@ local falling_tag_id = nil
 local distance_tag_id = nil
 local ffa_flag = false
 
-local io_open = io.open
-local math_min = math.min
-local string_format = string.format
-local string_gmatch = string.gmatch
-local tonumber = tonumber
-local pairs, ipairs = pairs, ipairs
-local table_sort = table.sort
-local table_concat = table.concat
-
 local function default_stats()
     return { kills = 0, deaths = 0, credits = 0, rank = "Recruit", grade = 1 }
+end
+
+local function format_credits(cr)
+    if cr < 1000 then
+        return tostring(cr)
+    end
+    local whole = math_floor(cr / 1000)
+    local decimal = math_floor((cr % 1000) / 100)
+    if decimal == 0 then
+        return whole .. "k"
+    end
+    return whole .. "." .. decimal .. "k"
+end
+
+local function abbreviate_rank(rank_name)
+    local words = {}
+    for word in string_gmatch(rank_name, "%S+") do
+        words[#words + 1] = word
+    end
+    if #words > 1 then
+        local abbr = ""
+        local limit = math_min(3, #words)
+        for i = 1, limit do
+            abbr = abbr .. words[i]:sub(1, 1)
+        end
+        return abbr
+    else
+        return rank_name:sub(1, 3)
+    end
 end
 
 local function tokenize(str, delimiter)
@@ -124,8 +172,11 @@ local function tokenize(str, delimiter)
 end
 
 local function respond(id, msg)
-    if id == 0 then return cprint(msg) end
-    rprint(id, msg)
+    if id == 0 then
+        cprint(msg)
+    else
+        rprint(id, msg)
+    end
 end
 
 local function build_rank_tables()
@@ -148,13 +199,16 @@ end
 
 local function find_rank(credits)
     local entries = threshold_entries
+    local lo, hi = 1, #entries
     local best = entries[1]
-    for i = 1, #entries do
-        local entry = entries[i]
-        if credits >= entry.credits then
+    while lo <= hi do
+        local mid = math_floor((lo + hi) / 2)
+        local entry = entries[mid]
+        if entry.credits <= credits then
             best = entry
+            lo = mid + 1
         else
-            break
+            hi = mid - 1
         end
     end
     return best
@@ -162,30 +216,32 @@ end
 
 local function find_next_threshold(credits)
     local entries = threshold_entries
-    for i = 1, #entries do
-        local entry = entries[i]
+    local lo, hi = 1, #entries
+    while lo <= hi do
+        local mid = math_floor((lo + hi) / 2)
+        local entry = entries[mid]
         if entry.credits > credits then
-            return entry
+            hi = mid - 1
+        else
+            lo = mid + 1
         end
     end
+    return entries[lo]
 end
 
 local function save_stats()
     local f = io_open(SAVE_FILE, "w")
     if not f then return end
-
     local write = f.write
     for name, s in pairs(stats_db) do
         write(f, table_concat({ name, s.kills, s.deaths, s.credits, s.rank, s.grade }, ";") .. "\n")
     end
-
     f:close()
 end
 
 local function load_stats()
     local f = io_open(SAVE_FILE, "r")
     if not f then return end
-
     for line in f:lines() do
         local p = tokenize(line, ";")
         if #p >= 6 then
@@ -198,14 +254,12 @@ local function load_stats()
             }
         end
     end
-
     f:close()
 end
 
 local function refresh_rank(pl, silent)
     local s = pl.stats
     local old_rank, old_grade = s.rank, s.grade
-
     local best = find_rank(s.credits)
     s.rank = best.rank_name
     s.grade = best.grade
@@ -214,7 +268,6 @@ local function refresh_rank(pl, silent)
 
     local old_rank_index = rank_lookup[old_rank] or 0
     local promoted = (best.rank_index > old_rank_index) or (old_rank == s.rank and s.grade > old_grade)
-
     local msg = string_format(promoted and MESSAGES.RANK_UP or MESSAGES.RANK_DOWN, pl.name, s.rank, s.grade)
     execute_command('msg_prefix ""')
     say_all(msg)
@@ -241,13 +294,12 @@ local function apply_kill_credits(killer, victim, kill_type)
     local change = KILL_CREDITS[kill_type]
     if not change or change == 0 then return end
 
-    -- Determine who gets the change
     local is_reward = change > 0
     local target = is_reward and killer or victim
     if not target then return end
 
     -- Apply streak bonus only if the killer is receiving a positive reward
-    local amount = math.abs(change)
+    local amount = math_abs(change)
     if is_reward and killer then
         local streak = get_current_streak(killer.id)
         local streak_bonus = MILESTONES[streak]
@@ -280,7 +332,6 @@ end
 local function get_top_leaderboard()
     local leaderboard = {}
     local count = 0
-
     for name, stats in pairs(stats_db) do
         count = count + 1
         leaderboard[count] = { name = name, stats = stats }
@@ -290,34 +341,33 @@ local function get_top_leaderboard()
         return { string_format(MESSAGES.TOP_HEADER, 0) }
     end
 
-    table_sort(leaderboard, function (a, b)
-        return a.stats.credits > b.stats.credits
-    end)
+    table_sort(leaderboard, function (a, b) return a.stats.credits > b.stats.credits end)
 
     local display_count = math_min(TOP_PLAYERS_COUNT, count)
     local lines = { string_format(MESSAGES.TOP_HEADER, display_count) }
-
     for i = 1, display_count do
         local entry = leaderboard[i]
         local s = entry.stats
-        local kd = s.deaths > 0 and s.kills / s.deaths or s.kills
-        lines[#lines + 1] = string_format(MESSAGES.TOP_LINE, i, entry.name, kd, s.credits, s.rank, s.grade)
+        local credits_fmt = format_credits(s.credits)
+        local rank_abbr = rank_abbrev_cache[s.rank] or abbreviate_rank(s.rank)
+        lines[#lines + 1] = string_format(MESSAGES.TOP_LINE, i, entry.name, credits_fmt, rank_abbr, s.grade)
     end
-
     return lines
 end
 
 local function show_top_stats(id)
-    execute_command('msg_prefix ""')
     local lines = get_top_leaderboard()
-    for _, line in ipairs(lines) do
-        if not id then
-            say_all(line)
-        else
+    if id then
+        for _, line in ipairs(lines) do
             respond(id, line)
         end
+    else
+        execute_command('msg_prefix ""')
+        for _, line in ipairs(lines) do
+            say_all(line)
+        end
+        execute_command('msg_prefix "' .. MSG_PREFIX .. '"')
     end
-    execute_command('msg_prefix "' .. MSG_PREFIX .. '"')
 end
 
 function OnJoin(id)
@@ -336,13 +386,13 @@ function OnJoin(id)
         switched = nil,
         last_damage = nil
     }
-
     players[id] = player
     refresh_rank(player, true)
 
-    if MESSAGES.WELCOME_MESSAGE_HEADER == "" or MESSAGES.WELCOME_MESSAGE == "" then return end
-    rprint(id, MESSAGES.WELCOME_MESSAGE_HEADER)
-    rprint(id, MESSAGES.WELCOME_MESSAGE)
+    if MESSAGES.WELCOME_MESSAGE_HEADER ~= "" and MESSAGES.WELCOME_MESSAGE ~= "" then
+        rprint(id, MESSAGES.WELCOME_MESSAGE_HEADER)
+        rprint(id, MESSAGES.WELCOME_MESSAGE)
+    end
 end
 
 function OnLeave(id)
@@ -351,15 +401,15 @@ function OnLeave(id)
 end
 
 function OnDamage(victim_id, _, meta_id)
-    local victim = players[tonumber(victim_id)]
+    local victim = players[victim_id]
     if victim then
         victim.last_damage = meta_id
     end
 end
 
 function OnDeath(victim_id, killer_id)
-    local victim = tonumber(victim_id)
-    local killer = tonumber(killer_id)
+    local victim = victim_id
+    local killer = killer_id
 
     local victim_data = players[victim]
     if not victim_data then return end
@@ -367,24 +417,24 @@ function OnDeath(victim_id, killer_id)
     local killer_data = killer and players[killer] or nil
     local kill_type = 10
 
-    if killer == -1 and not victim_data.switched then -- server or falling/distance
+    if killer == -1 and not victim_data.switched then
         local last = victim_data.last_damage
         kill_type = (last == falling_tag_id or last == distance_tag_id) and 8 or 9
     elseif killer == 0 then
-        kill_type = 7 -- squashed by unoccupied vehicle
+        kill_type = 7
     elseif killer and killer > 0 then
         if killer == victim then
-            kill_type = 5 -- suicide
+            kill_type = 5
         elseif not ffa_flag and killer_data and victim_data.team == killer_data.team then
-            kill_type = 6 -- betrayal
+            kill_type = 6
         elseif first_blood_flag then
             first_blood_flag, kill_type = false, 1
         elseif not player_alive(killer) then
-            kill_type = 2 -- killed from grave
+            kill_type = 2
         elseif in_vehicle(victim) then
-            kill_type = 3 -- run someone over
+            kill_type = 3
         else
-            kill_type = 4 -- pvp
+            kill_type = 4
         end
     end
 
@@ -400,7 +450,7 @@ end
 function OnStart()
     if get_var(0, "$gt") == "n/a" then return end
     reset_game_state()
-    for i = 1, 16 do -- in case script is loaded mid-game
+    for i = 1, 16 do
         if player_present(i) then
             OnJoin(i)
         end
@@ -500,20 +550,27 @@ end
 function OnSwitch(id)
     local player = players[id]
     if player then
-        player.team, player.switched = get_var(id, '$team'), true
+        player.team = get_var(id, '$team')
+        player.switched = true
     end
 end
 
 function OnSpawn(id)
     local player = players[id]
     if player then
-        player.last_damage, player.switched = nil, nil
+        player.last_damage = nil
+        player.switched = nil
     end
 end
 
 function OnScriptLoad()
     local sapp_dir = read_string(read_dword(sig_scan('68??????008D54245468') + 0x1))
     SAVE_FILE = sapp_dir .. "\\sapp\\" .. SAVE_FILE
+
+    for _, rank_entry in ipairs(RANKS) do
+        local rank_name = rank_entry[1]
+        rank_abbrev_cache[rank_name] = abbreviate_rank(rank_name)
+    end
 
     build_rank_tables()
     load_stats()
