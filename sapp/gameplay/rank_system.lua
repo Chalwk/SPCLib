@@ -15,7 +15,7 @@ DESCRIPTION:    This is a progression system that tracks kills, deaths,
                       - 5 kills (+15 cR)
                       - 10 kills (+20 cR)
                       and higher streaks scale further.
-                    * Lose credits on death.
+                    * Lose credits on suicide/betrayal/falling
                     * Rank announcements and persistent stats saved between games.
 
                 RANKS: [ rank | grade threshold(s) ]
@@ -36,8 +36,8 @@ DESCRIPTION:    This is a progression system that tracks kills, deaths,
                 COMMANDS:
                 - /rank                             - Show your current rank and progress
                 - /ranks                            - List all ranks and credit thresholds
-                - /top                              - Show top players by credits
-                - /setrank <id> <rank_id> <grade>   - admin only
+                - /top                              - Show top 10 players
+                - /setrank <id> <rank_id> <grade>   - admin only, self-explanatory
 
 Copyright (c) 2017-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
