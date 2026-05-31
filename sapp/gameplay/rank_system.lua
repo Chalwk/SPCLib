@@ -90,6 +90,13 @@ local KILL_CREDITS = {
     [10] = -5  -- generic/unknown death
 }
 
+-- ========================= SCORING CREDITS CONFIG =========================
+-- Set to 0 to disable scoring for that gametype
+local SCORING_CREDITS = {
+    ctf = 100, -- flag capture (only the scoring player receives credits)
+    race = 100 -- lap complete
+}
+
 local MESSAGES = {
     RANK_UP = "RANK UP - %s: %s G%d",
     RANK_DOWN = "RANK DOWN - %s: %s G%d",
@@ -153,6 +160,7 @@ local first_blood_flag = true
 local falling_tag_id = nil
 local distance_tag_id = nil
 local ffa_flag = false
+local gametype = nil
 
 local function tokenize(str, delimiter)
     local args, n = {}, 0
@@ -408,10 +416,8 @@ end
 
 function OnDamage(victim, _, meta_id)
     victim = players[victim]
-    if victim then
-        print('got player')
-        victim.last_damage = meta_id
-    end
+    if not victim then return end
+    victim.last_damage = meta_id
 end
 
 function OnDeath(victim, killer)
@@ -454,7 +460,9 @@ function OnDeath(victim, killer)
 end
 
 function OnStart()
-    if get_var(0, "$gt") == "n/a" then return end
+    gametype = get_var(0, "$gt")
+    if gametype == "n/a" then return end
+
     reset_game_state()
     for i = 1, 16 do
         if player_present(i) then
@@ -482,12 +490,8 @@ local function show_rank(id, target)
     respond(id, string_format(MESSAGES.RANK_STATS, s.kills, s.deaths, kd))
 
     if next_rank then
-        respond(id, string_format(
-            MESSAGES.RANK_NEXT,
-            next_rank.rank_name,
-            next_rank.grade,
-            next_rank.credits - s.credits
-            )
+        respond(
+            id, string_format(MESSAGES.RANK_NEXT, next_rank.rank_name, next_rank.grade, next_rank.credits - s.credits)
         )
     else
         respond(id, MESSAGES.RANK_MAX)
@@ -577,18 +581,28 @@ end
 
 function OnSwitch(id)
     local player = players[id]
-    if player then
-        player.team = get_var(id, '$team')
-        player.switched = true
-    end
+    if not player then return end
+    player.team = get_var(id, '$team')
+    player.switched = true
 end
 
 function OnSpawn(id)
     local player = players[id]
-    if player then
-        player.last_damage = nil
-        player.switched = nil
-    end
+    if not player then return end
+    player.last_damage = nil
+    player.switched = nil
+end
+
+function OnScore(id)
+    local player = players[id]
+    if not player then return end
+
+    local reward = SCORING_CREDITS[gametype]
+    if not reward or reward == 0 then return end
+
+    player.stats.credits = player.stats.credits + reward
+    refresh_rank(player, false)
+    respond(id, string_format(MESSAGES.CREDIT_CHANGE, reward, "Score"))
 end
 
 function OnScriptLoad()
@@ -605,8 +619,9 @@ function OnScriptLoad()
 
     register_callback(cb.EVENT_JOIN, "OnJoin")
     register_callback(cb.EVENT_DIE, "OnDeath")
+    register_callback(cb.EVENT_SCORE, "OnScore")
     register_callback(cb.EVENT_LEAVE, "OnLeave")
-    register_callback(cb.EVENT_SPAWN, 'OnSpawn')
+    register_callback(cb.EVENT_SPAWN, "OnSpawn")
     register_callback(cb.EVENT_COMMAND, "OnCommand")
     register_callback(cb.EVENT_GAME_END, "OnGameEnd")
     register_callback(cb.EVENT_TEAM_SWITCH, 'OnSwitch')
