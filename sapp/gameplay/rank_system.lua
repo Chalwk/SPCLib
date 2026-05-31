@@ -8,7 +8,8 @@ DESCRIPTION:    This is a progression system that tracks kills, deaths,
                     - First Blood (+20 cR)
                     - Kill while dead (e.g., sticky) (+12 cR)
                     - Roadkill (+15 cR)
-                    - standard PvP kill (+15 cR).
+                    - Standard PvP kill (+15 cR).
+                    - Scoring events (CTF flag cap  +30 cR, race lap +5 cR)
                     * Additional streak bonuses:
                       - 3 kills (+10 cR)
                       - 5 kills (+15 cR)
@@ -93,8 +94,8 @@ local KILL_CREDITS = {
 -- ========================= SCORING CREDITS CONFIG =========================
 -- Set to 0 to disable scoring for that gametype
 local SCORING_CREDITS = {
-    ctf = 100, -- flag capture (only the scoring player receives credits)
-    race = 100 -- lap complete
+    ctf = 30, -- flag capture (only the scoring player receives credits)
+    race = 5  -- lap complete
 }
 
 local MESSAGES = {
