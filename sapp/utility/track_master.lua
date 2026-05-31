@@ -51,7 +51,7 @@ SCORING SYSTEM:
                    - Participation: Players with fewer than 3 maps played get 50% point penalty
                    - Tiebreakers: map records > global record > top finishes
 
-LAST UPDATED:     30/5/2026
+LAST UPDATED:     31 May 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License

@@ -33,9 +33,9 @@ CONFIGURATION OPTIONS:
                  - Accept/reject command customization
                  - Call radius configuration
 
-LAST UPDATED:     21/9/2025
+LAST UPDATED:     31 May 2026
 
-Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
+Copyright (c) 2020-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
