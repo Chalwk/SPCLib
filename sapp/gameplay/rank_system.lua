@@ -1,17 +1,42 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      rank_system.lua
-DESCRIPTION:      Rank progression system. Tracks kills, deaths, awards credits,
-                  and advances through ranks/grades.
+SCRIPT NAME:    rank_system.lua
+DESCRIPTION:    This is a progression system that tracks kills, deaths,
+                awards credits, and you advance through ranks & grades.
 
-                  Stats are saved when the game ends, and optionally when a
-                  player leaves.
+                Earn credits from various actions:
+                    - First Blood (+20 cR)
+                    - Kill while dead (e.g., sticky) (+12 cR)
+                    - Roadkill (+15 cR)
+                    - standard PvP kill (+15 cR).
+                    * Additional streak bonuses:
+                      - 3 kills (+10 cR)
+                      - 5 kills (+15 cR)
+                      - 10 kills (+20 cR)
+                      and higher streaks scale further.
+                    * Lose credits on death.
+                    * Rank announcements and persistent stats saved between games.
 
-                  Commands:
-                    /rank      - Show your current rank and progress
-                    /ranks     - List all ranks and credit thresholds
-                    /top       - Show top players by credits
-                    /setrank <id> <rank_id> <grade> - admin only
+                RANKS: [ rank | grade threshold(s) ]
+                - Recruit           |  0
+                - Apprentice        |  3000, 6000
+                - Private           |  9000, 12000
+                - Corporal          |  13000, 14000
+                - Sergeant          |  15000, 16000, 17000, 18000
+                - Gunnery Sergeant  |  19000, 20000, 21000, 22000
+                - Lieutenant        |  23000, 24000, 25000, 26000
+                - Captain           |  27000, 28000, 29000, 30000
+                - Major             |  31000, 32000, 33000, 34000
+                - Commander         |  35000, 36000, 37000, 38000
+                - Colonel           |  39000, 40000, 41000, 42000
+                - Brigadier         |  43000, 44000, 45000, 46000
+                - General           |  47000, 48000, 49000, 50000
+
+                COMMANDS:
+                - /rank                             - Show your current rank and progress
+                - /ranks                            - List all ranks and credit thresholds
+                - /top                              - Show top players by credits
+                - /setrank <id> <rank_id> <grade>   - admin only
 
 Copyright (c) 2017-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -19,7 +44,7 @@ LICENSE:          MIT License
 =====================================================================================
 ]]
 
--- CONFIG START -------------------------------------------------------------------
+-- CONFIG START ------------------------------------------------------------------------------------------------
 
 api_version = "1.12.0.0"
 
@@ -65,7 +90,6 @@ local KILL_CREDITS = {
     [10] = -5  -- generic/unknown death
 }
 
--- ========================= MESSAGES =========================
 local MESSAGES = {
     RANK_UP = "RANK UP - %s: %s G%d",
     RANK_DOWN = "RANK DOWN - %s: %s G%d",
@@ -89,7 +113,7 @@ local MESSAGES = {
     WELCOME_MESSAGE_HEADER = "",
     WELCOME_MESSAGE = ""
 }
--- CONFIG END -------------------------------------------------------------------
+-- CONFIG END ------------------------------------------------------------------------------------------------
 
 local get_player = get_player
 local read_word = read_word
@@ -129,39 +153,6 @@ local falling_tag_id = nil
 local distance_tag_id = nil
 local ffa_flag = false
 
-local function default_stats()
-    return { kills = 0, deaths = 0, credits = 0, rank = "Recruit", grade = 1 }
-end
-
-local function format_credits(cr)
-    if cr < 1000 then
-        return tostring(cr)
-    end
-    local whole = math_floor(cr / 1000)
-    local decimal = math_floor((cr % 1000) / 100)
-    if decimal == 0 then
-        return whole .. "k"
-    end
-    return whole .. "." .. decimal .. "k"
-end
-
-local function abbreviate_rank(rank_name)
-    local words = {}
-    for word in string_gmatch(rank_name, "%S+") do
-        words[#words + 1] = word
-    end
-    if #words > 1 then
-        local abbr = ""
-        local limit = math_min(3, #words)
-        for i = 1, limit do
-            abbr = abbr .. words[i]:sub(1, 1)
-        end
-        return abbr
-    else
-        return rank_name:sub(1, 3)
-    end
-end
-
 local function tokenize(str, delimiter)
     local args, n = {}, 0
     for token in string_gmatch(str, "([^" .. delimiter .. "]+)") do
@@ -176,6 +167,32 @@ local function respond(id, msg)
         cprint(msg)
     else
         rprint(id, msg)
+    end
+end
+
+local function default_stats()
+    return { kills = 0, deaths = 0, credits = 0, rank = "Recruit", grade = 1 }
+end
+
+local function format_credits(cr)
+    if cr < 1000 then return tostring(cr) end
+    local whole = math_floor(cr / 1000)
+    local decimal = math_floor((cr % 1000) / 100)
+    if decimal == 0 then return whole .. "k" end
+    return whole .. "." .. decimal .. "k"
+end
+
+local function abbreviate_rank(rank_name)
+    local words = tokenize(rank_name, "%s")
+    if #words > 1 then
+        local abbr = ""
+        local limit = math_min(3, #words)
+        for i = 1, limit do
+            abbr = abbr .. words[i]:sub(1, 1)
+        end
+        return abbr
+    else
+        return rank_name:sub(1, 3)
     end
 end
 
