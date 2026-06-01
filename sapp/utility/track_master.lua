@@ -51,7 +51,7 @@ SCORING SYSTEM:
                    - Participation: Players with fewer than 3 maps played get 50% point penalty
                    - Tiebreakers: map records > global record > top finishes
 
-LAST UPDATED:     31 May 2026
+LAST UPDATED:     1 June 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -73,12 +73,12 @@ local CONFIG = {
     -- Settings:
     LIST_SIZE = 5,                      -- Number of top laps to display (applies to top command and game end)
     MIN_LAP_TIME = 10.0,                -- Minimum valid lap time in seconds
-    EXPORT_LAP_RECORDS = true,          -- Export lap records to a text file
+    EXPORT_LAP_RECORDS = false,          -- Export lap records to a text file
     DRIVER_REQUIRED = true,             -- Only count laps if the player is the driver of the vehicle
     SHOW_FINAL_TOP = true,              -- Show top results on game end
     TOP_FINAL_GLOBAL = false,           -- true = GLOBAL map results | false = CURRENT map results | This setting requires SHOW_FINAL_TOP = true
     SHOW_CHECKPOINT_HUD = true,         -- Show checkpoint HUD while racing
-    MSG_PREFIX = "**SAPP**",            -- Some functions temporarily change the message msg_prefix; this restores it.
+    MSG_PREFIX = "",                    -- Removed during msg relay; It will be restored to this.
     -- Pagination settings
     TOP_PAGE_SIZE = 10,                 -- Default results per page for /top command
     GLOBAL_PAGE_SIZE = 10,              -- Default results per page for /global command
