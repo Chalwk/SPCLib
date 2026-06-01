@@ -101,7 +101,7 @@ local SCORING_CREDITS = {
 local MESSAGES = {
     RANK_UP = "RANK UP - %s: %s G%d",
     RANK_DOWN = "RANK DOWN - %s: %s G%d",
-    KILL = "+%d cR (Kill)",
+    KILL = "+%d cR",
     STREAK_SUFFIX = " + Streak",
     RANK_HEADER = "=== Rank ===",
     RANK_CURRENT = "%s: G%d",
@@ -116,8 +116,8 @@ local MESSAGES = {
     TOP_LINE = "%d. %s - %s - %s%d",
     SET_RANK_HEADER = "Rank updated for %s",
     SET_RANK_INFO = "New Rank: %s, G%d",
-    CREDIT_CHANGE = "%+d cR (%s)",
-    CREDIT_LOSS = "-%d cR lost (%s)",
+    CREDIT_CHANGE = "%+d cR",
+    CREDIT_LOSS = "-%d cR",
     WELCOME_MESSAGE_HEADER = "",
     WELCOME_MESSAGE = ""
 }
@@ -329,9 +329,9 @@ local function apply_kill_credits(killer, victim, kill_type)
     target.stats.credits = new_credits
 
     if is_reward then
-        respond(target.id, string_format(MESSAGES.CREDIT_CHANGE, amount, "Kill"))
+        respond(target.id, string_format(MESSAGES.CREDIT_CHANGE, amount))
     else
-        respond(target.id, string_format(MESSAGES.CREDIT_LOSS, amount, "Death"))
+        respond(target.id, string_format(MESSAGES.CREDIT_LOSS, amount))
     end
 
     refresh_rank(target, false)
@@ -603,7 +603,7 @@ function OnScore(id)
 
     player.stats.credits = player.stats.credits + reward
     refresh_rank(player, false)
-    respond(id, string_format(MESSAGES.CREDIT_CHANGE, reward, "Score"))
+    respond(id, string_format(MESSAGES.CREDIT_CHANGE, reward))
 end
 
 function OnScriptLoad()
