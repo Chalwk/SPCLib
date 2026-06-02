@@ -35,7 +35,6 @@ local STATS_COMMAND = "stats"
 local MAP_TOP_COMMAND = "top"
 local RESET_CHECKPOINT_COMMAND = "reset"
 local TOP_PAGE_SIZE = 10
-local MIN_LAP_TIME = 10.0 -- (min valid lap time, in seconds)
 local DRIVER_REQUIRED = true -- (when true, you must be the driver for your stats to count)
 local SHOW_TOP_AT_END_GAME = true
 local SHOW_CHECKPOINT_HUD = true
@@ -55,8 +54,8 @@ local MESSAGES = {
     STATS_PLAYER_LINE = "%s: Best [%s], Avg [%s]",
     STATS_NO_LAPS = "%s: No laps recorded",
     STATS_NO_RECORDS_FOR_PLAYER = "No records found for %s on %s",
-    LAP_STARTED = "LAP STARTED!",
-    CHECKPOINT_TIME = "Checkpoint %d - [%s]",
+    LAP_STARTED = "LAP STARTED - CHECKPOINT %d-%d",
+    CHECKPOINT_TIME = "CHECKPOINT %d-%d - [%s]",
     RESET_SEQUENTIAL = "Lap progress reset. Start a new lap from the first checkpoint",
     RESET_NONSEQUENTIAL = "Lap progress reset. Start a new lap from any checkpoint"
 }
@@ -110,7 +109,8 @@ api_version = '1.12.0.0'
 -- localized these for performance
 local io_open = io.open
 local os_clock = os.clock
-local band = bit.band
+local bit_band = bit.band
+local bit_rshift = bit.rshift
 local math_abs, math_ceil, math_floor, math_huge, math_min = math.abs, math.ceil, math.floor, math.huge, math.min
 local table_insert, table_sort = table.insert, table.sort
 local tonumber, pcall, pairs, select = tonumber, pcall, pairs, select
@@ -128,6 +128,7 @@ local to_real_index = to_real_index
 local read_string = read_string
 
 local race_globals, race_mode, game_over
+local race_checkpoint_count
 local players, stats = {}, {}
 local current_map = ""
 local json = loadfile('json.lua')()
@@ -151,6 +152,31 @@ end
 -- get SAPP directory path (root path where mapcycle.txt is)
 local function get_config_path()
     return read_string(read_dword(sig_scan('68??????008D54245468') + 0x1))
+end
+
+local function get_checkpoint_count(mask)
+    local count = 0
+    while mask ~= 0 do
+        mask = bit_band(mask, mask - 1)
+        count = count + 1
+    end
+    return count + 1
+end
+
+local popcnt8 = {}
+for i = 0, 255 do
+    local c, n = 0, i
+    while n > 0 do
+        c = c + (n % 2)
+        n = math_floor(n / 2)
+    end
+    popcnt8[i] = c
+end
+
+local function get_checkpoint_idx(bitmask)
+    if bitmask == 0 then return 0 end
+    return popcnt8[bit_band(bitmask, 0xFF)] + popcnt8[bit_band(bit_rshift(bitmask, 8), 0xFF)]
+        + popcnt8[bit_band(bit_rshift(bitmask, 16), 0xFF)] + popcnt8[bit_band(bit_rshift(bitmask, 24), 0xFF)]
 end
 
 -- pretty print minutes (for long lap times)
@@ -245,17 +271,6 @@ local function is_driver(id)
     return read_word(dyn_player + 0x2F0) == 0 -- driver seat index
 end
 
--- count how many bits are set (number of checkpoints passed)
-local function get_checkpoint_idx(bitmask)
-    if bitmask == 0 then return 0 end
-    local n = 0
-    while bitmask ~= 0 do
-        bitmask = band(bitmask, bitmask - 1)
-        n = n + 1
-    end
-    return n
-end
-
 local function setPlayerState(player, racing, time, checkpoint)
     player.racing = racing
     player.start_time = time
@@ -271,13 +286,8 @@ local function update_stats(player, lap_time)
         return
     end
 
-    local map_stats = stats[current_map]
-    if not map_stats then
-        map_stats = { current_best = { time = math_huge, player = "" }, players = {} }
-        stats[current_map] = map_stats
-    end
-
-    local lap_count = tonumber(get_var(id, '$score')) or 0
+    local map_stats = stats[current_map] or { current_best = { time = math_huge, player = "" }, players = {} }
+    local lap_count = tonumber(get_var(id, '$score'))
     local previous_best = player.best_lap or math_huge
     local is_personal_best = false
     local is_map_record = false
@@ -406,11 +416,10 @@ function OnScore(id)
     if not player or not player.racing or not player.start_time then return end
 
     local lap_time = round_to_hundredths(os_clock() - player.start_time)
-    if lap_time >= MIN_LAP_TIME then
-        update_stats(player, lap_time)
-        setPlayerState(player, nil, nil, 0)
-        player.just_completed_lap = true
-    end
+    update_stats(player, lap_time)
+
+    setPlayerState(player, nil, nil, 0)
+    player.just_completed_lap = true
 end
 
 -- monitor checkpoints, start/stop laps, show checkpoint times
@@ -434,7 +443,7 @@ function OnTick()
                 if current_idx == 1 and not player.racing then
                     setPlayerState(player, true, now, 0)
                     if not player.just_completed_lap then
-                        rprint(id, MESSAGES.LAP_STARTED)
+                        rprint(id, string_format(MESSAGES.LAP_STARTED, current_idx, race_checkpoint_count))
                     end
                     player.just_completed_lap = false
                 elseif current_idx == 0 and player.racing then
@@ -445,7 +454,7 @@ function OnTick()
                 if current_idx >= 1 and not player.racing then
                     setPlayerState(player, true, now, 0)
                     if not player.just_completed_lap then
-                        rprint(id, MESSAGES.LAP_STARTED)
+                        rprint(id, string_format(MESSAGES.LAP_STARTED, current_idx, race_checkpoint_count))
                     end
                     player.just_completed_lap = false
                 elseif current_idx == 0 and player.racing then
@@ -460,7 +469,7 @@ function OnTick()
                 if elapsed > 600 then -- 10 minute safety, something's broken
                     setPlayerState(player, nil, nil, 0)
                 elseif current_idx > 1 and current_idx ~= player.last_checkpoint then
-                    rprint(id, fmt(MESSAGES.CHECKPOINT_TIME, current_idx, fmt_time(elapsed)))
+                    rprint(id, fmt(MESSAGES.CHECKPOINT_TIME, current_idx, race_checkpoint_count, fmt_time(elapsed)))
                     player.last_checkpoint = current_idx
                 end
             end
@@ -471,6 +480,10 @@ end
 function OnStart()
     if get_var(0, '$gt') ~= 'race' then return end
     players = {}
+
+    local checkpoint_mask = read_dword(race_globals)
+    race_checkpoint_count = get_checkpoint_count(checkpoint_mask)
+
     race_mode = get_race_mode()
     current_map = get_var(0, "$map")
     game_over = false
