@@ -92,16 +92,12 @@ local KILL_CREDITS = {
 }
 
 -- ========================= SCORING CREDITS CONFIG =========================
--- Set to 0 to disable scoring for that gametype
+-- Set credits to 0 to disable scoring
 local SCORING_CREDITS = {
-    ctf = 40, -- flag capture (scoring player only - not whole team)
-    race = 8  -- lap complete
+    ctf = 40,        -- flag capture (scoring player only - not whole team)
+    race = 8,        -- lap complete
+    king = { 0, 30 } -- KING format: credits, interval (award credits every interval)
 }
-
--- ========================= KOTH CREDITS =========================
--- Set KOTH_CREDITS to 0 to disable (disabled by default)
-local KOTH_CREDITS = 0   -- credits awarded every interval
-local KOTH_INTERVAL = 30 -- seconds of cumulative hill time per reward
 
 local MESSAGES = {
     RANK_UP_HEADER = "=== RANK UP ===",
@@ -140,7 +136,8 @@ local MESSAGES = {
 
 -- ========================= NAME FILTERING =========================
 -- Players with these names will NOT have their stats saved.
-local NO_SAVING = {
+-- Set name to false (or remove it) to allow saving
+local NAME_FILTER = {
     ["Butcher"] = true,
     ["Caboose"] = true,
     ["Crazy"] = true,
@@ -159,7 +156,9 @@ local NO_SAVING = {
     ["Jack"] = true,
     ["Killer"] = true,
     ["King"] = true,
+    ["New001"] = true,
     ["Noodle"] = true,
+    ["Nuevo"] = true,
     ["Penguin"] = true,
     ["Pirate"] = true,
     ["Prancer"] = true,
@@ -175,8 +174,8 @@ local NO_SAVING = {
     ["Tooth"] = true,
     ["Walla Walla"] = true,
     ["Weasel"] = true,
-    ["Whicker"] = true,
     ["Wheezy"] = true,
+    ["Whicker"] = true,
     ["Whisp"] = true,
     ["Wilshire"] = true
 }
@@ -208,7 +207,7 @@ local ipairs = ipairs
 local table_sort = table.sort
 local table_concat = table.concat
 
--- caches so we don't recompute abbreviations a million times
+-- cached so I don't have to recompute abbreviations a million times -_-
 local rank_abbrev_cache = {}
 local players = {}           -- active players indexed by id
 
@@ -224,12 +223,11 @@ local ffa_flag = false
 local gametype = nil
 local koth_globals, stats_globals
 
-local function get_config_path()
-    return read_string(read_dword(sig_scan('68??????008D54245468') + 0x1))
-end
+local KOTH_CREDITS = SCORING_CREDITS.king[1]
+local KOTH_INTERVAL = SCORING_CREDITS.king[2]
 
 local function is_filtered_name(name)
-    return NO_SAVING[name] == true
+    return NAME_FILTER[name] == true
 end
 
 local function tokenize(str, delimiter)
@@ -239,6 +237,10 @@ local function tokenize(str, delimiter)
         args[n] = token
     end
     return args
+end
+
+local function get_config_path()
+    return read_string(read_dword(sig_scan('68??????008D54245468') + 0x1))
 end
 
 local function respond(id, msg)
@@ -255,6 +257,11 @@ local function rprint_all(msg)
             rprint(i, msg)
         end
     end
+end
+
+local function is_admin(id)
+    if id == 0 then return true end
+    return tonumber(get_var(id, '$lvl')) >= SETRANK_ADMIN_LEVEL
 end
 
 -- default stats
@@ -387,6 +394,11 @@ local function get_current_streak(id)
     return read_word(player_ptr + 0x98)
 end
 
+local function get_player_koth_hill_time(id)
+    local stats_base = stats_globals + to_real_index(id) * 0x30
+    return read_word(stats_base + 0x1E) -- whole seconds (cumulative, resets on quit, value is 0 on join)
+end
+
 local function get_tag_id(class, name)
     local tag = lookup_tag(class, name)
     return tag ~= 0 and read_dword(tag + 0xC) or nil
@@ -504,16 +516,6 @@ local function show_rank(id, target)
     else
         respond(id, MESSAGES.RANK_MAX)
     end
-end
-
-local function is_admin(id)
-    if id == 0 then return true end
-    return tonumber(get_var(id, '$lvl')) >= SETRANK_ADMIN_LEVEL
-end
-
-local function get_player_koth_hill_time(id)
-    local stats_base = stats_globals + to_real_index(id) * 0x30
-    return read_word(stats_base + 0x1E) -- whole seconds (cumulative, resets on quit, value is 0 on join)
 end
 
 function OnJoin(id)
@@ -686,7 +688,7 @@ function OnSpawn(id)
     player.switched = nil
 end
 
-function OnScore(id)
+function OnScore(id) -- supports ctf/race
     local player = players[id]
     if not player then return end
 
