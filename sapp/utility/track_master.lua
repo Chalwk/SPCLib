@@ -8,7 +8,7 @@ DESCRIPTION:    Advanced racing tracker and leaderboard system with:
                 - Announcements: personal bests, map records, checkpoint times
                   performance up to 50, top finishes threshold 0.95, participation penalty for <3 maps)
 
-COMMANDS:       - /stats [player_name|id|all]   - personal stats on current map
+COMMANDS:       - /stats [name|id|all]   - personal stats on current map
                 - /top [page]                   - top laps on current map
                 - /reset                        - reset checkpoint progress
 
@@ -21,7 +21,7 @@ SCORING:        Map Record: +200 per map held
                 Participation: <3 maps > 50% penalty
                 Tiebreakers: map records > top finishes
 
-LAST UPDATED:     1 June 2026
+LAST UPDATED:     2 June 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -39,10 +39,27 @@ local MIN_LAP_TIME = 10.0 -- (min valid lap time, in seconds)
 local DRIVER_REQUIRED = true -- (when true, you must be the driver for your stats to count)
 local SHOW_TOP_AT_END_GAME = true
 local SHOW_CHECKPOINT_HUD = true
-local MSG_PREFIX = "" -- A msg output function suppresses msg_prefix, then restores it to this.
 
 -- Add modes that are non-sequential (any order) here:
 local NON_SEQUENTIAL_MODES = { ["EXAMPLE_ORDER_GAMEMODE"] = true, ["ANOTHER"] = true }
+
+local MESSAGES = {
+    NEW_MAP_RECORD = "NEW MAP RECORD: [%s - %s]",
+    NEW_PERSONAL_BEST = "NEW PERSONAL BEST: [%s - %s]",
+    LAP_COMPLETED_FILTERED = "Lap completed: %s (Stats N/A - Filtered Name)",
+    LAP_COMPLETED_WITH_BEST = "Lap completed: %s (Best: %s | %s)",
+    NO_RECORDS = "No records for this map yet",
+    TOP_HEADER = "Top players for %s [Page %d/%d]:",
+    TOP_ENTRY = "%d. %s - %s",
+    TOP_NEXT_PAGE_HINT = "Use '/top %d' for next page",
+    STATS_PLAYER_LINE = "%s: Best [%s], Avg [%s]",
+    STATS_NO_LAPS = "%s: No laps recorded",
+    STATS_NO_RECORDS_FOR_PLAYER = "No records found for %s on %s",
+    LAP_STARTED = "LAP STARTED!",
+    CHECKPOINT_TIME = "Checkpoint %d - [%s]",
+    RESET_SEQUENTIAL = "Lap progress reset. Start a new lap from the first checkpoint",
+    RESET_NONSEQUENTIAL = "Lap progress reset. Start a new lap from any checkpoint"
+}
 
 -- Name filtering
 -- Players with these names will NOT have their stats saved.
@@ -90,6 +107,7 @@ local NO_SAVING = {
 
 api_version = '1.12.0.0'
 
+-- localized these for performance
 local io_open = io.open
 local os_clock = os.clock
 local band = bit.band
@@ -104,16 +122,13 @@ local get_var = get_var
 local player_present = player_present
 local player_alive = player_alive
 local rprint = rprint
-local say_all = say_all
 local get_object_memory = get_object_memory
 local get_dynamic_player = get_dynamic_player
-local execute_command = execute_command
 local to_real_index = to_real_index
 local read_string = read_string
 
 local race_globals, race_mode, game_over
 local players, stats = {}, {}
-local stats_file
 local current_map = ""
 local json = loadfile('json.lua')()
 
@@ -121,20 +136,24 @@ local function fmt(str, ...)
     return select('#', ...) > 0 and string_format(str, ...) or str
 end
 
-local function send_all(str)
-    execute_command('msg_prefix ""')
-    say_all(str)
-    execute_command('msg_prefix "' .. MSG_PREFIX .. '"')
+local function rprint_all(msg)
+    for i = 1, 16 do
+        if player_present(i) then
+            rprint(i, msg)
+        end
+    end
 end
 
 local function round_to_hundredths(num)
     return math_floor(num * 100 + 0.5) / 100
 end
 
+-- get SAPP directory path (root path where mapcycle.txt is)
 local function get_config_path()
     return read_string(read_dword(sig_scan('68??????008D54245468') + 0x1))
 end
 
+-- pretty print minutes (for long lap times)
 local function fmt_minutes(abs_time, sign)
     local total_ms = math_floor(abs_time * 1000 + 0.5)
     local minutes = math_floor(total_ms / 60000)
@@ -144,6 +163,7 @@ local function fmt_minutes(abs_time, sign)
     return fmt("%s%d:%02d.%03d", sign or "", minutes, secs, ms)
 end
 
+-- seconds or minutes if > 60
 local function fmt_seconds(abs_time, sign)
     local total_ms = math_floor(abs_time * 1000 + 0.5)
     local seconds = math_floor(total_ms / 1000)
@@ -154,6 +174,7 @@ local function fmt_seconds(abs_time, sign)
     return fmt("%s%d.%03ds", sign or "", seconds, ms)
 end
 
+-- sub-second times (e.g., 0.123s)
 local function fmt_sub_seconds(abs_time, sign)
     local total_ms = math_floor(abs_time * 1000 + 0.5)
     if total_ms >= 1000 then
@@ -162,6 +183,7 @@ local function fmt_sub_seconds(abs_time, sign)
     return fmt("%s0.%03ds", sign or "", total_ms)
 end
 
+-- main time formatter, handles differences as well
 local function fmt_time(time, is_difference)
     if time == 0 or time == math_huge then
         return is_difference and "+00:00.000" or "00:00.000"
@@ -177,6 +199,7 @@ local function fmt_time(time, is_difference)
     end
 end
 
+-- pagination math for /top command
 local function get_pagination_indices(page, total_entries, page_size)
     local total_pages = math_ceil(total_entries / page_size)
     page = page or 1
@@ -187,8 +210,9 @@ local function get_pagination_indices(page, total_entries, page_size)
     return start_index, end_index, total_pages, page
 end
 
+-- load stats JSON, return default if fails
 local function load_stats(default)
-    local file = io_open(stats_file, "r")
+    local file = io_open(STATS_FILE, "r")
     if not file then return default end
     local content = file:read("*a")
     file:close()
@@ -198,7 +222,7 @@ local function load_stats(default)
 end
 
 local function save_stats()
-    local file = io_open(stats_file, "w")
+    local file = io_open(STATS_FILE, "w")
     if not file then return false end
     file:write(json:encode(stats))
     file:close()
@@ -209,6 +233,7 @@ local function is_filtered_name(name)
     return NO_SAVING[name] == true
 end
 
+-- check if player is actually driving (not passenger), if DRIVER_REQUIRED is off then everyone qualifies
 local function is_driver(id)
     if not DRIVER_REQUIRED then return true end
     local dyn_player = get_dynamic_player(id)
@@ -217,9 +242,10 @@ local function is_driver(id)
     if vehicle_id == 0xFFFFFFFF then return false end
     local vehicle_object = get_object_memory(vehicle_id)
     if vehicle_object == 0 then return false end
-    return read_word(dyn_player + 0x2F0) == 0
+    return read_word(dyn_player + 0x2F0) == 0 -- driver seat index
 end
 
+-- count how many bits are set (number of checkpoints passed)
 local function get_checkpoint_idx(bitmask)
     if bitmask == 0 then return 0 end
     local n = 0
@@ -230,10 +256,18 @@ local function get_checkpoint_idx(bitmask)
     return n
 end
 
+local function setPlayerState(player, racing, time, checkpoint)
+    player.racing = racing
+    player.start_time = time
+    player.last_checkpoint = checkpoint
+end
+
+-- record a completed lap, update personal best, map record, averages
 local function update_stats(player, lap_time)
+    local id = player.id
     local name = player.name
     if is_filtered_name(name) then
-        rprint(player.id, fmt("Lap completed: %s (Stats N/A - Filtered Name)", fmt_time(lap_time)))
+        rprint(id, fmt(MESSAGES.LAP_COMPLETED_FILTERED, fmt_time(lap_time)))
         return
     end
 
@@ -243,7 +277,7 @@ local function update_stats(player, lap_time)
         stats[current_map] = map_stats
     end
 
-    local lap_count = tonumber(get_var(player.id, '$score')) or 0
+    local lap_count = tonumber(get_var(id, '$score')) or 0
     local previous_best = player.best_lap or math_huge
     local is_personal_best = false
     local is_map_record = false
@@ -270,19 +304,15 @@ local function update_stats(player, lap_time)
 
     local lap_time_formatted = fmt_time(lap_time)
     if is_map_record then
-        send_all(fmt("NEW MAP RECORD: [%s - %s]", name, lap_time_formatted))
+        rprint_all(fmt(MESSAGES.NEW_MAP_RECORD, name, lap_time_formatted))
     elseif is_personal_best then
-        send_all(fmt("NEW PERSONAL BEST: [%s - %s]", name, lap_time_formatted))
+        rprint_all(fmt(MESSAGES.NEW_PERSONAL_BEST, name, lap_time_formatted))
     else
-        rprint(
-            player.id,
-            fmt(
-                "Lap completed: %s (Best: %s | %s)", lap_time_formatted, fmt_time(previous_best),
-                fmt_time(lap_time - previous_best, true)
-            )
-        )
+        local msg = MESSAGES.LAP_COMPLETED_WITH_BEST
+        rprint(id, fmt(msg, lap_time_formatted, fmt_time(previous_best), fmt_time(lap_time - previous_best, true)))
     end
 end
+
 local function split(input)
     local result = {}
     local n = 0
@@ -293,45 +323,46 @@ local function split(input)
     return result
 end
 
+-- show top times for current map (paginated)
 local function show_top(id, page)
     local send = id
         and function (msg)
             rprint(id, msg)
-        end or send_all
+        end or rprint_all
     local map_data = stats[current_map]
     if not map_data then
-        send("No records for this map yet")
+        send(MESSAGES.NO_RECORDS)
         return
     end
 
     local map_best_laps = {}
-    for player_name, player_stats in pairs(map_data.players) do
-        if not is_filtered_name(player_name) then
-            table_insert(map_best_laps, { name = player_name, best_lap = player_stats.best })
+    for name, player_stats in pairs(map_data.players) do
+        if not is_filtered_name(name) then
+            table_insert(map_best_laps, { name = name, best_lap = player_stats.best })
         end
     end
 
     if #map_best_laps == 0 then
-        send("No records for this map yet")
+        send(MESSAGES.NO_RECORDS)
         return
     end
 
     table_sort(map_best_laps, function (a, b) return a.best_lap < b.best_lap end)
     local start_idx, end_idx, total_pages, cur_page = get_pagination_indices(page, #map_best_laps, TOP_PAGE_SIZE)
-    send(fmt("Top players for %s [Page %d/%d]:", current_map, cur_page, total_pages))
+    send(fmt(MESSAGES.TOP_HEADER, current_map, cur_page, total_pages))
     for i = start_idx, end_idx do
         local entry = map_best_laps[i]
-        send(fmt("%d. %s - %s", i, entry.name, fmt_time(entry.best_lap)))
+        send(fmt(MESSAGES.TOP_ENTRY, i, entry.name, fmt_time(entry.best_lap)))
     end
     if total_pages > 1 then
-        send(fmt("Use '/top %d' for next page", cur_page + 1))
+        send(fmt(MESSAGES.TOP_NEXT_PAGE_HINT, cur_page + 1))
     end
 end
 
 local function show_stats(id, target)
     local map_data = stats[current_map]
     if not map_data or not map_data.players then
-        rprint(id, "No records for this map yet")
+        rprint(id, MESSAGES.NO_RECORDS)
         return
     end
 
@@ -341,29 +372,30 @@ local function show_stats(id, target)
                 local pname = pdata.name
                 local ps = map_data.players[pname]
                 if ps then
-                    rprint(id, fmt("%s: Best [%s], Avg [%s]", pname, fmt_time(ps.best), fmt_time(ps.average)))
+                    rprint(id, fmt(MESSAGES.STATS_PLAYER_LINE, pname, fmt_time(ps.best), fmt_time(ps.average)))
                 else
-                    rprint(id, fmt("%s: No laps recorded", pname))
+                    rprint(id, fmt(MESSAGES.STATS_NO_LAPS, pname))
                 end
             end
         end
     else
         local target_id = tonumber(target)
-        local player_name
+        local name
         if target_id and player_present(target_id) then
-            player_name = get_var(target_id, "$name")
+            name = get_var(target_id, "$name")
         else
-            player_name = target
+            name = target
         end
-        local ps = map_data.players[player_name]
+        local ps = map_data.players[name]
         if ps then
-            rprint(id, fmt("%s: Best [%s], Avg [%s]", player_name, fmt_time(ps.best), fmt_time(ps.average)))
+            rprint(id, fmt(MESSAGES.STATS_PLAYER_LINE, name, fmt_time(ps.best), fmt_time(ps.average)))
         else
-            rprint(id, fmt("No records found for %s on %s", player_name, current_map))
+            rprint(id, fmt(MESSAGES.STATS_NO_RECORDS_FOR_PLAYER, name, current_map))
         end
     end
 end
 
+-- get race mode: 1 = sequential, 2 = non-sequential (any order)
 local function get_race_mode()
     return NON_SEQUENTIAL_MODES[get_var(0, '$mode')] and 2 or 1
 end
@@ -372,16 +404,16 @@ function OnScore(id)
     if not is_driver(id) then return end
     local player = players[id]
     if not player or not player.racing or not player.start_time then return end
+
     local lap_time = round_to_hundredths(os_clock() - player.start_time)
     if lap_time >= MIN_LAP_TIME then
         update_stats(player, lap_time)
-        player.racing = nil
-        player.start_time = nil
-        player.last_checkpoint = 0
+        setPlayerState(player, nil, nil, 0)
         player.just_completed_lap = true
     end
 end
 
+-- monitor checkpoints, start/stop laps, show checkpoint times
 function OnTick()
     if game_over then return end
 
@@ -391,52 +423,44 @@ function OnTick()
         if player_present(id) and player_alive(id) then
             local checkpoint_mask = read_dword(player.checkpoint_addr)
 
+            -- update cached mask and count if changed
             if checkpoint_mask ~= player.last_mask then
                 player.last_mask = checkpoint_mask
                 player.last_idx = get_checkpoint_idx(checkpoint_mask)
             end
             local current_idx = player.last_idx
 
-            if race_mode == 1 then
+            if race_mode == 1 then -- sequential mode (classic)
                 if current_idx == 1 and not player.racing then
-                    player.racing = true
-                    player.start_time = now
-                    player.last_checkpoint = 0
+                    setPlayerState(player, true, now, 0)
                     if not player.just_completed_lap then
-                        rprint(id, "LAP STARTED!")
+                        rprint(id, MESSAGES.LAP_STARTED)
                     end
                     player.just_completed_lap = false
                 elseif current_idx == 0 and player.racing then
-                    player.racing = nil
-                    player.start_time = nil
-                    player.last_checkpoint = 0
+                    setPlayerState(player, nil, nil, 0)
                     player.just_completed_lap = false
                 end
-            else -- mode == 2 (non?sequential)
+            else -- mode == 2 (non-sequential: any checkpoint starts lap)
                 if current_idx >= 1 and not player.racing then
-                    player.racing = true
-                    player.start_time = now
-                    player.last_checkpoint = 0
+                    setPlayerState(player, true, now, 0)
                     if not player.just_completed_lap then
-                        rprint(id, "LAP STARTED!")
+                        rprint(id, MESSAGES.LAP_STARTED)
                     end
                     player.just_completed_lap = false
                 elseif current_idx == 0 and player.racing then
-                    player.racing = nil
-                    player.start_time = nil
-                    player.last_checkpoint = 0
+                    setPlayerState(player, nil, nil, 0)
                     player.just_completed_lap = false
                 end
             end
 
+            -- show checkpoint times if HUD enabled
             if SHOW_CHECKPOINT_HUD and player.racing and player.start_time then
                 local elapsed = now - player.start_time
-                if elapsed > 600 then
-                    player.racing = nil
-                    player.start_time = nil
-                    player.last_checkpoint = 0
+                if elapsed > 600 then -- 10 minute safety, something's broken
+                    setPlayerState(player, nil, nil, 0)
                 elseif current_idx > 1 and current_idx ~= player.last_checkpoint then
-                    rprint(id, fmt("Checkpoint %d - [%s]", current_idx, fmt_time(elapsed)))
+                    rprint(id, fmt(MESSAGES.CHECKPOINT_TIME, current_idx, fmt_time(elapsed)))
                     player.last_checkpoint = current_idx
                 end
             end
@@ -462,15 +486,15 @@ function OnEnd()
 end
 
 function OnJoin(id)
-    local player_name = get_var(id, "$name")
+    local name = get_var(id, "$name")
     local best_lap = math_huge
     local map_data = stats[current_map]
-    if map_data and map_data.players and map_data.players[player_name] then
-        best_lap = map_data.players[player_name].best
+    if map_data and map_data.players and map_data.players[name] then
+        best_lap = map_data.players[name].best
     end
     players[id] = {
         id = id,
-        name = player_name,
+        name = name,
         previous_time = 0,
         last_checkpoint = 0,
         best_lap = best_lap,
@@ -498,29 +522,24 @@ function OnCommand(id, command)
         return false
     elseif cmd == RESET_CHECKPOINT_COMMAND then
         local player = players[id]
-        if player then
-            write_dword(player.checkpoint_addr, 0)
-            player.racing = nil
-            player.start_time = nil
-            player.last_checkpoint = 0
-            player.last_mask = 0
-            player.last_idx = 0
-            player.just_completed_lap = false
-            rprint(
-                id,
-                race_mode == 1 and "Lap progress reset. Start a new lap from the first checkpoint"
-                    or "Lap progress reset. Start a new lap from any checkpoint"
-            )
-        end
+        if not player then return end
+        write_dword(player.checkpoint_addr, 0)
+        setPlayerState(player, nil, nil, 0)
+        player.last_mask = 0
+        player.last_idx = 0
+        player.just_completed_lap = false
+        rprint(id, race_mode == 1 and MESSAGES.RESET_SEQUENTIAL or MESSAGES.RESET_NONSEQUENTIAL)
         return false
     end
 end
 
 function OnScriptLoad()
     race_globals = read_dword(sig_scan("BF??????00F3ABB952000000") + 0x1)
+
     local config_path = get_config_path()
-    stats_file = config_path .. "\\sapp\\" .. STATS_FILE
-    stats = load_stats(stats)
+    STATS_FILE = config_path .. "\\sapp\\" .. STATS_FILE
+    stats = load_stats({})
+
     register_callback(cb.EVENT_TICK, 'OnTick')
     register_callback(cb.EVENT_JOIN, 'OnJoin')
     register_callback(cb.EVENT_SCORE, 'OnScore')
