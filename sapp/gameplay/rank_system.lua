@@ -1,24 +1,23 @@
 --[[
-=====================================================================================
+============================================================================================
 SCRIPT NAME:    rank_system.lua
 DESCRIPTION:    This is a progression system that tracks kills, deaths,
                 awards credits, and you advance through ranks & grades.
 
-                Earn credits from various actions:
-                    - First Blood (+20 cR)
-                    - Kill while dead (e.g., sticky) (+12 cR)
-                    - Roadkill (+15 cR)
-                    - Standard PvP kill (+15 cR)
-                    - Scoring events (CTF flag cap  +40 cR, race lap +8 cR)
-                    * Additional streak bonuses:
-                      - 3 kills (+10 cR)
-                      - 5 kills (+15 cR)
-                      - 10 kills (+20 cR)
-                      and higher streaks scale further.
-                    * Lose credits on suicide/betrayal/falling
-                    * Rank announcements and persistent stats saved between games.
+EARN CREDITS FROM:
+                - First Blood (+20 cR)
+                - Kill while dead (e.g., sticky) (+12 cR)
+                - Roadkill (+15 cR)
+                - Standard PvP kill (+15 cR)
+                - Scoring events (CTF flag cap  +40 cR, race lap +8 cR)
+                * Additional streak bonuses:
+                  - 3 kills (+10 cR)
+                  - 5 kills (+15 cR)
+                  - 10 kills (+20 cR)
+                  and higher streaks scale further.
+                * Lose credits on suicide/betrayal/falling
 
-                RANKS: [ rank | grade threshold(s) ]
+RANKS: [ rank | grade threshold(s) ]
                 - Recruit           |  0
                 - Apprentice        |  3000, 6000
                 - Private           |  9000, 12000
@@ -33,18 +32,18 @@ DESCRIPTION:    This is a progression system that tracks kills, deaths,
                 - Brigadier         |  43000, 44000, 45000, 46000
                 - General           |  47000, 48000, 49000, 50000
 
-                COMMANDS:
-                - /rank                             - Show your current rank and progress
-                - /ranks                            - List all ranks and credit thresholds
-                - /top                              - Show top 10 players
-                - /setrank <id> <rank_id> <grade>   - admin only, self-explanatory
+COMMANDS:
+                - /rank                            - Show your current rank and progress
+                - /ranks                           - List all ranks and credit thresholds
+                - /top                             - Show top 10 players
+                - /setrank <id> <rank_id> <grade>  - admin only, self-explanatory
 
-LAST UPDATED:     2 June 2026
+LAST UPDATED:   2 June 2026
 
 Copyright (c) 2017-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
-=====================================================================================
+============================================================================================
 ]]
 
 -- CONFIG START ------------------------------------------------------------------------------------------------
@@ -98,6 +97,11 @@ local SCORING_CREDITS = {
     ctf = 40, -- flag capture (scoring player only - not whole team)
     race = 8  -- lap complete
 }
+
+-- ========================= KOTH CREDITS =========================
+-- Set KOTH_CREDITS to 0 to disable (disabled by default)
+local KOTH_CREDITS = 0   -- credits awarded every interval
+local KOTH_INTERVAL = 30 -- seconds of cumulative hill time per reward
 
 local MESSAGES = {
     RANK_UP_HEADER = "=== RANK UP ===",
@@ -212,11 +216,13 @@ local stats_db = {}          -- persistent stats keyed by player name
 local rank_lookup = {}       -- rank name -> index
 local threshold_entries = {} -- all rank thresholds sorted
 
+local game_over = nil
 local first_blood_flag = true
 local falling_tag_id = nil
 local distance_tag_id = nil
 local ffa_flag = false
 local gametype = nil
+local koth_globals, stats_globals
 
 local function get_config_path()
     return read_string(read_dword(sig_scan('68??????008D54245468') + 0x1))
@@ -416,7 +422,7 @@ local function apply_kill_credits(killer, victim, kill_type)
     target.stats.credits = new_credits
 
     if is_reward then
-        respond(target.id, string_format(MESSAGES.CREDIT_CHANGE, amount))
+        respond(target.id, string_format(MESSAGES.CREDIT_CHANGE .. " (kill)", amount))
     else
         respond(target.id, string_format(MESSAGES.CREDIT_LOSS, amount))
     end
@@ -429,6 +435,7 @@ local function reset_game_state()
     falling_tag_id = get_tag_id('jpt!', 'globals\\falling')
     distance_tag_id = get_tag_id('jpt!', 'globals\\distance')
     first_blood_flag = true
+    game_over = false
 end
 
 -- build leaderboard lines (top N players by credits)
@@ -472,6 +479,43 @@ local function show_top_stats(id)
     end
 end
 
+-- show rank info for a player (target is active player table entry)
+local function show_rank(id, target)
+    if not target then
+        respond(id, "Player data not available.")
+        return
+    end
+
+    local s = target.stats
+    local idx = find_threshold_index(s.credits)
+    local next_rank = threshold_entries[idx + 1] -- nil if at max
+    if not next_rank then return end
+
+    respond(id, MESSAGES.RANK_HEADER)
+    respond(id, string_format(MESSAGES.RANK_CURRENT, s.rank, s.grade))
+    respond(id, string_format(MESSAGES.RANK_CREDITS, s.credits))
+
+    local kd = s.deaths > 0 and s.kills / s.deaths or s.kills
+    respond(id, string_format(MESSAGES.RANK_STATS, s.kills, s.deaths, kd))
+
+    if next_rank then
+        local msg = MESSAGES.RANK_NEXT
+        respond(id, string_format(msg, next_rank.rank_name, next_rank.grade, next_rank.credits - s.credits))
+    else
+        respond(id, MESSAGES.RANK_MAX)
+    end
+end
+
+local function is_admin(id)
+    if id == 0 then return true end
+    return tonumber(get_var(id, '$lvl')) >= SETRANK_ADMIN_LEVEL
+end
+
+local function get_player_koth_hill_time(id)
+    local stats_base = stats_globals + to_real_index(id) * 0x30
+    return read_word(stats_base + 0x1E) -- whole seconds (cumulative, resets on quit, value is 0 on join)
+end
+
 function OnJoin(id)
     local name = get_var(id, "$name")
     local stats = stats_db[name]
@@ -486,7 +530,8 @@ function OnJoin(id)
         stats = stats,
         team = get_var(id, '$team'),
         switched = nil,
-        last_damage = nil
+        last_damage = nil,
+        last_hill_award_time = 0
     }
 
     players[id] = new_player
@@ -548,50 +593,6 @@ function OnDeath(victim, killer)
 
     apply_kill_credits(killer_data, victim_data, kill_type)
     refresh_rank(victim_data, false)
-end
-
-function OnStart()
-    gametype = get_var(0, "$gt")
-    if gametype == "n/a" then return end
-
-    reset_game_state()
-    for i = 1, 16 do
-        if player_present(i) then
-            OnJoin(i)
-        end
-    end
-end
-
--- show rank info for a player (target is active player table entry)
-local function show_rank(id, target)
-    if not target then
-        respond(id, "Player data not available.")
-        return
-    end
-
-    local s = target.stats
-    local idx = find_threshold_index(s.credits)
-    local next_rank = threshold_entries[idx + 1] -- nil if at max
-    if not next_rank then return end
-
-    respond(id, MESSAGES.RANK_HEADER)
-    respond(id, string_format(MESSAGES.RANK_CURRENT, s.rank, s.grade))
-    respond(id, string_format(MESSAGES.RANK_CREDITS, s.credits))
-
-    local kd = s.deaths > 0 and s.kills / s.deaths or s.kills
-    respond(id, string_format(MESSAGES.RANK_STATS, s.kills, s.deaths, kd))
-
-    if next_rank then
-        local msg = MESSAGES.RANK_NEXT
-        respond(id, string_format(msg, next_rank.rank_name, next_rank.grade, next_rank.credits - s.credits))
-    else
-        respond(id, MESSAGES.RANK_MAX)
-    end
-end
-
-local function is_admin(id)
-    if id == 0 then return true end
-    return tonumber(get_var(id, '$lvl')) >= SETRANK_ADMIN_LEVEL
 end
 
 function OnCommand(id, cmd)
@@ -666,6 +667,7 @@ function OnCommand(id, cmd)
 end
 
 function OnGameEnd()
+    game_over = true
     save_stats()
     if SHOW_TOP_END then show_top_stats() end
 end
@@ -684,7 +686,6 @@ function OnSpawn(id)
     player.switched = nil
 end
 
--- TODO: support for other modes
 function OnScore(id)
     local player = players[id]
     if not player then return end
@@ -694,7 +695,47 @@ function OnScore(id)
 
     player.stats.credits = player.stats.credits + reward
     refresh_rank(player, false)
-    respond(id, string_format(MESSAGES.CREDIT_CHANGE, reward))
+    respond(id, string_format(MESSAGES.CREDIT_CHANGE .. " (score)", reward))
+end
+
+function KothTimer()
+    if game_over then return false end
+
+    for i = 1, 16 do
+        local pl = players[i]
+        if pl and player_present(i) and player_alive(i) then
+            local hill_time = get_player_koth_hill_time(i)
+            if hill_time == 0 then goto next end
+            local last = pl.last_hill_award_time or 0
+
+            local intervals = math_floor((hill_time - last) / KOTH_INTERVAL)
+            if intervals > 0 then
+                local award = intervals * KOTH_CREDITS
+                pl.stats.credits = pl.stats.credits + award
+                pl.last_hill_award_time = last + (intervals * KOTH_INTERVAL)
+                refresh_rank(pl, false)
+                respond(pl.id, string_format(MESSAGES.CREDIT_CHANGE, award) .. " (hill)")
+            end
+        end
+        ::next::
+    end
+    return true
+end
+
+function OnStart()
+    gametype = get_var(0, "$gt")
+    if gametype == "n/a" then return end
+
+    reset_game_state()
+    for i = 1, 16 do
+        if player_present(i) then
+            OnJoin(i)
+        end
+    end
+
+    if KOTH_CREDITS > 0 and gametype == "king" then
+        timer(1000, "KothTimer")
+    end
 end
 
 -- resolve SAPP directory (root path where mapcycle.txt is), init caches, load stats
@@ -720,6 +761,9 @@ function OnScriptLoad()
     register_callback(cb.EVENT_TEAM_SWITCH, 'OnSwitch')
     register_callback(cb.EVENT_GAME_START, "OnStart")
     register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamage")
+
+    koth_globals = read_dword(sig_scan("BF??????00F3ABB96B000000") + 0x1)
+    stats_globals = read_dword(sig_scan("33C0BF??????00F3AB881D") + 0x3)
 
     OnStart() -- in case script is loaded mid-game
 end
