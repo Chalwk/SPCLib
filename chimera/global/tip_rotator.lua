@@ -16,7 +16,7 @@ clua_version = 2.056
 
 local ENABLED = true
 local COMMAND = "tips"
-local UPDATE_INTERVAL = 600 -- ticks between tips
+local UPDATE_INTERVAL = 1 -- ticks between tips
 -- END CONFIG --
 
 local ticks = 0
@@ -35,7 +35,6 @@ local tips = {
 
 set_callback("tick", "OnTick")
 set_callback("map load", "OnMapLoad")
-set_callback("map_preload", "OnMapPreload")
 set_callback("unload", "OnUnload")
 set_callback("command", "OnCommand")
 
@@ -54,10 +53,6 @@ end
 local function show_tip()
     clear_hud()
     hud_message(next_tip())
-end
-
-function OnMapPreload()
-    if ENABLED then console_out("Tip rotator warming up.") end
 end
 
 function OnMapLoad()

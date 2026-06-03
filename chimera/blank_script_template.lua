@@ -15,7 +15,6 @@ clua_version = 2.056
 set_callback("command", "OnCommand")
 set_callback("frame", "OnFrame")
 set_callback("map load", "OnMapLoad")
-set_callback("map_preload", "OnMapPreload")
 set_callback("precamera", "OnPreCamera")
 set_callback("preframe", "OnPreFrame")
 set_callback("prespawn", "OnPreSpawn")
@@ -63,13 +62,6 @@ end
 -- Called after a map has fully loaded.
 -- Use this to reset or initialize gameplay state.
 function OnMapLoad()
-end
-
---- `map_preload`
--- Called before a map fully loads.
--- Useful for early initialization.
----@param map_name string The name of the map being loaded.
-function OnMapPreload(map_name)
 end
 
 --- `prespawn`
