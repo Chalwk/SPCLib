@@ -9,19 +9,18 @@ DESCRIPTION:    Advanced racing tracker and leaderboard system with:
                   performance up to 50, top finishes threshold 0.95, participation penalty for <3 maps)
 
 COMMANDS:       - /stats [name|id|all]   - personal stats on current map
-                - /top [page]                   - top laps on current map
-                - /reset                        - reset checkpoint progress
+                - /top [page]            - top laps on current map
+                - /reset                 - reset checkpoint progress
 
 REQUIRED:       * Lua JSON Parser: http://regex.info/blog/lua/json
                   Place json.lua in the same directory as sapp.dll
 
 SCORING:        Map Record: +200 per map held
-                Performance: up to +50 (ratio × weight)
                 Top Finishes: laps within 95% of record (tiebreaker)
                 Participation: <3 maps > 50% penalty
                 Tiebreakers: map records > top finishes
 
-LAST UPDATED:     2 June 2026
+LAST UPDATED:     4 June 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -129,6 +128,7 @@ local read_string = read_string
 
 local race_globals, race_mode, game_over
 local race_checkpoint_count
+local map_record_cache = {}
 local players, stats = {}, {}
 local current_map = ""
 local json = loadfile('json.lua')()
@@ -255,6 +255,24 @@ local function save_stats()
     return true
 end
 
+-- Compute map records from player data and update cache
+local function compute_map_records(map_name)
+    local map_data = stats[map_name]
+    if not map_data or type(map_data) ~= "table" then
+        map_record_cache[map_name] = { time = math_huge, player = "" }
+        return
+    end
+    local best_time = math_huge
+    local best_player = ""
+    for name, pstats in pairs(map_data) do
+        if pstats.best and pstats.best < best_time then
+            best_time = pstats.best
+            best_player = name
+        end
+    end
+    map_record_cache[map_name] = { time = best_time, player = best_player }
+end
+
 local function is_filtered_name(name)
     return NO_SAVING[name] == true
 end
@@ -286,7 +304,7 @@ local function update_stats(player, lap_time)
         return
     end
 
-    local map_stats = stats[current_map] or { current_best = { time = math_huge, player = "" }, players = {} }
+    local map_stats = stats[current_map] or {}
     local lap_count = tonumber(get_var(id, '$score'))
     local previous_best = player.best_lap or math_huge
     local is_personal_best = false
@@ -297,15 +315,23 @@ local function update_stats(player, lap_time)
         is_personal_best = true
     end
 
-    if lap_time < map_stats.current_best.time then
-        map_stats.current_best = { time = lap_time, player = name }
-        is_map_record = true
+    -- Check against cached map record
+    local current_record = map_record_cache[current_map]
+    if not current_record or current_record.time == math_huge then
+        compute_map_records(current_map)
+        current_record = map_record_cache[current_map]
     end
 
-    local player_stats = map_stats.players[name]
+    if lap_time < current_record.time then
+        is_map_record = true
+        current_record.time = lap_time
+        current_record.player = name
+    end
+
+    local player_stats = map_stats[name]
     if not player_stats then
         player_stats = { best = lap_time, laps = lap_count, average = lap_time }
-        map_stats.players[name] = player_stats
+        map_stats[name] = player_stats
     else
         player_stats.laps = lap_count
         player_stats.best = math_min(player_stats.best, lap_time)
@@ -346,8 +372,8 @@ local function show_top(id, page)
     end
 
     local map_best_laps = {}
-    for name, player_stats in pairs(map_data.players) do
-        if not is_filtered_name(name) then
+    for name, player_stats in pairs(map_data) do
+        if not is_filtered_name(name) and player_stats.best then
             table_insert(map_best_laps, { name = name, best_lap = player_stats.best })
         end
     end
@@ -371,7 +397,7 @@ end
 
 local function show_stats(id, target)
     local map_data = stats[current_map]
-    if not map_data or not map_data.players then
+    if not map_data then
         rprint(id, MESSAGES.NO_RECORDS)
         return
     end
@@ -380,7 +406,7 @@ local function show_stats(id, target)
         for pid, pdata in pairs(players) do
             if player_present(pid) then
                 local pname = pdata.name
-                local ps = map_data.players[pname]
+                local ps = map_data[pname]
                 if ps then
                     rprint(id, fmt(MESSAGES.STATS_PLAYER_LINE, pname, fmt_time(ps.best), fmt_time(ps.average)))
                 else
@@ -396,7 +422,7 @@ local function show_stats(id, target)
         else
             name = target
         end
-        local ps = map_data.players[name]
+        local ps = map_data[name]
         if ps then
             rprint(id, fmt(MESSAGES.STATS_PLAYER_LINE, name, fmt_time(ps.best), fmt_time(ps.average)))
         else
@@ -487,6 +513,11 @@ function OnStart()
     race_mode = get_race_mode()
     current_map = get_var(0, "$map")
     game_over = false
+
+    if not map_record_cache[current_map] then
+        compute_map_records(current_map)
+    end
+
     for i = 1, 16 do
         if player_present(i) then OnJoin(i) end
     end
@@ -502,8 +533,8 @@ function OnJoin(id)
     local name = get_var(id, "$name")
     local best_lap = math_huge
     local map_data = stats[current_map]
-    if map_data and map_data.players and map_data.players[name] then
-        best_lap = map_data.players[name].best
+    if map_data and map_data[name] then
+        best_lap = map_data[name].best
     end
     players[id] = {
         id = id,
@@ -552,6 +583,10 @@ function OnScriptLoad()
     local config_path = get_config_path()
     STATS_FILE = config_path .. "\\sapp\\" .. STATS_FILE
     stats = load_stats({})
+
+    for map_name, _ in pairs(stats) do
+        compute_map_records(map_name)
+    end
 
     register_callback(cb.EVENT_TICK, 'OnTick')
     register_callback(cb.EVENT_JOIN, 'OnJoin')
