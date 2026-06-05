@@ -284,13 +284,13 @@ Enjoy these projects? Help me continue development:
 
 [feature_request]: https://github.com/Chalwk/SPCLib/issues/new?template=FEATURE_REQUEST.yaml
 
-[halo_ce_installer]: https://drive.google.com/file/d/1TTiBYhO9JS5Js0exRlygH9pAC2yV1KsV/view?usp=sharing
+[halo_ce_installer]: https://drive.google.com/file/d/1oO0w_25mGwjTz_R9Bhquah4FR6u2Ccmz/view?usp=sharing
 
 [halo_discord_bot_config_editor]: https://chalwk.github.io/SPCLib/tools/HaloDiscordBot-Config-Editor
 
 [halo_discord_bot]: https://github.com/Chalwk/HaloDiscordBot
 
-[haloce_patch]: https://drive.google.com/file/d/1CIPg3XZ3VIm4ngUnDqLCRNSn9x-jxD6W/view?usp=drive_link
+[haloce_patch]: https://drive.google.com/file/d/1hVSFN24JPlfR7cC2eoFrbLA7NGcRZo7a/view?usp=sharing
 
 [halonet_website]: https://halonet.net/
 
