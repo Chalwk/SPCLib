@@ -19,15 +19,28 @@ local FACTOR = 30 * 3.6
 local LEFT = 0
 local RIGHT = 635
 local LINE_HEIGHT = 20
+local Y_OFFSET = 150
 local STATS_FILE = "race_hud_stats.txt"
 
 -- Message definitions: {format, x1, y1, x2, y2, font, align, alpha, r, g, b}
 local MESSAGES = {
-    { "Map: %s", LEFT, 5, RIGHT, LINE_HEIGHT + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 },
-    { "%s | %.0f km/h", LEFT, LINE_HEIGHT + 5, RIGHT, LINE_HEIGHT * 2 + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 },
-    { "CP [%s-%s]", LEFT, LINE_HEIGHT * 2 + 5, RIGHT, LINE_HEIGHT * 3 + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 },
-    { "BEST: %s", LEFT, LINE_HEIGHT * 3 + 5, RIGHT, LINE_HEIGHT * 4 + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 },
-    { "TIME: %s", LEFT, LINE_HEIGHT * 4 + 5, RIGHT, LINE_HEIGHT * 5 + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 }
+    { "Map: %s", LEFT, Y_OFFSET + 5, RIGHT, Y_OFFSET + LINE_HEIGHT + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 },
+    {
+        "%s | %.0f km/h", LEFT, Y_OFFSET + LINE_HEIGHT + 5, RIGHT, Y_OFFSET + LINE_HEIGHT * 2 + 5, "small", "left", 1.0,
+        0.45, 0.72, 1.0
+    },
+    {
+        "CP [%s-%s]", LEFT, Y_OFFSET + LINE_HEIGHT * 2 + 5, RIGHT, Y_OFFSET + LINE_HEIGHT * 3 + 5, "small", "left", 1.0,
+        0.45, 0.72, 1.0
+    },
+    {
+        "BEST: %s", LEFT, Y_OFFSET + LINE_HEIGHT * 3 + 5, RIGHT, Y_OFFSET + LINE_HEIGHT * 4 + 5, "small", "left", 1.0,
+        0.45, 0.72, 1.0
+    },
+    {
+        "TIME: %s", LEFT, Y_OFFSET + LINE_HEIGHT * 4 + 5, RIGHT, Y_OFFSET + LINE_HEIGHT * 5 + 5, "small", "left", 1.0,
+        0.45, 0.72, 1.0
+    }
 }
 
 -- CONFIG END --
@@ -106,6 +119,17 @@ local function format_time(seconds)
     return string_format("%02d:%02d.%02d", mins, secs, cent)
 end
 
+local function load_best_for_current_map()
+    local best = map_best_table[map]
+    if best then
+        best_time_seconds = best
+        best_time_str = format_time(best_time_seconds)
+    else
+        best_time_seconds = nil
+        best_time_str = "---:--.--"
+    end
+end
+
 local function load_stats()
     map_best_table = {}
     local f = io_open(STATS_FILE, "r")
@@ -120,6 +144,10 @@ local function load_stats()
         end
     end
     f:close()
+
+    if gametype and gametype == "race" then -- in case script is loaded mid-game
+        load_best_for_current_map()
+    end
 end
 
 local function save_stats()
@@ -141,17 +169,6 @@ local function update_best_time(final_time)
     else
         best_time_seconds = current_best
         best_time_str = format_time(best_time_seconds)
-    end
-end
-
-local function load_best_for_current_map()
-    local best = map_best_table[map]
-    if best then
-        best_time_seconds = best
-        best_time_str = format_time(best_time_seconds)
-    else
-        best_time_seconds = nil
-        best_time_str = "---:--.--"
     end
 end
 
@@ -331,11 +348,10 @@ function OnMapLoad()
     total_checkpoints, last_mask, last_idx = 0, 0, 0
     race_started, race_finished = false, false
     start_time_seconds, current_time_seconds = 0, 0
-
-    load_best_for_current_map()
 end
 
 load_stats()
+
 set_callback("map load", "OnMapLoad")
 set_callback("tick", "OnTick")
 set_callback("preframe", "OnPreFrame")
