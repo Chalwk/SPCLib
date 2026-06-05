@@ -1,15 +1,19 @@
 --[[
-======================================================================
+===========================================================================
 SCRIPT NAME:      race_hud.lua
 DESCRIPTION:      Displays speed (km), map name, checkpoint progress,
                   lap timer and best time.
+
+                  Commands:
+                    /hud            - Toggle HUD on/off
+                    /hudsize <size> - Set text size: small, medium, large
 
                   Persistant stats saved to race_hud_stats.txt.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
-======================================================================
+===========================================================================
 ]]
 
 -- CONFIG START --
@@ -22,16 +26,20 @@ local LINE_HEIGHT = 20
 local Y_OFFSET = 150
 local STATS_FILE = "race_hud_stats.txt"
 
+-- HUD settings
+local HUD_ENABLED = true      -- default HUD state
+local HUD_FONT_SIZE = "large" -- default font size: "small", "medium", "large"
+
 -- Message definitions: {msg, x1, y1, x2, y2, font size, align, alpha, r, g, b}
 local MESSAGES = {
-    { "Map: %s", LEFT, Y_OFFSET + 5, RIGHT, Y_OFFSET + LINE_HEIGHT + 5, "large", "left", 1.0, 0.45, 0.72, 1.0 },
+    { "Map: %s", LEFT, Y_OFFSET + 5, RIGHT, Y_OFFSET + LINE_HEIGHT + 5, HUD_FONT_SIZE, "left", 1.0, 0.45, 0.72, 1.0 },
     {
         "%s | %.0f km/h",
         LEFT,
         Y_OFFSET + LINE_HEIGHT + 5,
         RIGHT,
         Y_OFFSET + LINE_HEIGHT * 2 + 5,
-        "large",
+        HUD_FONT_SIZE,
         "left",
         1.0,
         0.45,
@@ -44,7 +52,7 @@ local MESSAGES = {
         Y_OFFSET + LINE_HEIGHT * 2 + 5,
         RIGHT,
         Y_OFFSET + LINE_HEIGHT * 3 + 5,
-        "large",
+        HUD_FONT_SIZE,
         "left",
         1.0,
         0.45,
@@ -57,7 +65,7 @@ local MESSAGES = {
         Y_OFFSET + LINE_HEIGHT * 3 + 5,
         RIGHT,
         Y_OFFSET + LINE_HEIGHT * 4 + 5,
-        "large",
+        HUD_FONT_SIZE,
         "left",
         1.0,
         0.45,
@@ -70,7 +78,7 @@ local MESSAGES = {
         Y_OFFSET + LINE_HEIGHT * 4 + 5,
         RIGHT,
         Y_OFFSET + LINE_HEIGHT * 5 + 5,
-        "large",
+        HUD_FONT_SIZE,
         "left",
         1.0,
         0.45,
@@ -298,7 +306,7 @@ end
 local function show_hud()
     local player = get_dynamic_player()
     local game_type = read_byte(gametype_base + 0x30)
-    return (server_type == "dedicated" and game_type == 5 and player ~= nil) and player or nil
+    return (server_type == "dedicated" and game_type == 5 and player ~= nil and HUD_ENABLED) and player or nil
 end
 
 function OnTick()
@@ -376,7 +384,7 @@ function OnPreFrame()
     for i = 1, #MESSAGES do
         local msg = MESSAGES[i]
         local formatted = string_format(msg[1], table_unpack(msg_params[i]))
-        draw_text(formatted, msg[2], msg[3], msg[4], msg[5], msg[6], msg[7], msg[8], msg[9], msg[10], msg[11])
+        draw_text(formatted, msg[2], msg[3], msg[4], msg[5], HUD_FONT_SIZE, msg[7], msg[8], msg[9], msg[10], msg[11])
     end
 end
 
@@ -390,6 +398,35 @@ function OnMapLoad()
     load_best_for_current_map()
 end
 
+local function parse_cmd(cmd)
+    local args = {}
+    for w in cmd:gmatch("%S+") do
+        args[#args + 1] = w
+    end
+    return args
+end
+
+function OnCommand(cmd)
+    local args = parse_cmd(cmd)
+    local command = args[1]:lower()
+
+    if command == "hud" then
+        HUD_ENABLED = not HUD_ENABLED
+        console_out("Race HUD " .. (HUD_ENABLED and "ENABLED" or "disabled") .. ".")
+        return false
+    elseif command == "hudsize" and #args >= 2 then
+        local size = args[2]:lower()
+        if size == "small" or size == "medium" or size == "large" then
+            HUD_FONT_SIZE = size
+            console_out("HUD font size set to: " .. size .. ".")
+        else
+            console_out("Invalid size. Use: small, medium, or large.")
+        end
+        return false
+    end
+end
+
 set_callback("map load", "OnMapLoad")
 set_callback("tick", "OnTick")
 set_callback("preframe", "OnPreFrame")
+set_callback("command", "OnCommand")
