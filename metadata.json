@@ -13,6 +13,7 @@
     "ping_spike_watch": "HUD display of ping, rolling average, and delta. Alerts console on high ping or sudden spikes. Toggle with /pingwatch.",
     "player_details": "/pinfo <index> displays team, health, shields, weapon, ammo, coordinates to console.",
     "player_status": "Live console overlay of all players' team, health/shield %, weapon, ammo. Toggle /pstatus.",
+    "race_hud": "Displays speed, map name & checkpoint progress (current/total).",
     "rank_system": "Rank progression system: tracks kills/deaths, awards credits per kill with streak bonuses, advances through configurable ranks/grades.",
     "rest_break_reminder": "On-screen break reminder after configurable playtime (default 45 min), repeats until acknowledged. Toggle /breaks.",
     "session_clock": "HUD elapsed time since map start (HH:MM:SS). Toggle /session_clock.",
