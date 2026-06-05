@@ -1,7 +1,10 @@
 --[[
 ======================================================================
 SCRIPT NAME:      race_hud.lua
-DESCRIPTION:      Displays speed, map name & checkpoint progress (current/total).
+DESCRIPTION:      Displays speed (km), map name, checkpoint progress,
+                  lap timer and best time.
+
+                  Persistant stats saved to race_hud_stats.txt.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -16,22 +19,29 @@ local FACTOR = 30 * 3.6
 local LEFT = 0
 local RIGHT = 635
 local LINE_HEIGHT = 20
--- CONFIG END --
+local STATS_FILE = "race_hud_stats.txt"
 
 -- Message definitions: {format, x1, y1, x2, y2, font, align, alpha, r, g, b}
 local MESSAGES = {
     { "Map: %s", LEFT, 5, RIGHT, LINE_HEIGHT + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 },
     { "%s | %.0f km/h", LEFT, LINE_HEIGHT + 5, RIGHT, LINE_HEIGHT * 2 + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 },
-    { "CP [%s-%s]", LEFT, LINE_HEIGHT * 2 + 5, RIGHT, LINE_HEIGHT * 3 + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 }
+    { "CP [%s-%s]", LEFT, LINE_HEIGHT * 2 + 5, RIGHT, LINE_HEIGHT * 3 + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 },
+    { "BEST: %s", LEFT, LINE_HEIGHT * 3 + 5, RIGHT, LINE_HEIGHT * 4 + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 },
+    { "TIME: %s", LEFT, LINE_HEIGHT * 4 + 5, RIGHT, LINE_HEIGHT * 5 + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 }
 }
 
+-- CONFIG END --
+
 local msg_params = {
-    { "" },    -- map: map name
-    { "", 0 }, -- speed: vehicle name + km/h
-    { "", "" } -- current checkpoint index + total checkpoints
+    { "" },     -- map name
+    { "", 0 },  -- vehicle name + km/h
+    { "", "" }, -- current checkpoint index + total checkpoints
+    { "" },     -- best time
+    { "" }      -- current lap time
 }
 
 local vehicle_name_cache = {}
+local map_best_table = {}
 
 local should_draw = false
 local last_vehicle_id = nil
@@ -43,6 +53,15 @@ local checkpoint_addr
 local last_mask, last_idx = 0, 0
 local total_checkpoints = 0
 
+local race_started = false
+local race_finished = false
+local start_time_seconds = 0
+local current_time_seconds = 0
+local best_time_seconds = nil
+local best_time_str = "---:--.--"
+
+local io_open = io.open
+local os_clock = os.clock
 local math_sqrt = math.sqrt
 local math_floor = math.floor
 local gsub = string.gsub
@@ -75,6 +94,64 @@ local vehicle_names = {
     shade = "Shade Turret",
     mongoose = "Mongoose"
 }
+
+local function format_time(seconds)
+    if not seconds or seconds < 0 then return "00:00.00" end
+    local mins = math_floor(seconds / 60)
+    local secs = seconds % 60
+    local cent = math_floor((secs - math_floor(secs)) * 100 + 0.5)
+    secs = math_floor(secs)
+    return string_format("%02d:%02d.%02d", mins, secs, cent)
+end
+
+local function load_stats()
+    map_best_table = {}
+    local f = io_open(STATS_FILE, "r")
+    if not f then return end
+    for line in f:lines() do
+        local mapname, best = line:match("^([^;]+);([%d%.]+)$")
+        if mapname and best then
+            local best_num = tonumber(best)
+            if best_num then
+                map_best_table[mapname] = best_num
+            end
+        end
+    end
+    f:close()
+end
+
+local function save_stats()
+    local f = io_open(STATS_FILE, "w")
+    if not f then return end
+    for mapname, best_sec in pairs(map_best_table) do
+        f:write(string_format("%s;%.2f\n", mapname, best_sec))
+    end
+    f:close()
+end
+
+local function update_best_time(map_name, new_best_sec)
+    local current_best = map_best_table[map_name]
+    if not current_best or new_best_sec < current_best then
+        map_best_table[map_name] = new_best_sec
+        save_stats()
+        best_time_seconds = new_best_sec
+        best_time_str = format_time(best_time_seconds)
+    else
+        best_time_seconds = current_best
+        best_time_str = format_time(best_time_seconds)
+    end
+end
+
+local function load_best_for_current_map()
+    local best = map_best_table[map]
+    if best then
+        best_time_seconds = best
+        best_time_str = format_time(best_time_seconds)
+    else
+        best_time_seconds = nil
+        best_time_str = "---:--.--"
+    end
+end
 
 local function update_checkpoint_addr()
     if checkpoint_addr then return end
@@ -203,13 +280,44 @@ function OnTick()
         kmh = raw_speed * FACTOR
     end
 
+    if not race_finished and total_checkpoints > 0 then
+        if not race_started and current_idx > 0 then
+            race_started = true
+            start_time_seconds = os_clock()
+            current_time_seconds = 0
+        elseif race_started and not race_finished then
+            current_time_seconds = os_clock() - start_time_seconds
+            if current_idx >= total_checkpoints then
+                race_finished = true
+                local final_time = current_time_seconds
+
+                update_best_time(map, final_time)
+            end
+        end
+    end
+
+    -- reset condition: back to checkpoint 0 before finishing
+    if race_started and not race_finished and current_idx == 0 then
+        race_started = false
+        current_time_seconds = 0
+    end
+
     msg_params[1][1] = map
     local speed_params = msg_params[2]
     speed_params[1] = vehicle_name
     speed_params[2] = kmh
-
     msg_params[3][1] = tostring(current_idx)
     msg_params[3][2] = tostring(total_checkpoints)
+
+    msg_params[4][1] = best_time_str
+
+    if race_started and not race_finished then
+        msg_params[5][1] = format_time(current_time_seconds)
+    elseif race_finished then
+        msg_params[5][1] = format_time(current_time_seconds)
+    else
+        msg_params[5][1] = "00:00.00"
+    end
 end
 
 function OnPreFrame()
@@ -225,8 +333,15 @@ function OnMapLoad()
     if map == "ui" then return end -- menu
     checkpoint_addr = nil
     total_checkpoints, last_mask, last_idx = 0, 0, 0
+    race_started = false
+    race_finished = false
+    start_time_seconds = 0
+    current_time_seconds = 0
+
+    load_best_for_current_map()
 end
 
+load_stats()
 set_callback("map load", "OnMapLoad")
 set_callback("tick", "OnTick")
 set_callback("preframe", "OnPreFrame")
