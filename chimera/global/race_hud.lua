@@ -2,11 +2,12 @@
 ===========================================================================
 SCRIPT NAME:      race_hud.lua
 DESCRIPTION:      Displays speed (km), map name, checkpoint progress,
-                  lap timer and best time.
+                  lap timer, best time, and vehicle occupants.
 
                   Commands:
                     /hud            - Toggle HUD on/off
                     /hudsize <size> - Set text size: small, medium, large
+                    /riders         - Toggle rider name display on/off
 
                   Persistant stats saved to race_hud_stats.txt.
 
@@ -20,7 +21,7 @@ LICENSE:          MIT License
 clua_version = 2.056
 
 local FACTOR = 30 * 3.6
-local LEFT = 0
+local LEFT = 5
 local RIGHT = 635
 local LINE_HEIGHT = 20
 local Y_OFFSET = 150
@@ -28,7 +29,9 @@ local STATS_FILE = "race_hud_stats.txt"
 
 -- HUD settings
 local HUD_ENABLED = true      -- default HUD state
-local HUD_FONT_SIZE = "large" -- default font size: "small", "medium", "large"
+local HUD_FONT_SIZE = "small" -- default font size: "small", "medium", "large"
+local HIDE_SELF = false       -- set to true to not show your own name
+local SHOW_RIDERS = false     -- set to false to disable occupants line
 
 -- Message definitions: {msg, x1, y1, x2, y2, font size, align, alpha, r, g, b}
 local MESSAGES = {
@@ -84,6 +87,19 @@ local MESSAGES = {
         0.45,
         0.72,
         1.0
+    },
+    {
+        "OCCUPANTS: \n%s",
+        LEFT,
+        Y_OFFSET + LINE_HEIGHT * 5 + 5,
+        RIGHT,
+        Y_OFFSET + LINE_HEIGHT * 6 + 5,
+        HUD_FONT_SIZE,
+        "left",
+        1.0,
+        0.45,
+        0.72,
+        1.0
     }
 }
 
@@ -94,14 +110,15 @@ local msg_params = {
     { "", 0 },  -- vehicle name + km/h
     { "", "" }, -- current checkpoint index + total checkpoints
     { "" },     -- best time
-    { "" }      -- current lap time
+    { "" },     -- current lap time
+    { "" }      -- occupants
 }
 
 local vehicle_name_cache = {}
 local map_best_table = {}
 
 local last_vehicle_obj = nil
-local last_vehicle_name = "N/A"
+local last_vehicle_name = "-"
 
 local race_globals = 0x64C1C0 -- CE
 local gametype_base = 0x68CC48 -- CE
@@ -123,15 +140,19 @@ local math_floor = math.floor
 local gsub = string.gsub
 local tonumber = tonumber
 local tostring = tostring
+local string_char = string.char
 local string_format = string.format
 local table_unpack = table.unpack
+local table_concat = table.concat
 local read_float = read_float
 local read_dword = read_dword
 local get_object = get_object
 local get_dynamic_player = get_dynamic_player
+local get_player = get_player
 local get_tag = get_tag
 local read_string = read_string
 local draw_text = draw_text
+local read_byte = read_byte
 
 local vehicle_names = {
     ghost_mp = "Ghost",
@@ -238,7 +259,7 @@ local function bit_rshift(x, n)
     return math_floor(x / (2 ^ n))
 end
 
-local function get_checkpoint_idx(bitmask)
+local function get_checkpoint_idx(bitmask) -- get current checkpoint index (0-indexed)
     if bitmask == 0 then return 0 end
     return popcnt8[bit_band(bitmask, 0xFF)] + popcnt8[bit_band(bit_rshift(bitmask, 8), 0xFF)]
         + popcnt8[bit_band(bit_rshift(bitmask, 16), 0xFF)] + popcnt8[bit_band(bit_rshift(bitmask, 24), 0xFF)]
@@ -303,6 +324,58 @@ local function get_player_vehicle(dynamic_player)
     return get_object(vehicle)
 end
 
+local function get_player_name(index)
+    local obj = get_player(index)
+    if not obj then return "?" end
+    local addr = obj + 0x4
+    local chars = {}
+    for j = 1, 12 do
+        local b = read_byte(addr + (j - 1) * 2)
+        if b == 0 then break end
+        chars[#chars + 1] = string_char(b)
+    end
+    return table_concat(chars)
+end
+
+local function add_rider(parts, label, idx)
+    if not idx then return end
+    local name = get_player_name(idx)
+    if idx == local_player_index then
+        name = name .. " (you)"
+    end
+    parts[#parts + 1] = label .. ": " .. name
+end
+
+local function get_occupants_string(vehicle_id, hide_self)
+    local driver_idx, gunner_idx, passenger_idx = nil, nil, nil
+    for i = 0, 15 do
+        if i ~= local_player_index or not hide_self then
+            local dyn = get_dynamic_player(i)
+            if dyn then
+                local veh_id = read_dword(dyn + 0x11C)
+                if veh_id == vehicle_id then
+                    local seat = read_byte(dyn + 0x2F0)
+                    if seat == 0 then
+                        driver_idx = i
+                    elseif seat == 1 then
+                        passenger_idx = i
+                    elseif seat == 2 then
+                        gunner_idx = i
+                    else
+                        passenger_idx = i
+                    end
+                end
+            end
+        end
+    end
+    local parts = {}
+    add_rider(parts, "Driver", driver_idx)
+    add_rider(parts, "Gunner", gunner_idx)
+    add_rider(parts, "Passenger", passenger_idx)
+    if #parts == 0 then return "none" end
+    return table_concat(parts, " | ")
+end
+
 local function show_hud()
     local player = get_dynamic_player()
     local game_type = read_byte(gametype_base + 0x30)
@@ -318,7 +391,7 @@ function OnTick()
     get_total_checkpoints()
     if not total_checkpoints then return end
 
-    local vehicle_name, kmh = "N/A", 0
+    local vehicle_name, kmh = "-", 0
     local current_idx = 0
 
     local checkpoint_mask = read_dword(checkpoint_addr) -- (0-indexed)
@@ -376,6 +449,22 @@ function OnTick()
     else
         msg_params[5][1] = "00:00.00"
     end
+
+    if SHOW_RIDERS then
+        local local_dyn = get_dynamic_player()
+        if local_dyn then
+            local vehicle_id = read_dword(local_dyn + 0x11C)
+            if vehicle_id and vehicle_id ~= 0xFFFFFFFF then
+                msg_params[6][1] = get_occupants_string(vehicle_id, HIDE_SELF)
+            else
+                msg_params[6][1] = "none"
+            end
+        else
+            msg_params[6][1] = "none"
+        end
+    else
+        msg_params[6][1] = ""
+    end
 end
 
 function OnPreFrame()
@@ -383,8 +472,10 @@ function OnPreFrame()
 
     for i = 1, #MESSAGES do
         local msg = MESSAGES[i]
+        if i == 6 and not SHOW_RIDERS then goto continue end
         local formatted = string_format(msg[1], table_unpack(msg_params[i]))
         draw_text(formatted, msg[2], msg[3], msg[4], msg[5], HUD_FONT_SIZE, msg[7], msg[8], msg[9], msg[10], msg[11])
+        ::continue::
     end
 end
 
@@ -418,10 +509,18 @@ function OnCommand(cmd)
         local size = args[2]:lower()
         if size == "small" or size == "medium" or size == "large" then
             HUD_FONT_SIZE = size
+            for i = 1, #MESSAGES do
+                MESSAGES[i][6] = HUD_FONT_SIZE
+            end
             console_out("HUD font size set to: " .. size .. ".")
         else
             console_out("Invalid size. Use: small, medium, or large.")
         end
+        return false
+    elseif command == "riders" then
+        SHOW_RIDERS = not SHOW_RIDERS
+        console_out("Rider name display " .. (SHOW_RIDERS and "ENABLED" or "disabled") .. ".")
+        if not SHOW_RIDERS then msg_params[6][1] = "" end
         return false
     end
 end
