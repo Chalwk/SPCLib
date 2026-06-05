@@ -22,24 +22,60 @@ local LINE_HEIGHT = 20
 local Y_OFFSET = 150
 local STATS_FILE = "race_hud_stats.txt"
 
--- Message definitions: {format, x1, y1, x2, y2, font, align, alpha, r, g, b}
+-- Message definitions: {msg, x1, y1, x2, y2, font size, align, alpha, r, g, b}
 local MESSAGES = {
-    { "Map: %s", LEFT, Y_OFFSET + 5, RIGHT, Y_OFFSET + LINE_HEIGHT + 5, "small", "left", 1.0, 0.45, 0.72, 1.0 },
+    { "Map: %s", LEFT, Y_OFFSET + 5, RIGHT, Y_OFFSET + LINE_HEIGHT + 5, "large", "left", 1.0, 0.45, 0.72, 1.0 },
     {
-        "%s | %.0f km/h", LEFT, Y_OFFSET + LINE_HEIGHT + 5, RIGHT, Y_OFFSET + LINE_HEIGHT * 2 + 5, "small", "left", 1.0,
-        0.45, 0.72, 1.0
+        "%s | %.0f km/h",
+        LEFT,
+        Y_OFFSET + LINE_HEIGHT + 5,
+        RIGHT,
+        Y_OFFSET + LINE_HEIGHT * 2 + 5,
+        "large",
+        "left",
+        1.0,
+        0.45,
+        0.72,
+        1.0
     },
     {
-        "CP [%s-%s]", LEFT, Y_OFFSET + LINE_HEIGHT * 2 + 5, RIGHT, Y_OFFSET + LINE_HEIGHT * 3 + 5, "small", "left", 1.0,
-        0.45, 0.72, 1.0
+        "CP: %s-%s",
+        LEFT,
+        Y_OFFSET + LINE_HEIGHT * 2 + 5,
+        RIGHT,
+        Y_OFFSET + LINE_HEIGHT * 3 + 5,
+        "large",
+        "left",
+        1.0,
+        0.45,
+        0.72,
+        1.0
     },
     {
-        "BEST: %s", LEFT, Y_OFFSET + LINE_HEIGHT * 3 + 5, RIGHT, Y_OFFSET + LINE_HEIGHT * 4 + 5, "small", "left", 1.0,
-        0.45, 0.72, 1.0
+        "BEST: %s",
+        LEFT,
+        Y_OFFSET + LINE_HEIGHT * 3 + 5,
+        RIGHT,
+        Y_OFFSET + LINE_HEIGHT * 4 + 5,
+        "large",
+        "left",
+        1.0,
+        0.45,
+        0.72,
+        1.0
     },
     {
-        "TIME: %s", LEFT, Y_OFFSET + LINE_HEIGHT * 4 + 5, RIGHT, Y_OFFSET + LINE_HEIGHT * 5 + 5, "small", "left", 1.0,
-        0.45, 0.72, 1.0
+        "TIME: %s",
+        LEFT,
+        Y_OFFSET + LINE_HEIGHT * 4 + 5,
+        RIGHT,
+        Y_OFFSET + LINE_HEIGHT * 5 + 5,
+        "large",
+        "left",
+        1.0,
+        0.45,
+        0.72,
+        1.0
     }
 }
 
@@ -56,18 +92,17 @@ local msg_params = {
 local vehicle_name_cache = {}
 local map_best_table = {}
 
-local should_draw = false
-local last_vehicle_id = nil
 local last_vehicle_obj = nil
-local last_vehicle_name = ""
+local last_vehicle_name = "N/A"
 
 local race_globals = 0x64C1C0 -- CE
+local gametype_base = 0x68CC48 -- CE
 local checkpoint_addr
 local last_mask, last_idx = 0, 0
-local total_checkpoints = 0
+local total_checkpoints = nil
 
-local race_started = false
-local race_finished = false
+local lap_started = false
+local lap_finished = false
 local start_time_seconds = 0
 local current_time_seconds = 0
 local best_time_seconds = nil
@@ -110,6 +145,16 @@ local vehicle_names = {
     mongoose = "Mongoose"
 }
 
+local popcnt8 = {}
+for i = 0, 255 do
+    local c, n = 0, i
+    while n > 0 do
+        c = c + (n % 2)
+        n = math_floor(n / 2)
+    end
+    popcnt8[i] = c
+end
+
 local function format_time(seconds)
     if not seconds or seconds < 0 then return "00:00.00" end
     local mins = math_floor(seconds / 60)
@@ -135,19 +180,15 @@ local function load_stats()
     local f = io_open(STATS_FILE, "r")
     if not f then return end
     for line in f:lines() do
-        local mapname, best = line:match("^([^;]+);([%d%.]+)$")
-        if mapname and best then
+        local map_name, best = line:match("^([^;]+);([%d%.]+)$")
+        if map_name and best then
             local best_num = tonumber(best)
             if best_num then
-                map_best_table[mapname] = best_num
+                map_best_table[map_name] = best_num
             end
         end
     end
     f:close()
-
-    if gametype and gametype == "race" then -- in case script is loaded mid-game
-        load_best_for_current_map()
-    end
 end
 
 local function save_stats()
@@ -172,12 +213,6 @@ local function update_best_time(final_time)
     end
 end
 
-local function update_checkpoint_addr()
-    if checkpoint_addr then return end
-    if local_player_index == nil then return end
-    checkpoint_addr = race_globals + (local_player_index * 4) + 0x44
-end
-
 local function bit_band(a, b) -- Chimera doesn't have bit library
     local result, bitval = 0, 1
     while a > 0 and b > 0 do
@@ -195,16 +230,6 @@ local function bit_rshift(x, n)
     return math_floor(x / (2 ^ n))
 end
 
-local popcnt8 = {}
-for i = 0, 255 do
-    local c, n = 0, i
-    while n > 0 do
-        c = c + (n % 2)
-        n = math_floor(n / 2)
-    end
-    popcnt8[i] = c
-end
-
 local function get_checkpoint_idx(bitmask)
     if bitmask == 0 then return 0 end
     return popcnt8[bit_band(bitmask, 0xFF)] + popcnt8[bit_band(bit_rshift(bitmask, 8), 0xFF)]
@@ -220,6 +245,20 @@ local function get_checkpoint_count(mask) -- get total checkpoints
     return count + 1
 end
 
+local function update_checkpoint_addr()
+    if checkpoint_addr then return end
+    if local_player_index == nil then return end
+    checkpoint_addr = race_globals + (local_player_index * 4) + 0x44
+end
+
+local function get_total_checkpoints()
+    if total_checkpoints then return end
+    local total_mask = read_dword(race_globals)
+    if total_mask and total_mask ~= 0 then
+        total_checkpoints = get_checkpoint_count(total_mask)
+    end
+end
+
 local function format_vehicle_name(raw_name)
     if vehicle_names[raw_name] then return vehicle_names[raw_name] end
     local lower = raw_name:lower()
@@ -233,7 +272,6 @@ local function format_vehicle_name(raw_name)
 end
 
 local function get_vehicle_name_cached(vehicle_obj)
-    if not vehicle_obj then return "Unknown" end
     local tag_id = read_dword(vehicle_obj)
     if not tag_id or tag_id == 0 then return "Unknown" end
 
@@ -251,46 +289,45 @@ local function get_vehicle_name_cached(vehicle_obj)
     return name
 end
 
+local function get_player_vehicle(dynamic_player)
+    local vehicle = read_dword(dynamic_player + 0x11C)
+    if vehicle == 0xFFFFFFFF then return nil end
+    return get_object(vehicle)
+end
+
+local function show_hud()
+    local player = get_dynamic_player()
+    local game_type = read_byte(gametype_base + 0x30)
+    return (server_type == "dedicated" and game_type == 5 and player ~= nil) and player or nil
+end
+
 function OnTick()
-    if gametype and gametype ~= "race" then return end
+    local player = show_hud()
+    if not player then return end
 
     update_checkpoint_addr()
     if not checkpoint_addr then return end
+    get_total_checkpoints()
+    if not total_checkpoints then return end
 
-    local total_mask = read_dword(race_globals)
-    if total_mask and total_mask ~= 0 then
-        total_checkpoints = get_checkpoint_count(total_mask)
-    end
-
-    local player = get_dynamic_player()
-    local vehicle_id, vehicle_obj = nil, nil
-    local vehicle_name, kmh = "", 0
+    local vehicle_name, kmh = "N/A", 0
     local current_idx = 0
 
-    if player then
-        vehicle_id = read_dword(player + 0x11C)
-        if vehicle_id and vehicle_id ~= 0xFFFFFFFF then
-            vehicle_obj = get_object(vehicle_id)
-        end
-
-        local checkpoint_mask = read_dword(checkpoint_addr)
-        if checkpoint_mask ~= last_mask then
-            last_mask = checkpoint_mask
-            last_idx = get_checkpoint_idx(checkpoint_mask)
-        end
-        current_idx = last_idx
+    local checkpoint_mask = read_dword(checkpoint_addr) -- (0-indexed)
+    if checkpoint_mask ~= last_mask then
+        last_mask = checkpoint_mask
+        last_idx = get_checkpoint_idx(checkpoint_mask)
     end
+    current_idx = last_idx
 
-    should_draw = (player ~= nil) and (vehicle_obj ~= nil)
-
-    if vehicle_obj ~= last_vehicle_obj or vehicle_id ~= last_vehicle_id then
-        last_vehicle_id = vehicle_id
-        last_vehicle_obj = vehicle_obj
-        last_vehicle_name = get_vehicle_name_cached(vehicle_obj)
-    end
-    vehicle_name = last_vehicle_name
-
+    local vehicle_obj = get_player_vehicle(player)
     if vehicle_obj then
+        if vehicle_obj ~= last_vehicle_obj then
+            last_vehicle_obj = vehicle_obj
+            last_vehicle_name = get_vehicle_name_cached(vehicle_obj)
+        end
+        vehicle_name = last_vehicle_name
+
         local vx = read_float(vehicle_obj + 0x68)
         local vy = read_float(vehicle_obj + 0x6C)
         local vz = read_float(vehicle_obj + 0x70)
@@ -298,22 +335,22 @@ function OnTick()
         kmh = raw_speed * FACTOR
     end
 
-    if not race_finished and total_checkpoints > 0 then
-        if not race_started and current_idx > 0 then
-            race_started = true
+    if not lap_finished and total_checkpoints > 0 then
+        if not lap_started and current_idx > 0 then
+            lap_started = true
             start_time_seconds = os_clock()
             current_time_seconds = 0
-        elseif race_started and not race_finished then
+        elseif lap_started and not lap_finished then
             current_time_seconds = os_clock() - start_time_seconds
             if current_idx >= total_checkpoints then
-                race_finished = true
+                lap_finished = true
                 update_best_time(current_time_seconds)
             end
         end
     end
 
-    if race_started and not race_finished and current_idx == 0 then
-        race_started, current_time_seconds = false, 0
+    if lap_started and not lap_finished and current_idx == 0 then
+        lap_started, current_time_seconds = false, 0
     end
 
     msg_params[1][1] = map
@@ -324,9 +361,9 @@ function OnTick()
     msg_params[3][2] = tostring(total_checkpoints)
     msg_params[4][1] = best_time_str
 
-    if race_started and not race_finished then
+    if lap_started and not lap_finished then
         msg_params[5][1] = format_time(current_time_seconds)
-    elseif race_finished then
+    elseif lap_finished then
         msg_params[5][1] = format_time(current_time_seconds)
     else
         msg_params[5][1] = "00:00.00"
@@ -334,7 +371,8 @@ function OnTick()
 end
 
 function OnPreFrame()
-    if not should_draw then return end
+    if not show_hud() then return end
+
     for i = 1, #MESSAGES do
         local msg = MESSAGES[i]
         local formatted = string_format(msg[1], table_unpack(msg_params[i]))
@@ -343,14 +381,14 @@ function OnPreFrame()
 end
 
 function OnMapLoad()
-    if map == "ui" then return end -- menu
-    checkpoint_addr = nil
-    total_checkpoints, last_mask, last_idx = 0, 0, 0
-    race_started, race_finished = false, false
+    checkpoint_addr, total_checkpoints = nil, nil
+    last_mask, last_idx = 0, 0
+    lap_started, lap_finished = false, false
     start_time_seconds, current_time_seconds = 0, 0
-end
 
-load_stats()
+    load_stats()
+    load_best_for_current_map()
+end
 
 set_callback("map load", "OnMapLoad")
 set_callback("tick", "OnTick")
