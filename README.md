@@ -36,7 +36,9 @@
     * [5.3 HaloDiscordBot](#halodiscordbot)
     * [5.4 Ban Appeals](#ban-appeals)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
-    * [6.1 LAA Patched Executables](#laa-patched-executables)
+    * [6.1 Installer](#installer)
+    * [6.2 Patch](#1010-patch)
+    * [6.3 LAA Patched Executables](#laa-patched-executables)
 * [7. Community Hubs](#community-hubs)
 * [8. Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
 * [9. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
@@ -171,8 +173,13 @@ Think you were banned by mistake from the SPCLib Discord or Halo servers?
 > [!NOTE]
 > You must own a valid CD key to install Halo Custom Edition.
 
-[halo_ce_installer.zip][halo_ce_installer]  
-[haloce-patch-1.0.10.zip][haloce_patch]
+### Installer
+
+- [halo_ce_installer.zip][halo_ce_installer]
+
+### 1.0.10 Patch
+
+- [haloce-patch-1.0.10.zip][haloce_patch]
 
 ### LAA Patched Executables
 
