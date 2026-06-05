@@ -65,6 +65,8 @@ local os_clock = os.clock
 local math_sqrt = math.sqrt
 local math_floor = math.floor
 local gsub = string.gsub
+local tonumber = tonumber
+local tostring = tostring
 local string_format = string.format
 local table_unpack = table.unpack
 local read_float = read_float
@@ -129,12 +131,12 @@ local function save_stats()
     f:close()
 end
 
-local function update_best_time(map_name, new_best_sec)
-    local current_best = map_best_table[map_name]
-    if not current_best or new_best_sec < current_best then
-        map_best_table[map_name] = new_best_sec
+local function update_best_time(final_time)
+    local current_best = map_best_table[map]
+    if not current_best or final_time < current_best then
+        map_best_table[map] = final_time
         save_stats()
-        best_time_seconds = new_best_sec
+        best_time_seconds = final_time
         best_time_str = format_time(best_time_seconds)
     else
         best_time_seconds = current_best
@@ -160,8 +162,7 @@ local function update_checkpoint_addr()
 end
 
 local function bit_band(a, b) -- Chimera doesn't have bit library
-    local result = 0
-    local bitval = 1
+    local result, bitval = 0, 1
     while a > 0 and b > 0 do
         if a % 2 == 1 and b % 2 == 1 then
             result = result + bitval
@@ -289,17 +290,13 @@ function OnTick()
             current_time_seconds = os_clock() - start_time_seconds
             if current_idx >= total_checkpoints then
                 race_finished = true
-                local final_time = current_time_seconds
-
-                update_best_time(map, final_time)
+                update_best_time(current_time_seconds)
             end
         end
     end
 
-    -- reset condition: back to checkpoint 0 before finishing
     if race_started and not race_finished and current_idx == 0 then
-        race_started = false
-        current_time_seconds = 0
+        race_started, current_time_seconds = false, 0
     end
 
     msg_params[1][1] = map
@@ -308,7 +305,6 @@ function OnTick()
     speed_params[2] = kmh
     msg_params[3][1] = tostring(current_idx)
     msg_params[3][2] = tostring(total_checkpoints)
-
     msg_params[4][1] = best_time_str
 
     if race_started and not race_finished then
@@ -333,10 +329,8 @@ function OnMapLoad()
     if map == "ui" then return end -- menu
     checkpoint_addr = nil
     total_checkpoints, last_mask, last_idx = 0, 0, 0
-    race_started = false
-    race_finished = false
-    start_time_seconds = 0
-    current_time_seconds = 0
+    race_started, race_finished = false, false
+    start_time_seconds, current_time_seconds = 0, 0
 
     load_best_for_current_map()
 end
