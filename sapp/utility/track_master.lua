@@ -11,6 +11,7 @@ DESCRIPTION:    Advanced racing tracker and leaderboard system with:
 COMMANDS:       - /stats [name|id|all]   - personal stats on current map
                 - /top [page]            - top laps on current map
                 - /reset                 - reset checkpoint progress
+                                           OR: Press melee key.
 
 REQUIRED:       * Lua JSON Parser: http://regex.info/blog/lua/json
                   Place json.lua in the same directory as sapp.dll
@@ -20,7 +21,7 @@ SCORING:        Map Record: +200 per map held
                 Participation: <3 maps > 50% penalty
                 Tiebreakers: map records > top finishes
 
-LAST UPDATED:     4 June 2026
+LAST UPDATED:     6 June 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -37,6 +38,8 @@ local TOP_PAGE_SIZE = 10
 local DRIVER_REQUIRED = true -- (when true, you must be the driver for your stats to count)
 local SHOW_TOP_AT_END_GAME = true
 local SHOW_CHECKPOINT_HUD = true
+
+local ALLOW_MELEE_RESET = true
 
 -- Add modes that are non-sequential (any order) here:
 local NON_SEQUENTIAL_MODES = { ["EXAMPLE_ORDER_GAMEMODE"] = true, ["ANOTHER"] = true }
@@ -125,6 +128,8 @@ local get_object_memory = get_object_memory
 local get_dynamic_player = get_dynamic_player
 local to_real_index = to_real_index
 local read_string = read_string
+
+local MELEE_OFFSET = 0x208
 
 local race_globals, race_mode, game_over
 local race_checkpoint_count
@@ -295,6 +300,16 @@ local function setPlayerState(player, racing, time, checkpoint)
     player.last_checkpoint = checkpoint
 end
 
+local function reset_checkpoint_progress(player, id)
+    if not player then return end
+    write_dword(player.checkpoint_addr, 0)
+    setPlayerState(player, nil, nil, 0)
+    player.last_mask = 0
+    player.last_idx = 0
+    player.just_completed_lap = false
+    rprint(id, race_mode == 1 and MESSAGES.RESET_SEQUENTIAL or MESSAGES.RESET_NONSEQUENTIAL)
+end
+
 -- record a completed lap, update personal best, map record, averages
 local function update_stats(player, lap_time)
     local id = player.id
@@ -341,11 +356,7 @@ local function update_stats(player, lap_time)
         new_average = (old_average * old_laps + lap_time) / new_laps
     end
 
-    map_stats[name] = {
-        best = new_best,
-        laps = new_laps,
-        average = new_average
-    }
+    map_stats[name] = { best = new_best, laps = new_laps, average = new_average }
 
     if is_personal_best then
         player.best_lap = lap_time
@@ -463,7 +474,7 @@ function OnScore(id)
     player.just_completed_lap = true
 end
 
--- monitor checkpoints, start/stop laps, show checkpoint times
+-- monitor checkpoints, start/stop laps, show checkpoint times, and handle melee reset
 function OnTick()
     if game_over then return end
 
@@ -514,6 +525,18 @@ function OnTick()
                     player.last_checkpoint = current_idx
                 end
             end
+
+            if ALLOW_MELEE_RESET then
+                local dyn = get_dynamic_player(id)
+                if dyn and dyn ~= 0 then
+                    local current_melee = read_word(dyn + MELEE_OFFSET)
+                    local last_melee = player.last_melee_state or 0
+                    if current_melee ~= 0 and last_melee == 0 then
+                        reset_checkpoint_progress(player, id)
+                    end
+                    player.last_melee_state = current_melee
+                end
+            end
         end
     end
 end
@@ -560,7 +583,8 @@ function OnJoin(id)
         just_completed_lap = false,
         checkpoint_addr = race_globals + to_real_index(id) * 4 + 0x44,
         last_mask = 0,
-        last_idx = 0
+        last_idx = 0,
+        last_melee_state = 0
     }
 end
 
@@ -580,14 +604,7 @@ function OnCommand(id, command)
         show_stats(id, args[2] or tostring(id))
         return false
     elseif cmd == RESET_CHECKPOINT_COMMAND then
-        local player = players[id]
-        if not player then return end
-        write_dword(player.checkpoint_addr, 0)
-        setPlayerState(player, nil, nil, 0)
-        player.last_mask = 0
-        player.last_idx = 0
-        player.just_completed_lap = false
-        rprint(id, race_mode == 1 and MESSAGES.RESET_SEQUENTIAL or MESSAGES.RESET_NONSEQUENTIAL)
+        reset_checkpoint_progress(players[id], id)
         return false
     end
 end
