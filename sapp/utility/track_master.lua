@@ -40,6 +40,7 @@ local SHOW_TOP_AT_END_GAME = true
 local SHOW_CHECKPOINT_HUD = true
 
 local ALLOW_MELEE_RESET = true
+local MELEE_RESET_COOLDOWN = 3.0
 
 -- Add modes that are non-sequential (any order) here:
 local NON_SEQUENTIAL_MODES = { ["EXAMPLE_ORDER_GAMEMODE"] = true, ["ANOTHER"] = true }
@@ -532,7 +533,10 @@ function OnTick()
                     local current_melee = read_word(dyn + MELEE_OFFSET)
                     local last_melee = player.last_melee_state or 0
                     if current_melee ~= 0 and last_melee == 0 then
-                        reset_checkpoint_progress(player, id)
+                        if is_driver(id) and now >= (player.melee_reset_cooldown or 0) then
+                            reset_checkpoint_progress(player, id)
+                            player.melee_reset_cooldown = now + MELEE_RESET_COOLDOWN
+                        end
                     end
                     player.last_melee_state = current_melee
                 end
@@ -584,7 +588,8 @@ function OnJoin(id)
         checkpoint_addr = race_globals + to_real_index(id) * 4 + 0x44,
         last_mask = 0,
         last_idx = 0,
-        last_melee_state = 0
+        last_melee_state = 0,
+        melee_reset_cooldown = 0
     }
 end
 
