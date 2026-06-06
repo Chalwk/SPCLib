@@ -537,11 +537,13 @@ function OnTick()
                 local dyn = get_dynamic_player(id)
                 if dyn and dyn ~= 0 then
                     if melee_button_pressed(dyn) then
-                        if now >= (player.melee_reset_cooldown or 0) then
+                        local cooldown = player.melee_reset_cooldown or 0
+                        if now >= cooldown then
                             reset_checkpoint_progress(player, id)
                             player.melee_reset_cooldown = now + MELEE_RESET_COOLDOWN
                         else
-                            rprint(id, fmt("Wait %s to reset", MELEE_RESET_COOLDOWN))
+                            local remaining = cooldown - now
+                            rprint(id, fmt("Wait %.1f seconds to reset", remaining))
                         end
                     end
                 end
