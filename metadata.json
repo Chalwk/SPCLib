@@ -19,6 +19,7 @@
     "session_clock": "HUD elapsed time since map start (HH:MM:SS). Toggle /session_clock.",
     "show_player_position": "Real-time console display of precise X,Y,Z coordinates, customizable format. Toggle /show_pos.",
     "tip_rotator": "Rotates gameplay tips on HUD covering positioning, awareness, strategy. Toggle /tips.",
+	"vehicle_speedometer": "Shows vehicle speed (km/h) on HUD when driving. Toggle /speedo.",
     "vehicle_rider_names": "Display vehicle rider names"
   },
   "PHASOR": {

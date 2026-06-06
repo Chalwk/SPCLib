@@ -22,7 +22,7 @@ clua_version = 2.056
 local FACTOR = 30 * 3.6
 local LEFT = 5
 local RIGHT = 635
-local LINE_HEIGHT = 20
+local LINE_HEIGHT = 15
 local Y_OFFSET = 150
 local STATS_FILE = "race_hud_stats.txt"
 
