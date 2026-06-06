@@ -304,48 +304,63 @@ local function update_stats(player, lap_time)
         return
     end
 
-    local map_stats = stats[current_map] or {}
-    local lap_count = tonumber(get_var(id, '$score'))
-    local previous_best = player.best_lap or math_huge
-    local is_personal_best = false
-    local is_map_record = false
-
-    if lap_time < previous_best then
-        player.best_lap = lap_time
-        is_personal_best = true
+    -- Ensure map entry exists
+    if not stats[current_map] then
+        stats[current_map] = {}
     end
+    local map_stats = stats[current_map]
 
-    -- Check against cached map record
+    -- Get or create player stats
+    local player_stats = map_stats[name]
+    local old_laps = player_stats and player_stats.laps or 0
+    local new_laps = old_laps + 1
+    local old_best = player_stats and player_stats.best or math_huge
+
+    -- Determine all-time personal best
+    local is_personal_best = lap_time < old_best
+
+    -- Map record check
     local current_record = map_record_cache[current_map]
     if not current_record or current_record.time == math_huge then
         compute_map_records(current_map)
         current_record = map_record_cache[current_map]
     end
-
-    if lap_time < current_record.time then
-        is_map_record = true
+    local is_map_record = lap_time < current_record.time
+    if is_map_record then
         current_record.time = lap_time
         current_record.player = name
     end
 
-    local player_stats = map_stats[name]
-    if not player_stats then
-        player_stats = { best = lap_time, laps = lap_count, average = lap_time }
-        map_stats[name] = player_stats
+    -- Update stats (best, laps, average)
+    local new_best = math_min(old_best, lap_time)
+    local new_average
+    if new_laps == 1 then
+        new_average = lap_time
     else
-        player_stats.laps = lap_count
-        player_stats.best = math_min(player_stats.best, lap_time)
-        player_stats.average = ((player_stats.average * (lap_count - 1)) + lap_time) / lap_count
+        local old_average = player_stats and player_stats.average or 0
+        new_average = (old_average * old_laps + lap_time) / new_laps
     end
 
+    map_stats[name] = {
+        best = new_best,
+        laps = new_laps,
+        average = new_average
+    }
+
+    if is_personal_best then
+        player.best_lap = lap_time
+    end
+
+    -- Announcements
     local lap_time_formatted = fmt_time(lap_time)
     if is_map_record then
         rprint_all(fmt(MESSAGES.NEW_MAP_RECORD, name, lap_time_formatted))
     elseif is_personal_best then
         rprint_all(fmt(MESSAGES.NEW_PERSONAL_BEST, name, lap_time_formatted))
     else
-        local msg = MESSAGES.LAP_COMPLETED_WITH_BEST
-        rprint(id, fmt(msg, lap_time_formatted, fmt_time(previous_best), fmt_time(lap_time - previous_best, true)))
+        local previous_best_formatted = fmt_time(old_best)
+        local diff = fmt_time(lap_time - old_best, true)
+        rprint(id, fmt(MESSAGES.LAP_COMPLETED_WITH_BEST, lap_time_formatted, previous_best_formatted, diff))
     end
 end
 
