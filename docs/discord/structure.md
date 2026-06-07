@@ -9,8 +9,6 @@
         * SPCLib roles, hierarchy, and reaction roles explained.
     * 〔👋〕introductions
         * Say hi and introduce yourself to the community.
-    * 〔🌐〕communities
-        * Links to other Halo communities.
     * 〔🚪〕arrivals-departures
         * Tracks member joins and leaves.
 
