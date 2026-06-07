@@ -34,7 +34,6 @@
     * [5.1 Script Browser](#script-browser)
     * [5.2 Web Interfaces for Lua Scripts](#web-tools-for-lua-scripts)
     * [5.3 HaloDiscordBot](#halodiscordbot)
-    * [5.4 Ban Appeals](#ban-appeals)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
     * [6.1 Installer](#installer)
     * [6.2 Patch](#1010-patch)
@@ -158,13 +157,6 @@ Java-based integration for connecting Halo servers to Discord with rich event em
 
 * **[HaloDiscordBot][halo_discord_bot]** - Main application
 * **[Config.yml Editor][halo_discord_bot_config_editor]** - GUI editor for `config.yml`
-
-#### Ban Appeals
-
-Think you were banned by mistake from the SPCLib Discord or Halo servers?
-
-* **[Submit a Ban Appeal][ban_appeal_template]**
-* **[View Active Bans][ban_page]**
 
 ---
 

@@ -1,6 +1,6 @@
 # SPCLib Code of Conduct & Community Rules
 
-The document combines our Code of Conduct and Community Rules to ensure a **positive, productive, and respectful
+This document combines our Code of Conduct and Community Rules to ensure a **positive, productive, and respectful
 environment** for all users. By joining and/or contributing, you agree to follow these guidelines. Violations may
 result in warnings, temporary restrictions, or permanent bans.
 
@@ -8,16 +8,9 @@ result in warnings, temporary restrictions, or permanent bans.
 
 ## Scope & Enforcement
 
-These rules apply to **all users**, including staff and volunteers, across **Discord, GitHub, and the SPCLib Halo
-Servers**. They are enforced to maintain a safe, collaborative, and professional environment. Questions? Ask staff or
-moderators.
+These rules apply to **all users** across **the SPCLib Discord Server and GitHub Repository**. They are enforced to
+maintain a safe, collaborative, and professional environment. Questions? Ask staff or moderators.
 
----
-
-## VPN / Proxy Advisory
-
-The SPCLib Halo Servers use **IP-based moderation systems**. Using VPNs or proxies can trigger false flags. Avoid
-free/shared VPNs. If you believe a ban was accidental (e.g., shared IP), contact staff for review.
 
 ---
 
@@ -70,14 +63,14 @@ or supporting the project.
 
 ---
 
-## Enforcement & Punishment System
+## Enforcement & Punishment
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project maintainer
-on [Discord][discord_invite_link]. All complaints will be reviewed and investigated promptly and fairly. The
-maintainer is obligated to respect the privacy and security of the reporter of any incident.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting Chalwk
+on [Discord][discord_invite_link] or email: CHALWK.DEV@GMAIL.COM. All complaints will be reviewed and investigated
+promptly and fairly. Chalwk is obligated to respect the privacy and security of the reporter of any incident.
 
-Offenses are categorized by severity. Staff discretion applies. Repeat offenses across Discord, GitHub, or SPCLib Halo
-Servers may escalate consequences.
+Offenses are categorized by severity. Staff discretion applies. Repeat offenses across Discord or GitHub may escalate
+consequences.
 
 ### Tier 1: Severe Offenses - Permanent Ban
 
@@ -96,7 +89,6 @@ Servers may escalate consequences.
 
 | Offense                                | Description                                                                                         |
 |----------------------------------------|-----------------------------------------------------------------------------------------------------|
-| **Cheating / Aimbots / Wallhacks**     | Using unauthorized third‑party software to gain unfair advantages.                                  |
 | **Circumvention**                      | Bypassing moderation, anti-cheat, bot filters, or other security measures.                          |
 | **Performance Disruption**             | Degrading server performance (e.g., resource‑heavy scripts, network flooding below DDoS threshold). |
 | **Alt Accounts / Ban Evasion**         | Using alternate accounts to evade punishments.                                                      |
@@ -124,20 +116,10 @@ Servers may escalate consequences.
 
 ---
 
-## Ban Appeals
-
-If you believe you have been banned in error from the **SPCLib Discord or Halo servers**, you may submit a formal
-appeal:
-
-* [Submit a Ban Appeal][ban_appeal_template]
-* [List of active bans][bans]
-
----
-
 ## Final Note
 
-**SPCLib Discord and GitHub are extensions of our SPCLib Halo Servers.** Treat them professionally, responsibly, and
-respectfully. Follow **common sense**, Discord's [Terms of Service][discord_terms], and
+**The SPCLib Discord Server and GitHub Repository are the official community platforms.** Treat them professionally,
+responsibly, and respectfully. Follow **common sense**, Discord's [Terms of Service][discord_terms], and
 GitHub's [Community Guidelines][github_community_guidelines].
 
 Thank you for helping **SPCLib** remain a collaborative, safe, and productive environment!
@@ -160,7 +142,3 @@ at [https://www.contributor-covenant.org/version/1/4/code-of-conduct][version].
 [discord_terms]: https://discord.com/terms
 
 [github_community_guidelines]: https://docs.github.com/en/site-policy/github-community-guidelines
-
-[ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
-
-[bans]: https://chalwk.github.io/SPCLib/tools/community-bans

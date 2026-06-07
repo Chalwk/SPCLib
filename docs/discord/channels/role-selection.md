@@ -18,8 +18,4 @@
 <@&1410387086175113236>
 -# Users who design, test, and optimize maps.
 
-<@&1411842731441131601>
--# Choose this role to see real-time in-game event notifications for the official SPCLib Halo servers.
--# See <#1409752423794479134> for more info.
-
 **Use the `/roles` command to assign or remove your roles at any time.**
