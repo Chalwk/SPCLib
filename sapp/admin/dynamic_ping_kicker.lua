@@ -13,18 +13,16 @@ LICENSE:          MIT License
 
 -- ========================= CONFIGURATION =========================
 
-local CHECK_INTERVAL = 5            -- Seconds between ping checks
-local WARNINGS = 5                  -- Warnings before kicking the player
-local GRACE_PERIOD = 20             -- Seconds after a warning to reset strikes
-local DEFAULT_LIMIT = 250           -- Hard limit (used when DYNAMIC_MODE = false)
-local DYNAMIC_MODE = true           -- If true, use LIMITS based on player count; if false, use DEFAULT_LIMIT.
+local CHECK_INTERVAL = 5  -- Seconds between ping checks
+local WARNINGS = 5        -- Warnings before kicking the player
+local GRACE_PERIOD = 20   -- Seconds after a warning to reset strikes
+local DEFAULT_LIMIT = 250 -- Hard limit (used when DYNAMIC_MODE = false)
+local DYNAMIC_MODE = true -- If true, use LIMITS based on player count; if false, use DEFAULT_LIMIT.
 
 -- IMMUNITY --
 -- Note: A player is immune IF admin level >= ADMIN_LEVEL OR name in IMMUNE_ADMINS
 local ADMIN_LEVEL = 1 -- Minimum admin level required for immunity
-local IMMUNE_ADMINS = {
-    ["EXAMPLE_NAME"]  = true,
-}
+local IMMUNE_ADMINS = { ["EXAMPLE_NAME"] = true }
 
 -- MESSAGES --
 local KICK_REASON = "High Ping" -- SAPP will show: **SAPP** NAME was kicked for "High Ping"
@@ -35,9 +33,7 @@ local WARNING_MESSAGES = {
 
 -- Dynamic ping limits by player count (used only if DYNAMIC_MODE = true)
 local LIMITS = {
-    { min = 1,  max = 4,  limit = 500 },
-    { min = 5,  max = 8,  limit = 400 },
-    { min = 9,  max = 12, limit = 300 },
+    { min = 1, max = 4, limit = 500 }, { min = 5, max = 8, limit = 400 }, { min = 9, max = 12, limit = 300 },
     { min = 13, max = 16, limit = 200 }
 }
 -- CONFIG ENDS -----------------------------------------------------
@@ -88,7 +84,6 @@ function CheckPings()
     for i = 1, 16 do
         local p = players[i]
         if p and not is_player_immune(i, p.name) then
-
             if now >= p.check_time then
                 p.check_time = now + CHECK_INTERVAL
                 local ping = tonumber(get_var(i, "$ping"))
@@ -137,10 +132,10 @@ end
 
 function OnJoin(id)
     players[id] = {
-         name = get_var(id, "$name"),
-         strikes = WARNINGS,
-         check_time = clock() + CHECK_INTERVAL,
-         grace_time = nil
+        name = get_var(id, "$name"),
+        strikes = WARNINGS,
+        check_time = clock() + CHECK_INTERVAL,
+        grace_time = nil
     }
     current_limit = get_current_limit()
 end
