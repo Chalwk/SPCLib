@@ -32,7 +32,7 @@
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
 * [5. SPCLib Web Interfaces & Apps](#spclib-web-interfaces--apps)
     * [5.1 Script Browser](#script-browser)
-    * [5.2 Web Interfaces for Lua Scripts](#web-tools-for-lua-scripts)
+    * [5.2 Alias Checker](#hash-checker)
     * [5.3 HaloDiscordBot](#halodiscordbot)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
     * [6.1 Installer](#installer)
@@ -144,12 +144,17 @@ Live search and filtering for all SPCLib scripts.
 
 * **[Script Browser][script_browser]**
 
+#### Hash Checker:
+
+CD Key Hash Checker
+
+* **[Hash Checker][hash_checker] - Main application**
+
 #### HaloDiscordBot
 
 Java-based integration for connecting Halo servers to Discord with rich event embeds.
 
 * **[HaloDiscordBot][halo_discord_bot]** - Main application
-* **[Config.yml Editor][halo_discord_bot_config_editor]** - GUI editor for `config.yml`
 
 ---
 
@@ -256,9 +261,7 @@ Enjoy these projects? Help me continue development:
 
 ---
 
-[alias_browser]: https://chalwk.github.io/SPCLib/tools/alias-browser
-
-[ban_page]: https://chalwk.github.io/SPCLib/tools/community-bans
+[hash_checker]: https://chalwk.github.io/SPCLib/tools/hash-checker
 
 [bk_website]: https://www.blackshalo.com
 
@@ -277,8 +280,6 @@ Enjoy these projects? Help me continue development:
 [feature_request]: https://github.com/Chalwk/SPCLib/issues/new?template=FEATURE_REQUEST.yaml
 
 [halo_ce_installer]: https://drive.google.com/file/d/1oO0w_25mGwjTz_R9Bhquah4FR6u2Ccmz/view?usp=sharing
-
-[halo_discord_bot_config_editor]: https://chalwk.github.io/SPCLib/tools/HaloDiscordBot-Config-Editor
 
 [halo_discord_bot]: https://github.com/Chalwk/HaloDiscordBot
 
@@ -307,8 +308,6 @@ Enjoy these projects? Help me continue development:
 [poq_website]: http://poqclan.com/
 
 [port_forwarding]: https://chalwk.github.io/blog/2025/09/01/halo-server-port-forwarding/
-
-[rank_browser]: https://chalwk.github.io/SPCLib/tools/rank-browser
 
 [realworld_website]: https://www.realworldce.com/
 
@@ -339,8 +338,6 @@ Enjoy these projects? Help me continue development:
 [scripting_with_sapp]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp
 
 [spclib_discord]: https://discord.gg/D76H7RVPC9
-
-[ban_appeal_template]: https://github.com/Chalwk/SPCLib/issues/new?template=BAN_APPEAL.yaml
 
 [track_master_stats_browser]: https://chalwk.github.io/SPCLib/tools/track-master-stats-browser
 
