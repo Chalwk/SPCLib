@@ -144,13 +144,6 @@ Live search and filtering for all SPCLib scripts.
 
 * **[Script Browser][script_browser]**
 
-#### Web Tools for Lua Scripts
-
-* **[Alias Browser][alias_browser]** - for [alias_system.lua](./sapp/admin/alias_system.lua)
-* **[Rank System - Stats Browser][rank_browser]** - for [rank_system.lua](./sapp/gameplay/rank_system.lua)
-* **[Track Master - Stats Browser][track_master_stats_browser]** -
-  for [track_master.lua](./sapp/utility/track_master.lua)
-
 #### HaloDiscordBot
 
 Java-based integration for connecting Halo servers to Discord with rich event embeds.
