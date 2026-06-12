@@ -31,9 +31,9 @@
 * [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
 * [5. SPCLib Web Interfaces & Apps](#spclib-web-interfaces--apps)
-    * [5.1 Script Browser](#script-browser)
-    * [5.2 Alias Checker](#hash-checker)
-    * [5.3 HaloDiscordBot](#halodiscordbot)
+    * [5.1 Script Browser](#script-browserscript_browser)
+    * [5.2 Alias Checker](#hash-checkerhash_checker)
+    * [5.3 HaloDiscordBot](#halodiscordbothalo_discord_bot)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
     * [6.1 Installer](#installer)
     * [6.2 Patch](#1010-patch)
@@ -136,25 +136,18 @@ This repository also preserves:
 
 ## SPCLib Web Interfaces & Apps
 
-🔗 [SPCLib Website Homepage][repo_homepage]
-
-#### Script Browser:
+### [Script Browser][script_browser]
 
 Live search and filtering for all SPCLib scripts.
 
-* **[Script Browser][script_browser]**
+### [Hash Checker][hash_checker]
 
-#### Hash Checker:
+Use this tool to identify cracked hashes. Banning or granting admin to a hash without verification
+can accidentally affect innocent players who share the same cracked key
 
-CD Key Hash Checker
-
-* **[Hash Checker][hash_checker] - Main application**
-
-#### HaloDiscordBot
+### [HaloDiscordBot][halo_discord_bot]
 
 Java-based integration for connecting Halo servers to Discord with rich event embeds.
-
-* **[HaloDiscordBot][halo_discord_bot]** - Main application
 
 ---
 
