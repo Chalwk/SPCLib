@@ -65,12 +65,16 @@ or supporting the project.
 
 ## Enforcement & Punishment
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting Chalwk
-on [Discord][discord_invite_link] or email: CHALWK.DEV@GMAIL.COM. All complaints will be reviewed and investigated
-promptly and fairly. Chalwk is obligated to respect the privacy and security of the reporter of any incident.
+To report abusive, harassing, or otherwise unacceptable behavior, join our [Discord server][discord_invite_link] and
+either:
 
-Offenses are categorized by severity. Staff discretion applies. Repeat offenses across Discord or GitHub may escalate
-consequences.
+- **DM** `@Chalwk`, or
+- **@mention** `@Chalwk` or `@Admin` in `#chatter-box`
+
+All complaints will be reviewed promptly and kept confidential. Maintainers/Moderators will respect the reporter's
+privacy.
+
+Offenses are categorized by severity. Repeat offenses across Discord or GitHub may escalate consequences.
 
 ### Tier 1: Severe Offenses - Permanent Ban
 
@@ -82,7 +86,7 @@ consequences.
 | **Impersonation**                 | Pretending to be staff or SPCLib representatives.                   |
 | **Discrimination or Hate Speech** | Promoting harm or prejudice based on protected characteristics.     |
 | **Threats & Harassment**          | Targeted threats or severe harassment.                              |
-| **Privacy Violations**            | Sharing personal data (yours or others’) without consent.           |
+| **Privacy Violations**            | Sharing personal data (yours or others') without consent.           |
 | **NSFW / Illegal Content**        | Sharing sexually explicit, violent, or illegal material.            |
 
 ### Tier 2: Moderate Offenses - 1 to 2-Week Ban
