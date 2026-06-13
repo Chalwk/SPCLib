@@ -83,7 +83,7 @@ end
 function Objects:spawn()
     if self.object then
         if not self.is_vehicle and is_weapon_in_inventory(self.object) then
-            -- The weapon is in a player’s hands; leave it alone.
+            -- The weapon is in a player's hands; leave it alone.
             -- Forget reference so a new ground weapon can be spawned.
         else
             destroy_object(self.object)
