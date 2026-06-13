@@ -96,6 +96,7 @@
       "name_replacer": "Replaces blacklisted/default names with random unique names from list, respects length limit.",
       "on_teleport": "Detects player teleports by position change, for debugging/anti-cheat.",
       "reg_to_play": "Mandatory registration with password, time limit, auto-kick, persistent players.txt, permissions.",
+      "static_ping_kicker": "Hard ping limit (default 240ms), immune members list, warnings/grace period, kicks non-members exceeding limit.",
       "report_system": "In-game /s_report to file player/bug reports. Admins: /reports (paginated), /report_clear, /players. Cooldown 60s, auto-expiry 600s, logging, admin level 2.",
       "suicide_punisher": "Punishes excessive suicides in time window, config thresholds, grace, kick/ban durations.",
       "suspend_players": "Suspend players: freeze, strip weapons, mute chat, persistence. Unsuspend command.",
