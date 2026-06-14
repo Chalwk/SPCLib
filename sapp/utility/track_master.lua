@@ -51,9 +51,9 @@ local MESSAGES = {
     LAP_COMPLETED_FILTERED = "Lap completed: %s (Stats N/A - Filtered Name)",
     LAP_COMPLETED_WITH_BEST = "Lap completed: %s (Best: %s | %s)",
     NO_RECORDS = "No records for this map yet",
-    TOP_HEADER = "Top players for %s [Page %d/%d]:",
+    TOP_HEADER = "Top players for %s",
     TOP_ENTRY = "%d. %s - %s",
-    TOP_NEXT_PAGE_HINT = "Use '/top %d' for next page",
+    TOP_NEXT_PAGE_HINT = "[Page %d/%d] - Use '/top %d' for next page",
     STATS_PLAYER_LINE = "%s: Best [%s], Avg [%s]",
     STATS_NO_LAPS = "%s: No laps recorded",
     STATS_NO_RECORDS_FOR_PLAYER = "No records found for %s on %s",
@@ -418,13 +418,13 @@ local function show_top(id, page)
 
     table_sort(map_best_laps, function (a, b) return a.best_lap < b.best_lap end)
     local start_idx, end_idx, total_pages, cur_page = get_pagination_indices(page, #map_best_laps, TOP_PAGE_SIZE)
-    send(fmt(MESSAGES.TOP_HEADER, current_map, cur_page, total_pages))
+    send(fmt(MESSAGES.TOP_HEADER, current_map))
     for i = start_idx, end_idx do
         local entry = map_best_laps[i]
         send(fmt(MESSAGES.TOP_ENTRY, i, entry.name, fmt_time(entry.best_lap)))
     end
     if total_pages > 1 then
-        send(fmt(MESSAGES.TOP_NEXT_PAGE_HINT, cur_page + 1))
+        send(fmt(MESSAGES.TOP_NEXT_PAGE_HINT, cur_page, total_pages, cur_page + 1))
     end
 end
 
