@@ -311,7 +311,6 @@ local function get_player_vehicle(dynamic_player)
     return get_object(vehicle)
 end
 
--- Detects both gametype_base and race_globals for the current executable version.
 local function get_race_addresses()
     local candidates = {
         { gametype = 0x6F1C88, race_globals = 0x87A520 }, -- PC
