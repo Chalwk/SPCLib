@@ -134,6 +134,11 @@ local read_string = read_string
 local draw_text = draw_text
 local read_byte = read_byte
 
+local candidates = { -- gametype_base and race_globals addresses
+    { gametype = 0x6F1C88, race_globals = 0x87A520 }, -- PC
+    { gametype = 0x68CC48, race_globals = 0x64C1C0 }  -- CE
+}
+
 local vehicle_names = {
     ghost_mp = "Ghost",
     ghost = "Ghost",
@@ -172,10 +177,10 @@ end
 local function format_time(s)
     if not s or s < 0 then return "00:00.00" end
     local total = math_floor(s * 100 + 0.5)
-    local mins  = math_floor(total / 6000)
-    local rem   = total - mins * 6000
-    local secs  = math_floor(rem / 100)
-    local cent  = rem - secs * 100
+    local mins = math_floor(total / 6000)
+    local rem = total - mins * 6000
+    local secs = math_floor(rem / 100)
+    local cent = rem - secs * 100
     return mins .. ":" .. two[secs] .. "." .. two[cent]
 end
 
@@ -312,12 +317,8 @@ local function get_player_vehicle(dynamic_player)
 end
 
 local function get_race_addresses()
-    local candidates = {
-        { gametype = 0x6F1C88, race_globals = 0x87A520 }, -- PC
-        { gametype = 0x68CC48, race_globals = 0x64C1C0 }, -- CE
-    }
     for _, cand in ipairs(candidates) do
-        local success, game_type = pcall(function()
+        local success, game_type = pcall(function ()
             return read_byte(cand.gametype + 0x30)
         end)
         if success and game_type == 5 then
@@ -335,8 +336,7 @@ local function ensure_race_detected()
 end
 
 local function is_race()
-    if not gametype_base then return false end
-    return read_byte(gametype_base + 0x30) == 5 and server_type == "dedicated"
+    return gametype_base ~= nil and server_type == "dedicated"
 end
 
 local function show_hud()
