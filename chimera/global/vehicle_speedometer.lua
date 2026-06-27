@@ -125,13 +125,13 @@ end
 
 local function is_race()
     if not gametype_base then return false end
-    return read_byte(gametype_base + 0x30) == 5
+    return read_byte(gametype_base + 0x30) == 5 and server_type == "dedicated"
 end
 
 local function show_hud()
     ensure_gametype_detected()
     local player = get_dynamic_player()
-    return (server_type == "dedicated" and is_race() and player ~= nil and HUD_ENABLED) and player or nil
+    return (is_race() and player ~= nil and HUD_ENABLED) and player or nil
 end
 
 local function get_map_name()

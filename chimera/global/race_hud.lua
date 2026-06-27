@@ -103,8 +103,8 @@ local map_best_table = {}
 local last_vehicle_obj = nil
 local last_vehicle_name = ""
 
-local race_globals = 0x64C1C0 -- CE
-local gametype_base = 0x68CC48 -- CE
+local race_globals = nil
+local gametype_base = nil
 local checkpoint_addr
 local last_mask, last_idx = 0, 0
 local total_checkpoints = nil
@@ -311,10 +311,39 @@ local function get_player_vehicle(dynamic_player)
     return get_object(vehicle)
 end
 
+-- Detects both gametype_base and race_globals for the current executable version.
+local function get_race_addresses()
+    local candidates = {
+        { gametype = 0x6F1C88, race_globals = 0x87A520 }, -- PC
+        { gametype = 0x68CC48, race_globals = 0x64C1C0 }, -- CE
+    }
+    for _, cand in ipairs(candidates) do
+        local success, game_type = pcall(function()
+            return read_byte(cand.gametype + 0x30)
+        end)
+        if success and game_type == 5 then
+            return cand.gametype, cand.race_globals
+        end
+    end
+    return nil, nil
+end
+
+local function ensure_race_detected()
+    if gametype_base ~= nil then return end
+    local gb, rg = get_race_addresses()
+    gametype_base = gb
+    race_globals = rg
+end
+
+local function is_race()
+    if not gametype_base then return false end
+    return read_byte(gametype_base + 0x30) == 5 and server_type == "dedicated"
+end
+
 local function show_hud()
+    ensure_race_detected()
     local player = get_dynamic_player()
-    local game_type = read_byte(gametype_base + 0x30)
-    return (server_type == "dedicated" and game_type == 5 and player ~= nil and HUD_ENABLED) and player or nil
+    return (is_race() and player ~= nil and HUD_ENABLED) and player or nil
 end
 
 function OnTick()
@@ -396,6 +425,8 @@ function OnPreFrame()
 end
 
 function OnMapLoad()
+    gametype_base = nil
+    race_globals = nil
     checkpoint_addr, total_checkpoints = nil, nil
     last_mask, last_idx = 0, 0
     lap_started, lap_finished = false, false
