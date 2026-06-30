@@ -93,6 +93,7 @@ I'd like to recognize these amazing people:
 | [giraffe][giraffe]                      | Created **Auto Vehicle Flip** SAPP script (*integrated into some SAPP scripts*).                                                                                                                                                               | [Auto Vehicle Flip][auto_vehicle_flip]                                                                                                    |
 | [Jeffrey Friedl][jeffrey_friedl]        | Creator of **JSON Interpreter** (Library) for Lua.                                                                                                                                                                                             | [JSON Interpreter][json_interpreter]                                                                                                      |
 | [edgardanielgd][edgardanielgd]          | Contributed code to [Admin Manager][admin_manager].                                                                                                                                                                                            |                                                                                                                                           |
+| effakt                                  | Corrected the `draw_text` documentation: parameters 4 and 5 are **width/height**, not right/bottom.                                                                                                                                            | [Scripting with Chimera][scripting_with_chimera]                                                                                          |
 
 ---
 
@@ -111,50 +112,28 @@ repository. For details, see the [LICENSE][license] file.
 
 ---
 
-[aeliteprime]: http://phasor.proboards.com/user/37
-
 [admin_manager]: https://github.com/Chalwk/SPCLib/releases/tag/AdminManager
-
+[aeliteprime]: http://phasor.proboards.com/user/37
 [auto_vehicle_flip]: https://opencarnage.net/index.php?/topic/6251-auto-vehicle-flip/
-
 [chimera_github]: https://github.com/SnowyMouse/chimera
-
 [chimera_oc]: https://opencarnage.net/index.php?/forum/78-chimera-general/
-
 [commands_script]: http://pastebin.com/gHiz0A51
-
 [edgardanielgd]: https://github.com/edgardanielgd
-
 [giraffe]: https://opencarnage.net/index.php?/profile/1463-giraffe/
-
 [http_client]: https://opencarnage.net/index.php?/topic/5998-sapp-http-client/#comment-82077
-
 [issues_section]: https://github.com/Chalwk/SPCLib/issues
-
 [jeffrey_friedl]: http://regex.info/blog/
-
 [json_interpreter]: http://regex.info/blog/lua/json
-
 [license]: LICENSE
-
 [markdown_guide]: https://chalwk.github.io/blog/2026/04/07/markdown-tutorial/
-
 [nuggets]: http://phasor.proboards.com/user/36
-
 [offsets_list]: reference/offsets.lua
-
 [phasor_repo]: https://github.com/urbanyoung/Phasor
-
 [sapp_docs]: https://opencarnage.net/index.php?/topic/3806-comprehensive-sapp-documentation-rev-25-sapp-101/
-
-[sehe]: http://halo.isimaginary.com/forum/user-1.html
-
+[scripting_with_chimera]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera/
 [sehe_profile]: http://halo.isimaginary.com/forum/user-1.html
-
+[sehe]: http://halo.isimaginary.com/forum/user-1.html
 [sendconsole_override]: http://pastebin.com/1dtn0DiM
-
 [snowymouse]: https://github.com/SnowyMouse
-
 [urbanyoung]: https://github.com/urbanyoung
-
 [wizard]: https://github.com/th3w1zard1
