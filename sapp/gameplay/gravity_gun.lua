@@ -1,17 +1,11 @@
 --[[
 =====================================================================================
 SCRIPT NAME:      gravity_gun.lua
-DESCRIPTION:      Half-Life style gravity gun for Halo
-                  - Command: !ggun [on/off] (permission level -1)
+DESCRIPTION:      Half-Life style gravity gun
+                  - Command: ggun [on/off] (permission level -1)
                   - Pick up objects by aiming and shooting
                   - Launch objects with secondary fire
-                  - Physics-based velocity (heavier objects move slower)
                   - Works with vehicles, weapons, equipment, and devices
-
-                  Configurable settings:
-                  - Pickup range, rotation speed, launch power
-                  - Cooldown timers, mass limits
-                  - Allowed object types
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
 LICENSE:          MIT License

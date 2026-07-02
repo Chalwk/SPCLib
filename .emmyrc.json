@@ -1,0 +1,10 @@
+{
+    "runtime": {
+        "version": "LuaJIT"
+    },
+    "diagnostics": {
+        "globals": ["rprint", "get_var", "read_dword", "write_dword", "read_word", "read_string", 
+                    "sig_scan", "get_dynamic_player", "get_object_memory", "player_present", 
+                    "player_alive", "to_real_index", "register_callback", "cb"]
+    }
+}
