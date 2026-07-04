@@ -21,7 +21,7 @@ SCORING:        Map Record: +200 per map held
                 Participation: <3 maps > 50% penalty
                 Tiebreakers: map records > top finishes
 
-LAST UPDATED:     6 June 2026
+LAST UPDATED:     4 July 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -130,14 +130,12 @@ local get_dynamic_player = get_dynamic_player
 local to_real_index = to_real_index
 local read_string = read_string
 
-local MELEE_OFFSET = 0x208
-
 local race_globals, race_mode, game_over
 local race_checkpoint_count
 local map_record_cache = {}
 local players, stats = {}, {}
 local current_map = ""
-local json = loadfile('json.lua')()
+local json
 
 local function fmt(str, ...)
     return select('#', ...) > 0 and string_format(str, ...) or str
@@ -238,6 +236,7 @@ local function get_pagination_indices(page, total_entries, page_size)
     if page < 1 then page = 1 end
     if page > total_pages then page = total_pages end
     local start_index = (page - 1) * page_size + 1
+    ---@diagnostic disable-next-line: assign-type-mismatch
     local end_index = math_min(start_index + page_size - 1, total_entries)
     return start_index, end_index, total_pages, page
 end
@@ -249,6 +248,8 @@ local function load_stats(default)
     local content = file:read("*a")
     file:close()
     if content == "" then return default end
+
+    ---@diagnostic disable-next-line: param-type-mismatch, need-check-nil
     local success, data = pcall(json.decode, json, content)
     return success and data or default
 end
@@ -256,6 +257,8 @@ end
 local function save_stats()
     local file = io_open(STATS_FILE, "w")
     if not file then return false end
+    
+    ---@diagnostic disable-next-line: call-non-callable, need-check-nil
     file:write(json:encode(stats))
     file:close()
     return true
@@ -285,6 +288,7 @@ end
 
 -- check if player is actually driving (not passenger), if DRIVER_REQUIRED is off then everyone qualifies
 local function is_driver(id)
+    ---@diagnostic disable-next-line: unnecessary-if
     if not DRIVER_REQUIRED then return true end
     local dyn_player = get_dynamic_player(id)
     if not player_alive(id) or dyn_player == 0 then return false end
@@ -356,6 +360,8 @@ local function update_stats(player, lap_time)
     -- Update stats (best, laps, average)
     local new_best = math_min(old_best, lap_time)
     local new_average
+
+    ---@diagnostic disable-next-line: unnecessary-if
     if new_laps == 1 then
         new_average = lap_time
     else
@@ -421,6 +427,8 @@ local function show_top(id, page)
     send(fmt(MESSAGES.TOP_HEADER, current_map))
     for i = start_idx, end_idx do
         local entry = map_best_laps[i]
+
+        ---@diagnostic disable-next-line: need-check-nil
         send(fmt(MESSAGES.TOP_ENTRY, i, entry.name, fmt_time(entry.best_lap)))
     end
     if total_pages > 1 then
@@ -483,6 +491,7 @@ end
 
 -- monitor checkpoints, start/stop laps, show checkpoint times, and handle melee reset
 function OnTick()
+    ---@diagnostic disable-next-line: unnecessary-if
     if game_over then return end
 
     local now = os_clock()
@@ -533,6 +542,7 @@ function OnTick()
                 end
             end
 
+            ---@diagnostic disable-next-line: unnecessary-if
             if ALLOW_MELEE_RESET then
                 local dyn = get_dynamic_player(id)
                 if dyn and dyn ~= 0 then
@@ -574,7 +584,10 @@ end
 
 function OnEnd()
     save_stats()
+
+    ---@diagnostic disable-next-line: unnecessary-if
     if SHOW_TOP_AT_END_GAME then show_top() end
+
     game_over = true
 end
 
@@ -582,9 +595,12 @@ function OnJoin(id)
     local name = get_var(id, "$name")
     local best_lap = math_huge
     local map_data = stats[current_map]
+
+    ---@diagnostic disable-next-line: unnecessary-if
     if map_data and map_data[name] then
         best_lap = map_data[name].best
     end
+
     players[id] = {
         id = id,
         name = name,
@@ -592,7 +608,10 @@ function OnJoin(id)
         last_checkpoint = 0,
         best_lap = best_lap,
         just_completed_lap = false,
+
+        ---@diagnostic disable-next-line: need-check-nil
         checkpoint_addr = race_globals + to_real_index(id) * 4 + 0x44,
+
         last_mask = 0,
         last_idx = 0,
         melee_reset_cooldown = 0
@@ -625,7 +644,21 @@ function OnScriptLoad()
 
     local config_path = get_config_path()
     STATS_FILE = config_path .. "\\sapp\\" .. STATS_FILE
-    stats = load_stats({})
+
+    local ok, json_module = pcall(dofile, "json.lua")
+    if ok and type(json_module) == "table" then
+        json = json_module
+    else
+        print("ERROR: Failed to load json.lua. Stats will not be saved/loaded.")
+        json = nil
+    end
+
+    -- Load stats
+    if json then
+        stats = load_stats({})
+    else
+        stats = {}
+    end
 
     for map_name, _ in pairs(stats) do
         compute_map_records(map_name)
