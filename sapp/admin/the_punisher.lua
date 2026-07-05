@@ -46,19 +46,19 @@ LICENSE:          MIT License
 api_version = "1.12.0.0"
 
 local punish = {}
-local betray_warnings, teamshoot_warnings = { }, { }
-local clear_console = { }
+local betray_warnings, teamshoot_warnings = {}, {}
+local clear_console = {}
 local globals = nil
-local messages = { }
+local messages = {}
 local gsub = string.gsub
 
 function punish:Init()
     -- Configuration [starts] -----------------------------------------------------
 
-    --===========================================================================--
+    -- ===========================================================================--
     -- WARNING: ONLY ONE ACTION CAN BE ENABLED PER ACTION TABLE:
     -- I.e, 1 action for "punish.betrayals", 1 action for "punish.teamshooting".
-    --===========================================================================--
+    -- ===========================================================================--
 
     -- Message Alignment Setting: (Left = l, Right = r, Centre = c, Tab = t)
     punish.message_alignment = "|l"
@@ -69,31 +69,31 @@ function punish:Init()
     punish.betrayals = {
         actions = {
             ["KILL"] = { -- Player will be warned before being killed automatically.
-                use = true, -- Set to false to disable 'kill action'
-                warnings = 5, -- Player has this many warnings before action is taken:
+                use = true,               -- Set to false to disable 'kill action'
+                warnings = 5,             -- Player has this many warnings before action is taken:
                 edit_respawn_time = true, -- If true, an offender's respawn time will be changed to "respawn_time":
-                respawn_time = 10, -- Offenders will respawn after this many seconds (requires edit_respawn_time to be enabled)
-                deduct_death = true, -- If true then players wont get a death penalty point:
-                notify_console = true, -- If true, console will be notified when action is taken on an offender:
+                respawn_time = 10,        -- Offenders will respawn after this many seconds (requires edit_respawn_time to be enabled)
+                deduct_death = true,      -- If true then players wont get a death penalty point:
+                notify_console = true,    -- If true, console will be notified when action is taken on an offender:
                 -- Warning Message:
                 message1 = "%offender_name%, do not betray or you will be punished! Warning: (%warnings_left%/%total_warnings%)",
                 -- Action Message:
-                message2 = '%offender_name%, was killed for betraying!',
+                message2 = '%offender_name%, was killed for betraying!'
             },
             ["KICK"] = {
                 use = false,
                 warnings = 5,
                 notify_console = true,
                 message1 = "%offender_name%, do not betray or you will be punished! Warning: (%warnings_left%/%total_warnings%)",
-                message2 = '%offender_name% was kicked for betraying!',
+                message2 = '%offender_name% was kicked for betraying!'
             },
             ["CRASH"] = {
                 use = false,
                 warnings = 5,
                 notify_console = true,
                 message1 = "%offender_name%, do not betray or you will be punished! Warning: (%warnings_left%/%total_warnings%)",
-                message2 = "%offender_name%'s game client was crashed (by server) for betraying!",
-            },
+                message2 = "%offender_name%'s game client was crashed (by server) for betraying!"
+            }
         }
     }
 
@@ -102,32 +102,33 @@ function punish:Init()
             ["KILL"] = {
                 use = false,
                 warnings = 5,
-                edit_respawn_time = true, respawn_time = 10, deduct_death = true,
+                edit_respawn_time = true,
+                respawn_time = 10,
+                deduct_death = true,
                 notify_console = true,
                 message1 = "%offender_name%, do not Team-Shoot or you will be punished! Warning: (%warnings_left%/%total_warnings%)",
-                message2 = '%offender_name%, was killed for Team Shooting!',
+                message2 = '%offender_name%, was killed for Team Shooting!'
             },
             ["KICK"] = {
                 use = false,
                 warnings = 5,
                 notify_console = true,
                 message1 = "%offender_name%, do not Team-Shoot or you will be punished! Warning: (%warnings_left%/%total_warnings%)",
-                message2 = '%offender_name% was kicked for Team Shooting!',
+                message2 = '%offender_name% was kicked for Team Shooting!'
             },
             ["CRASH"] = {
                 use = true,
                 warnings = 5,
                 notify_console = true,
                 message1 = "%offender_name%, do not Team-Shoot or you will be punished! Warning: (%warnings_left%/%total_warnings%)",
-                message2 = "%offender_name%'s game client was crashed (by server) for Team Shooting!",
-            },
+                message2 = "%offender_name%'s game client was crashed (by server) for Team Shooting!"
+            }
         }
     }
     -- Configuration [ends] -----------------------------------------------------
 end
 
 function OnScriptLoad()
-
     punish:Init()
 
     -- Register needed Event Callbacks:
@@ -164,12 +165,12 @@ function punish:InitMsgTable(player)
     messages[player] = {
         ["betrayals"] = {
             msg = "",
-            delta_time = 0,
+            delta_time = 0
         },
         ["teamshooting"] = {
             msg = "",
-            delta_time = 0,
-        },
+            delta_time = 0
+        }
     }
 end
 
@@ -239,16 +240,14 @@ function OnTick()
 end
 
 function OnPlayerBetray(PlayerIndex, VictimIndex)
-
     local victim = tonumber(VictimIndex)
     local killer = tonumber(PlayerIndex)
 
     local vTeam, kTeam = get_var(victim, "$team"), get_var(killer, "$team")
 
     if (killer > 0) and (killer ~= victim) and (kTeam == vTeam) then
-
         local betray = punish.betrayals.actions
-        local p = { }
+        local p = {}
         p.player = killer
         p.table = betray
         p.warning_table = betray_warnings
@@ -265,16 +264,14 @@ function OnPlayerBetray(PlayerIndex, VictimIndex)
 end
 
 function OnDamageApplication(PlayerIndex, CauserIndex, MetaID, Damage, HitString, Backtap)
-
     local victim = tonumber(PlayerIndex)
     local causer = tonumber(CauserIndex)
 
     local vTeam, kTeam = get_var(victim, "$team"), get_var(causer, "$team")
 
     if (causer > 0) and (causer ~= victim) and (kTeam == vTeam) then
-
         local teamshooting = punish.teamshooting.actions
-        local p = { }
+        local p = {}
         p.player = causer
         p.table = teamshooting
         p.warning_table = teamshoot_warnings
@@ -293,7 +290,6 @@ end
 function punish:Execute(params)
     local params = params or nil
     if (params ~= nil) then
-
         local type = params.type
         local table = params.table
         local player = params.player
@@ -306,11 +302,10 @@ function punish:Execute(params)
         warning_table[player] = warning_table[player] - 1
 
         if not punish:warningsReached(params) then
-
-            local msg = gsub(gsub(gsub(table[type].message1,
-                    "%%offender_name%%", name),
-                    "%%warnings_left%%", warnings_left),
-                    "%%total_warnings%%", total_warnings)
+            local msg = gsub(
+                gsub(gsub(table[type].message1, "%%offender_name%%", name), "%%warnings_left%%", warnings_left),
+                "%%total_warnings%%", total_warnings
+            )
 
             local MsgTable = messages[player]
             if (MsgTable ~= nil) then
@@ -323,14 +318,11 @@ function punish:Execute(params)
             end
 
             clear_console[player] = true
-
         else
-
-
-            local msg = gsub(gsub(gsub(table[type].message2,
-                    "%%offender_name%%", name),
-                    "%%warnings_left%%", warnings_left),
-                    "%%total_warnings%%", total_warnings)
+            local msg = gsub(
+                gsub(gsub(table[type].message2, "%%offender_name%%", name), "%%warnings_left%%", warnings_left),
+                "%%total_warnings%%", total_warnings
+            )
 
             execute_command("msg_prefix \"\"")
             say_all(msg)
@@ -363,10 +355,9 @@ function punish:Execute(params)
 end
 
 function punish:Reset()
-
     -- Clear the array:
-    betray_warnings = { }
-    teamshoot_warnings = { }
+    betray_warnings = {}
+    teamshoot_warnings = {}
 
     for i = 1, 16 do
         if player_present(i) then
@@ -413,7 +404,9 @@ function punish:KillSilently(params)
                 if (deaths > 1) then
                     execute_command("deaths " .. tonumber(params.player) .. " " .. deaths - 1)
                 else
-                    execute_command_sequence("w8 " .. params.respawn_time .. "; deaths " .. tonumber(params.player) .. " " .. deaths - 1)
+                    execute_command_sequence("w8 " .. params.respawn_time
+                            .. "; deaths " .. tonumber(params.player)
+                            .. " " .. deaths - 1)
                 end
             end
 
@@ -455,7 +448,6 @@ function ClearInventory(params)
     if (params ~= nil) then
         local player_object = get_dynamic_player(params.player)
         if (player_object ~= 0) then
-
             -- Set grenade count to zero:
             write_word(player_object + 0x31E, 0)
             write_word(player_object + 0x31F, 0)
@@ -477,7 +469,7 @@ function ClearInventory(params)
 end
 
 function GetRandomVehicleTag()
-    local temp = { }
+    local temp = {}
     local tag_address = read_dword(0x40440000)
     local tag_count = read_dword(0x4044000C)
 
@@ -492,8 +484,8 @@ function GetRandomVehicleTag()
 
     if (#temp > 0) then
         math.randomseed(os.time())
-        math.random();
-        math.random();
+        math.random()
+        math.random()
         math.random()
         return temp[math.random(#temp)]
     end

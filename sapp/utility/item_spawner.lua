@@ -28,13 +28,7 @@ local DISTANCE_FROM_PLAYER = 2.5
 local MAX_RESULTS_PER_PAGE = 25
 local MAX_ITEMS_PER_ROW = 4
 local DESTROY_ON_QUIT = true
-local COMMANDS = {
-    clean = true,
-    enter = true,
-    give = true,
-    itemlist = true,
-    spawn = true
-}
+local COMMANDS = { clean = true, enter = true, give = true, itemlist = true, spawn = true }
 
 local ITEMS = {
     bipd = {
@@ -42,58 +36,58 @@ local ITEMS = {
     },
 
     eqip = {
-        { "powerups\\full-spectrum vision",          "Vision Spectrum Cube", { "vscube" } },
-        { "powerups\\health pack",                   "Health Pack",          { "health", "hp" } },
-        { "powerups\\active camouflage",             "Camouflage",           { "camo", "camouflage" } },
-        { "powerups\\over shield",                   "Over Shield",          { "overshield", "os", "sh" } },
-        { "weapons\\frag grenade\\frag grenade",     "Frag Grenade",         { "frag", "grenade", "fraggrenade" } },
-        { "weapons\\plasma grenade\\plasma grenade", "Plasma Grenade",       { "plasma", "plasmagrenade" } }
+        { "powerups\\full-spectrum vision", "Vision Spectrum Cube", { "vscube" } },
+        { "powerups\\health pack", "Health Pack", { "health", "hp" } },
+        { "powerups\\active camouflage", "Camouflage", { "camo", "camouflage" } },
+        { "powerups\\over shield", "Over Shield", { "overshield", "os", "sh" } },
+        { "weapons\\frag grenade\\frag grenade", "Frag Grenade", { "frag", "grenade", "fraggrenade" } },
+        { "weapons\\plasma grenade\\plasma grenade", "Plasma Grenade", { "plasma", "plasmagrenade" } }
     },
 
     vehi = {
-        { "vehicles\\ghost\\ghost_mp",               "Ghost",   { "ghost" },                 1 },
-        { "vehicles\\rwarthog\\rwarthog",            "R-Hog",   { "rhog" },                  3 },
-        { "vehicles\\banshee\\banshee_mp",           "Banshee", { "banshee", "banshee_mp" }, 1 },
-        { "vehicles\\c gun turret\\c gun turret_mp", "Turret",  { "turret" },                1 },
-        { "vehicles\\warthog\\mp_warthog",           "Warthog", { "hog", "warthog" },        3 },
-        { "vehicles\\scorpion\\scorpion_mp",         "Tank",    { "tank", "scorpion" },      5 }
+        { "vehicles\\ghost\\ghost_mp", "Ghost", { "ghost" }, 1 },
+        { "vehicles\\rwarthog\\rwarthog", "R-Hog", { "rhog" }, 3 },
+        { "vehicles\\banshee\\banshee_mp", "Banshee", { "banshee", "banshee_mp" }, 1 },
+        { "vehicles\\c gun turret\\c gun turret_mp", "Turret", { "turret" }, 1 },
+        { "vehicles\\warthog\\mp_warthog", "Warthog", { "hog", "warthog" }, 3 },
+        { "vehicles\\scorpion\\scorpion_mp", "Tank", { "tank", "scorpion" }, 5 }
     },
 
     weap = {
-        { "weapons\\gravity rifle\\gravity rifle",     "Gravity Gun",     { "gravitygun" } },
-        { "weapons\\flag\\flag",                       "Flag",            { "flag" } },
-        { "weapons\\ball\\ball",                       "Skull",           { "skull" } },
-        { "weapons\\pistol\\pistol",                   "Pistol",          { "pistol" } },
-        { "weapons\\shotgun\\shotgun",                 "Shotgun",         { "shotgun" } },
-        { "weapons\\needler\\mp_needler",              "Needler",         { "needler" } },
-        { "weapons\\plasma rifle\\plasma rifle",       "Plasma Rifle",    { "prifle", "plasmarifle" } },
-        { "weapons\\flamethrower\\flamethrower",       "Flamethrower",    { "flame", "flamethrower" } },
-        { "weapons\\plasma_cannon\\plasma_cannon",     "Plasma Cannon",   { "pcannon", "plasmacannon" } },
-        { "weapons\\plasma pistol\\plasma pistol",     "Plasma Pistol",   { "ppistol", "plasmapistol" } },
-        { "weapons\\assault rifle\\assault rifle",     "Assault Rifle",   { "arifle", "assaultrifle" } },
-        { "weapons\\sniper rifle\\sniper rifle",       "Sniper Rifle",    { "sniper", "sniperrifle" } },
+        { "weapons\\gravity rifle\\gravity rifle", "Gravity Gun", { "gravitygun" } },
+        { "weapons\\flag\\flag", "Flag", { "flag" } },
+        { "weapons\\ball\\ball", "Skull", { "skull" } },
+        { "weapons\\pistol\\pistol", "Pistol", { "pistol" } },
+        { "weapons\\shotgun\\shotgun", "Shotgun", { "shotgun" } },
+        { "weapons\\needler\\mp_needler", "Needler", { "needler" } },
+        { "weapons\\plasma rifle\\plasma rifle", "Plasma Rifle", { "prifle", "plasmarifle" } },
+        { "weapons\\flamethrower\\flamethrower", "Flamethrower", { "flame", "flamethrower" } },
+        { "weapons\\plasma_cannon\\plasma_cannon", "Plasma Cannon", { "pcannon", "plasmacannon" } },
+        { "weapons\\plasma pistol\\plasma pistol", "Plasma Pistol", { "ppistol", "plasmapistol" } },
+        { "weapons\\assault rifle\\assault rifle", "Assault Rifle", { "arifle", "assaultrifle" } },
+        { "weapons\\sniper rifle\\sniper rifle", "Sniper Rifle", { "sniper", "sniperrifle" } },
         { "weapons\\rocket launcher\\rocket launcher", "Rocket Launcher", { "rocketl", "rocketlauncher" } }
     },
 
     proj = {
-        { "weapons\\flamethrower\\flame",           "Flames",                    { "flames", "flameproj" } },
-        { "weapons\\needler\\mp_needle",            "Needler Needle",            { "needle", "needlerproj" } },
-        { "weapons\\rocket launcher\\rocket",       "Rocket",                    { "rocket", "rocketproj" } },
-        { "weapons\\pistol\\bullet",                "Pistol Bullet",             { "pistolbullet", "pistolproj" } },
-        { "weapons\\plasma pistol\\bolt",           "Plasma Pistol Bolt",        { "ppistolproj" } },
-        { "weapons\\sniper rifle\\sniper bullet",   "Sniper Bullet",             { "sniperproj" } },
-        { "weapons\\plasma rifle\\bolt",            "Plasma Rifle Bolt",         { "plasmariflebolt" } },
-        { "weapons\\assault rifle\\bullet",         "Assault Rifle Bullet",      { "ariflebullet" } },
-        { "weapons\\plasma rifle\\charged bolt",    "Plasma Rifle Charged Bolt", { "priflecharged" } },
-        { "weapons\\shotgun\\pellet",               "Shotgun Pellet",            { "shotgunproj" } },
-        { "weapons\\plasma_cannon\\plasma_cannon",  "Plasma Cannon Shot",        { "fuelrodproj" } },
-        { "vehicles\\warthog\\bullet",              "Warthog Bullet",            { "warthogbullet", "warthogproj" } },
-        { "vehicles\\scorpion\\bullet",             "Tank Bullet",               { "tankbullet", "tankbulletproj" } },
-        { "vehicles\\c gun turret\\mp gun turret",  "Turret Bolt",               { "turretbolt", "turretproj" } },
-        { "vehicles\\ghost\\ghost bolt",            "Ghost Bolt",                { "ghostbolt", "ghostproj" } },
-        { "vehicles\\scorpion\\tank shell",         "Tank Shell",                { "tankshell", "tankshellproj" } },
-        { "vehicles\\banshee\\mp_banshee fuel rod", "Banshee Fuel Rod",          { "bansheerod" } },
-        { "vehicles\\banshee\\banshee bolt",        "Banshee Bolt",              { "sheebolt" } }
+        { "weapons\\flamethrower\\flame", "Flames", { "flames", "flameproj" } },
+        { "weapons\\needler\\mp_needle", "Needler Needle", { "needle", "needlerproj" } },
+        { "weapons\\rocket launcher\\rocket", "Rocket", { "rocket", "rocketproj" } },
+        { "weapons\\pistol\\bullet", "Pistol Bullet", { "pistolbullet", "pistolproj" } },
+        { "weapons\\plasma pistol\\bolt", "Plasma Pistol Bolt", { "ppistolproj" } },
+        { "weapons\\sniper rifle\\sniper bullet", "Sniper Bullet", { "sniperproj" } },
+        { "weapons\\plasma rifle\\bolt", "Plasma Rifle Bolt", { "plasmariflebolt" } },
+        { "weapons\\assault rifle\\bullet", "Assault Rifle Bullet", { "ariflebullet" } },
+        { "weapons\\plasma rifle\\charged bolt", "Plasma Rifle Charged Bolt", { "priflecharged" } },
+        { "weapons\\shotgun\\pellet", "Shotgun Pellet", { "shotgunproj" } },
+        { "weapons\\plasma_cannon\\plasma_cannon", "Plasma Cannon Shot", { "fuelrodproj" } },
+        { "vehicles\\warthog\\bullet", "Warthog Bullet", { "warthogbullet", "warthogproj" } },
+        { "vehicles\\scorpion\\bullet", "Tank Bullet", { "tankbullet", "tankbulletproj" } },
+        { "vehicles\\c gun turret\\mp gun turret", "Turret Bolt", { "turretbolt", "turretproj" } },
+        { "vehicles\\ghost\\ghost bolt", "Ghost Bolt", { "ghostbolt", "ghostproj" } },
+        { "vehicles\\scorpion\\tank shell", "Tank Shell", { "tankshell", "tankshellproj" } },
+        { "vehicles\\banshee\\mp_banshee fuel rod", "Banshee Fuel Rod", { "bansheerod" } },
+        { "vehicles\\banshee\\banshee bolt", "Banshee Bolt", { "sheebolt" } }
     }
 }
 -- CONFIGURATION END -----------------------------------------------------------
@@ -128,14 +122,13 @@ local OBJECT_TYPES = {
 }
 
 local SEAT_MAP = { ["-"] = 0, ["*"] = 1, ["^"] = 2 }
-local ITEM_FLAGS = {
-    vehi = { is_vehicle = true },
-    weap = { is_weapon = true },
-    eqip = { is_equipment = true }
-}
+local ITEM_FLAGS = { vehi = { is_vehicle = true }, weap = { is_weapon = true }, eqip = { is_equipment = true } }
 
 local function respond(id)
-    return id == 0 and cprint or function(msg) rprint(id, msg) end
+    return id == 0 and cprint
+        or function (msg)
+            rprint(id, msg)
+        end
 end
 
 local function atan2(y, x)
@@ -143,12 +136,7 @@ local function atan2(y, x)
 end
 
 local function create_player(id)
-    local player = {
-        id = id,
-        name = get_var(id, '$name'),
-        cached_objects = {},
-        object_count = 0
-    }
+    local player = { id = id, name = get_var(id, '$name'), cached_objects = {}, object_count = 0 }
     players[id] = player
     return player
 end
@@ -400,7 +388,7 @@ local function format_items_page(items, page, total_pages)
 end
 
 local function sort(items)
-    t_sort(items, function(a, b) return a.display_name < b.display_name end)
+    t_sort(items, function (a, b) return a.display_name < b.display_name end)
     return items
 end
 
@@ -489,9 +477,13 @@ function OnCommand(id, Command)
     return false
 end
 
-function OnJoin(id) create_player(id) end
+function OnJoin(id)
+    create_player(id)
+end
 
-function OnQuit(id) remove_player(id) end
+function OnQuit(id)
+    remove_player(id)
+end
 
 function OnStart()
     if get_var(0, '$gt') == 'n/a' then return end

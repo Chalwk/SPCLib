@@ -51,15 +51,15 @@ local Crash = {
             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", -- hash 1
             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", -- hash 2
             "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", -- hash 3
-            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", -- hash 4
+            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"  -- hash 4
         },
         names = {
             -- Anyone who joins with these names will be crashed!
             "TᑌᗰᗷᗩᑕᑌᒪOᔕ",
             "TUMBACULOS",
-            "A55hol3",
+            "A55hol3"
             --
-        },
+        }
     },
     ------------------------------------------------
 
@@ -78,8 +78,8 @@ local Crash = {
         -- For custom maps, if you're experiencing a problem where the command executes fine but all it does
         -- is kill the player, try setting the iterations higher.
 
-        { "vehicles\\warthog\\mp_warthog", 25 }, -- this tag is sufficient for all stock maps.
-        { "bourrin\\halo reach\\vehicles\\warthog\\rocket warthog", 2000 }, -- this is for bigassv2,104
+        { "vehicles\\warthog\\mp_warthog", 25 },                           -- this tag is sufficient for all stock maps.
+        { "bourrin\\halo reach\\vehicles\\warthog\\rocket warthog", 2000 } -- this is for bigassv2,104
     }
     --===================================================--
 }
@@ -101,7 +101,7 @@ function OnGameStart()
 end
 
 local function CMDSplit(CMD)
-    local Args = { }
+    local Args = {}
     CMD = CMD:gsub('"', "")
     for Params in CMD:gmatch(CMD, "([^%s]+)") do
         Args[#Args + 1] = Params:lower()
@@ -110,7 +110,7 @@ local function CMDSplit(CMD)
 end
 
 local function GetPlayers(Executor, Args)
-    local pl = { }
+    local pl = {}
     if (Args[2] == nil or Args[2] == "me") then
         if (Executor ~= 0) then
             table.insert(pl, Executor)
@@ -156,7 +156,11 @@ function Crash:OnServerCommand(Executor, CMD)
                             elseif (player_alive(TargetID)) then
                                 self:CrashClient(Executor, TargetID)
                             else
-                                self:Respond(Executor, "Player #" .. TargetID .. " is not alive! Please wait until they respawn")
+                                self:Respond(
+                                    Executor,
+                                    "Player #" .. TargetID
+                                        .. " is not alive! Please wait until they respawn"
+                                )
                             end
                         end
                     end
@@ -177,7 +181,6 @@ function Crash:OnServerCommand(Executor, CMD)
 end
 
 function Crash:CrashOnJoin(Ply)
-
     -- If any of these return true, the player will be crashed.
 
     local hash = get_var(Ply, "hash")
@@ -239,7 +242,6 @@ local function GetXYZ(Ply)
 end
 
 function Crash:CrashClient(Executor, TargetID)
-
     self.players[TargetID] = false
 
     local name = get_var(TargetID, "$name")
@@ -249,7 +251,6 @@ function Crash:CrashClient(Executor, TargetID)
     local object = get_object_memory(vehicle)
 
     if (object ~= 0) then
-
         --
         -- Initialize a for-loop starting at 0 (first iteration):
         --
@@ -298,8 +299,7 @@ local function GetTag(Type, Name)
 end
 
 function Crash:SetCrashVehicle()
-
-    self.players = { }
+    self.players = {}
 
     self.delay = nil
     self.vehicle_tag = nil

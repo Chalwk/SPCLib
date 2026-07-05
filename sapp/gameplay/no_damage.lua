@@ -44,7 +44,7 @@ local function getOriginalBits(playerId)
     if playerDynamic ~= 0 then
         return {
             [playerDynamic + 0x10] = { 0, read_bit(playerDynamic + 0x10, 0) },
-            [playerDynamic + 0x106] = { 11, read_bit(playerDynamic + 0x106, 11) },
+            [playerDynamic + 0x106] = { 11, read_bit(playerDynamic + 0x106, 11) }
         }
     end
     return nil
@@ -60,7 +60,7 @@ end
 local function modifyDamageBits(playerId)
     local playerDynamic = get_dynamic_player(playerId)
     if playerDynamic ~= 0 and protectedPlayers[playerId] then
-        write_bit(playerDynamic + 0x10, 0, 1)  -- Set the "no damage" bit
+        write_bit(playerDynamic + 0x10, 0, 1) -- Set the "no damage" bit
         write_bit(playerDynamic + 0x106, 11, 1) -- Set the "no damage" bit for the second value
     end
 end

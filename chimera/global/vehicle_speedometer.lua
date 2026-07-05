@@ -22,9 +22,36 @@ local HUD_ENABLED = true
 
 -- Format: {text, x1, y1, x2, y2, font, align, alpha, r, g, b}
 local MESSAGES = {
-    { "%s",     LEFT_MARGIN, TOP_Y,                  TEXT_RIGHT, TOP_Y + LINE_HEIGHT,         "smaller", "left", 1.0, 0.45, 0.72, 1.0 }, -- map
-    { "%s",     LEFT_MARGIN, TOP_Y + LINE_HEIGHT,    TEXT_RIGHT, TOP_Y + 2 * LINE_HEIGHT,     "smaller", "left", 1.0, 0.45, 0.72, 1.0 }, -- vehicle
-    { "%.1f km/h", LEFT_MARGIN, TOP_Y + 2 * LINE_HEIGHT, TEXT_RIGHT, TOP_Y + 3 * LINE_HEIGHT, "large", "left", 1.0, 0.45, 0.72, 1.0 }    -- speed
+    -- map
+    { "%s", LEFT_MARGIN, TOP_Y, TEXT_RIGHT, TOP_Y + LINE_HEIGHT, "smaller", "left", 1.0, 0.45, 0.72, 1.0 },
+    -- vehicle
+    {
+        "%s",
+        LEFT_MARGIN,
+        TOP_Y + LINE_HEIGHT,
+        TEXT_RIGHT,
+        TOP_Y + 2 * LINE_HEIGHT,
+        "smaller",
+        "left",
+        1.0,
+        0.45,
+        0.72,
+        1.0
+    },
+    -- speed
+    {
+        "%.1f km/h",
+        LEFT_MARGIN,
+        TOP_Y + 2 * LINE_HEIGHT,
+        TEXT_RIGHT,
+        TOP_Y + 3 * LINE_HEIGHT,
+        "large",
+        "left",
+        1.0,
+        0.45,
+        0.72,
+        1.0
+    }
 }
 -- CONFIG END --
 
@@ -75,7 +102,7 @@ local function format_vehicle_name(raw_name)
     if vehicle_names[lower] then return vehicle_names[lower] end
 
     local name = gsub(raw_name, "_", " ")
-    name = gsub(name, "(%a)([%a]*)", function(first, rest)
+    name = gsub(name, "(%a)([%a]*)", function (first, rest)
         return first:upper() .. rest:lower()
     end)
     return name
@@ -108,7 +135,7 @@ end
 local function get_gametype_base()
     local addresses = { 0x6F1C88, 0x68CC48 } -- PC, CE
     for _, addr in ipairs(addresses) do
-        local success, game_type = pcall(function()
+        local success, game_type = pcall(function ()
             return read_byte(addr + 0x30)
         end)
         if success and game_type == 5 then

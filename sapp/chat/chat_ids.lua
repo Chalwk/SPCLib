@@ -65,10 +65,8 @@ end
 
 -- Display chat messages with IDs
 function ShowChatIDs(playerId, msg, type)
-
     -- Check if the message is not a chat command
     if not isCommand(msg) then
-
         local name = get_var(playerId, '$name')
         local team = get_var(playerId, '$team')
         local formattedMsg = chat[type]

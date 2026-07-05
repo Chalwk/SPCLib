@@ -18,35 +18,35 @@ LICENSE:          MIT License
 -- Configuration start --------------------------------------------------------
 local weapon_tags = {
     -- stock weapon tags
-    assault_rifle        = 'weapons\\assault rifle\\assault rifle',
-    flamethrower         = 'weapons\\flamethrower\\flamethrower',
-    gravity_rifle        = 'weapons\\gravity rifle\\gravity rifle',
-    needler              = 'weapons\\needler\\mp_needler',
-    pistol               = 'weapons\\pistol\\pistol',
-    plasma_cannon        = 'weapons\\plasma_cannon\\plasma_cannon',
-    plasma_pistol        = 'weapons\\plasma pistol\\plasma pistol',
-    plasma_rifle         = 'weapons\\plasma rifle\\plasma rifle',
-    rocket_launcher      = 'weapons\\rocket launcher\\rocket launcher',
-    shotgun              = 'weapons\\shotgun\\shotgun',
-    sniper               = 'weapons\\sniper rifle\\sniper rifle',
+    assault_rifle = 'weapons\\assault rifle\\assault rifle',
+    flamethrower = 'weapons\\flamethrower\\flamethrower',
+    gravity_rifle = 'weapons\\gravity rifle\\gravity rifle',
+    needler = 'weapons\\needler\\mp_needler',
+    pistol = 'weapons\\pistol\\pistol',
+    plasma_cannon = 'weapons\\plasma_cannon\\plasma_cannon',
+    plasma_pistol = 'weapons\\plasma pistol\\plasma pistol',
+    plasma_rifle = 'weapons\\plasma rifle\\plasma rifle',
+    rocket_launcher = 'weapons\\rocket launcher\\rocket launcher',
+    shotgun = 'weapons\\shotgun\\shotgun',
+    sniper = 'weapons\\sniper rifle\\sniper rifle',
 
     -- rev_sanctuary_cavebeta
-    rev_assault_rifle    = 'revolution\\weapons\\assault rifle\\revolution assault rifle',
-    rev_battle_rifle     = 'revolution\\weapons\\battle rifle\\battle_rifle',
-    rev_carbine          = 'revolution\\weapons\\carbine\\carbine',
+    rev_assault_rifle = 'revolution\\weapons\\assault rifle\\revolution assault rifle',
+    rev_battle_rifle = 'revolution\\weapons\\battle rifle\\battle_rifle',
+    rev_carbine = 'revolution\\weapons\\carbine\\carbine',
     rev_grenade_launcher = 'revolution\\weapons\\grenade launcher\\nade_launcher',
-    rev_needler          = 'revolution\\weapons\\needler\\needler',
-    rev_pistol           = 'revolution\\weapons\\pistol\\rev pistol',
-    rev_plasma_cannon    = 'revolution\\weapons\\plasma cannon\\plasma_cannon',
-    rev_plasma_pistol    = 'revolution\\weapons\\plasma pistol\\plasma pistol',
-    rev_plasma_rifle     = 'revolution\\weapons\\plasma rifle\\plasma rifle',
-    rev_rocket_launcher  = 'revolution\\weapons\\rocket launcher\\rocket launcher',
-    rev_shotgun          = 'revolution\\weapons\\shotgun\\revolution shotgun',
-    rev_smg              = 'revolution\\weapons\\smg\\smg',
-    rev_sniper           = 'revolution\\weapons\\sniper\\revolution sniper',
+    rev_needler = 'revolution\\weapons\\needler\\needler',
+    rev_pistol = 'revolution\\weapons\\pistol\\rev pistol',
+    rev_plasma_cannon = 'revolution\\weapons\\plasma cannon\\plasma_cannon',
+    rev_plasma_pistol = 'revolution\\weapons\\plasma pistol\\plasma pistol',
+    rev_plasma_rifle = 'revolution\\weapons\\plasma rifle\\plasma rifle',
+    rev_rocket_launcher = 'revolution\\weapons\\rocket launcher\\rocket launcher',
+    rev_shotgun = 'revolution\\weapons\\shotgun\\revolution shotgun',
+    rev_smg = 'revolution\\weapons\\smg\\smg',
+    rev_sniper = 'revolution\\weapons\\sniper\\revolution sniper',
 
     -- ivory_tower_final
-    ivory_sniper         = 'weapons\\sniper rifle\\cyclotron sniper rifle',
+    ivory_sniper = 'weapons\\sniper rifle\\cyclotron sniper rifle'
 }
 
 -- Format: maps[map_name][game_mode][team] = { { weapon1, weapon2, weapon3, weapon4 }, { frag_grenades, plasma_grenades } }
@@ -101,9 +101,9 @@ local function initialize()
 
     local mode_config = config and config[game_mode]
     if not mode_config then
-        cprint("Weapon Assigner: No configuration found for map '"
-            .. map_name .. "' and mode '"
-            .. game_mode .. "'", 12)
+        cprint(
+            "Weapon Assigner: No configuration found for map '" .. map_name .. "' and mode '" .. game_mode .. "'", 12
+        )
         return false
     end
 
@@ -122,7 +122,9 @@ local function initialize()
 
             local tag_id = getTagID(tag_path)
             if not tag_id then
-                cprint("Weapon Assigner: Invalid weapon tag '" .. tag_path .. "' for weapon '" .. weapon_name .. "'", 12)
+                cprint(
+                    "Weapon Assigner: Invalid weapon tag '" .. tag_path .. "' for weapon '" .. weapon_name .. "'", 12
+                )
                 return false
             end
             table_insert(current_loadout[team].weapons, tag_id)

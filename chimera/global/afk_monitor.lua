@@ -66,6 +66,7 @@ function OnTick()
             local z = read_float(dyn + 0x64)
 
             local prev = last_pos[i]
+            ---@diagnostic disable-next-line: unnecessary-if
             if prev then
                 local dx = x - prev[1]
                 local dy = y - prev[2]
@@ -109,7 +110,9 @@ function OnCommand(cmd)
     if command == "afktime" then
         local num = tonumber(args[2])
         if num and num > 0 then
+            ---@diagnostic disable-next-line: assign-type-mismatch
             IDLE_SECONDS = num
+            ---@diagnostic disable-next-line: assign-type-mismatch
             idle_ticks = num * 30
             console_out("AFK idle time set to " .. num .. " seconds.")
         else

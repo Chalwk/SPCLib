@@ -26,7 +26,7 @@ local PUNISH_MESSAGE = "[Anti-Camp]: Killed for camping!"
 local MAPS = {
     ["bloodgulch"] = {
         { 98.80, -156.30, 1.70, 5.0, 120 }, -- RED base
-        { 36.87, -82.33,  1.70, 5.0, 120 }, -- BLUE base
+        { 36.87, -82.33, 1.70, 5.0, 120 }   -- BLUE base
     }
     -- Repeat the structure for other maps
 }
@@ -86,7 +86,9 @@ function OnScriptLoad()
     OnStart()
 end
 
-function OnSpawn(id) players[id] = nil end
+function OnSpawn(id)
+    players[id] = nil
+end
 
 function OnStart()
     map = get_var(0, '$gt') ~= "n/a" and get_var(0, '$map') or nil
@@ -149,6 +151,8 @@ function OnTick()
     end
 end
 
-function OnQuit(id) players[id] = nil end
+function OnQuit(id)
+    players[id] = nil
+end
 
 function OnScriptUnload() end

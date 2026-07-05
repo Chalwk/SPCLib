@@ -30,7 +30,7 @@ LICENSE:         MIT License
 local CONFIG = {
     FILE_NAME = 'vehicle_tag_utility.txt',
     COMMAND = 'tag',
-    OUTPUT_FORMAT = '[%s] Tag: %s',  -- map, tag
+    OUTPUT_FORMAT = '[%s] Tag: %s', -- map, tag
     PERMISSION_LEVEL = 1
 }
 

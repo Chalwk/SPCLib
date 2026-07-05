@@ -90,7 +90,6 @@ function OnTick()
     for player, data in pairs(active_admins) do
         local dyn_player = get_dynamic_player(player)
         if dyn_player ~= 0 and player_alive(player) then
-
             local px, py, pz, cx, cy, cz = GetCameraAndPosition(dyn_player)
             local ignore_player = read_dword(get_player(player) + 0x34)
 
@@ -100,13 +99,13 @@ function OnTick()
                 if is_shooting ~= data.last_shoot and is_shooting == 1 then
                     local object = get_object_memory(target)
                     if object ~= 0 then
-
                         local obj_type = read_byte(object + 0xB4)
                         local obj_name = read_string(read_dword(read_word(object) * 32 + 0x40440038))
                         local meta_id = read_dword(object)
                         local ox, oy, oz = read_vector3d(object + 0x5C)
 
-                        local type_string = ({ [0] = 'bipd', [1] = 'vehi', [2] = 'eqip', [3] = 'weap' })[obj_type] or 'unknown'
+                        local type_string = ({ [0] = 'bipd', [1] = 'vehi', [2] = 'eqip', [3] = 'weap' })[obj_type]
+                            or 'unknown'
                         DisplayObjectInfo(player, type_string, obj_name, meta_id, ox, oy, oz)
                     end
                 end
@@ -117,7 +116,6 @@ function OnTick()
 end
 
 local function hasPermission(playerId)
-
     local level = tonumber(get_var(playerId, '$lvl'))
     if level >= PERMISSION_LEVEL then
         return true
@@ -129,7 +127,6 @@ end
 
 function OnCommand(player, cmd)
     if cmd:lower():sub(1, #COMMAND) == COMMAND then
-
         if not hasPermission(player) then
             return false
         end

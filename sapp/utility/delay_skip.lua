@@ -24,12 +24,7 @@ local DELAY_MESSAGE = 'Please wait %s second%s before skipping the map.'
 
 -- Player levels that are immune to the skip delay restriction.
 -- Keys correspond to admin levels (1-4 = admins).
-local IMMUNE_LEVELS = {
-    [1] = true,
-    [2] = true,
-    [3] = true,
-    [4] = true
-}
+local IMMUNE_LEVELS = { [1] = true, [2] = true, [3] = true, [4] = true }
 -- Config ends ---------------------------------------------------------
 
 api_version = "1.12.0.0"

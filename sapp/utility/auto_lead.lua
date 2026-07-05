@@ -29,23 +29,23 @@ api_version = "1.12.0.0"
 
 local settings = {
     ["example_map"] = { ["gametype_name_here"] = 1, ["another_gametype"] = 1 },
-    ["beavercreek"] = { },
-    ["bloodgulch"] = { },
-    ["boardingaction"] = { },
-    ["carousel"] = { },
-    ["dangercanyon"] = { },
-    ["deathisland"] = { },
-    ["gephyrophobia"] = { },
-    ["icefields"] = { },
-    ["infinity"] = { },
-    ["sidewinder"] = { },
-    ["timberland"] = { },
-    ["hangemhigh"] = { },
-    ["ratrace"] = { },
-    ["damnation"] = { },
-    ["putput"] = { },
-    ["prisoner"] = { },
-    ["wizard"] = { },
+    ["beavercreek"] = {},
+    ["bloodgulch"] = {},
+    ["boardingaction"] = {},
+    ["carousel"] = {},
+    ["dangercanyon"] = {},
+    ["deathisland"] = {},
+    ["gephyrophobia"] = {},
+    ["icefields"] = {},
+    ["infinity"] = {},
+    ["sidewinder"] = {},
+    ["timberland"] = {},
+    ["hangemhigh"] = {},
+    ["ratrace"] = {},
+    ["damnation"] = {},
+    ["putput"] = {},
+    ["prisoner"] = {},
+    ["wizard"] = {}
 }
 
 function OnScriptLoad()
@@ -68,5 +68,4 @@ function SetLead()
 end
 
 function OnScriptUnload()
-
 end

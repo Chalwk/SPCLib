@@ -14,12 +14,12 @@ LICENSE:          MIT License
 
 local KICK_REASON = "High Ping (exceeds 240 ms)"
 local WARNING_MESSAGE = "HIGH PING: %s | Warning %s/%s"
-local CHECK_INTERVAL = 5 -- Seconds between ping checks
-local WARNINGS = 5       -- Warnings before kick
-local GRACE_PERIOD = 20  -- Seconds after a warning to reset strikes
-local PING_LIMIT = 240   -- Hard-coded ping limit (ms)
-local MEMBERS = {        -- List of immune members (case-sensitive as in game)
-    ["EXAMPLE_NAME_HERE"] = true,
+local CHECK_INTERVAL = 5                                -- Seconds between ping checks
+local WARNINGS = 5                                      -- Warnings before kick
+local GRACE_PERIOD = 20                                 -- Seconds after a warning to reset strikes
+local PING_LIMIT = 240                                  -- Hard-coded ping limit (ms)
+local MEMBERS = { -- List of immune members (case-sensitive as in game)
+    ["EXAMPLE_NAME_HERE"] = true
 }
 
 -- CONFIG ENDS -----------------------------------------------------

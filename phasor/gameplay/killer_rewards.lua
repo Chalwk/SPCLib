@@ -11,18 +11,11 @@ LICENSE:          MIT License
 
 -- CONFIG START ------------------------------------------------
 local EQUIPMENT = {
-    "powerups\\active camouflage",
-    "powerups\\health pack",
-    "powerups\\over shield",
-    "powerups\\assault rifle ammo\\assault rifle ammo",
-    "powerups\\needler ammo\\needler ammo",
-    "powerups\\pistol ammo\\pistol ammo",
-    "powerups\\rocket launcher ammo\\rocket launcher ammo",
-    "powerups\\shotgun ammo\\shotgun ammo",
-    "powerups\\sniper rifle ammo\\sniper rifle ammo",
-    "powerups\\flamethrower ammo\\flamethrower ammo",
-    "powerups\\double speed",
-    "powerups\\full-spectrum vision"
+    "powerups\\active camouflage", "powerups\\health pack", "powerups\\over shield",
+    "powerups\\assault rifle ammo\\assault rifle ammo", "powerups\\needler ammo\\needler ammo",
+    "powerups\\pistol ammo\\pistol ammo", "powerups\\rocket launcher ammo\\rocket launcher ammo",
+    "powerups\\shotgun ammo\\shotgun ammo", "powerups\\sniper rifle ammo\\sniper rifle ammo",
+    "powerups\\flamethrower ammo\\flamethrower ammo", "powerups\\double speed", "powerups\\full-spectrum vision"
 }
 
 -- Player killstreaks that trigger a reward
@@ -44,7 +37,9 @@ local MIN_REWARD = 100 -- 100+ also triggers
 
 local tags = {}
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end
 
 function OnScriptLoad() end
 

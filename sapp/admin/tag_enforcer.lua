@@ -15,9 +15,9 @@ LICENSE:          MIT License
 
 -- Config Start ---------------------------------------------------------------
 local CLAN_TAG = 'LIB-'
-local OFFICIAL_MEMBERS = {              -- table of authorised members
-    '127.1.0.1',                        -- example IP
-    'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', -- example hash
+local OFFICIAL_MEMBERS = { -- table of authorised members
+    '127.1.0.1',                       -- example IP
+    'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' -- example hash
 }
 -- Config End  ----------------------------------------------------------------
 

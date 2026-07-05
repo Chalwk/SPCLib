@@ -47,7 +47,6 @@ local function GetTag(class, name)
 end
 
 local function getCurrentWeapon(dyn)
-
     local weapon = read_dword(dyn + 0x118)
     local object = get_object_memory(weapon)
 
@@ -97,14 +96,14 @@ function OnTick()
         local dyn = get_dynamic_player(i)
 
         if (player_present(i) and player_alive(i) and not inVehicle(dyn)) then
-
             local currentWeapon = getCurrentWeapon(dyn)
             if currentWeapon ~= player.currentWeapon then
                 player.currentWeapon = currentWeapon
                 updateExplosionInterval(currentWeapon, player)
             end
 
-            if (os.clock() - player.lastExplosionTime >= player.nextExplosionInterval) and currentWeapon == rocketLauncherTag then
+            if (os.clock() - player.lastExplosionTime >= player.nextExplosionInterval)
+                and currentWeapon == rocketLauncherTag then
                 spawnProjectiles(dyn)
                 resetTime(player)
                 send(EXPLOSION_MESSAGE, player.name)

@@ -194,7 +194,8 @@ h1 {
     box-shadow: 0 0 0 2px rgba(107, 142, 214, 0.3);
 }
 
-select, .page-size {
+select,
+.page-size {
     background: #0f1622;
     border: 1px solid #2c3f5c;
     padding: 0.5rem 1rem;

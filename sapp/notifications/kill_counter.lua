@@ -25,14 +25,13 @@ function OnScriptLoad()
 end
 
 function OnDeath(Victim, Killer)
-
     local killer = tonumber(Killer)
     local victim = tonumber(Victim)
 
     if (killer > 0 and killer ~= victim) then
         local kills = tonumber(get_var(killer, '$kills'))
         local str = output:gsub('$kills', kills)
-        rprint(killer,str)
+        rprint(killer, str)
     end
 end
 

@@ -78,7 +78,7 @@ local KNOWN_PIRATED_HASHES = {
     ['f35309a653ae6243dab90c203fa50000'] = true,
     ['50bbef5ebf4e0393016d129a545bd09d'] = true,
     ['a77ee0be91bd38a0635b65991bc4b686'] = true,
-    ['3126fab3615a94119d5fe9eead1e88c1'] = true,
+    ['3126fab3615a94119d5fe9eead1e88c1'] = true
 }
 
 -- Logo template | Format: { "Message" }
@@ -116,7 +116,7 @@ local tostring, tonumber = tostring, tonumber
 local function format(template, args)
     if not args then return template end
 
-    return (template:gsub("%$([%w_]+)", function(key)
+    return (template:gsub("%$([%w_]+)", function (key)
         local value = args[key] or args[key:lower()] or args[key:upper()]
         return value ~= nil and tostring(value) or "$" .. key
     end))
@@ -127,10 +127,7 @@ local fmt_log = format
 function show_ASCII_art()
     if not LOGO[1] then return end
 
-    local args = {
-        timestamp = os_date('!%a %d %b %Y %H:%M:%S'),
-        servername = getservername()
-    }
+    local args = { timestamp = os_date('!%a %d %b %Y %H:%M:%S'), servername = getservername() }
 
     for _, line in ipairs(LOGO[2]) do
         respond(format(line[1], args))
@@ -196,8 +193,9 @@ end
 
 local function parse_gametype() -- todo: remove (but keep note of it)
     local type = readbyte(gametype_base + 0x30)
-    return type == 0 and "none" or type == 1 and "ctf" or type == 2 and "slayer" or type == 3 and "oddball" or
-        type == 4 and "king" or type == 5 and "race"
+    return type == 0 and "none" or type == 1 and "ctf"
+        or type == 2 and "slayer" or type == 3 and "oddball"
+        or type == 4 and "king" or type == 5 and "race"
 end
 
 local function get_player(player)
@@ -242,13 +240,7 @@ end
 
 function OnPlayerJoin(player)
     local id = resolveplayer(player)
-    local p = {
-        id = id,
-        ip = getip(player),
-        name = getname(player),
-        hash = gethash(player),
-        switched = false
-    }
+    local p = { id = id, ip = getip(player), name = getname(player), hash = gethash(player), switched = false }
     players[id] = p
     log("OnJoin", get_player_data(id))
 end
@@ -298,11 +290,11 @@ function OnPlayerKill(killer, victim, mode)
         event_type = 9 -- server
     elseif mode == 1 then
         if victim_data.switched then return end
-        event_type = 8    -- fall damage
+        event_type = 8 -- fall damage
     elseif mode == 2 then
-        event_type = 10   -- guardians (generic)
+        event_type = 10 -- guardians (generic)
     elseif mode == 3 then
-        event_type = 7    -- squashed by vehicle
+        event_type = 7 -- squashed by vehicle
     elseif mode == 4 then -- pvp
         if first_blood then
             first_blood = false
@@ -351,4 +343,6 @@ function OnServerChat(id, _, message)
     end
 end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end

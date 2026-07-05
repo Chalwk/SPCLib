@@ -31,11 +31,17 @@ function OnScriptLoad() end
 
 function OnScriptUnload() end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end
 
-function OnNewGame() player_data = {} end
+function OnNewGame()
+    player_data = {}
+end
 
-function OnPlayerLeave(id) player_data[id] = nil end
+function OnPlayerLeave(id)
+    player_data[id] = nil
+end
 
 function OnPlayerSpawn(id)
     local p = player_data[id]

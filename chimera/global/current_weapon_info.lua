@@ -46,7 +46,9 @@ function OnTick()
     local msg = string.format("%s | %d / %d", short_name, clip1, total1)
 
     -- Clear old HUD spam and show
-    for _ = 1, 10 do hud_message(" ") end
+    for _ = 1, 10 do
+        hud_message(" ")
+    end
     hud_message(msg)
 end
 

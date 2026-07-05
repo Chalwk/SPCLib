@@ -38,9 +38,9 @@ api_version = "1.12.0.0"
 
 local maps = {
     bloodgulch = {
-        { "weap", "weapons\\sniper rifle\\sniper rifle", 90.899, -159.633, 1.704, 1.587, 30, 1.5 },
+        { "weap", "weapons\\sniper rifle\\sniper rifle", 90.899, -159.633, 1.704, 1.587, 30, 1.5 }
         -- Add more entries below:
-    },
+    }
     -- Add more maps here:
 }
 -- CONFIG end -----------------------------------------------------------------------------------
@@ -206,6 +206,8 @@ function OnStart()
     if get_var(0, "$gt") ~= "n/a" then init_objects() end
 end
 
-function OnEnd() active = {} end
+function OnEnd()
+    active = {}
+end
 
 function OnScriptUnload() end

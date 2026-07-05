@@ -20,8 +20,14 @@ local TIMESTAMP_FORMAT = '!%a %d %b %Y %H:%M:%S'
 local EVENTS = {
     OnStart = { enable = true, log = "[START] New game on $map - $mode" },
     OnEnd = { enable = true, log = "[END] Game ended" },
-    OnJoin = { enable = true, log = "[JOIN] $name ($id) | IP: $ip | Hash: $hash | Pirated: $pirated | Players: $total/16" },
-    OnQuit = { enable = true, log = "[QUIT] $name ($id) | IP: $ip | Hash: $hash | Pirated: $pirated | Players: $total/16" },
+    OnJoin = {
+        enable = true,
+        log = "[JOIN] $name ($id) | IP: $ip | Hash: $hash | Pirated: $pirated | Players: $total/16"
+    },
+    OnQuit = {
+        enable = true,
+        log = "[QUIT] $name ($id) | IP: $ip | Hash: $hash | Pirated: $pirated | Players: $total/16"
+    },
     OnSpawn = { enable = false, log = "[SPAWN] $name spawned" },
     OnSwitch = { enable = false, log = "[SWITCH] $name switched to $team" },
     OnWarp = { enable = false, log = "[WARP] $name warped" },
@@ -32,10 +38,19 @@ local EVENTS = {
     OnChat = { enable = true, log = "[$type MSG] $name ($id): $msg" },
 
     OnScore = {
-        [1] = { enable = false, log = "[SCORE] $name captured for $team | Red: $redScore Blue: $blueScore | Limit: $scorelimit" },
-        [2] = { enable = false, log = "[SCORE] $name lap for $team | Lap: $lap_time | Team Laps: $totalTeamLaps | Limit: $scorelimit" },
+        [1] = {
+            enable = false,
+            log = "[SCORE] $name captured for $team | Red: $redScore Blue: $blueScore | Limit: $scorelimit"
+        },
+        [2] = {
+            enable = false,
+            log = "[SCORE] $name lap for $team | Lap: $lap_time | Team Laps: $totalTeamLaps | Limit: $scorelimit"
+        },
         [3] = { enable = false, log = "[SCORE] $name lap done | Lap: $lap_time | Laps: $score/$scorelimit" },
-        [4] = { enable = false, log = "[SCORE] $name scored for $team | Red: $redScore Blue: $blueScore | Limit: $scorelimit" },
+        [4] = {
+            enable = false,
+            log = "[SCORE] $name scored for $team | Red: $redScore Blue: $blueScore | Limit: $scorelimit"
+        },
         [5] = { enable = false, log = "[SCORE] $name scored | Score: $score/$scorelimit" }
     },
 
@@ -100,25 +115,15 @@ local tick_rate = 1 / 30
 local score_limit, gametype_base, gametype, mode, map
 local ffa, falling, distance, first_blood
 
-local command_type = {
-    [0] = "RCON",
-    [1] = "CONSOLE",
-    [2] = "CHAT",
-    [3] = "UNKNOWN",
-}
+local command_type = { [0] = "RCON", [1] = "CONSOLE", [2] = "CHAT", [3] = "UNKNOWN" }
 
-local chat_type = {
-    [0] = "GLOBAL",
-    [1] = "TEAM",
-    [2] = "VEHICLE",
-    [3] = "UNKNOWN",
-}
+local chat_type = { [0] = "GLOBAL", [1] = "TEAM", [2] = "VEHICLE", [3] = "UNKNOWN" }
 
 -- Gametype -> score event type mapping
 local score_event = {
-    ctf = function() return 1 end,
-    race = function() return ffa and 3 or 2 end,
-    slayer = function() return ffa and 5 or 4 end
+    ctf = function () return 1 end,
+    race = function () return ffa and 3 or 2 end,
+    slayer = function () return ffa and 5 or 4 end
 }
 
 local io_open = io.open
@@ -210,7 +215,7 @@ local function newPlayer(id)
         name = get_var(id, '$name'),
         team = get_var(id, '$team'),
         hash = get_var(id, '$hash'),
-        level = function()
+        level = function ()
             return tonumber(get_var(id, '$lvl'))
         end
     }

@@ -37,7 +37,9 @@ local function format_time(total_seconds)
 end
 
 local function clear_hud()
-    for _ = 1, 8 do hud_message(" ") end
+    for _ = 1, 8 do
+        hud_message(" ")
+    end
 end
 
 local function draw_clock()

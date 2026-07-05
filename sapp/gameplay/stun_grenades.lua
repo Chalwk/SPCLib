@@ -41,9 +41,9 @@ local tags = {
     -- format:
     -- {tag name, stun time, stun percent}
     --
-    { 'weapons\\frag grenade\\explosion',   5,  0.5 },
-    { 'weapons\\plasma grenade\\explosion', 5,  0.5 },
-    { 'weapons\\plasma grenade\\attached',  10, 0.5 }
+    { 'weapons\\frag grenade\\explosion', 5, 0.5 },
+    { 'weapons\\plasma grenade\\explosion', 5, 0.5 },
+    { 'weapons\\plasma grenade\\attached', 10, 0.5 }
 }
 -- config ends --
 
@@ -118,11 +118,7 @@ function OnDamage(victim, killer, meta_id)
     local stun_time = stuns[meta_id][1]
     local stun_percent = stuns[meta_id][2]
 
-    players[victim] = {
-        start = time,
-        finish = time() + stun_time,
-        stun_percent = stun_percent,
-    }
+    players[victim] = { start = time, finish = time() + stun_time, stun_percent = stun_percent }
 end
 
 function OnScriptUnload()

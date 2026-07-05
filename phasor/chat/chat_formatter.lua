@@ -14,22 +14,18 @@ LICENSE:          MIT License
 -- CONFIG start ---------------------------------------------------------------
 -- Chat format templates (types 0 = global, 1 = team, 2 = vehicle)
 -- Use $name, $id, $msg as dynamic placeholders
-local chat_format = {
-    [0] = "$name [$id]: $msg",
-    [1] = "[$name] [$id]: $msg",
-    [2] = "[$name] [$id]: $msg"
-}
+local chat_format = { [0] = "$name [$id]: $msg", [1] = "[$name] [$id]: $msg", [2] = "[$name] [$id]: $msg" }
 
 -- Messages whose first word (case-insensitive) matches a key here are ignored.
 -- Perfect for commands like rtv / skip that shouldn't be reformatted.
-local ignore_list = { rtv = true, skip = true, }
+local ignore_list = { rtv = true, skip = true }
 -- CONFIG END -----------------------------------------------------------------
 
 local gametype_base
 
 local function format(template, args)
     if not args then return template end
-    return (template:gsub("%$([%w_]+)", function(key)
+    return (template:gsub("%$([%w_]+)", function (key)
         local value = args[key] or args[key:lower()] or args[key:upper()]
         return value ~= nil and tostring(value) or "$" .. key
     end))
@@ -84,4 +80,6 @@ end
 
 function OnScriptUnload() end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end

@@ -31,39 +31,20 @@ LICENSE:          MIT License
 -- CONFIG START ----------------------------------------------------------------------
 
 local TAUNT_ON_DEATH = true
-local TAUNT_ON_END   = true
+local TAUNT_ON_END = true
 
 local DEATH_MESSAGES = {
-    "Aw, %s, I've seen better shooting at the county fair!",
-    "Too bad you've got manure for brains!!",
-    "Hell's full of retired gamers, %s. Time you joined them!",
-    "My horse pisses straighter than you shoot!!",
-    "Can't you do better than that? Worms move faster!",
-    "Not good enough, %s. Not good enough!",
-    "I can already smell your rotting corpse.",
-    "Today is a good day to die, %s!",
-    "Too slow! You'll regret that!!",
-    "You insult me, %s!!",
-    "I'm sending you to an early grave!!",
-    "Had enough yet?!",
-    "Hope you plant better than you shoot!!",
-    "Damn you and the horse you rode in on!!",
-    "Time to fit you for a coffin!!",
-    "You have a date with the undertaker!!",
-    "Your life ends in the wasteland...",
-    "Rest in peace, %s.",
-    "You fought valiantly... but in vain.",
-    "You're dead. Again, %s!",
-    "Dead as a doornail.",
-    "Time to reload, %s.",
-    "Here's a picture of your corpse. Not pretty.",
-    "Wow. Dead and stupid.",
-    "Ha ha ha ha ha. You're dead, moron!",
-    "Couldn't charm your way out of that one, %s.",
-    "Nope. Just nope.",
-    "You have perished. What a shame.",
-    "Sell your PC. Just do it.",
-    "You disappoint me, %s."
+    "Aw, %s, I've seen better shooting at the county fair!", "Too bad you've got manure for brains!!",
+    "Hell's full of retired gamers, %s. Time you joined them!", "My horse pisses straighter than you shoot!!",
+    "Can't you do better than that? Worms move faster!", "Not good enough, %s. Not good enough!",
+    "I can already smell your rotting corpse.", "Today is a good day to die, %s!", "Too slow! You'll regret that!!",
+    "You insult me, %s!!", "I'm sending you to an early grave!!", "Had enough yet?!",
+    "Hope you plant better than you shoot!!", "Damn you and the horse you rode in on!!",
+    "Time to fit you for a coffin!!", "You have a date with the undertaker!!", "Your life ends in the wasteland...",
+    "Rest in peace, %s.", "You fought valiantly... but in vain.", "You're dead. Again, %s!", "Dead as a doornail.",
+    "Time to reload, %s.", "Here's a picture of your corpse. Not pretty.", "Wow. Dead and stupid.",
+    "Ha ha ha ha ha. You're dead, moron!", "Couldn't charm your way out of that one, %s.", "Nope. Just nope.",
+    "You have perished. What a shame.", "Sell your PC. Just do it.", "You disappoint me, %s."
 }
 
 local END_MESSAGES = {

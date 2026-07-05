@@ -90,11 +90,11 @@ Team Chat Commands:
     cooldown = 1.5
 }
 
-local teams = {}               -- [team_name] = { owner = pid, members = { [pid] = true } }
-local invites = {}             -- [pid] = { [team_name] = true }
-local cooldowns = {}           -- [pid] = last_message_time
-local active_players = {}      -- [pid] = Player object
-local command_map = {}         -- [command] = true
+local teams = {}          -- [team_name] = { owner = pid, members = { [pid] = true } }
+local invites = {}        -- [pid] = { [team_name] = true }
+local cooldowns = {}      -- [pid] = last_message_time
+local active_players = {} -- [pid] = Player object
+local command_map = {}    -- [command] = true
 
 api_version = '1.12.0.0'
 
@@ -109,7 +109,7 @@ function Player:new(id)
     o.name = get_var(id, '$name')
     o.team = nil
     o.chat_mode = 'global'
-    o.lvl = function()
+    o.lvl = function ()
         return tonumber(get_var(id, '$lvl'))
     end
 
@@ -140,10 +140,7 @@ local function create_team(player, team_name)
         return
     end
 
-    teams[team_name] = {
-        owner = player.id,
-        members = { [player.id] = true }
-    }
+    teams[team_name] = { owner = player.id, members = { [player.id] = true } }
 
     player.team = team_name
     player:send_message(TeamChat.formats.system:gsub('$msg', TeamChat.messages.created:gsub('$name', team_name)))
@@ -164,9 +161,13 @@ local function invite_to_team(player, target_name, team_name)
     for _, target in pairs(active_players) do
         if target.name:lower() == target_name:lower() then
             if team.members[target.id] then
-                player:send_message(TeamChat.formats.system:gsub('$msg',
-                    TeamChat.messages.already_member:gsub('$player', target.name)
-                    :gsub('$name', team_name)))
+                player:send_message(TeamChat.formats.system:gsub(
+                        '$msg',
+                        TeamChat.messages
+                            .already_member
+                            :gsub('$player', target.name)
+                            :gsub('$name', team_name)
+                    ))
                 return
             end
 
@@ -175,38 +176,46 @@ local function invite_to_team(player, target_name, team_name)
             invites[target.id][team_name] = true
 
             -- Notify players
-            player:send_message(TeamChat.formats.system:gsub('$msg',
-                TeamChat.messages.invite_sent:gsub('$player', target.name)
-                :gsub('$name', team_name)))
+            player:send_message(TeamChat.formats.system:gsub(
+                    '$msg',
+                    TeamChat.messages
+                        .invite_sent
+                        :gsub('$player', target.name)
+                        :gsub('$name', team_name)
+                ))
 
-            target:send_message(TeamChat.formats.system:gsub('$msg',
-                TeamChat.messages.invited:gsub('$name', team_name)
-                :gsub('$sender', player.name)))
+            target:send_message(TeamChat.formats.system:gsub(
+                    '$msg',
+                    TeamChat.messages
+                        .invited
+                        :gsub('$name', team_name)
+                        :gsub('$sender', player.name)
+                ))
             return
         end
     end
 
-    player:send_message(TeamChat.formats.system:gsub('$msg',
-        TeamChat.messages.player_not_found:gsub('$player', target_name)))
+    player:send_message(
+        TeamChat.formats.system:gsub('$msg', TeamChat.messages.player_not_found:gsub('$player', target_name))
+    )
 end
 
 local function join_team(player, team_name)
     if player.team then
-        player:send_message(TeamChat.formats.system:gsub('$msg',
-            TeamChat.messages.already_in_team:gsub('$name', player.team)))
+        player:send_message(
+            TeamChat.formats.system:gsub('$msg', TeamChat.messages.already_in_team:gsub('$name', player.team))
+        )
         return
     end
 
     if not teams[team_name] then
-        player:send_message(TeamChat.formats.system:gsub('$msg',
-            TeamChat.messages.not_found:gsub('$name', team_name)))
+        player:send_message(TeamChat.formats.system:gsub('$msg', TeamChat.messages.not_found:gsub('$name', team_name)))
         return
     end
 
     -- Check invite
     if not invites[player.id] or not invites[player.id][team_name] then
-        player:send_message(TeamChat.formats.system:gsub('$msg',
-            TeamChat.messages.no_invite:gsub('$name', team_name)))
+        player:send_message(TeamChat.formats.system:gsub('$msg', TeamChat.messages.no_invite:gsub('$name', team_name)))
         return
     end
 
@@ -215,8 +224,7 @@ local function join_team(player, team_name)
     player.team = team_name
     invites[player.id][team_name] = nil
 
-    player:send_message(TeamChat.formats.system:gsub('$msg',
-        TeamChat.messages.joined:gsub('$name', team_name)))
+    player:send_message(TeamChat.formats.system:gsub('$msg', TeamChat.messages.joined:gsub('$name', team_name)))
 end
 
 local function leave_team(player)
@@ -235,7 +243,7 @@ local function leave_team(player)
     -- Handle empty team
     if next(team.members) == nil then
         teams[team_name] = nil
-    -- Transfer ownership if owner left
+        -- Transfer ownership if owner left
     elseif team.owner == player.id then
         for id in pairs(team.members) do
             team.owner = id
@@ -243,8 +251,7 @@ local function leave_team(player)
         end
     end
 
-    player:send_message(TeamChat.formats.system:gsub('$msg',
-        TeamChat.messages.left:gsub('$name', team_name)))
+    player:send_message(TeamChat.formats.system:gsub('$msg', TeamChat.messages.left:gsub('$name', team_name)))
 end
 
 local function kick_from_team(player, target_name)
@@ -264,9 +271,13 @@ local function kick_from_team(player, target_name)
     for _, target in pairs(active_players) do
         if target.name:lower() == target_name:lower() then
             if not team.members[target.id] then
-                player:send_message(TeamChat.formats.system:gsub('$msg',
-                    TeamChat.messages.not_member:gsub('$player', target.name)
-                    :gsub('$name', team_name)))
+                player:send_message(TeamChat.formats.system:gsub(
+                        '$msg',
+                        TeamChat.messages
+                            .not_member
+                            :gsub('$player', target.name)
+                            :gsub('$name', team_name)
+                    ))
                 return
             end
 
@@ -274,17 +285,20 @@ local function kick_from_team(player, target_name)
             team.members[target.id] = nil
             target.team = nil
 
-            player:send_message(TeamChat.formats.system:gsub('$msg',
-                TeamChat.messages.kicked:gsub('$player', target.name)))
+            player:send_message(
+                TeamChat.formats.system:gsub('$msg', TeamChat.messages.kicked:gsub('$player', target.name))
+            )
 
-            target:send_message(TeamChat.formats.system:gsub('$msg',
-                TeamChat.messages.been_kicked:gsub('$name', team_name)))
+            target:send_message(
+                TeamChat.formats.system:gsub('$msg', TeamChat.messages.been_kicked:gsub('$name', team_name))
+            )
             return
         end
     end
 
-    player:send_message(TeamChat.formats.system:gsub('$msg',
-        TeamChat.messages.player_not_found:gsub('$player', target_name)))
+    player:send_message(
+        TeamChat.formats.system:gsub('$msg', TeamChat.messages.player_not_found:gsub('$player', target_name))
+    )
 end
 
 local function list_members(player)
@@ -299,9 +313,13 @@ local function list_members(player)
         table.insert(members, get_var(id, '$name'))
     end
 
-    player:send_message(TeamChat.formats.system:gsub('$msg',
-        TeamChat.messages.members:gsub('$name', player.team)
-        :gsub('$list', table.concat(members, ', '))))
+    player:send_message(TeamChat.formats.system:gsub(
+            '$msg',
+            TeamChat.messages
+                .members
+                :gsub('$name', player.team)
+                :gsub('$list', table.concat(members, ', '))
+        ))
 end
 
 local function list_teams(player)
@@ -313,8 +331,9 @@ local function list_teams(player)
     if #team_list == 0 then
         player:send_message(TeamChat.formats.system:gsub('$msg', TeamChat.messages.none))
     else
-        player:send_message(TeamChat.formats.system:gsub('$msg',
-            TeamChat.messages.list:gsub('$list', table.concat(team_list, ', '))))
+        player:send_message(
+            TeamChat.formats.system:gsub('$msg', TeamChat.messages.list:gsub('$list', table.concat(team_list, ', ')))
+        )
     end
 end
 
@@ -337,8 +356,7 @@ local function disband_team(player)
         local p = active_players[id]
         if p then
             p.team = nil
-            p:send_message(TeamChat.formats.system:gsub('$msg',
-                TeamChat.messages.disbanded:gsub('$name', team_name)))
+            p:send_message(TeamChat.formats.system:gsub('$msg', TeamChat.messages.disbanded:gsub('$name', team_name)))
         end
     end
 
@@ -346,7 +364,6 @@ local function disband_team(player)
 end
 
 local function send_team_message(sender, message)
-
     if not sender.team then
         sender:send_message(TeamChat.formats.system:gsub('$msg', TeamChat.messages.not_in_team))
         return false
@@ -358,7 +375,8 @@ local function send_team_message(sender, message)
         return false
     end
 
-    local formatted = TeamChat.formats.team_message
+    local formatted = TeamChat.formats
+        .team_message
         :gsub('$team', sender.team)
         :gsub('$name', sender.name)
         :gsub('$msg', message)
@@ -371,7 +389,6 @@ local function send_team_message(sender, message)
 end
 
 local function handle_team_command(player, args)
-
     local sub_cmd = args[1] and args[1]:lower() or ""
 
     if sub_cmd == 'create' and args[2] then
@@ -400,7 +417,6 @@ local function handle_team_command(player, args)
 end
 
 function OnScriptLoad()
-
     for _, cmd in ipairs(TeamChat.commands) do
         command_map[cmd:lower()] = true
     end
@@ -432,8 +448,9 @@ end
 
 function OnJoin(playerId)
     active_players[playerId] = Player:new(playerId)
-    active_players[playerId]:send_message(TeamChat.formats.system:gsub('$msg',
-        'Type /team help for team chat commands'))
+    active_players[playerId]:send_message(
+        TeamChat.formats.system:gsub('$msg', 'Type /team help for team chat commands')
+    )
 end
 
 function OnLeave(playerId)

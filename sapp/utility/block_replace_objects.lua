@@ -37,13 +37,13 @@ local TAGS_CONFIG = {
         { "eqip", "weapons\\frag grenade\\frag grenade" },
 
         -- Replace assault rifle with pistol in CTF
-        { "weap", "weapons\\assault rifle\\assault rifle", "weap", "weapons\\pistol\\pistol" },
+        { "weap", "weapons\\assault rifle\\assault rifle", "weap", "weapons\\pistol\\pistol" }
     },
 
     ["slayer"] = {
         -- Example for slayer mode
-        { "weap", "weapons\\sniper rifle\\sniper rifle", "weap", "weapons\\rocket launcher\\rocket launcher" },
-    },
+        { "weap", "weapons\\sniper rifle\\sniper rifle", "weap", "weapons\\rocket launcher\\rocket launcher" }
+    }
 
     -- Add more gametypes as needed
 }
@@ -93,7 +93,8 @@ function OnStart()
 
     local gametype = get_var(0, "$mode")
 
-    block_table = {}; replace_table = {}
+    block_table = {}
+    replace_table = {}
 
     local config = TAGS_CONFIG[gametype]
     if config then

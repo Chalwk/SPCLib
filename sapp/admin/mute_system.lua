@@ -95,7 +95,7 @@ local MuteSystem = {
         mute_list = {
             no_mutes = "There are no active mutes",
             header = "------ [ MUTE LIST ] ------",
-            content = "[%mute_index%] %name% %ip%",
+            content = "[%mute_index%] %name% %ip%"
         },
 
         mute_reminder = {
@@ -129,15 +129,15 @@ local MuteSystem = {
 
         -- Group whitelisting:
         [-1] = false, -- PUBLIC
-        [1] = true, -- ADMIN LEVEL 1
-        [2] = true, -- ADMIN LEVEL 2
-        [3] = true, -- ADMIN LEVEL 3
-        [4] = true, -- ADMIN LEVEL 4
+        [1] = true,   -- ADMIN LEVEL 1
+        [2] = true,   -- ADMIN LEVEL 2
+        [3] = true,   -- ADMIN LEVEL 3
+        [4] = true,   -- ADMIN LEVEL 4
 
         -- Prevent players with specific IP Addresses from being muted:
         specific_user_check = true,
         players = {
-            "127.0.0.1:2309",
+            "127.0.0.1:2309"
         }
     },
 
@@ -148,7 +148,7 @@ local MuteSystem = {
 
     -- The array index for each client will either be "IP", or "IP:PORT".
     -- Set to 1 for ip-only indexing.
-    ClientIndexType = 2,
+    ClientIndexType = 2
 
     -- Mute System Configuration Ends --
 }
@@ -197,11 +197,15 @@ function MuteSystem:OnTick()
             if (v.spam.timer < self.anti_spam.maxInterval) then
                 if (v.spam.count >= self.anti_spam.warnThreshold) and (v.spam.count < self.anti_spam.punishThreshold) then
                     self:CLS(v.id)
-                    self:Respond(v.id, gsub(self.anti_spam.warnMessage, "%%punishment%%", self.anti_spam.punishment), 12)
+                    self:Respond(
+                        v.id, gsub(self.anti_spam.warnMessage, "%%punishment%%", self.anti_spam.punishment), 12
+                    )
                 elseif (v.spam.count >= self.anti_spam.punishThreshold) then
                     if (self.anti_spam.punishment == "kicked") then
                         self:CLS(v.id)
-                        execute_command("k " .. v.id .. ' "' .. gsub(self.anti_spam.kickReason, "%%name%%", v.name) .. '"')
+                        execute_command("k " .. v.id
+                                .. ' "' .. gsub(self.anti_spam.kickReason, "%%name%%", v.name)
+                                .. '"')
                     elseif (self.anti_spam.punishment == "muted") then
                         self:CLS(v.id)
                         self:Mute(0, IP, self.anti_spam.mute_time * 60)
@@ -217,7 +221,7 @@ end
 function MuteSystem:InitPlayer(Ply, Reset)
     local IP = self:GetIP(Ply)
     if (not Reset) then
-        self.players[IP] = self.players[IP] or { }
+        self.players[IP] = self.players[IP] or {}
         self.players[IP].spam = { count = 0, timer = 0 }
         self.players[IP].id = Ply
         self.players[IP].name = get_var(Ply, "$name")
@@ -236,9 +240,9 @@ function OnPlayerDisconnect(Ply)
 end
 
 local function CMDSplit(CMD)
-    local Args = { }
+    local Args = {}
     for Params in gmatch(CMD, "([^%s]+)") do
-        Args[#Args+1] = lower(Params)
+        Args[#Args + 1] = lower(Params)
     end
     return Args
 end
@@ -246,7 +250,6 @@ end
 function MuteSystem:OnServerCommand(Executor, Command)
     local Args = CMDSplit(Command)
     if (Args ~= nil) then
-
         for k, v in pairs(self.commands) do
             if (Args[1] == v[1]) then
                 local lvl = tonumber(get_var(Executor, "$lvl"))
@@ -254,10 +257,8 @@ function MuteSystem:OnServerCommand(Executor, Command)
                     local mutes = self:GetMutes()
                     if (mutes ~= nil) then
                         if (k == 1) then
-
                             local pl = self:GetPlayers(Executor, Args)
                             if (pl) then
-
                                 local Time = Args[3]
                                 if (Time ~= nil) then
                                     if (Time:match("^%d+$") and tonumber(Time) > 0) then
@@ -356,10 +357,9 @@ function MuteSystem:Mute(Executor, TIP, Time)
             str = str.spam
         end
         for j = 1, #str do
-            local msg = gsub(gsub(gsub(str[j],
-                    "%%name%%", name),
-                    "%%admin%%", admin),
-                    "%%time%%", self:SecondsToClock(Time))
+            local msg = gsub(
+                gsub(gsub(str[j], "%%name%%", name), "%%admin%%", admin), "%%time%%", self:SecondsToClock(Time)
+            )
             self:Respond(_, msg, 10)
         end
         self:UpdateDatabase(TIP, false, true)
@@ -387,10 +387,9 @@ function MuteSystem:UnMute(Executor, MuteIndex)
 end
 
 function MuteSystem:MuteList(Executor, Args)
-
     local Page = (Args[2] ~= nil and Args[2]:match("^%d+$") or 1)
 
-    local pl = { }
+    local pl = {}
     local count = 0
 
     local s = self.messages.mute_list
@@ -426,7 +425,6 @@ function MuteSystem:UpdateDatabase(IP, UnMute, CleanArray)
     if (self.players[IP].time) then
         local mutes = self:GetMutes()
         if (mutes) then
-
             if (CleanArray) then
                 self.players[IP].id = nil
                 self.players[IP].spam = nil
@@ -457,7 +455,7 @@ function MuteSystem:UpdateForAll()
 end
 
 function MuteSystem:GetPlayers(Executor, Args)
-    local pl = { }
+    local pl = {}
     if (Args[2] == "me" or Args[2] == nil) then
         if (Executor ~= 0) then
             table.insert(pl, Executor)
@@ -514,15 +512,13 @@ function MuteSystem:GetMutes()
 end
 
 function MuteSystem:CheckFile()
-
-    self.players = { }
+    self.players = {}
 
     if (self.anti_spam.enabled) then
         execute_command_sequence("antispam 0")
     end
 
     if (get_var(0, "$gt") ~= "n/a") then
-
         local content = ""
         local file = io.open(self.dir, "r")
         if (file) then
@@ -566,7 +562,9 @@ function MuteSystem:SecondsToClock(seconds)
         seconds = seconds % 60
 
         if (years >= 1) then
-            return format("%d Years %d Weeks %d Days %d Hours %d Minutes %d Seconds", years, weeks, days, hours, minutes, seconds)
+            return format(
+                "%d Years %d Weeks %d Days %d Hours %d Minutes %d Seconds", years, weeks, days, hours, minutes, seconds
+            )
         elseif (weeks >= 1) then
             return format("%d Weeks %d Days %d Hours %d Minutes %d Seconds", weeks, days, hours, minutes, seconds)
         elseif (days >= 1) then
@@ -637,7 +635,6 @@ end
 
 -- In the event of an error, the script will trigger these two functions: OnError(), report()
 function report(StackTrace, Error)
-
     cprint(StackTrace, 12)
 
     cprint("--------------------------------------------------------", 12)

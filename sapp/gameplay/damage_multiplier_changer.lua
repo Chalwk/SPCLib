@@ -79,13 +79,12 @@ local multipliers = {
     ["globals\\distance"] = 1,
 
     -- repeat the structure to add custom tags:
-    ['tag name here'] = 0,
+    ['tag name here'] = 0
 }
 
 local meta_ids = {}
 
 function OnScriptLoad()
-
     register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamage")
     register_callback(cb.EVENT_GAME_START, "OnStart")
 
@@ -113,7 +112,6 @@ function OnStart()
 end
 
 function OnDamage(Victim, Killer, MetaID, Damage)
-
     local victim = tonumber(Victim)
     local killer = tonumber(Killer)
 

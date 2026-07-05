@@ -127,7 +127,6 @@
     "gameplay": {
       "air_strike": "Periodic rocket strikes at predefined map locations, random heights/trajectories, player warnings.",
       "ammo_resupply": "Command to refill ammo, grenades, battery. Cooldowns, permission restrictions.",
-      "auto_troll": "17+ prank modules: silent kills, damage mod, chat scramble, teleport, force exit, ammo manipulation, fake messages, inverted controls, etc. Permissions and target filters.",
       "block_team_damage": "Blocks all team damage: weapons, grenades, vehicle collisions. Configurable, live monitoring.",
       "cheat_hax": "/hax sets dead player's score/stats to 9999, all gametypes, admin level 4.",
       "color_changer": "Players change armor color via command, 18 colors, persists through respawns, admin restrictions.",

@@ -99,11 +99,7 @@ local function registerCallbacks(juggernaut_game)
 end
 
 local function createPlayer(id)
-    return {
-        id = id,
-        name = get_var(id, '$name'),
-        is_juggernaut = false
-    }
+    return { id = id, name = get_var(id, '$name'), is_juggernaut = false }
 end
 
 local function applyJuggernautAttributes(player, apply)
@@ -126,11 +122,11 @@ local function applyJuggernautAttributes(player, apply)
             player.is_juggernaut = true
         else
             -- Remove juggernaut attributes
-            write_float(dyn_player + 0xE0, 1.0)              -- Reset health to 100%
-            write_float(dyn_player + 0xE4, 1.0)              -- Reset shield to 100%
+            write_float(dyn_player + 0xE0, 1.0) -- Reset health to 100%
+            write_float(dyn_player + 0xE4, 1.0) -- Reset shield to 100%
             execute_command('nades ' .. player.id .. ' 0 1') -- Remove frag grenades
             execute_command('nades ' .. player.id .. ' 0 2') -- Remove plasma grenades
-            execute_command("s " .. player.id .. " 1.0")     -- Reset speed
+            execute_command("s " .. player.id .. " 1.0") -- Reset speed
 
             if attributes.CAMO then
                 execute_command('camo ' .. player.id .. ' 1') -- 1 second camouflage to remove

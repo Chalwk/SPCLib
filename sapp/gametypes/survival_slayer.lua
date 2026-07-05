@@ -97,7 +97,6 @@ function OnSpawn(id)
 end
 
 function OnTick()
-
     if not game_started then return end
 
     local elapsed_time = os.clock() - start_time

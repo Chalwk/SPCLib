@@ -12,6 +12,8 @@
     "cprint",
     "createobject",
     "destroy_object",
+    "draw_text",
+    "map",
     "destroyobject",
     "drop_weapon",
     "draw_text",

@@ -28,20 +28,20 @@ LICENSE:          MIT License
 -- CONFIG --
 local CFG = {
 
-    SCORE_LIMIT          = 10000,                   -- Total score required to end the game.
-    TAG_POINTS           = 500,                     -- Points awarded to the tagger for tagging a runner.
-    RUNNER_POINTS        = 5,                       -- Points awarded to each runner every interval.
-    POINTS_INTERVAL      = 10,                      -- Seconds between runner point awards.
-    TURN_TIME            = 60,                      -- Max seconds a player can stay tagger before auto-rotation.
-    MIN_PLAYERS          = 2,                       -- Minimum players required to start a game.
-    TAGGER_SPEED         = 1.5,                     -- Movement speed multiplier for the tagger.
-    RUNNER_SPEED         = 1.0,                     -- Movement speed multiplier for runners.
-    INITIAL_TAGGER_DELAY = 5,                       -- Delay (seconds) before selecting random tagger.
-    NEW_TAGGER_ON_QUIT   = true,                    -- Select new tagger if current tagger leaves.
-    NEW_TAGGER_ON_DEATH  = false,                   -- Select new tagger if current tagger dies.
-    SERVER_PREFIX        = '**TAG**',               -- Prefix for server broadcast messages.
-    RANDOM_TAGGER        = '%s is now the tagger!', -- Message when a random player becomes tagger.
-    ON_TAG               = {                        -- Messages displayed when a player is tagged:
+    SCORE_LIMIT = 10000,                     -- Total score required to end the game.
+    TAG_POINTS = 500,                        -- Points awarded to the tagger for tagging a runner.
+    RUNNER_POINTS = 5,                       -- Points awarded to each runner every interval.
+    POINTS_INTERVAL = 10,                    -- Seconds between runner point awards.
+    TURN_TIME = 60,                          -- Max seconds a player can stay tagger before auto-rotation.
+    MIN_PLAYERS = 2,                         -- Minimum players required to start a game.
+    TAGGER_SPEED = 1.5,                      -- Movement speed multiplier for the tagger.
+    RUNNER_SPEED = 1.0,                      -- Movement speed multiplier for runners.
+    INITIAL_TAGGER_DELAY = 5,                -- Delay (seconds) before selecting random tagger.
+    NEW_TAGGER_ON_QUIT = true,               -- Select new tagger if current tagger leaves.
+    NEW_TAGGER_ON_DEATH = false,             -- Select new tagger if current tagger dies.
+    SERVER_PREFIX = '**TAG**',               -- Prefix for server broadcast messages.
+    RANDOM_TAGGER = '%s is now the tagger!', -- Message when a random player becomes tagger.
+    ON_TAG = { -- Messages displayed when a player is tagged:
         "Tag, you're it! (%s got you)",
         '%s was tagged by %s'
     }
@@ -77,31 +77,18 @@ local game = {
     next_point_time = 0,
     tagger_weapon = nil,
     runner_weapon = nil,
-    waiting_for_players = false,
+    waiting_for_players = false
 }
 
 -- Predefined object bans
 local BANNED_OBJECTS = {
-    'weapons\\frag grenade\\frag grenade',
-    'weapons\\plasma grenade\\plasma grenade',
-    'vehicles\\ghost\\ghost_mp',
-    'vehicles\\rwarthog\\rwarthog',
-    'vehicles\\banshee\\banshee_mp',
-    'vehicles\\warthog\\mp_warthog',
-    'vehicles\\scorpion\\scorpion_mp',
-    'vehicles\\c gun turret\\c gun turret_mp',
-    'weapons\\ball\\ball',
-    'weapons\\flag\\flag',
-    'weapons\\pistol\\pistol',
-    'weapons\\shotgun\\shotgun',
-    'weapons\\needler\\mp_needler',
-    'weapons\\flamethrower\\flamethrower',
-    'weapons\\plasma rifle\\plasma rifle',
-    'weapons\\sniper rifle\\sniper rifle',
-    'weapons\\plasma pistol\\plasma pistol',
-    'weapons\\plasma_cannon\\plasma_cannon',
-    'weapons\\assault rifle\\assault rifle',
-    'weapons\\rocket launcher\\rocket launcher'
+    'weapons\\frag grenade\\frag grenade', 'weapons\\plasma grenade\\plasma grenade', 'vehicles\\ghost\\ghost_mp',
+    'vehicles\\rwarthog\\rwarthog', 'vehicles\\banshee\\banshee_mp', 'vehicles\\warthog\\mp_warthog',
+    'vehicles\\scorpion\\scorpion_mp', 'vehicles\\c gun turret\\c gun turret_mp', 'weapons\\ball\\ball',
+    'weapons\\flag\\flag', 'weapons\\pistol\\pistol', 'weapons\\shotgun\\shotgun', 'weapons\\needler\\mp_needler',
+    'weapons\\flamethrower\\flamethrower', 'weapons\\plasma rifle\\plasma rifle', 'weapons\\sniper rifle\\sniper rifle',
+    'weapons\\plasma pistol\\plasma pistol', 'weapons\\plasma_cannon\\plasma_cannon',
+    'weapons\\assault rifle\\assault rifle', 'weapons\\rocket launcher\\rocket launcher'
 }
 
 -- Player Management
@@ -115,7 +102,7 @@ function Player.new(id)
         is_tagger = false,
         drone = nil,
         next_point = 0,
-        turn_end = 0,
+        turn_end = 0
     }, Player)
 end
 
@@ -158,7 +145,11 @@ end
 -- Game Logic
 local function broadcast(msg, pid)
     execute_command('msg_prefix ""')
-    if pid then say(pid, msg) else say_all(msg) end
+    if pid then
+        say(pid, msg)
+    else
+        say_all(msg)
+    end
     execute_command('msg_prefix "' .. CFG.SERVER_PREFIX .. '"')
 end
 

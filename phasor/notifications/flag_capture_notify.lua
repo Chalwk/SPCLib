@@ -28,9 +28,13 @@ function OnScriptLoad(_, game)
     gametype_base = (game == "PC") and 0x671340 or 0x5F5498
 end
 
-function OnNewGame() previous_scores = {} end
+function OnNewGame()
+    previous_scores = {}
+end
 
-function OnPlayerLeave(id) previous_scores[id] = nil end
+function OnPlayerLeave(id)
+    previous_scores[id] = nil
+end
 
 function OnClientUpdate(id)
     if not is_ctf() or not is_teamplay() then return end
@@ -53,4 +57,6 @@ end
 
 function OnScriptUnload() end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end

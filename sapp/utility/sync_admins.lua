@@ -50,21 +50,15 @@ local settings = {
 
 -- Backup Data
 local admin_table = {
-    "PlayerName1:f443106bd82fd6f3c22ba2df7c5e4094:4",
-    "PlayerName2:c702226e783ea7e091c0bb44c2d0ec64:1",
-    "PlayerName3:d72b3f33bfb7266a8d0f13b37c62fddb:2",
-    "PlayerName4:55d368354b5021e7dd5d3d1525a4ab82:1",
-    "PlayerName5:3d5cd27b3fa487b040043273fa00f51b:3",
-    "PlayerName6:b661a51d4ccf44f5da2869b0055563cb:3"
+    "PlayerName1:f443106bd82fd6f3c22ba2df7c5e4094:4", "PlayerName2:c702226e783ea7e091c0bb44c2d0ec64:1",
+    "PlayerName3:d72b3f33bfb7266a8d0f13b37c62fddb:2", "PlayerName4:55d368354b5021e7dd5d3d1525a4ab82:1",
+    "PlayerName5:3d5cd27b3fa487b040043273fa00f51b:3", "PlayerName6:b661a51d4ccf44f5da2869b0055563cb:3"
 }
 
 local users_table = {
-    "PlayerName1:0:f443106bd82fd6f3c22ba2df7c5e4094:4:",
-    "PlayerName2:1:c702226e783ea7e091c0bb44c2d0ec64:1:",
-    "PlayerName3:2:d72b3f33bfb7266a8d0f13b37c62fddb:2:",
-    "PlayerName4:3:55d368354b5021e7dd5d3d1525a4ab82:1:",
-    "PlayerName5:4:3d5cd27b3fa487b040043273fa00f51b:3:",
-    "PlayerName6:5:b661a51d4ccf44f5da2869b0055563cb:3:"
+    "PlayerName1:0:f443106bd82fd6f3c22ba2df7c5e4094:4:", "PlayerName2:1:c702226e783ea7e091c0bb44c2d0ec64:1:",
+    "PlayerName3:2:d72b3f33bfb7266a8d0f13b37c62fddb:2:", "PlayerName4:3:55d368354b5021e7dd5d3d1525a4ab82:1:",
+    "PlayerName5:4:3d5cd27b3fa487b040043273fa00f51b:3:", "PlayerName6:5:b661a51d4ccf44f5da2869b0055563cb:3:"
 }
 
 function OnScriptLoad()
@@ -102,7 +96,12 @@ local function respond(Message, PlayerIndex)
 
         if PlayerIndex and player_present(PlayerIndex) then
             rprint(PlayerIndex, Message)
-            execute_command("log_note \"" .. string.format('[SyncAdminsUtility] -->> %s: %s', get_var(PlayerIndex, "$name"), Message) .. "\"")
+            execute_command(
+                "log_note \"" .. string.format(
+                    '[SyncAdminsUtility] -->> %s: %s', get_var(PlayerIndex, "$name"), Message
+                )
+                    .. "\""
+            )
         else
             execute_command("log_note \"" .. '[SyncAdminsUtility]: ' .. Message .. "\"")
         end

@@ -15,12 +15,12 @@ LICENSE:          MIT License
 clua_version = 2.056
 
 local ENABLED = true
-local COMMAND = "compass"    -- command to toggle
-local UPDATE_INTERVAL = 10          -- ticks between refreshes
+local COMMAND = "compass"  -- command to toggle
+local UPDATE_INTERVAL = 10 -- ticks between refreshes
 -- END CONFIG --
 
 local timer = 0
-local directions = {"N", "NE", "E", "SE", "S", "SW", "W", "NW"}
+local directions = { "N", "NE", "E", "SE", "S", "SW", "W", "NW" }
 
 local math_pi, math_atan, math_deg = math.pi, math.atan, math.deg
 local math_floor = math.floor
@@ -52,8 +52,8 @@ function OnTick()
     if not player then return end
 
     -- Read the two forward-vector components
-    local forward_x = read_float(player + 0x230)  -- X component of forward
-    local forward_y = read_float(player + 0x234)  -- Y component of forward
+    local forward_x = read_float(player + 0x230) -- X component of forward
+    local forward_y = read_float(player + 0x234) -- Y component of forward
 
     -- Compute yaw angle in radians using atan2(y, x)
     local yaw_rad = atan2(forward_y, forward_x)
@@ -68,7 +68,9 @@ function OnTick()
     local dir = directions[index] or "?"
 
     -- Clear old HUD message and print new direction (prevents spam)
-    for _ = 1, 10 do hud_message(" ") end
+    for _ = 1, 10 do
+        hud_message(" ")
+    end
     hud_message(dir)
 end
 

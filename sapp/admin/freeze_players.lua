@@ -88,7 +88,7 @@ function OnScriptLoad()
 
     if get_var(0, "$gt") ~= "n/a" then
         players = {}
-        for i = 1,16 do
+        for i = 1, 16 do
             if player_present(i) then
                 InitPlayer(i, false)
             end
@@ -111,11 +111,10 @@ function OnPlayerDisconnect(PlayerIndex)
 end
 
 function InitPlayer(PlayerIndex, Reset)
-
     players[PlayerIndex] = players[PlayerIndex] or {}
 
     if (Reset) then
-        players[PlayerIndex] = { }
+        players[PlayerIndex] = {}
     elseif (not players[PlayerIndex].frozen) then
         players[PlayerIndex] = { speed = 0, frozen = false, inventory = {} }
     elseif (players[PlayerIndex].frozen) then
@@ -124,7 +123,6 @@ function InitPlayer(PlayerIndex, Reset)
 end
 
 function OnScriptUnload()
-
 end
 
 function OnServerCommand(Executor, Command, _, _)
@@ -158,23 +156,17 @@ function OnPlayerChat(PlayerIndex, Message, Type)
 end
 
 function ValidateCMD(Executor, Args, Type)
-
     local pl = GetPlayers(Executor, Args)
     if (#pl > 0) then
         for i = 1, #pl do
-
             local TargetID = pl[i]
             local DynamicPlayer = get_dynamic_player(TargetID)
             if (DynamicPlayer ~= 0) then
-
                 if Proceed(Executor, TargetID, Type) then
-
                     local Check = CheckPlayer(TargetID, Type)
                     if Check then
-
                         local player = get_player(TargetID)
                         if (Type == 1) and (player) then
-
                             players[TargetID].frozen = true
                             players[TargetID].speed = read_float(player + 0x6c)
 
@@ -190,9 +182,7 @@ function ValidateCMD(Executor, Args, Type)
                             if (take_weapons) then
                                 TakeWeapons(TargetID, DynamicPlayer)
                             end
-
                         elseif (Type == 2) and (player) then
-
                             players[TargetID].frozen = false
                             safe_write(true)
                             write_float(player + 0x6c, players[TargetID].speed)
@@ -219,7 +209,6 @@ function ValidateCMD(Executor, Args, Type)
 end
 
 function Proceed(Executor, TargetID, Type)
-
     local state = ""
     if (Type == 1) then
         state = "freeze"
@@ -245,7 +234,7 @@ function CheckPlayer(TargetID, Type)
 end
 
 function GetPlayers(Executor, Args)
-    local pl = { }
+    local pl = {}
     if (Args[2] == nil or Args[2] == "me") then
         table.insert(pl, Executor)
     elseif (Args[2]:match("%d+") and player_present(Args[2])) then
@@ -261,8 +250,7 @@ function GetPlayers(Executor, Args)
 end
 
 function Send(Executor, Message, TargetID, Type)
-
-    local state = { }
+    local state = {}
     local t_name = get_var(TargetID, "$name")
     local e_name = get_var(Executor, "$name")
 
@@ -279,10 +267,10 @@ function Send(Executor, Message, TargetID, Type)
         for i = 1, 16 do
             if player_present(i) then
                 if (i ~= Executor) then
-                    local msg = gsub(gsub(gsub(Message[3],
-                            "%%target_name%%", t_name),
-                            "%%executor_name%%", e_name),
-                            "%%state%%", state[1])
+                    local msg = gsub(
+                        gsub(gsub(Message[3], "%%target_name%%", t_name), "%%executor_name%%", e_name), "%%state%%",
+                        state[1]
+                    )
                     rprint(TargetID, msg)
                 end
             end
@@ -316,7 +304,7 @@ local function saveInventory(playerId, type)
     if not player_alive(playerId) or dynamic_player == 0 then
         return
     end
-    for i = 0,3 do
+    for i = 0, 3 do
         local equipment = get_object_memory(read_dword(dynamic_player + 0x2F8 + i * 4))
         if (equipment ~= 0) then
             players[playerId][type].inventory[i + 1] = {
@@ -339,7 +327,7 @@ local function loadInventory(playerId, type)
         return
     end
     local inventory = players[playerId][type].inventory
-    for i = 0,3 do
+    for i = 0, 3 do
         local equipment = get_object_memory(read_dword(dynamic_player + 0x2F8 + i * 4))
         if (equipment ~= 0) then
             write_dword(equipment, inventory[i + 1].id)
@@ -355,7 +343,6 @@ local function loadInventory(playerId, type)
 end
 
 function TakeWeapons(TargetID, DynamicPlayer)
-
     for i = 0, 3 do
         local equipment = get_object_memory(read_dword(DynamicPlayer + 0x2F8 + i * 4))
         if (equipment ~= 0) then
@@ -404,7 +391,6 @@ function RestoreWeapons(TargetID, DynamicPlayer)
 end
 
 function DelInventory(TargetID)
-
     local DynamicPlayer = get_dynamic_player(TargetID)
 
     write_word(DynamicPlayer + 0x31E, 0)

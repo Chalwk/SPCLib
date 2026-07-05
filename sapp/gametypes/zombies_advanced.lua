@@ -73,9 +73,9 @@ local CONFIG = {
     ATTRIBUTES_COMMAND_ENABLED = true,
     ATTRIBUTES_COMMAND = "attributes",
     ZOMBIE_COUNT = {
-        { 1,  4,  1 },
-        { 5,  8,  2 },
-        { 9,  12, 3 },
+        { 1, 4, 1 },
+        { 5, 8, 2 },
+        { 9, 12, 3 },
         { 13, 16, 4 }
     },
     ATTRIBUTES = {
@@ -512,9 +512,8 @@ local function getValidWeapon(player_weapon)
 end
 
 local function getPlayerType(player)
-    return player.zombie_type or
-        (player.team == TEAM_RED and (player.is_last_man_standing and 'last_man_standing' or 'humans')) or
-        'standard_zombies'
+    return player.zombie_type or (player.team == TEAM_RED
+            and (player.is_last_man_standing and 'last_man_standing' or 'humans')) or 'standard_zombies'
 end
 
 local function showAttributes(id)
@@ -531,7 +530,7 @@ local function showAttributes(id)
     end
 
     send(id, "** Your Attributes **")
-    send(id, "Type: " .. player_type:gsub("_", " "):gsub("(%l)(%w*)", function(a, b) return a:upper() .. b end))
+    send(id, "Type: " .. player_type:gsub("_", " "):gsub("(%l)(%w*)", function (a, b) return a:upper() .. b end))
     send(id, "Health: " .. current_health .. " (Base: " .. (attributes.HEALTH * 100) .. "%)")
     send(id, "Speed: " .. (attributes.SPEED * 100) .. "%")
     send(id, "Damage: " .. attributes.DAMAGE_MULTIPLIER .. "x")

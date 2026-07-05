@@ -22,7 +22,7 @@ local vehicle_tags = {
     ["vehicles\\scorpion\\scorpion_mp"] = { [0] = true, [1] = true },
     ["vehicles\\banshee\\banshee_mp"] = { [0] = true, [1] = true },
     ["vehicles\\c gun turret\\c gun turret_mp"] = { [0] = true, [1] = true },
-    ["vehicles\\rwarthog\\rwarthog"] = { [0] = true, [1] = true },
+    ["vehicles\\rwarthog\\rwarthog"] = { [0] = true, [1] = true }
 }
 -- CONFIG END -------------------------------------------
 
@@ -33,17 +33,18 @@ local function cache_vehicle_tags()
     for tag_str, perms in pairs(vehicle_tags) do
         local tag_id = gettagid("vehi", tag_str)
         if tag_id then
-            allowed_vehicles[tag_id] = {
-                [0] = perms[0] == true,
-                [1] = perms[1] == true
-            }
+            allowed_vehicles[tag_id] = { [0] = perms[0] == true, [1] = perms[1] == true }
         end
     end
 end
 
-function OnScriptLoad() cache_vehicle_tags() end
+function OnScriptLoad()
+    cache_vehicle_tags()
+end
 
-function OnNewGame() cache_vehicle_tags() end
+function OnNewGame()
+    cache_vehicle_tags()
+end
 
 function OnVehicleEntry(player, _, _, map_id)
     local perms = allowed_vehicles[map_id]
@@ -58,4 +59,6 @@ end
 
 function OnScriptUnload() end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end

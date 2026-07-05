@@ -73,7 +73,9 @@ function OnTick()
 
     ema_ping = ema_ping and (ema_ping * 0.85 + ping * 0.15) or ping
 
+    ---@diagnostic disable-next-line: need-check-nil
     local avg = math_floor(ema_ping + 0.5)
+    ---@diagnostic disable-next-line: need-check-nil
     local delta = math_floor(ping - ema_ping + 0.5)
 
     local msg = format(HID_PING_OK, ping, avg, delta)

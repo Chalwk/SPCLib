@@ -32,7 +32,7 @@ local config = {
     vote_command = "vote",
     cancel_command = "cancel",
     poll_duration = 30, -- in seconds
-    required_level = 1; -- Required admin level to start a poll
+    required_level = 1  -- Required admin level to start a poll
 }
 -- Configuration ends
 
@@ -44,7 +44,7 @@ function Poll:new(question, options)
     local self = setmetatable({}, Poll)
     self.question = question
     self.options = options
-    self.votes = {}  -- Store votes by playerId
+    self.votes = {}        -- Store votes by playerId
     self.start_time = os.time()
     self.end_time = self.start_time + config.poll_duration
     return self
@@ -82,7 +82,7 @@ local last_poll_time = 0
 function OnScriptLoad()
     register_callback(cb.EVENT_GAME_START, "OnStart")
     register_callback(cb.EVENT_COMMAND, "OnCommand")
-    register_callback(cb.EVENT_TICK, "OnTick")  -- Adding the tick event
+    register_callback(cb.EVENT_TICK, "OnTick") -- Adding the tick event
     OnStart() -- Ensure the script initializes on game start
 end
 
@@ -138,7 +138,7 @@ function OnCommand(playerId, Command)
                         if next_part:sub(-1) == "\"" then
                             -- End of the question
                             question = question .. " " .. next_part:sub(1, -2)
-                            options_start_idx = j + 1  -- The options start after the end quote
+                            options_start_idx = j + 1                          -- The options start after the end quote
                             break
                         else
                             -- Continue adding to the question
@@ -182,7 +182,7 @@ function OnCommand(playerId, Command)
         if isAdmin(playerId) then
             if current_poll ~= nil then
                 broadcast("The poll has been canceled.")
-                current_poll = nil  -- Reset the poll
+                current_poll = nil -- Reset the poll
             else
                 rprint(playerId, "No poll is currently running to cancel.")
             end
@@ -191,7 +191,7 @@ function OnCommand(playerId, Command)
     elseif args[1] == config.vote_command then
         -- Handle the /vote command (player votes)
         if current_poll ~= nil and not current_poll:has_ended() then
-            local vote = tonumber(args[2])  -- Convert the second argument to a number
+            local vote = tonumber(args[2]) -- Convert the second argument to a number
 
             -- Check if the vote is a valid number and within the valid range
             if vote and vote >= 1 and vote <= #current_poll.options then
@@ -235,8 +235,8 @@ function OnTick()
         for option, count in pairs(results) do
             result_message = result_message .. string.format("%s: %d votes, ", option, count)
         end
-        notifyAdmin(result_message)  -- Notify all admins of the poll results
-        current_poll = nil  -- Reset poll after it ends
+        notifyAdmin(result_message) -- Notify all admins of the poll results
+        current_poll = nil -- Reset poll after it ends
     end
 end
 

@@ -125,7 +125,6 @@ function OnCommand(id, CMD, _, _)
         local name, ping
 
         if validatePlayer(player) then
-
             -- Get player name and ping:
             ping = getPing(player)
             name = getName(player)

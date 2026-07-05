@@ -188,6 +188,8 @@ local os_time = os.time
 local io_open = io.open
 local string_lower, string_find = string.lower, string.find
 local table_insert, table_concat, table_sort = table.insert, table.concat, table.sort
+local table_remove = table.remove
+local math_ceil, math_min = math.ceil, math.min
 
 local function getConfigPath()
     return read_string(read_dword(sig_scan('68??????008D54245468') + 0x1))
@@ -322,14 +324,14 @@ local function showAliasesPage(id, record, target, record_type, page)
     local total_names = #all_names
     local max_results = CONFIG.MAX_RESULTS
     local max_per_row = CONFIG.MAX_NAMES_PER_ROW
-    local total_pages = math.ceil(total_names / max_results)
+    local total_pages = math_ceil(total_names / max_results)
 
     page = page or 1
     if page < 1 then page = 1 end
     if page > total_pages then page = total_pages end
 
     local start_index = (page - 1) * max_results + 1
-    local end_index = math.min(start_index + max_results - 1, total_names)
+    local end_index = math_min(start_index + max_results - 1, total_names)
 
     local sliced_names_table = {}
     for i = start_index, end_index do
@@ -338,8 +340,10 @@ local function showAliasesPage(id, record, target, record_type, page)
 
     local formatted_rows, names_count = formatNamesList(sliced_names_table, max_per_row)
 
-    local header = "Page " ..
-        page .. "/" .. total_pages .. ". Showing " .. names_count .. " names aliases for: " .. target
+    local header = "Page " .. page
+        .. "/" .. total_pages
+        .. ". Showing " .. names_count
+        .. " names aliases for: " .. target
     if record_type == "hash" and CONFIG.KNOWN_PIRATED_HASHES[target] then
         header = header .. " [PIRATED]"
     end
@@ -471,12 +475,15 @@ local function handleFuzzySearch(id, args, command_name)
     -- Apply maximum results limit
     local total_matches = #matched_names
     if total_matches > CONFIG.FUZZY_SEARCH.max_results then
-        send(id,
-            "Too many results (" ..
-            total_matches .. "). Showing first " .. CONFIG.FUZZY_SEARCH.max_results .. " matches.")
+        send(
+            id,
+            "Too many results (" .. total_matches
+                .. "). Showing first " .. CONFIG.FUZZY_SEARCH.max_results
+                .. " matches."
+        )
         -- Truncate the results
         while #matched_names > CONFIG.FUZZY_SEARCH.max_results do
-            table.remove(matched_names)
+            table_remove(matched_names)
         end
         total_matches = CONFIG.FUZZY_SEARCH.max_results
     end
@@ -484,14 +491,14 @@ local function handleFuzzySearch(id, args, command_name)
     -- Handle pagination
     local max_results = CONFIG.MAX_RESULTS
     local max_per_row = CONFIG.MAX_NAMES_PER_ROW
-    local total_pages = math.ceil(total_matches / max_results)
+    local total_pages = math_ceil(total_matches / max_results)
 
     page = page or 1
     if page < 1 then page = 1 end
     if page > total_pages then page = total_pages end
 
     local start_index = (page - 1) * max_results + 1
-    local end_index = math.min(start_index + max_results - 1, total_matches)
+    local end_index = math_min(start_index + max_results - 1, total_matches)
 
     -- Display results
     if total_matches == 0 then
@@ -499,8 +506,11 @@ local function handleFuzzySearch(id, args, command_name)
         return
     end
 
-    local header = "Page " .. page .. "/" .. total_pages ..
-        ". Found " .. total_matches .. " names containing '" .. args[3] .. "'"
+    local header = "Page " .. page
+        .. "/" .. total_pages
+        .. ". Found " .. total_matches
+        .. " names containing '" .. args[3]
+        .. "'"
     send(id, header)
 
     -- Display names in rows
@@ -529,7 +539,7 @@ local function handleFuzzySearch(id, args, command_name)
         local details_shown = 0
         local max_details = 3 -- Show details for first 3 matches
 
-        for i = start_index, math.min(start_index + max_details - 1, end_index) do
+        for i = start_index, math_min(start_index + max_details - 1, end_index) do
             local name = matched_names[i]
             local sources = name_sources[name]
 
@@ -591,14 +601,11 @@ local function loadAliasesDB()
     f:close()
 
     if content and content ~= '' then
-        local success, result = pcall(function()
+        local success, result = pcall(function ()
             return json:decode(content)
         end)
         if success and result then
-            aliases_db = {
-                ip_records = result.ip_records or {},
-                hash_records = result.hash_records or {}
-            }
+            aliases_db = { ip_records = result.ip_records or {}, hash_records = result.hash_records or {} }
             return true
         else
             cprint("[alias_system] Error parsing aliases database: " .. tostring(result), 12)
@@ -618,7 +625,7 @@ local function saveAliasesDB()
         return false
     end
 
-    local success, json_str = pcall(function()
+    local success, json_str = pcall(function ()
         return json:encode(aliases_db)
     end)
 
@@ -678,7 +685,7 @@ local function updatePlayerRecord(id)
 end
 
 function OnScriptLoad()
-    local success, result = pcall(function()
+    local success, result = pcall(function ()
         return loadfile('json.lua')()
     end)
 

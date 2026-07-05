@@ -43,7 +43,7 @@ local CFG = {
     announce_usage = true,
     announce_interval = 120,
     admin_immunity = true,
-    prefix = '**SAPP**',
+    prefix = '**SAPP**'
 }
 
 local clock = os.clock
@@ -172,8 +172,7 @@ local function process_vote(voter_id, target_id)
         active_votes[target_id] = nil
     elseif not CFG.anonymous_votes then
         local voter_name = get_var(voter_id, '$name')
-        send(nil, '%s voted to kick %s (%d/%d votes)',
-            voter_name, session.name, session.count, votes_needed)
+        send(nil, '%s voted to kick %s (%d/%d votes)', voter_name, session.name, session.count, votes_needed)
     end
 end
 
@@ -237,7 +236,7 @@ function OnLeave(player_id)
     -- Cancel any vote against this player
     cancel_vote_session(player_id)
 
-    for i = 1,#active_votes do
+    for i = 1, #active_votes do
         local session = active_votes[i]
         if session.voters[player_id] then
             session.voters[player_id] = nil

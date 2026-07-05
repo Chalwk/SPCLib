@@ -14,7 +14,9 @@ LICENSE:          MIT License
 local RUN_SPEED = 1.08
 --
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end
 
 function OnScriptLoad() end
 

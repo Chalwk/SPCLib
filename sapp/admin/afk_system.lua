@@ -21,22 +21,22 @@ local AFK_DEACTIVATE_MSG = "$name is no longer AFK."
 local WARNING_MESSAGE = "Warning: You will be kicked in $time_until_kick seconds for being AFK."
 local KICK_REASON = "for being AFK!"
 
-local MAX_AFK_TIME = 5               -- Maximum allowed AFK time (seconds)
-local GRACE_PERIOD = 60              -- Grace period before kicking (seconds)
-local WARNING_INTERVAL = 30          -- Warning frequency (seconds)
+local MAX_AFK_TIME = 5      -- Maximum allowed AFK time (seconds)
+local GRACE_PERIOD = 60     -- Grace period before kicking (seconds)
+local WARNING_INTERVAL = 30 -- Warning frequency (seconds)
 
 local AIM_THRESHOLD = 0.05           -- Camera aim detection sensitivity (increased to ignore tiny shakes)
 local AFK_PERMISSION = -1            -- Minimum admin level required (-1 = public, 1-4 = admin levels)
 local AFK_COMMAND = "afk"            -- Command to toggle AFK status
 local AFK_STATUS_COMMAND = "afklist" -- Command to list AFK players
-local AFK_KICK_IMMUNITY = {          -- Admin levels with kick immunity (true = immunity, false = no immunity)
+local AFK_KICK_IMMUNITY = { -- Admin levels with kick immunity (true = immunity, false = no immunity)
     [1] = true,
     [2] = true,
     [3] = true,
     [4] = true
 }
 
-local MONITOR_INPUT = {    -- Inputs to monitor for activity (true = enabled, false = disabled)
+local MONITOR_INPUT = { -- Inputs to monitor for activity (true = enabled, false = disabled)
     shooting = true,       -- firing weapon
     movement = true,       -- forward/back/left/right / grenade throw
     weapon_switch = true,  -- switching weapons
@@ -97,7 +97,10 @@ local function get_position(dyn)
             x, y, z = read_vector3d(object + 0x5C)
         end
     end
-    return { x = x, y = y, z = z + (crouch == 0 and 0.65 or 0.35 * crouch) }
+
+    local z_off = z and (crouch == 0 and 0.65 or 0.35 * crouch) or 0
+
+    return { x = x, y = y, z = z_off }
 end
 
 local function distance(pos1, pos2)
@@ -153,6 +156,7 @@ end
 local function exit_afk(player)
     player.afk = nil
 
+    ---@diagnostic disable-next-line: need-check-nil
     -- Subtract 1 death HERE and not in toggle_afk, otherwise, if the player
     -- has exactly 0 deaths before they go AFK, it will cause them to respawn (due to the -1)
     local deaths = tonumber(get_var(player.id, "$deaths")) - 1
@@ -184,8 +188,10 @@ end
 local function get_input_states()
     local inputStates = {}
     for name, enabled in pairs(MONITOR_INPUT) do
+        ---@diagnostic disable-next-line: unnecessary-if
         if enabled and INPUT_DEFS[name] then
             local def = INPUT_DEFS[name]
+            ---@diagnostic disable-next-line: undefined-field
             inputStates[#inputStates + 1] = { def[1], def[2], nil }
         end
     end
@@ -218,15 +224,19 @@ end
 
 local function check_afk_status(player, current_time)
     if not player.afk then
+        ---@diagnostic disable-next-line: unnecessary-if
         if not has_immunity(player.id) then
             local inactive_duration = current_time - player.lastActive
             if inactive_duration >= TOTAL_ALLOWED then
+                ---@diagnostic disable-next-line: call-non-callable
                 terminate(player)
                 return true
             elseif inactive_duration >= MAX_AFK_TIME then
                 if current_time - player.lastWarning >= WARNING_INTERVAL then
                     local timeLeft = TOTAL_ALLOWED - inactive_duration
+                    ---@diagnostic disable-next-line: undefined-field, call-non-callable
                     local msg = WARNING_MESSAGE:gsub("$time_until_kick", floor(timeLeft))
+                    ---@diagnostic disable-next-line: call-non-callable
                     broadcast(player, msg, false)
                     player.lastWarning = current_time
                 end
@@ -239,7 +249,9 @@ local function check_afk_status(player, current_time)
 
     local inactive_duration = current_time - player.lastActive
     if inactive_duration >= MAX_AFK_TIME then
+        ---@diagnostic disable-next-line: unnecessary-if
         if not has_immunity(player.id) then
+            ---@diagnostic disable-next-line: call-non-callable
             enter_afk(player)
             return true
         end
@@ -276,6 +288,7 @@ function OnTick()
         if dyn ~= 0 then
             process_inputs(player, dyn, current_time)
 
+            ---@diagnostic disable-next-line: unnecessary-if
             if USE_POSITION_CHECK then
                 local currentPos = get_position(dyn)
                 if player.lastPosition then

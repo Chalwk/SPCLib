@@ -17,7 +17,9 @@ local FLAG_LIMIT = 21
 
 local gametype_base
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end
 
 local function apply_limit()
     if gametype_base then
@@ -30,6 +32,8 @@ function OnScriptLoad(_, game)
     apply_limit()
 end
 
-function OnNewGame() apply_limit() end
+function OnNewGame()
+    apply_limit()
+end
 
 function OnScriptUnload() end

@@ -187,7 +187,6 @@ end
 -- @param FlagCarrier (flag carrier index) [number]
 --
 function TD:UpdateScores(playerId, Team, Amount, FlagCarrier)
-
     -- Update team score:
     local score
     if (Team == "red") then
@@ -207,7 +206,6 @@ function TD:UpdateScores(playerId, Team, Amount, FlagCarrier)
 
     -- Update flag carrier assist points:
     if (FlagCarrier and FlagCarrier ~= playerId) then
-
         score = GetScore(FlagCarrier, "assists")
         score = score + self.scoring[1][1]
 
@@ -223,12 +221,10 @@ end
 -- @param MetaID (damage tag id) [number]
 --
 function TD:OnDeath(Victim, Killer, MetaID, _, _, _)
-
     local victim = tonumber(Victim)
     local killer = tonumber(Killer)
 
     if (killer > 0) then
-
         local k_team = get_var(killer, "$team")
         local v_team = get_var(victim, "$team")
 
@@ -242,7 +238,6 @@ function TD:OnDeath(Victim, Killer, MetaID, _, _, _)
 
         -- event_die --
         if (not suicide and not friendly_fire) then
-
             -- flag carrier kill:
             if self:HasFlag(victim) then
                 self:Broadcast(killer, self.scoring[4][2])
@@ -321,16 +316,12 @@ end
 --
 local format = string.format
 function TD:GameTick()
-
     if (self.game_started) then
-
         -- logic responsible for respawning the flag:
         local _, flag_carrier = self:GetFlagCarrier()
         if (not flag_carrier) then
-
             local fx, fy, fz = self:GetFlagPos()
             if (fx and not AtSpawn(fx, fy, fz - self.z_off, self)) then
-
                 self.flag.timer = self.flag.timer + 1 / 30
                 local time = self.respawn_delay - self.flag.timer % 60
                 time = tonumber(format("%.2" .. "f", time))
@@ -339,7 +330,6 @@ function TD:GameTick()
                     local msg = self.respawn_warning
                     msg = msg:gsub("$S", time):gsub("$s", Plural(time))
                     self:Broadcast(nil, msg)
-
                 elseif (self.flag.timer >= self.respawn_delay) then
                     self:SpawnFlag()
                 end
@@ -423,13 +413,11 @@ end
 function TD:Init()
     local mode = get_var(0, '$gt')
     if (mode ~= 'n/a') then
-
-        self.flag = { }
+        self.flag = {}
         self.game_started = false
 
         local map = self:Proceed(mode)
         if (map) then
-
             local tag_address = read_dword(0x40440000)
             local tag_count = read_dword(0x4044000C)
 
@@ -438,7 +426,6 @@ function TD:Init()
                 local tag_class = read_dword(tag)
                 local globals_tag = read_dword(tag + 0x14)
                 if (tag_class == 0x6D617467) then
-
                     self.game_started = true
                     self.announce_pickup = false
                     self.flag.id = read_dword(read_dword(globals_tag + 0x164 + 4) + 0xC)
@@ -477,7 +464,6 @@ function TD:DestroyFlag()
 end
 
 function TD:Proceed(mode)
-
     local map = get_var(0, '$map')
 
     local valid_mode = (get_var(0, '$ffa') == '0' and mode == 'slayer')

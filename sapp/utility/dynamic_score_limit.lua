@@ -23,19 +23,19 @@ local config = {
     -- Custom game mode score limits:
     game_modes = {
         ['example_game_mode'] = {
-            { 1,  4,  25 },
-            { 5,  8,  35 },
-            { 9,  12, 45 },
+            { 1, 4, 25 },
+            { 5, 8, 35 },
+            { 9, 12, 45 },
             { 13, 16, 50 },
             'Score limit changed to: %s'
         },
         ['another_example_game_mode'] = {
-            { 1,  4,  25 },
-            { 5,  8,  35 },
-            { 9,  12, 45 },
+            { 1, 4, 25 },
+            { 5, 8, 35 },
+            { 9, 12, 45 },
             { 13, 16, 50 },
             'Score limit changed to: %s'
-        },
+        }
     },
 
     -- Default game type score limits:
@@ -45,34 +45,66 @@ local config = {
         },
         slayer = {
             { -- Free-for-All:
-                { 1, 4, 15 }, { 5, 8, 25 }, { 9, 12, 45 }, { 13, 16, 50 }, 'Score limit changed to: %s'
+                { 1, 4, 15 },
+                { 5, 8, 25 },
+                { 9, 12, 45 },
+                { 13, 16, 50 },
+                'Score limit changed to: %s'
             },
             { -- Team Slayer:
-                { 1, 4, 25 }, { 5, 8, 35 }, { 9, 12, 45 }, { 13, 16, 50 }, 'Score limit changed to: %s'
+                { 1, 4, 25 },
+                { 5, 8, 35 },
+                { 9, 12, 45 },
+                { 13, 16, 50 },
+                'Score limit changed to: %s'
             }
         },
         king = {
             { -- Free-for-All:
-                { 1, 4, 2 }, { 5, 8, 3 }, { 9, 12, 4 }, { 13, 16, 5 }, 'Score limit changed to: %s minute%s'
+                { 1, 4, 2 },
+                { 5, 8, 3 },
+                { 9, 12, 4 },
+                { 13, 16, 5 },
+                'Score limit changed to: %s minute%s'
             },
             { -- Team King:
-                { 1, 4, 3 }, { 5, 8, 4 }, { 9, 12, 5 }, { 13, 16, 6 }, 'Score limit changed to: %s minute%s'
+                { 1, 4, 3 },
+                { 5, 8, 4 },
+                { 9, 12, 5 },
+                { 13, 16, 6 },
+                'Score limit changed to: %s minute%s'
             }
         },
         oddball = {
             { -- Free-for-All:
-                { 1, 4, 2 }, { 5, 8, 3 }, { 9, 12, 4 }, { 13, 16, 5 }, 'Score limit changed to: %s minute%s'
+                { 1, 4, 2 },
+                { 5, 8, 3 },
+                { 9, 12, 4 },
+                { 13, 16, 5 },
+                'Score limit changed to: %s minute%s'
             },
             { -- Team Oddball:
-                { 1, 4, 3 }, { 5, 8, 4 }, { 9, 12, 5 }, { 13, 16, 6 }, 'Score limit changed to: %s minute%s'
+                { 1, 4, 3 },
+                { 5, 8, 4 },
+                { 9, 12, 5 },
+                { 13, 16, 6 },
+                'Score limit changed to: %s minute%s'
             }
         },
         race = {
             { -- Free-for-All:
-                { 1, 4, 4 }, { 5, 8, 4 }, { 9, 12, 5 }, { 13, 16, 6 }, 'Score limit changed to: %s lap%s'
+                { 1, 4, 4 },
+                { 5, 8, 4 },
+                { 9, 12, 5 },
+                { 13, 16, 6 },
+                'Score limit changed to: %s lap%s'
             },
             { -- Team Race:
-                { 1, 4, 4 }, { 5, 8, 5 }, { 9, 12, 6 }, { 13, 16, 7 }, 'Score limit changed to: %s lap%s'
+                { 1, 4, 4 },
+                { 5, 8, 5 },
+                { 9, 12, 6 },
+                { 13, 16, 7 },
+                'Score limit changed to: %s lap%s'
             }
         }
     }
@@ -92,7 +124,8 @@ local function announce_change(limit)
     local message = score_table and score_table[#score_table] or 'Score limit changed to: %s'
 
     local msg = fmt(message, limit, limit ~= 1 and 's' or '')
-    say_all(msg); cprint(msg)
+    say_all(msg)
+    cprint(msg)
 end
 
 local function resolve_default_rules(game_type, ffa)
@@ -157,10 +190,16 @@ function OnStart()
     change_score_limit()
 end
 
-function OnEnd() score_table, current_limit = nil, nil end
+function OnEnd()
+    score_table, current_limit = nil, nil
+end
 
-function OnJoin() change_score_limit() end
+function OnJoin()
+    change_score_limit()
+end
 
-function OnQuit() change_score_limit(true) end
+function OnQuit()
+    change_score_limit(true)
+end
 
 function OnScriptUnload() end

@@ -59,26 +59,28 @@ local save_on_newgame = true
 -- # Message Configuration:
 local on_request = {
     { ["msgToExecutor"] = { "Request sent to %target_name%" } },
-    { ["msgToTarget"] = {
-        "%executor_name% is requesting a truce with you.",
-        "To accept, type /accept %executor_id%",
-        "To deny this request, type /deny %executor_id%"
-    } },
+    {
+        ["msgToTarget"] = {
+            "%executor_name% is requesting a truce with you.",
+            "To accept, type /accept %executor_id%",
+            "To deny this request, type /deny %executor_id%"
+        }
+    }
 }
 
 local on_accept = {
     { ["msgToExecutor"] = { "You are now in a truce with %target_name%" } },
-    { ["msgToTarget"] = { "[request accepted] You are now in a truce with %executor_name%" } },
+    { ["msgToTarget"] = { "[request accepted] You are now in a truce with %executor_name%" } }
 }
 
 local on_deny = {
     { ["msgToExecutor"] = { "You denied %target_name%'s truce request" } },
-    { ["msgToTarget"] = { "%executor_name% denied your truce request" } },
+    { ["msgToTarget"] = { "%executor_name% denied your truce request" } }
 }
 
 -- configuration [ends] <--
 
-local truce, ip_table, requests, members, tracker, pending = { }, { }, { }, { }, { }, { }
+local truce, ip_table, requests, members, tracker, pending = {}, {}, {}, {}, {}, {}
 local lower, gsub = string.lower, string.gsub
 
 function OnScriptLoad()
@@ -138,7 +140,6 @@ function OnPlayerDisconnect(PlayerIndex)
     requests[ip] = 0
 
     if (next(members) ~= nil) and (tracker[ip] ~= nil) then
-
         local function removeTracker(a, b)
             for key, _ in pairs(tracker[a]) do
                 if tracker[a][key] == b then
@@ -173,7 +174,6 @@ function OnPlayerDisconnect(PlayerIndex)
 
     if (next(pending) ~= nil) then
         for key, _ in ipairs(pending) do
-
             local eid = tonumber(pending[key]["eid"])
             local eip = pending[key]["eip"]
 
@@ -187,7 +187,6 @@ function OnPlayerDisconnect(PlayerIndex)
                 rprint(tid, "Your truce request with " .. name .. " expired")
                 pending[key] = nil
             end
-
         end
     end
 end
@@ -263,7 +262,6 @@ function truce:isPending(params)
     local target_ip = params.tip or nil
 
     for key, _ in ipairs(pending) do
-
         local eip = pending[key]["eip"]
         local tip = pending[key]["tip"]
 
@@ -312,7 +310,6 @@ function truce:inTruce(params, bool, isrequest)
 end
 
 function OnServerCommand(PlayerIndex, Command, Environment, Password)
-
     local command, args = cmdsplit(Command)
     local executor = tonumber(PlayerIndex)
     local TargetID = tonumber(args[1])
@@ -431,7 +428,17 @@ function truce:sendrequest(params)
     local target_id = params.tid or nil
     local target_ip = params.tip or nil
 
-    table.insert(pending, { ["en"] = executor_name, ["eid"] = executor_id, ["eip"] = executor_ip, ["tn"] = target_name, ["tid"] = target_id, ["tip"] = target_ip })
+    table.insert(
+        pending,
+        {
+            ["en"] = executor_name,
+            ["eid"] = executor_id,
+            ["eip"] = executor_ip,
+            ["tn"] = target_name,
+            ["tid"] = target_id,
+            ["tip"] = target_ip
+        }
+    )
 
     for k, _ in ipairs(on_request) do
         local msgToExecutor, msgToTarget = on_request[k]["msgToExecutor"], on_request[k]["msgToTarget"]
@@ -443,7 +450,9 @@ function truce:sendrequest(params)
         end
         if (msgToTarget ~= nil) then
             for i = 1, #msgToTarget do
-                local StringFormat = (gsub(gsub(msgToTarget[i], "%%executor_name%%", executor_name), "%%executor_id%%", executor_id))
+                local StringFormat = (gsub(
+                    gsub(msgToTarget[i], "%%executor_name%%", executor_name), "%%executor_id%%", executor_id
+                ))
                 rprint(target_id, StringFormat)
             end
         end
@@ -466,7 +475,17 @@ function truce:enable(params)
     local target_id = params.tid or nil
     local target_ip = params.tip or nil
 
-    table.insert(members, { ["en"] = executor_name, ["eid"] = executor_id, ["eip"] = executor_ip, ["tn"] = target_name, ["tid"] = target_id, ["tip"] = target_ip })
+    table.insert(
+        members,
+        {
+            ["en"] = executor_name,
+            ["eid"] = executor_id,
+            ["eip"] = executor_ip,
+            ["tn"] = target_name,
+            ["tid"] = target_id,
+            ["tip"] = target_ip
+        }
+    )
     tracker[executor_ip] = tracker[executor_ip] or {}
     tracker[executor_ip][#tracker[executor_ip] + 1] = target_ip
 
@@ -520,7 +539,6 @@ function truce:disable(params)
 
     if (next(members) ~= nil) and (tracker[executor_ip] ~= nil) then
         for key, _ in ipairs(members) do
-
             local tn = members[key]["tn"]
             local tid = tonumber(members[key]["tid"])
             local tip = members[key]["tip"]
@@ -568,6 +586,7 @@ function truce:deny(params)
 
     for key, _ in ipairs(pending) do
         local eip = pending[key]["eip"]
+        local en = pending[key]["en"]
         local tip = pending[key]["tip"]
         local tn = pending[key]["tn"]
         if (target_ip == eip) and (target_name == en) then
@@ -606,7 +625,6 @@ function truce:list(params)
 
     if (next(members) ~= nil) then
         for key, _ in ipairs(members) do
-
             local en = members[key]["en"]
             local eid = tonumber(members[key]["eid"])
             local eip = members[key]["eip"]
@@ -652,7 +670,6 @@ function truce:list(params)
 
     if (next(pending) ~= nil) then
         for key, _ in ipairs(pending) do
-
             local tn = pending[key]["tn"]
             local tid = tonumber(pending[key]["tid"])
             local tip = pending[key]["tip"]

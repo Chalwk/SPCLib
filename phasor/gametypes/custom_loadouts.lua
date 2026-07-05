@@ -29,7 +29,7 @@ local weapon_tags = {
     [7] = "weapons\\assault rifle\\assault rifle",
     [8] = "weapons\\flamethrower\\flamethrower",
     [9] = "weapons\\needler\\mp_needler",
-    [10] = "weapons\\shotgun\\shotgun",
+    [10] = "weapons\\shotgun\\shotgun"
 }
 
 local loadouts = {
@@ -114,8 +114,7 @@ local function build_loadout_indexes()
         loadout._weapon_text = tbl_concat(labels, ", ")
     end
 
-    default_loadout_id = loadouts_by_id[default_loadout] and default_loadout or
-        (loadouts[1] and loadouts[1].id or 1)
+    default_loadout_id = loadouts_by_id[default_loadout] and default_loadout or (loadouts[1] and loadouts[1].id or 1)
 end
 
 local function delete_weapons(player_object)
@@ -274,13 +273,17 @@ function OnScriptLoad()
     end
 end
 
-function OnNewGame() cache_weapon_datums() end
+function OnNewGame()
+    cache_weapon_datums()
+end
 
 function OnPlayerJoin(id)
     players[id] = player_data[id] or default_loadout_id
 end
 
-function OnPlayerLeave(id) players[id] = nil end
+function OnPlayerLeave(id)
+    players[id] = nil
+end
 
 function OnPlayerSpawn(id)
     registertimer(50, "ApplyLoadout", id)
@@ -292,6 +295,8 @@ function OnPlayerKill(_, victim)
     end
 end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end
 
 function OnScriptUnload() end

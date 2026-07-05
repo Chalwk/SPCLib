@@ -98,7 +98,8 @@ local Expressions = {
 api_version = "1.12.0.0"
 
 local function formatMessage(chatType, playerName, message)
-    return Expressions.outputFormats[chatType]
+    return Expressions.outputFormats
+        [chatType]
         :gsub("$name", playerName)
         :gsub("$msg", message)
 end
@@ -119,8 +120,8 @@ function OnChat(playerId, message, chatType)
 
     if phrases then
         local randomPhrase = getRandomPhrase(phrases)
-        local playerName   = get_var(playerId, "$name")
-        local output       = formatMessage(chatType, playerName, randomPhrase)
+        local playerName = get_var(playerId, "$name")
+        local output = formatMessage(chatType, playerName, randomPhrase)
 
         broadcast(output)
         return false -- suppress original message

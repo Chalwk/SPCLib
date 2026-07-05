@@ -107,11 +107,7 @@ local game = {
 }
 
 local function create_player(id)
-    return {
-        id = id,
-        name = get_var(id, '$name'),
-        team = get_var(id, '$team')
-    }
+    return { id = id, name = get_var(id, '$name'), team = get_var(id, '$team') }
 end
 
 local function switch_player_team(player, new_team)

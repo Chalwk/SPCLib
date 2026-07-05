@@ -255,7 +255,7 @@ local Sabotage = {
             ['red'] = { -9.2459697723389, 9.3335800170898, -2.5999999046326, 0.5 },
             ['blue'] = { 9.1828498840332, -9.1805400848389, -2.5999999046326, 0.5 }
         }
-    },
+    }
 }
 
 -------------------------------
@@ -268,7 +268,7 @@ local bomb_planted
 local explosion_timer
 local announce_respawn
 
-local players = { }
+local players = {}
 local time = os.time
 
 api_version = '1.12.0.0'
@@ -279,7 +279,6 @@ function OnScriptLoad()
 end
 
 function Sabotage:newPlayer(o)
-
     setmetatable(o, { __index = self })
     self.__index = self
 
@@ -300,7 +299,6 @@ function Sabotage:bombHeld()
 end
 
 function Sabotage:spawnBomb()
-
     local x = map.spawn_location[1]
     local y = map.spawn_location[2]
     local z = map.spawn_location[3]
@@ -318,10 +316,7 @@ function Sabotage:spawnBomb()
 end
 
 function Sabotage:newTimer(finish)
-    return {
-        start = time,
-        finish = time() + finish
-    }
+    return { start = time, finish = time() + finish }
 end
 
 local function say(Ply, Msg)
@@ -332,12 +327,13 @@ local function say(Ply, Msg)
         execute_command('msg_prefix "' .. prefix .. '"')
         return
     end
-    for _ = 1, 25 do rprint(Ply, ' ') end
+    for _ = 1, 25 do
+        rprint(Ply, ' ')
+    end
     rprint(Ply, '|c' .. Msg)
 end
 
 local function progressBar(start, finish, plant_time)
-
     local bar = ''
     local time_remaining = finish - start()
 
@@ -355,12 +351,10 @@ local function getOppositeTeam(team)
 end
 
 function Sabotage:plantBomb(timer)
-
     local start = timer.start
     local finish = timer.finish
 
     if (start() >= finish) then
-
         -- prevent interaction with bomb:
         execute_command('disable_object ' .. '"' .. map.bomb[2] .. '" 0')
 
@@ -394,7 +388,6 @@ local function updateTeamScore(team)
 end
 
 function Sabotage:defuseBomb(timer)
-
     local start = timer.start
     local finish = timer.finish
 
@@ -418,31 +411,24 @@ function Sabotage:defuseBomb(timer)
 end
 
 function OnStart()
-
     local game_type = (get_var(0, '$gt'))
     if (game_type ~= 'n/a') then
-
         local team_slayer = (get_var(0, '$ffa') == '0' and game_type == 'slayer')
         if (team_slayer) then
-
             bomb_planted, announce_respawn = false, false
 
             map = get_var(0, '$map')
             map = Sabotage[map]
             if (map) then
-
                 execute_command('scorelimit 10000')
                 execute_command('enable_object ' .. '"' .. map.bomb[2] .. '" 0')
 
                 local bomb_meta = getTag(map.bomb[1], map.bomb[2])
                 local bomb_effect_meta = getTag(map.explosion_effect[1], map.explosion_effect[2])
 
-                bomb = {
-                    meta_id = bomb_meta,
-                    bomb_effect = bomb_effect_meta
-                }
+                bomb = { meta_id = bomb_meta, bomb_effect = bomb_effect_meta }
 
-                players = { } -- reset the table (just in case)
+                players = {} -- reset the table (just in case)
                 for i = 1, 16 do
                     if player_present(i) then
                         OnJoin(i)
@@ -480,7 +466,6 @@ local function GetDist(x1, y1, z1, x2, y2, z2)
 end
 
 local function getXYZ(dyn)
-
     local x, y, z
     local vehicle = read_dword(dyn + 0x11C)
     local object = get_object_memory(vehicle)
@@ -526,7 +511,6 @@ function Sabotage:explode(x, y, z)
 end
 
 local function UpdateVectors(object, x, y, z)
-
     -- update bomb x,y,z map coordinates:
     write_float(object + 0x5C, x)
     write_float(object + 0x60, y)
@@ -546,7 +530,6 @@ end
 function Sabotage:respawnBomb()
     local bomb_held = self:bombHeld()
     if (bomb and not bomb_held and not bomb_planted) then
-
         local bx, by, bz = read_vector3d(bomb.object_mem + 0x5C)
 
         local x = map.spawn_location[1]
@@ -558,9 +541,7 @@ function Sabotage:respawnBomb()
         if (dist > 1 and not bomb.respawn_timer) then
             announce_respawn = true
             bomb.respawn_timer = self:newTimer(self.bomb_respawn_time)
-
         elseif (dist > 1 and bomb.respawn_timer) then
-
             local start = bomb.respawn_timer.start
             local finish = bomb.respawn_timer.finish
 
@@ -569,7 +550,6 @@ function Sabotage:respawnBomb()
                 announce_respawn = false
                 say(_, 'Bomb will respawn in ' .. finish - start() .. ' seconds.')
             elseif (time_remaining <= 0) then
-
                 write_vector3d(bomb.object_mem + 0x5C, x, y, z + 0.3)
                 -- 28/01/23
                 write_bit(bomb.object_mem + 0x10, 5, 0)
@@ -583,9 +563,7 @@ function Sabotage:respawnBomb()
 end
 
 function Sabotage:onTick()
-
     if (bomb_planted) then
-
         local team = bomb.team
         local object = bomb.object_mem
         local loc = map.base_locations[team]
@@ -596,7 +574,6 @@ function Sabotage:onTick()
         local finish = explosion_timer.finish
 
         if (start() >= finish) then
-
             team = getOppositeTeam(team)
             updateTeamScore(team)
             destroy_object(bomb.object)
@@ -613,13 +590,10 @@ function Sabotage:onTick()
     end
 
     for i, v in pairs(players) do
-
         local dyn = get_dynamic_player(i)
         if (player_alive(i) and dyn ~= 0) then
-
             local has_bomb = v:hasBomb(dyn)
             if (has_bomb and not bomb_planted) then
-
                 local px, py, pz = getXYZ(dyn)
                 local team = getOppositeTeam(v.team)
                 local loc = map.base_locations[team]
@@ -639,7 +613,6 @@ function Sabotage:onTick()
                     v.timer = nil
                 end
             elseif (bomb_planted and v.team == bomb.team) then
-
                 local loc = map.base_locations[bomb.team]
                 local bx, by, bz = loc[1], loc[2], loc[3]
                 local radius = loc[4]
@@ -674,7 +647,7 @@ end
 
 function OnQuit(Ply)
     players[Ply] = nil
-    if (#players ==0 and bomb) then
+    if (#players == 0 and bomb) then
         bomb_planted = false
         bomb.respawn_timer = Sabotage:newTimer(0)
         execute_command('enable_object ' .. '"' .. map.bomb[2] .. '" 0')

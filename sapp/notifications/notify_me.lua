@@ -83,7 +83,10 @@ local CONFIG = {
             [1] = { "[CTF SCORE] $name | $team team | Reds: $redScore Blues: $blueScore | Limit: $scorelimit", false },
             [2] = { "[TEAM RACE SCORE] $name | $team team | $lap_time | Team Laps: $totalTeamLaps/$scorelimit", false },
             [3] = { "[FFA RACE SCORE] $name | Lap: $lap_time | Laps: $score/$scorelimit", false },
-            [4] = { "[TEAM SLAYER SCORE] $name | $team team | Reds: $redScore | Blues: $blueScore | Limit: $scorelimit", false },
+            [4] = {
+                "[TEAM SLAYER SCORE] $name | $team team | Reds: $redScore | Blues: $blueScore | Limit: $scorelimit",
+                false
+            },
             [5] = { "[FFA SCORE] $name | $score/$scorelimit", false }
         },
 
@@ -138,7 +141,7 @@ local CONFIG = {
         ['f35309a653ae6243dab90c203fa50000'] = true,
         ['50bbef5ebf4e0393016d129a545bd09d'] = true,
         ['a77ee0be91bd38a0635b65991bc4b686'] = true,
-        ['3126fab3615a94119d5fe9eead1e88c1'] = true,
+        ['3126fab3615a94119d5fe9eead1e88c1'] = true
     },
 
     --
@@ -148,17 +151,17 @@ local CONFIG = {
         true,
         {
             { "================================================================================", 'green' },
-            { "$timeStamp",                                                                       'yellow' },
-            { "",                                                                                 'black' },
-            { "     '||'  '||'     |     '||'       ..|''||           ..|'''.| '||''''|  ",       'red' },
-            { "      ||    ||     |||     ||       .|'    ||        .|'     '   ||  .    ",       'red' },
-            { "      ||''''||    |  ||    ||       ||      ||       ||          ||''|    ",       'red' },
-            { "      ||    ||   .''''|.   ||       '|.     ||       '|.      .  ||       ",       'red' },
-            { "     .||.  .||. .|.  .||. .||.....|  ''|...|'         ''|....'  .||.....| ",       'red' },
-            { "               ->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-",               'gray' },
-            { "                             $serverName",                                         'green' },
-            { "               ->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-",               'gray' },
-            { "",                                                                                 'black' },
+            { "$timeStamp", 'yellow' },
+            { "", 'black' },
+            { "     '||'  '||'     |     '||'       ..|''||           ..|'''.| '||''''|  ", 'red' },
+            { "      ||    ||     |||     ||       .|'    ||        .|'     '   ||  .    ", 'red' },
+            { "      ||''''||    |  ||    ||       ||      ||       ||          ||''|    ", 'red' },
+            { "      ||    ||   .''''|.   ||       '|.     ||       '|.      .  ||       ", 'red' },
+            { "     .||.  .||. .|.  .||. .||.....|  ''|...|'         ''|....'  .||.....| ", 'red' },
+            { "               ->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-", 'gray' },
+            { "                             $serverName", 'green' },
+            { "               ->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-", 'gray' },
+            { "", 'black' },
             { "================================================================================", 'green' }
         }
     }
@@ -176,9 +179,9 @@ local ffa, falling, distance, first_blood
 local command_type = { [0] = "RCON", [1] = "CONSOLE", [2] = "CHAT", [3] = "UNKNOWN" }
 local chat_type = { [0] = "GLOBAL", [1] = "TEAM", [2] = "VEHICLE", [3] = "UNKNOWN" }
 local score_event = {
-    ctf = function() return 1 end,
-    race = function() return ffa and 3 or 2 end,
-    slayer = function() return ffa and 5 or 4 end
+    ctf = function () return 1 end,
+    race = function () return ffa and 3 or 2 end,
+    slayer = function () return ffa and 5 or 4 end
 }
 
 local os_date, tonumber, ipairs, tostring = os.date, tonumber, ipairs, tostring
@@ -265,7 +268,7 @@ local function newPlayer(id)
         name = get_var(id, '$name'),
         team = get_var(id, '$team'),
         hash = get_var(id, '$hash'),
-        level = function() return tonumber(get_var(id, '$lvl')) end
+        level = function () return tonumber(get_var(id, '$lvl')) end
     }
 end
 

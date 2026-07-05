@@ -31,10 +31,7 @@ LICENSE:          MIT License
 =====================================================================================
 ]]
 
-local pagination = {
-    DEFAULT_PAGES = 1,
-    DEFAULT_MAX_RESULTS = 10
-}
+local pagination = { DEFAULT_PAGES = 1, DEFAULT_MAX_RESULTS = 10 }
 
 local select = select
 local tostring = tostring

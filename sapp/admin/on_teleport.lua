@@ -36,8 +36,8 @@ end
 function OnJoin(playerId)
     players[playerId] = {
         name = get_var(playerId, '$name'),
-        old_pos = {0, 0, 0},
-        new_pos = {0, 0, 0},
+        old_pos = { 0, 0, 0 },
+        new_pos = { 0, 0, 0 },
         get_old = true
     }
 end
@@ -83,10 +83,10 @@ function OnTick()
         local dynamicPlayer = get_dynamic_player(i)
         if dynamicPlayer ~= 0 and player_alive(i) then
             if player.get_old then
-                player.old_pos = {GetPlayerPosition(dynamicPlayer)}
+                player.old_pos = { GetPlayerPosition(dynamicPlayer) }
                 player.get_old = false
             else
-                player.new_pos = {GetPlayerPosition(dynamicPlayer)}
+                player.new_pos = { GetPlayerPosition(dynamicPlayer) }
                 local distance = CalculateDistance(player.old_pos, player.new_pos)
                 if distance > max_distance then
                     OnTeleport(player)

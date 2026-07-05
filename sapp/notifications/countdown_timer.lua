@@ -35,10 +35,7 @@ function OnScriptLoad()
 end
 
 local function newTimer()
-    return {
-        start_time = os.time(),
-        end_time = os.time() + delay
-    }
+    return { start_time = os.time(), end_time = os.time() + delay }
 end
 
 function OnStart()

@@ -16,12 +16,7 @@ LICENSE:          MIT License
 local NOTIFICATION = "[SPY] $name: $cmd"
 
 -- Admin levels allowed to see spy messages:
-local SPY_LEVELS = {
-    [1] = false,
-    [2] = false,
-    [3] = false,
-    [4] = true
-}
+local SPY_LEVELS = { [1] = false, [2] = false, [3] = false, [4] = true }
 
 -- Blacklisted commands that will not be monitored:
 local BLACKLIST = {
@@ -59,7 +54,7 @@ end
 function OnJoin(id)
     players[id] = {
         name = get_var(id, "$name"),
-        level = function()
+        level = function ()
             return tonumber(get_var(id, "$lvl")) or 0
         end
     }

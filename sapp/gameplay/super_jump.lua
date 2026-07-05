@@ -60,8 +60,8 @@ cooldown_message = "Please wait %seconds% seconds before jumping again"
 
 jump_status = {}
 jumping_state = {}
-cooldown_bool = { }
-players = { }
+cooldown_bool = {}
+players = {}
 function OnScriptLoad()
     register_callback(cb.EVENT_TICK, "OnTick")
     register_callback(cb.EVENT_COMMAND, "OnServerCommand")
@@ -83,9 +83,9 @@ function OnScriptLoad()
 end
 
 function OnScriptUnload()
-    jump_status = { }
-    jumping_state = { }
-    cooldown_bool = { }
+    jump_status = {}
+    jumping_state = {}
+    cooldown_bool = {}
 end
 
 function OnNewGame()
@@ -115,7 +115,6 @@ function OnTick()
             if (player_object ~= 0) then
                 if (jump_status[i] == true) then
                     if not vehicleCheck(i) then
-
                         local jumping = read_bit(player_object + 0x208, 1)
                         if (jumping ~= jumping_state[i] and jumping == 1 and cooldown_bool[i] == false) then
                             cooldown_bool[i] = true
@@ -159,7 +158,7 @@ function OnPlayerConnect(PlayerIndex)
     jump_status[PlayerIndex] = false
     cooldown_bool[PlayerIndex] = false
 
-    players[get_var(PlayerIndex, "$n")] = { }
+    players[get_var(PlayerIndex, "$n")] = {}
     players[get_var(PlayerIndex, "$n")].cooldown = 0
 end
 
@@ -244,7 +243,7 @@ function tokenizeString(inputString, Separator)
     if Separator == nil then
         Separator = "%s"
     end
-    local t = { };
+    local t = {}
     i = 1
     for str in string.gmatch(inputString, '([^' .. Separator .. ']+)') do
         t[i] = str

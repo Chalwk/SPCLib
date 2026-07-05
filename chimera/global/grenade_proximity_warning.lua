@@ -25,15 +25,19 @@ local pi = math.pi
 
 -- POLYFILL: math.atan2 (not available in Lua 5.1)
 if not math.atan2 then
-    math.atan2 = function(y, x)
+    math.atan2 = function (y, x)
         if x > 0 then
             return math.atan(y / x)
         elseif x < 0 then
             return (y >= 0 and math.atan(y / x) + pi or math.atan(y / x) - pi)
         else
-            if y > 0 then return pi / 2
-            elseif y < 0 then return -pi / 2
-            else return 0 end
+            if y > 0 then
+                return pi / 2
+            elseif y < 0 then
+                return -pi / 2
+            else
+                return 0
+            end
         end
     end
 end
@@ -48,20 +52,17 @@ local get_tag = get_tag
 local hud_message = hud_message
 
 local atan2 = math.atan2
-local deg = function(rad) return rad * 180 / pi end
+local deg = function (rad) return rad * 180 / pi end
 
 -- Clock-face positions for the eight 45-degree sectors, starting from straight ahead (12 o'clock)
-local directions = {"12", "1:30", "3", "4:30", "6", "7:30", "9", "10:30"}
+local directions = { "12", "1:30", "3", "4:30", "6", "7:30", "9", "10:30" }
 
 local function get_pos(base) -- player/object
-    return read_float(base + 0x5C),
-           read_float(base + 0x60),
-           read_float(base + 0x64)
+    return read_float(base + 0x5C), read_float(base + 0x60), read_float(base + 0x64)
 end
 
 local function get_player_forward(player)
-    return read_float(player + 0x230),
-           read_float(player + 0x234)
+    return read_float(player + 0x230), read_float(player + 0x234)
 end
 
 local function is_grenade(obj)
@@ -97,7 +98,7 @@ function OnTick()
 
     -- Global object table to enumerate all game objects
     local object_table = read_dword(read_dword(0x401192 + 2))
-    if object_table == 0 then return end  -- safety check
+    if object_table == 0 then return end -- safety check
 
     -- Get the total number of objects and the pointer to the first object entry
     local object_count = read_word(object_table + 0x2E)
@@ -105,7 +106,7 @@ function OnTick()
     if first_object == 0 then return end -- no objects to scan
 
     local closest_dist = RADIUS + 1 -- start just above the warning threshold
-    local closest_dir  = nil
+    local closest_dir = nil
 
     -- Loop through every object in the world
     for i = 0, object_count - 1 do
@@ -118,7 +119,7 @@ function OnTick()
                     local dx = gx - px
                     local dy = gy - py
                     local dz = gz - pz
-                    local dist = math.sqrt(dx*dx + dy*dy + dz*dz)
+                    local dist = math.sqrt(dx * dx + dy * dy + dz * dz)
                     if dist < closest_dist then
                         closest_dist = dist
                         closest_dir = compute_direction(px, py, gx, gy, fx, fy)
@@ -128,8 +129,11 @@ function OnTick()
         end
     end
 
+    ---@diagnostic disable-next-line: unnecessary-if
     if closest_dist < RADIUS and closest_dir then
-        for _ = 1, 10 do hud_message(" ") end
+        for _ = 1, 10 do
+            hud_message(" ")
+        end
         hud_message("Grenade! @ " .. closest_dir)
     end
 end

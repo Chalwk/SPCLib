@@ -42,7 +42,6 @@ local function getTimeRemaining()
 end
 
 function OnScriptLoad()
-
     register_callback(cb.EVENT_COMMAND, "OnCommand")
     register_callback(cb.EVENT_GAME_END, "OnEnd")
     register_callback(cb.EVENT_GAME_START, "OnStart")
@@ -84,7 +83,9 @@ function OnCommand(id, command)
 end
 
 local function clear_hud(id)
-    for _ = 1,25 do rprint(id, " ") end
+    for _ = 1, 25 do
+        rprint(id, " ")
+    end
 end
 
 function GameCountdown()

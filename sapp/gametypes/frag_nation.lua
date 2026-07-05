@@ -60,7 +60,7 @@ local FragNation = {
         { 1, '+1 Plasma' },
 
         -- Plasma (sticky):
-        { 2, '+2 Plasmas' },
+        { 2, '+2 Plasmas' }
     },
 
     -- Tag name of the primary weapon:
@@ -110,7 +110,7 @@ local FragNation = {
         { 'eqip', 'powerups\\active camouflage', 'Camouflage', true },
         { 'eqip', 'powerups\\over shield', 'Over Shield', true },
         { 'eqip', 'weapons\\frag grenade\\frag grenade', true },
-        { 'eqip', 'weapons\\plasma grenade\\plasma grenade', true },
+        { 'eqip', 'weapons\\plasma grenade\\plasma grenade', true }
     }
 }
 
@@ -142,7 +142,6 @@ local function GetTag(Class, Name)
 end
 
 function FragNation:InitGameObjects()
-
     for _, v in pairs(self.map_objects) do
         local name = v[2]
         local enabled = v[3]
@@ -158,7 +157,6 @@ function FragNation:InitGameObjects()
 end
 
 function FragNation:SetAmmo(dyn)
-
     local p = self.id
     local ammo = self.ammo[1]
     local mag = self.ammo[2]
@@ -181,7 +179,6 @@ function FragNation:UpdateNades(dyn, type, amount)
 end
 
 function FragNation:NewPlayer(o)
-
     setmetatable(o, self)
     self.__index = self
 
@@ -192,10 +189,8 @@ function FragNation:NewPlayer(o)
 end
 
 function OnStart()
-
     if (get_var(0, '$gt') ~= 'n/a') then
-
-        players = { }
+        players = {}
 
         for i = 1, 16 do
             if player_present(i) then
@@ -209,18 +204,15 @@ end
 
 function OnTick()
     for i, v in pairs(players) do
-
         local dyn = get_dynamic_player(i)
 
         if (player_present(i) and player_alive(i) and v.assign and dyn ~= 0) then
-
             v.assign = false
 
             execute_command('wdel ' .. i)
             assign_weapon(spawn_object('', '', 0, 0, 0, 0, primary_weapon), i)
 
             v:SetAmmo(dyn)
-
         end
     end
 end
@@ -236,7 +228,6 @@ function OnQuit(Ply)
 end
 
 function DamageHandler(Victim, Killer, MetaID)
-
     local killer = tonumber(Killer)
     local victim = tonumber(Victim)
 
@@ -250,7 +241,6 @@ function DamageHandler(Victim, Killer, MetaID)
 
     local dyn = get_dynamic_player(killer)
     if (pvp and dyn ~= 0) then
-
         local frags = tonumber(read_byte(dyn + 0x31E))
         local plasmas = tonumber(read_byte(dyn + 0x31F))
 
@@ -261,12 +251,10 @@ function DamageHandler(Victim, Killer, MetaID)
             frags = frags + k.rewards[1][1]
             k:UpdateNades(dyn, 1, frags)
             str = k.rewards[1][2]
-
         elseif (meta_id == plasma_grenade) then
             k:UpdateNades(dyn, 2, plasmas)
             plasmas = plasmas + k.rewards[2][1]
             str = k.rewards[2][2]
-
         elseif (meta_id == plasma_grenade_sticky) then
             k:UpdateNades(dyn, 3, plasmas)
             plasmas = plasmas + k.rewards[3][1]

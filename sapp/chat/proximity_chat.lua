@@ -44,11 +44,10 @@ local maps = {
     ["ratrace"] = 8,
     ["sidewinder"] = 8,
     ["timberland"] = 8,
-    ["wizard"] = 8,
+    ["wizard"] = 8
 
     -- repeat the structure to add more entries:
 }
-
 
 -- Allow dead players to talk?
 -- Note: Players who are dead have infinite range.
@@ -68,7 +67,7 @@ local on_chat = {
     [1] = "[%name%]: %message%",
 
     -- Vehicle:
-    [2] = "[%name%]: %message%",
+    [2] = "[%name%]: %message%"
 }
 
 -- A message relay function temporarily removes the server prefix
@@ -118,7 +117,7 @@ function OnGameStart()
 end
 
 local function GetXYZ(Ply)
-    local pos = { }
+    local pos = {}
     local DyN = get_dynamic_player(Ply)
     if (DyN ~= 0) then
         local VehicleID = read_dword(DyN + 0x11C)
@@ -135,8 +134,7 @@ local function GetXYZ(Ply)
 end
 
 local function GetPlayers(Talker, Type)
-
-    local pl = { }
+    local pl = {}
     local TalkerTeam = get_var(Talker, "$team")
 
     -- Team Chat -> Team Play [0]
@@ -149,7 +147,6 @@ local function GetPlayers(Talker, Type)
         if player_present(i) and (i ~= Talker) then
             local pos = GetXYZ(i)
             if (case1 or case2) then
-
                 if (case2 and not pos.invehicle) then
                     goto next
                 end
@@ -173,7 +170,6 @@ local function WithinRange(pX, pY, pZ, X, Y, Z)
 end
 
 local function FormatMsg(Talker, Msg, Type)
-
     local name = get_var(Talker, "$name")
     Msg = gsub(gsub(on_chat[Type], "%%name%%", name), "%%message%%", Msg)
 
@@ -191,17 +187,13 @@ local function isCommand(m)
 end
 
 function OnPlayerChat(Ply, Msg, Type)
-
     if (not isCommand(Msg)) then
-
         -- Get talker position (returns false if dead)
         local TalkerPos = GetXYZ(Ply)
         if (TalkerPos) then
-
             -- Get all player positions (excluding talker)
             local players = GetPlayers(Ply, Type)
             if (players) then
-
                 -- Send talker their own message:
                 SendRangedText(Ply, FormatMsg(Ply, Msg, Type))
 
@@ -210,14 +202,12 @@ function OnPlayerChat(Ply, Msg, Type)
                 -- Loop through all available players:
                 for i, v in pairs(players) do
                     if (v.pos) then
-
                         -- Check player is within range of talker & send them the message:
                         local x, y, z = v.pos.x, v.pos.y, v.pos.z
                         if WithinRange(px, py, pz, x, y, z) then
                             SendRangedText(i, FormatMsg(Ply, Msg, Type))
                         end
                         --
-
                     elseif (talk_to_dead_players) then
                         goto next
                     end
@@ -234,7 +224,7 @@ function OnPlayerChat(Ply, Msg, Type)
 end
 
 local function CMDSplit(CMD)
-    local Args = { }
+    local Args = {}
     for Params in gmatch(CMD, "([^%s]+)") do
         Args[#Args + 1] = lower(Params)
     end
@@ -248,7 +238,6 @@ function OnServerCommand(Ply, CMD)
         local lvl = tonumber(get_var(Ply, "$lvl"))
         if (lvl >= permission_level or Ply == 0) then
             if (Args[2]) then
-
                 local range = tonumber(Args[2]:match("%d+"))
 
                 if (range and range > 1) then
@@ -257,7 +246,7 @@ function OnServerCommand(Ply, CMD)
                 elseif (range and range <= 1) then
                     Respond(Ply, "Please enter a range greater than 1", 12)
                 else
-                    Respond(Ply, "Invalid syntax. Usage: /" .. command ..  " [range (number)]",12)
+                    Respond(Ply, "Invalid syntax. Usage: /" .. command .. " [range (number)]", 12)
                 end
             else
                 Respond(Ply, "Current Range: " .. current_range .. " | Default Range: " .. default_range, 10)

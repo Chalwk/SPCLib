@@ -28,7 +28,7 @@ local sapp_events = {
     [cb.EVENT_DIE] = 'OnDeath',
     [cb.EVENT_LEAVE] = 'OnQuit',
     [cb.EVENT_SPAWN] = 'OnSpawn',
-    [cb.EVENT_WEAPON_DROP] = 'OnWeaponDrop',
+    [cb.EVENT_WEAPON_DROP] = 'OnWeaponDrop'
 }
 
 local function registerCallbacks(enable)

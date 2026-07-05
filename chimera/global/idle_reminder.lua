@@ -35,7 +35,11 @@ function OnTick()
     local y = read_float(player + 0x60)
     local z = read_float(player + 0x64)
 
-    if x == last_x and y == last_y and z == last_z then timer = timer + 1 else timer = 0 end
+    if x == last_x and y == last_y and z == last_z then
+        timer = timer + 1
+    else
+        timer = 0
+    end
 
     last_x, last_y, last_z = x, y, z
 

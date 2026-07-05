@@ -61,7 +61,7 @@ function Player:new(id)
 
     o.id = id
     o.name = get_var(id, '$name')
-    o.lvl = function()
+    o.lvl = function ()
         return tonumber(get_var(id, '$lvl'))
     end
     o.state = (o.lvl() >= AdminChat.permission and AdminChat.enabled_by_default)
