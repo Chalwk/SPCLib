@@ -33,7 +33,9 @@ function OnGameEnd(stage)
     end
 end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end
 
 function OnScriptLoad() end
 

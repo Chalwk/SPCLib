@@ -13,12 +13,38 @@ local OUTPUT = "$name entered the $seat_name of a $vehicle_name"
 
 -- CONFIG start ---------------------------------------------------------------
 local VEHICLES = {
-    { "vehicles\\rwarthog\\rwarthog",            "Rocket Warthog",  { [0] = "Driver", [1] = "Passenger", [2] = "Gunner" } },
-    { "vehicles\\ghost\\ghost_mp",               "Ghost",           { [0] = "Driver" } },
-    { "vehicles\\warthog\\mp_warthog",           "Warthog",         { [0] = "Driver", [1] = "Passenger", [2] = "Gunner" } },
-    { "vehicles\\scorpion\\scorpion_mp",         "Scorpion Tank",   { [0] = "Commander", [1] = "Passenger", [2] = "Passenger", [3] = "Passenger", [4] = "Passenger" } },
-    { "vehicles\\banshee\\banshee_mp",           "Banshee",         { [0] = "Pilot" } },
-    { "vehicles\\c gun turret\\c gun turret_mp", "Covenant Turret", { [0] = "Controller" } },
+    {
+        "vehicles\\rwarthog\\rwarthog",
+        "Rocket Warthog",
+        {
+            [0] = "Driver",
+            [1] = "Passenger",
+            [2] = "Gunner"
+        }
+    },
+    { "vehicles\\ghost\\ghost_mp", "Ghost", { [0] = "Driver" } },
+    {
+        "vehicles\\warthog\\mp_warthog",
+        "Warthog",
+        {
+            [0] = "Driver",
+            [1] = "Passenger",
+            [2] = "Gunner"
+        }
+    },
+    {
+        "vehicles\\scorpion\\scorpion_mp",
+        "Scorpion Tank",
+        {
+            [0] = "Commander",
+            [1] = "Passenger",
+            [2] = "Passenger",
+            [3] = "Passenger",
+            [4] = "Passenger"
+        }
+    },
+    { "vehicles\\banshee\\banshee_mp", "Banshee", { [0] = "Pilot" } },
+    { "vehicles\\c gun turret\\c gun turret_mp", "Covenant Turret", { [0] = "Controller" } }
 }
 -- CONFIG end -----------------------------------------------------------------
 
@@ -26,7 +52,7 @@ local vehicle_data = {}
 
 local function format(template, args)
     if not args then return template end
-    return (template:gsub("%$([%w_]+)", function(key)
+    return (template:gsub("%$([%w_]+)", function (key)
         local value = args[key] or args[key:lower()] or args[key:upper()]
         return value ~= nil and tostring(value) or "$" .. key
     end))
@@ -53,13 +79,16 @@ function OnVehicleEntry(player, _, seat, mapId)
     local seat_name = info.seats[seat] or "Seat " .. seat
     local vehicle_name = info.name
 
-    respond("Vehicle Entry: " .. format(OUTPUT, {
-        name = name,
-        seat_name = seat_name,
-        vehicle_name = vehicle_name
-    }))
+    respond("Vehicle Entry: "
+            .. format(OUTPUT, {
+                name = name,
+                seat_name = seat_name,
+                vehicle_name = vehicle_name
+            }))
 end
 
 function OnScriptUnload() end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end

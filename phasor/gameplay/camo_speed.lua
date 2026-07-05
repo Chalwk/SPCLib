@@ -11,10 +11,10 @@ LICENSE:          MIT License
 ]]
 
 -- CONFIG START -------------------------------------------------------
-local CAMO_TAG         = "powerups\\active camouflage"
-local SPEED_MULTIPLIER = 2   -- Speed scale while boosted
-local SPEED_DURATION   = 10  -- Duration of the boost (seconds)
-local NORMAL_SPEED     = 1.0 -- Speed to reset to after boost ends
+local CAMO_TAG = "powerups\\active camouflage"
+local SPEED_MULTIPLIER = 2                     -- Speed scale while boosted
+local SPEED_DURATION = 10                      -- Duration of the boost (seconds)
+local NORMAL_SPEED = 1.0                       -- Speed to reset to after boost ends
 -- CONFIG END ---------------------------------------------------------
 
 local camo_tag_id
@@ -46,4 +46,6 @@ function OnScriptLoad() end
 
 function OnScriptUnload() end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end

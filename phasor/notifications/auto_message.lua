@@ -11,27 +11,27 @@ LICENSE:          MIT License
 
 -- CONFIG start -----------------------------------------
 local ANNOUNCEMENTS = {
-    { 'Multi-Line Support | Message 1, line 1', 'Message 2, line 2' },
-    { 'Like us on Facebook | facebook.com/page_id' },
-    { 'Follow us on Twitter | twitter.com/twitter_id' },
-    { 'We are recruiting. Sign up on our website | website url' },
-    { 'Rules / Server Information' },
-    { 'Announcement 6' },
-    { 'Other information here' },
+    { 'Multi-Line Support | Message 1, line 1', 'Message 2, line 2' }, { 'Like us on Facebook | facebook.com/page_id' },
+    { 'Follow us on Twitter | twitter.com/twitter_id' }, { 'We are recruiting. Sign up on our website | website url' },
+    { 'Rules / Server Information' }, { 'Announcement 6' }, { 'Other information here' }
 }
 
-local INTERVAL = 180   -- seconds (default: 180)
-local CONSOLE = false  -- console output
+local INTERVAL = 180  -- seconds (default: 180)
+local CONSOLE = false -- console output
 -- CONFIG end -----------------------------------------
 
 local index = 1
 local message_timer
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end
 
 function Broadcast()
     local messages = ANNOUNCEMENTS[index]
-    if type(messages) == "string" then messages = { messages } end
+    if type(messages) == "string" then
+        messages = { messages }
+    end
 
     for i = 1, #messages do
         local msg = messages[i]
@@ -55,6 +55,10 @@ function OnScriptLoad()
     message_timer = registertimer(1000 * INTERVAL, "Broadcast")
 end
 
-function OnScriptUnload() remove_timer() end
+function OnScriptUnload()
+    remove_timer()
+end
 
-function OnGameEnd() remove_timer() end
+function OnGameEnd()
+    remove_timer()
+end

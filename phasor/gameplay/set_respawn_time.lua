@@ -17,7 +17,9 @@ local RESPAWN_TIME = 1.5
 local TICK_SCALE = 33
 --
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end
 
 function OnScriptLoad() end
 function OnScriptUnload() end

@@ -15,15 +15,13 @@ LICENSE:          MIT License
 local MAPS = {
     -- Coordinate mapping: { origin_x, origin_y, origin_z, radius, dest_x, dest_y, dest_z }
     bloodgulch = {
-        { 84.106, -71.677, 16.636, 3.0, 55.223, -132.877, 1.142 },
+        { 84.106, -71.677, 16.636, 3.0, 55.223, -132.877, 1.142 }
     }
 }
 
 -- Vehicle mapping: {vehicle tag, trigger seat index}
 local VALID_VEHICLES = {
-    { "vehicles\\rwarthog\\rwarthog", 2 },
-    { "vehicles\\ghost\\ghost",       1 },
-    { "vehicles\\scorpion\\scorpion", 3 },
+    { "vehicles\\rwarthog\\rwarthog", 2 }, { "vehicles\\ghost\\ghost", 1 }, { "vehicles\\scorpion\\scorpion", 3 }
 }
 -- CONFIG END ------------------------------------------------------------------
 
@@ -96,8 +94,8 @@ function OnClientUpdate(player)
     local px, py, pz = get_player_coords(ply_mem)
 
     for _, portal in ipairs(current_portals) do
-        local ox, oy, oz, radius, dx, dy, dz =
-            portal[1], portal[2], portal[3], portal[4], portal[5], portal[6], portal[7]
+        local ox, oy, oz, radius, dx, dy, dz = portal[1], portal[2], portal[3], portal[4], portal[5], portal[6],
+            portal[7]
 
         if in_sphere(px, py, pz, ox, oy, oz, radius) then
             movobjectcoords(vehicle_id, dx, dy, dz)
@@ -107,6 +105,10 @@ function OnClientUpdate(player)
     end
 end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end
 
-function OnScriptLoad() build_cache() end
+function OnScriptLoad()
+    build_cache()
+end

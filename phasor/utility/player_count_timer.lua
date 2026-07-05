@@ -33,4 +33,6 @@ function StatusTimer()
     return true
 end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end

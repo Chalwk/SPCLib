@@ -106,6 +106,8 @@ function OnPlayerLeave(id)
     player_enabled[id] = nil
 end
 
-function GetRequiredVersion() return 200 end
+function GetRequiredVersion()
+    return 200
+end
 
 function OnScriptUnload() end
