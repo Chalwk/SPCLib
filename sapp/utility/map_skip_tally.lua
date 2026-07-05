@@ -27,7 +27,7 @@ local deduct_on_quit = true
 
 local dir, map, mode
 local skipped, records, player_skips = {}, {}, {}
-local json = (loadfile "json.lua")()  -- Load JSON library
+local json = (loadfile "json.lua")()              -- Load JSON library
 local open = io.open
 
 -- Script Initialization
@@ -57,7 +57,7 @@ end
 function OnStart()
     if get_var(0, "$gt") ~= "n/a" then
         records = {}
-        player_skips = {}  -- Initialize player skips
+        player_skips = {} -- Initialize player skips
         map = get_var(0, "$map")
         mode = get_var(0, "$mode")
 
@@ -77,7 +77,7 @@ function OnStart()
 
         data[map] = data[map] or {}
         data[map][mode] = data[map][mode] or 0
-        Write(data)  -- Write initial data to file
+        Write(data) -- Write initial data to file
         records = data
     end
 end
@@ -85,14 +85,14 @@ end
 -- Handle player joining
 function OnJoin(playerId)
     skipped[playerId] = false
-    player_skips[playerId] = 0  -- Initialize player's skip count
+    player_skips[playerId] = 0 -- Initialize player's skip count
 end
 
 -- Handle player quitting
 function OnQuit(playerId)
     if deduct_on_quit and skipped[playerId] then
         records[map][mode] = records[map][mode] - 1
-        player_skips[playerId] = player_skips[playerId] - 1  -- Deduct from player skips
+        player_skips[playerId] = player_skips[playerId] - 1 -- Deduct from player skips
     end
     skipped[playerId] = nil
 end
@@ -101,9 +101,18 @@ end
 function OnEnd()
     for _, skip in pairs(skipped) do
         if skip then
-            Write(records)  -- Write updated records
+            Write(records) -- Write updated records
             break
         end
+    end
+end
+
+-- Respond to players
+local function Respond(playerId, message)
+    if playerId == 0 then
+        cprint(message) -- Console output
+    else
+        rprint(playerId, message) -- Player output
     end
 end
 
@@ -112,23 +121,15 @@ function OnChat(playerId, message)
     if message:lower():match("skip") and not skipped[playerId] then
         skipped[playerId] = true
         records[map][mode] = records[map][mode] + 1
-        player_skips[playerId] = player_skips[playerId] + 1  -- Increment player's skip count
-        Respond(playerId, "You have registered a skip!")  -- Confirm skip registration
-    end
-end
-
--- Respond to players
-local function Respond(playerId, message)
-    if playerId == 0 then
-        cprint(message)  -- Console output
-    else
-        rprint(playerId, message)  -- Player output
+        player_skips[playerId] = player_skips[playerId] + 1 -- Increment player's skip count
+        Respond(playerId, "You have registered a skip!") -- Confirm skip registration
     end
 end
 
 -- Check player permissions
 local function HasPermission(playerId)
-    return playerId == 0 or tonumber(get_var(playerId, '$lvl')) >= permission_level or (Respond(playerId, 'Insufficient Permission') and false)
+    return playerId == 0 or tonumber(get_var(playerId, '$lvl')) >= permission_level
+        or (Respond(playerId, 'Insufficient Permission') and false)
 end
 
 -- Handle tally command
