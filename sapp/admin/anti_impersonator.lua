@@ -65,13 +65,13 @@ local CONFIG = {
     ]]
     MEMBERS = {
         ['Chalwk'] = {
-            '127.0.0.1',                        -- example IP
-            'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', -- example hash
+            '127.0.0.1',                       -- example IP
+            'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' -- example hash
         },
         ['someone'] = {
             'ip1',   -- replace with real IP
             'hash1', -- replace with real hash
-            'hash2',
+            'hash2'
         }
     }
 }
@@ -109,7 +109,7 @@ local function isImpersonator(name, hash, ip)
         end
         return true -- Impersonator detected
     end
-    return false    -- Name not in whitelist
+    return false -- Name not in whitelist
 end
 
 function OnJoin(playerId)

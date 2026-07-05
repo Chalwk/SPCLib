@@ -63,7 +63,7 @@ local function get_pos(id)
 end
 
 local function drop_powerup(x, y, z)
-    local tag = EQUIPMENT_TAGS[getrandomnumber(1, #EQUIPMENT_TAGS)]
+    local tag = EQUIPMENT[getrandomnumber(1, #EQUIPMENT)]
     createobject(tag, 0, 10, false, x, y, z + 0.5)
 end
 

@@ -76,7 +76,6 @@ local config = {
     -- (This is a safety feature to prevent false positives)
     minChecks = 2,
 
-
     -- Request Parameters (ADVANCED USERS ONLY):
     -- https://www.ipqualityscore.com/documentation/proxy-detection/overview
     checks = {
@@ -135,9 +134,9 @@ local config = {
     -- Set the value of each IP address to true to exclude it from being checked.
     -- This is useful for allowing VPNs for specific players.
     exclusion_list = {
-        ['127.0.0.1'] = false, -- Example: Exclude localhost IP address
+        ['127.0.0.1'] = false,  -- Example: Exclude localhost IP address
         ['192.168.1.1'] = false -- Example: Exclude a specific local IP address
-    },
+    }
 
     -----------------
     -- config ends --
@@ -276,10 +275,8 @@ end
     @returns {boolean} True if the response is not yet received or does not exist; false otherwise.
 ]]
 function processAsyncResponse(id)
-
     local response = async_table[id]
     if response and response[1] and client.http_response_received(response[1]) then
-
         if client.http_response_is_null(response[1]) then
             cprint(help, 12)
             async_table[tostring(id)] = nil
@@ -333,11 +330,7 @@ end
 ]]
 local function getPlayer(id)
     local ip = get_var(id, '$ip'):match('%d+.%d+.%d+.%d+')
-    return (not ignorePlayer(ip)) and {
-        ip = ip,
-        id = id,
-        name = get_var(id, '$name')
-    } or nil
+    return (not ignorePlayer(ip)) and { ip = ip, id = id, name = get_var(id, '$name') } or nil
 end
 
 --[[
@@ -348,7 +341,6 @@ end
     @param {number} 'id' Player index (1-16).
 ]]
 function PreJoin(id)
-
     local player = getPlayer(id)
     if (not player) then
         return

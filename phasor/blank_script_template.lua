@@ -53,8 +53,8 @@ function OnGameEnd(stage) end
 ---@param type    number 0 = Global, 1 = Team, 2 = Vehicle
 ---@param message string The chat message.
 ---@return boolean allow
----@return string  newMessage
----@return number  newType
+---@return string newMessage
+---@return number newType
 function OnServerChat(player, type, message) end
 
 --- `OnServerCommand`
@@ -80,7 +80,7 @@ function OnServerCommandAttempt(player, command, password) end
 ---@param hash string The hash of the requesting machine.
 ---@param name string The requested name.
 ---@return boolean allow
----@return string  newName
+---@return string newName
 function OnNameRequest(hash, name) end
 
 --- `OnBanCheck`
@@ -167,7 +167,7 @@ function OnWeaponReload(player, weapId) end
 ---@param mapId    number The tag id of the object being created.
 ---@param parentId number The object id of the parent.
 ---@param player   number The player's memory id, if the object belongs to a player.
----@return number  newMapId
+---@return number newMapId
 ---@return boolean allow
 function OnObjectCreationAttempt(mapId, parentId, player) end
 
@@ -220,7 +220,7 @@ function OnDamageLookup(receiver, causer, mapId) end
 ---@param location number  The body part hit.
 ---@param backtap  boolean Whether the hit was a backtap.
 ---@return boolean allow
----@return number  newDamage
+---@return number newDamage
 function OnDamageApplication(receiver, causer, mapId, location, backtap) end
 
 --- `OnVehicleEntry`

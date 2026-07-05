@@ -257,7 +257,7 @@ end
 local function save_stats()
     local file = io_open(STATS_FILE, "w")
     if not file then return false end
-    
+
     ---@diagnostic disable-next-line: call-non-callable, need-check-nil
     file:write(json:encode(stats))
     file:close()

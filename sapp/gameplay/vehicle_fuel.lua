@@ -37,7 +37,7 @@ local MINIMUM_FUEL_SPEED = 0.1 -- Minimum speed when out of fuel (snail mode)
 local fuel_stations = {
     ["bloodgulch"] = {
         { 65.749, -120.409, 0.118 }
-    },
+    }
 }
 
 local fuel_settings = { -- {max fuel, consumption rate}
@@ -46,7 +46,7 @@ local fuel_settings = { -- {max fuel, consumption rate}
     ['vehicles\\banshee\\banshee_mp'] = { 80, 0.2 },
     ['vehicles\\warthog\\mp_warthog'] = { 150, 0.10 },
     ['vehicles\\scorpion\\scorpion_mp'] = { 200, 0.25 },
-    ['vehicles\\c gun turret\\c gun turret_mp'] = { 50, 0.05 },
+    ['vehicles\\c gun turret\\c gun turret_mp'] = { 50, 0.05 }
 }
 
 -- Config End -------------------------------------
@@ -78,10 +78,10 @@ local function in_range(x1, y1, z1, x2, y2, z2)
 end
 
 local function get_vehicle_speed(vehicle_obj)
-    local vx = read_float(vehicle_obj + 0x68)  -- X velocity
-    local vy = read_float(vehicle_obj + 0x6C)  -- Y velocity
-    local vz = read_float(vehicle_obj + 0x70)  -- Z velocity
-    return math_sqrt(vx*vx + vy*vy + vz*vz)    -- Actual speed magnitude
+    local vx = read_float(vehicle_obj + 0x68) -- X velocity
+    local vy = read_float(vehicle_obj + 0x6C) -- Y velocity
+    local vz = read_float(vehicle_obj + 0x70) -- Z velocity
+    return math_sqrt(vx * vx + vy * vy + vz * vz) -- Actual speed magnitude
 end
 
 local function get_vehicle(dyn)
@@ -102,14 +102,7 @@ local function get_vehicle(dyn)
     local x, y, z = read_vector3d(vehicle_obj + 0x5C)
     local z_offset = (crouch == 0) and 0.65 or 0.35 * crouch
 
-    return {
-        vehicle_id,
-        vehicle_obj,
-        vehicle_cfg,
-        x,
-        y,
-        z + z_offset,
-    }
+    return { vehicle_id, vehicle_obj, vehicle_cfg, x, y, z + z_offset }
 end
 
 local function is_at_fuel_station(x, y, z)
@@ -122,7 +115,9 @@ local function is_at_fuel_station(x, y, z)
 end
 
 local function clear_console(id)
-    for _ = 1, 25 do rprint(id, " ") end
+    for _ = 1, 25 do
+        rprint(id, " ")
+    end
 end
 
 local function update_fuel_gauge(player, _, current_fuel, max_fuel, at_station)
@@ -156,10 +151,7 @@ end
 
 function OnObjectSpawn(_, meta_id)
     if vehicles[meta_id] then
-        vehicle_state[meta_id] = {
-            fuel = vehicles[meta_id].max_fuel,
-            max_fuel = vehicles[meta_id].max_fuel
-        }
+        vehicle_state[meta_id] = { fuel = vehicles[meta_id].max_fuel, max_fuel = vehicles[meta_id].max_fuel }
     end
 end
 
@@ -180,10 +172,7 @@ function OnStart()
         local max_fuel, consumption_rate = v[1], v[2]
         local meta_id = get_tag('vehi', tag_name)
         if meta_id then
-            vehicles[meta_id] = {
-                max_fuel = max_fuel,
-                consumption_rate = consumption_rate
-            }
+            vehicles[meta_id] = { max_fuel = max_fuel, consumption_rate = consumption_rate }
         end
     end
 
@@ -204,15 +193,12 @@ function OnTick()
 
             -- Initialize vehicle state if not exists
             if not vehicle_state[vehicle_id] then
-                vehicle_state[vehicle_id] = {
-                    fuel = vehicle_cfg.max_fuel,
-                    max_fuel = vehicle_cfg.max_fuel
-                }
+                vehicle_state[vehicle_id] = { fuel = vehicle_cfg.max_fuel, max_fuel = vehicle_cfg.max_fuel }
             end
 
             local state = vehicle_state[vehicle_id]
             local at_station = is_at_fuel_station(x, y, z)
-            local speed = get_vehicle_speed(vehicle_obj)  -- Get actual speed
+            local speed = get_vehicle_speed(vehicle_obj)   -- Get actual speed
 
             -- Refuel if at station
             if at_station then

@@ -22,7 +22,9 @@ local TEXT = "Ping: %s ms"
 set_callback("tick", "OnTick")
 set_callback("command", "OnCommand")
 
-local function proceed(id) return ENABLED and id and server_type == "dedicated" end
+local function proceed(id)
+    return ENABLED and id and server_type == "dedicated"
+end
 
 function OnTick()
     local id = get_player()
@@ -30,7 +32,9 @@ function OnTick()
 
     local ping = read_dword(id + 0xDC)
 
-    for _ = 1, 10 do hud_message(" ") end
+    for _ = 1, 10 do
+        hud_message(" ")
+    end
     hud_message(TEXT:format(ping))
 end
 

@@ -18,7 +18,7 @@ api_version = "1.12.0.0"
 
 -- Config [starts]--------------------------------
 local SERVER_PREFIX = "**SAPP** "
-local RANDOM_CHANCE = 0.2  -- 20% chance to alter chat
+local RANDOM_CHANCE = 0.2         -- 20% chance to alter chat
 -- Config [ends]----------------------------------
 
 local function isChatCommand(message)

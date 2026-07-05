@@ -20,10 +20,10 @@ local GravityGun = {
     distance = 4.5,
     launch_velocity = 1.2,
     rotation_speed = 0.1,
-    max_weight = 1.0,           -- Maximum mass-to-velocity ratio (0.1-1.0)
-    cooldown = 15,              -- Ticks between shots (15 = 0.5 seconds)
-    pickup_cooldown = 5,        -- Ticks before allowing launch after pickup
-    allowed_types = {           -- Object types that can be manipulated
+    max_weight = 1.0,    -- Maximum mass-to-velocity ratio (0.1-1.0)
+    cooldown = 15,       -- Ticks between shots (15 = 0.5 seconds)
+    pickup_cooldown = 5, -- Ticks before allowing launch after pickup
+    allowed_types = { -- Object types that can be manipulated
         [1] = true, -- Vehicle
         [4] = true, -- Equipment
         [5] = true, -- Weapon
@@ -38,24 +38,9 @@ api_version = "1.12.0.0"
 local players = {}
 
 -- Precomputed offsets
-local PLAYER = {
-    XYZ = 0x5C,
-    VEHICLE = 0x11C,
-    CROUCHING = 0x50C,
-    CAMERA = 0x230,
-    SHOOTING = 0x490,
-    BIPED = 0x34
-}
+local PLAYER = { XYZ = 0x5C, VEHICLE = 0x11C, CROUCHING = 0x50C, CAMERA = 0x230, SHOOTING = 0x490, BIPED = 0x34 }
 
-local OBJECT = {
-    XYZ = 0x5C,
-    VELOCITY = 0x68,
-    ROTATION = 0x8C,
-    FLAGS = 0x10,
-    TYPE = 0xB4,
-    MASS = 0x98,
-    SCALE = 0xB0
-}
+local OBJECT = { XYZ = 0x5C, VELOCITY = 0x68, ROTATION = 0x8C, FLAGS = 0x10, TYPE = 0xB4, MASS = 0x98, SCALE = 0xB0 }
 
 local function get_player_xyz(dyn)
     local vehicle = read_dword(dyn + PLAYER.VEHICLE)
@@ -105,7 +90,7 @@ local function new_player(id)
         enabled = false,
         object = nil,
         cooldown = 0,
-        pickup_timer = 0  -- Prevent immediate launch after pickup
+        pickup_timer = 0 -- Prevent immediate launch after pickup
     }
 end
 
@@ -207,19 +192,15 @@ function OnTick()
                     write_float(player.object + OBJECT.ROTATION + 8, GravityGun.rotation_speed)
 
                     -- Clear physics flags
-                    write_bit(player.object + OBJECT.FLAGS, 0, 0)  -- Sleep flag
-                    write_bit(player.object + OBJECT.FLAGS, 5, 0)  -- At rest flag
+                    write_bit(player.object + OBJECT.FLAGS, 0, 0) -- Sleep flag
+                    write_bit(player.object + OBJECT.FLAGS, 5, 0) -- At rest flag
 
                     -- Launch logic (only after pickup cooldown)
                     if is_shooting(dyn) and player.cooldown == 0 and player.pickup_timer == 0 then
                         local mass = read_float(player.object + OBJECT.MASS)
                         local velocity = calculate_velocity(mass)
 
-                        write_vector3d(player.object + OBJECT.VELOCITY,
-                            cx * velocity,
-                            cy * velocity,
-                            cz * velocity
-                        )
+                        write_vector3d(player.object + OBJECT.VELOCITY, cx * velocity, cy * velocity, cz * velocity)
 
                         reset_player(player)
                         player.cooldown = GravityGun.cooldown

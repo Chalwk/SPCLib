@@ -23,12 +23,7 @@ local ESCALATING_PENALTIES = {
 }
 
 local ALLOW_EXEMPTIONS = true
-local EXEMPT_ADMIN_LEVELS = {
-    [1] = false,
-    [2] = false,
-    [3] = true,
-    [4] = true
-}
+local EXEMPT_ADMIN_LEVELS = { [1] = false, [2] = false, [3] = true, [4] = true }
 -- CONFIG END --------------------------------------------------------------
 
 api_version = '1.12.0.0'
@@ -62,7 +57,9 @@ local function inVehicle(id)
 end
 
 local function resetPlayer(id)
-    if not players[id] then players[id] = {} end
+    if not players[id] then
+        players[id] = {}
+    end
 
     players[id].timer = os_time() + GRACE_PERIOD
     players[id].warned = false

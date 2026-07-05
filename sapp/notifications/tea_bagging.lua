@@ -34,8 +34,8 @@ LICENSE:          MIT License
 -- CONFIGURATION --
 
 local config = {
-    enabled = true,             -- Tea Bagging feature enabled by default
-    admin_level_required = 4,   -- Minimum admin level required to use commands
+    enabled = true,           -- Tea Bagging feature enabled by default
+    admin_level_required = 4, -- Minimum admin level required to use commands
 
     messages = {
         "$attacker is lap-dancing on $victim's body!",
@@ -44,13 +44,13 @@ local config = {
         "$attacker thinks $victim needs a little 'up close' attention!",
         "$attacker is trying to revive $victim with their dance skills!",
         "$attacker is making $victim their personal dance floor!",
-        "$attacker is showing $victim how to 'drop it like it's hot!'",
+        "$attacker is showing $victim how to 'drop it like it's hot!'"
     },
 
-    radius = 2.5,           -- Distance from corpse to count crouch
-    expire_time = 120,      -- Seconds after death to keep corpse coords
-    required_crouches = 3,  -- Number of crouches to trigger t-bag
-    cooldown_time = 30,     -- Seconds cooldown between triggers per player
+    radius = 2.5,             -- Distance from corpse to count crouch
+    expire_time = 120,        -- Seconds after death to keep corpse coords
+    required_crouches = 3,    -- Number of crouches to trigger t-bag
+    cooldown_time = 30        -- Seconds cooldown between triggers per player
 }
 
 -- CONFIGURATION ENDS --
@@ -125,7 +125,6 @@ local function check_condition(attacker, victim)
 
     for i, pos in ipairs(victim.death_positions) do
         if is_in_range(ax, ay, az, pos.x, pos.y, pos.z) then
-
             local crouching = is_crouching(aDyn)
             if crouching and not attacker.last_crouch_state then
                 attacker.crouch_count = attacker.crouch_count + 1

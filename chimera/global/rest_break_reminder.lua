@@ -30,7 +30,9 @@ set_callback("unload", "OnUnload")
 set_callback("command", "OnCommand")
 
 local function clear_hud()
-    for _ = 1, 8 do hud_message(" ") end
+    for _ = 1, 8 do
+        hud_message(" ")
+    end
 end
 
 local function draw_reminder()

@@ -55,7 +55,6 @@ local Attrition = {
 -- config ends --
 -----------------
 
-
 api_version = '1.12.0.0'
 
 local orb_object
@@ -97,18 +96,11 @@ function OnStart()
 end
 
 function Attrition:newTimer()
-    return {
-        start = time,
-        finish = time() + self.revival_time
-    }
+    return { start = time, finish = time() + self.revival_time }
 end
 
 function Attrition:newPos(x, y, z)
-    return {
-        x = x,
-        y = y,
-        z = z
-    }
+    return { x = x, y = y, z = z }
 end
 
 local sqrt = math.sqrt
@@ -217,12 +209,12 @@ function Attrition:revive(victim, orb)
         -- Resets the players respawn time (causes instant respawn):
         write_dword(get_player(vic_id) + 0x2C, -1 * 33)
 
-        destroy_object(orb)   -- destroy orb
+        destroy_object(orb) -- destroy orb
 
         victim.orb = {}       -- reset orbs for downed player
         victim.revived = true -- set revived flag for downed player
 
-        deductDeath(vic_id)   -- deduct death from downed player (since they were revived)
+        deductDeath(vic_id) -- deduct death from downed player (since they were revived)
         return
     end
 
@@ -296,7 +288,7 @@ function Attrition:onTick()
                                 end
                             end
 
-                            :: next :: -- continue to next player
+                            :: next ::
                         end
                     end
                 end

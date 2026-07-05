@@ -32,34 +32,27 @@ LICENSE:          MIT License
 
 -- Define the Multiclient module
 local Multiclient = {
-    file = 'multiclients.json',  -- File name for storing the multiclient data in JSON format.
-
-    common_ports = { { 2300, 2400 } },  -- List of common port ranges that may indicate multi-client usage.
-
-    min_range = 2401,  -- Minimum port number to consider for custom clients (inclusive).
-
-    max_range = 65535,  -- Maximum port number to consider for custom clients (inclusive).
-
-    command = 'mc',  -- Command to trigger multi-client checks in-game.
-
-    output_message = '$name - MultiClient Probability: $probability% ($reason)',  -- Template message format for outputting player multi-client probability and reason.
-
-    permission_level = 4,  -- Required permission level to use the multi-client command (higher means fewer users can access).
-
-    known_pirated_hashes = {  -- Table of known hashes associated with pirated clients.
+    file = 'multiclients.json',                                                  -- File name for storing the multiclient data in JSON format.
+    common_ports = { { 2300, 2400 } },                                           -- List of common port ranges that may indicate multi-client usage.
+    min_range = 2401,                                                            -- Minimum port number to consider for custom clients (inclusive).
+    max_range = 65535,                                                           -- Maximum port number to consider for custom clients (inclusive).
+    command = 'mc',                                                              -- Command to trigger multi-client checks in-game.
+    output_message = '$name - MultiClient Probability: $probability% ($reason)', -- Template message format for outputting player multi-client probability and reason.
+    permission_level = 4,                                                        -- Required permission level to use the multi-client command (higher means fewer users can access).
+    -- Table of known hashes associated with pirated clients.
+    known_pirated_hashes = {
         -- (your known hashes here)
     },
 
-    thresholds = {  -- Thresholds for defining the probability levels.
-        low = 40,  -- Probability percentage for low risk of multi-client usage.
-        moderate = 60,  -- Probability percentage for moderate risk of multi-client usage.
-        high = 80,  -- Probability percentage for high risk of multi-client usage.
-        very_high = 90  -- Probability percentage for very high risk of multi-client usage.
+    thresholds = { -- Thresholds for defining the probability levels.
+        low = 40,      -- Probability percentage for low risk of multi-client usage.
+        moderate = 60, -- Probability percentage for moderate risk of multi-client usage.
+        high = 80,     -- Probability percentage for high risk of multi-client usage.
+        very_high = 90 -- Probability percentage for very high risk of multi-client usage.
     },
 
-    admin_id = 1 -- Example admin ID for sending notifications; adjust as needed.
+    admin_id = 1                                                                 -- Example admin ID for sending notifications; adjust as needed.
 }
-
 
 local players = {}
 local open = io.open
@@ -229,12 +222,20 @@ function OnCommand(playerId, cmd)
 
         if targetPlayer then
             local reason = getProbabilityReason(targetPlayer.probability)
-            local message = Multiclient.output_message:gsub('$name', targetPlayer.name):gsub('$probability', string.format("%.2f", targetPlayer.probability)):gsub('$reason', reason)
+            local message = Multiclient
+                .output_message
+                :gsub('$name', targetPlayer.name)
+                :gsub('$probability', string.format("%.2f", targetPlayer.probability))
+                :gsub('$reason', reason)
             respond(playerId, message)
 
             -- Notify admin if high probability
             if targetPlayer.probability > Multiclient.thresholds.high then
-                respond(Multiclient.admin_id, targetPlayer.name .. " has been flagged as a likely multi-client user with " .. string.format("%.2f", targetPlayer.probability) .. "% chance.")
+                respond(
+                    Multiclient.admin_id,
+                    targetPlayer.name .. " has been flagged as a likely multi-client user with "
+                        .. string.format("%.2f", targetPlayer.probability) .. "% chance."
+                )
             end
         else
             respond(playerId, 'Player not found.')

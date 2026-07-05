@@ -33,10 +33,7 @@ local function send(message, ...)
 end
 
 function onJoin(id)
-    players[id] = {
-        name = get_var(id, '$name'),
-        joined = os.time(),
-    }
+    players[id] = { name = get_var(id, '$name'), joined = os.time() }
 end
 
 function onQuit(id)

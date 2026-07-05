@@ -46,12 +46,12 @@ local AUTO_AIM = {
     ANGLE_THRESHOLD_DEGREES = 2.5,     -- Base angle threshold (degrees)
     MIN_ANGLE_THRESHOLD_DEGREES = 0.2, -- Minimum angle threshold fallback
     MAX_SCORE = 3000,                  -- Enforcement threshold
-    DYNAMIC_THRESHOLD = {              -- Dynamic threshold adjustment
+    DYNAMIC_THRESHOLD = { -- Dynamic threshold adjustment
         ENABLED = true,
-        BASE_MULTIPLIER = 1.0,         -- Base multiplier for threshold
-        ACCURACY_WEIGHT = 0.5,         -- How much accuracy affects threshold (0-1)
-        MIN_MULTIPLIER = 0.8,          -- Minimum threshold multiplier
-        MAX_MULTIPLIER = 1.2           -- Maximum threshold multiplier
+        BASE_MULTIPLIER = 1.0, -- Base multiplier for threshold
+        ACCURACY_WEIGHT = 0.5, -- How much accuracy affects threshold (0-1)
+        MIN_MULTIPLIER = 0.8,  -- Minimum threshold multiplier
+        MAX_MULTIPLIER = 1.2   -- Maximum threshold multiplier
     }
 }
 
@@ -82,17 +82,17 @@ local VELOCITY_ADJUSTED = {
 }
 
 local WEAPON_MODIFIERS = {
-    ["weapons\\pistol\\pistol"]                   = 1.15, -- High accuracy, fast TTK
-    ["weapons\\sniper rifle\\sniper rifle"]       = 0.65, -- Extreme precision required, slower ROF
+    ["weapons\\pistol\\pistol"] = 1.15,                   -- High accuracy, fast TTK
+    ["weapons\\sniper rifle\\sniper rifle"] = 0.65,       -- Extreme precision required, slower ROF
     ['weapons\\rocket launcher\\rocket launcher'] = 0.75, -- Splash damage, slow projectile
-    ['weapons\\flamethrower\\flamethrower']       = 0.50, -- Short range, easy to keep aim on target
-    ['weapons\\needler\\mp_needler']              = 0.90, -- Homing projectiles but delayed kill
-    ['weapons\\shotgun\\shotgun']                 = 1.40, -- Forgiving spread, high CQC lethality
-    ['weapons\\plasma pistol\\plasma pistol']     = 1.10, -- Charged shot aim assist + normal fire
-    ['weapons\\plasma rifle\\plasma rifle']       = 1.00, -- Sustained fire, moderate tracking
-    ['weapons\\assault rifle\\assault rifle']     = 1.20, -- Bullet spray but easy tracking
-    ['weapons\\plasma_cannon\\plasma_cannon']     = 0.85, -- Slow projectile, splash
-    DEFAULT                                       = 1.0   -- Default multiplier
+    ['weapons\\flamethrower\\flamethrower'] = 0.50,       -- Short range, easy to keep aim on target
+    ['weapons\\needler\\mp_needler'] = 0.90,              -- Homing projectiles but delayed kill
+    ['weapons\\shotgun\\shotgun'] = 1.40,                 -- Forgiving spread, high CQC lethality
+    ['weapons\\plasma pistol\\plasma pistol'] = 1.10,     -- Charged shot aim assist + normal fire
+    ['weapons\\plasma rifle\\plasma rifle'] = 1.00,       -- Sustained fire, moderate tracking
+    ['weapons\\assault rifle\\assault rifle'] = 1.20,     -- Bullet spray but easy tracking
+    ['weapons\\plasma_cannon\\plasma_cannon'] = 0.85,     -- Slow projectile, splash
+    DEFAULT = 1.0                                         -- Default multiplier
 }
 
 local ENERGY_WEAPONS = {
@@ -144,9 +144,13 @@ local get_var, get_player = get_var, get_player
 local player_present, player_alive = player_present, player_alive
 local read_float, read_string, read_dword, read_word = read_float, read_string, read_dword, read_word
 
-local function clamp(v, lo, hi) return (v < lo) and lo or ((v > hi) and hi or v) end
+local function clamp(v, lo, hi)
+    return (v < lo) and lo or ((v > hi) and hi or v)
+end
 
-local function vectorLength(x, y, z) return sqrt(x * x + y * y + z * z) end
+local function vectorLength(x, y, z)
+    return sqrt(x * x + y * y + z * z)
+end
 
 local function normalize(x, y, z)
     local len = vectorLength(x, y, z)
@@ -182,11 +186,14 @@ local function getPlayerPosition(dyn)
         x, y, z = read_vector3d(vehicle_obj + 0x5C)
     end
 
-    local z_off = (crouch == 0) and 0.65 or 0.35 * crouch
+    local z_off = z and (crouch == 0 and 0.65 or 0.35 * crouch) or 0
+    
     return x, y, z + z_off
 end
 
-local function dotProduct(ax, ay, az, bx, by, bz) return ax * bx + ay * by + az * bz end
+local function dotProduct(ax, ay, az, bx, by, bz)
+    return ax * bx + ay * by + az * bz
+end
 
 -- Calculate angular change between frames (degrees)
 local function calculateOrientationChange(id, dyn_ptr)
@@ -214,7 +221,9 @@ end
 -- Calculate mean and standard deviation
 local function computeStats(t)
     local sum = 0
-    for i = 1, #t do sum = sum + t[i] end
+    for i = 1, #t do
+        sum = sum + t[i]
+    end
     local mean = sum / #t
 
     local variance = 0
@@ -323,11 +332,7 @@ local function checkAimAtTarget(shooter_dyn, shooter_id, target_id)
     threshold = threshold * modifier
 
     if angle_deg <= threshold then
-        return {
-            distance = dist,
-            direction = { dir_x, dir_y, dir_z },
-            angle = angle_deg
-        }
+        return { distance = dist, direction = { dir_x, dir_y, dir_z }, angle = angle_deg }
     end
 
     return nil
@@ -548,11 +553,9 @@ local function updateDynamicThreshold(pid)
     avg_accuracy = avg_accuracy / #state.accuracy_history
 
     -- Adjust threshold based on accuracy
-    local multiplier = AUTO_AIM.DYNAMIC_THRESHOLD.BASE_MULTIPLIER +
-        AUTO_AIM.DYNAMIC_THRESHOLD.ACCURACY_WEIGHT * (avg_accuracy - 0.5) * 2
-    multiplier = clamp(multiplier,
-        AUTO_AIM.DYNAMIC_THRESHOLD.MIN_MULTIPLIER,
-        AUTO_AIM.DYNAMIC_THRESHOLD.MAX_MULTIPLIER)
+    local multiplier = AUTO_AIM.DYNAMIC_THRESHOLD.BASE_MULTIPLIER
+        + AUTO_AIM.DYNAMIC_THRESHOLD.ACCURACY_WEIGHT * (avg_accuracy - 0.5) * 2
+    multiplier = clamp(multiplier, AUTO_AIM.DYNAMIC_THRESHOLD.MIN_MULTIPLIER, AUTO_AIM.DYNAMIC_THRESHOLD.MAX_MULTIPLIER)
 
     state.dynamic_threshold = AUTO_AIM.ANGLE_THRESHOLD_DEGREES * multiplier
 end
@@ -597,13 +600,9 @@ local function processPlayerAim(pid)
             local aim_data = checkAimAtTarget(dyn, pid, target)
             if aim_data then
                 scoring_occurred = evaluateAim(
-                    pid,
-                    dyn,
-                    orientation_change,
-                    aim_data.distance,
-                    aim_data.direction,
-                    target)
-                break -- One primary evaluation per tick
+                    pid, dyn, orientation_change, aim_data.distance, aim_data.direction, target
+                )
+                break
             end
         end
     end

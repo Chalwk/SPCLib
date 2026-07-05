@@ -47,7 +47,7 @@ local CONFIG = {
         goto_checkpoint = { { "goto" }, 4 }, -- 4 = required level
         hard_reset = { { "hardreset" }, -1 },
         soft_reset = { { "softreset" }, -1 },
-        stats = { { "stats" }, -1 },
+        stats = { { "stats" }, -1 }
     },
 
     MAPS = {
@@ -61,16 +61,16 @@ local CONFIG = {
             finish = { 50.19, 259.27, -18.62, 52.79, 259.27, -18.62 },
             in_order = true,
             checkpoints = {
-                { 0.11,   11.76,  0.00,  2.4748 },
-                { -10.31, 45.01,  0.00,  1.5598 },
-                { -7.40,  63.75,  1.00,  1.5754 },
-                { 10.31,  104.63, -6.62, 0.3510 },
-                { 29.79,  125.52, -6.62, -0.0156 },
-                { 27.85,  129.02, 0.28,  4.7079 },
-                { 40.87,  129.02, 2.78,  3.1339 },
-                { 27.70,  134.74, 5.23,  -0.0000 },
-                { 39.51,  137.21, 2.78,  1.5210 },
-                { 51.53,  198.75, 5.36,  2.1197 }
+                { 0.11, 11.76, 0.00, 2.4748 },
+                { -10.31, 45.01, 0.00, 1.5598 },
+                { -7.40, 63.75, 1.00, 1.5754 },
+                { 10.31, 104.63, -6.62, 0.3510 },
+                { 29.79, 125.52, -6.62, -0.0156 },
+                { 27.85, 129.02, 0.28, 4.7079 },
+                { 40.87, 129.02, 2.78, 3.1339 },
+                { 27.70, 134.74, 5.23, -0.0000 },
+                { 39.51, 137.21, 2.78, 1.5210 },
+                { 51.53, 198.75, 5.36, 2.1197 }
             }
         },
 
@@ -85,10 +85,10 @@ local CONFIG = {
             in_order = true,
             checkpoints = {
                 { -0.01, -20.90, 0.50, 1.5682 },
-                { -0.01, 3.10,   0.20, 1.5682 },
-                { -0.01, 25.42,  2.00, 1.5717 }
+                { -0.01, 3.10, 0.20, 1.5682 },
+                { -0.01, 25.42, 2.00, 1.5717 }
             }
-        },
+        }
     }
 }
 -- CONFIG end --------------------------------------------------------------
@@ -109,13 +109,12 @@ local os_start_time = os_clock()
 
 local read_bit, read_string = read_bit, read_string
 local read_dword, write_dword = read_dword, write_dword
-local read_byte, read_float, read_vector3d, write_float, write_vector3d =
-    read_byte, read_float, read_vector3d, write_float, write_vector3d
+local read_byte, read_float, read_vector3d, write_float, write_vector3d = read_byte, read_float, read_vector3d,
+    write_float, write_vector3d
 local get_object_memory, spawn_object = get_object_memory, spawn_object
-local get_var, player_present, register_callback, say_all, rprint =
-    get_var, player_present, register_callback, say_all, rprint
-local get_dynamic_player, get_player, player_alive =
-    get_dynamic_player, get_player, player_alive
+local get_var, player_present, register_callback, say_all, rprint = get_var, player_present, register_callback, say_all,
+    rprint
+local get_dynamic_player, get_player, player_alive = get_dynamic_player, get_player, player_alive
 
 local BASE_TAG_TABLE = 0x40440000
 local TAG_ENTRY_SIZE, TAG_DATA_OFFSET, BIT_CHECK_OFFSET, BIT_INDEX = 0x20, 0x14, 0x308, 3
@@ -307,7 +306,8 @@ local function getPosition(id)
     local yaw = atan2(cam_y, cam_x)
 
     local out = string.format("Position: %.2f, %.2f, %.2f, %.4f", x, y, z, yaw)
-    rprint(id, out); cprint(out)
+    rprint(id, out)
+    cprint(out)
 end
 
 local function resetAntiCamp(player)
@@ -347,9 +347,8 @@ local function precomputeLineData()
         dx = map_cfg.start[4] - map_cfg.start[1],
         dy = map_cfg.start[5] - map_cfg.start[2],
         dz = map_cfg.start[6] - map_cfg.start[3],
-        length_sq = (map_cfg.start[4] - map_cfg.start[1]) ^ 2 +
-            (map_cfg.start[5] - map_cfg.start[2]) ^ 2 +
-            (map_cfg.start[6] - map_cfg.start[3]) ^ 2
+        length_sq = (map_cfg.start[4] - map_cfg.start[1]) ^ 2 + (map_cfg.start[5] - map_cfg.start[2]) ^ 2
+            + (map_cfg.start[6] - map_cfg.start[3]) ^ 2
     }
 
     map_cfg.finish_line = {
@@ -358,9 +357,8 @@ local function precomputeLineData()
         dx = map_cfg.finish[4] - map_cfg.finish[1],
         dy = map_cfg.finish[5] - map_cfg.finish[2],
         dz = map_cfg.finish[6] - map_cfg.finish[3],
-        length_sq = (map_cfg.finish[4] - map_cfg.finish[1]) ^ 2 +
-            (map_cfg.finish[5] - map_cfg.finish[2]) ^ 2 +
-            (map_cfg.finish[6] - map_cfg.finish[3]) ^ 2
+        length_sq = (map_cfg.finish[4] - map_cfg.finish[1]) ^ 2 + (map_cfg.finish[5] - map_cfg.finish[2]) ^ 2
+            + (map_cfg.finish[6] - map_cfg.finish[3]) ^ 2
     }
 end
 
@@ -411,19 +409,12 @@ local function updateStats(player, completionTime)
 
     -- Initialize map entry if needed
     if not stats[map] then
-        stats[map] = {
-            best_time = { time = math_huge, player = "" },
-            players = {}
-        }
+        stats[map] = { best_time = { time = math_huge, player = "" }, players = {} }
     end
 
     -- Initialize player entry if needed
     if not stats[map].players[name] then
-        stats[map].players[name] = {
-            best_time_seconds = math_huge,
-            completions = 0,
-            avg_time_seconds = 0
-        }
+        stats[map].players[name] = { best_time_seconds = math_huge, completions = 0, avg_time_seconds = 0 }
     end
 
     local player_stats = stats[map].players[name]
@@ -461,7 +452,10 @@ end
 
 local function showStats(player)
     local map = map_cfg.map
-    local send = player and function(msg) rprint(player.id, msg) end or sendPublic
+    local send = player
+        and function (msg)
+            rprint(player.id, msg)
+        end or sendPublic
 
     if not stats[map] then
         send("No records for this map yet.")
@@ -475,7 +469,7 @@ local function showStats(player)
     end
 
     -- Sort by best time (ascending)
-    table_sort(ranking, function(a, b) return a.best_time < b.best_time end)
+    table_sort(ranking, function (a, b) return a.best_time < b.best_time end)
 
     -- Header
     send("Top 5 players for " .. map)
@@ -562,10 +556,7 @@ function OnStart()
 
     -- Initialize map stats if needed
     if not stats[map] then
-        stats[map] = {
-            best_time = { time = math_huge, player = "" },
-            players = {}
-        }
+        stats[map] = { best_time = { time = math_huge, player = "" }, players = {} }
     end
 
     players = {}
@@ -656,9 +647,7 @@ function AnchorCheckpoints()
         local z = read_float(object + 0x64)
 
         -- Check if position has changed beyond a small threshold
-        if math_abs(x - pos.x) > 0.01 or
-            math_abs(y - pos.y) > 0.01 or
-            math_abs(z - pos.z) > 0.01 then
+        if math_abs(x - pos.x) > 0.01 or math_abs(y - pos.y) > 0.01 or math_abs(z - pos.z) > 0.01 then
             write_vector3d(object + 0x5C, pos.x, pos.y, pos.z)
             write_float(object + 0x68, 0) -- x velocity
             write_float(object + 0x6C, 0) -- y velocity

@@ -42,7 +42,9 @@ end
 
 local function parse_args(input)
     local parts = {}
-    for word in input:gmatch("([^%s]+)") do parts[#parts + 1] = word end
+    for word in input:gmatch("([^%s]+)") do
+        parts[#parts + 1] = word
+    end
     return parts
 end
 
@@ -84,9 +86,17 @@ local function balance()
 
     local from
     if PRIORITY == "smaller" then
-        if reds > blues then from = "red" else from = "blue" end
+        if reds > blues then
+            from = "red"
+        else
+            from = "blue"
+        end
     else
-        if reds < blues then from = "red" else from = "blue" end
+        if reds < blues then
+            from = "red"
+        else
+            from = "blue"
+        end
     end
 
     -- try dead players first
@@ -124,7 +134,9 @@ function OnStart()
     end
 end
 
-function OnEnd() last_move_time = {} end
+function OnEnd()
+    last_move_time = {}
+end
 
 function OnTick()
     if last_tick == nil then return end
@@ -138,9 +150,13 @@ end
 
 local function respond(id)
     if id == 0 then
-        return function(msg) cprint(msg) end
+        return function (msg)
+            cprint(msg)
+        end
     else
-        return function(msg) rprint(id, msg) end
+        return function (msg)
+            rprint(id, msg)
+        end
     end
 end
 

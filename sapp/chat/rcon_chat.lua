@@ -28,14 +28,15 @@ local chat = {
     -- Messages containing these keywords will not trigger chat formatting:
     --
     ignore_list = {
-        'rtv', 'skip'
+        'rtv',
+        'skip'
     }
 }
 
 api_version = '1.12.0.0'
 
 local ffa
-local players = { }
+local players = {}
 
 function OnScriptLoad()
     register_callback(cb.EVENT_CHAT, 'OnChat')
@@ -48,9 +49,8 @@ end
 
 function OnStart()
     if (get_var(0, '$gt') ~= 'n/a') then
-
         ffa = (get_var(0, '$ffa') == '1')
-        players = { }
+        players = {}
 
         for i = 1, 16 do
             if player_present(i) then
@@ -61,10 +61,7 @@ function OnStart()
 end
 
 function OnJoin(Ply)
-    players[Ply] = {
-        team = get_var(Ply, '$team'),
-        name = get_var(Ply, '$name')
-    }
+    players[Ply] = { team = get_var(Ply, '$team'), name = get_var(Ply, '$name') }
 end
 
 function OnQuit(Ply)
@@ -91,26 +88,22 @@ local function Ignore(s)
 end
 
 local function FormatMsg(Ply, Content, Type)
-
     local new_message = chat[Type]
 
     local player = players[Ply]
-    new_message = new_message :
-    gsub('$name', player.name):
-    gsub('$id', Ply)          :
-    gsub('$msg', Content)
+    new_message = new_message:gsub('$name', player.name):gsub('$id', Ply):gsub('$msg', Content)
 
     return new_message
 end
 
 local function Global(str)
-    for i,_ in pairs(players) do
+    for i, _ in pairs(players) do
         rprint(i, str)
     end
 end
 
 local function Team(sender, str)
-    for i,v in pairs(players) do
+    for i, v in pairs(players) do
         if (v.team == sender.team) then
             rprint(i, str)
         end
@@ -128,14 +121,13 @@ local function GetVehicle(Ply)
 end
 
 local function Vehicle(Ply, str)
-
     local senderVehicle = GetVehicle(Ply)
     if (not senderVehicle) then
         rprint(Ply, 'You are not in a vehicle')
         return false
     end
 
-    for i,_ in pairs(players) do
+    for i, _ in pairs(players) do
         local playerVehicle = GetVehicle(i)
         if (playerVehicle == senderVehicle) then
             rprint(i, str)
@@ -145,7 +137,6 @@ end
 
 function OnChat(Ply, Msg, Type)
     if (not IsCommand(Msg) and not Ignore(Msg)) then
-
         Msg = FormatMsg(Ply, Msg, Type)
 
         if (ffa) then
@@ -155,7 +146,6 @@ function OnChat(Ply, Msg, Type)
 
         -- Global:
         if (Type == 0) then
-
             Global(Msg)
 
             -- Team:

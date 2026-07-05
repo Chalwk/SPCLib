@@ -40,10 +40,13 @@ end
 
 local function handle_destroy_mode(PlayerIndex)
     local player_object = get_dynamic_player(PlayerIndex)
-    local playerX, playerY, playerZ = read_float(player_object + 0x230), read_float(player_object + 0x234), read_float(player_object + 0x238)
+    local playerX, playerY, playerZ = read_float(player_object + 0x230),
+        read_float(player_object + 0x234), read_float(player_object + 0x238)
     local px, py, pz = get_player_coordinates(player_object)
     local ignore_player = read_dword(get_player(PlayerIndex) + 0x34)
-    local success, _, _, _, target = intersect(px, py, pz, playerX * 1000, playerY * 1000, playerZ * 1000, ignore_player)
+    local success, _, _, _, target = intersect(
+        px, py, pz, playerX * 1000, playerY * 1000, playerZ * 1000, ignore_player
+    )
 
     if success and target then
         local shot_fired = read_float(player_object + 0x490)

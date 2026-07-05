@@ -44,7 +44,7 @@ local function shuffle_string(s)
     for letter in s:gmatch '.[\128-\191]*' do
         table.insert(shuffled_letters, { letter = letter, rnd = get_random_seed() })
     end
-    table.sort(shuffled_letters, function(a, b)
+    table.sort(shuffled_letters, function (a, b)
         return a.rnd < b.rnd
     end)
     for i = 1, #shuffled_letters do

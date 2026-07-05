@@ -34,26 +34,18 @@ LICENSE:          MIT License
 -- List of blacklisted names that should be replaced.
 -- Players with any of these names will have their names changed.
 local blacklist = {
-    'Butcher', 'Caboose', 'Crazy', 'Cupid', 'Darling', 'Dasher',
-    'Disco', 'Donut', 'Dopey', 'Ghost', 'Goat', 'Grumpy',
-    'Hambone', 'Hollywood', 'Howard', 'Jack', 'Killer', 'King',
-    'Mopey', 'New001', 'Noodle', 'Nuevo001', 'Penguin', 'Pirate',
-    'Prancer', 'Saucy', 'Shadow', 'Sleepy', 'Snake', 'Sneak',
-    'Stompy', 'Stumpy', 'The Bear', 'The Big L', 'Tooth',
-    'Walla Walla', 'Weasel', 'Wheezy', 'Whicker', 'Whisp',
-    'Wilshire'
+    'Butcher', 'Caboose', 'Crazy', 'Cupid', 'Darling', 'Dasher', 'Disco', 'Donut', 'Dopey', 'Ghost', 'Goat', 'Grumpy',
+    'Hambone', 'Hollywood', 'Howard', 'Jack', 'Killer', 'King', 'Mopey', 'New001', 'Noodle', 'Nuevo001', 'Penguin',
+    'Pirate', 'Prancer', 'Saucy', 'Shadow', 'Sleepy', 'Snake', 'Sneak', 'Stompy', 'Stumpy', 'The Bear', 'The Big L',
+    'Tooth', 'Walla Walla', 'Weasel', 'Wheezy', 'Whicker', 'Whisp', 'Wilshire'
 }
 
 -- List of random names that can be assigned to players.
 local random_names = {
-    'Liam', 'Noah', 'Oliver', 'Elijah', 'William', 'James',
-    'Benjamin', 'Lucas', 'Henry', 'Alexander', 'Mason',
-    'Michael', 'Ethan', 'Daniel', 'Jacob', 'Logan',
-    'Jackson', 'Levi', 'Sebastian', 'Mateo', 'Jack',
-    'Owen', 'Theodore', 'Aiden', 'Samuel', 'Joseph',
-    'John', 'David', 'Wyatt', 'Matthew', 'Luke',
-    'Asher', 'Carter', 'Julian', 'Grayson', 'Leo',
-    'Jayden', 'Gabriel', 'Isaac', 'Lincoln', 'Anthony'
+    'Liam', 'Noah', 'Oliver', 'Elijah', 'William', 'James', 'Benjamin', 'Lucas', 'Henry', 'Alexander', 'Mason',
+    'Michael', 'Ethan', 'Daniel', 'Jacob', 'Logan', 'Jackson', 'Levi', 'Sebastian', 'Mateo', 'Jack', 'Owen', 'Theodore',
+    'Aiden', 'Samuel', 'Joseph', 'John', 'David', 'Wyatt', 'Matthew', 'Luke', 'Asher', 'Carter', 'Julian', 'Grayson',
+    'Leo', 'Jayden', 'Gabriel', 'Isaac', 'Lincoln', 'Anthony'
 }
 
 -- Maximum allowed name length.
@@ -77,7 +69,6 @@ local char = string.char
 
 -- Script initialization logic.
 function OnScriptLoad()
-
     register_callback(cb.EVENT_LEAVE, 'OnQuit')
     register_callback(cb.EVENT_PREJOIN, 'OnPreJoin')
     register_callback(cb.EVENT_GAME_START, 'OnStart')
@@ -137,7 +128,6 @@ end
 
 -- Assign a new name to a player and update the in-game display.
 local function setNewName(playerId, old_name, new_name)
-
     local address = network_struct + 0x1AA + ce + to_real_index(playerId) * 0x20
 
     for i = 0, 12 - 1 do

@@ -96,12 +96,16 @@ end
 
 local function respond(id)
     if id == 0 then return cprint end
-    return function(msg) rprint(id, msg) end
+    return function (msg)
+        rprint(id, msg)
+    end
 end
 
 local function parse_args(cmd)
     local parts = {}
-    for w in cmd:gmatch("([^%s]+)") do parts[#parts + 1] = w end
+    for w in cmd:gmatch("([^%s]+)") do
+        parts[#parts + 1] = w
+    end
     return parts
 end
 

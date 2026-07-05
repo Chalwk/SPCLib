@@ -45,12 +45,12 @@ local ScriptManager = {
     -- Map-game mode associations
     maps = {
         ['bloodgulch'] = {
-            ['LNZ-DAC'] = { 'Notify Me', 'Another Script' },
+            ['LNZ-DAC'] = { 'Notify Me', 'Another Script' }
         },
         ['deathisland'] = {
             ['ctf'] = { 'CTF Helper' },
             ['slayer'] = { 'Slayer Enhancer' }
-        },
+        }
         -- Add new maps here
     }
 }
@@ -114,7 +114,7 @@ end
 function ScriptManager:Load(script)
     if self.loaded[script] then return end
 
-    local success, err = pcall(function()
+    local success, err = pcall(function ()
         execute_command('lua_load "' .. script .. '"')
         self.loaded[script] = true
         cprint('[Script Manager] Loaded: ' .. script)
@@ -129,7 +129,7 @@ end
 function ScriptManager:Unload(script)
     if not self.loaded[script] then return end
 
-    local success, err = pcall(function()
+    local success, err = pcall(function ()
         execute_command('lua_unload "' .. script .. '"')
         self.loaded[script] = nil
         cprint('[Script Manager] Unloaded: ' .. script)

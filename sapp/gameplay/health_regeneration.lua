@@ -31,7 +31,6 @@ function RegenHealth(id)
     if (dyn ~= 0 and player_alive(id)) then
         local health = read_float(dyn + 0xE0)
         if (health < 1) then
-
             -- Dynamic regeneration rate
             local increment = HEALTH_INCREMENT * (1 - health)
             local new_health = math.min(health + increment, 1)

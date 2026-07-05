@@ -23,14 +23,12 @@ local ticks = 0
 local tip_index = 0
 
 local tips = {
-    "Grenades are better at corner checks than ego.",
-    "If the fight feels crowded, reposition instead of forcing it.",
+    "Grenades are better at corner checks than ego.", "If the fight feels crowded, reposition instead of forcing it.",
     "A quiet reload before the push is worth more than a loud panic later.",
     "Use the terrain. Half the map is cover if you let it be.",
     "If a vehicle is stuck, stop accelerating for a moment and try a new angle.",
-    "When a room goes quiet, expect company.",
-    "Watch the choke points, not just the scoreboard.",
-    "A fresh spawn is a good time to scan ammo, health, and exits.",
+    "When a room goes quiet, expect company.", "Watch the choke points, not just the scoreboard.",
+    "A fresh spawn is a good time to scan ammo, health, and exits."
 }
 
 set_callback("tick", "OnTick")
@@ -39,7 +37,9 @@ set_callback("unload", "OnUnload")
 set_callback("command", "OnCommand")
 
 local function clear_hud()
-    for _ = 1, 8 do hud_message(" ") end
+    for _ = 1, 8 do
+        hud_message(" ")
+    end
 end
 
 local function next_tip()

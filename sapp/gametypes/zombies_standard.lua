@@ -52,17 +52,17 @@ local CONFIG = {
     ZOMBIFY_ON_FALL_DAMAGE = true,
     END_ON_NO_PLAYERS = true,
     ZOMBIE_COUNT = {
-        { 1,  4,  1 },
-        { 5,  8,  2 },
-        { 9,  12, 3 },
-        { 13, 16, 4 },
+        { 1, 4, 1 },
+        { 5, 8, 2 },
+        { 9, 12, 3 },
+        { 13, 16, 4 }
     },
     ATTRIBUTES = {
         ['humans'] = {
             SPEED = 1.0,
             RESPAWN_TIME = 5,
             DAMAGE_MULTIPLIER = 1,
-            CAMO = false,
+            CAMO = false
         },
         ['zombies'] = {
             SPEED = 1.15,

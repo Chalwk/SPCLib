@@ -6,18 +6,6 @@ DESCRIPTION:      Prevents multiple connections from the same IP address with:
                   - IP whitelist support
                   - Admin notifications
 
-FEATURES:
-                  - Real-time duplicate IP detection
-                  - Customizable ban durations
-                  - LAN party support via IP whitelist
-                  - Detailed logging options
-
-CONFIGURATION:    Adjust these settings:
-                  - action: "kick" or "ban"
-                  - banTime: Duration in minutes
-                  - excludedIPs: Whitelisted IPs
-                  - notification preferences
-
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
@@ -45,7 +33,7 @@ local config = {
     -- List of IPs to exclude from duplicate IP checking:
     excludedIPs = {
         "127.0.0.1",
-        "192.168.0.100", -- Example IP
+        "192.168.0.100" -- Example IP
     },
 
     -- Enable/Disable logging actions taken against players:
@@ -60,7 +48,7 @@ local config = {
     adminLevel = 1,
 
     -- Customize message colors (0-255):
-    messageColor = 12, -- Default to red color for messages
+    messageColor = 12 -- Default to red color for messages
 }
 
 -- Utility function to write logs to the console (if logging is enabled):

@@ -60,14 +60,7 @@ function OnScriptLoad()
 end
 
 function OnJoin(id)
-    players[id] = {
-        last_punishment = nil,
-        start_time = nil,
-        last_x = nil,
-        last_y = nil,
-        last_z = nil,
-        warned = false
-    }
+    players[id] = { last_punishment = nil, start_time = nil, last_x = nil, last_y = nil, last_z = nil, warned = false }
 end
 
 function OnSpawn(id)
@@ -114,10 +107,10 @@ function OnTick()
                         end
                     else
                         data.start_time = current_time
-                        data.last_x     = x
-                        data.last_y     = y
-                        data.last_z     = z
-                        data.warned     = false
+                        data.last_x = x
+                        data.last_y = y
+                        data.last_z = z
+                        data.warned = false
                     end
                 end
             end
@@ -125,6 +118,8 @@ function OnTick()
     end
 end
 
-function OnQuit(id) players[id] = nil end
+function OnQuit(id)
+    players[id] = nil
+end
 
 function OnScriptUnload() end

@@ -84,16 +84,11 @@ function OnTick()
 
             local name = get_player_name(i)
 
-            console_out(format(
-                "[%s] %s (%d) | HP:%d SH:%i | %s (%d)",
-                team_str,
-                name,
-                i + 1,
-                hp,
-                sh,
-                wname or "none",
-                ammo or 0
-            ))
+            console_out(
+                format(
+                    "[%s] %s (%d) | HP:%d SH:%i | %s (%d)", team_str, name, i + 1, hp, sh, wname or "none", ammo or 0
+                )
+            )
         end
     end
 end

@@ -157,7 +157,7 @@ local function RegisterSAPPEvents(f)
         ['EVENT_TICK'] = 'OnTick',
         ['EVENT_JOIN'] = 'OnJoin',
         ['EVENT_LEAVE'] = 'OnQuit',
-        ['EVENT_GAME_END'] = 'OnEnd',
+        ['EVENT_GAME_END'] = 'OnEnd'
     }) do
         f(cb[event], callback)
     end
@@ -241,7 +241,6 @@ function OnScriptLoad()
 end
 
 function OnStart()
-
     local game_type = get_var(0, '$gt')
     local ffa = get_var(0, '$ffa') == '1'
     if game_type ~= 'n/a' and ffa then
@@ -302,7 +301,7 @@ function OnEnd()
         end
     end
 
-    table.sort(winners, function(a, b)
+    table.sort(winners, function (a, b)
         return a.total_time > b.total_time
     end)
 

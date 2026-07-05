@@ -38,7 +38,6 @@ function OnScriptLoad()
 end
 
 local function GetXYZ(player)
-
     local x, y, z
     local dyn = get_dynamic_player(player)
     if (dyn ~= 0) then
@@ -55,7 +54,6 @@ local function GetXYZ(player)
 end
 
 function OnDeath(Victim, Killer)
-
     local victim = tonumber(Victim)
     local killer = tonumber(Killer)
 
@@ -68,7 +66,6 @@ end
 function OnPreSpawn(p)
     local dyn = get_dynamic_player(p)
     if (dyn ~= 0 and loc[p]) then
-
         local x = loc[p][1]
         local y = loc[p][2]
         local z = loc[p][3]

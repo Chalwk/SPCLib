@@ -80,8 +80,8 @@ function OnEcho(PlayerIndex, Message) end
 ---@param TagID          number The object's tag id
 ---@param ParentObjectID number Parent object id (`0xFFFFFFFF` if none)
 ---@param NewObjectID    number The new object id
----@return boolean|nil   allow    (false to block)
----@return number|nil    newTagID (if allow is true)
+---@return boolean|nil allow   (false to block)
+---@return number|nil newTagID (if allow is true)
 function OnObjectSpawn(PlayerIndex, TagID, ParentObjectID, NewObjectID)
     return true
 end
@@ -138,8 +138,8 @@ function OnStick(PlayerIndex, VictimIndex, Object, VictimObject, Where) end
 ---@param Damage            number Damage amount
 ---@param CollisionMaterial string Material hit
 ---@param Backtap           number Whether the hit was a backtap
----@return boolean|nil      allow     (false to block damage)
----@return number|nil       newDamage (if allow is true)
+---@return boolean|nil allow    (false to block damage)
+---@return number|nil newDamage (if allow is true)
 function OnDamageApplication(PlayerIndex, Causer, DamageTagID, Damage, CollisionMaterial, Backtap) end
 
 --- `EVENT_PREJOIN`

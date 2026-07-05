@@ -338,8 +338,7 @@ function RCONText:GameTick()
                     end
                 elseif message.mode == MODES.REPEATING then
                     if now < message.finish then
-                        if message.repeat_interval and
-                            now >= (message.last_sent + message.repeat_interval) then
+                        if message.repeat_interval and now >= (message.last_sent + message.repeat_interval) then
                             should_send = true
                         elseif message.last_sent == 0 then
                             should_send = true

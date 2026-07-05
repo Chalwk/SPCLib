@@ -17,7 +17,7 @@ local COMMANDS = {
     -- Example commands:
     teleport = 10, -- 10 seconds cooldown for teleport command
     team = 5,      -- 5 seconds cooldown for team command
-    heal = 30,     -- 30 seconds cooldown for heal command
+    heal = 30      -- 30 seconds cooldown for heal command
 
     -- Add more commands here...
 }

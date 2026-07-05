@@ -27,20 +27,20 @@ local colors = {
 
     team = {
         red = 5, -- yellow
-        blue = 3, -- blue
+        blue = 3 -- blue
     },
 
     ffa = {
-        0, -- white
-        1, -- black
-        2, -- red
-        3, -- blue
-        4, -- gray
-        5, -- yellow
-        6, -- green
-        7, -- pink
-        8, -- purple
-        9, -- cyan
+        0,  -- white
+        1,  -- black
+        2,  -- red
+        3,  -- blue
+        4,  -- gray
+        5,  -- yellow
+        6,  -- green
+        7,  -- pink
+        8,  -- purple
+        9,  -- cyan
         10, -- cobalt
         11, -- orange
         12, -- teal
@@ -48,7 +48,7 @@ local colors = {
         14, -- brown
         15, -- tan
         16, -- maroon
-        17 -- salmon
+        17  -- salmon
     }
 }
 -- config ends --
@@ -57,7 +57,6 @@ local ffa, sig
 api_version = "1.12.0.0"
 
 function OnScriptLoad()
-
     register_callback(cb.EVENT_GAME_START, "OnStart")
 
     sig = sig_scan("741F8B482085C9750C")
@@ -83,12 +82,10 @@ local function WriteSig(state)
 end
 
 function OnStart()
-
     ffa = nil
     WriteSig(false)
 
     if (get_var(0, "$gt") ~= "n/a") then
-
         WriteSig(true)
         ffa = get_var(0, "$ffa")
 

@@ -14,16 +14,16 @@ LICENSE:          MIT License
 -- ========== CONFIG START ========== --
 local CONFIG = {
     MESSAGES = {
-        LEVEL_UP  = "Level: $level/$max [$label]",
+        LEVEL_UP = "Level: $level/$max [$label]",
         MAX_LEVEL = "$name is max level!",
-        DEMOTED   = "$name was demoted to level $level",
-        VICTORY   = "$name won the game!",
+        DEMOTED = "$name was demoted to level $level",
+        VICTORY = "$name won the game!"
     },
 
     SETTINGS = {
-        STARTING_LEVEL = 1,    -- Starting level for players
-        INFINITE_AMMO  = true, -- Set to false to disable infinite ammo
-        REFILL_RATE    = 1,    -- Time (in seconds) between ammo refills
+        STARTING_LEVEL = 1,   -- Starting level for players
+        INFINITE_AMMO = true, -- Set to false to disable infinite ammo
+        REFILL_RATE = 1       -- Time (in seconds) between ammo refills
     },
 
     WEAPON_LEVELS = {
@@ -32,70 +32,70 @@ local CONFIG = {
             LABEL = "Rocket Launcher",
             FRAG_GRENADES = 1,
             PLASMA_GRENADES = 1,
-            DAMAGE_MULTIPLIER = 1,
+            DAMAGE_MULTIPLIER = 1
         },
         { -- level 2
             TAG = "weapons\\plasma_cannon\\plasma_cannon",
             LABEL = "Plasma Cannon",
             FRAG_GRENADES = 1,
             PLASMA_GRENADES = 1,
-            DAMAGE_MULTIPLIER = 1,
+            DAMAGE_MULTIPLIER = 1
         },
         { -- level 3
             TAG = "weapons\\sniper rifle\\sniper rifle",
             LABEL = "Sniper Rifle",
             FRAG_GRENADES = 1,
             PLASMA_GRENADES = 1,
-            DAMAGE_MULTIPLIER = 1,
+            DAMAGE_MULTIPLIER = 1
         },
         { -- level 4
             TAG = "weapons\\shotgun\\shotgun",
             LABEL = "Shotgun",
             FRAG_GRENADES = 1,
             PLASMA_GRENADES = 0,
-            DAMAGE_MULTIPLIER = 1,
+            DAMAGE_MULTIPLIER = 1
         },
         { -- level 5
             TAG = "weapons\\pistol\\pistol",
             LABEL = "Pistol",
             FRAG_GRENADES = 1,
             PLASMA_GRENADES = 0,
-            DAMAGE_MULTIPLIER = 1,
+            DAMAGE_MULTIPLIER = 1
         },
         { -- level 6
             TAG = "weapons\\assault rifle\\assault rifle",
             LABEL = "Assault Rifle",
             FRAG_GRENADES = 1,
             PLASMA_GRENADES = 0,
-            DAMAGE_MULTIPLIER = 1,
+            DAMAGE_MULTIPLIER = 1
         },
         { -- level 7
             TAG = "weapons\\flamethrower\\flamethrower",
             LABEL = "Flamethrower",
             FRAG_GRENADES = 0,
             PLASMA_GRENADES = 1,
-            DAMAGE_MULTIPLIER = 1,
+            DAMAGE_MULTIPLIER = 1
         },
         { -- level 8
             TAG = "weapons\\needler\\mp_needler",
             LABEL = "Needler",
             FRAG_GRENADES = 0,
             PLASMA_GRENADES = 1,
-            DAMAGE_MULTIPLIER = 1,
+            DAMAGE_MULTIPLIER = 1
         },
         { -- level 9
             TAG = "weapons\\plasma rifle\\plasma rifle",
             LABEL = "Plasma Rifle",
             FRAG_GRENADES = 0,
             PLASMA_GRENADES = 1,
-            DAMAGE_MULTIPLIER = 1,
+            DAMAGE_MULTIPLIER = 1
         },
         { -- level 10
             TAG = "weapons\\plasma pistol\\plasma pistol",
             LABEL = "Plasma Pistol",
             FRAG_GRENADES = 0,
             PLASMA_GRENADES = 0,
-            DAMAGE_MULTIPLIER = 1,
+            DAMAGE_MULTIPLIER = 1
         }
     },
 
@@ -177,10 +177,14 @@ local function levelUp(player)
         execute_command("sv_map_next")
     else
         local level_data = CONFIG.WEAPON_LEVELS[player.level]
-        rprint(player.id, CONFIG.MESSAGES.LEVEL_UP
-            :gsub("$level", player.level)
-            :gsub("$max", game.maxLevel)
-            :gsub("$label", level_data.LABEL))
+        rprint(
+            player.id,
+            CONFIG.MESSAGES
+                .LEVEL_UP
+                :gsub("$level", player.level)
+                :gsub("$max", game.maxLevel)
+                :gsub("$label", level_data.LABEL)
+        )
 
         if player.level == game.maxLevel then
             say_all(CONFIG.MESSAGES.MAX_LEVEL:gsub("$name", player.name))
@@ -192,9 +196,10 @@ end
 local function levelDown(player)
     if player.level > CONFIG.SETTINGS.STARTING_LEVEL then
         player.level = player.level - 1
-        say_all(CONFIG.MESSAGES.DEMOTED
-            :gsub("$name", player.name)
-            :gsub("$level", player.level))
+        say_all(CONFIG.MESSAGES
+                .DEMOTED
+                :gsub("$name", player.name)
+                :gsub("$level", player.level))
     else
         player.level = CONFIG.SETTINGS.STARTING_LEVEL
     end

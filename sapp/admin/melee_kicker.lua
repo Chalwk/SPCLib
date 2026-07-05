@@ -97,9 +97,7 @@ function MeleeTagAddresses()
             GetTag("jpt!", "weapons\\rocket launcher\\melee"),
             GetTag("jpt!", "weapons\\plasma_cannon\\effects\\plasma_cannon_melee")
         },
-        last_damage = {
-
-        },
+        last_damage = {}
     }
 end
 
@@ -125,5 +123,4 @@ function Validate(Killer)
 end
 
 function OnScriptUnload()
-
 end

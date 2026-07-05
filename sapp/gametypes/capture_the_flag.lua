@@ -41,99 +41,99 @@ local CONFIG = {
     -- [map_name] = {spawn_point = {x, y, z}, blue_capture = {x, y, z}, red_capture = {x, y, z}}}
 
     ["bloodgulch"] = {
-        spawn_point  = { 65.749, -120.409, 0.118 },
+        spawn_point = { 65.749, -120.409, 0.118 },
         blue_capture = { 95.687, -159.449, -0.100 },
-        red_capture  = { 40.240, -79.123, -0.100 }
+        red_capture = { 40.240, -79.123, -0.100 }
     },
     ["deathisland"] = {
-        spawn_point  = { -30.282, 31.312, 16.601 },
+        spawn_point = { -30.282, 31.312, 16.601 },
         blue_capture = { -26.576, -6.976, 9.663 },
-        red_capture  = { 29.843, 15.971, 8.295 }
+        red_capture = { 29.843, 15.971, 8.295 }
     },
     ["icefields"] = {
-        spawn_point  = { -26.032, 32.365, 9.007 },
+        spawn_point = { -26.032, 32.365, 9.007 },
         blue_capture = { 24.850, -22.110, 2.111 },
-        red_capture  = { -77.860, 86.550, 2.111 }
+        red_capture = { -77.860, 86.550, 2.111 }
     },
     ["infinity"] = {
-        spawn_point  = { 9.631, -64.030, 7.776 },
+        spawn_point = { 9.631, -64.030, 7.776 },
         blue_capture = { 0.680, -164.567, 15.039 },
-        red_capture  = { -1.858, 47.780, 11.791 }
+        red_capture = { -1.858, 47.780, 11.791 }
     },
     ["sidewinder"] = {
-        spawn_point  = { 2.051, 55.220, -2.801 },
+        spawn_point = { 2.051, 55.220, -2.801 },
         blue_capture = { -32.038, -42.067, -3.700 },
-        red_capture  = { 30.351, -46.108, -3.700 }
+        red_capture = { 30.351, -46.108, -3.700 }
     },
     ["timberland"] = {
-        spawn_point  = { 1.250, -1.487, -21.264 },
+        spawn_point = { 1.250, -1.487, -21.264 },
         blue_capture = { 17.322, -52.365, -17.751 },
-        red_capture  = { -16.330, 52.360, -17.741 }
+        red_capture = { -16.330, 52.360, -17.741 }
     },
     ["dangercanyon"] = {
-        spawn_point  = { -0.477, 55.331, 0.239 },
+        spawn_point = { -0.477, 55.331, 0.239 },
         blue_capture = { -12.105, -3.435, -2.242 },
-        red_capture  = { 12.007, -3.451, -2.242 }
+        red_capture = { 12.007, -3.451, -2.242 }
     },
     ["beavercreek"] = {
-        spawn_point  = { 14.015, 14.238, -0.911 },
+        spawn_point = { 14.015, 14.238, -0.911 },
         blue_capture = { 29.056, 13.732, -0.100 },
-        red_capture  = { -0.860, 13.765, -0.010 }
+        red_capture = { -0.860, 13.765, -0.010 }
     },
     ["boardingaction"] = {
-        spawn_point  = { 4.374, -12.832, 7.220 },
+        spawn_point = { 4.374, -12.832, 7.220 },
         blue_capture = { 1.723, 0.478, 0.600 },
-        red_capture  = { 18.204, -0.537, 0.600 }
+        red_capture = { 18.204, -0.537, 0.600 }
     },
     ["carousel"] = {
-        spawn_point  = { 0.033, 0.003, -0.856 },
+        spawn_point = { 0.033, 0.003, -0.856 },
         blue_capture = { 5.606, -13.548, -3.200 },
-        red_capture  = { -5.750, 13.887, -3.200 }
+        red_capture = { -5.750, 13.887, -3.200 }
     },
     ["chillout"] = {
-        spawn_point  = { 1.392, 4.700, 3.108 },
+        spawn_point = { 1.392, 4.700, 3.108 },
         blue_capture = { 7.488, -4.491, 2.500 },
-        red_capture  = { -7.509, 9.750, 0.100 }
+        red_capture = { -7.509, 9.750, 0.100 }
     },
     ["damnation"] = {
-        spawn_point  = { -2.002, -4.301, 3.399 },
+        spawn_point = { -2.002, -4.301, 3.399 },
         blue_capture = { 9.693, -13.340, 6.800 },
-        red_capture  = { -12.179, 14.983, -0.200 }
+        red_capture = { -12.179, 14.983, -0.200 }
     },
     ["gephyrophobia"] = {
-        spawn_point  = { 63.513, -74.088, -1.062 },
+        spawn_point = { 63.513, -74.088, -1.062 },
         blue_capture = { 26.884, -144.716, -16.049 },
-        red_capture  = { 26.728, 0.166, -16.048 }
+        red_capture = { 26.728, 0.166, -16.048 }
     },
     ["hangemhigh"] = {
-        spawn_point  = { 21.020, -4.632, -4.229 },
+        spawn_point = { 21.020, -4.632, -4.229 },
         blue_capture = { 13.048, 9.033, -3.362 },
-        red_capture  = { 32.656, -16.497, -1.700 }
+        red_capture = { 32.656, -16.497, -1.700 }
     },
     ["longest"] = {
-        spawn_point  = { -0.840, -14.540, 2.410 },
+        spawn_point = { -0.840, -14.540, 2.410 },
         blue_capture = { -12.792, -21.642, -0.400 },
-        red_capture  = { 11.035, -7.588, -0.400 }
+        red_capture = { 11.035, -7.588, -0.400 }
     },
     ["prisoner"] = {
-        spawn_point  = { 0.902, 0.088, 1.392 },
+        spawn_point = { 0.902, 0.088, 1.392 },
         blue_capture = { -9.368, -4.948, 5.700 },
-        red_capture  = { 9.368, 5.119, 5.700 }
+        red_capture = { 9.368, 5.119, 5.700 }
     },
     ["putput"] = {
-        spawn_point  = { -2.350, -21.121, 0.902 },
+        spawn_point = { -2.350, -21.121, 0.902 },
         blue_capture = { -18.890, -20.186, 1.100 },
-        red_capture  = { 34.865, -28.195, 0.100 }
+        red_capture = { 34.865, -28.195, 0.100 }
     },
     ["ratrace"] = {
-        spawn_point  = { 8.662, -11.159, 0.221 },
+        spawn_point = { 8.662, -11.159, 0.221 },
         blue_capture = { -4.228, -0.856, -0.400 },
-        red_capture  = { 18.613, -22.653, -3.400 }
+        red_capture = { 18.613, -22.653, -3.400 }
     },
     ["wizard"] = {
-        spawn_point  = { -5.035, -5.064, -2.750 },
+        spawn_point = { -5.035, -5.064, -2.750 },
         blue_capture = { -9.246, 9.334, -2.600 },
-        red_capture  = { 9.183, -9.181, -2.600 }
+        red_capture = { 9.183, -9.181, -2.600 }
     }
 }
 
@@ -146,7 +146,7 @@ local sapp_events = {
     [cb.EVENT_TICK] = 'OnTick',
     [cb.EVENT_JOIN] = 'OnJoin',
     [cb.EVENT_LEAVE] = 'OnQuit',
-    [cb.EVENT_TEAM_SWITCH] = 'OnTeamSwitch',
+    [cb.EVENT_TEAM_SWITCH] = 'OnTeamSwitch'
 }
 
 local flag, players = {}, {}
@@ -349,7 +349,9 @@ function OnStart()
 
     team_play = get_var(0, "$ffa") == "0"
 
-    for i = 1, 16 do if player_present(i) then OnJoin(i) end end
+    for i = 1, 16 do
+        if player_present(i) then OnJoin(i) end
+    end
 
     flag.tag_id = findFlagTagAddress()
     spawnFlag()
@@ -357,11 +359,7 @@ function OnStart()
 end
 
 function OnJoin(playerId)
-    players[playerId] = {
-        id = playerId,
-        name = get_var(playerId, "$name"),
-        team = get_var(playerId, "$team"),
-    }
+    players[playerId] = { id = playerId, name = get_var(playerId, "$name"), team = get_var(playerId, "$team") }
 end
 
 function OnQuit(playerId)
@@ -428,8 +426,8 @@ function OnTick()
             local blue_cap = map_config.blue_capture
             local red_cap = map_config.red_capture
 
-            if inRange(px, py, pz, blue_cap[1], blue_cap[2], blue_cap[3]) or
-                inRange(px, py, pz, red_cap[1], red_cap[2], red_cap[3]) then
+            if inRange(px, py, pz, blue_cap[1], blue_cap[2], blue_cap[3])
+                or inRange(px, py, pz, red_cap[1], red_cap[2], red_cap[3]) then
                 sendMessage(0, CONFIG.CAPTURE_MESAGE, player.name)
                 updateScore(player)
                 spawnFlag()

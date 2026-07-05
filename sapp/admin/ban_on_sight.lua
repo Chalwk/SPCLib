@@ -95,12 +95,14 @@ local function loadBans()
         end
     end
     file:close()
-    table_sort(ban_entries, function(a, b) return a.name:lower() < b.name:lower() end)
+    table_sort(ban_entries, function (a, b) return a.name:lower() < b.name:lower() end)
 end
 
 local function parseArgs(input)
     local pieces = {}
-    for word in input:gmatch("([^%s]+)") do pieces[#pieces + 1] = word end
+    for word in input:gmatch("([^%s]+)") do
+        pieces[#pieces + 1] = word
+    end
     return pieces
 end
 
@@ -126,11 +128,7 @@ function OnScriptLoad()
 end
 
 function OnJoin(id)
-    players[id] = {
-        name = get_var(id, "$name"),
-        hash = get_var(id, "$hash"),
-        ip   = get_var(id, "$ip")
-    }
+    players[id] = { name = get_var(id, "$name"), hash = get_var(id, "$hash"), ip = get_var(id, "$ip") }
 end
 
 function OnPreJoin(id)
@@ -201,7 +199,7 @@ function OnCommand(id, command)
         ban_entries[#ban_entries + 1] = { name = data.name, hash = data.hash, ip = data.ip }
         banned_ips[data.ip] = true
 
-        table_sort(ban_entries, function(a, b) return a.name:lower() < b.name:lower() end)
+        table_sort(ban_entries, function (a, b) return a.name:lower() < b.name:lower() end)
         saveBans()
 
         rprint(id, "Banned " .. data.name .. " (" .. data.ip .. ")")

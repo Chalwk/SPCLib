@@ -42,6 +42,7 @@ local function flipCoins(flips, player)
     local head_count, tail_count = 0, 0
     local results = {}
 
+    ---@diagnostic disable-next-line: access-invisible
     math.randomseed(os.time())
 
     for _ = 1, flips do

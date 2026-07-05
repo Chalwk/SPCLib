@@ -28,15 +28,13 @@ local MVP_MESSAGES = {
     -- [Hash]       = "Custom message",
     -- [Exact Name] = "Custom message",
 
-    ['127.0.0.1']                        = "YO! MVP $name has joined the server!",
+    ['127.0.0.1'] = "YO! MVP $name has joined the server!",
     ['xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'] = "$name, a brother from another mother has joined!",
-    ['AnotherPlayerName']                = "Welcome, $name! Glad you could join us!"
+    ['AnotherPlayerName'] = "Welcome, $name! Glad you could join us!"
 }
 
 local GENERAL_MESSAGES = {
-    "Welcome to the server, $name!",
-    "Hello $name, glad to have you!",
-    "Hey $name, enjoy your stay!"
+    "Welcome to the server, $name!", "Hello $name, glad to have you!", "Hey $name, enjoy your stay!"
 }
 
 local SERVER_PREFIX = "**SAPP**"
@@ -52,17 +50,15 @@ local function sendMessage(template, name)
 end
 
 local function getPlayerInfo(id)
-    local ip   = get_var(id, "$ip"):match("(%d+%.%d+%.%d+%.%d+)")
+    local ip = get_var(id, "$ip"):match("(%d+%.%d+%.%d+%.%d+)")
     local hash = get_var(id, "hash")
     local name = get_var(id, "$name")
     return ip, hash, name
 end
 
 local function resolveWelcomeMessage(ip, hash, name)
-    return MVP_MESSAGES[hash]
-        or MVP_MESSAGES[ip]
-        or MVP_MESSAGES[name]
-        or GENERAL_MESSAGES[rand(1, #GENERAL_MESSAGES + 1)]
+    return MVP_MESSAGES[hash] or MVP_MESSAGES[ip]
+        or MVP_MESSAGES[name] or GENERAL_MESSAGES[rand(1, #GENERAL_MESSAGES + 1)]
 end
 
 function OnJoin(id)

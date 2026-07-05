@@ -19,10 +19,10 @@ api_version = "1.12.0.0"
 
 -- Configuration
 local config = {
-    interval = 120, -- How often (in seconds) to announce a random message. Do not set lower than 3 seconds.
+    interval = 120,                                        -- How often (in seconds) to announce a random message. Do not set lower than 3 seconds.
     end_point = "https://api.chucknorris.io/jokes/random", -- URL to Chuck Norris Joke API
-    replace_name = true, -- If true, Chuck Norris's name will be replaced with a random player's name
-    server_prefix = "**SAPP**" -- Server prefix for messages
+    replace_name = true,                                   -- If true, Chuck Norris's name will be replaced with a random player's name
+    server_prefix = "**SAPP**"                             -- Server prefix for messages
 }
 
 -- Dependencies

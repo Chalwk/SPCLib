@@ -45,7 +45,7 @@ local config = {
     -- List of IP patterns to ignore (wildcards * and ? supported).
     ignore_ips = {
         "192.168.*",
-        "10.*",
+        "10.*"
         --"127.0.0.1"
     },
 
@@ -328,9 +328,15 @@ local function check_vpn_cache(ip, player_id)
         end
         if suspicious then
             local name = get_var(player_id, '$name') or 'Unknown'
-            cprint(fmt('[Breadcrumb] %s joined with VPN/proxy (IP: %s, fraud: %d)', name, ip, data.fraud_score or 0), 12)
-            log_event(fmt('VPN_DETECTED player=%s ip=%s fraud=%d vpn=%s proxy=%s tor=%s', name, ip, data.fraud_score or 0,
-                tostring(data.vpn), tostring(data.proxy), tostring(data.tor)))
+            cprint(
+                fmt('[Breadcrumb] %s joined with VPN/proxy (IP: %s, fraud: %d)', name, ip, data.fraud_score or 0), 12
+            )
+            log_event(
+                fmt(
+                    'VPN_DETECTED player=%s ip=%s fraud=%d vpn=%s proxy=%s tor=%s', name, ip, data.fraud_score or 0,
+                    tostring(data.vpn), tostring(data.proxy), tostring(data.tor)
+                )
+            )
         end
         return true
     end
@@ -343,12 +349,13 @@ local function vpn_check_async(player_id, ip)
     if check_vpn_cache(ip, player_id) then return end
 
     local cfg = config.vpn_detection
-    local url = 'https://www.ipqualityscore.com/api/json/ip/' .. cfg.api_key .. '/' .. ip ..
-        '?strictness=' .. cfg.strictness ..
-        '&allow_public_access_points=' .. tostring(cfg.allow_public_access_points) ..
-        '&lighter_penalties=' .. tostring(cfg.lighter_penalties) ..
-        '&fast=' .. tostring(cfg.fast) ..
-        '&mobile=' .. tostring(cfg.mobile)
+    local url = 'https://www.ipqualityscore.com/api/json/ip/' .. cfg.api_key
+        .. '/' .. ip
+        .. '?strictness=' .. cfg.strictness
+        .. '&allow_public_access_points=' .. tostring(cfg.allow_public_access_points)
+        .. '&lighter_penalties=' .. tostring(cfg.lighter_penalties)
+        .. '&fast=' .. tostring(cfg.fast)
+        .. '&mobile=' .. tostring(cfg.mobile)
     if cfg.user_agent and cfg.user_agent ~= '' then
         url = url .. '&user_agent=' .. url_encode(cfg.user_agent)
     end
@@ -383,10 +390,16 @@ function ProcessVPNResponse(id)
                 if suspicious then
                     local name = get_var(pid, '$name') or 'Unknown'
                     cprint(
-                        fmt('[Breadcrumb] %s joined with VPN/proxy (IP: %s, fraud: %d)', name, ip, data.fraud_score or 0),
-                        12)
-                    log_event(fmt('VPN_DETECTED player=%s ip=%s fraud=%d vpn=%s proxy=%s tor=%s', name, ip,
-                        data.fraud_score or 0, tostring(data.vpn), tostring(data.proxy), tostring(data.tor)))
+                        fmt(
+                            '[Breadcrumb] %s joined with VPN/proxy (IP: %s, fraud: %d)', name, ip, data.fraud_score or 0
+                        ), 12
+                    )
+                    log_event(
+                        fmt(
+                            'VPN_DETECTED player=%s ip=%s fraud=%d vpn=%s proxy=%s tor=%s', name, ip,
+                            data.fraud_score or 0, tostring(data.vpn), tostring(data.proxy), tostring(data.tor)
+                        )
+                    )
                 end
             end
         end
@@ -494,7 +507,8 @@ local function check_for_alias(name, ip, hash, id)
                 local already = false
                 for _, a in ipairs(alerts) do
                     if a:find(prev_name, 1, true) and a:find('subnet') then
-                        already = true; break
+                        already = true
+                        break
                     end
                 end
                 if not already then
@@ -527,7 +541,8 @@ local function check_for_alias(name, ip, hash, id)
             local already_alerted = false
             for _, a in ipairs(alerts) do
                 if a:find('same IP') and not a:find('subnet') then
-                    already_alerted = true; break
+                    already_alerted = true
+                    break
                 end
             end
             if not already_alerted then
@@ -539,11 +554,10 @@ local function check_for_alias(name, ip, hash, id)
 
     if #alerts > 0 then
         local risk = calculate_risk_score(name, ip, hash, alerts)
-        local msg = fmt('[Breadcrumb] %s (ID %d) entered with IP %s, hash %s%s. Risk: %d%%. Aliases: %s',
-            name, id, ip, hash,
-            config.pirated_hashes[hash] and ' [PIRATED]' or '',
-            risk,
-            table_concat(alerts, '; '))
+        local msg = fmt(
+            '[Breadcrumb] %s (ID %d) entered with IP %s, hash %s%s. Risk: %d%%. Aliases: %s', name, id, ip, hash,
+            config.pirated_hashes[hash] and ' [PIRATED]' or '', risk, table_concat(alerts, '; ')
+        )
         cprint(msg, 10)
         log_event(msg)
     end
@@ -588,7 +602,9 @@ local function show_player_crumbs(admin_id, target_id, page)
 
     -- Convert set to sorted list
     local aliases = {}
-    for n in pairs(alias_set) do table_insert(aliases, n) end
+    for n in pairs(alias_set) do
+        table_insert(aliases, n)
+    end
     table.sort(aliases)
 
     local total_aliases = #aliases
@@ -759,4 +775,6 @@ function CleanStaleRecords()
     return true
 end
 
-function OnScriptUnload() save_db() end
+function OnScriptUnload()
+    save_db()
+end

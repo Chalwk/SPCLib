@@ -26,14 +26,14 @@ LICENSE:          MIT License
 
 -- CONFIG STARTS -------------------------------------------------------------
 local CFG = {
-    command = 'pls',               -- Primary command trigger
-    alt_command = 'players',       -- Alternate command trigger
-    permission_level = 1,          -- Minimum admin level required
-    max_name_length = 24,          -- Maximum characters for player names
-    max_team_length = 12,          -- Maximum characters for team names
-    show_player_count = true,      -- Display player count in header
-    ffa_team_name = 'FFA',         -- Display name for FFA players
-    header_spacing = 2            -- Extra spaces between columns
+    command = 'pls',          -- Primary command trigger
+    alt_command = 'players',  -- Alternate command trigger
+    permission_level = 1,     -- Minimum admin level required
+    max_name_length = 24,     -- Maximum characters for player names
+    max_team_length = 12,     -- Maximum characters for team names
+    show_player_count = true, -- Display player count in header
+    ffa_team_name = 'FFA',    -- Display name for FFA players
+    header_spacing = 2        -- Extra spaces between columns
 }
 -- CONFIG ENDS ---------------------------------------------------------------
 
@@ -55,11 +55,7 @@ local function update_player(id)
     local ip = get_var(id, '$ip')
     local team = (CFG.ffa and CFG.ffa_team_name) or get_var(id, '$team'):upper()
 
-    players[id] = {
-        name = sub(name, 1, CFG.max_name_length),
-        ip = ip,
-        team = team
-    }
+    players[id] = { name = sub(name, 1, CFG.max_name_length), ip = ip, team = team }
 end
 
 local function init_formats()
@@ -128,7 +124,9 @@ function OnCommand(id, cmd)
         end
 
         local count = 0
-        for _ in pairs(players) do count = count + 1 end
+        for _ in pairs(players) do
+            count = count + 1
+        end
 
         if count == 0 then
             respond(id, 'No players online')

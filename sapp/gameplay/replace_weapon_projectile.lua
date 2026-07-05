@@ -51,15 +51,13 @@ projectiles = {
     [20] = { "weapons\\plasma grenade\\plasma grenade", "weapons\\plasma grenade\\plasma grenade", 1 },
     [21] = { "weapons\\frag grenade\\explosion", "weapons\\frag grenade\\explosion", 1 },
     [22] = { "weapons\\plasma grenade\\attached", "weapons\\plasma grenade\\attached", 1 },
-    [23] = { "weapons\\plasma grenade\\explosion", "weapons\\plasma grenade\\explosion", 1 },
+    [23] = { "weapons\\plasma grenade\\explosion", "weapons\\plasma grenade\\explosion", 1 }
 
     -- See example below to lean how to swap the "sniper bullet" for "tank shell":
 
     ------- Change the following -------
     -- from:  [17] = { "weapons\\sniper rifle\\sniper bullet",        "weapons\\sniper rifle\\sniper bullet"},
     -- to:    [17] = { "weapons\\sniper rifle\\sniper bullet",        "vehicles\\scorpion\\tank shell"},
-
-
 }
 -- Configuration [ends] --------------------------------------------------------
 
@@ -76,7 +74,6 @@ end
 function OnObjectSpawn(PlayerIndex, MapID)
     if (PlayerIndex) then
         for i = 1, #projectiles do
-
             local original = projectiles[i][1]
             local replacement = projectiles[i][2]
 

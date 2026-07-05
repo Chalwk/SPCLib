@@ -37,21 +37,19 @@ LICENSE:          MIT License
 -- Configuration Starts --
 --------------------------
 
-local command = "rules"  -- Custom command to view the rules
-local announcement = "Type /" .. command .. " to view the game rules."  -- Announcement message
-local interval = 180  -- Interval (in seconds) between each announcement
-local show_time = 10  -- Duration (in seconds) to display messages
+local command = "rules"                                                -- Custom command to view the rules
+local announcement = "Type /" .. command .. " to view the game rules." -- Announcement message
+local interval = 180                                                   -- Interval (in seconds) between each announcement
+local show_time = 10                                                   -- Duration (in seconds) to display messages
 
 -- Rules Table
 local Rules = {
-    "1. Do not betray your teammates.",
-    "2. Do not be toxic; be a good sport!",
-    "3. Do not camp in any forbidden places.",
-    "4. Do not block any entrances or teleports.",
-    "5. If you're a zombie, press the melee key to infect them.",
+    "1. Do not betray your teammates.", "2. Do not be toxic; be a good sport!",
+    "3. Do not camp in any forbidden places.", "4. Do not block any entrances or teleports.",
+    "5. If you're a zombie, press the melee key to infect them."
 }
 
-local server_prefix = "**BK**"  -- Server prefix for messages
+local server_prefix = "**BK**" -- Server prefix for messages
 
 ------------------------
 -- Configuration Ends --
@@ -60,7 +58,7 @@ local server_prefix = "**BK**"  -- Server prefix for messages
 api_version = "1.12.0.0"
 
 local ConsoleText = (loadfile "rcon_text.lua")()
-local game_started = false  -- Flag to track if the game has started
+local game_started = false                       -- Flag to track if the game has started
 
 -- Load script and register callbacks
 function OnScriptLoad()
@@ -69,7 +67,7 @@ function OnScriptLoad()
     register_callback(cb.EVENT_GAME_START, "OnGameStart")
     register_callback(cb.EVENT_TICK, "OnTick")
 
-    OnGameStart()  -- Initialize game state
+    OnGameStart() -- Initialize game state
 end
 
 -- Handle custom command for displaying rules
@@ -82,9 +80,9 @@ end
 
 -- Show announcement to all players
 function ShowAnnouncement()
-    execute_command('msg_prefix ""')  -- Temporarily remove server prefix
-    say_all(announcement)  -- Broadcast the announcement
-    execute_command('msg_prefix "' .. server_prefix .. '"')  -- Temporarily remove server prefix
+    execute_command('msg_prefix ""') -- Temporarily remove server prefix
+    say_all(announcement) -- Broadcast the announcement
+    execute_command('msg_prefix "' .. server_prefix .. '"') -- Temporarily remove server prefix
     return game_started
 end
 
@@ -92,7 +90,7 @@ end
 function OnGameStart()
     game_started = true
     if get_var(0, "$gt") ~= "n/a" then
-        timer(1000 * interval, "ShowAnnouncement")  -- Schedule announcements
+        timer(1000 * interval, "ShowAnnouncement") -- Schedule announcements
     end
 end
 
@@ -103,5 +101,5 @@ end
 
 -- Handle game tick events
 function OnTick()
-    ConsoleText:GameTick()  -- Update console text on tick
+    ConsoleText:GameTick() -- Update console text on tick
 end

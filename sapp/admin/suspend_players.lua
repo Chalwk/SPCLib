@@ -276,7 +276,7 @@ function mod:Suspend(target, state)
         local player = get_player(target)
         local OldValue = read_word(player + 0xD4)
         write_word(player + 0xD4, 0xFFFF)
-        kill(target)
+        execute_command("kill " .. target)
         write_word(player + 0xD4, OldValue)
     end
 end

@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
@@ -200,7 +201,8 @@
             box-shadow: 0 0 0 2px rgba(107, 142, 214, 0.3);
         }
 
-        select, .page-size {
+        select,
+        .page-size {
             background: #0f1622;
             border: 1px solid #2c3f5c;
             padding: 0.5rem 1rem;
@@ -441,235 +443,236 @@
         }
     </style>
 </head>
+
 <body>
-<div class="container">
-    <div class="header">
-        <div>
-            <h1>Script Browser</h1>
-            <div class="sub">SPCLib scripts · SAPP / Phasor / Chimera</div>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1>Script Browser</h1>
+                <div class="sub">SPCLib scripts · SAPP / Phasor / Chimera</div>
+            </div>
+            <div class="stat-card" style="background:#0c1120;">
+                <span id="statusMsg">🌐 Live metadata from GitHub</span>
+            </div>
         </div>
-        <div class="stat-card" style="background:#0c1120;">
-            <span id="statusMsg">🌐 Live metadata from GitHub</span>
+
+        <div class="stats-row" id="statsSummary">
+            <div class="stat-card"><span class="stat-number" id="totalScripts">0</span>
+                <div class="stat-label">Total Scripts</div>
+            </div>
+            <div class="stat-card"><span class="stat-number" id="platformScripts">0</span>
+                <div class="stat-label">Current Platform</div>
+            </div>
+            <div class="stat-card"><span class="stat-number" id="activeCategories">0</span>
+                <div class="stat-label">Categories (SAPP/Phasor)</div>
+            </div>
+        </div>
+
+        <div class="tabs" id="platformTabs"></div>
+        <div class="category-filters" id="categoryFiltersContainer"></div>
+
+        <div class="controls">
+            <div class="search-area">
+                <label for="searchInput"></label><input class="search-input" id="searchInput"
+                    placeholder="🔎 Filter by name, description..." type="text">
+                <label for="sortSelect"></label><select id="sortSelect">
+                    <option value="name_asc">📖 Name A → Z</option>
+                    <option value="name_desc">📖 Name Z → A</option>
+                </select>
+                <label for="pageSizeSelect"></label><select class="page-size" id="pageSizeSelect">
+                    <option value="10">10 per page</option>
+                    <option value="20">20 per page</option>
+                    <option value="35">35 per page</option>
+                    <option value="50">50 per page</option>
+                </select>
+                <button class="clear-btn" id="clearFiltersBtn">✖️ Clear filters</button>
+            </div>
+        </div>
+
+        <div class="script-grid" id="scriptGrid">
+            <div class="empty-state">⏳ Loading scripts from SPCLib repository...</div>
+        </div>
+
+        <div class="pagination" id="paginationControls">
+            <button class="page-btn" id="prevPageBtn">◀ Prev</button>
+            <span id="pageInfo" style="font-weight:500;">Page 0</span>
+            <button class="page-btn" id="nextPageBtn">Next ▶</button>
         </div>
     </div>
+    <script>
+        const METADATA_URL = 'https://raw.githubusercontent.com/Chalwk/SPCLib/master/metadata.json';
+        const GITHUB_BASE = 'https://github.com/Chalwk/SPCLib/blob/master';
+        const RAW_BASE = 'https://raw.githubusercontent.com/Chalwk/SPCLib/master';
 
-    <div class="stats-row" id="statsSummary">
-        <div class="stat-card"><span class="stat-number" id="totalScripts">0</span>
-            <div class="stat-label">Total Scripts</div>
-        </div>
-        <div class="stat-card"><span class="stat-number" id="platformScripts">0</span>
-            <div class="stat-label">Current Platform</div>
-        </div>
-        <div class="stat-card"><span class="stat-number" id="activeCategories">0</span>
-            <div class="stat-label">Categories (SAPP/Phasor)</div>
-        </div>
-    </div>
+        const RELEASE_TAG_MAP = {
+            'sapp_server_templates': 'sapp-server-templates',
+            'phasor_server_templates': 'phasor-server-templates',
+            'laa_patched': 'laa_patched',
+            'battle_royale': 'battle_royale',
+            'wordbuster': 'wordbuster',
+            'admin_manager': 'AdminManager',
+            'pre_game': 'PreGame'
+        };
 
-    <div class="tabs" id="platformTabs"></div>
-    <div class="category-filters" id="categoryFiltersContainer"></div>
+        const PLATFORMS = [
+            { key: 'SAPP', label: 'SAPP', icon: '🖥️' },
+            { key: 'PHASOR', label: 'Phasor', icon: '⚡' },
+            { key: 'CHIMERA', label: 'Chimera', icon: '🐉' },
+            { key: 'RELEASES', label: 'Releases', icon: '📦' }
+        ];
 
-    <div class="controls">
-        <div class="search-area">
-            <label for="searchInput"></label><input class="search-input" id="searchInput"
-                                                    placeholder="🔎 Filter by name, description..." type="text">
-            <label for="sortSelect"></label><select id="sortSelect">
-            <option value="name_asc">📖 Name A → Z</option>
-            <option value="name_desc">📖 Name Z → A</option>
-        </select>
-            <label for="pageSizeSelect"></label><select class="page-size" id="pageSizeSelect">
-            <option value="10">10 per page</option>
-            <option value="20">20 per page</option>
-            <option value="35">35 per page</option>
-            <option value="50">50 per page</option>
-        </select>
-            <button class="clear-btn" id="clearFiltersBtn">✖️ Clear filters</button>
-        </div>
-    </div>
+        let metadata = null;
+        let activePlatform = 'SAPP';
+        let activeCategory = 'all';
+        let searchQuery = '';
+        let sortCriterion = 'name_asc';
+        let currentPage = 1;
+        let pageSize = 10;
+        let filteredScriptsCache = [];
 
-    <div class="script-grid" id="scriptGrid">
-        <div class="empty-state">⏳ Loading scripts from SPCLib repository...</div>
-    </div>
-
-    <div class="pagination" id="paginationControls">
-        <button class="page-btn" id="prevPageBtn">◀ Prev</button>
-        <span id="pageInfo" style="font-weight:500;">Page 0</span>
-        <button class="page-btn" id="nextPageBtn">Next ▶</button>
-    </div>
-</div>
-<script>
-    const METADATA_URL = 'https://raw.githubusercontent.com/Chalwk/SPCLib/master/metadata.json';
-    const GITHUB_BASE = 'https://github.com/Chalwk/SPCLib/blob/master';
-    const RAW_BASE = 'https://raw.githubusercontent.com/Chalwk/SPCLib/master';
-
-    const RELEASE_TAG_MAP = {
-        'sapp_server_templates': 'sapp-server-templates',
-        'phasor_server_templates': 'phasor-server-templates',
-        'laa_patched': 'laa_patched',
-        'battle_royale': 'battle_royale',
-        'wordbuster': 'wordbuster',
-        'admin_manager': 'AdminManager',
-        'pre_game': 'PreGame'
-    };
-
-    const PLATFORMS = [
-        {key: 'SAPP', label: 'SAPP', icon: '🖥️'},
-        {key: 'PHASOR', label: 'Phasor', icon: '⚡'},
-        {key: 'CHIMERA', label: 'Chimera', icon: '🐉'},
-        {key: 'RELEASES', label: 'Releases', icon: '📦'}
-    ];
-
-    let metadata = null;
-    let activePlatform = 'SAPP';
-    let activeCategory = 'all';
-    let searchQuery = '';
-    let sortCriterion = 'name_asc';
-    let currentPage = 1;
-    let pageSize = 10;
-    let filteredScriptsCache = [];
-
-    function escapeHtml(str) {
-        if (!str) return '';
-        return str.replace(/[&<>]/g, function (m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
-
-    function buildSourceUrl(platform, category, fileName) {
-        if (platform === 'CHIMERA') return `${GITHUB_BASE}/chimera/global/${fileName}.lua`;
-        if (platform === 'RELEASES') {
-            const tag = RELEASE_TAG_MAP[fileName] || fileName;
-            return `https://github.com/Chalwk/SPCLib/releases/tag/${tag}`;
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function (m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
         }
-        return `${GITHUB_BASE}/${platform.toLowerCase()}/${category}/${fileName}.lua`;
-    }
 
-    function buildDownloadUrl(platform, category, fileName) {
-        if (platform === 'CHIMERA') return `${RAW_BASE}/chimera/global/${fileName}.lua`;
-        if (platform === 'RELEASES') return buildSourceUrl(platform, category, fileName);
-        return `${RAW_BASE}/${platform.toLowerCase()}/${category}/${fileName}.lua`;
-    }
+        function buildSourceUrl(platform, category, fileName) {
+            if (platform === 'CHIMERA') return `${GITHUB_BASE}/chimera/global/${fileName}.lua`;
+            if (platform === 'RELEASES') {
+                const tag = RELEASE_TAG_MAP[fileName] || fileName;
+                return `https://github.com/Chalwk/SPCLib/releases/tag/${tag}`;
+            }
+            return `${GITHUB_BASE}/${platform.toLowerCase()}/${category}/${fileName}.lua`;
+        }
 
-    function flattenMetadata() {
-        const scripts = [];
-        if (!metadata) return scripts;
-        for (const platformKey of Object.keys(metadata)) {
-            const platformData = metadata[platformKey];
-            const isCategoryBased = (platformKey === 'SAPP' || platformKey === 'PHASOR');
-            if (isCategoryBased && typeof platformData === 'object') {
-                for (const [category, scriptsObj] of Object.entries(platformData)) {
-                    if (scriptsObj && typeof scriptsObj === 'object') {
-                        for (const [fileName, description] of Object.entries(scriptsObj)) {
-                            scripts.push({
-                                platform: platformKey,
-                                category: category,
-                                fileName: fileName,
-                                description: typeof description === 'string' ? description : '',
-                                sourceUrl: buildSourceUrl(platformKey, category, fileName),
-                                downloadUrl: buildDownloadUrl(platformKey, category, fileName),
-                                isRelease: false
-                            });
+        function buildDownloadUrl(platform, category, fileName) {
+            if (platform === 'CHIMERA') return `${RAW_BASE}/chimera/global/${fileName}.lua`;
+            if (platform === 'RELEASES') return buildSourceUrl(platform, category, fileName);
+            return `${RAW_BASE}/${platform.toLowerCase()}/${category}/${fileName}.lua`;
+        }
+
+        function flattenMetadata() {
+            const scripts = [];
+            if (!metadata) return scripts;
+            for (const platformKey of Object.keys(metadata)) {
+                const platformData = metadata[platformKey];
+                const isCategoryBased = (platformKey === 'SAPP' || platformKey === 'PHASOR');
+                if (isCategoryBased && typeof platformData === 'object') {
+                    for (const [category, scriptsObj] of Object.entries(platformData)) {
+                        if (scriptsObj && typeof scriptsObj === 'object') {
+                            for (const [fileName, description] of Object.entries(scriptsObj)) {
+                                scripts.push({
+                                    platform: platformKey,
+                                    category: category,
+                                    fileName: fileName,
+                                    description: typeof description === 'string' ? description : '',
+                                    sourceUrl: buildSourceUrl(platformKey, category, fileName),
+                                    downloadUrl: buildDownloadUrl(platformKey, category, fileName),
+                                    isRelease: false
+                                });
+                            }
                         }
                     }
-                }
-            } else if (platformKey === 'RELEASES') {
-                for (const [fileName, description] of Object.entries(platformData)) {
-                    scripts.push({
-                        platform: platformKey,
-                        category: 'release',
-                        fileName: fileName,
-                        description: typeof description === 'string' ? description : '',
-                        sourceUrl: buildSourceUrl('RELEASES', '', fileName),
-                        downloadUrl: buildDownloadUrl('RELEASES', '', fileName),
-                        isRelease: true
-                    });
-                }
-            } else if (platformKey === 'CHIMERA') {
-                for (const [fileName, description] of Object.entries(platformData)) {
-                    scripts.push({
-                        platform: platformKey,
-                        category: 'global',
-                        fileName: fileName,
-                        description: typeof description === 'string' ? description : '',
-                        sourceUrl: buildSourceUrl('CHIMERA', 'global', fileName),
-                        downloadUrl: buildDownloadUrl('CHIMERA', 'global', fileName),
-                        isRelease: false
-                    });
+                } else if (platformKey === 'RELEASES') {
+                    for (const [fileName, description] of Object.entries(platformData)) {
+                        scripts.push({
+                            platform: platformKey,
+                            category: 'release',
+                            fileName: fileName,
+                            description: typeof description === 'string' ? description : '',
+                            sourceUrl: buildSourceUrl('RELEASES', '', fileName),
+                            downloadUrl: buildDownloadUrl('RELEASES', '', fileName),
+                            isRelease: true
+                        });
+                    }
+                } else if (platformKey === 'CHIMERA') {
+                    for (const [fileName, description] of Object.entries(platformData)) {
+                        scripts.push({
+                            platform: platformKey,
+                            category: 'global',
+                            fileName: fileName,
+                            description: typeof description === 'string' ? description : '',
+                            sourceUrl: buildSourceUrl('CHIMERA', 'global', fileName),
+                            downloadUrl: buildDownloadUrl('CHIMERA', 'global', fileName),
+                            isRelease: false
+                        });
+                    }
                 }
             }
+            return scripts;
         }
-        return scripts;
-    }
 
-    function getPlatformTagClass(platform) {
-        const map = {'SAPP': 'tag-sapp', 'PHASOR': 'tag-phasor', 'CHIMERA': 'tag-chimera', 'RELEASES': 'tag-release'};
-        return map[platform] || 'tag-sapp';
-    }
+        function getPlatformTagClass(platform) {
+            const map = { 'SAPP': 'tag-sapp', 'PHASOR': 'tag-phasor', 'CHIMERA': 'tag-chimera', 'RELEASES': 'tag-release' };
+            return map[platform] || 'tag-sapp';
+        }
 
-    function filterAndSortScripts() {
-        let allScripts = flattenMetadata();
-        let filtered = allScripts.filter(script => script.platform === activePlatform);
-        if ((activePlatform === 'SAPP' || activePlatform === 'PHASOR') && activeCategory !== 'all') {
-            filtered = filtered.filter(script => script.category === activeCategory);
+        function filterAndSortScripts() {
+            let allScripts = flattenMetadata();
+            let filtered = allScripts.filter(script => script.platform === activePlatform);
+            if ((activePlatform === 'SAPP' || activePlatform === 'PHASOR') && activeCategory !== 'all') {
+                filtered = filtered.filter(script => script.category === activeCategory);
+            }
+            if (searchQuery.trim() !== '') {
+                const lowerQuery = searchQuery.toLowerCase();
+                filtered = filtered.filter(script =>
+                    script.fileName.toLowerCase().includes(lowerQuery) ||
+                    (script.description && script.description.toLowerCase().includes(lowerQuery)) ||
+                    script.category.toLowerCase().includes(lowerQuery)
+                );
+            }
+            if (sortCriterion === 'name_asc') {
+                filtered.sort((a, b) => a.fileName.localeCompare(b.fileName));
+            } else if (sortCriterion === 'name_desc') {
+                filtered.sort((a, b) => b.fileName.localeCompare(a.fileName));
+            }
+            return filtered;
         }
-        if (searchQuery.trim() !== '') {
-            const lowerQuery = searchQuery.toLowerCase();
-            filtered = filtered.filter(script =>
-                script.fileName.toLowerCase().includes(lowerQuery) ||
-                (script.description && script.description.toLowerCase().includes(lowerQuery)) ||
-                script.category.toLowerCase().includes(lowerQuery)
-            );
-        }
-        if (sortCriterion === 'name_asc') {
-            filtered.sort((a, b) => a.fileName.localeCompare(b.fileName));
-        } else if (sortCriterion === 'name_desc') {
-            filtered.sort((a, b) => b.fileName.localeCompare(a.fileName));
-        }
-        return filtered;
-    }
 
-    function updateStatsAndRender() {
-        const allRaw = flattenMetadata();
-        const totalAll = allRaw.length;
-        const platformFiltered = filterAndSortScripts();
-        filteredScriptsCache = platformFiltered;
-        const totalPlatform = platformFiltered.length;
-        let uniqueCategories = 0;
-        if (activePlatform === 'SAPP' || activePlatform === 'PHASOR') {
-            const cats = new Set(platformFiltered.map(s => s.category));
-            uniqueCategories = cats.size;
-        } else {
-            uniqueCategories = 0;
+        function updateStatsAndRender() {
+            const allRaw = flattenMetadata();
+            const totalAll = allRaw.length;
+            const platformFiltered = filterAndSortScripts();
+            filteredScriptsCache = platformFiltered;
+            const totalPlatform = platformFiltered.length;
+            let uniqueCategories = 0;
+            if (activePlatform === 'SAPP' || activePlatform === 'PHASOR') {
+                const cats = new Set(platformFiltered.map(s => s.category));
+                uniqueCategories = cats.size;
+            } else {
+                uniqueCategories = 0;
+            }
+            document.getElementById('totalScripts').innerText = totalAll;
+            document.getElementById('platformScripts').innerText = totalPlatform;
+            document.getElementById('activeCategories').innerText = uniqueCategories || '-';
+            const totalPages = Math.ceil(filteredScriptsCache.length / pageSize);
+            let validPage = currentPage;
+            if (validPage > totalPages && totalPages > 0) validPage = totalPages;
+            if (validPage < 1) validPage = 1;
+            currentPage = validPage;
+            renderScripts();
+            updatePaginationUI(totalPages);
         }
-        document.getElementById('totalScripts').innerText = totalAll;
-        document.getElementById('platformScripts').innerText = totalPlatform;
-        document.getElementById('activeCategories').innerText = uniqueCategories || '-';
-        const totalPages = Math.ceil(filteredScriptsCache.length / pageSize);
-        let validPage = currentPage;
-        if (validPage > totalPages && totalPages > 0) validPage = totalPages;
-        if (validPage < 1) validPage = 1;
-        currentPage = validPage;
-        renderScripts();
-        updatePaginationUI(totalPages);
-    }
 
-    function renderScripts() {
-        const grid = document.getElementById('scriptGrid');
-        if (!filteredScriptsCache.length) {
-            grid.innerHTML = `<div class="empty-state">✨ No scripts found. Try different filters or search.</div>`;
-            return;
-        }
-        const start = (currentPage - 1) * pageSize;
-        const pageData = filteredScriptsCache.slice(start, start + pageSize);
-        let html = '';
-        for (const script of pageData) {
-            const displayName = script.isRelease ? script.fileName.replace(/_/g, ' ') : script.fileName;
-            const ext = script.isRelease ? '.zip' : '.lua';
-            const platformClass = getPlatformTagClass(script.platform);
-            const isReleaseScript = script.isRelease;
-            html += `
+        function renderScripts() {
+            const grid = document.getElementById('scriptGrid');
+            if (!filteredScriptsCache.length) {
+                grid.innerHTML = `<div class="empty-state">✨ No scripts found. Try different filters or search.</div>`;
+                return;
+            }
+            const start = (currentPage - 1) * pageSize;
+            const pageData = filteredScriptsCache.slice(start, start + pageSize);
+            let html = '';
+            for (const script of pageData) {
+                const displayName = script.isRelease ? script.fileName.replace(/_/g, ' ') : script.fileName;
+                const ext = script.isRelease ? '.zip' : '.lua';
+                const platformClass = getPlatformTagClass(script.platform);
+                const isReleaseScript = script.isRelease;
+                html += `
                 <div class="script-card">
                     <div class="script-header">
                         <span class="script-name" data-download-url="${escapeHtml(script.downloadUrl)}" data-filename="${escapeHtml(displayName + ext)}">
@@ -684,186 +687,187 @@
                         </div>
                         <div class="card-links">
                             ${isReleaseScript ?
-                `<a href="${script.sourceUrl}" target="_blank" class="card-link link-release">⬇ Release</a>` :
-                `<a href="${script.sourceUrl}" target="_blank" class="card-link link-source">📄 Source</a>`
-            }
+                        `<a href="${script.sourceUrl}" target="_blank" class="card-link link-release">⬇ Release</a>` :
+                        `<a href="${script.sourceUrl}" target="_blank" class="card-link link-source">📄 Source</a>`
+                    }
                         </div>
                     </div>
                 </div>
             `;
+            }
+            grid.innerHTML = html;
+            document.querySelectorAll('.script-name').forEach(el => {
+                el.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const url = el.getAttribute('data-download-url');
+                    const filename = el.getAttribute('data-filename');
+                    if (!url || url.endsWith('/tag/') || url.includes('releases/tag/')) {
+                        window.open(url, '_blank');
+                        return;
+                    }
+                    try {
+                        const response = await fetch(url);
+                        if (!response.ok) throw new Error();
+                        const blob = await response.blob();
+                        const blobUrl = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = blobUrl;
+                        a.download = filename || 'script.lua';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        setTimeout(() => URL.revokeObjectURL(blobUrl), 1500);
+                    } catch (err) {
+                        window.open(url, '_blank');
+                    }
+                });
+            });
         }
-        grid.innerHTML = html;
-        document.querySelectorAll('.script-name').forEach(el => {
-            el.addEventListener('click', async (e) => {
-                e.preventDefault();
-                const url = el.getAttribute('data-download-url');
-                const filename = el.getAttribute('data-filename');
-                if (!url || url.endsWith('/tag/') || url.includes('releases/tag/')) {
-                    window.open(url, '_blank');
-                    return;
+
+        function updatePaginationUI(totalPages) {
+            const pageInfo = document.getElementById('pageInfo');
+            const prevBtn = document.getElementById('prevPageBtn');
+            const nextBtn = document.getElementById('nextPageBtn');
+            if (totalPages === 0) {
+                pageInfo.innerText = `Page 0 of 0`;
+                prevBtn.classList.add('disabled');
+                nextBtn.classList.add('disabled');
+                return;
+            }
+            pageInfo.innerText = `Page ${currentPage} / ${totalPages}`;
+            if (currentPage <= 1) prevBtn.classList.add('disabled');
+            else prevBtn.classList.remove('disabled');
+            if (currentPage >= totalPages) nextBtn.classList.add('disabled');
+            else nextBtn.classList.remove('disabled');
+        }
+
+        function renderTabs() {
+            const container = document.getElementById('platformTabs');
+            let html = '';
+            for (const plat of PLATFORMS) {
+                const activeClass = plat.key === activePlatform ? 'active' : '';
+                html += `<button class="tab-btn ${activeClass}" data-platform="${plat.key}">${plat.icon} ${plat.label}</button>`;
+            }
+            container.innerHTML = html;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const newPlatform = btn.getAttribute('data-platform');
+                    if (newPlatform && newPlatform !== activePlatform) {
+                        activePlatform = newPlatform;
+                        renderTabs();
+                        activeCategory = 'all';
+                        searchQuery = '';
+                        document.getElementById('searchInput').value = '';
+                        currentPage = 1;
+                        updateStatsAndRender();
+                        renderCategoryFilters();
+                    }
+                });
+            });
+        }
+
+        function renderCategoryFilters() {
+            const container = document.getElementById('categoryFiltersContainer');
+            if (activePlatform !== 'SAPP' && activePlatform !== 'PHASOR') {
+                container.innerHTML = '';
+                return;
+            }
+            const allScripts = flattenMetadata();
+            const catMap = new Map();
+            for (const script of allScripts) {
+                if (script.platform === activePlatform) {
+                    catMap.set(script.category, (catMap.get(script.category) || 0) + 1);
                 }
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error();
-                    const blob = await response.blob();
-                    const blobUrl = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = blobUrl;
-                    a.download = filename || 'script.lua';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    setTimeout(() => URL.revokeObjectURL(blobUrl), 1500);
-                } catch (err) {
-                    window.open(url, '_blank');
+            }
+            const categories = Array.from(catMap.keys()).sort();
+            let html = `<button class="cat-btn ${activeCategory === 'all' ? 'active' : ''}" data-category="all">All (${Array.from(catMap.values()).reduce((a, b) => a + b, 0)})</button>`;
+            for (const cat of categories) {
+                const count = catMap.get(cat);
+                html += `<button class="cat-btn ${activeCategory === cat ? 'active' : ''}" data-category="${cat}">${cat} (${count})</button>`;
+            }
+            container.innerHTML = html;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const newCat = btn.getAttribute('data-category');
+                    if (newCat && newCat !== activeCategory) {
+                        activeCategory = newCat;
+                        currentPage = 1;
+                        updateStatsAndRender();
+                        renderCategoryFilters();
+                    }
+                });
+            });
+        }
+
+        function attachGlobalEvents() {
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                currentPage = 1;
+                updateStatsAndRender();
+            });
+            document.getElementById('sortSelect').addEventListener('change', (e) => {
+                sortCriterion = e.target.value;
+                currentPage = 1;
+                updateStatsAndRender();
+            });
+            document.getElementById('pageSizeSelect').addEventListener('change', (e) => {
+                pageSize = parseInt(e.target.value, 10);
+                currentPage = 1;
+                updateStatsAndRender();
+            });
+            document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+                document.getElementById('searchInput').value = '';
+                searchQuery = '';
+                sortCriterion = 'name_asc';
+                document.getElementById('sortSelect').value = 'name_asc';
+                activeCategory = 'all';
+                currentPage = 1;
+                updateStatsAndRender();
+                renderCategoryFilters();
+            });
+            document.getElementById('prevPageBtn').addEventListener('click', () => {
+                const total = Math.ceil(filteredScriptsCache.length / pageSize);
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderScripts();
+                    updatePaginationUI(total);
                 }
             });
-        });
-    }
-
-    function updatePaginationUI(totalPages) {
-        const pageInfo = document.getElementById('pageInfo');
-        const prevBtn = document.getElementById('prevPageBtn');
-        const nextBtn = document.getElementById('nextPageBtn');
-        if (totalPages === 0) {
-            pageInfo.innerText = `Page 0 of 0`;
-            prevBtn.classList.add('disabled');
-            nextBtn.classList.add('disabled');
-            return;
-        }
-        pageInfo.innerText = `Page ${currentPage} / ${totalPages}`;
-        if (currentPage <= 1) prevBtn.classList.add('disabled');
-        else prevBtn.classList.remove('disabled');
-        if (currentPage >= totalPages) nextBtn.classList.add('disabled');
-        else nextBtn.classList.remove('disabled');
-    }
-
-    function renderTabs() {
-        const container = document.getElementById('platformTabs');
-        let html = '';
-        for (const plat of PLATFORMS) {
-            const activeClass = plat.key === activePlatform ? 'active' : '';
-            html += `<button class="tab-btn ${activeClass}" data-platform="${plat.key}">${plat.icon} ${plat.label}</button>`;
-        }
-        container.innerHTML = html;
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const newPlatform = btn.getAttribute('data-platform');
-                if (newPlatform && newPlatform !== activePlatform) {
-                    activePlatform = newPlatform;
-                    renderTabs();
-                    activeCategory = 'all';
-                    searchQuery = '';
-                    document.getElementById('searchInput').value = '';
-                    currentPage = 1;
-                    updateStatsAndRender();
-                    renderCategoryFilters();
+            document.getElementById('nextPageBtn').addEventListener('click', () => {
+                const total = Math.ceil(filteredScriptsCache.length / pageSize);
+                if (currentPage < total) {
+                    currentPage++;
+                    renderScripts();
+                    updatePaginationUI(total);
                 }
             });
-        });
-    }
-
-    function renderCategoryFilters() {
-        const container = document.getElementById('categoryFiltersContainer');
-        if (activePlatform !== 'SAPP' && activePlatform !== 'PHASOR') {
-            container.innerHTML = '';
-            return;
         }
-        const allScripts = flattenMetadata();
-        const catMap = new Map();
-        for (const script of allScripts) {
-            if (script.platform === activePlatform) {
-                catMap.set(script.category, (catMap.get(script.category) || 0) + 1);
+
+        async function fetchMetadata() {
+            const statusSpan = document.getElementById('statusMsg');
+            try {
+                const resp = await fetch(METADATA_URL);
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                metadata = await resp.json();
+                statusSpan.innerHTML = '✅ Metadata loaded · ready';
+                renderTabs();
+                renderCategoryFilters();
+                updateStatsAndRender();
+            } catch (err) {
+                console.error(err);
+                statusSpan.innerHTML = '❌ Failed to load metadata. Check network.';
+                document.getElementById('scriptGrid').innerHTML = `<div class="empty-state">⚠️ Could not fetch metadata.json from GitHub. Please try again later.</div>`;
             }
         }
-        const categories = Array.from(catMap.keys()).sort();
-        let html = `<button class="cat-btn ${activeCategory === 'all' ? 'active' : ''}" data-category="all">All (${Array.from(catMap.values()).reduce((a, b) => a + b, 0)})</button>`;
-        for (const cat of categories) {
-            const count = catMap.get(cat);
-            html += `<button class="cat-btn ${activeCategory === cat ? 'active' : ''}" data-category="${cat}">${cat} (${count})</button>`;
+
+        function init() {
+            attachGlobalEvents();
+            fetchMetadata();
         }
-        container.innerHTML = html;
-        document.querySelectorAll('.cat-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const newCat = btn.getAttribute('data-category');
-                if (newCat && newCat !== activeCategory) {
-                    activeCategory = newCat;
-                    currentPage = 1;
-                    updateStatsAndRender();
-                    renderCategoryFilters();
-                }
-            });
-        });
-    }
 
-    function attachGlobalEvents() {
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            searchQuery = e.target.value;
-            currentPage = 1;
-            updateStatsAndRender();
-        });
-        document.getElementById('sortSelect').addEventListener('change', (e) => {
-            sortCriterion = e.target.value;
-            currentPage = 1;
-            updateStatsAndRender();
-        });
-        document.getElementById('pageSizeSelect').addEventListener('change', (e) => {
-            pageSize = parseInt(e.target.value, 10);
-            currentPage = 1;
-            updateStatsAndRender();
-        });
-        document.getElementById('clearFiltersBtn').addEventListener('click', () => {
-            document.getElementById('searchInput').value = '';
-            searchQuery = '';
-            sortCriterion = 'name_asc';
-            document.getElementById('sortSelect').value = 'name_asc';
-            activeCategory = 'all';
-            currentPage = 1;
-            updateStatsAndRender();
-            renderCategoryFilters();
-        });
-        document.getElementById('prevPageBtn').addEventListener('click', () => {
-            const total = Math.ceil(filteredScriptsCache.length / pageSize);
-            if (currentPage > 1) {
-                currentPage--;
-                renderScripts();
-                updatePaginationUI(total);
-            }
-        });
-        document.getElementById('nextPageBtn').addEventListener('click', () => {
-            const total = Math.ceil(filteredScriptsCache.length / pageSize);
-            if (currentPage < total) {
-                currentPage++;
-                renderScripts();
-                updatePaginationUI(total);
-            }
-        });
-    }
-
-    async function fetchMetadata() {
-        const statusSpan = document.getElementById('statusMsg');
-        try {
-            const resp = await fetch(METADATA_URL);
-            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-            metadata = await resp.json();
-            statusSpan.innerHTML = '✅ Metadata loaded · ready';
-            renderTabs();
-            renderCategoryFilters();
-            updateStatsAndRender();
-        } catch (err) {
-            console.error(err);
-            statusSpan.innerHTML = '❌ Failed to load metadata. Check network.';
-            document.getElementById('scriptGrid').innerHTML = `<div class="empty-state">⚠️ Could not fetch metadata.json from GitHub. Please try again later.</div>`;
-        }
-    }
-
-    function init() {
-        attachGlobalEvents();
-        fetchMetadata();
-    }
-
-    init();
-</script>
-<script defer src="../assets/js/script.js"></script>
+        init();
+    </script>
+    <script defer src="../assets/js/script.js"></script>
 </body>
+
 </html>

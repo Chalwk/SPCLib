@@ -31,7 +31,9 @@ end
 function OnCommand(id, cmd)
     if cmd:lower() == COMMAND then
         if is_admin(id) then
-            for _ = 1, 20 do say_all(" ") end
+            for _ = 1, 20 do
+                say_all(" ")
+            end
             send(id, "Chat was cleared")
         else
             send(id, 'Insufficient Permission')

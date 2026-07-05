@@ -55,7 +55,6 @@ end
 function OnCommand(id, CMD)
     local args = stringSplit(CMD)
     if (args) then
-
         local cmd = (args[1]:sub(1, command:len()) == command)
         if (cmd) then
             local victim = (args[2] and tonumber(args[2]:match('%d+')))
@@ -64,11 +63,8 @@ function OnCommand(id, CMD)
                 Say(id, 'Usage: /fc <player> <message>')
                 return false
             elseif (cmd) then
-
                 if (hasPerm(id)) then
-
                     if (victim and player_present(victim)) then
-
                         local message = table.concat(args, ' ', 3)
                         if (message and message ~= '') then
                             local name = get_var(victim, '$name')

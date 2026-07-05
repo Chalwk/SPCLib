@@ -88,7 +88,7 @@ local function getFlagAndOddballData()
 end
 
 local function fmt(msg, vars)
-    return (msg:gsub("%$(%w+)", function(key)
+    return (msg:gsub("%$(%w+)", function (key)
         return vars[key] or ("$" .. key)
     end))
 end
@@ -131,7 +131,6 @@ local function shouldDespawn(tag)
 end
 
 local function getPos(player_id)
-
     local dyn_player = get_dynamic_player(player_id)
     if dyn_player == 0 then return end
 
@@ -186,9 +185,7 @@ local function collectDogTag(player_id, object_memory)
                 collector.confirms = collector.confirms + 1
                 updateScsore(collector, POINTS_ON_CONFIRM)
 
-                local msg = (player_id == tag.killer_id) and
-                    CONFIRM_OWN or
-                    CONFIRM_ALLY
+                local msg = (player_id == tag.killer_id) and CONFIRM_OWN or CONFIRM_ALLY
 
                 announce(msg, {
                     name = collector.name,

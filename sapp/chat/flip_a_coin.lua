@@ -16,12 +16,7 @@ LICENSE:          MIT License
 -- Config starts here:
 local COMMAND = 'flip'
 local PERMISSION_LEVEL = -1
-local OUTPUT = {
-    "Flipping %d times...",
-    "Heads: %d/%d - %.2f%%",
-    "Tails: %d/%d - %.2f%%",
-    "This took %.2f seconds"
-}
+local OUTPUT = { "Flipping %d times...", "Heads: %d/%d - %.2f%%", "Tails: %d/%d - %.2f%%", "This took %.2f seconds" }
 
 local FLIPS = 10000
 api_version = '1.12.0.0'
