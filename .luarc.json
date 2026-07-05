@@ -14,6 +14,7 @@
     "destroy_object",
     "destroyobject",
     "drop_weapon",
+    "draw_text",
     "enter_vehicle",
     "execute_command",
     "execute_command_sequence",
