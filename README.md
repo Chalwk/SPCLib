@@ -31,18 +31,17 @@
 * [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
 * [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
 * [5. SPCLib Web Interfaces & Apps](#spclib-web-interfaces--apps)
-    * [5.1 Script Browser](#script-browserscript_browser)
-    * [5.2 Alias Checker](#hash-checkerhash_checker)
-    * [5.3 HaloDiscordBot](#halodiscordbothalo_discord_bot)
+  * [5.1 Script Browser](#script-browserscript_browser)
+  * [5.2 Alias Checker](#hash-checkerhash_checker)
+  * [5.3 HaloDiscordBot](#halodiscordbothalo_discord_bot)
 * [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
-    * [6.1 Installer](#installer)
-    * [6.2 Patch](#1010-patch)
-    * [6.3 LAA Patched Executables](#laa-patched-executables)
+  * [6.1 Installer](#installer)
+  * [6.2 Patch](#1010-patch)
+  * [6.3 LAA Patched Executables](#laa-patched-executables)
 * [7. Community Hubs](#community-hubs)
 * [8. Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
 * [9. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
-* [10. Support My Work](#support-my-work)
-* [11. License](#license)
+* [10. License](#license)
 
 ---
 
@@ -125,8 +124,8 @@ You'll find the full archive of SAPP versions in the **[`./assets/sapp_downloads
 
 This repository also preserves:
 
-- SAPP Documentation Revision 2.4 and 2.5 (by 002 / SnowyMouse)
-- Memory offsets reference list originally created by Wizard
+* SAPP Documentation Revision 2.4 and 2.5 (by 002 / SnowyMouse)
+* Memory offsets reference list originally created by Wizard
 
 **These documents and binaries are redistributed for preservation only. Licensing remains with their original authors.**
 
@@ -158,11 +157,11 @@ Java-based integration for connecting Halo servers to Discord with rich event em
 
 ### Installer
 
-- [halo_ce_installer.zip][halo_ce_installer]
+* [halo_ce_installer.zip][halo_ce_installer]
 
 ### 1.0.10 Patch
 
-- [haloce-patch-1.0.10.zip][haloce_patch]
+* [haloce-patch-1.0.10.zip][haloce_patch]
 
 ### LAA Patched Executables
 
@@ -230,17 +229,8 @@ the [Code of Conduct](CODE_OF_CONDUCT.md)
 
 ### Report Issues
 
-- [Bug Report][bug_report]
-- [Feature Request][feature_request]
-
----
-
-## Support My Work
-
-Enjoy these projects? Help me continue development:
-
-- ☕ [Donate via PayPal][paypal_donate]
-- **Star ⭐ this repository** to show appreciation and stay updated!
+* [Bug Report][bug_report]
+* [Feature Request][feature_request]
 
 ---
 
@@ -310,7 +300,6 @@ Enjoy these projects? Help me continue development:
 
 [releases]: https://github.com/Chalwk/SPCLib/releases
 
-[repo_homepage]: https://chalwk.github.io/SPCLib
 
 [repo_url]: https://github.com/Chalwk/SPCLib
 
@@ -332,7 +321,6 @@ Enjoy these projects? Help me continue development:
 
 [spclib_discord]: https://discord.gg/D76H7RVPC9
 
-[track_master_stats_browser]: https://chalwk.github.io/SPCLib/tools/track-master-stats-browser
 
 [vps_host_guide]: https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/
 
