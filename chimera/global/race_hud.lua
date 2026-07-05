@@ -200,6 +200,7 @@ local function load_stats()
     local f = io_open(STATS_FILE, "r")
     if not f then return end
     for line in f:lines() do
+        ---@diagnostic disable-next-line: need-check-nil, param-type-mismatch
         local map_name, best = line:match("^([^;]+);([%d%.]+)$")
         if map_name and best then
             local best_num = tonumber(best)
@@ -267,12 +268,15 @@ local function get_checkpoint_count(mask) -- get total checkpoints
 end
 
 local function update_checkpoint_addr()
+    ---@diagnostic disable-next-line: unnecessary-if
     if checkpoint_addr then return end
     if local_player_index == nil then return end
+    ---@diagnostic disable-next-line: need-check-nil
     checkpoint_addr = race_globals + (local_player_index * 4) + 0x44
 end
 
 local function get_total_checkpoints()
+    ---@diagnostic disable-next-line: unnecessary-if
     if total_checkpoints then return end
     local total_mask = read_dword(race_globals)
     if total_mask and total_mask ~= 0 then
@@ -281,8 +285,10 @@ local function get_total_checkpoints()
 end
 
 local function format_vehicle_name(raw_name)
+    ---@diagnostic disable-next-line: unnecessary-if
     if vehicle_names[raw_name] then return vehicle_names[raw_name] end
     local lower = raw_name:lower()
+    ---@diagnostic disable-next-line: unnecessary-if
     if vehicle_names[lower] then return vehicle_names[lower] end
 
     local name = gsub(raw_name, "_", " ")
@@ -297,6 +303,7 @@ local function get_vehicle_name_cached(vehicle_obj)
     if not tag_id or tag_id == 0 then return "Unknown" end
 
     local cached = vehicle_name_cache[tag_id]
+    ---@diagnostic disable-next-line: unnecessary-if
     if cached then return cached end
 
     local tag = get_tag(tag_id)

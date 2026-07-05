@@ -129,6 +129,7 @@ function OnTick()
         end
     end
 
+    ---@diagnostic disable-next-line: unnecessary-if
     if closest_dist < RADIUS and closest_dir then
         for _ = 1, 10 do
             hud_message(" ")

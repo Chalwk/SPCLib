@@ -36,10 +36,10 @@ repository, please follow these additional steps:
 * **Name the file** descriptively, using lowercase letters and underscores (e.g., `my_custom_gamemode.lua`). Avoid
   spaces, special characters, or version numbers in the filename.
 * **Include a header comment** at the very top of your script, containing:
-    - Your name or GitHub username
-    - A short description of what the script does
-    - The target server (SAPP, Phasor)
-    - Any dependencies or specific version requirements (e.g., "requires SAPP 10.2+", "uses `map_coordinates.lua`")
+  * Your name or GitHub username
+  * A short description of what the script does
+  * The target server (SAPP, Phasor)
+  * Any dependencies or specific version requirements (e.g., "requires SAPP 10.2+", "uses `map_coordinates.lua`")
 * **Test thoroughly** on a local or private server to ensure the script works as intended and does not produce errors.
 * **Follow the [Lua Script Guidelines](#lua-script-guidelines)** for code style, readability, and comments.
 * **Submit a pull request** as described above. Chalwk will review your submission and may request changes

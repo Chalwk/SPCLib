@@ -80,6 +80,7 @@ function UpdateNearestPlayer()
     end
 
     local msg
+    ---@diagnostic disable-next-line: unnecessary-if
     if best_id then
         msg = format("Nearest Player | %s | %.1f units away", get_player_name(best_id), best_dist)
     else
@@ -102,6 +103,7 @@ function OnCommand(command)
 end
 
 function OnScriptUnload()
+    ---@diagnostic disable-next-line: unnecessary-if
     if timer_id then
         stop_timer(timer_id)
         timer_id = nil

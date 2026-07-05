@@ -11,7 +11,6 @@ result in warnings, temporary restrictions, or permanent bans.
 These rules apply to **all users** across **the SPCLib Discord Server and GitHub Repository**. They are enforced to
 maintain a safe, collaborative, and professional environment. Questions? Ask staff or moderators.
 
-
 ---
 
 ## Our Pledge
