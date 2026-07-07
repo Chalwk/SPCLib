@@ -1,118 +1,201 @@
 --[[
 =====================================================================================
 SCRIPT NAME:      random_fact_generator.lua
-DESCRIPTION:      Periodically announces random Chuck Norris facts from an external API.
-                  Optionally replaces "Chuck Norris" with a random player's name.
+DESCRIPTION:      Periodically announces random Chuck Norris facts
 
 REQUIREMENTS:     Install to the same directory as sapp.dll
-                  - Lua JSON Parser:  http://regex.info/blog/lua/json
-                  - SAPP HTTP Client: https://opencarnage.net/index.php?/topic/5998-sapp-http-client/)
+                  - SAPP-HTTP Client: https://github.com/Chalwk/SAPP-HTTP
 
-Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
+Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 
--- API version required by SAPP
 api_version = "1.12.0.0"
 
--- Configuration
-local config = {
-    interval = 120,                                        -- How often (in seconds) to announce a random message. Do not set lower than 3 seconds.
-    end_point = "https://api.chucknorris.io/jokes/random", -- URL to Chuck Norris Joke API
-    replace_name = true,                                   -- If true, Chuck Norris's name will be replaced with a random player's name
-    server_prefix = "**SAPP**"                             -- Server prefix for messages
-}
+-- CONFIG START --
+local INTERVAL = 120 -- seconds between facts
+local JOKE_API_URL = "https://api.chucknorris.io/jokes/random"
+-- CONFIG ENDS --
 
--- Dependencies
-local json = (loadfile "json.lua")()
 local ffi = require("ffi")
+local sapp_http = ffi.load("sapp_http")
 
 ffi.cdef [[
-    typedef void http_response;
-    http_response *http_get(const char *url, bool async);
-    void http_destroy_response(http_response *);
-    void http_wait_async(const http_response *);
-    bool http_response_is_null(const http_response *);
-    bool http_response_received(const http_response *);
-    const char *http_read_response(const http_response *);
-    uint32_t http_response_length(const http_response *);
+    typedef struct sapp_http_header {
+        const char *name;
+        const char *value;
+    } sapp_http_header;
+
+    typedef struct sapp_http_response {
+        int curl_code;
+        long http_status;
+        size_t body_size;
+        char *body;
+        char *content_type;
+        char *error_message;
+    } sapp_http_response;
+
+    typedef struct sapp_http_request sapp_http_request;
+
+    int sapp_http_global_init(void);
+    void sapp_http_global_cleanup(void);
+    sapp_http_request* sapp_http_create_get(const char *url,
+                                            const sapp_http_header *headers,
+                                            size_t header_count);
+    int sapp_http_process(void);
+    int sapp_http_request_is_done(sapp_http_request *req);
+    int sapp_http_request_get_response(sapp_http_request *req,
+                                       sapp_http_response *out);
+    void sapp_http_request_free(sapp_http_request *req);
+    void sapp_http_free_response(sapp_http_response *response);
 ]]
-local client = ffi.load("lua_http_client")
 
--- State variables
-local async_data
-local game_started
-local players = {}
+local game_running = false
+local request_handle = nil -- current async request, or nil
+local http_initialized = false
 
--- Function to handle script load event
-function OnScriptLoad()
-    register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
-    register_callback(cb.EVENT_LEAVE, "OnPlayerLeave")
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
-    OnGameStart()
+local function unescape_json_string(s)
+    local result = s:gsub("\\\"", "\"")
+        :gsub("\\\\", "\\")
+        :gsub("\\/", "/")
+        :gsub("\\b", "\b")
+        :gsub("\\f", "\f")
+        :gsub("\\n", "\n")
+        :gsub("\\r", "\r")
+        :gsub("\\t", "\t")
+    return result
 end
 
--- Function to handle script unload event
-function OnScriptUnload()
-    -- No cleanup required
-end
+local function extract_joke_value(json_string)
+    -- Look for "value":" (including the colon and opening quote)
+    local start_pos = string.find(json_string, '"value":"', 1, true)
+    if not start_pos then return nil, "missing 'value' key" end
 
--- Function to handle player join event
-function OnPlayerJoin(player_id)
-    players[player_id] = get_var(player_id, "$name")
-end
+    local i = start_pos + 8 -- position after the opening quote
+    local len = #json_string
+    local result_chars = {}
 
--- Function to handle player leave event
-function OnPlayerLeave(player_id)
-    players[player_id] = nil
-end
-
--- Function to handle game start event
-function OnGameStart()
-    game_started = false
-    if get_var(0, "$gt") ~= "n/a" then
-        game_started = true
-        config.interval = math.max(config.interval, 3)
-        timer(1000 * config.interval, "FetchAndAnnounceJoke")
+    while i <= len do
+        local c = json_string:sub(i, i)
+        if c == '\\' then
+            -- Escape sequence: skip backslash, then take the next char literally
+            result_chars[#result_chars + 1] = json_string:sub(i + 1, i + 1)
+            i = i + 2
+        elseif c == '"' then
+            -- Found the closing quote
+            i = i + 1
+            break
+        else
+            result_chars[#result_chars + 1] = c
+            i = i + 1
+        end
     end
+
+    if i == len + 1 and json_string:sub(-1) ~= '"' then return nil, "unterminated string" end
+
+    local raw = table.concat(result_chars)
+    return unescape_json_string(raw)
 end
 
--- Function to handle game end event
-function OnGameEnd()
-    game_started = false
-end
+function ProcessHTTP()
+    -- Process any pending network I/O
+    sapp_http.sapp_http_process()
 
--- Function to fetch and announce a joke
-function FetchAndAnnounceJoke()
-    async_data = client.http_get(config.end_point, true)
-    timer(1, "ProcessJokeResponse")
-    return game_started
-end
+    -- If no request in flight, just keep the timer alive
+    if not request_handle then return true end
 
--- Function to process the joke response
-function ProcessJokeResponse()
-    if client.http_response_received(async_data) then
-        if not client.http_response_is_null(async_data) then
-            local response = ffi.string(client.http_read_response(async_data))
-            local joke_data = json:decode(response)
-            local joke = joke_data.value
+    -- Check if the request is finished
+    local done = sapp_http.sapp_http_request_is_done(request_handle)
+    if done == 1 then
+        -- Retrieve the response
+        local response = ffi.new("sapp_http_response")
+        local status = sapp_http.sapp_http_request_get_response(request_handle, response)
 
-            if config.replace_name and #players > 0 then
-                local random_player = players[math.random(1, #players)]
-                joke = joke:gsub("Chuck Norris", random_player)
+        if status == 0 then
+            ---@diagnostic disable-next-line: undefined-field
+            local body_str = ffi.string(response.body, response.body_size)
+
+            -- Extract the joke value
+            local joke, err = extract_joke_value(body_str)
+            if joke then
+                -- Only announce if a game is still running
+                if game_running then
+                    say_all("Chuck Norris Fact: " .. joke)
+                end
+            else
+                print("[random_fact] Failed to parse joke: " .. (err or "unknown error"))
             end
 
-            execute_command('msg_prefix ""')
-            say_all(joke)
-            execute_command('msg_prefix "' .. config.server_prefix .. '"')
-            cprint(joke)
+            -- Free the response memory (the body pointer is owned by the response)
+            sapp_http.sapp_http_free_response(response)
+        else
+            -- get_response failed (e.g., request not done or invalid)
+            print("[random_fact] Error retrieving response: " .. tostring(status))
         end
-        client.http_destroy_response(async_data)
-        async_data = nil
-        return false
+
+        -- Clean up the request object
+        sapp_http.sapp_http_request_free(request_handle)
+        request_handle = nil
     end
+
     return true
+end
+
+function FetchJoke()
+    if not game_running then return false end
+    ---@diagnostic disable-next-line: unnecessary-if
+    if request_handle then return true end
+
+    local req = sapp_http.sapp_http_create_get(JOKE_API_URL, nil, 0)
+    if req == nil then
+        print("[random_fact] Failed to create HTTP request")
+        return true
+    end
+
+    request_handle = req
+    return true
+end
+
+function OnScriptLoad()
+    if not http_initialized then
+        local rc = sapp_http.sapp_http_global_init()
+        if rc ~= 0 then
+            print("[random_fact] HTTP global init failed with code " .. tostring(rc))
+            return
+        end
+        http_initialized = true
+    end
+
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+
+    timer(100, "ProcessHTTP")
+    OnGameStart() -- in case the script is loaded mid-game
+end
+
+function OnGameStart()
+    game_running = false
+    if get_var(0, "$gt") ~= "n/a" then
+        game_running = true
+        timer(1000 * INTERVAL, "FetchJoke")
+    end
+end
+
+function OnGameEnd()
+    game_running = false
+end
+
+function OnScriptUnload()
+    ---@diagnostic disable-next-line: unnecessary-if
+    if request_handle then
+        sapp_http.sapp_http_request_free(request_handle)
+        request_handle = nil
+    end
+
+    if http_initialized then
+        sapp_http.sapp_http_global_cleanup()
+        http_initialized = false
+    end
 end

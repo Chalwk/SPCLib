@@ -9,7 +9,7 @@ DESCRIPTION:      Geolocate joining players and optionally block countries.
 
 REQUIREMENTS:     Install in the same folder as sapp.dll.
                   - Lua JSON Parser:  http://regex.info/blog/lua/json
-                  - SAPP HTTP Client: https://opencarnage.net/index.php?/topic/5998-sapp-http-client/
+                  - SAPP HTTP Client: https://github.com/Chalwk/SAPP-HTTP
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -57,18 +57,41 @@ local DEBUG_FORCE_IP = ""
 -- END CONFIG --
 
 local json = (loadfile "json.lua")()
-local API_URL = "http://ip-api.com/json/%s"
 local ffi = require("ffi")
+local sapp_http = ffi.load("sapp_http")
+
+-- Define the C API (from sapp_http.h)
 ffi.cdef [[
-    typedef void http_response;
-    http_response *http_get(const char *url, bool async);
-    void http_destroy_response(http_response *);
-    void http_wait_async(const http_response *);
-    bool http_response_is_null(const http_response *);
-    bool http_response_received(const http_response *);
-    const char *http_read_response(const http_response *);
+    typedef struct sapp_http_header {
+        const char *name;
+        const char *value;
+    } sapp_http_header;
+
+    typedef struct sapp_http_response {
+        int curl_code;
+        long http_status;
+        size_t body_size;
+        char *body;
+        char *content_type;
+        char *error_message;
+    } sapp_http_response;
+
+    typedef struct sapp_http_request sapp_http_request;
+
+    int sapp_http_global_init(void);
+    void sapp_http_global_cleanup(void);
+    sapp_http_request* sapp_http_create_get(const char *url,
+                                            const sapp_http_header *headers,
+                                            size_t header_count);
+    int sapp_http_process(void);
+    int sapp_http_request_is_done(sapp_http_request *req);
+    int sapp_http_request_get_response(sapp_http_request *req,
+                                       sapp_http_response *out);
+    void sapp_http_request_free(sapp_http_request *req);
+    void sapp_http_free_response(sapp_http_response *response);
 ]]
-local http = ffi.load("lua_http_client")
+
+local API_URL = "http://ip-api.com/json/%s"
 
 local get_var = get_var
 local player_present = player_present
@@ -83,11 +106,13 @@ local tostring, tonumber = tostring, tonumber
 local pcall = pcall
 local ipairs = ipairs
 
--- Keep the API results so we don't hammer the free tier
+-- Keep the API results so we don't hammer the free tier!
 local cache = {}
--- Stores ongoing async lookups, keyed by player id
+-- Stores ongoing async lookups, keyed by request handle (pointer)
+-- Each entry: { type = "join" or "manual", id = player/admin id, ip = string, admin = optional }
 local pending = {}
--- Quick lookup set for blocked country codes
+local http_initialized = false
+
 local block_set = {}
 
 local function is_admin(id)
@@ -164,6 +189,88 @@ local function announce(id, name, data)
     end
 end
 
+-- Process completed HTTP requests
+function process_pending()
+    -- First, drive the multi handle
+    sapp_http.sapp_http_process()
+
+    local done_list = {}
+    for req, ctx in pairs(pending) do
+        if sapp_http.sapp_http_request_is_done(req) == 1 then
+            table.insert(done_list, { req = req, ctx = ctx })
+        end
+    end
+
+    for _, item in ipairs(done_list) do
+        local req = item.req
+        local ctx = item.ctx
+        local resp = ffi.new("sapp_http_response")
+        local status = sapp_http.sapp_http_request_get_response(req, resp)
+
+        if status == 0 and resp.body_size > 0 then
+            local raw = ffi.string(resp.body, resp.body_size)
+            local data, err = parse_json_response(raw)
+
+            if data then
+                -- Cache the successful result
+                cache[ctx.ip] = { data = data, timestamp = os_time() }
+
+                if ctx.type == "join" then
+                    local id = ctx.id
+                    local name = get_var(id, "$name")
+                    announce(id, name, data)
+                    block_if_needed(id, data)
+                elseif ctx.type == "manual" then
+                    local admin = ctx.admin
+                    local tell = respond(admin)
+                    tell(fmt("%s: %s", ctx.ip, format_data(data)))
+                end
+            else
+                local msg = "API query failed for IP " .. ctx.ip .. " -> " .. (err or "unknown error")
+                if ctx.type == "join" then
+                    cprint("[GeoLocation] " .. msg)
+                else
+                    local tell = respond(ctx.admin)
+                    tell(msg)
+                end
+            end
+        else
+            -- Request failed or got empty response
+            local err_msg = "HTTP request failed for IP " .. ctx.ip
+            if ctx.type == "join" then
+                cprint("[GeoLocation] " .. err_msg)
+            else
+                local tell = respond(ctx.admin)
+                tell(err_msg)
+            end
+        end
+
+        -- Clean up
+        sapp_http.sapp_http_free_response(resp)
+        sapp_http.sapp_http_request_free(req)
+        pending[req] = nil
+    end
+
+    return true
+end
+
+-- Kick off an async lookup (for join or manual)
+local function start_lookup(ctx)
+    local url = fmt(API_URL, ctx.ip)
+    local req = sapp_http.sapp_http_create_get(url, nil, 0)
+    if req == nil then
+        local err = "Failed to create HTTP request for IP " .. ctx.ip
+        if ctx.type == "join" then
+            cprint("[GeoLocation] " .. err)
+        else
+            local tell = respond(ctx.admin)
+            tell(err)
+        end
+        return
+    end
+    pending[req] = ctx
+end
+
 -- Check cache first, otherwise fire off an async HTTP request
 local function lookup_ip(id, ip)
     local entry = cache[ip]
@@ -175,46 +282,12 @@ local function lookup_ip(id, ip)
         return
     end
 
-    -- No fresh cache, ask the internet
-    local url = fmt(API_URL, ip)
-    local resp = http.http_get(url, true)
-
-    pending[tostring(id)] = { resp = resp, ip = ip, id = id }
-    -- Kick off a timer to poll for the async result
-    timer(1000, "PollLookup", id)
+    -- No fresh cache, ask the internet asynchronously
+    local ctx = { type = "join", id = id, ip = ip }
+    start_lookup(ctx)
 end
 
--- Called every second until the HTTP response arrives, might keep respawning the timer
-function PollLookup(id)
-    id = tonumber(id)
-    local job = pending[tostring(id)]
-    if not job then return end
-
-    if http.http_response_received(job.resp) then
-        if not http.http_response_is_null(job.resp) then
-            local raw = ffi.string(http.http_read_response(job.resp))
-            local data, err = parse_json_response(raw)
-            if data then
-                cache[job.ip] = { data = data, timestamp = os_time() }
-
-                local name = get_var(job.id, "$name")
-                announce(job.id, name, data)
-                block_if_needed(job.id, data)
-            else
-                -- Something went wrong with the API (or we got gibberish)
-                cprint("[GeoLocation] API returned failure for IP " .. job.ip .. " -> " .. err, 12)
-            end
-        end
-
-        -- Clean up the C memory and remove the pending job
-        http.http_destroy_response(job.resp)
-        pending[tostring(id)] = nil
-    else
-        -- Still waiting, keep polling
-        timer(1000, "PollLookup", id)
-    end
-end
-
+-- Manual lookup via /country command
 local function manual_lookup(admin_id, ip)
     local tell = respond(admin_id)
 
@@ -223,24 +296,30 @@ local function manual_lookup(admin_id, ip)
         return
     end
 
-    local url = fmt(API_URL, ip)
-    local resp = http.http_get(url, false) -- async = false, wait for it
-
-    if not http.http_response_is_null(resp) then
-        local raw = ffi.string(http.http_read_response(resp))
-        local data, err = parse_json_response(raw)
-        if data then
-            tell(fmt("%s: %s", ip, format_data(data)))
-        else
-            tell("API query failed: " .. err)
-        end
-        http.http_destroy_response(resp)
-    else
-        tell("Could not reach API.")
+    -- Check cache first
+    local entry = cache[ip]
+    if entry and os_time() - entry.timestamp < CACHE_TTL then
+        tell(fmt("%s: %s", ip, format_data(entry.data)))
+        return
     end
+
+    -- Launch async request
+    local ctx = { type = "manual", admin = admin_id, ip = ip }
+    start_lookup(ctx)
+    tell("Lookup in progress for " .. ip .. " ...")
 end
 
 function OnScriptLoad()
+    -- Initialize HTTP client (once)
+    if not http_initialized then
+        local rc = sapp_http.sapp_http_global_init()
+        if rc ~= 0 then
+            cprint("[GeoLocation] HTTP global init failed with code " .. tostring(rc), 12)
+            return
+        end
+        http_initialized = true
+    end
+
     register_callback(cb.EVENT_JOIN, "OnJoin")
     register_callback(cb.EVENT_COMMAND, "OnCommand")
 
@@ -248,6 +327,9 @@ function OnScriptLoad()
     for _, code in ipairs(BLOCK_LIST) do
         block_set[code:upper()] = true
     end
+
+    -- Start the processing timer (runs every 200 ms)
+    timer(200, "process_pending")
 end
 
 function OnJoin(id)
@@ -260,8 +342,6 @@ function OnCommand(id, command)
     local args = parse_args(command)
     if #args == 0 then return true end
 
-    local tell = respond(id)
-
     if args[1]:lower() == "country" and args[2] then
         local ip = args[2]
 
@@ -271,7 +351,7 @@ function OnCommand(id, command)
             if target and player_present(target) then
                 ip = get_var(target, "$ip"):match("%d+%.%d+%.%d+%.%d+")
             else
-                tell("Invalid IP or player ID.")
+                respond(id)("Invalid IP or player ID.")
                 return false
             end
         end
@@ -283,4 +363,14 @@ function OnCommand(id, command)
     return true
 end
 
-function OnScriptUnload() end
+function OnScriptUnload()
+    for req, _ in pairs(pending) do
+        sapp_http.sapp_http_request_free(req)
+    end
+    pending = {}
+
+    if http_initialized then
+        sapp_http.sapp_http_global_cleanup()
+        http_initialized = false
+    end
+end
