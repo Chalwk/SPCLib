@@ -60,7 +60,6 @@ local json = (loadfile "json.lua")()
 local ffi = require("ffi")
 local sapp_http = ffi.load("sapp_http")
 
--- Define the C API (from sapp_http.h)
 ffi.cdef [[
     typedef struct sapp_http_header {
         const char *name;
