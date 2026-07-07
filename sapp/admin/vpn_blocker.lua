@@ -144,7 +144,6 @@ local ffi = require('ffi')
 local sapp_http = ffi.load('sapp_http')
 local apiRequestUrl = 'https://www.ipqualityscore.com/api/json/ip/' .. config.api_key .. '/'
 
--- Define the SAPP-HTTP API (same as before)
 ffi.cdef [[
     typedef struct sapp_http_header {
         const char *name;
