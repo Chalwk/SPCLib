@@ -43,8 +43,7 @@ local function Respond(Ply, Msg)
 end
 
 local function GetPlayers(Ply, Args)
-
-    local t = { }
+    local t = {}
     local player = Args[2]
 
     if (player == nil or player == 'me') then
@@ -70,7 +69,7 @@ local function GetPlayers(Ply, Args)
 end
 
 local function GetWeapons(dyn)
-    local weapons = { }
+    local weapons = {}
     for i = 0, 3 do
         local weapon = read_dword(dyn + 0x2F8 + 0x4 * i)
         local object = get_object_memory(weapon)
@@ -91,7 +90,7 @@ local function HasPerm(Ply)
 end
 
 local function CMDSplit(s)
-    local t = { }
+    local t = {}
     for arg in s:gmatch('([^%s]+)') do
         t[#t + 1] = arg:lower()
     end
@@ -99,21 +98,16 @@ local function CMDSplit(s)
 end
 
 function DeleteWeapons(Ply, CMD)
-
     local args = CMDSplit(CMD)
     if (#args > 0 and args[1] == command) then
-
         if (HasPerm(Ply)) then
             local players = GetPlayers(Ply, args)
             if (players) then
-
-                for _,player in pairs(players) do
-
+                for _, player in pairs(players) do
                     local name = get_var(player, '$name')
 
                     local dyn = get_dynamic_player(player)
                     if (player_alive(player) and dyn ~= 0) then
-
                         local weapons = GetWeapons(dyn)
                         if (#weapons > 0) then
                             for j = 1, #weapons do

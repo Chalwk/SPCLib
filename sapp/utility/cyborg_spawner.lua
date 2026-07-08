@@ -43,7 +43,6 @@ local objects = {
         { 83.14, -154.16, -0.11 }
     },
 
-
     ['longest'] = {
         { -16.68, -13.25, -0 },
         { -6.48, -10.83, 2.06 },
@@ -195,9 +194,7 @@ local function GetTag(Class, Name)
 end
 
 function OnStart()
-
     if (get_var(0, '$gt') ~= 'n/a') then
-
         local map = get_var(0, '$map')
         local spawns = objects[map]
         local tag = GetTag(unpack(cyborg))

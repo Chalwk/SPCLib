@@ -52,8 +52,9 @@ local table_insert = table.insert
 local vehicles = {}               -- Active vehicle instances
 local Vehicle = {}                -- Vehicle metatable
 
-local get_object_memory, destroy_object, spawn_object, lookup_tag, read_dword = get_object_memory, destroy_object,
-    spawn_object, lookup_tag, read_dword
+local get_object_memory, destroy_object, spawn_object, lookup_tag, read_dword = get_object_memory,
+    destroy_object, spawn_object,
+    lookup_tag, read_dword
 
 local player_present, player_alive, get_dynamic_player, read_vector3d = player_present,
     player_alive, get_dynamic_player,

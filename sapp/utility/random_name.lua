@@ -12,13 +12,28 @@ LICENSE:          MIT License
 -- CONFIG STARTS ------------------------------
 local names = {
     ["ADuck"] = {
-        { "Halo" }, { "Cortana" }, { "MasterChief" }, { "Covenant" }, { "Flood" },
-        { "Grunt" }, { "Elite" }, { "Brute" }, { "Jackal" }, { "Hunter" },
-        { "Prophet" }, { "Monitor" }, { "Sentinel" }, { "Spartan" }, { "ODST" },
-        { "Marine" }, { "Pilot" }, { "Engineer" }
+        { "Halo" },
+        { "Cortana" },
+        { "MasterChief" },
+        { "Covenant" },
+        { "Flood" },
+        { "Grunt" },
+        { "Elite" },
+        { "Brute" },
+        { "Jackal" },
+        { "Hunter" },
+        { "Prophet" },
+        { "Monitor" },
+        { "Sentinel" },
+        { "Spartan" },
+        { "ODST" },
+        { "Marine" },
+        { "Pilot" },
+        { "Engineer" }
     },
     ["AGuy"] = {
-        { "NewName1" }, { "NewName2" }
+        { "NewName1" },
+        { "NewName2" }
     }
 }
 -- CONFIG ENDS ------------------------------
@@ -56,14 +71,14 @@ local function get_random_name(id)
     local available = {}
     for i, entry in ipairs(category) do
         if not entry.taken then
-            available[#available + 1] = {name = entry[1], index = i}
+            available[#available + 1] = { name = entry[1], index = i }
         end
     end
 
     if #available > 0 then
         local selected = available[math.random(1, #available)]
         category[selected.index].taken = true
-        players[id] = {player_name, selected.index}
+        players[id] = { player_name, selected.index }
         return selected.name
     end
     return false

@@ -76,12 +76,12 @@ local SRT = {
         ["putput"] = { 3.0, 1, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0 },
         ["prisoner"] = { 3.0, 1, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0 },
         ["wizard"] = { 3.0, 1, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0 },
-        ["longest"] = { 3.0, 1, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0 },
+        ["longest"] = { 3.0, 1, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0 }
     },
 
     -- A message relay function temporarily removes the server prefix
     -- and will restore it to this when the relay is finished
-    serverPrefix = "**SAPP**",
+    serverPrefix = "**SAPP**"
 }
 -- Configuration Ends --
 
@@ -98,7 +98,7 @@ end
 
 function OnNewGame()
     if (get_var(0, "$gt") ~= "n/a") then
-        SRT.players = { }
+        SRT.players = {}
         SRT.team_play = (get_var(0, "$ffa") == "0") or false
         SRT.global_respawn_time = SRT:GetRespawnTime()
         for i = 1, 16 do
@@ -111,10 +111,7 @@ end
 
 function SRT:InitPlayer(Ply, Reset)
     if (not Reset) then
-        self.players[Ply] = {
-            name = get_var(Ply, "$name"),
-            time = self.global_respawn_time
-        }
+        self.players[Ply] = { name = get_var(Ply, "$name"), time = self.global_respawn_time }
         return
     end
     self.players[Ply] = nil
@@ -135,10 +132,8 @@ function OnPlayerDeath(Ply)
 end
 
 function SRT:GetRespawnTime()
-
     local map = get_var(0, "$map")
     if (self.maps[map]) then
-
         for k, v in pairs(self.maps) do
             if (k == map) then
                 local gt = get_var(0, "$gt")
@@ -180,7 +175,6 @@ local function Plural(n)
 end
 
 local function Respond(Ply, Msg, Clear)
-
     if (Ply == 0) then
         cprint(Msg)
         return
@@ -195,7 +189,7 @@ local function Respond(Ply, Msg, Clear)
 end
 
 local function CMDSplit(CMD)
-    local Args = { }
+    local Args = {}
     for Params in CMD:gmatch("([^%s]+)") do
         Args[#Args + 1] = Params:lower()
     end
@@ -206,7 +200,6 @@ function SRT:OnCommand(Ply, CMD, _, _)
     local Args = CMDSplit(CMD)
     local case = (Args and Args[1])
     if (case and Args[1] == self.command) then
-
         local lvl = tonumber(get_var(Ply, "$lvl"))
         if (lvl >= self.permission_level or Ply == 0) then
             if (Args[2]) then
@@ -246,8 +239,7 @@ function SRT:OnCommand(Ply, CMD, _, _)
 end
 
 function GetPlayers(Ply, Args)
-
-    local players = { }
+    local players = {}
     local TID = Args[2]
 
     if (TID == nil or TID == "me") then

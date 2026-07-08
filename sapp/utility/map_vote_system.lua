@@ -44,14 +44,14 @@ local MapVoteConfig = {
         vote_winner = "$map ($mode) won with $votes votes",
         no_votes_message = "No votes cast. Choosing $map ($mode)...",
         invalid_vote = "Invalid vote id. Please enter a number between 1 and $max",
-        vote_limit_reached = "You have reached the re-vote limit.",
+        vote_limit_reached = "You have reached the re-vote limit."
     },
     timers = {
         time_to_show_votes = 7,   -- Time to show votes after game ends.
         time_to_tally_votes = 13, -- Time to tally votes after voting period ends.
-        re_show_interval = 4.2,   -- Time interval to re-show vote options.
+        re_show_interval = 4.2    -- Time interval to re-show vote options.
     },
-    map_repeats_limit = 2,        -- Maximum number of times a map can be played consecutively.
+    map_repeats_limit = 2,    -- Maximum number of times a map can be played consecutively.
 
     --
     -- Map List Settings:
@@ -100,7 +100,9 @@ local rprint = rprint
 local player_present, get_var, say_all, timer = player_present, get_var, say_all, timer
 
 local function clear_console(id)
-    for _ = 1, 25 do rprint(id, " ") end
+    for _ = 1, 25 do
+        rprint(id, " ")
+    end
 end
 
 local function announce(msg)
@@ -286,10 +288,7 @@ function DisplayVoteOptions()
     -- Reset all player votes
     for i = 1, 16 do
         if player_present(i) then
-            player_votes[i] = {
-                vote_id = nil,
-                re_votes = MapVoteConfig.max_re_votes
-            }
+            player_votes[i] = { vote_id = nil, re_votes = MapVoteConfig.max_re_votes }
         end
     end
 
@@ -339,14 +338,16 @@ function TallyVotesAndSelectMap()
         -- Select a random option if no votes
         winning_index = math_random(1, #current_vote_options)
         winning_option = current_vote_options[winning_index]
-        announce(MapVoteConfig.message_format.no_votes_message
-            :gsub("$map", winning_option.map)
-            :gsub("$mode", winning_option.mode))
+        announce(MapVoteConfig.message_format
+                .no_votes_message
+                :gsub("$map", winning_option.map)
+                :gsub("$mode", winning_option.mode))
     else
-        announce(MapVoteConfig.message_format.vote_winner
-            :gsub("$map", winning_option.map)
-            :gsub("$mode", winning_option.mode)
-            :gsub("$votes", highest_vote))
+        announce(MapVoteConfig.message_format
+                .vote_winner
+                :gsub("$map", winning_option.map)
+                :gsub("$mode", winning_option.mode)
+                :gsub("$votes", highest_vote))
     end
 
     -- Update map streak
@@ -368,10 +369,7 @@ function OnStart()
 
     for i = 1, 16 do
         if player_present(i) then
-            player_votes[i] = {
-                vote_id = nil,
-                re_votes = MapVoteConfig.max_re_votes
-            }
+            player_votes[i] = { vote_id = nil, re_votes = MapVoteConfig.max_re_votes }
         end
     end
 end
@@ -382,10 +380,7 @@ function OnEnd()
 end
 
 function OnJoin(id)
-    player_votes[id] = {
-        vote_id = nil,
-        re_votes = MapVoteConfig.max_re_votes
-    }
+    player_votes[id] = { vote_id = nil, re_votes = MapVoteConfig.max_re_votes }
 end
 
 function OnQuit(id)

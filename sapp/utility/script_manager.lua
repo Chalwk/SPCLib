@@ -1,168 +1,113 @@
 --[[
-=====================================================================================
-SCRIPT NAME:      script_manager.lua
-DESCRIPTION:      Dynamic script loader that automatically manages script execution
-                  based on current map and game mode.
-
-FEATURES:
-                  - Automatic script loading/unloading when map/gamemode changes
-                  - Map-specific and gamemode-specific script configurations
-                  - Error handling for script loading/unloading
-                  - Clean unloading of all scripts on game end
-                  - Real-time status messages
+==============================================================================
+SCRIPT NAME:    script_manager.lua
+DESCRIPTION:    Dynamic script loader that automatically loads/unloads scripts
+                based on current map and game mode.
 
 CONFIGURATION:
-                  maps:           Nested table defining script associations:
-                                  maps[map_name][gamemode] = { 'script1', 'script2' }
+                maps:  Nested table defining script associations:
+                maps[map_name][gamemode] = { 'script1', 'script2' }
 
-                                  Example:
-                                  ['bloodgulch'] = {
-                                      ['ctf'] = { 'ctf_helper', 'flag_alerts' },
-                                      ['slayer'] = { 'slayer_enhancer' }
-                                  }
-
-USAGE:
-                  1. Configure the 'maps' table with your script associations
-                  2. Scripts will automatically load/unload during gameplay
-                  3. No commands needed - fully automatic operation
-
-ADVANCED:
-                  - Supports dynamic script loading without server restart
-                  - Tracks currently loaded scripts to prevent duplicates
-                  - Graceful error handling for missing scripts
-                  - Clean shutdown procedure
-
-Copyright (c) 2024 Jericho Crosby (Chalwk)
+Copyright (c) 2024-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
-=====================================================================================
+==============================================================================
 ]]
 
 api_version = '1.12.0.0'
 
--- Configuration --------------------------------------------------------------
-local ScriptManager = {
-    -- Map-game mode associations
-    maps = {
-        ['bloodgulch'] = {
-            ['LNZ-DAC'] = { 'Notify Me', 'Another Script' }
-        },
-        ['deathisland'] = {
-            ['ctf'] = { 'CTF Helper' },
-            ['slayer'] = { 'Slayer Enhancer' }
-        }
-        -- Add new maps here
+-- CONFIG START --
+
+local maps = {
+    ['bloodgulch'] = {
+        ['LNZ-DAC'] = { 'notify_me', 'another_script' }
+    },
+    ['deathisland'] = {
+        ['ctf'] = { 'dynamic_scorelimit' },
+        ['team_race'] = { 'track_master' }
     }
 }
-------------------------------------------------------------------------------
+-- CONFIG ENDS --
+
+local loaded = {}
+
+local function load_script(name)
+    if loaded[name] then return end
+    local ok, err = pcall(function ()
+        execute_command('lua_load "' .. name .. '"')
+        loaded[name] = true
+        cprint('[Script Manager] Loaded: ' .. name)
+    end)
+    if not ok then
+        cprint('[Script Manager] ERROR loading ' .. name .. ': ' .. tostring(err))
+        loaded[name] = nil
+    end
+end
+
+local function unload_script(name)
+    if not loaded[name] then return end
+    local ok, err = pcall(function ()
+        execute_command('lua_unload "' .. name .. '"')
+        loaded[name] = nil
+        cprint('[Script Manager] Unloaded: ' .. name)
+    end)
+    if not ok then
+        cprint('[Script Manager] ERROR unloading ' .. name .. ': ' .. tostring(err))
+    end
+end
+
+local function unload_all()
+    local names = {}
+    for name in pairs(loaded) do
+        table.insert(names, name)
+    end
+    for _, name in ipairs(names) do
+        unload_script(name)
+    end
+end
+
+local function process_map_mode(map, mode)
+    local new_scripts = maps[map] and maps[map][mode] or {}
+    local new_set = {}
+    for _, name in ipairs(new_scripts) do
+        new_set[name] = true
+    end
+
+    local to_unload = {}
+    for name in pairs(loaded) do
+        if not new_set[name] then
+            table.insert(to_unload, name)
+        end
+    end
+    for _, name in ipairs(to_unload) do
+        unload_script(name)
+    end
+
+    for _, name in ipairs(new_scripts) do
+        if not loaded[name] then
+            load_script(name)
+        end
+    end
+end
 
 function OnScriptLoad()
-    cprint('[Script Manager] Initialized')
     register_callback(cb.EVENT_GAME_START, 'OnGameStart')
     register_callback(cb.EVENT_GAME_END, 'OnGameEnd')
-    ScriptManager.loaded = {}    -- Tracks currently loaded scripts
-    ScriptManager.scheduled = {} -- Scripts scheduled for loading/unloading
+    OnGameStart() -- Just incase (this) script is loaded mid-game
 end
 
 function OnGameStart()
-    local gameType = get_var(0, '$gt')
-    if gameType == 'n/a' then return end
-
+    local gt = get_var(0, '$gt')
+    if gt == 'n/a' then return end
     local map = get_var(0, '$map'):lower()
     local mode = get_var(0, '$mode'):lower()
-
-    ScriptManager:ProcessMapMode(map, mode)
+    process_map_mode(map, mode)
 end
 
 function OnGameEnd()
-    ScriptManager:UnloadAllScripts()
-end
-
-function ScriptManager:ProcessMapMode(map, mode)
-    self:ClearScheduled()
-
-    -- Schedule new scripts for loading
-    if self.maps[map] and self.maps[map][mode] then
-        for _, script in ipairs(self.maps[map][mode]) do
-            if not self.loaded[script] then
-                self.scheduled[script] = true
-            end
-        end
-    end
-
-    -- Schedule obsolete scripts for unloading
-    for script in pairs(self.loaded) do
-        if not (self.maps[map] and self.maps[map][mode] and self:Contains(self.maps[map][mode], script)) then
-            self.scheduled[script] = false
-        end
-    end
-
-    self:ExecuteScheduled()
-end
-
-function ScriptManager:ExecuteScheduled()
-    for script, load_flag in pairs(self.scheduled) do
-        if load_flag then
-            self:Load(script)
-        else
-            self:Unload(script)
-        end
-    end
-    self:ClearScheduled()
-end
-
-function ScriptManager:Load(script)
-    if self.loaded[script] then return end
-
-    local success, err = pcall(function ()
-        execute_command('lua_load "' .. script .. '"')
-        self.loaded[script] = true
-        cprint('[Script Manager] Loaded: ' .. script)
-    end)
-
-    if not success then
-        cprint('[Script Manager] ERROR loading ' .. script .. ': ' .. tostring(err))
-        self.loaded[script] = nil
-    end
-end
-
-function ScriptManager:Unload(script)
-    if not self.loaded[script] then return end
-
-    local success, err = pcall(function ()
-        execute_command('lua_unload "' .. script .. '"')
-        self.loaded[script] = nil
-        cprint('[Script Manager] Unloaded: ' .. script)
-    end)
-
-    if not success then
-        cprint('[Script Manager] ERROR unloading ' .. script .. ': ' .. tostring(err))
-    end
-end
-
-function ScriptManager:UnloadAllScripts()
-    for script in pairs(self.loaded) do
-        self:Unload(script)
-    end
-    cprint('[Script Manager] All scripts unloaded')
-end
-------------------------------------------------------------------------------
-
--- Utility functions ----------------------------------------------------------
-function ScriptManager:ClearScheduled()
-    self.scheduled = {}
-end
-
-function ScriptManager:Contains(tbl, item)
-    for _, v in ipairs(tbl) do
-        if v == item then
-            return true
-        end
-    end
-    return false
+    unload_all()
 end
 
 function OnScriptUnload()
-    ScriptManager:UnloadAllScripts()
-    cprint('[Script Manager] Unloaded')
+    unload_all()
 end

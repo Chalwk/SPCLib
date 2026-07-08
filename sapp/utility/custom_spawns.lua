@@ -101,6 +101,7 @@ local function cacheSpawns()
         spawns[current_map] = {}
         local map_data = MAPS[current_map]
 
+        ---@diagnostic disable-next-line: unnecessary-if
         if map_data then
             -- Combine teams for FFA, keep separate for team games
             if is_ffa then

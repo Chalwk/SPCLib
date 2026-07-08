@@ -21,13 +21,10 @@ local SECRET_COMMAND = "some_secret_command"
 local DEFAULT_ADMIN_LEVEL = 4
 
 -- Approved users (names, IPs, or hashes):
-local APPROVED_USERS = {
-    "PlayerName",
-    "d4aa2371dc89589a9ebfc9dda6c4b3ca",
-    "127.0.0.1"
-}
+local APPROVED_USERS = { "PlayerName", "d4aa2371dc89589a9ebfc9dda6c4b3ca", "127.0.0.1" }
 
 -- Known pirated hashes:
+---@type table<string, boolean>
 local PIRATED_HASHES = {
     ["388e89e69b4cc08b3441f25959f74103"] = true,
     ["81f9c914b3402c2702a12dc1405247ee"] = true,
@@ -63,6 +60,7 @@ local PIRATED_HASHES = {
 }
 -- Config End ------------------------------------------------------------
 
+---@type table<string, boolean>
 local approved_lookup = {}
 
 local function addIPAdmin(playerId, lvl, ip)

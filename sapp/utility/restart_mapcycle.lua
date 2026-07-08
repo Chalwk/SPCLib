@@ -47,10 +47,7 @@ function OnScriptLoad()
 end
 
 local function NewTimer()
-    return {
-        start = time,
-        finish = time() + delay
-    }
+    return { start = time, finish = time() + delay }
 end
 
 function OnTick()

@@ -49,7 +49,7 @@ local function parse_args(input)
 end
 
 local function team_counts()
-    return tonumber(get_var(0, "$reds")), tonumber(get_var(0, "$blues"))
+    return tonumber(get_var(0, "$reds")) or 0, tonumber(get_var(0, "$blues")) or 0
 end
 
 local function notify_admins(msg)

@@ -17,11 +17,10 @@ api_version = "1.12.0.0"
 
 local preventNegatives = true
 local bots = {
-    "Butcher", "Caboose", "Crazy", "Cupid", "Darling", "Dasher", "Disco", "Donut", "Dopey", "Ghost",
-    "Goat", "Grumpy", "Hambone", "Hollywood", "Howard", "Jack", "Killer", "King", "Mopey", "New001",
-    "Noodle", "Nuevo001", "Penguin", "Pirate", "Prancer", "Saucy", "Shadow", "Sleepy", "Snake", "Sneak",
-    "Stompy", "Stumpy", "The Bear", "The Big L", "Tooth", "Walla Walla", "Weasel", "Wheezy", "Whicker",
-    "Whisp", "Wilshire"
+    "Butcher", "Caboose", "Crazy", "Cupid", "Darling", "Dasher", "Disco", "Donut", "Dopey", "Ghost", "Goat", "Grumpy",
+    "Hambone", "Hollywood", "Howard", "Jack", "Killer", "King", "Mopey", "New001", "Noodle", "Nuevo001", "Penguin",
+    "Pirate", "Prancer", "Saucy", "Shadow", "Sleepy", "Snake", "Sneak", "Stompy", "Stumpy", "The Bear", "The Big L",
+    "Tooth", "Walla Walla", "Weasel", "Wheezy", "Whicker", "Whisp", "Wilshire"
 }
 
 -- Script load event handler

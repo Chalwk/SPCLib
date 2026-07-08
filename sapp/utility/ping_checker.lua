@@ -42,7 +42,6 @@ local outputTemplate = '$name: $ping'
 
 -- config ends
 
--- SAPP Lua API Version:
 api_version = '1.12.0.0'
 
 -- Responsible for handling the loading of the script:

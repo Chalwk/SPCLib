@@ -26,22 +26,26 @@
 
 ## Table of Contents
 
-* [1. Overview](#overview)
-* [2. What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
-* [3. Scripts, Releases and Knowledge Base](#scripts-releases--knowledge-base)
-* [4. SAPP Archive & Mirrors](#sapp-archive--mirrors)
-* [5. SPCLib Web Interfaces & Apps](#spclib-web-interfaces--apps)
-  * [5.1 Script Browser](#script-browserscript_browser)
-  * [5.2 Alias Checker](#hash-checkerhash_checker)
-  * [5.3 HaloDiscordBot](#halodiscordbothalo_discord_bot)
-* [6. Halo Custom Edition Installer](#halo-custom-edition-installer)
-  * [6.1 Installer](#installer)
-  * [6.2 Patch](#1010-patch)
-  * [6.3 LAA Patched Executables](#laa-patched-executables)
-* [7. Community Hubs](#community-hubs)
-* [8. Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
-* [9. Contributors, Community Guidelines & Request Features](#contributors-community-guidelines--request-features)
-* [10. License](#license)
+- [Table of Contents](#table-of-contents)
+- [Overview](#overview)
+- [What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
+- [Scripts, Releases \& Knowledge Base](#scripts-releases--knowledge-base)
+  - [Script Category Structure](#script-category-structure)
+- [SAPP Archive \& Mirrors](#sapp-archive--mirrors)
+- [SPCLib Web Interfaces \& Apps](#spclib-web-interfaces--apps)
+  - [Script Browser](#script-browser)
+  - [Hash Checker](#hash-checker)
+  - [HaloDiscordBot](#halodiscordbot)
+- [Halo Custom Edition Installer](#halo-custom-edition-installer)
+  - [Installer](#installer)
+  - [1.0.10 Patch](#1010-patch)
+  - [LAA Patched Executables](#laa-patched-executables)
+- [Community Hubs](#community-hubs)
+- [Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
+- [Contributors, Community Guidelines \& Request Features](#contributors-community-guidelines--request-features)
+  - [Submit Ideas](#submit-ideas)
+  - [Report Issues](#report-issues)
+- [License](#license)
 
 ---
 
@@ -94,7 +98,7 @@ SAPP & Phasor Lua scripts are organized into the following categories:
 * **utility:** Server configuration, spawning, map control, and miscellaneous tools
 
 | Section                           | Resource                                                     | Description                                                                                     |
-|-----------------------------------|--------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| --------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
 | **Scripts & Releases**            | [**SAPP Scripts**][sapp_scripts]                             | Server-side Lua scripts                                                                         |
 |                                   | [**Phasor Scripts**][phasor_scripts]                         | Server-side Lua scripts                                                                         |
 |                                   | [**Chimera Scripts**][chimera_scripts]                       | Client-side Lua scripts.                                                                        |
@@ -180,7 +184,7 @@ Java-based integration for connecting Halo servers to Discord with rich event em
 > Community activity varies across hubs. Some are active, others are legacy archives.
 
 | Hub                                                                                | Description                                                                                 |
-|------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | **Chalwk** - [Website][chalwk_website] · [Discord][spclib_discord]                 | Personal site & portfolio.                                                                  |
 | **Open Carnage** - [Website][opencarnage_website] · [Discord][opencarnage_discord] | Former major CE modding forum (now read‑only after DDoS attacks).                           |
 | **Chimera** - [Forum][chimera_forum] · [Discord][chimera_discord]                  | Essential client‑side mod with map downloads, renderer fixes, quality‑of‑life improvements. |

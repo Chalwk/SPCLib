@@ -26,7 +26,6 @@ LICENSE:          MIT License
 local command = 'lo3' -- Custom command to trigger Live on Three
 local permission = 1  -- Minimum permission level required to execute the command
 
--- SAPP Lua API Version
 api_version = '1.12.0.0'
 
 -- Variables for death message handling

@@ -44,7 +44,7 @@ api_version = "1.12.0.0"
 -- Configuration Starts ----------------------------------------------------
 local TeleportManager = {
     file = "teleports.json", -- JSON database for teleport locations
-    max_results = 5, -- Max results per page
+    max_results = 5,         -- Max results per page
     commands = {
         warp = { permission = 1, cmd_index = 1 },
         back = { permission = 1, cmd_index = 2 },
@@ -52,7 +52,7 @@ local TeleportManager = {
         delwarp = { permission = 1, cmd_index = 4 },
         warplist = { permission = 1, cmd_index = 5 }
     },
-    players = {}, -- Table to store player positions
+    players = {}             -- Table to store player positions
 }
 
 local floor, format = math.floor, string.format
@@ -125,7 +125,13 @@ function TeleportManager:Warp(player, args)
             local warp_location = records[map][args[2]]
 
             if warp_location then
-                self:SendResponse(player, format("Teleporting to [%s] at X: %.2f, Y: %.2f, Z: %.2f", args[2], warp_location.x, warp_location.y, warp_location.z))
+                self:SendResponse(
+                    player,
+                    format(
+                        "Teleporting to [%s] at X: %.2f, Y: %.2f, Z: %.2f", args[2], warp_location.x, warp_location.y,
+                        warp_location.z
+                    )
+                )
                 self:Teleport(player, warp_location.x, warp_location.y, warp_location.z)
             else
                 self:SendResponse(player, "Warp name not found!")
@@ -167,7 +173,11 @@ function TeleportManager:SetWarp(player, args)
             -- Now we can safely check for the warp name
             if records[map][args[2]] == nil or overwrite then
                 local pos = self:GetPlayerPosition(player)
-                records[map][args[2]] = { x = format("%.3f", pos.x), y = format("%.3f", pos.y), z = format("%.3f", pos.z) }
+                records[map][args[2]] = {
+                    x = format("%.3f", pos.x),
+                    y = format("%.3f", pos.y),
+                    z = format("%.3f", pos.z)
+                }
 
                 self:SaveRecords(records)
                 local action = records[map][args[2]] and "Updated" or "Saved"
@@ -207,7 +217,6 @@ function TeleportManager:DeleteWarp(player, args)
     end
 end
 
-
 -- Warp List Functions
 function TeleportManager:WarpList(player, args)
     local map = get_var(0, "$map")
@@ -242,7 +251,10 @@ function TeleportManager:DisplayWarpList(player, warp_names, page)
         table.insert(displayed_warps, warp_names[i])
     end
 
-    self:SendResponse(player, format("Warps (Page %d/%d): %s", page, self:GetTotalPages(#warp_names), table.concat(displayed_warps, ", ")))
+    self:SendResponse(
+        player,
+        format("Warps (Page %d/%d): %s", page, self:GetTotalPages(#warp_names), table.concat(displayed_warps, ", "))
+    )
 end
 
 -- Teleportation Function

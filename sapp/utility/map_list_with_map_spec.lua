@@ -90,10 +90,10 @@ end
 
 local function formatString(str, pos, _map, _mode, total)
     local replacements = {
-        ["$pos"]   = tostring(pos),
-        ["$map"]   = tostring(_map),
-        ["$mode"]  = tostring(_mode),
-        ["$total"] = tostring(total),
+        ["$pos"] = tostring(pos),
+        ["$map"] = tostring(_map),
+        ["$mode"] = tostring(_mode),
+        ["$total"] = tostring(total)
     }
 
     return (str:gsub("%$%w+", replacements))
@@ -102,10 +102,7 @@ end
 local function getNextMap(i)
     i = (i + 1)
     local next = maps[i]
-    return {
-        next and next or maps[1],
-        next and i or 1
-    }
+    return { next and next or maps[1], next and i or 1 }
 end
 
 local function showCurrentMap(id)

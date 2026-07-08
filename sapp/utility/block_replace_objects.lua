@@ -26,7 +26,7 @@ LICENSE:          MIT License
 
 api_version = "1.12.0.0"
 
--- Configuration table
+-- CONFIG
 local TAGS_CONFIG = {
     -- Replace Format: {tag_type, "tag/path", replacement_type, "replacement/path"}
     -- Block Format: {tag_type, "tag/path"}
@@ -47,6 +47,8 @@ local TAGS_CONFIG = {
 
     -- Add more gametypes as needed
 }
+
+-- CONFIG ENDS --
 
 -- Internal state
 local block_table = {}
@@ -97,6 +99,7 @@ function OnStart()
     replace_table = {}
 
     local config = TAGS_CONFIG[gametype]
+    ---@diagnostic disable-next-line: unnecessary-if
     if config then
         processConfig(config)
         register_callback(cb.EVENT_OBJECT_SPAWN, "OnObjectSpawn")
@@ -107,14 +110,11 @@ function OnStart()
 end
 
 function OnObjectSpawn(_, object_id)
-    -- Check if object should be blocked
     if block_table[object_id] then return false end
-
-    -- Check if object should be replaced
     local replacement_id = replace_table[object_id]
+    ---@diagnostic disable-next-line: unnecessary-if
     if replacement_id then return true, replacement_id end
-
-    return true -- allow spawn
+    return true
 end
 
 function OnScriptUnload() end

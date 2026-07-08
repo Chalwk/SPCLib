@@ -52,7 +52,6 @@ local CONFIG = {
     COOLDOWN = 30
 }
 
--- SAPP Lua API Version
 api_version = '1.12.0.0'
 
 -- State variables

@@ -78,7 +78,7 @@ Offenses are categorized by severity. Repeat offenses across Discord or GitHub m
 ### Tier 1: Severe Offenses - Permanent Ban
 
 | Offense                           | Description                                                         |
-|-----------------------------------|---------------------------------------------------------------------|
+| --------------------------------- | ------------------------------------------------------------------- |
 | **Malicious Code / Links**        | Uploading malware, backdoors, trojans, or harmful scripts.          |
 | **DoS / DDoS Attacks**            | Deliberately disrupting server availability or network performance. |
 | **Scamming or Fraud**             | Deceiving members for personal gain.                                |
@@ -91,7 +91,7 @@ Offenses are categorized by severity. Repeat offenses across Discord or GitHub m
 ### Tier 2: Moderate Offenses - 1 to 2-Week Ban
 
 | Offense                                | Description                                                                                         |
-|----------------------------------------|-----------------------------------------------------------------------------------------------------|
+| -------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | **Circumvention**                      | Bypassing moderation, anti-cheat, bot filters, or other security measures.                          |
 | **Performance Disruption**             | Degrading server performance (e.g., resource‑heavy scripts, network flooding below DDoS threshold). |
 | **Alt Accounts / Ban Evasion**         | Using alternate accounts to evade punishments.                                                      |
@@ -108,7 +108,7 @@ Offenses are categorized by severity. Repeat offenses across Discord or GitHub m
 ### Tier 3: Minor Offenses - Up to 1-Week Ban
 
 | Offense                             | Description                                                              |
-|-------------------------------------|--------------------------------------------------------------------------|
+| ----------------------------------- | ------------------------------------------------------------------------ |
 | **Unwanted Communication**          | Excessive unsolicited messages or pinging.                               |
 | **Inappropriate Roleplay/Comments** | Offensive or NSFW‑themed roleplay/comments.                              |
 | **Minor Slang/Language Issues**     | Language that may mildly offend.                                         |

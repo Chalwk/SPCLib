@@ -17,9 +17,9 @@ local INTERVAL = 15
 local SERVER_NAMES = {
     "My Cool Server",
     "A server!",
-    " ",           -- blank
+    " ",          -- blank
     "Ya mom!",
-    "CoronaVirus", -- repeat the structure to add more entries.
+    "CoronaVirus" -- repeat the structure to add more entries.
 }
 -- config ends --
 
