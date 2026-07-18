@@ -34,6 +34,7 @@
     },
     "gameplay": {
       "camo_speed": "Temporary speed boost on Active Camo pickup for configurable duration.",
+      "flying_vehicles": "Make ground vehicles fly!",
       "killer_rewards": "Spawns random equipment at player location on configured killstreak (e.g., 10,20,30 kills).",
       "nade_launcher": "Toggle /nade to replace any projectile with high-speed frag grenade, making any weapon a grenade launcher.",
       "set_flag_limit": "Overrides CTF flag capture limit to custom value, reapplied each game.",
