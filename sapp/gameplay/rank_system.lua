@@ -501,7 +501,6 @@ local function show_rank(id, target)
     local s = target.stats
     local idx = find_threshold_index(s.credits)
     local next_rank = threshold_entries[idx + 1] -- nil if at max
-    if not next_rank then return end
 
     respond(id, MESSAGES.RANK_HEADER)
     respond(id, string_format(MESSAGES.RANK_CURRENT, s.rank, s.grade))
