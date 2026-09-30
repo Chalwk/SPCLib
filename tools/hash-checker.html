@@ -1,20 +1,29 @@
+<!-- Copyright (c) 2026. Jericho Crosby (Chalwk) -->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport">
+    <meta name="theme-color" content="#0b1120">
+    <meta name="color-scheme" content="dark">
     <title>SPCLib · CD Key Hash Checker</title>
+    <meta name="description"
+        content="Identify cracked or pirated Halo CD-key hashes before granting admin or ban permissions.">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpg">
     <link href="../assets/css/core.css" rel="stylesheet">
     <style>
         .check-card {
-            background: #111826e6;
+            background: rgba(17, 24, 38, 0.9);
             backdrop-filter: blur(4px);
-            border-radius: 32px;
-            border: 1px solid #28344e;
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
             padding: 1.8rem;
             margin-bottom: 2rem;
-            transition: border-color 0.2s;
+            transition: border-color var(--t-base);
         }
 
         .input-group {
@@ -28,6 +37,7 @@
         .field-group {
             flex: 2;
             min-width: 240px;
+            position: relative;
         }
 
         label {
@@ -42,62 +52,79 @@
 
         input,
         textarea {
-            background: #010612;
+            background: var(--bg-input);
             border: 1px solid #33415e;
             border-radius: 20px;
             padding: 10px 16px;
             width: 100%;
             color: #f0f4ff;
-            font-family: 'Inter', monospace;
+            font-family: 'SF Mono', 'Fira Code', 'Inter', monospace;
             font-size: 0.9rem;
-            transition: 0.1s;
+            transition: border-color var(--t-fast), box-shadow var(--t-fast);
         }
 
         input:focus,
         textarea:focus {
             outline: none;
-            border-color: #6a8fd6;
+            border-color: var(--border-focus);
             box-shadow: 0 0 0 2px rgba(106, 143, 214, 0.3);
         }
 
         textarea {
-            font-family: 'SF Mono', 'Fira Code', monospace;
             resize: vertical;
+            min-height: 120px;
+            line-height: 1.5;
         }
 
-        button {
-            background: #1f2a46;
-            border: none;
-            padding: 0.6rem 1.6rem;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            color: white;
-            transition: 0.15s;
-            font-family: inherit;
+        .input-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.68rem;
+            color: var(--text-dim);
+            margin-top: 4px;
+            padding: 0 4px;
         }
 
-        button:hover {
-            background: #2f3e64;
-            transform: scale(0.98);
+        .input-meta .invalid {
+            color: var(--accent-red);
+        }
+
+        .input-meta .valid {
+            color: var(--accent-green);
         }
 
         .btn-primary {
             background: #2d4b8c;
-            border-color: #5f7eb0;
         }
 
         .btn-primary:hover {
             background: #3e62a5;
         }
 
+        .btn-copy {
+            background: #1f2a46;
+            margin-left: 6px;
+        }
+
         .result-area {
-            background: #0c1222cc;
-            border-radius: 28px;
+            background: rgba(12, 18, 34, 0.85);
+            border-radius: var(--radius-md);
             padding: 1.2rem 1.5rem;
             margin-top: 1rem;
-            border-left: 5px solid #5e8bcf;
+            border-left: 5px solid var(--accent);
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .result-badge {
@@ -112,31 +139,36 @@
         }
 
         .badge-cracked {
-            background: #9e2f2fcc;
+            background: rgba(158, 47, 47, 0.85);
             color: #ffdede;
             border: 1px solid #ff8a6f;
         }
 
         .badge-clean {
-            background: #1f5a3ecc;
+            background: rgba(31, 90, 62, 0.85);
             color: #c6ffdc;
-            border: 1px solid #6fcf97;
+            border: 1px solid var(--accent-green);
         }
 
         .warning-note {
-            background: #2c2a3ecc;
-            border-radius: 24px;
+            background: rgba(44, 42, 62, 0.85);
+            border-radius: var(--radius-md);
             padding: 1rem 1.3rem;
             margin-top: 2rem;
             border: 1px solid #7f6b9e;
             font-size: 0.85rem;
+            line-height: 1.6;
         }
 
         .hash-list-summary {
-            background: #0f1624cc;
-            border-radius: 24px;
+            background: rgba(15, 22, 36, 0.85);
+            border-radius: var(--radius-md);
             padding: 1rem 1.5rem;
             margin-top: 1.5rem;
+        }
+
+        .hash-list-summary h3 {
+            margin-bottom: 0.5rem;
         }
 
         .hash-grid {
@@ -144,15 +176,41 @@
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 6px;
             margin-top: 12px;
-            font-family: monospace;
+            font-family: 'SF Mono', 'Fira Code', monospace;
             font-size: 0.7rem;
         }
 
+        .hash-grid>div {
+            background: #0f1624;
+            padding: 6px 10px;
+            border-radius: 18px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            word-break: break-all;
+            border: 1px solid transparent;
+            transition: border-color var(--t-fast), background var(--t-fast);
+            cursor: pointer;
+        }
+
+        .hash-grid>div:hover {
+            border-color: var(--border-focus);
+            background: #1a2438;
+        }
+
         .bulk-result-row {
-            padding: 0.5rem;
+            padding: 0.5rem 0.25rem;
             border-bottom: 1px solid #2f3e60;
-            font-size: 0.8rem;
-            font-family: monospace;
+            font-size: 0.82rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .bulk-result-row:last-child {
+            border-bottom: none;
         }
 
         .status-icon {
@@ -161,29 +219,15 @@
             font-weight: bold;
         }
 
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin: 0.5rem 0 1.5rem;
-            border-bottom: 1px solid #263449;
-        }
+        @media (max-width: 550px) {
+            .check-card {
+                padding: 1.2rem;
+            }
 
-        .tab-btn {
-            background: transparent;
-            border: none;
-            padding: 0.7rem 1.8rem;
-            font-weight: 600;
-            font-size: 1rem;
-            border-radius: 40px 40px 0 0;
-            color: #9ab3d4;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .tab-btn.active {
-            background: #1e2a44;
-            color: white;
-            box-shadow: 0 -2px 0 #5f8bd9;
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
         }
     </style>
 </head>
@@ -193,73 +237,87 @@
         <div class="header">
             <div>
                 <h1>CD Key Hash Checker</h1>
-                <div class="sub">Identify cracked / pirated CD-key hashes</div>
+                <p class="sub">Identify cracked / pirated CD-key hashes</p>
             </div>
         </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="single">🔎 Single Hash Check</button>
-            <button class="tab-btn" data-tab="bulk">📑 Bulk Check (Multiple Hashes)</button>
+        <div class="tabs" role="tablist" aria-label="Hash checker mode">
+            <button aria-controls="singleTab" aria-selected="true" class="tab-btn active" data-tab="single"
+                id="tab-single" role="tab" type="button">
+                🔎 Single Hash Check
+            </button>
+            <button aria-controls="bulkTab" aria-selected="false" class="tab-btn" data-tab="bulk" id="tab-bulk"
+                role="tab" tabindex="-1" type="button">
+                📑 Bulk Check (Multiple Hashes)
+            </button>
         </div>
 
-        <div class="check-card" id="singleTab">
+        <section aria-labelledby="tab-single" class="check-card" id="singleTab" role="tabpanel">
             <div class="input-group">
                 <div class="field-group">
-                    <label>MD5 / CD-key hash (32-char hex)</label>
-                    <input autocomplete="off" id="singleHashInput" placeholder="e.g., 388e89e69b4cc08b3441f25959f74103"
+                    <label for="singleHashInput">MD5 / CD-key hash (32-char hex)</label>
+                    <input aria-describedby="singleHashMeta" autocomplete="off" id="singleHashInput" inputmode="latin"
+                        maxlength="40" placeholder="e.g. 388e89e69b4cc08b3441f25959f74103" spellcheck="false"
                         type="text">
+                    <div class="input-meta" id="singleHashMeta">
+                        <span id="singleLength">0 / 32</span>
+                        <span id="singleStatus"></span>
+                    </div>
                 </div>
 
                 <div>
-                    <label>&nbsp;</label>
-                    <button class="btn-primary" id="checkSingleBtn">🔍 Check Hash</button>
+                    <label aria-hidden="true">&nbsp;</label>
+                    <button class="btn-primary" id="checkSingleBtn" type="button">🔍 Check Hash</button>
+                    <button aria-label="Paste from clipboard" class="btn-copy" id="pasteSingleBtn"
+                        title="Paste from clipboard" type="button">📋 Paste</button>
                 </div>
             </div>
 
-            <div class="result-area" id="singleResult" style="display: none;"></div>
-        </div>
+            <div aria-live="polite" class="result-area" id="singleResult" style="display: none;" tabindex="-1"></div>
+        </section>
 
-        <div class="check-card" id="bulkTab" style="display: none;">
+        <section aria-labelledby="tab-bulk" class="check-card" hidden id="bulkTab" role="tabpanel">
             <div class="input-group">
                 <div class="field-group">
-                    <label>Hash list (one per line or comma separated)</label>
-
-                    <textarea id="bulkHashInput" placeholder="388e89e69b4cc08b3441f25959f74103
-81f9c914b3402c2702a12dc1405247ee
-c939c09426f69c4843ff75ae704bf426
-... or paste any list" rows="5"></textarea>
+                    <label for="bulkHashInput">Hash list (one per line or comma-separated)</label>
+                    <textarea id="bulkHashInput"
+                        placeholder="388e89e69b4cc08b3441f25959f74103&#10;81f9c914b3402c2702a12dc1405247ee&#10;c939c09426f69c4843ff75ae704bf426&#10;... or paste any list"
+                        rows="6" spellcheck="false"></textarea>
                 </div>
 
                 <div>
-                    <label>&nbsp;</label>
-                    <button class="btn-primary" id="checkBulkBtn">📊 Check All</button>
-                    <button id="clearBulkBtn">🗑️ Clear</button>
+                    <label aria-hidden="true">&nbsp;</label>
+                    <button class="btn-primary" id="checkBulkBtn" type="button">📊 Check All</button>
+                    <button id="clearBulkBtn" type="button">🗑️ Clear</button>
                 </div>
             </div>
 
-            <div class="result-area" id="bulkResult" style="display: none;"></div>
-        </div>
+            <div aria-live="polite" class="result-area" id="bulkResult" style="display: none;" tabindex="-1"></div>
+        </section>
 
-        <div class="warning-note">
+        <aside class="warning-note">
             <strong>Why check CD-key hashes?</strong><br><br>
-
             Cracked clients often share identical CD-key hashes. Banning or granting admin to a hash without
-            verification
-            can accidentally affect innocent players who share the same cracked key. Use this tool to identify high-risk
-            hashes before adding them to trusted admin lists.<br><br>
+            verification can accidentally affect innocent players who share the same cracked key. Use this tool to
+            identify high-risk hashes before adding them to trusted admin lists.<br><br>
 
             <strong>Best practice:</strong>
             If a hash is flagged as <span style="color:#ffa68e;">CRACKED</span>,
             avoid granting elevated permissions unless you enforce additional IP whitelisting.
-        </div>
+        </aside>
 
-        <div class="hash-list-summary">
-            <h3>Known Cracked Hashes</h3>
+        <section aria-labelledby="cracked-list-heading" class="hash-list-summary">
+            <h3 id="cracked-list-heading">Known Cracked Hashes <span id="totalCrackedCount"
+                    style="color:var(--text-dim);font-weight:400;font-size:0.85rem;"></span></h3>
+            <p style="font-size:0.72rem;color:var(--text-dim);margin-top:4px;">Click any hash to copy it to your
+                clipboard.</p>
             <div class="hash-grid" id="crackedHashListGrid"></div>
-        </div>
+        </section>
     </div>
 
     <script>
+        'use strict';
+
         const CRACKED_HASHES_ARRAY = [
             "388e89e69b4cc08b3441f25959f74103",
             "81f9c914b3402c2702a12dc1405247ee",
@@ -298,401 +356,395 @@ c939c09426f69c4843ff75ae704bf426
         ];
 
         const CRACKED_SET = new Set(CRACKED_HASHES_ARRAY.map(h => h.toLowerCase().trim()));
-        const TOTAL_CRACKED = CRACKED_SET.size;
 
-        const singleInput = document.getElementById('singleHashInput');
-        const singleResultDiv = document.getElementById('singleResult');
-        const checkSingleBtn = document.getElementById('checkSingleBtn');
+        const HASH_RE = /^[a-f0-9]{32}$/i;
 
-        const bulkInput = document.getElementById('bulkHashInput');
-        const bulkResultDiv = document.getElementById('bulkResult');
-        const checkBulkBtn = document.getElementById('checkBulkBtn');
-        const clearBulkBtn = document.getElementById('clearBulkBtn');
+        const $ = (id) => document.getElementById(id);
 
-        const totalCrackedSpan = document.getElementById('totalCrackedCount');
-        const lastCheckIconSpan = document.getElementById('lastCheckIcon');
-        const riskIndicatorSpan = document.getElementById('riskIndicator');
-        const crackedListGrid = document.getElementById('crackedHashListGrid');
+        const singleInput = $('singleHashInput');
+        const singleResultDiv = $('singleResult');
+        const singleLength = $('singleLength');
+        const singleStatus = $('singleStatus');
+
+        const bulkInput = $('bulkHashInput');
+        const bulkResultDiv = $('bulkResult');
+
+        const crackedListGrid = $('crackedHashListGrid');
 
         function escapeHtml(str) {
-            if (!str) return '';
-
-            return str.replace(/[&<>]/g, function (m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            });
-        }
-
-        function isValidHash(hash) {
-            return /^[a-fA-F0-9]{32}$/.test(hash);
+            return String(str).replace(/[&<>"']/g, (m) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[m]));
         }
 
         function normalizeHash(raw) {
-            return raw.trim().toLowerCase();
+            return String(raw || '').trim().toLowerCase();
         }
 
-        function updateGlobalStats(lastStatus, isCracked = null) {
-            if (lastCheckIconSpan) {
-                if (isCracked === true) {
-                    lastCheckIconSpan.innerText = '🏴‍☠️ CRACKED';
-                } else if (isCracked === false) {
-                    lastCheckIconSpan.innerText = '✅ CLEAN';
-                } else {
-                    lastCheckIconSpan.innerText = '🔍';
-                }
-            }
+        function isValidHash(hash) {
+            return HASH_RE.test(hash);
+        }
 
-            if (riskIndicatorSpan) {
-                if (isCracked === true) {
-                    riskIndicatorSpan.innerText = '❌ High Risk';
-                } else if (isCracked === false) {
-                    riskIndicatorSpan.innerText = '🟢 Low Risk';
+        async function copyText(text) {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
                 } else {
-                    riskIndicatorSpan.innerText = '⚠️ Unknown';
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    ta.style.position = 'fixed';
+                    ta.style.opacity = '0';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
                 }
+                return true;
+            } catch {
+                return false;
             }
+        }
+
+        function showToast(message, variant) {
+            let toast = document.querySelector('.spclib-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.className = 'spclib-toast';
+                toast.setAttribute('role', 'status');
+                toast.setAttribute('aria-live', 'polite');
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.className = 'spclib-toast' + (variant ? ' ' + variant : '');
+            requestAnimationFrame(() => toast.classList.add('show'));
+            clearTimeout(showToast._t);
+            showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
+        }
+
+        function updateSingleMeta() {
+            const raw = singleInput.value.trim();
+            const len = raw.length;
+            singleLength.textContent = `${len} / 32`;
+            singleLength.className = len === 0 ? '' : (len === 32 ? 'valid' : 'invalid');
+
+            if (len === 0) {
+                singleStatus.textContent = '';
+                singleStatus.className = '';
+            } else if (!isValidHash(normalizeHash(raw))) {
+                singleStatus.textContent = 'invalid format';
+                singleStatus.className = 'invalid';
+            } else {
+                singleStatus.textContent = '✓ valid format';
+                singleStatus.className = 'valid';
+            }
+        }
+
+        function renderSingleResult(html) {
+            singleResultDiv.innerHTML = html;
+            singleResultDiv.style.display = 'block';
+            singleResultDiv.focus({ preventScroll: true });
         }
 
         function performSingleCheck() {
-            let rawHash = singleInput.value;
+            const raw = singleInput.value.trim();
 
-            if (!rawHash.trim()) {
-                singleResultDiv.innerHTML = `
-                <div style="color:#ffae8c;">
-                    ⚠️ Please enter a CD-key hash (32-character hex).
-                </div>
-            `;
-
-                singleResultDiv.style.display = 'block';
-                updateGlobalStats('empty', null);
+            if (!raw) {
+                renderSingleResult(
+                    '<div style="color:#ffae8c;">⚠️ Please enter a CD-key hash (32-character hex).</div>'
+                );
                 return;
             }
 
-            const normalized = normalizeHash(rawHash);
+            const normalized = normalizeHash(raw);
 
             if (!isValidHash(normalized)) {
-                singleResultDiv.innerHTML = `
-                <div style="color:#ffae8c;">
-                    ❌ Invalid format.
-                    Hash must be exactly 32 hexadecimal characters (0-9, a-f).<br>
-
-                    <span style="font-size:0.7rem;">
-                        Example: 388e89e69b4cc08b3441f25959f74103
-                    </span>
-                </div>
-            `;
-
-                singleResultDiv.style.display = 'block';
-                updateGlobalStats('invalid', null);
+                renderSingleResult(`
+                    <div style="color:#ffae8c;">
+                        ❌ Invalid format.<br>
+                        Hash must be exactly 32 hexadecimal characters (0–9, a–f).<br>
+                        <span style="font-size:0.72rem;opacity:0.8;">
+                            Example: 388e89e69b4cc08b3441f25959f74103
+                        </span>
+                    </div>
+                `);
                 return;
             }
 
             const isCracked = CRACKED_SET.has(normalized);
 
             if (isCracked) {
-                singleResultDiv.innerHTML = `
-                <div class="result-badge badge-cracked">
-                    🏴‍☠️ CRACKED / PIRATED CD KEY
-                </div>
-
-                <div>
-                    <strong style="color:#ffbf9f;">
-                        Hash: ${escapeHtml(normalized)}
-                    </strong>
-
-                    is present in the known cracked hash database.
-                </div>
-
-                <div style="margin-top: 6px;">
-                    <strong>Do NOT trust this hash alone</strong>
-                    for admin access.
-                </div>
-            `;
-
-                updateGlobalStats('cracked', true);
+                renderSingleResult(`
+                    <div class="result-badge badge-cracked">🏴‍☠️ CRACKED / PIRATED CD KEY</div>
+                    <div>
+                        <strong style="color:#ffbf9f;word-break:break-all;">Hash: ${escapeHtml(normalized)}</strong>
+                        is present in the known cracked hash database.
+                    </div>
+                    <div style="margin-top:6px;">
+                        <strong>Do NOT trust this hash alone</strong> for admin access.
+                    </div>
+                    <div style="margin-top:10px;">
+                        <button class="btn-copy" type="button" data-copy="${escapeHtml(normalized)}">📋 Copy hash</button>
+                    </div>
+                `);
             } else {
-                singleResultDiv.innerHTML = `
-                <div class="result-badge badge-clean">
-                    ✅ LEGITIMATE / UNKNOWN HASH
-                </div>
-
-                <div>
-                    <strong style="color:#b8e2c2;">
-                        Hash: ${escapeHtml(normalized)}
-                    </strong>
-
-                    is not in the cracked list.
-                </div>
-
-                <div style="margin-top: 8px; font-size:0.85rem;">
-                    ✔️ This hash appears clean (not flagged as cracked).
-                    However, always verify identity with IP ranges or secondary checks before assigning high-level admin.
-                </div>
-
-                <div style="margin-top: 6px;">
-                    💡 Consider using
-                    <code>adminadd &lt;player_id&gt; &lt;level&gt; [allowed IP]</code>
-                    with IP restrictions.
-                </div>
-            `;
-
-                updateGlobalStats('clean', false);
+                renderSingleResult(`
+                    <div class="result-badge badge-clean">✅ LEGITIMATE / UNKNOWN HASH</div>
+                    <div>
+                        <strong style="color:#b8e2c2;word-break:break-all;">Hash: ${escapeHtml(normalized)}</strong>
+                        is not in the cracked list.
+                    </div>
+                    <div style="margin-top:8px;font-size:0.85rem;">
+                        ✔️ This hash appears clean (not flagged as cracked).
+                        However, always verify identity with IP ranges or secondary checks before assigning high-level admin.
+                    </div>
+                    <div style="margin-top:6px;">
+                        💡 Consider using
+                        <code>adminadd &lt;player_id&gt; &lt;level&gt; [allowed IP]</code>
+                        with IP restrictions.
+                    </div>
+                    <div style="margin-top:10px;">
+                        <button class="btn-copy" type="button" data-copy="${escapeHtml(normalized)}">📋 Copy hash</button>
+                    </div>
+                `);
             }
-
-            singleResultDiv.style.display = 'block';
         }
 
         function parseHashesFromText(text) {
-            let lines = text.split(/\r?\n/);
-            const hashes = [];
-
-            for (let line of lines) {
-                line = line.trim();
-
-                if (line === "") continue;
-
-                if (line.includes(',')) {
-                    const parts = line.split(',').map(s => s.trim());
-
-                    for (let part of parts) {
-                        if (part) hashes.push(part);
-                    }
-                } else {
-                    hashes.push(line);
-                }
-            }
-
-            return hashes;
+            return String(text || '')
+                .split(/\r?\n/)
+                .flatMap(line => line.split(','))
+                .map(s => s.trim())
+                .filter(Boolean);
         }
 
         function performBulkCheck() {
             const rawText = bulkInput.value;
 
             if (!rawText.trim()) {
-                bulkResultDiv.innerHTML = `
-                <div style="opacity:0.7;">
-                    📭 No hashes provided.
-                    Paste one or more 32-character CD key hashes.
-                </div>
-            `;
-
+                bulkResultDiv.innerHTML =
+                    '<div style="opacity:0.7;">📭 No hashes provided. Paste one or more 32-character CD-key hashes.</div>';
                 bulkResultDiv.style.display = 'block';
                 return;
             }
 
             const rawHashes = parseHashesFromText(rawText);
-
             const validEntries = [];
             const invalidEntries = [];
             const crackedHashes = [];
             const cleanHashes = [];
 
-            for (let h of rawHashes) {
+            for (const h of rawHashes) {
                 const normalized = normalizeHash(h);
-
                 if (!isValidHash(normalized)) {
-                    invalidEntries.push({
-                        raw: h,
-                        reason: "Invalid format (not 32 hex chars)"
-                    });
-
+                    invalidEntries.push({ raw: h, reason: 'Invalid format (not 32 hex chars)' });
                     continue;
                 }
-
                 const isCracked = CRACKED_SET.has(normalized);
-
-                if (isCracked) {
-                    crackedHashes.push(normalized);
-                } else {
-                    cleanHashes.push(normalized);
-                }
-
-                validEntries.push({
-                    hash: normalized,
-                    cracked: isCracked
-                });
+                (isCracked ? crackedHashes : cleanHashes).push(normalized);
+                validEntries.push({ hash: normalized, cracked: isCracked });
             }
 
             let resultHtml = `
-            <div style="margin-bottom: 12px;">
-                <strong>📊 Bulk Summary</strong>
-                -
-                Total valid: ${validEntries.length}
-                |
-                🏴‍☠️ Cracked: ${crackedHashes.length}
-                |
-                ✅ Clean: ${cleanHashes.length}
-            </div>
-        `;
-
-            if (invalidEntries.length > 0) {
-                resultHtml += `
-                <details style="margin-top:6px;">
-                    <summary>
-                        ⚠️ Invalid entries (${invalidEntries.length})
-                    </summary>
-
-                    <div style="font-size:0.7rem; margin-top:6px; color:#ffb3a3;">
-                        ${invalidEntries.map(e => escapeHtml(e.raw) + " → " + e.reason).join('<br>')}
-                    </div>
-                </details>
-            `;
-            }
-
-            if (validEntries.length === 0) {
-                resultHtml += `
-                <div style="margin-top: 12px;">
-                    ❌ No valid CD-key hashes found.
+                <div style="margin-bottom:12px;">
+                    <strong>📊 Bulk Summary</strong> - Total valid: ${validEntries.length}
+                    | 🏴‍☠️ Cracked: ${crackedHashes.length}
+                    | ✅ Clean: ${cleanHashes.length}
                 </div>
             `;
 
+            if (invalidEntries.length > 0) {
+                resultHtml += `
+                    <details style="margin-top:6px;">
+                        <summary style="cursor:pointer;">⚠️ Invalid entries (${invalidEntries.length})</summary>
+                        <div style="font-size:0.72rem;margin-top:6px;color:#ffb3a3;">
+                            ${invalidEntries.map(e => escapeHtml(e.raw) + ' → ' + e.reason).join('<br>')}
+                        </div>
+                    </details>
+                `;
+            }
+
+            if (validEntries.length === 0) {
+                resultHtml += '<div style="margin-top:12px;">❌ No valid CD-key hashes found.</div>';
                 bulkResultDiv.innerHTML = resultHtml;
                 bulkResultDiv.style.display = 'block';
                 return;
             }
 
-            resultHtml += `
-            <div style="margin-top: 12px;">
-                <strong>🔎 Detailed results:</strong>
-            </div>
-        `;
+            resultHtml += '<div style="margin-top:12px;"><strong>🔎 Detailed results:</strong></div>';
 
-            for (let entry of validEntries) {
-                const icon = entry.cracked ? "🏴‍☠️" : "✅";
-                const statusText = entry.cracked ? "CRACKED (Shared key)" : "CLEAN";
-                const styleColor = entry.cracked ? "#ffa68e" : "#b4f0c4";
-
+            for (const entry of validEntries) {
+                const icon = entry.cracked ? '🏴‍☠️' : '✅';
+                const statusText = entry.cracked ? 'CRACKED (Shared key)' : 'CLEAN';
+                const styleColor = entry.cracked ? '#ffa68e' : '#b4f0c4';
                 resultHtml += `
-                <div class="bulk-result-row">
-                    <span class="status-icon">${icon}</span>
-
-                    <code style="color:${styleColor};">
-                        ${escapeHtml(entry.hash)}
-                    </code>
-
-                    →
-                    <strong>${statusText}</strong>
-                </div>
-            `;
+                    <div class="bulk-result-row">
+                        <span class="status-icon">${icon}</span>
+                        <code style="color:${styleColor};word-break:break-all;">${escapeHtml(entry.hash)}</code>
+                        → <strong>${statusText}</strong>
+                    </div>
+                `;
             }
 
             if (crackedHashes.length > 0) {
                 resultHtml += `
-                <div style="margin-top: 12px; background: #291a1acc; border-radius: 24px; padding: 8px 12px;">
-                    <span style="font-weight:bold;">
-                        ⚠️ Important:
-                    </span>
-
-                    Any cracked hash found in this list represents a high-risk CD key.
-                    Do NOT assign admin rights based solely on these hashes without additional IP whitelisting.
-                </div>
-            `;
-            } else if (validEntries.length > 0) {
+                    <div style="margin-top:12px;background:rgba(41,26,26,0.8);border-radius:var(--radius-md);padding:8px 12px;">
+                        <span style="font-weight:bold;">⚠️ Important:</span>
+                        Any cracked hash found in this list represents a high-risk CD key.
+                        Do NOT assign admin rights based solely on these hashes without additional IP whitelisting.
+                    </div>
+                `;
+            } else {
                 resultHtml += `
-                <div style="margin-top: 12px; background: #1a2e28cc; border-radius: 24px; padding: 8px 12px;">
-                    ✔️ All provided hashes are not in the cracked database.
-                    Still recommended to use IP binding for admin commands (SAPP's adminadd).
-                </div>
-            `;
+                    <div style="margin-top:12px;background:rgba(26,46,40,0.8);border-radius:var(--radius-md);padding:8px 12px;">
+                        ✔️ All provided hashes are not in the cracked database.
+                        Still recommended to use IP binding for admin commands (SAPP's <code>adminadd</code>).
+                    </div>
+                `;
             }
 
             bulkResultDiv.innerHTML = resultHtml;
             bulkResultDiv.style.display = 'block';
-
-            if (crackedHashes.length > 0) {
-                updateGlobalStats('bulk_cracked_found', true);
-            } else {
-                updateGlobalStats('bulk_clean', false);
-            }
         }
 
-        function clearBulkInput() {
-            bulkInput.value = '';
-            bulkResultDiv.style.display = 'none';
-            bulkResultDiv.innerHTML = '';
-            updateGlobalStats('cleared', null);
-        }
-
-        let currentTab = 'single';
-
-        const singleTabDiv = document.getElementById('singleTab');
-        const bulkTabDiv = document.getElementById('bulkTab');
         const tabBtns = document.querySelectorAll('.tab-btn');
+        const singleTabDiv = $('singleTab');
+        const bulkTabDiv = $('bulkTab');
 
-        function switchTab(tabId) {
-            currentTab = tabId;
-
+        function switchTab(tabId, focusTab = false) {
             if (tabId === 'single') {
-                singleTabDiv.style.display = 'block';
-                bulkTabDiv.style.display = 'none';
+                singleTabDiv.hidden = false;
+                bulkTabDiv.hidden = true;
             } else {
-                singleTabDiv.style.display = 'none';
-                bulkTabDiv.style.display = 'block';
+                singleTabDiv.hidden = true;
+                bulkTabDiv.hidden = false;
             }
 
             tabBtns.forEach(btn => {
-                const btnTab = btn.getAttribute('data-tab');
+                const active = btn.getAttribute('data-tab') === tabId;
+                btn.classList.toggle('active', active);
+                btn.setAttribute('aria-selected', String(active));
+                btn.tabIndex = active ? 0 : -1;
+            });
 
-                if (btnTab === tabId) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
+            if (focusTab) {
+                const btn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+                if (btn) btn.focus();
+            }
+        }
+
+        function setupTabKeyboardNav() {
+            const tabList = document.querySelector('.tabs');
+            tabList.addEventListener('keydown', (e) => {
+                const keys = ['ArrowLeft', 'ArrowRight', 'Home', 'End'];
+                if (!keys.includes(e.key)) return;
+                e.preventDefault();
+
+                const tabs = Array.from(tabBtns);
+                const current = tabs.findIndex(b => b.classList.contains('active'));
+                let next = current;
+
+                if (e.key === 'ArrowRight') next = (current + 1) % tabs.length;
+                if (e.key === 'ArrowLeft') next = (current - 1 + tabs.length) % tabs.length;
+                if (e.key === 'Home') next = 0;
+                if (e.key === 'End') next = tabs.length - 1;
+
+                const tabId = tabs[next].getAttribute('data-tab');
+                switchTab(tabId, true);
             });
         }
 
         function renderCrackedHashList() {
-            let gridHtml = '';
+            const gridHtml = CRACKED_HASHES_ARRAY.map(hash =>
+                `<div role="button" tabindex="0" data-copy="${escapeHtml(hash)}" title="Click to copy">${escapeHtml(hash)}</div>`
+            ).join('');
 
-            CRACKED_HASHES_ARRAY.forEach(hash => {
-                gridHtml += `
-                <div style="background:#0f1624; padding: 6px 8px; border-radius: 18px; font-family: monospace; font-size: 0.75rem;">
-                    ${escapeHtml(hash)}
-                </div>
-            `;
+            crackedListGrid.innerHTML = gridHtml;
+            $('totalCrackedCount').textContent = `(${CRACKED_HASHES_ARRAY.length})`;
+
+            crackedListGrid.addEventListener('click', (e) => {
+                const target = e.target.closest('[data-copy]');
+                if (target) handleCopy(target.getAttribute('data-copy'));
             });
 
-            if (crackedListGrid) {
-                crackedListGrid.innerHTML = gridHtml;
-            }
+            crackedListGrid.addEventListener('keydown', (e) => {
+                if (e.key !== 'Enter' && e.key !== ' ') return;
+                const target = e.target.closest('[data-copy]');
+                if (target) {
+                    e.preventDefault();
+                    handleCopy(target.getAttribute('data-copy'));
+                }
+            });
+        }
 
-            if (totalCrackedSpan) {
-                totalCrackedSpan.innerText = TOTAL_CRACKED;
-            }
+        async function handleCopy(text) {
+            const ok = await copyText(text);
+            showToast(ok ? '📋 Copied to clipboard' : '❌ Failed to copy', ok ? 'success' : 'error');
         }
 
         function attachEvents() {
-            checkSingleBtn.addEventListener('click', performSingleCheck);
-            checkBulkBtn.addEventListener('click', performBulkCheck);
-            clearBulkBtn.addEventListener('click', clearBulkInput);
+            $('checkSingleBtn').addEventListener('click', performSingleCheck);
+            $('checkBulkBtn').addEventListener('click', performBulkCheck);
 
-            singleInput.addEventListener('keypress', (e) => {
+            $('clearBulkBtn').addEventListener('click', () => {
+                bulkInput.value = '';
+                bulkResultDiv.style.display = 'none';
+                bulkResultDiv.innerHTML = '';
+            });
+
+            $('pasteSingleBtn').addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    singleInput.value = text.trim();
+                    updateSingleMeta();
+                    singleInput.focus();
+                } catch {
+                    showToast('❌ Clipboard access denied', 'error');
+                }
+            });
+
+            singleInput.addEventListener('input', updateSingleMeta);
+            singleInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
+                    e.preventDefault();
                     performSingleCheck();
+                }
+            });
+
+            bulkInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    performBulkCheck();
                 }
             });
 
             tabBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const tab = btn.getAttribute('data-tab');
-
-                    if (tab) {
-                        switchTab(tab);
-                    }
+                    if (tab) switchTab(tab);
                 });
+            });
+
+            document.addEventListener('click', (e) => {
+                const target = e.target.closest('[data-copy]');
+                if (!target || target.closest('.hash-grid')) return;
+                const text = target.getAttribute('data-copy');
+                if (text) handleCopy(text);
             });
         }
 
         function init() {
             renderCrackedHashList();
             attachEvents();
+            setupTabKeyboardNav();
             switchTab('single');
-            updateGlobalStats('ready', null);
+            updateSingleMeta();
 
-            singleResultDiv.style.display = 'none';
-            bulkResultDiv.style.display = 'none';
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    singleResultDiv.style.display = 'none';
+                    bulkResultDiv.style.display = 'none';
+                }
+            });
         }
 
         init();
