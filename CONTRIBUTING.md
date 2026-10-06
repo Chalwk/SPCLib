@@ -149,7 +149,7 @@ repository. For details, see the [LICENSE][license] file.
 [sapp_docs]: https://opencarnage.net/index.php?/topic/3806-comprehensive-sapp-documentation-rev-25-sapp-101/
 [scripting_with_chimera]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera/
 [security_advisory]: https://github.com/Chalwk/SPCLib/security/advisories/new
-[security_md]: https://github.com/Chalwk/SPCLib/blob/main/SECURITY.md
+[security_md]: https://github.com/Chalwk/SPCLib/blob/master/SECURITY.md
 [sehe_profile]: http://halo.isimaginary.com/forum/user-1.html
 [sehe]: http://halo.isimaginary.com/forum/user-1.html
 [sendconsole_override]: http://pastebin.com/1dtn0DiM
