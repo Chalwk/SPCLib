@@ -272,11 +272,11 @@ the [Code of Conduct](CODE_OF_CONDUCT.md)
 
 [liberty_discord]: https://discord.gg/3J2Zppghz5
 
-[lua_common_ref]: https://chalwk.github.io/blog/2026/05/17/halo-lua-common-references
+[lua_common_ref]: https://chalwk.github.io/blog/2026/05/17/halo-lua-common-references/
 
-[memory_offsets]: https://chalwk.github.io/blog/2025/09/08/halo-understanding-memory-offsets
+[memory_offsets]: https://chalwk.github.io/blog/2025/09/07/halo-understanding-memory-offsets/
 
-[modding_refs]: https://chalwk.github.io/blog/2025/09/08/halo-modding-references/
+[modding_refs]: https://chalwk.github.io/blog/2025/09/07/halo-modding-references/
 
 [opencarnage_discord]: https://discord.gg/2pf3Yjb
 
@@ -288,7 +288,7 @@ the [Code of Conduct](CODE_OF_CONDUCT.md)
 
 [poq_website]: http://poqclan.com/
 
-[port_forwarding]: https://chalwk.github.io/blog/2025/09/01/halo-server-port-forwarding/
+[port_forwarding]: https://chalwk.github.io/blog/2025/08/31/halo-server-port-forwarding/
 
 [realworld_website]: https://www.realworldce.com/
 
@@ -301,21 +301,21 @@ the [Code of Conduct](CODE_OF_CONDUCT.md)
 
 [repo_url]: https://github.com/Chalwk/SPCLib
 
-[sapp_command_ref]: https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference
+[sapp_command_ref]: https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference/
 
 [sapp_downloads_dir]: ./assets/sapp_downloads
 
 [sapp_scripts]: ./sapp
 
-[sapp_server_guide]: https://chalwk.github.io/blog/2026/04/03/halo-sapp-server-guide/
+[sapp_server_guide]: https://chalwk.github.io/blog/2026/04/02/halo-sapp-server-guide/
 
 [script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser
 
-[scripting_with_chimera]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera
+[scripting_with_chimera]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera/
 
-[scripting_with_phasor]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor
+[scripting_with_phasor]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor/
 
-[scripting_with_sapp]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp
+[scripting_with_sapp]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp/
 
 [spclib_discord]: https://discord.gg/VAEb4FXU5
 
