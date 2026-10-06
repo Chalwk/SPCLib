@@ -7,12 +7,8 @@
     <img src="https://img.shields.io/badge/Email-chalwk.dev@gmail.com-c14438?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
   </a>
 
-  <a href="https://discord.gg/D76H7RVPC9">
-    <img src="https://img.shields.io/badge/SPCLib_Discord-Join_Server-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="SPCLib Discord Server">
-  </a>
-
-  <a href="https://chalwk.github.io/">
-    <img src="https://img.shields.io/badge/Chalwk's Website-Visit-0A66C2?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Portfolio Website">
+  <a href="https://discord.gg/VAEb4FXU5">
+    <img src="https://img.shields.io/badge/Chalwk's_Code_%26_Chill-Join_Server-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="Chalwk's Code & Chill Discord">
   </a>
 
   <a href="https://chalwk.github.io/SPCLib">
@@ -185,7 +181,7 @@ Java-based integration for connecting Halo servers to Discord with rich event em
 
 | Hub                                                                                | Description                                                                                 |
 | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| **Chalwk** - [Website][chalwk_website] · [Discord][spclib_discord]                 | Personal site & portfolio.                                                                  |
+| **Chalwk's Code & Chill** - [Discord][spclib_discord]                              | Community server for all my projects, support, and general chat.                            |
 | **Open Carnage** - [Website][opencarnage_website] · [Discord][opencarnage_discord] | Former major CE modding forum (now read‑only after DDoS attacks).                           |
 | **Chimera** - [Forum][chimera_forum] · [Discord][chimera_discord]                  | Essential client‑side mod with map downloads, renderer fixes, quality‑of‑life improvements. |
 | **Halo Net** - [Website][halonet_website]                                          | HAC2 map repository & update server - auto‑downloads thousands of custom maps.              |
@@ -254,8 +250,6 @@ the [Code of Conduct](CODE_OF_CONDUCT.md)
 
 [bug_report]: https://github.com/Chalwk/SPCLib/issues/new?assignees=Chalwk&labels=Bug%2CNeeds+Triage&template=BUG_REPORT.yaml
 
-[chalwk_website]: https://chalwk.github.io/
-
 [chimera_discord]: https://discord.gg/ZwQeBE2
 
 [chimera_forum]: https://opencarnage.net/index.php?/topic/6916-chimera-download-source-code-and-discord/
@@ -323,7 +317,7 @@ the [Code of Conduct](CODE_OF_CONDUCT.md)
 
 [scripting_with_sapp]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp
 
-[spclib_discord]: https://discord.gg/D76H7RVPC9
+[spclib_discord]: https://discord.gg/VAEb4FXU5
 
 
 [vps_host_guide]: https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/

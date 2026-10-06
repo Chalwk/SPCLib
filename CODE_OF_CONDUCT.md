@@ -140,7 +140,7 @@ at [https://www.contributor-covenant.org/version/1/4/code-of-conduct][version].
 
 [version]: https://www.contributor-covenant.org/version/1/4/code-of-conduct
 
-[discord_invite_link]: https://discord.gg/D76H7RVPC9
+[discord_invite_link]: https://discord.gg/VAEb4FXU5
 
 [discord_terms]: https://discord.com/terms
 

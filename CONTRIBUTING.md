@@ -16,6 +16,23 @@ Following these guidelines ensures a smooth and collaborative process.
 * **Create an Issue**: If it's new, create an issue with a **clear title** and **detailed description**. Include server
   type (SAPP or Phasor) and any relevant context.
 
+### Reporting a Security Issue
+
+**Do not open a public issue for security problems.**
+
+If you discover a vulnerability, exposed credential, or anything that could put users at risk,
+use the private [Report a vulnerability][security_advisory] flow on the Security tab, or see
+[SECURITY.md][security_md] for the full policy.
+
+This includes (but is not limited to):
+
+* Scripts that leak API keys, tokens, or IP addresses
+* Injection flaws or unsafe handling of user-supplied data
+* Malicious code in community contributions
+* Any issue that could compromise a user's server or game client
+
+For non-security bugs, continue to use the [Issues Section][issues_section] as normal.
+
 ### Pull Requests
 
 1. **Fork the Repository**: Create your own copy of the SPCLib repository.
@@ -131,6 +148,8 @@ repository. For details, see the [LICENSE][license] file.
 [phasor_repo]: https://github.com/urbanyoung/Phasor
 [sapp_docs]: https://opencarnage.net/index.php?/topic/3806-comprehensive-sapp-documentation-rev-25-sapp-101/
 [scripting_with_chimera]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera/
+[security_advisory]: https://github.com/Chalwk/SPCLib/security/advisories/new
+[security_md]: https://github.com/Chalwk/SPCLib/blob/main/SECURITY.md
 [sehe_profile]: http://halo.isimaginary.com/forum/user-1.html
 [sehe]: http://halo.isimaginary.com/forum/user-1.html
 [sendconsole_override]: http://pastebin.com/1dtn0DiM
