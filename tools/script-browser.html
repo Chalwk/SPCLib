@@ -15,10 +15,6 @@
     <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpg">
     <link href="../assets/css/core.css" rel="stylesheet">
     <style>
-        body {
-            padding: 2rem 1.5rem;
-        }
-
         .category-filters {
             display: flex;
             gap: 0.6rem;
@@ -58,6 +54,10 @@
             gap: 1.3rem;
             margin-top: 0.5rem;
             min-height: 200px;
+        }
+
+        .script-grid>.empty-state {
+            grid-column: 1 / -1;
         }
 
         .script-card {
@@ -104,7 +104,6 @@
             transition: background var(--t-fast), color var(--t-fast);
             border: none;
             cursor: pointer;
-            font-family: 'SF Mono', 'Fira Code', monospace;
             text-align: left;
         }
 
@@ -249,7 +248,9 @@
 </head>
 
 <body>
-    <div class="container">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <main class="container" id="main-content">
         <div class="header">
             <div>
                 <h1>Script Browser</h1>
@@ -268,6 +269,10 @@
             <div class="stat-card">
                 <span class="stat-number" id="platformScripts">0</span>
                 <div class="stat-label">Current Platform</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="matchingScripts">0</span>
+                <div class="stat-label">Showing</div>
             </div>
             <div class="stat-card">
                 <span class="stat-number" id="activeCategories">0</span>
@@ -299,14 +304,15 @@
             </div>
         </div>
 
-        <div aria-live="polite" class="script-grid" id="scriptGrid"></div>
+        <div class="script-grid" id="scriptGrid"></div>
+        <div aria-live="polite" class="sr-only" id="resultsLive"></div>
 
         <div class="pagination" id="paginationControls">
             <button class="page-btn" id="prevPageBtn" type="button">◀ Prev</button>
             <span id="pageInfo" style="font-weight:500;">Page 0</span>
             <button class="page-btn" id="nextPageBtn" type="button">Next ▶</button>
         </div>
-    </div>
+    </main>
 
     <script>
         'use strict';
@@ -456,21 +462,24 @@
 
         function updateStatsAndRender() {
             const allRaw = flattenMetadata();
-            const totalAll = allRaw.length;
+            const platformAll = allRaw.filter(s => s.platform === activePlatform);
 
             filteredScriptsCache = filterAndSortScripts();
-            const totalPlatform = filteredScriptsCache.length;
+            const totalMatching = filteredScriptsCache.length;
 
             let uniqueCategories = 0;
             if (activePlatform === 'SAPP' || activePlatform === 'PHASOR') {
-                uniqueCategories = new Set(filteredScriptsCache.map(s => s.category)).size;
+                uniqueCategories = new Set(platformAll.map(s => s.category)).size;
             }
 
-            document.getElementById('totalScripts').textContent = totalAll;
-            document.getElementById('platformScripts').textContent = totalPlatform;
+            document.getElementById('totalScripts').textContent = allRaw.length;
+            document.getElementById('platformScripts').textContent = platformAll.length;
+            document.getElementById('matchingScripts').textContent = totalMatching;
             document.getElementById('activeCategories').textContent = uniqueCategories || '–';
+            document.getElementById('resultsLive').textContent =
+                `${totalMatching} ${totalMatching === 1 ? 'result' : 'results'}`;
 
-            const totalPages = Math.ceil(filteredScriptsCache.length / pageSize) || 1;
+            const totalPages = Math.ceil(totalMatching / pageSize);
             if (currentPage > totalPages) currentPage = totalPages;
             if (currentPage < 1) currentPage = 1;
 
@@ -576,15 +585,15 @@
             const nextBtn = document.getElementById('nextPageBtn');
 
             if (totalPages === 0) {
-                pageInfo.textContent = 'Page 0 of 0';
-                prevBtn.classList.add('disabled');
-                nextBtn.classList.add('disabled');
+                pageInfo.textContent = 'No results';
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
                 return;
             }
 
             pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
-            prevBtn.classList.toggle('disabled', currentPage <= 1);
-            nextBtn.classList.toggle('disabled', currentPage >= totalPages);
+            prevBtn.disabled = currentPage <= 1;
+            nextBtn.disabled = currentPage >= totalPages;
         }
 
         function renderTabs() {
@@ -611,6 +620,8 @@
                         renderTabs();
                         renderCategoryFilters();
                         updateStatsAndRender();
+                        const activeTab = document.querySelector('#platformTabs .tab-btn.active');
+                        if (activeTab) activeTab.focus();
                     }
                 });
             });
@@ -651,6 +662,8 @@
                         currentPage = 1;
                         renderCategoryFilters();
                         updateStatsAndRender();
+                        const activeCat = document.querySelector('#categoryFiltersContainer .cat-btn.active');
+                        if (activeCat) activeCat.focus();
                     }
                 });
             });

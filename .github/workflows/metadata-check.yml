@@ -1,0 +1,36 @@
+name: Check metadata.json
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "metadata.json"
+      - "sapp/**"
+      - "phasor/**"
+      - "chimera/**"
+      - ".github/scripts/check_metadata.py"
+      - ".github/workflows/metadata-check.yml"
+  pull_request:
+    paths:
+      - "metadata.json"
+      - "sapp/**"
+      - "phasor/**"
+      - "chimera/**"
+      - ".github/scripts/check_metadata.py"
+      - ".github/workflows/metadata-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compare metadata.json with script files
+        run: python .github/scripts/check_metadata.py

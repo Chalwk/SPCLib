@@ -7,13 +7,13 @@ report a vulnerability and what to expect.
 ## Supported Versions
 
 This repository is an archive. Scripts carry their own version information, and
-fixes are applied to the latest version on `main`.
+fixes are applied to the latest version on `master`.
 
-| Version          | Supported |
-| ---------------- | --------- |
-| Latest on `main` | Yes       |
-| Older commits    | No        |
-| Forks            | No        |
+| Version            | Supported |
+| ------------------ | --------- |
+| Latest on `master` | Yes       |
+| Older commits      | No        |
+| Forks              | No        |
 
 ## Reporting a Vulnerability
 

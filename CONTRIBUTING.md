@@ -1,7 +1,8 @@
 # Contributing to the SPCLib
 
 Thank you for considering contributing to **SPCLib**! Your contributions help maintain, improve,
-and expand the collection of Lua scripts and resources for **Halo: PC** and **Halo: CE** dedicated servers.
+and expand the collection of Lua scripts and resources for **Halo: PC** and **Halo: CE** (SAPP and Phasor
+dedicated servers, and the Chimera client).
 Following these guidelines ensures a smooth and collaborative process.
 
 ---
@@ -13,8 +14,8 @@ Following these guidelines ensures a smooth and collaborative process.
 * **Check First**: Before creating a new issue, search
   the [Issues Section][issues_section] to see if your concern, bug, or feature
   request has already been reported.
-* **Create an Issue**: If it's new, create an issue with a **clear title** and **detailed description**. Include server
-  type (SAPP or Phasor) and any relevant context.
+* **Create an Issue**: If it's new, create an issue with a **clear title** and **detailed description**. Include the
+  platform (SAPP, Phasor, or Chimera) and any relevant context.
 
 ### Reporting a Security Issue
 
@@ -45,7 +46,7 @@ For non-security bugs, continue to use the [Issues Section][issues_section] as n
 
 ### Adding a New Script (Community Contributions)
 
-If you've created a brand-new Lua script for SAPP or Phasor and would like it to be included in the
+If you've created a brand-new Lua script for SAPP, Phasor, or Chimera and would like it to be included in the
 repository, please follow these additional steps:
 
 * **Place your script** inside the `./community_contributions` folder at the root of the repository. This directory is
@@ -55,7 +56,7 @@ repository, please follow these additional steps:
 * **Include a header comment** at the very top of your script, containing:
   * Your name or GitHub username
   * A short description of what the script does
-  * The target server (SAPP, Phasor)
+  * The target platform (SAPP, Phasor, Chimera)
   * Any dependencies or specific version requirements (e.g., "requires SAPP 10.2+", "uses `map_coordinates.lua`")
 * **Test thoroughly** on a local or private server to ensure the script works as intended and does not produce errors.
 * **Follow the [Lua Script Guidelines](#lua-script-guidelines)** for code style, readability, and comments.

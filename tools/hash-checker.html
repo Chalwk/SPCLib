@@ -144,10 +144,10 @@
             border: 1px solid #ff8a6f;
         }
 
-        .badge-clean {
-            background: rgba(31, 90, 62, 0.85);
-            color: #c6ffdc;
-            border: 1px solid var(--accent-green);
+        .badge-unlisted {
+            background: rgba(45, 75, 140, 0.55);
+            color: #dbe7ff;
+            border: 1px solid var(--accent);
         }
 
         .warning-note {
@@ -233,7 +233,9 @@
 </head>
 
 <body>
-    <div class="container">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <main class="container" id="main-content">
         <div class="header">
             <div>
                 <h1>CD Key Hash Checker</h1>
@@ -256,7 +258,7 @@
             <div class="input-group">
                 <div class="field-group">
                     <label for="singleHashInput">MD5 / CD-key hash (32-char hex)</label>
-                    <input aria-describedby="singleHashMeta" autocomplete="off" id="singleHashInput" inputmode="latin"
+                    <input aria-describedby="singleHashMeta" autocomplete="off" id="singleHashInput" autocapitalize="off" autocorrect="off" inputmode="text"
                         maxlength="40" placeholder="e.g. 388e89e69b4cc08b3441f25959f74103" spellcheck="false"
                         type="text">
                     <div class="input-meta" id="singleHashMeta">
@@ -279,7 +281,7 @@
         <section aria-labelledby="tab-bulk" class="check-card" hidden id="bulkTab" role="tabpanel">
             <div class="input-group">
                 <div class="field-group">
-                    <label for="bulkHashInput">Hash list (one per line or comma-separated)</label>
+                    <label for="bulkHashInput">Hash list (one per line, or separated by commas / spaces)</label>
                     <textarea id="bulkHashInput"
                         placeholder="388e89e69b4cc08b3441f25959f74103&#10;81f9c914b3402c2702a12dc1405247ee&#10;c939c09426f69c4843ff75ae704bf426&#10;... or paste any list"
                         rows="6" spellcheck="false"></textarea>
@@ -313,7 +315,7 @@
                 clipboard.</p>
             <div class="hash-grid" id="crackedHashListGrid"></div>
         </section>
-    </div>
+    </main>
 
     <script>
         'use strict';
@@ -442,7 +444,6 @@
         function renderSingleResult(html) {
             singleResultDiv.innerHTML = html;
             singleResultDiv.style.display = 'block';
-            singleResultDiv.focus({ preventScroll: true });
         }
 
         function performSingleCheck() {
@@ -488,14 +489,15 @@
                 `);
             } else {
                 renderSingleResult(`
-                    <div class="result-badge badge-clean">✅ LEGITIMATE / UNKNOWN HASH</div>
+                    <div class="result-badge badge-unlisted">ℹ️ NOT IN KNOWN CRACKED LIST</div>
                     <div>
                         <strong style="color:#b8e2c2;word-break:break-all;">Hash: ${escapeHtml(normalized)}</strong>
                         is not in the cracked list.
                     </div>
                     <div style="margin-top:8px;font-size:0.85rem;">
-                        ✔️ This hash appears clean (not flagged as cracked).
-                        However, always verify identity with IP ranges or secondary checks before assigning high-level admin.
+                        This hash is not on the known cracked list, but that list is small and not exhaustive,
+                        so a miss does not prove the key is legitimate.
+                        Always verify identity with IP ranges or secondary checks before assigning high-level admin.
                     </div>
                     <div style="margin-top:6px;">
                         💡 Consider using
@@ -510,11 +512,17 @@
         }
 
         function parseHashesFromText(text) {
+            const seen = new Set();
             return String(text || '')
-                .split(/\r?\n/)
-                .flatMap(line => line.split(','))
+                .split(/[\s,;]+/)
                 .map(s => s.trim())
-                .filter(Boolean);
+                .filter(Boolean)
+                .filter(s => {
+                    const key = s.toLowerCase();
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                });
         }
 
         function performBulkCheck() {
@@ -548,7 +556,7 @@
                 <div style="margin-bottom:12px;">
                     <strong>📊 Bulk Summary</strong> - Total valid: ${validEntries.length}
                     | 🏴‍☠️ Cracked: ${crackedHashes.length}
-                    | ✅ Clean: ${cleanHashes.length}
+                    | ❔ Not listed: ${cleanHashes.length}
                 </div>
             `;
 
@@ -573,9 +581,9 @@
             resultHtml += '<div style="margin-top:12px;"><strong>🔎 Detailed results:</strong></div>';
 
             for (const entry of validEntries) {
-                const icon = entry.cracked ? '🏴‍☠️' : '✅';
-                const statusText = entry.cracked ? 'CRACKED (Shared key)' : 'CLEAN';
-                const styleColor = entry.cracked ? '#ffa68e' : '#b4f0c4';
+                const icon = entry.cracked ? '🏴‍☠️' : '❔';
+                const statusText = entry.cracked ? 'CRACKED (Shared key)' : 'NOT LISTED';
+                const styleColor = entry.cracked ? '#ffa68e' : '#bcd2ff';
                 resultHtml += `
                     <div class="bulk-result-row">
                         <span class="status-icon">${icon}</span>
@@ -596,8 +604,8 @@
             } else {
                 resultHtml += `
                     <div style="margin-top:12px;background:rgba(26,46,40,0.8);border-radius:var(--radius-md);padding:8px 12px;">
-                        ✔️ All provided hashes are not in the cracked database.
-                        Still recommended to use IP binding for admin commands (SAPP's <code>adminadd</code>).
+                        None of the provided hashes are on the known cracked list. That does not prove they are legitimate,
+                        so IP binding for admin commands (SAPP's <code>adminadd</code>) is still recommended.
                     </div>
                 `;
             }

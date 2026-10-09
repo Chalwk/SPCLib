@@ -8,7 +8,7 @@
   </a>
 
   <a href="https://discord.gg/VAEb4FXU5">
-    <img src="https://img.shields.io/badge/Chalwk's_Code_%26_Chill-Join_Server-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="Chalwk's Code & Chill Discord">
+    <img src="https://img.shields.io/badge/Chalwk_--_Code_%26_Chill-Join_Server-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="Chalwk - Code & Chill Discord">
   </a>
 
   <a href="https://chalwk.github.io/SPCLib">
@@ -20,9 +20,8 @@
 
 ---
 
-## Table of Contents
+## Table of Contents <!-- omit from toc -->
 
-- [Table of Contents](#table-of-contents)
 - [Overview](#overview)
 - [What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
 - [Scripts, Releases \& Knowledge Base](#scripts-releases--knowledge-base)
@@ -97,7 +96,7 @@ SAPP & Phasor Lua scripts are organized into the following categories:
 | --------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
 | **Scripts & Releases**            | [**SAPP Scripts**][sapp_scripts]                             | Server-side Lua scripts                                                                         |
 |                                   | [**Phasor Scripts**][phasor_scripts]                         | Server-side Lua scripts                                                                         |
-|                                   | [**Chimera Scripts**][chimera_scripts]                       | Client-side Lua scripts.                                                                        |
+|                                   | [**Chimera Scripts**][chimera_scripts]                       | Client-side Lua scripts                                                                         |
 |                                   | [**Script Packages**][releases]                              | Bundled projects with multiple files and resources available as downloadable ZIP packages.      |
 | **Server Setup & Hosting**        | [**How to Host a Linux VPS (Ubuntu 22.04)**][vps_host_guide] | Full setup with Wine, VNC, firewall, SSH, and fail2ban.                                         |
 |                                   | [**Server Port Forwarding**][port_forwarding]                | Router configuration for UDP ports 2302 & server port, plus firewall rules for Windows/Linux.   |
@@ -141,8 +140,8 @@ Live search and filtering for all SPCLib scripts.
 
 ### [Hash Checker][hash_checker]
 
-Use this tool to identify cracked hashes. Banning or granting admin to a hash without verification
-can accidentally affect innocent players who share the same cracked key
+Use this tool to identify known cracked hashes. Banning or granting admin to a hash without verification
+can accidentally affect innocent players who share the same cracked key.
 
 ### [HaloDiscordBot][halo_discord_bot]
 
@@ -181,7 +180,7 @@ Java-based integration for connecting Halo servers to Discord with rich event em
 
 | Hub                                                                                | Description                                                                                 |
 | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| **Chalwk's Code & Chill** - [Discord][spclib_discord]                              | Community server for all my projects, support, and general chat.                            |
+| **Chalwk - Code & Chill** - [Discord][spclib_discord]                              | Community server for all my projects, support, and general chat.                            |
 | **Open Carnage** - [Website][opencarnage_website] · [Discord][opencarnage_discord] | Former major CE modding forum (now read‑only after DDoS attacks).                           |
 | **Chimera** - [Forum][chimera_forum] · [Discord][chimera_discord]                  | Essential client‑side mod with map downloads, renderer fixes, quality‑of‑life improvements. |
 | **Halo Net** - [Website][halonet_website]                                          | HAC2 map repository & update server - auto‑downloads thousands of custom maps.              |
@@ -221,7 +220,7 @@ TM, ToR, X¬, xOSHx, xT
 Contributions, bug reports, and feature requests are welcome via GitHub issues and discussion templates.
 
 See the [Contributing Guide](CONTRIBUTING.md). All community interaction is governed by
-the [Code of Conduct](CODE_OF_CONDUCT.md)
+the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SECURITY.md](SECURITY.md).
 
 ### Submit Ideas
 

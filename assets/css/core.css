@@ -93,7 +93,6 @@ a {
 :focus-visible {
     outline: 2px solid var(--border-focus);
     outline-offset: 2px;
-    border-radius: 4px;
 }
 
 button:focus-visible,
@@ -469,7 +468,7 @@ button:disabled {
     color: #ffd6d2;
 }
 
-footer {
+footer[data-spclib] {
     margin-top: 3rem;
     padding: 1.2rem 0.5rem;
     text-align: center;
@@ -481,13 +480,13 @@ footer {
     line-height: 1.7;
 }
 
-footer a {
+footer[data-spclib] a {
     color: var(--accent-purple);
     text-decoration: none;
     font-weight: 500;
 }
 
-footer a:hover {
+footer[data-spclib] a:hover {
     text-decoration: underline;
 }
 

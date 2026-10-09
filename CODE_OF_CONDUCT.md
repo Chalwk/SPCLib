@@ -13,7 +13,7 @@ healthy community.
 ## Scope
 
 This Code of Conduct applies to the SPCLib GitHub repository - including issues, pull requests, and
-discussions - and to the **Chalwk's Code & Chill** Discord server.
+discussions - and to the **Chalwk - Code & Chill** Discord server.
 
 ## The Rules
 
@@ -30,8 +30,8 @@ If you experience or witness unacceptable behaviour:
 
 - **On Discord:** use the `/report` command, or DM a moderator directly.
 - **On GitHub:** use the private [Report a vulnerability][security_advisory] flow if the issue involves
-  exposed secrets or personal data. For everything else, contact a maintainer directly rather than
-  opening a public issue.
+  exposed secrets or personal data. For everything else, email [chalwk.dev@gmail.com](mailto:chalwk.dev@gmail.com)
+  rather than opening a public issue.
 
 Reports are reviewed promptly and kept confidential. The reported party is not told who reported them.
 
@@ -48,7 +48,7 @@ at [https://www.contributor-covenant.org/version/1/4/code-of-conduct][version].
 
 ---
 
-[homepage]: http://contributor-covenant.org
+[homepage]: https://www.contributor-covenant.org
 
 [version]: https://www.contributor-covenant.org/version/1/4/code-of-conduct
 

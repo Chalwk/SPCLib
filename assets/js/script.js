@@ -3,8 +3,6 @@
 (function () {
     'use strict';
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     function addHomeButton() {
         const container = document.querySelector('.container') || document.querySelector('main');
         if (!container) return;
@@ -90,35 +88,6 @@
         }
     }
 
-    function setupSmoothAnchors() {
-        if (prefersReducedMotion) return;
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                const id = link.getAttribute('href').slice(1);
-                if (!id) return;
-                const target = document.getElementById(id);
-                if (target) {
-                    e.preventDefault();
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    history.replaceState(null, '', '#' + id);
-                }
-            });
-        });
-    }
-
-    function setupKeyboardShortcuts() {
-        document.addEventListener('keydown', (e) => {
-            // Alt+H → Home
-            if (e.altKey && e.key.toLowerCase() === 'h') {
-                const homeBtn = document.querySelector('.home-btn');
-                if (homeBtn) {
-                    e.preventDefault();
-                    homeBtn.click();
-                }
-            }
-        });
-    }
-
     window.SPCLib = Object.assign(window.SPCLib || {}, {
         showToast,
         copyToClipboard
@@ -127,8 +96,6 @@
     function boot() {
         addHomeButton();
         createFooter();
-        setupSmoothAnchors();
-        setupKeyboardShortcuts();
     }
 
     if (document.readyState === 'loading') {
