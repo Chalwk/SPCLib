@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/badge/Email-chalwk.dev@gmail.com-c14438?style=for-the-badge&logo=gmail&logoColor=white" alt="Email">
   </a>
 
-  <a href="https://discord.gg/VAEb4FXU5">
+  <a href="https://discord.gg/g6ENWebHsE">
     <img src="https://img.shields.io/badge/Chalwk_--_Code_%26_Chill-Join_Server-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="Chalwk - Code & Chill Discord">
   </a>
 
@@ -316,7 +316,7 @@ the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SE
 
 [scripting_with_sapp]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp/
 
-[spclib_discord]: https://discord.gg/VAEb4FXU5
+[spclib_discord]: https://discord.gg/g6ENWebHsE
 
 
 [vps_host_guide]: https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/

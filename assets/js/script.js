@@ -40,7 +40,7 @@
                 (<a href="https://github.com/Chalwk" target="_blank" rel="noopener noreferrer">Chalwk</a>)
                 · SPCLib<br>
                 <a href="https://github.com/Chalwk/SPCLib" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
-                · <a href="https://discord.gg/VAEb4FXU5" target="_blank" rel="noopener noreferrer">Discord</a>
+                · <a href="https://discord.gg/g6ENWebHsE" target="_blank" rel="noopener noreferrer">Discord</a>
                 · <a href="mailto:chalwk.dev@gmail.com">Email</a><br>
                 <span style="font-size:0.72rem;opacity:0.75;">
                     Halo is a trademark of Microsoft. This project is not endorsed by Microsoft.
