@@ -1050,16 +1050,33 @@ function M:vipMessages()
     end
 end
 
-local function convert(table)
+local function convert(items)
+    if not items then return {} end
+
     local t = {}
-    for _, v in _pairs(table) do
+    for _, v in _pairs(items) do
         t[#t + 1] = v
     end
     return t
 end
 
+local function normalizePaging(page, number_to_show)
+    page = _tonumber(page) or 1
+    number_to_show = _tonumber(number_to_show) or 5
+
+    if page < 1 then page = 1 end
+    if number_to_show < 1 then number_to_show = 1 end
+
+    return page, number_to_show
+end
+
 function M:getPageResults(bans, page, number_to_show)
+    if not bans or #bans == 0 then return false end
+
+    page, number_to_show = normalizePaging(page, number_to_show)
     local total_pages = _ceil(#bans / number_to_show)
+    if total_pages < 1 then total_pages = 1 end
+
     local start_index = (page - 1) * number_to_show + 1
     local end_index = start_index + number_to_show - 1
 
@@ -1074,6 +1091,8 @@ function M:getPageResults(bans, page, number_to_show)
 end
 
 function M:showBanList(bans, page, number_to_show, admin)
+    if not admin then return false end
+
     local ban_table = convert(bans)
     local results, total_pages = self:getPageResults(ban_table, page, number_to_show)
 
@@ -1097,6 +1116,8 @@ function M:showBanList(bans, page, number_to_show, admin)
 end
 
 function M:showAdminList(type, page, number_to_show, admin)
+    if not admin then return false end
+
     local admins = convert(self.admins[type])
     local results, total_pages = self:getPageResults(admins, page, number_to_show)
 
@@ -1120,6 +1141,8 @@ function M:getAdminByID(admin_table, id)
 end
 
 function M:showNameBans(page, number_to_show, admin)
+    if not admin then return false end
+
     local names = convert(self.bans['name'])
     local results, total_pages = self:getPageResults(names, page, number_to_show)
 
@@ -1133,6 +1156,8 @@ function M:showNameBans(page, number_to_show, admin)
 end
 
 function M:showAliases(args)
+    if not args or not args.admin then return false end
+
     local page = args.page
     local group = args.type
     local admin = args.admin
@@ -1140,7 +1165,8 @@ function M:showAliases(args)
     local target = args.target
     local number_to_show = args.number_to_show
 
-    local t = self.aliases[group][target]
+    local group_table = self.aliases and self.aliases[group]
+    local t = group_table and group_table[target]
     if not t then return false end
 
     local aliases = {}
