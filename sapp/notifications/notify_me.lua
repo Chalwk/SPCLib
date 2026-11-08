@@ -193,11 +193,24 @@ local get_dynamic_player = get_dynamic_player
 
 local COLORS, EVENTS, PIRATED = CONFIG.CONSOLE_COLORS, CONFIG.EVENTS, CONFIG.KNOWN_PIRATED_HASHES
 
+local function safeSigScan(pattern, offset, fallback)
+    local hit = sig_scan(pattern)
+    if hit == 0 then return fallback end
+
+    local target = hit + (offset or 0)
+    local value = read_dword(target)
+    if type(value) ~= 'number' then return fallback end
+    if value < 0x400000 or value > 0x800000 then return fallback end
+    return value
+end
+
 local function getColor(color)
     return COLORS[color] or COLORS.white
 end
 
 local function readWideString(address, length)
+    if not address or type(address) ~= 'number' or length == nil then return '' end
+
     local t, j = {}, 1
     for i = 0, (length - 1) * 2, 2 do
         local b = read_byte(address + i)
@@ -209,23 +222,30 @@ local function readWideString(address, length)
 end
 
 local function getServerName()
-    local addr = sig_scan("F3ABA1????????BA????????C740??????????E8????????668B0D")
-    return readWideString(read_dword(addr + 3) + 0x8, 0x42)
+    local addr = safeSigScan("F3ABA1????????BA????????C740??????????E8????????668B0D", 3,
+        halo_type == 'PC' and 0x745B80 or 0x6C7960)
+    if not addr then return '' end
+    return readWideString(addr + 0x8, 0x42)
 end
 
 local function formatLog(msg, args)
-    return (msg:gsub("($[%w_]+)", args))
+    if not msg then return '' end
+    args = args or {}
+    return (msg:gsub("($[%w_]+)", function (token)
+        return args[token] ~= nil and tostring(args[token]) or token
+    end))
 end
 
 local function getEvent(name, event_type)
-    local event = EVENTS[name]
+    local event = EVENTS[name] or {}
     return event_type and event[event_type] or event
 end
 
 local function log(event_name, args)
-    local event = getEvent(event_name, args and args.event_type)
+    local normalized_args = args or {}
+    local event = getEvent(event_name, normalized_args.event_type)
     if event and event[2] then
-        cprint(formatLog(event[1], args), getColor(CONFIG.EVENT_COLORS[event_name] or "white"))
+        cprint(formatLog(event[1], normalized_args), getColor(CONFIG.EVENT_COLORS[event_name] or "white"))
     end
 end
 
@@ -239,6 +259,7 @@ local function getTeamPlay()
 end
 
 local function getscorelimit()
+    if not gametype_base then return 0 end
     return read_byte(gametype_base + 0x58)
 end
 
@@ -247,16 +268,23 @@ local function isPirated(hash)
 end
 
 local function getPlayerData(player, quit)
+    if not player then return {} end
+
     return {
         ["$total"] = tonumber(get_var(0, '$pn')) - (quit and 1 or 0),
         ["$name"] = player.name,
         ["$ip"] = player.ip,
         ["$hash"] = player.hash,
         ["$id"] = player.id,
-        ["$lvl"] = player.level(),
+        ["$lvl"] = player.level and player.level() or 0,
         ["$ping"] = get_var(player.id, "$ping"),
         ["$pirated"] = isPirated(player.hash)
     }
+end
+
+local function safeGetVar(id, name, fallback)
+    local value = get_var(id, name)
+    return value ~= nil and value ~= 'n/a' and value ~= '' and value or fallback
 end
 
 local function newPlayer(id)
@@ -264,11 +292,11 @@ local function newPlayer(id)
         id = id,
         last_damage = 0,
         switched = false,
-        ip = get_var(id, '$ip'),
-        name = get_var(id, '$name'),
-        team = get_var(id, '$team'),
-        hash = get_var(id, '$hash'),
-        level = function () return tonumber(get_var(id, '$lvl')) end
+        ip = safeGetVar(id, '$ip', 'unknown'),
+        name = safeGetVar(id, '$name', 'Unknown'),
+        team = safeGetVar(id, '$team', 'FFA'),
+        hash = safeGetVar(id, '$hash', ''),
+        level = function () return tonumber(safeGetVar(id, '$lvl', '0')) or 0 end
     }
 end
 
@@ -438,11 +466,14 @@ function OnScore(id)
     local lap_time = 0
 
     if gametype == "race" then
-        lap_time = roundToHundredths(getLapTicks(get_player(id) + 0xC4) * tick_rate)
+        local player_ptr = get_player(id)
+        if player_ptr and player_ptr ~= 0 then
+            lap_time = roundToHundredths(getLapTicks(player_ptr + 0xC4) * tick_rate)
+        end
     end
 
     log("OnScore", {
-        event_type = score_event[gametype](),
+        event_type = score_event[gametype] and score_event[gametype]() or 0,
         ["$lap_time"] = formatTime(lap_time),
         ["$totalTeamLaps"] = player.team == "red" and red_score or blue_score,
         ["$score"] = get_var(id, "$score"),
@@ -495,8 +526,13 @@ function OnDeath(victimIndex, killerIndex)
     })
 end
 
+function OnError(message)
+    cprint('[notify_me] Lua error: ' .. tostring(message), getColor('red'))
+end
+
 function OnScriptLoad()
-    gametype_base = read_dword(sig_scan("B9360000008BF3BF78545F00") + 0x8)
+    gametype_base = safeSigScan("B9360000008BF3BF78545F00", 0x8,
+        halo_type == 'PC' and 0x671320 or 0x5F5478)
 
     register_callback(cb.EVENT_CHAT, 'OnChat')
     register_callback(cb.EVENT_COMMAND, 'OnCommand')
@@ -516,4 +552,6 @@ function OnScriptLoad()
     OnStart(1)
 end
 
-function OnScriptUnload() end
+function OnScriptUnload()
+    players = {}
+end
