@@ -132,33 +132,35 @@ local event_handlers = {
     [cb.EVENT_TEAM_SWITCH] = 'OnTeamSwitch'
 }
 
+local function validPlayerId(player_id)
+    return type(player_id) == 'number' and player_id >= 1 and player_id <= 16
+end
+
 local function patchDeathMessages(address, value)
+    if not address then return end
     safe_write(true)
     write_dword(address, value)
     safe_write(false)
 end
 
 function restoreDeathMessages()
+    if not death_message_address then return end
     patchDeathMessages(death_message_address, original_death_message_address)
 end
 
 local function patchDeathMessageForMine(victim_id, killer_id)
-    if not ENABLE_CUSTOM_DEATH_MESSAGE then return end
+    if not ENABLE_CUSTOM_DEATH_MESSAGE or not death_message_address then return end
+    if not validPlayerId(victim_id) or not validPlayerId(killer_id) then return end
+
+    local victim_name = get_var(victim_id, '$name') or 'Unknown'
+    local killer_name = get_var(killer_id, '$name') or 'Unknown'
+    local message = DEATH_MESSAGE_FORMAT:gsub('$victim', victim_name):gsub('$killer', killer_name)
 
     patchDeathMessages(death_message_address, 0x03EB01B1)
-
-    local message = DEATH_MESSAGE_FORMAT
-
-    local v_name = get_var(victim_id, "$name")
-    local k_name = get_var(killer_id, "$name")
-
-    message = message:gsub("$victim", v_name):gsub("$killer", k_name)
-
     execute_command('msg_prefix ""')
     say_all(message)
     execute_command('msg_prefix "' .. SERVER_PREFIX .. '"')
-
-    timer(50, "restoreDeathMessages") -- 50ms delay
+    timer(50, 'restoreDeathMessages')
 end
 
 local function fmt(str, ...)
@@ -176,18 +178,22 @@ local function registerEventCallbacks(should_register)
 end
 
 local function getPos(dyn_player)
+    if dyn_player == 0 or not dyn_player then return nil end
+
     local vehicle_id = read_dword(dyn_player + 0x11C)
     local vehicle_obj = get_object_memory(vehicle_id)
-    local pos = {}
+    local pos = { x = 0, y = 0, z = 0 }
 
     if vehicle_id == 0xFFFFFFFF then
-        pos.x, pos.y, pos.z = read_vector3d(dyn_player + 0x5c)
+        pos.x, pos.y, pos.z = read_vector3d(dyn_player + 0x5C)
         pos.vehicle = nil
         pos.seat = nil
     elseif vehicle_obj ~= 0 then
         pos.vehicle = vehicle_obj
         pos.seat = read_word(dyn_player + 0x2F0)
-        pos.x, pos.y, pos.z = read_vector3d(vehicle_obj + 0x5c)
+        pos.x, pos.y, pos.z = read_vector3d(vehicle_obj + 0x5C)
+    else
+        pos.x, pos.y, pos.z = read_vector3d(dyn_player + 0x5C)
     end
 
     return pos
@@ -206,82 +212,75 @@ local function getTagID(class, name)
 end
 
 local function createExplosion(mine_x, mine_y, mine_z, owner_id)
-    -- Edit jpt values with modified values
+    if not PROJECTILE_TAG_ID then return end
+
     EditRocket()
 
-    -- Spawn projectile (rocket)
     local projectile_id = spawn_projectile(PROJECTILE_TAG_ID, owner_id, mine_x, mine_y, mine_z)
-
-    if projectile_id ~= 0xFFFFFFFF then
+    if projectile_id and projectile_id ~= 0 and projectile_id ~= 0xFFFFFFFF then
         local projectile_object = get_object_memory(projectile_id)
         if projectile_object ~= 0 then
-            write_float(projectile_object + 0x68, 0) -- Velocity X
-            write_float(projectile_object + 0x6C, 0) -- Velocity Y
-            write_float(projectile_object + 0x70, -9999) -- Velocity Z
+            write_float(projectile_object + 0x68, 0)
+            write_float(projectile_object + 0x6C, 0)
+            write_float(projectile_object + 0x70, -9999)
         end
     end
 
-    -- Restore jpt values after 1 second
-    timer(1000, "EditRocket", "true")
+    timer(1000, 'EditRocket', 'true')
+end
+
+local function canDeployMine(player_id, pos)
+    local player = players[player_id]
+    if not player then return false, 'Player not initialized.' end
+    if not pos or not pos.x then return false, 'Unable to read your position.' end
+
+    if MINES_PER_LIFE > 0 and player.mines_remaining <= 0 then
+        return false, 'No more mines for this life!'
+    end
+
+    if DEPLOYMENT_MODE == 'vehicle_only' then
+        if not pos.vehicle then
+            return false, 'You must be in a vehicle to deploy mines.'
+        end
+        if pos.seat ~= nil and pos.seat ~= 0 then
+            return false, 'You must be in the driver\'s seat.'
+        end
+    elseif DEPLOYMENT_MODE == 'on_foot_only' then
+        if pos.vehicle then
+            return false, 'You must be on foot to deploy mines.'
+        end
+    elseif DEPLOYMENT_MODE == 'both' then
+        if pos.vehicle and pos.seat ~= nil and pos.seat ~= 0 then
+            return false, 'You must be in the driver\'s seat.'
+        end
+    else
+        return false, 'Deployment mode error. Contact server admin.'
+    end
+
+    return true
 end
 
 local function deployMine(player_id, pos, current_time)
     local player = players[player_id]
     if not player then return end
 
-    if MINES_PER_LIFE > 0 and player.mines_remaining <= 0 then
-        rprint(player_id, "No more mines for this life!")
+    local allowed, reason = canDeployMine(player_id, pos)
+    if not allowed then
+        rprint(player_id, reason)
         return
     end
 
-    -- Check deployment mode restrictions
-    if DEPLOYMENT_MODE == "vehicle_only" then
-        if not pos.vehicle then
-            rprint(player_id, "You must be in a vehicle to deploy mines")
-            return
-        end
-
-        if not pos.seat or pos.seat ~= 0 then
-            rprint(player_id, "You must be in the driver's seat")
-            return
-        end
-
-        local vehicle_tag = read_string(read_dword(read_word(pos.vehicle) * 32 + 0x40440038))
-        if not VEHICLES[vehicle_tag] then
-            rprint(player_id, "This vehicle cannot deploy mines")
-            return
-        end
-    elseif DEPLOYMENT_MODE == "on_foot_only" then
-        if pos.vehicle then
-            rprint(player_id, "You must be on foot to deploy mines")
-            return
-        end
-    elseif DEPLOYMENT_MODE == "both" then
-        if pos.vehicle then
-            if not pos.seat or pos.seat ~= 0 then
-                rprint(player_id, "You must be in the driver's seat")
-                return
-            end
-
-            local vehicle_tag = read_string(read_dword(read_word(pos.vehicle) * 32 + 0x40440038))
-            if not VEHICLES[vehicle_tag] then
-                rprint(player_id, "This vehicle cannot deploy mines")
-                return
-            end
-        end
-    else
-        rprint(player_id, "Deployment mode error. Contact server admin.")
+    if not MINE_TAG_ID then
+        rprint(player_id, 'Mine object is unavailable on this map.')
         return
     end
 
-    -- Spawn mine object
     local mine_id = spawn_object('', '', pos.x, pos.y, pos.z, 0, MINE_TAG_ID)
-    if mine_id == 0xFFFFFFFF then
-        rprint(player_id, "Failed to deploy mine")
+    if mine_id == 0 or mine_id == 0xFFFFFFFF then
+        rprint(player_id, 'Failed to deploy mine.')
         return
     end
 
-    -- Register mine
     active_mines[mine_id] = {
         owner_id = player_id,
         creation_time = current_time,
@@ -290,7 +289,7 @@ local function deployMine(player_id, pos, current_time)
     }
 
     player.mines_remaining = player.mines_remaining - 1
-    rprint(player_id, 'Mine Deployed! ' .. player.mines_remaining .. '/' .. MINES_PER_LIFE)
+    rprint(player_id, 'Mine deployed! ' .. player.mines_remaining .. '/' .. MINES_PER_LIFE)
 end
 
 local function destroyMine(mine_id, trigger_explosion, x, y, z, victim_id)
@@ -450,11 +449,14 @@ local function initGame()
 end
 
 function OnScriptLoad()
-    death_message_address = sig_scan('8B42348A8C28D500000084C9') + 3
-    original_death_message_address = read_dword(death_message_address)
+    local sig_hit = sig_scan('8B42348A8C28D500000084C9')
+    if sig_hit ~= 0 then
+        death_message_address = sig_hit + 3
+        original_death_message_address = read_dword(death_message_address)
+    end
 
     register_callback(cb.EVENT_GAME_START, 'OnStart')
-    OnStart() -- in case script is loaded mid-game
+    OnStart()
 end
 
 function OnTick()
@@ -471,10 +473,12 @@ function OnTick()
 end
 
 function OnJoin(player_id)
+    if not validPlayerId(player_id) then return end
+
     players[player_id] = {
         id = player_id,
-        name = get_var(player_id, '$name'),
-        team = get_var(player_id, '$team'),
+        name = get_var(player_id, '$name') or 'Unknown',
+        team = get_var(player_id, '$team') or '0',
         flashlight_state = 0,
         last_mine_time = 0,
         mines_remaining = MINES_PER_LIFE
@@ -482,12 +486,15 @@ function OnJoin(player_id)
 end
 
 function OnQuit(player_id)
+    if not validPlayerId(player_id) then return end
+
     for mine_id, mine_data in pairs(active_mines) do
         if mine_data.owner_id == player_id then
             destroy_object(mine_id)
             active_mines[mine_id] = nil
         end
     end
+
     players[player_id] = nil
 end
 
@@ -501,7 +508,7 @@ end
 function OnTeamSwitch(player_id)
     local player = players[player_id]
     if player then
-        player.team = get_var(player_id, '$team')
+        player.team = get_var(player_id, '$team') or '0'
     end
 end
 
