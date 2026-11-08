@@ -65,6 +65,7 @@ local read_byte = read_byte
 local read_word = read_word
 local read_dword = read_dword
 local read_vector3d = read_vector3d
+local write_dword = write_dword
 local get_dynamic_player = get_dynamic_player
 local player_alive = player_alive
 local player_present = player_present
@@ -86,25 +87,26 @@ local INPUT_DEFS = {
 }
 
 local function get_position(dyn)
-    local crouch = read_float(dyn + 0x50C)
     local vehicle_id = read_dword(dyn + 0x11C)
     local x, y, z
     if vehicle_id == 0xFFFFFFFF then
         x, y, z = read_vector3d(dyn + 0x5C)
     else
         local object = get_object_memory(vehicle_id)
-        if object ~= 0 then
-            x, y, z = read_vector3d(object + 0x5C)
-        end
+        if object == 0 then return nil end
+        x, y, z = read_vector3d(object + 0x5C)
     end
 
-    local z_off = z and (crouch == 0 and 0.65 or 0.35 * crouch) or 0
+    if not x or not y or not z then return nil end
 
-    return { x = x, y = y, z = z_off }
+    return { x = x, y = y, z = z }
 end
 
 local function distance(pos1, pos2)
-    if not pos1 or not pos2 then return 0 end
+    if not pos1 or not pos2 or not pos1.x or not pos1.y or not pos1.z
+        or not pos2.x or not pos2.y or not pos2.z then
+        return 0
+    end
     local dx = pos1.x - pos2.x
     local dy = pos1.y - pos2.y
     local dz = pos1.z - pos2.z
@@ -112,11 +114,13 @@ local function distance(pos1, pos2)
 end
 
 local function has_immunity(id)
-    return AFK_KICK_IMMUNITY[tonumber(get_var(id, "$lvl"))]
+    local level = tonumber(get_var(id, "$lvl"))
+    return level ~= nil and AFK_KICK_IMMUNITY[level] == true
 end
 
 local function has_perm(id)
-    return tonumber(get_var(id, "$lvl")) >= AFK_PERMISSION
+    local level = tonumber(get_var(id, "$lvl"))
+    return level ~= nil and level >= AFK_PERMISSION
 end
 
 local function is_command(msg)
@@ -218,7 +222,7 @@ local function process_inputs(player, dyn, current_time)
 end
 
 local function terminate(player)
-    execute_command("k " .. player.id .. '"' .. KICK_REASON .. '"')
+    execute_command('k ' .. player.id .. ' "' .. KICK_REASON .. '"')
     players[player.id] = nil
 end
 
@@ -284,34 +288,41 @@ function OnTick()
     local current_time = time()
 
     for i, player in pairs(players) do
-        local dyn = get_dynamic_player(i)
-        if dyn ~= 0 then
-            process_inputs(player, dyn, current_time)
+        if not player_present(i) then
+            players[i] = nil
+        else
+            local dyn = get_dynamic_player(i)
+            if dyn ~= 0 then
+                process_inputs(player, dyn, current_time)
 
-            ---@diagnostic disable-next-line: unnecessary-if
-            if USE_POSITION_CHECK then
-                local currentPos = get_position(dyn)
-                if player.lastPosition then
-                    local dist = distance(currentPos, player.lastPosition)
-                    if dist > POSITION_THRESHOLD and is_moving_key_pressed(dyn) then
-                        player.lastActive = current_time
+                ---@diagnostic disable-next-line: unnecessary-if
+                if USE_POSITION_CHECK then
+                    local currentPos = get_position(dyn)
+                    if currentPos and player.lastPosition then
+                        local dist = distance(currentPos, player.lastPosition)
+                        if dist > POSITION_THRESHOLD and is_moving_key_pressed(dyn) then
+                            player.lastActive = current_time
+                        end
                     end
+                    player.lastPosition = currentPos
                 end
-                player.lastPosition = currentPos
+
+                local cam = player.currentCamera
+                cam[1] = read_float(dyn + 0x230)
+                cam[2] = read_float(dyn + 0x234)
+                cam[3] = read_float(dyn + 0x238)
+
+                if has_camera_moved(player, cam) then
+                    update_camera(player, cam, current_time)
+                end
+
+                check_afk_status(player, current_time)
+            elseif player.afk then
+                local static = get_player(i)
+                if static and static ~= 0 then
+                    write_dword(static + 0x2C, 3) -- keep player dead (afk)
+                end
             end
-
-            local cam = player.currentCamera
-            cam[1] = read_float(dyn + 0x230)
-            cam[2] = read_float(dyn + 0x234)
-            cam[3] = read_float(dyn + 0x238)
-
-            if has_camera_moved(player, cam) and is_moving_key_pressed(dyn) then
-                update_camera(player, cam, current_time)
-            end
-
-            check_afk_status(player, current_time)
-        elseif player.afk then
-            write_dword(get_player(i) + 0x2C, 0.1 * 33) -- keep player dead (afk)
         end
     end
 end
@@ -341,6 +352,7 @@ function OnCommand(id, command)
 
     local cmd = command:lower()
     if cmd == AFK_COMMAND then
+        player.lastActive = time()
         if has_perm(id) then
             toggle_afk(player)
         else

@@ -31,13 +31,13 @@ LICENSE:          MIT License
 
 -- Maximum number of mines a player can drop in a single life
 -- Set to 0 for unlimited mines, or any positive integer to limit mine usage
-local MINES_PER_LIFE = 20
+local MINES_PER_LIFE = 6
 
 -- Time in seconds before a deployed mine despawns
 local DESPAWN_RATE = 30
 
 -- Mines blow up when players are this close to one
-local TRIGGER_RADIUS_FEET = 4.5
+local TRIGGER_RADIUS_FEET = 3.5
 
 -- Time in seconds after deployment before the mine becomes active
 local MINE_ARM_DELAY = 1.0
@@ -93,7 +93,9 @@ local VEHICLES = {
     ['cmt\\vehicles\\evolved_h1-spirit\\warthog\\_warthog_rocket\\warthog_rocket'] = true, -- tsce_multiplayerv1
     ['halo3\\vehicles\\warthog\\rwarthog'] = true,                                         -- hornets_nest
     ['vehicles\\warthog\\art_cwarthog'] = true,                                            -- grove_final
-    ['vehicles\\rwarthog\\art_rwarthog_shiny'] = true                                      -- grove_final
+    ['vehicles\\rwarthog\\art_rwarthog_shiny'] = true,                                     -- grove_final
+    ['altis\\vehicles\\mongoose\\mongoose'] = true,                                        -- liberty_space_race2/liberty_koopa_race2
+    ['altis\\vehicles\\mongoose\\elara'] = true,                                           -- liberty_space_race2
 }
 
 local FEET_PER_WORLD_UNIT = 3.0
