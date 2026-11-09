@@ -48,9 +48,10 @@
 
 **SPCLib** *(SAPP, Phasor and Chimera Library)* is the largest public archive of Lua scripts and
 resources for the SAPP and Phasor dedicated server extensions and the Chimera client-side mod for
-Halo PC and Custom Edition. All Lua scripts in SPCLib are written and curated by Chalwk, unless
-otherwise noted. Here, you will find a wide range of scripts, guides, and insights to enhance,
-customize, and extend your multiplayer server experience.
+the retail version of Halo: Combat Evolved (PC) and Halo: Custom Edition (CE). All Lua scripts in
+SPCLib are written and curated by Chalwk, unless otherwise noted. Here, you will find a wide range
+of scripts, guides, and insights to enhance, customize, and extend your multiplayer server
+experience.
 
 ---
 
@@ -102,6 +103,7 @@ SAPP & Phasor Lua scripts are organized into the following categories:
 | **Server Setup & Hosting**        | [**How to Host a Linux VPS (Ubuntu 22.04)**][vps_host_guide] | Full setup with Wine, VNC, firewall, SSH, and fail2ban.                                         |
 |                                   | [**Server Port Forwarding**][port_forwarding]                | Router configuration for UDP ports 2302 & server port, plus firewall rules for Windows/Linux.   |
 |                                   | [**SAPP Server Guide**][sapp_server_guide]                   | Pre-configured package walkthrough covering file structure, launch, and multi-server expansion. |
+|                                   | [**Phasor Server Guide**][phasor_server_guide]               | Pre-configured package walkthrough covering file structure and launch                           |
 | **Scripting Guides & References** | [**Scripting with SAPP**][sapp_scripting]                    | Server-side Lua API: signature scanning, globals, and core functions.                           |
 |                                   | [**Scripting with Phasor**][scripting_with_phasor]           | Server-side Lua scripting with version handling and hardcoded addresses.                        |
 |                                   | [**Scripting with Chimera**][chimera_scripting]              | Client-side Lua scripting with event callbacks, script placement, and version compatibility.    |
@@ -283,6 +285,7 @@ its subsidiaries, including Halo Studios (formerly 343 Industries).
 [sapp_scripting]: https://chalwk.github.io/halo/sapp/scripting-with-sapp/
 [sapp_scripts]: ./sapp
 [sapp_server_guide]: https://chalwk.github.io/halo/sapp/server-guide/
+[phasor_server_guide]: https://chalwk.github.io/halo/phasor/server-guide/
 [sapp_utils]: https://chalwk.github.io/halo/sapp/utils/
 [script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser
 [scripting_with_phasor]: https://chalwk.github.io/halo/phasor/scripting-with-phasor/
