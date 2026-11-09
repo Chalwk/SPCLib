@@ -271,11 +271,11 @@ the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SE
 
 [liberty_discord]: https://discord.gg/3J2Zppghz5
 
-[lua_common_ref]: https://chalwk.github.io/blog/2026/05/17/halo-lua-common-references/
+[lua_common_ref]: https://chalwk.github.io/blog/2026/11/09/utils/
 
-[memory_offsets]: https://chalwk.github.io/blog/2025/09/07/halo-understanding-memory-offsets/
+[memory_offsets]: https://chalwk.github.io/blog/2026/11/09/cheat-sheet/
 
-[modding_refs]: https://chalwk.github.io/blog/2025/09/07/halo-modding-references/
+[modding_refs]: https://chalwk.github.io/blog/2026/11/09/modding-references/
 
 [opencarnage_discord]: https://discord.gg/2pf3Yjb
 
@@ -297,7 +297,6 @@ the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SE
 
 [releases]: https://github.com/Chalwk/SPCLib/releases
 
-
 [repo_url]: https://github.com/Chalwk/SPCLib
 
 [sapp_command_ref]: https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference/
@@ -310,14 +309,13 @@ the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SE
 
 [script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser
 
-[scripting_with_chimera]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera/
+[scripting_with_chimera]: https://chalwk.github.io/blog/2026/11/09/scripting-with-chimera/
 
 [scripting_with_phasor]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor/
 
-[scripting_with_sapp]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp/
+[scripting_with_sapp]: https://chalwk.github.io/blog/2026/11/09/scripting-with-sapp/
 
 [spclib_discord]: https://discord.gg/g6ENWebHsE
-
 
 [vps_host_guide]: https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/
 
