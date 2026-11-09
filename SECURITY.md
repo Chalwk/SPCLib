@@ -1,16 +1,15 @@
 # Security Policy
 
-SPCLib is an archive of Lua scripts and resources for Halo: PC and Custom
-Edition, targeting SAPP, Phasor, and Chimera. This document explains how to
-report a vulnerability and what to expect.
+SPCLib is an archive of Lua scripts and resources for Halo: PC and Custom Edition, targeting SAPP,
+Phasor, and Chimera. This document explains how to report a vulnerability and what to expect.
 
 ## Supported Versions
 
-This repository is an archive. Scripts carry their own version information, and
-fixes are applied to the latest version on `master`.
+This repository is an archive. Scripts carry their own version information, and fixes are applied to
+the latest version on `master`.
 
 | Version            | Supported |
-| ------------------ | --------- |
+|--------------------|-----------|
 | Latest on `master` | Yes       |
 | Older commits      | No        |
 | Forks              | No        |
@@ -19,11 +18,11 @@ fixes are applied to the latest version on `master`.
 
 **Please do not open a public issue for security problems.**
 
-1. **GitHub Private Vulnerability Reporting** (preferred). Use the
-   [Report a vulnerability](https://github.com/Chalwk/SPCLib/security/advisories/new)
-   button on the Security tab.
-2. **Email**. Email [chalwk.dev@gmail.com](mailto:chalwk.dev@gmail.com) with
-   "SECURITY" in the subject line.
+1. **GitHub Private Vulnerability Reporting** (preferred). Use
+   the [Report a vulnerability](https://github.com/Chalwk/SPCLib/security/advisories/new) button on
+   the Security tab.
+2. **Email**. Email [chalwk.dev@gmail.com](mailto:chalwk.dev@gmail.com) with "SECURITY" in the
+   subject line.
 
 ### What to include
 
@@ -39,8 +38,8 @@ Redact any real server IPs, admin credentials, or player data.
 
 ### In scope
 
-- Malicious code in a submitted script (backdoors, unexpected network calls,
-  unauthorised command execution)
+- Malicious code in a submitted script (backdoors, unexpected network calls, unauthorised command
+  execution)
 - Command injection through chat, admin commands, or script inputs
 - Hardcoded credentials or API keys in scripts or configs
 - Scripts that leak server information

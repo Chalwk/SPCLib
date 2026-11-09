@@ -1,9 +1,9 @@
 # Contributing to the SPCLib
 
-Thank you for considering contributing to **SPCLib**! Your contributions help maintain, improve,
-and expand the collection of Lua scripts and resources for **Halo: PC** and **Halo: CE** (SAPP and Phasor
-dedicated servers, and the Chimera client).
-Following these guidelines ensures a smooth and collaborative process.
+Thank you for considering contributing to **SPCLib**! Your contributions help maintain, improve, and
+expand the collection of Lua scripts and resources for **Halo: PC** and **Halo: CE** (SAPP and
+Phasor dedicated servers, and the Chimera client). Following these guidelines ensures a smooth and
+collaborative process.
 
 ---
 
@@ -11,19 +11,18 @@ Following these guidelines ensures a smooth and collaborative process.
 
 ### Issues and Suggestions
 
-* **Check First**: Before creating a new issue, search
-  the [Issues Section][issues_section] to see if your concern, bug, or feature
-  request has already been reported.
-* **Create an Issue**: If it's new, create an issue with a **clear title** and **detailed description**. Include the
-  platform (SAPP, Phasor, or Chimera) and any relevant context.
+* **Check First**: Before creating a new issue, search the [Issues Section][issues_section] to see
+  if your concern, bug, or feature request has already been reported.
+* **Create an Issue**: If it's new, create an issue with a **clear title** and **detailed
+  description**. Include the platform (SAPP, Phasor, or Chimera) and any relevant context.
 
 ### Reporting a Security Issue
 
 **Do not open a public issue for security problems.**
 
-If you discover a vulnerability, exposed credential, or anything that could put users at risk,
-use the private [Report a vulnerability][security_advisory] flow on the Security tab, or see
-[SECURITY.md][security_md] for the full policy.
+If you discover a vulnerability, exposed credential, or anything that could put users at risk, use
+the private [Report a vulnerability][security_advisory] flow on the Security tab, or
+see [SECURITY.md][security_md] for the full policy.
 
 This includes (but is not limited to):
 
@@ -37,34 +36,36 @@ For non-security bugs, continue to use the [Issues Section][issues_section] as n
 ### Pull Requests
 
 1. **Fork the Repository**: Create your own copy of the SPCLib repository.
-2. **Create a Branch**: Make your changes in a new branch with a descriptive name (e.g., `fix-teleport-bug` or
-   `add-gun-game-mode`).
-3. **Submit a PR**: When your changes are ready, submit a pull request with a clear explanation of your additions,
-   changes, or bug fixes.
-4. **Follow Style Guidelines**: Ensure your Lua code follows existing SPCLib conventions, and maintain clear comments
-   and formatting.
+2. **Create a Branch**: Make your changes in a new branch with a descriptive name (e.g.,
+   `fix-teleport-bug` or `add-gun-game-mode`).
+3. **Submit a PR**: When your changes are ready, submit a pull request with a clear explanation of
+   your additions, changes, or bug fixes.
+4. **Follow Style Guidelines**: Ensure your Lua code follows existing SPCLib conventions, and
+   maintain clear comments and formatting.
 
 ### Adding a New Script (Community Contributions)
 
-If you've created a brand-new Lua script for SAPP, Phasor, or Chimera and would like it to be included in the
-repository, please follow these additional steps:
+If you've created a brand-new Lua script for SAPP, Phasor, or Chimera and would like it to be
+included in the repository, please follow these additional steps:
 
-* **Place your script** inside the `./community_contributions` folder at the root of the repository. This directory is
-  reserved for scripts **not authored by Chalwk**.
-* **Name the file** descriptively, using lowercase letters and underscores (e.g., `my_custom_gamemode.lua`). Avoid
-  spaces, special characters, or version numbers in the filename.
+* **Place your script** inside the `./community_contributions` folder at the root of the repository.
+  This directory is reserved for scripts **not authored by Chalwk**.
+* **Name the file** descriptively, using lowercase letters and underscores (e.g.,
+  `my_custom_gamemode.lua`). Avoid spaces, special characters, or version numbers in the filename.
 * **Include a header comment** at the very top of your script, containing:
-  * Your name or GitHub username
-  * A short description of what the script does
-  * The target platform (SAPP, Phasor, Chimera)
-  * Any dependencies or specific version requirements (e.g., "requires SAPP 10.2+", "uses `map_coordinates.lua`")
-* **Test thoroughly** on a local or private server to ensure the script works as intended and does not produce errors.
-* **Follow the [Lua Script Guidelines](#lua-script-guidelines)** for code style, readability, and comments.
-* **Submit a pull request** as described above. Chalwk will review your submission and may request changes
-  before merging.
+    * Your name or GitHub username
+    * A short description of what the script does
+    * The target platform (SAPP, Phasor, Chimera)
+* **Test thoroughly** on a local or private server to ensure the script works as intended and does
+  not produce errors.
+* **Follow the [Lua Script Guidelines](#lua-script-guidelines)** for code style, readability, and
+  comments.
+* **Submit a pull request** as described above. Chalwk will review your submission and may request
+  changes before merging.
 
-Scripts that do not adhere to these guidelines may be asked for revision or rejected. By contributing, you agree that
-your script will be licensed under the same terms as the rest of the repository (see [LICENSE][license]).
+Scripts that do not adhere to these guidelines may be asked for revision or rejected. By
+contributing, you agree that your script will be licensed under the same terms as the rest of the
+repository (see [LICENSE][license]).
 
 ---
 
@@ -101,7 +102,7 @@ For a detailed guide on Markdown formatting, refer to [markdown guide][markdown_
 I'd like to recognize these amazing people:
 
 | **User**                                | **Description**                                                                                                                                                                                                                                | **Source**                                                                                                                                                                   |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|-----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [urbanyoung][urbanyoung]                | Author of Halo server extension **Phasor**.                                                                                                                                                                                                    | [Phasor Repository][phasor_repo]                                                                                                                                             |
 | [sehé°°][sehe]                          | 1. Author of Halo server extension **SAPP**.<br>2. Created **death message patch** (*integrated into some Phasor scripts*).                                                                                                                    | [User Profile][sehe_profile]                                                                                                                                                 |
 | [AelitePrime][aeliteprime]              | Created **commands script** for Phasor.                                                                                                                                                                                                        | [Commands Script][commands_script]                                                                                                                                           |
@@ -117,14 +118,15 @@ I'd like to recognize these amazing people:
 
 ## License
 
-By contributing to SPCLib, you agree that your contributions will be licensed under the same terms as the
-repository. For details, see the [LICENSE][license] file.
+By contributing to SPCLib, you agree that your contributions will be licensed under the same terms
+as the repository. For details, see the [LICENSE][license] file.
 
 ---
 
 ## Why Your Contributions Matter
 
-* **Keep Scripts Updated**: Help ensure scripts remain functional and compatible with SAPP or Phasor.
+* **Keep Scripts Updated**: Help ensure scripts remain functional and compatible with SAPP or
+  Phasor.
 * **Support the Community**: Assist server admins and operators with better tools and resources.
 * **Enhance Gameplay**: Every improvement or new feature enriches the Halo multiplayer experience.
 
@@ -148,7 +150,7 @@ repository. For details, see the [LICENSE][license] file.
 [offsets_list]: reference/offsets.lua
 [phasor_repo]: https://github.com/urbanyoung/Phasor
 [sapp_docs]: https://opencarnage.net/index.php?/topic/3806-comprehensive-sapp-documentation-rev-25-sapp-101/
-[scripting_with_chimera]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera/
+[scripting_with_chimera]: https://chalwk.github.io/halo/chimera/scripting-with-chimera/
 [security_advisory]: https://github.com/Chalwk/SPCLib/security/advisories/new
 [security_md]: https://github.com/Chalwk/SPCLib/blob/master/SECURITY.md
 [sehe_profile]: http://halo.isimaginary.com/forum/user-1.html

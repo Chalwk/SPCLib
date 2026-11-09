@@ -246,86 +246,45 @@ its subsidiaries, including Halo Studios (formerly 343 Industries).
 
 ---
 
-[hash_checker]: https://chalwk.github.io/SPCLib/tools/hash-checker
-
 [bk_website]: https://www.blackshalo.com
-
 [bug_report]: https://github.com/Chalwk/SPCLib/issues/new?assignees=Chalwk&labels=Bug%2CNeeds+Triage&template=BUG_REPORT.yaml
-
-[chimera_discord]: https://discord.gg/ZwQeBE2
-
-[chimera_forum]: https://opencarnage.net/index.php?/topic/6916-chimera-download-source-code-and-discord/
-
-[chimera_scripts]: ./chimera
-
-[chimera]: https://github.com/SnowyMouse/chimera
-
-[chimera_lua_template]: https://chalwk.github.io/halo/chimera/template/
-
-[chimera_scripting]: https://chalwk.github.io/halo/chimera/scripting-with-chimera/
-
-[feature_request]: https://github.com/Chalwk/SPCLib/issues/new?template=FEATURE_REQUEST.yaml
-
-[halo_ce_installer]: https://drive.google.com/file/d/1oO0w_25mGwjTz_R9Bhquah4FR6u2Ccmz/view?usp=sharing
-
-[halo_discord_bot]: https://github.com/Chalwk/HaloDiscordBot
-
-[haloce_patch]: https://drive.google.com/file/d/1hVSFN24JPlfR7cC2eoFrbLA7NGcRZo7a/view?usp=sharing
-
-[halonet_website]: https://halonet.net/
-
-[laa_patched]: https://github.com/Chalwk/SPCLib/releases/tag/laa_patched
-
-[liberty_discord]: https://discord.gg/3J2Zppghz5
-
-[lua_common_ref]: https://chalwk.github.io/halo/common-reference/
-
-[sapp_cheat_sheet]: https://chalwk.github.io/halo/sapp/cheat-sheet/
-
-[sapp_lua_template]: https://chalwk.github.io/halo/sapp/template/
-
-[sapp_scripting]: https://chalwk.github.io/halo/sapp/scripting-with-sapp/
-
-[sapp_utils]: https://chalwk.github.io/halo/sapp/utils/
-
-[modding_refs]: https://chalwk.github.io/halo/modding-references/
-
-[opencarnage_discord]: https://discord.gg/2pf3Yjb
-
-[opencarnage_website]: https://opencarnage.net
-
-[paypal_donate]: https://www.paypal.com/ncp/payment/XUPTKDU6LKM3G
-
-[phasor_scripts]: ./phasor
-
-[poq_website]: http://poqclan.com/
-
-[port_forwarding]: https://chalwk.github.io/blog/2025/08/31/halo-server-port-forwarding/
-
-[realworld_website]: https://www.realworldce.com/
-
-[reclaimers_discord]: https://discord.reclaimers.net/
-
-[reclaimers_website]: https://c20.reclaimers.net/
-
-[releases]: https://github.com/Chalwk/SPCLib/releases
-
-[repo_url]: https://github.com/Chalwk/SPCLib
-
-[sapp_command_ref]: https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference/
-
-[sapp_downloads_dir]: ./assets/sapp_downloads
-
-[sapp_scripts]: ./sapp
-
-[sapp_server_guide]: https://chalwk.github.io/blog/2026/04/02/halo-sapp-server-guide/
-
-[script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser
-
-[scripting_with_phasor]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor/
-
 [chalwk_discord]: https://discord.gg/g6ENWebHsE
-
+[chimera_discord]: https://discord.gg/ZwQeBE2
+[chimera_forum]: https://opencarnage.net/index.php?/topic/6916-chimera-download-source-code-and-discord/
+[chimera_lua_template]: https://chalwk.github.io/halo/chimera/template/
+[chimera_scripting]: https://chalwk.github.io/halo/chimera/scripting-with-chimera/
+[chimera_scripts]: ./chimera
+[chimera]: https://github.com/SnowyMouse/chimera
+[feature_request]: https://github.com/Chalwk/SPCLib/issues/new?template=FEATURE_REQUEST.yaml
+[halo_ce_installer]: https://drive.google.com/file/d/1oO0w_25mGwjTz_R9Bhquah4FR6u2Ccmz/view?usp=sharing
+[halo_discord_bot]: https://github.com/Chalwk/HaloDiscordBot
+[haloce_patch]: https://drive.google.com/file/d/1hVSFN24JPlfR7cC2eoFrbLA7NGcRZo7a/view?usp=sharing
+[halonet_website]: https://halonet.net/
+[hash_checker]: https://chalwk.github.io/SPCLib/tools/hash-checker
+[laa_patched]: https://github.com/Chalwk/SPCLib/releases/tag/laa_patched
+[liberty_discord]: https://discord.gg/3J2Zppghz5
+[lua_common_ref]: https://chalwk.github.io/halo/common-reference/
+[modding_refs]: https://chalwk.github.io/halo/modding-references/
+[opencarnage_discord]: https://discord.gg/2pf3Yjb
+[opencarnage_website]: https://opencarnage.net
+[paypal_donate]: https://www.paypal.com/ncp/payment/XUPTKDU6LKM3G
+[phasor_scripts]: ./phasor
+[poq_website]: http://poqclan.com/
+[port_forwarding]: https://chalwk.github.io/blog/2025/08/31/halo-server-port-forwarding/
+[realworld_website]: https://www.realworldce.com/
+[reclaimers_discord]: https://discord.reclaimers.net/
+[reclaimers_website]: https://c20.reclaimers.net/
+[releases]: https://github.com/Chalwk/SPCLib/releases
+[repo_url]: https://github.com/Chalwk/SPCLib
+[sapp_cheat_sheet]: https://chalwk.github.io/halo/sapp/cheat-sheet/
+[sapp_command_ref]: https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference/
+[sapp_downloads_dir]: ./assets/sapp_downloads
+[sapp_lua_template]: https://chalwk.github.io/halo/sapp/template/
+[sapp_scripting]: https://chalwk.github.io/halo/sapp/scripting-with-sapp/
+[sapp_scripts]: ./sapp
+[sapp_server_guide]: https://chalwk.github.io/blog/2026/04/02/halo-sapp-server-guide/
+[sapp_utils]: https://chalwk.github.io/halo/sapp/utils/
+[script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser
+[scripting_with_phasor]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor/
 [vps_host_guide]: https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/
-
 [xg_website]: https://www.xgclan.com
