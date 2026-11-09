@@ -251,7 +251,7 @@ its subsidiaries, including Halo Studios (formerly 343 Industries).
 [chalwk_discord]: https://discord.gg/g6ENWebHsE
 [chimera_discord]: https://discord.gg/ZwQeBE2
 [chimera_forum]: https://opencarnage.net/index.php?/topic/6916-chimera-download-source-code-and-discord/
-[chimera_lua_template]: https://chalwk.github.io/halo/chimera/template/
+[chimera_lua_template]: chimera/blank_script_template.lua
 [chimera_scripting]: https://chalwk.github.io/halo/chimera/scripting-with-chimera/
 [chimera_scripts]: ./chimera
 [chimera]: https://github.com/SnowyMouse/chimera
@@ -270,7 +270,7 @@ its subsidiaries, including Halo Studios (formerly 343 Industries).
 [paypal_donate]: https://www.paypal.com/ncp/payment/XUPTKDU6LKM3G
 [phasor_scripts]: ./phasor
 [poq_website]: http://poqclan.com/
-[port_forwarding]: https://chalwk.github.io/blog/2025/08/31/halo-server-port-forwarding/
+[port_forwarding]: https://chalwk.github.io/halo/server-port-forwarding/
 [realworld_website]: https://www.realworldce.com/
 [reclaimers_discord]: https://discord.reclaimers.net/
 [reclaimers_website]: https://c20.reclaimers.net/
@@ -279,12 +279,12 @@ its subsidiaries, including Halo Studios (formerly 343 Industries).
 [sapp_cheat_sheet]: https://chalwk.github.io/halo/sapp/cheat-sheet/
 [sapp_command_ref]: https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference/
 [sapp_downloads_dir]: ./assets/sapp_downloads
-[sapp_lua_template]: https://chalwk.github.io/halo/sapp/template/
+[sapp_lua_template]: sapp/blank_script_template.lua
 [sapp_scripting]: https://chalwk.github.io/halo/sapp/scripting-with-sapp/
 [sapp_scripts]: ./sapp
-[sapp_server_guide]: https://chalwk.github.io/blog/2026/04/02/halo-sapp-server-guide/
+[sapp_server_guide]: https://chalwk.github.io/halo/sapp/server-guide/
 [sapp_utils]: https://chalwk.github.io/halo/sapp/utils/
 [script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser
-[scripting_with_phasor]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor/
-[vps_host_guide]: https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/
+[scripting_with_phasor]: https://chalwk.github.io/halo/phasor/scripting-with-phasor/
+[vps_host_guide]: https://chalwk.github.io/halo/ubuntu-vps-hosting/
 [xg_website]: https://www.xgclan.com

@@ -45,23 +45,21 @@
 
 ---
 
-## Knowledge Base
-
-**Server Setup & Hosting**
-* [How to Host a Linux VPS (Ubuntu 22.04)](https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/): Full setup with Wine, VNC, firewall, SSH, and fail2ban.
-* [Server Port Forwarding](https://chalwk.github.io/blog/2025/09/01/halo-server-port-forwarding/): Router config for UDP ports 2302 & server port, plus firewall rules for Windows/Linux.
-* [SAPP Server Guide](https://chalwk.github.io/blog/2026/04/03/halo-sapp-server-guide/): Pre-configured package walkthrough: file structure, launch, and multi-server expansion.
+### Knowledge Base
 
 **Scripting Guides**
-* [Scripting with SAPP](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-sapp): Server-side Lua API: signature scanning, globals, core functions.
-* [Scripting with Phasor](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor): Server-side Lua: version handling, hardcoded addresses.
-* [Scripting with Chimera](https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-chimera): Client-side Lua: event callbacks, script placement, version compat.
+- [Scripting with SAPP](https://chalwk.github.io/halo/sapp/scripting-with-sapp/): Server-side Lua API: signature scanning, globals, core functions.
+- [Scripting with Phasor](https://chalwk.github.io/halo/phasor/scripting-with-phasor/): Server-side Lua: version handling, hardcoded addresses.
+- [Scripting with Chimera](https://chalwk.github.io/halo/chimera/scripting-with-chimera/): Client-side Lua: event callbacks, script placement, version compat.
 
-**Alt References**
-* [SAPP Command Reference](https://chalwk.github.io/blog/2026/05/17/halo-sapp-command-reference): Server commands, admin levels, usage.
-* [Common Lua References](https://chalwk.github.io/blog/2026/05/17/halo-lua-common-references): Patterns, utilities, helpers for server & client scripting.
-* [Understanding Memory Offsets](https://chalwk.github.io/blog/2025/09/08/halo-understanding-memory-offsets): Addresses, offsets, signature scanning, tools for Halo PC/CE.
-* [Modding References](https://chalwk.github.io/blog/2025/09/08/halo-modding-references/): Tag editing, map rebuilding, asset injection, community tools.
+**Server Setup & Hosting**
+- [SAPP Server Guide](https://chalwk.github.io/halo/sapp/server-guide/): Pre-configured package: file structure, launch, multiserver expansion.
+- [Server Port Forwarding](https://chalwk.github.io/halo/server-port-forwarding/): Router config for UDP ports 2302 & server port, plus Windows/Linux firewall rules.
+- [Host a Linux VPS (Ubuntu 22.04)](https://chalwk.github.io/halo/ubuntu-vps-hosting/): Setup with Wine, VNC, firewall, SSH, and fail2ban.
+
+
+**Alt Modding**
+- [Modding References](https://chalwk.github.io/halo/modding-references/): Tag editing, map rebuilding, asset injection, community tools.
 
 ---
 
