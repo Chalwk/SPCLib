@@ -25,60 +25,61 @@
 - [Overview](#overview)
 - [What are SAPP, Phasor and Chimera?](#what-are-sapp-phasor-and-chimera)
 - [Scripts, Releases \& Knowledge Base](#scripts-releases--knowledge-base)
-  - [Script Category Structure](#script-category-structure)
+    - [Script Category Structure](#script-category-structure)
 - [SAPP Archive \& Mirrors](#sapp-archive--mirrors)
 - [SPCLib Web Interfaces \& Apps](#spclib-web-interfaces--apps)
-  - [Script Browser](#script-browser)
-  - [Hash Checker](#hash-checker)
-  - [HaloDiscordBot](#halodiscordbot)
+    - [Script Browser](#script-browserscript_browser)
+    - [Hash Checker](#hash-checkerhash_checker)
+    - [HaloDiscordBot](#halodiscordbothalo_discord_bot)
 - [Halo Custom Edition Installer](#halo-custom-edition-installer)
-  - [Installer](#installer)
-  - [1.0.10 Patch](#1010-patch)
-  - [LAA Patched Executables](#laa-patched-executables)
+    - [Installer](#installer)
+    - [1.0.10 Patch](#1010-patch)
+    - [LAA Patched Executables](#laa-patched-executables)
 - [Community Hubs](#community-hubs)
 - [Shoutout to Clans (Past and Present)](#shoutout-to-clans-past-and-present)
 - [Contributors, Community Guidelines \& Request Features](#contributors-community-guidelines--request-features)
-  - [Submit Ideas](#submit-ideas)
-  - [Report Issues](#report-issues)
+    - [Submit Ideas](#submit-ideas)
+    - [Report Issues](#report-issues)
 - [License](#license)
 
 ---
 
 ## Overview
 
-**SPCLib** *(SAPP, Phasor and Chimera Library)* is the largest public archive of Lua scripts and resources for the SAPP
-and Phasor dedicated server extensions and the Chimera client-side mod for Halo PC and Custom Edition. All Lua scripts
-in SPCLib are written and curated by Chalwk, unless otherwise noted.
-
-Here, you will find a wide range of scripts, guides, and insights to enhance, customize, and extend your multiplayer
-server experience.
+**SPCLib** *(SAPP, Phasor and Chimera Library)* is the largest public archive of Lua scripts and
+resources for the SAPP and Phasor dedicated server extensions and the Chimera client-side mod for
+Halo PC and Custom Edition. All Lua scripts in SPCLib are written and curated by Chalwk, unless
+otherwise noted. Here, you will find a wide range of scripts, guides, and insights to enhance,
+customize, and extend your multiplayer server experience.
 
 ---
 
 ## What are SAPP, Phasor and Chimera?
 
-**SAPP** and **Phasor** are server-side extensions for `haloded.exe`/`haloceded.exe` that provide advanced scripting and
-customization capabilities for dedicated servers.
+**SAPP** and **Phasor** are server-side extensions for `haloded.exe`/`haloceded.exe` that provide
+advanced scripting and customization capabilities for dedicated servers.
 
-**SAPP** was developed by sehé and is the most feature-rich and widely used extension. It provides powerful Lua
-scripting support, anti-cheat tools, event hooks, command handling, player management, logging, and numerous
-under-the-hood features.
+**SAPP** was developed by sehé and is the most feature-rich and widely used extension. It provides
+powerful Lua scripting support, anti-cheat tools, event hooks, command handling, player management,
+logging, and numerous under-the-hood features.
 
 **Phasor** is an earlier extension with similar goals.
 
-SAPP and Phasor are no longer actively maintained, but stable and complete in their final released versions.
+SAPP and Phasor are no longer actively maintained, but stable and complete in their final released
+versions.
 
-**[Chimera][chimera]** is a client-side mod for Halo Custom Edition, PC, and Trial that
-also exposes a Lua API. Developed by SnowyMouse, it is actively maintained and provides event hooks, commands, built-in
-map downloads, and dozens of quality-of-life fixes. Chimera scripts are fully supported in SPCLib.
+**[Chimera][chimera]** is a client-side mod for Halo Custom Edition, PC, and Trial that also exposes
+a Lua API. Developed by SnowyMouse, it is actively maintained and provides event hooks, commands,
+built-in map downloads, and dozens of quality-of-life fixes. Chimera scripts are fully supported in
+SPCLib.
 
 ---
 
 ## Scripts, Releases & Knowledge Base
 
 > [!NOTE]
-> Start with the category that matches your setup: **SAPP** or **Phasor** for server-side scripting, or **Chimera** for
-> client-side scripting.
+> Start with the category that matches your setup: **SAPP** or **Phasor** for server-side scripting,
+or **Chimera** for client-side scripting.
 
 ### Script Category Structure
 
@@ -93,7 +94,7 @@ SAPP & Phasor Lua scripts are organized into the following categories:
 * **utility:** Server configuration, spawning, map control, and miscellaneous tools
 
 | Section                           | Resource                                                     | Description                                                                                     |
-| --------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+|-----------------------------------|--------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
 | **Scripts & Releases**            | [**SAPP Scripts**][sapp_scripts]                             | Server-side Lua scripts                                                                         |
 |                                   | [**Phasor Scripts**][phasor_scripts]                         | Server-side Lua scripts                                                                         |
 |                                   | [**Chimera Scripts**][chimera_scripts]                       | Client-side Lua scripts                                                                         |
@@ -101,12 +102,14 @@ SAPP & Phasor Lua scripts are organized into the following categories:
 | **Server Setup & Hosting**        | [**How to Host a Linux VPS (Ubuntu 22.04)**][vps_host_guide] | Full setup with Wine, VNC, firewall, SSH, and fail2ban.                                         |
 |                                   | [**Server Port Forwarding**][port_forwarding]                | Router configuration for UDP ports 2302 & server port, plus firewall rules for Windows/Linux.   |
 |                                   | [**SAPP Server Guide**][sapp_server_guide]                   | Pre-configured package walkthrough covering file structure, launch, and multi-server expansion. |
-| **Scripting Guides & References** | [**Scripting with SAPP**][scripting_with_sapp]               | Server-side Lua API: signature scanning, globals, and core functions.                           |
+| **Scripting Guides & References** | [**Scripting with SAPP**][sapp_scripting]                    | Server-side Lua API: signature scanning, globals, and core functions.                           |
 |                                   | [**Scripting with Phasor**][scripting_with_phasor]           | Server-side Lua scripting with version handling and hardcoded addresses.                        |
-|                                   | [**Scripting with Chimera**][scripting_with_chimera]         | Client-side Lua scripting with event callbacks, script placement, and version compatibility.    |
-|                                   | [**SAPP Command Reference**][sapp_command_ref]               | Complete reference for SAPP server commands, admin levels, and usage.                           |
-|                                   | [**Common Lua References**][lua_common_ref]                  | Common Lua patterns, utilities, and helpers for Halo server/client scripting.                   |
-|                                   | [**Understanding Memory Offsets**][memory_offsets]           | Addresses, offsets, signature scanning, and tools for Halo PC/CE.                               |
+|                                   | [**Scripting with Chimera**][chimera_scripting]              | Client-side Lua scripting with event callbacks, script placement, and version compatibility.    |
+|                                   | [**SAPP Lua Template**][sapp_lua_template]                   | Script skeleton and callback reference for SAPP.                                                |
+|                                   | [**Chimera Lua Template**][chimera_lua_template]             | Script skeleton and callback reference for Chimera.                                             |
+|                                   | [**SAPP Cheat Sheet**][sapp_cheat_sheet]                     | Pointers, signatures, variables, and commands for SAPP server scripting.                        |
+|                                   | [**SAPP Utils**][sapp_utils]                                 | Conventions, helper functions, and known quirks for SAPP Lua scripting.                         |
+|                                   | [**Common Lua Reference**][lua_common_ref]                   | Shared memory offsets, game constants, and helpers for SAPP and Chimera.                        |
 |                                   | [**Modding References**][modding_refs]                       | Tag editing, map rebuilding, asset injection, and community tooling references.                 |
 
 ---
@@ -116,17 +119,16 @@ SAPP & Phasor Lua scripts are organized into the following categories:
 <details>
 <summary>📦 Archival SAPP binaries and documentation (click to expand)</summary>
 
-The official SAPP website (halo.isimaginary.com) is no longer accessible. To ensure historical versions remain
-available, this repository mirrors all released SAPP binaries.
-
-You'll find the full archive of SAPP versions in the **[`./assets/sapp_downloads`][sapp_downloads_dir]** folder.
+The official SAPP website (halo.isimaginary.com) is no longer accessible. To ensure historical
+versions remain available, this repository mirrors all released [SAPP binaries][sapp_downloads_dir].
 
 This repository also preserves:
 
 * SAPP Documentation Revision 2.4 and 2.5 (by 002 / SnowyMouse)
 * Memory offsets reference list originally created by Wizard
 
-**These documents and binaries are redistributed for preservation only. Licensing remains with their original authors.**
+**These documents and binaries are redistributed for preservation only. Licensing remains with their
+original authors.**
 
 </details>
 
@@ -140,8 +142,8 @@ Live search and filtering for all SPCLib scripts.
 
 ### [Hash Checker][hash_checker]
 
-Use this tool to identify known cracked hashes. Banning or granting admin to a hash without verification
-can accidentally affect innocent players who share the same cracked key.
+Use this tool to identify known cracked hashes. Banning or granting admin to a hash without
+verification can accidentally affect innocent players who share the same cracked key.
 
 ### [HaloDiscordBot][halo_discord_bot]
 
@@ -179,8 +181,8 @@ Java-based integration for connecting Halo servers to Discord with rich event em
 > Community activity varies across hubs. Some are active, others are legacy archives.
 
 | Hub                                                                                | Description                                                                                 |
-| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| **Chalwk - Code & Chill** - [Discord][spclib_discord]                              | Community server for all my projects, support, and general chat.                            |
+|------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| **Chalwk - Code & Chill** - [Discord][chalwk_discord]                              | Community server for all my projects, support, and general chat.                            |
 | **Open Carnage** - [Website][opencarnage_website] · [Discord][opencarnage_discord] | Former major CE modding forum (now read‑only after DDoS attacks).                           |
 | **Chimera** - [Forum][chimera_forum] · [Discord][chimera_discord]                  | Essential client‑side mod with map downloads, renderer fixes, quality‑of‑life improvements. |
 | **Halo Net** - [Website][halonet_website]                                          | HAC2 map repository & update server - auto‑downloads thousands of custom maps.              |
@@ -200,7 +202,8 @@ Java-based integration for connecting Halo servers to Discord with rich event em
 <details>
 <summary>🎖️ Honouring Halo PC/CE clans across decades (click to expand)</summary>
 
-This list represents historical and current Halo PC/CE clans and communities over many years of multiplayer history.
+This list represents historical and current Halo PC/CE clans and communities over many years of
+multiplayer history.
 
 ```
 \- YAS -, -db-, «§», «Ag~, «Ð²Ä», «MAD», [Aķ], [CV], [GTV], [HGE], [IG], [IS], [K2], [McK], [Nbk], [VR], [WFFF], ]
@@ -217,10 +220,10 @@ TM, ToR, X¬, xOSHx, xT
 
 ## Contributors, Community Guidelines & Request Features
 
-Contributions, bug reports, and feature requests are welcome via GitHub issues and discussion templates.
-
-See the [Contributing Guide](CONTRIBUTING.md). All community interaction is governed by
-the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SECURITY.md](SECURITY.md).
+Contributions, bug reports, and feature requests are welcome via GitHub issues and discussion
+templates. See the [Contributing Guide](CONTRIBUTING.md). All community interaction is governed by
+the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem,
+see [SECURITY.md](SECURITY.md).
 
 ### Submit Ideas
 
@@ -236,8 +239,8 @@ the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SE
 ## License
 
 > [!CAUTION]
-> Halo is a trademark of Microsoft. This project is not affiliated with or endorsed by Microsoft or its subsidiaries,
-> including Halo Studios (formerly 343 Industries).
+> Halo is a trademark of Microsoft. This project is not affiliated with or endorsed by Microsoft or
+its subsidiaries, including Halo Studios (formerly 343 Industries).
 
 **[SPCLib][repo_url]** is licensed under the [MIT License](LICENSE).
 
@@ -257,6 +260,10 @@ the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SE
 
 [chimera]: https://github.com/SnowyMouse/chimera
 
+[chimera_lua_template]: https://chalwk.github.io/halo/chimera/template/
+
+[chimera_scripting]: https://chalwk.github.io/halo/chimera/scripting-with-chimera/
+
 [feature_request]: https://github.com/Chalwk/SPCLib/issues/new?template=FEATURE_REQUEST.yaml
 
 [halo_ce_installer]: https://drive.google.com/file/d/1oO0w_25mGwjTz_R9Bhquah4FR6u2Ccmz/view?usp=sharing
@@ -271,11 +278,17 @@ the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SE
 
 [liberty_discord]: https://discord.gg/3J2Zppghz5
 
-[lua_common_ref]: https://chalwk.github.io/blog/2026/11/09/utils/
+[lua_common_ref]: https://chalwk.github.io/halo/common-reference/
 
-[memory_offsets]: https://chalwk.github.io/blog/2026/11/09/cheat-sheet/
+[sapp_cheat_sheet]: https://chalwk.github.io/halo/sapp/cheat-sheet/
 
-[modding_refs]: https://chalwk.github.io/blog/2026/11/09/modding-references/
+[sapp_lua_template]: https://chalwk.github.io/halo/sapp/template/
+
+[sapp_scripting]: https://chalwk.github.io/halo/sapp/scripting-with-sapp/
+
+[sapp_utils]: https://chalwk.github.io/halo/sapp/utils/
+
+[modding_refs]: https://chalwk.github.io/halo/modding-references/
 
 [opencarnage_discord]: https://discord.gg/2pf3Yjb
 
@@ -309,13 +322,9 @@ the [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SE
 
 [script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser
 
-[scripting_with_chimera]: https://chalwk.github.io/blog/2026/11/09/scripting-with-chimera/
-
 [scripting_with_phasor]: https://chalwk.github.io/blog/2026/05/17/halo-scripting-with-phasor/
 
-[scripting_with_sapp]: https://chalwk.github.io/blog/2026/11/09/scripting-with-sapp/
-
-[spclib_discord]: https://discord.gg/g6ENWebHsE
+[chalwk_discord]: https://discord.gg/g6ENWebHsE
 
 [vps_host_guide]: https://chalwk.github.io/blog/2025/08/29/halo-how-to-host-a-ubuntu-vps/
 

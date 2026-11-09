@@ -58,9 +58,10 @@ function OnEcho(PlayerIndex, Message) end
 ---@param TagID number The object's tag id
 ---@param ParentObjectID number Parent object id (`0xFFFFFFFF` if none)
 ---@param NewObjectID number The new object id
+---@param SappSpawning number `1` if the object was spawned by SAPP, `0` if by Halo
 ---@return boolean|nil allow # Return `false` to block spawn
 ---@return number|nil newTagID # Return new tag ID if replacing object type (if allow is true)
-function OnObjectSpawn(PlayerIndex, TagID, ParentObjectID, NewObjectID) return true end
+function OnObjectSpawn(PlayerIndex, TagID, ParentObjectID, NewObjectID, SappSpawning) return true end
 
 --- `EVENT_DIE`
 --- Called when a player dies. Called AFTER `EVENT_KILL`.
