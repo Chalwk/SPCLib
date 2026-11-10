@@ -67,7 +67,7 @@ anticheat, event hooks, command handling, player management and logging.
 
 Neither is actively maintained, but both are stable in their final released versions.
 
-**Chimera** is a client-side mod for Halo CE, PC and Trial that exposes a Lua API. It provides event
+**Chimera** is a client-side mod for Halo PC, CE and Trial that exposes a Lua API. It provides event
 hooks, commands, built-in map downloads and many quality-of-life fixes. Chimera scripts are fully
 supported in SPCLib.
 
@@ -75,20 +75,20 @@ supported in SPCLib.
 
 How the three environments differ. See the linked guides for detail.
 
-| Aspect                     | SAPP                                                                          | Phasor                                                                        | Chimera                                                      |
-|----------------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------|
-| Side                       | Server                                                                        | Server                                                                        | Client                                                       |
-| Lua runtime                | LuaJIT (Lua 5.1)                                                              | Lua 5.2                                                                       | Lua 5.5                                                      |
-| Required boilerplate       | `api_version = "1.12.0.0"` plus `OnScriptLoad()`                              | `GetRequiredVersion()` returning `200` plus `OnScriptLoad()`                  | `clua_version = 2.056` plus `set_callback(...)`              |
-| Player index               | API 1-16, memory 0-15. Convert with `to_real_index()` and `to_player_index()` | Memory 0-15, RCON 1-16. Convert with `resolveplayer()` and `rresolveplayer()` | 0-15 everywhere                                              |
-| Signature scanning         | `sig_scan`                                                                    | Not available                                                                 | Not available                                                |
-| Platform detection         | `halo_type` global (`"PC"` or `"CE"`)                                         | `game` arg of `OnScriptLoad`                                                  | Probe hardcoded PC/CE candidates                             |
-| Run console command        | `execute_command(cmd)`                                                        | `svcmd(cmd)`                                                                  | `execute_script(cmd)`                                        |
-| Memory writes              | Any address, unsafe ops crash the server                                      | Any address, unsafe ops crash the server                                      | Local player only, writing to others desyncs                 |
-| Sandbox                    | None                                                                          | None                                                                          | Map scripts sandboxed, global scripts not                    |
-| Script location            | `cg/sapp/lua/`, loaded from `cg/sapp/init.txt`                                | `cg/scripts/` or `cg/scripts/persistent/`                                     | `chimera/lua/scripts/global/` or `chimera/lua/scripts/maps/` |
-| Reload command             | `lua_unload` then `lua_load`                                                  | `sv_script_reload [script]`                                                   | `chimera_lua_scripts_reload` (open console with `~`)         |
-| Inter-script communication | Custom variables only                                                         | No built-in mechanism                                                         | Global Lua variables                                         |
+| Aspect                     | SAPP                                                                                                | Phasor                                                                        | Chimera                                                     |
+|----------------------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------|
+| Side                       | Server                                                                                              | Server                                                                        | Client                                                      |
+| Lua runtime                | LuaJIT (Lua 5.1)                                                                                    | Lua 5.2                                                                       | Lua 5.5.1                                                   |
+| Required boilerplate       | `api_version = "1.12.0.0"` plus `OnScriptLoad()`                                                    | `GetRequiredVersion()` returning `200` plus `OnScriptLoad()`                  | `clua_version = 2.056` plus `set_callback(...)`             |
+| Player index               | API 1-16, memory 0-15. Convert with `to_real_index()` and `to_player_index()`                       | Memory 0-15, RCON 1-16. Convert with `resolveplayer()` and `rresolveplayer()` | 0-15 everywhere                                             |
+| Signature scanning         | `sig_scan`                                                                                          | Not available                                                                 | Not available                                               |
+| Platform detection         | `halo_type` global (`"PC"` or `"CE"`)                                                               | `game` arg of `OnScriptLoad`                                                  | Probe hardcoded PC/CE candidates                            |
+| Run console command        | `execute_command(cmd)`                                                                              | `svcmd(cmd)`                                                                  | `execute_script(cmd)`                                       |
+| Memory writes              | Any address, unsafe ops crash the server                                                            | Any address, unsafe ops crash the server                                      | Local player only, writing to others desyncs                |
+| Sandbox                    | None                                                                                                | None                                                                          | Map scripts sandboxed, global scripts not                   |
+| Script location            | `cg/sapp/lua/`, loaded from `cg/sapp/init.txt`                                                      | `cg/scripts/` or `cg/scripts/persistent/`                                     | `chimera/lua/scripts/global/` or `chimera/lua/scripts/map/` |
+| Reload command             | `lua_unload` then `lua_load`                                                                        | `sv_script_reload [script]`                                                   | `chimera_lua_scripts_reload` (open console with `~`)        |
+| Inter-script communication | Separate Lua environments; `lua_call` invokes loaded script functions; custom variables share state | No built-in mechanism                                                         | Global Lua variables                                        |
 
 ---
 
@@ -171,7 +171,7 @@ function OnScriptUnload() end
 ```
 
 **Chimera**: put the file in `chimera/lua/scripts/global/<script>.lua` (unsandboxed) or
-`chimera/lua/scripts/maps/<map>.lua` (sandboxed). Reload any time with `chimera_lua_scripts_reload`
+`chimera/lua/scripts/map/<map>.lua` (sandboxed). Reload any time with `chimera_lua_scripts_reload`
 in the console with `~`.
 
 ```lua
@@ -188,14 +188,17 @@ function OnTick() end
 ```
 
 > [!IMPORTANT]
-> **SAPP** scripts cannot call each other directly. Custom variables (`add_var`, `set_var`,
-`get_var`) are the only shared channel. **Phasor** has no built-in mechanism. **Chimera** scripts
-share the global Lua environment and can use global variables.
+> **SAPP** scripts have separate Lua environments and cannot directly access each other's globals.
+> The `lua_call <script> <function> [arguments...]` server command can invoke a function in a loaded
+> script; custom variables (`add_var`, `set_var`, `get_var`) are used to share state. **Phasor** has
+> no built-in mechanism. **Chimera** scripts share the global Lua environment and can use global
+> variables.
 
 > [!TIP]
-> **Chimera** map scripts are sandboxed by default. `io.*`, `dofile`, `load`, `require`,
-`os.execute` and memory writes outside `0x40000000` to `0x41B00000` are blocked. Put a script in the
-global folder if it needs file access or unrestricted memory writes.
+> **Chimera** map scripts are sandboxed by default. Standard `io.*`, `dofile`, `load`, `require`,
+`os.execute`, and memory reads/writes outside `0x40000000` to `0x41B00000` are blocked. The built-in
+`read_file` and `write_file` functions remain available but are confined to the script's private
+data directory. Use the global folder for standard file APIs or unrestricted memory access.
 
 ---
 
