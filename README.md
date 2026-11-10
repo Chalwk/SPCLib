@@ -112,24 +112,24 @@ SAPP and Phasor Lua scripts are grouped by folder:
 
 | Platform             | Resource                                             | Description                                                                                     |
 |----------------------|------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| Scripts and releases | [SAPP scripts][sapp_scripts]                         | Server-side Lua scripts                                                                         |
-|                      | [Phasor scripts][phasor_scripts]                     | Server-side Lua scripts                                                                         |
-|                      | [Chimera scripts][chimera_scripts]                   | Client-side Lua scripts                                                                         |
-|                      | [Script packages][releases]                          | Bundled projects with multiple files and resources, available as downloadable ZIP packages.     |
-| SAPP (10.2.1)        | [Scripting with SAPP (Lua)][sapp_scripting]          | Server-side Lua API: signature scanning, globals and core functions.                            |
-|                      | [SAPP server guide][sapp_server_guide]               | Pre-configured package walkthrough covering file structure, launch and multi-server expansion.  |
-|                      | [SAPP cheat sheet][sapp_cheat_sheet]                 | Pointers, signatures, variables and commands for SAPP server scripting.                         |
-|                      | [SAPP utils][sapp_utils]                             | Conventions, helper functions and known quirks for SAPP Lua scripting.                          |
-|                      | [SAPP Lua script template][sapp_lua_template]        | Script skeleton and callback reference for SAPP.                                                |
-| Phasor V2 (2.0)      | [Scripting with Phasor (Lua)][scripting_with_phasor] | Server-side Lua scripting with version handling and hardcoded addresses.                        |
-|                      | [Phasor server guide][phasor_server_guide]           | Pre-configured package walkthrough covering file structure and launch.                          |
-|                      | [Phasor Lua script template][phasor_lua_template]    | Script skeleton and callback reference for Phasor.                                              |
-| Chimera              | [Scripting with Chimera (Lua)][chimera_scripting]    | Client-side Lua scripting with event callbacks, script placement and version compatibility.     |
-|                      | [Chimera Lua script template][chimera_lua_template]  | Script skeleton and callback reference for Chimera.                                             |
-| Shared references    | [Lua references][lua_common_ref]                     | Shared memory offsets, game constants and helpers for SAPP and Chimera.                         |
-|                      | [Modding tools][modding_refs]                        | Tag editing, map rebuilding, asset injection and community tooling references.                  |
-|                      | [Linux VPS hosting (Ubuntu 22.04)][vps_host_guide]   | Full setup with Wine, VNC, firewall, SSH and fail2ban.                                          |
-|                      | [Server port forwarding][port_forwarding]            | Router config for UDP port 2302 and the server port, plus firewall rules for Windows and Linux. |
+| Scripts and releases | [SAPP Scripts][sapp_scripts]                         | Server-side Lua scripts                                                                         |
+|                      | [Phasor Scripts][phasor_scripts]                     | Server-side Lua scripts                                                                         |
+|                      | [Chimera Scripts][chimera_scripts]                   | Client-side Lua scripts                                                                         |
+|                      | [Script Packages][releases]                          | Bundled projects with multiple files and resources, available as downloadable ZIP packages.     |
+| SAPP (10.2.1)        | [Lua Scripting][sapp_scripting]                      | Server-side Lua API: signature scanning, globals and core functions.                            |
+|                      | [Server Guide][sapp_server_guide]                    | Pre-configured package walkthrough covering file structure, launch and multi-server expansion.  |
+|                      | [Cheat Sheet][sapp_cheat_sheet]                      | Pointers, signatures, variables and commands for SAPP server scripting.                         |
+|                      | [Utils][sapp_utils]                                  | Conventions, helper functions and known quirks for SAPP Lua scripting.                          |
+|                      | [Lua Script Template][sapp_lua_template]             | Script skeleton and callback reference for SAPP.                                                |
+| Phasor V2 (2.0)      | [Lua Scripting][scripting_with_phasor]               | Server-side Lua scripting with version handling and hardcoded addresses.                        |
+|                      | [Server Guide][phasor_server_guide]                  | Pre-configured package walkthrough covering file structure and launch.                          |
+|                      | [Lua Script Template][phasor_lua_template]           | Script skeleton and callback reference for Phasor.                                              |
+| Chimera              | [Lua Scripting][chimera_scripting]                   | Client-side Lua scripting with event callbacks, script placement and version compatibility.     |
+|                      | [Lua Script Template][chimera_lua_template]          | Script skeleton and callback reference for Chimera.                                             |
+| Shared references    | [Lua References][lua_common_ref]                     | Shared memory offsets, game constants and helpers for SAPP and Chimera.                         |
+|                      | [Modding Tools][modding_refs]                        | Tag editing, map rebuilding, asset injection and community tooling references.                  |
+|                      | [VPS Hosting (Ubuntu 22.04)][vps_host_guide]         | Full setup with Wine, VNC, firewall, SSH and fail2ban.                                          |
+|                      | [Port Forwarding][port_forwarding]                   | Router config for UDP port 2302 and the server port, plus firewall rules for Windows and Linux. |
 
 ### Script boilerplate and placement
 
