@@ -30,9 +30,9 @@
     - [Script boilerplate and placement](#script-boilerplate-and-placement)
 - [SAPP archive and mirrors](#sapp-archive-and-mirrors)
 - [Web tools](#web-tools)
-    - [Script Browser](#script-browser)
-    - [Hash Checker](#hash-checker)
-    - [HaloDiscordBot](#halodiscordbot)
+    - [Script Browser](#script-browserscript_browser)
+    - [Hash Checker](#hash-checkerhash_checker)
+    - [HaloDiscordBot](#halodiscordbothalo_discord_bot)
 - [Halo CE installer](#halo-ce-installer)
     - [Installer](#installer)
     - [1.0.10 patch](#1010-patch)
@@ -158,8 +158,7 @@ Do signature `scans` and `get_var` lookups inside `OnScriptLoad()` or a callback
 scope.
 
 **Phasor**: put the file in `cg/scripts/<script>.lua`, or `cg/scripts/persistent/` to survive map
-changes.
-Load with `sv_script_load "<script>"`.
+changes. Load with `sv_script_load "<script>"`.
 
 ```lua
 function GetRequiredVersion() return 200 end
@@ -173,8 +172,8 @@ function OnScriptUnload() end
 ```
 
 **Chimera**: put the file in `chimera/lua/scripts/global/<script>.lua` (unsandboxed) or
-`chimera/lua/scripts/maps/<map>.lua` (sandboxed). Reload any time with chimera_lua_scripts_reload in
-the console with `~`.
+`chimera/lua/scripts/maps/<map>.lua` (sandboxed). Reload any time with `chimera_lua_scripts_reload`
+in the console with `~`.
 
 ```lua
 clua_version = 2.056
