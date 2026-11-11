@@ -1,8 +1,6 @@
 ---@meta
 -- SAPP Lua API (api_version "1.12.0.0") for EmmyLua and lua-language-server.
--- Built from the SPCLib reference docs, so only documented functions are listed.
--- Runtime is LuaJIT (Lua 5.1 plus goto, bit, ffi, table.new, table.clear).
--- Player indices are 1-16 in the API. Use to_real_index() for 0-15 memory arrays.
+-- Runtime is LuaJIT (Lua 5.1).
 -- 
 -- Copyright (c) 2026 Jericho Crosby (Chalwk).
 -- 

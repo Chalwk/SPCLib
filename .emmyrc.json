@@ -5,6 +5,9 @@
       "sapp",
       "phasor",
       "chimera"
+    ],
+    "ignoreGlobs": [
+      "reference/offsets.lua"
     ]
   }
 }

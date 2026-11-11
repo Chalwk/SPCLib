@@ -1,8 +1,6 @@
 ---@meta
 -- Chimera Lua API for EmmyLua and lua-language-server.
--- Built from the SPCLib reference docs, so only documented functions are listed.
--- Player indices are 0-15. Global scripts are not sandboxed. Map scripts are sandboxed:
--- io and friends are removed and memory access is limited to 0x40000000-0x41B00000.
+-- Runtime is Lua 5.5.
 -- 
 -- Copyright (c) 2026 Jericho Crosby (Chalwk).
 -- 

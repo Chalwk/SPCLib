@@ -1,5 +1,3 @@
----@diagnostic disable: assign-type-mismatch, global-in-non-module, undefined-global, unnecessary-if
-
 -- Addresses and Offsets
 -- Created by Wizard, edited by aLTis
 

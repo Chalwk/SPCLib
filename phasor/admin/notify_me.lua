@@ -108,10 +108,11 @@ local first_blood = true
 local ffa = false
 local mode, map = "", ""
 local score_limit = 0
-local gametype_base
+local gametype_base, network_struct
 
 local os_date = os.date
 local tostring, tonumber = tostring, tonumber
+local readwidestring = readwidestring
 
 local function format(template, args)
     if not args then return template end
@@ -127,7 +128,10 @@ local fmt_log = format
 function show_ASCII_art()
     if not LOGO[1] then return end
 
-    local args = { timestamp = os_date('!%a %d %b %Y %H:%M:%S'), servername = getservername() }
+    local args = {
+        timestamp = os_date('!%a %d %b %Y %H:%M:%S'),
+        servername = readwidestring(network_struct + 0x8, 0x42)
+    }
 
     for _, line in ipairs(LOGO[2]) do
         respond(format(line[1], args))
@@ -191,13 +195,6 @@ local function get_player_data(id, leaving)
     }
 end
 
-local function parse_gametype() -- todo: remove (but keep note of it)
-    local type = readbyte(gametype_base + 0x30)
-    return type == 0 and "none" or type == 1 and "ctf"
-        or type == 2 and "slayer" or type == 3 and "oddball"
-        or type == 4 and "king" or type == 5 and "race"
-end
-
 local function get_player(player)
     if not player then return nil end
     local id = resolveplayer(player)
@@ -206,6 +203,7 @@ end
 
 function OnScriptLoad(_, game, _)
     gametype_base = (game == "PC" and 0x671340) or 0x5F5498
+    network_struct = (game == "PC" and 0x745BA0) or 0x6C7980
     show_ASCII_art()
 end
 

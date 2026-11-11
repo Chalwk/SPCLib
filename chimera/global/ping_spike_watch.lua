@@ -57,6 +57,8 @@ function OnMapLoad()
 end
 
 function OnTick()
+    tick_count = tick_count + 1
+
     local id = get_player()
     if not proceed(id) then return end
 
@@ -89,10 +91,9 @@ function OnTick()
         last_message = msg
     end
 
-    local now = ticks()
-    if (ping >= HIGH_PING or delta >= SPIKE_THRESHOLD) and (now - last_alert_tick) >= ALERT_COOLDOWN_TICKS then
+    if (ping >= HIGH_PING or delta >= SPIKE_THRESHOLD) and (tick_count - last_alert_tick) >= ALERT_COOLDOWN_TICKS then
         console_out(format(CONSOLE_ALERT, ping, avg))
-        last_alert_tick = now
+        last_alert_tick = tick_count
     end
 end
 

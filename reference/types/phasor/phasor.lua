@@ -1,9 +1,6 @@
 ---@meta
 -- Phasor 2.0 Lua API for EmmyLua and lua-language-server.
--- Built from the SPCLib reference docs, so only documented functions are listed.
--- Runtime is Lua 5.2 (bit32, goto, _ENV). Player indices are memory ids (0-15).
--- Server commands built with svcmd use RCON ids (1-16): convert with resolveplayer().
--- Phasor finds event handlers by global name, so there is nothing to register.
+-- Runtime is Lua 5.2.
 -- 
 -- Copyright (c) 2026 Jericho Crosby (Chalwk).
 -- 
@@ -149,6 +146,11 @@ function hprint(message) end
 ---@param message string
 function respond(message) end
 
+--- Displays text in a player's console.
+---@param player integer
+---@param message string
+function sendconsoletext(player, message) end
+
 -- Players and teams ------------------------------------------------------------------------
 
 --- Player table address, or nil if the slot is empty.
@@ -174,6 +176,10 @@ function getip(player) end
 ---@return integer team
 function getteam(player) end
 
+---@param player integer
+---@return string color
+function getcolor(player) end
+
 ---@param team integer
 ---@return integer size
 function getteamsize(team) end
@@ -183,6 +189,10 @@ function changeteam(player) end
 
 ---@param player integer
 function kill(player) end
+
+---@param player integer
+---@return boolean in_vehicle
+function isinvehicle(player) end
 
 --- duration in seconds, 0 lasts until death.
 ---@param player integer
@@ -208,6 +218,11 @@ function resolveplayer(player) end
 ---@return integer player
 function rresolveplayer(rcon_id) end
 
+--- Executes a server command in the context of a player.
+---@param command string
+---@param player integer Player memory id (0-15)
+function svcmdplayer(command, player) end
+
 -- Objects ----------------------------------------------------------------------------------
 
 --- Object id to memory address.
@@ -219,6 +234,11 @@ function getobject(object_id) end
 ---@param player integer
 ---@return integer object_id
 function getplayerobjectid(player) end
+
+--- Returns the player memory id associated with an object, or nil if it is not a player object.
+---@param object_id integer
+---@return integer|nil player
+function objectidtoplayer(object_id) end
 
 --- A player in a vehicle returns the vehicle's coordinates.
 ---@param object_id integer
@@ -232,6 +252,19 @@ function getobjectcoords(object_id) end
 ---@param tag_name string
 ---@return integer map_id
 function gettagid(tag_type, tag_name) end
+
+--- Returns the tag path and class for a map tag id.
+---@param map_id integer
+---@return string|nil tag_name
+---@return string|nil tag_type
+function gettaginfo(map_id) end
+
+--- Moves an object to absolute coordinates.
+---@param object_id integer
+---@param x number
+---@param y number
+---@param z number
+function movobjectcoords(object_id, x, y, z) end
 
 --- respawn_time: seconds, 0 never, -1 gametype default. For weapons, grenades and powerups
 --- recycle is ignored and respawn_time becomes the delay before the object is destroyed.
@@ -292,9 +325,28 @@ function registertimer(delay, callback_name, ...) end
 ---@param timer_id integer
 function removetimer(timer_id) end
 
---- Player arguments must be RCON ids.
+--- Player arguments in the command must be RCON ids. Set get_response to true to capture output.
 ---@param command string
-function svcmd(command) end
+---@param get_response? boolean
+---@return string[]|nil response
+function svcmd(command, get_response) end
+
+--- Sets the multiplier for damage lookup processing.
+---@param multiplier number
+function odl_multiplier(multiplier) end
+
+--- String helpers ---------------------------------------------------------------------------
+
+--- Splits a string using the supplied delimiter.
+---@param value string
+---@param delimiter string
+---@return string[] parts
+function tokenizestring(value, delimiter) end
+
+--- Splits a command string into tokens.
+---@param command string
+---@return string[] tokens
+function tokenizecmdstring(command) end
 
 --- Both bounds are included.
 ---@param min integer
