@@ -1,17 +1,19 @@
 --[[
 =====================================================================================
 SCRIPT NAME:      notify_me.lua
-DESCRIPTION:      Advanced console notification system.
-                  - Color-coded event notifications (joins, quits, deaths, etc.)
-                  - Customizable timestamp formatting
-                  - ASCII art logo display
-                  - Support for all major server events
-                  - Dynamic message templates with placeholder substitution
-                  - Configurable output for each event type
-                  - First blood detection
-                  - Detailed death cause reporting
+DESCRIPTION:      Console notification system for SAPP servers.
+                  - Color-coded console output per event type
+                  - Optional timestamp prefix with configurable format
+                  - ASCII art logo with server name and timestamp
+                  - Joins, quits, spawns, team switches, warps, map resets, admin
+                    logins, snaps, commands, chat, scores and deaths
+                  - Message templates with $placeholder substitution
+                  - Per-event on/off switches
+                  - First blood detection and detailed death cause reporting
+                  - Passwords in sensitive commands (login, admin_add, etc.) are
+                    masked before they reach the console
 
-LAST UPDATED:     3/05/2026
+LAST UPDATED:     11/11/2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -19,46 +21,63 @@ LICENSE:          MIT License
 =====================================================================================
 ]]
 
+api_version = '1.12.0.0'
+
 -- Configuration starts here -----------------------------------------------------------------------
 local CONFIG = {
-    -- Console output colors (SAPP color codes)
+
+    -- See `#Color Colors` for a list of color names and their corresponding numbers.
+    -- https://chalwk.github.io/halo/sapp/cheat-sheet/#console-colors
+
     CONSOLE_COLORS = {
         black = 0,
-        blue = 1,
-        green = 2,
-        light_blue = 3,
-        red = 4,
-        purple = 5,
-        yellow = 6,
-        white = 7,
+        dark_blue = 1,
+        dark_green = 2,
+        dark_aqua = 3,
+        dark_red = 4,
+        dark_purple = 5,
+        dark_yellow = 6,
+        light_gray = 7,
         gray = 8,
-        light_gray = 9,
-        light_green = 10,
-        cyan = 11,
-        light_red = 12,
-        pink = 13,
-        light_yellow = 14,
-        orange = 15
+        blue = 9,
+        green = 10,
+        aqua = 11,
+        red = 12,
+        light_purple = 13,
+        yellow = 14,
+        white = 15
+    },
+
+    --
+    -- Timestamp settings (os.date format strings)
+    --
+    TIMESTAMP = {
+        utc = true,
+        logo_format = '%a %d %b %Y %H:%M:%S',
+
+        -- Prefix every notification with the time, e.g. "[14:05:09] [JOIN] ..."
+        prefix = false,
+        prefix_format = '%H:%M:%S'
     },
 
     --
     -- Event type -> color mapping
     --
     EVENT_COLORS = {
-        OnStart = "green",
-        OnEnd = "red",
-        OnJoin = "light_green",
-        OnQuit = "light_red",
-        OnSpawn = "white",
-        OnSwitch = "yellow",
-        OnWarp = "purple",
-        OnReset = "orange",
-        OnLogin = "cyan",
-        OnSnap = "pink",
-        OnCommand = "light_blue",
-        OnChat = "light_gray",
-        OnScore = "light_yellow",
-        OnDeath = "red"
+        OnStart = 'dark_green',
+        OnEnd = 'dark_red',
+        OnJoin = 'green',
+        OnQuit = 'red',
+        OnSpawn = 'gray',
+        OnSwitch = 'dark_yellow',
+        OnWarp = 'dark_purple',
+        OnReset = 'white',
+        OnLogin = 'aqua',
+        OnSnap = 'light_purple',
+        OnCommand = 'dark_aqua',
+        OnChat = 'light_gray',
+        OnScore = 'yellow',
+        OnDeath = 'dark_red'
     },
 
     --
@@ -78,7 +97,8 @@ local CONFIG = {
         OnCommand = { "[$type CMD] $name ($id): $cmd", true },
         OnChat = { "[$type MSG] $name ($id): $msg", true },
 
-        -- Score Type: 1 = CTF, 2 = Team Race, 3 = FFA Race, 4 = Team Slayer, 5 = FFA Slayer
+        -- Score Type: 1 = CTF, 2 = Team Race, 3 = FFA Race, 4 = Team Slayer,
+        --             5 = FFA Slayer, 6 = Oddball, 7 = King of the Hill
         OnScore = {
             [1] = { "[CTF SCORE] $name | $team team | Reds: $redScore Blues: $blueScore | Limit: $scorelimit", false },
             [2] = { "[TEAM RACE SCORE] $name | $team team | $lap_time | Team Laps: $totalTeamLaps/$scorelimit", false },
@@ -87,7 +107,9 @@ local CONFIG = {
                 "[TEAM SLAYER SCORE] $name | $team team | Reds: $redScore | Blues: $blueScore | Limit: $scorelimit",
                 false
             },
-            [5] = { "[FFA SCORE] $name | $score/$scorelimit", false }
+            [5] = { "[FFA SCORE] $name | $score/$scorelimit", false },
+            [6] = { "[ODDBALL SCORE] $name | $score/$scorelimit", false },
+            [7] = { "[KOTH SCORE] $name | $score/$scorelimit", false }
         },
 
         -- Death Type:  1 = first blood, 2 = from the grave,
@@ -107,6 +129,19 @@ local CONFIG = {
             [10] = { "$victimName died", true }
         }
     },
+
+    -- Commands whose arguments are replaced with COMMAND_MASK in the OnCommand output.
+    -- Keep this in sync with anything on your server that takes a password.
+    SENSITIVE_COMMANDS = {
+        login = true,
+        change_password = true,
+        admin_add = true,
+        admin_add_manually = true,
+        admin_change_pw = true,
+        sv_password = true,
+        sv_rcon_password = true
+    },
+    COMMAND_MASK = '********',
 
     -- Known CD-key hashes from pirated/cracked Halo copies.
     -- Used to flag players with "$pirated = YES".
@@ -145,164 +180,212 @@ local CONFIG = {
     },
 
     --
-    -- Logo settings
+    -- Logo settings. Each line is { text, color }.
     --
     LOGO = {
-        true,
-        {
-            { "================================================================================", 'green' },
-            { "$timeStamp", 'yellow' },
+        enabled = true,
+        lines = {
+            { "================================================================================", 'dark_green' },
+            { "$timeStamp", 'dark_yellow' },
             { "", 'black' },
-            { "     '||'  '||'     |     '||'       ..|''||           ..|'''.| '||''''|  ", 'red' },
-            { "      ||    ||     |||     ||       .|'    ||        .|'     '   ||  .    ", 'red' },
-            { "      ||''''||    |  ||    ||       ||      ||       ||          ||''|    ", 'red' },
-            { "      ||    ||   .''''|.   ||       '|.     ||       '|.      .  ||       ", 'red' },
-            { "     .||.  .||. .|.  .||. .||.....|  ''|...|'         ''|....'  .||.....| ", 'red' },
+            { "     '||'  '||'     |     '||'       ..|''||           ..|'''.| '||''''|  ", 'dark_red' },
+            { "      ||    ||     |||     ||       .|'    ||        .|'     '   ||  .    ", 'dark_red' },
+            { "      ||''''||    |  ||    ||       ||      ||       ||          ||''|    ", 'dark_red' },
+            { "      ||    ||   .''''|.   ||       '|.     ||       '|.      .  ||       ", 'dark_red' },
+            { "     .||.  .||. .|.  .||. .||.....|  ''|...|'         ''|....'  .||.....| ", 'dark_red' },
             { "               ->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-", 'gray' },
-            { "                             $serverName", 'green' },
+            { "                             $serverName", 'dark_green' },
             { "               ->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-<->-", 'gray' },
             { "", 'black' },
-            { "================================================================================", 'green' }
+            { "================================================================================", 'dark_green' }
         }
     }
 }
-
-api_version = '1.12.0.0'
-
 -- Configuration ends here -----------------------------------------------------------------------
 
 ---@class NotifyPlayer
----@field id          number
----@field last_damage number
----@field switched    boolean | nil
----@field ip          string
+---@field id          number  SAPP player index
 ---@field name        string
----@field team        string
+---@field ip          string
 ---@field hash        string
----@field level       fun(): number
+---@field team        string
+---@field last_damage number  Tag id of the most recent damage taken, 0 after a spawn
+---@field switched    boolean True when a team switch is what killed the player
+
 ---@type table<number, NotifyPlayer | nil>
 local players = {}
-local tick_rate = 1 / 30
-local score_limit, gametype_base, gametype, mode, map
-local ffa, falling, distance, first_blood
 
-local command_type = { [0] = "RCON", [1] = "CONSOLE", [2] = "CHAT", [3] = "UNKNOWN" }
-local chat_type = { [0] = "GLOBAL", [1] = "TEAM", [2] = "VEHICLE", [3] = "UNKNOWN" }
-local score_event = {
-    ctf = function () return 1 end,
-    race = function () return ffa and 3 or 2 end,
-    slayer = function () return ffa and 5 or 4 end
-}
+local ticks_per_second = 30
+local lap_ticks_offset = 0xC4 -- static player word read as the lap time (ticks) in race games
 
-local os_date, tonumber, ipairs, tostring = os.date, tonumber, ipairs, tostring
+local gametype_base, network_struct
+local gametype, mode, map
+local ffa, falling, distance
+local first_blood = false
+
+local command_names = { [0] = 'CONSOLE', [1] = 'RCON', [2] = 'CHAT' }
+local chat_names = { [0] = 'GLOBAL', [1] = 'TEAM', [2] = 'VEHICLE' }
+local score_types = { ctf = 1, oddball = 6, king = 7 }
+
+local os_date, tonumber, tostring, ipairs, type = os.date, tonumber, tostring, ipairs, type
 local string_format, string_char, table_concat = string.format, string.char, table.concat
-local math_huge, math_floor = math.huge, math.floor
+local math_floor = math.floor
 local read_byte, read_word, read_dword = read_byte, read_word, read_dword
-local get_var, player_present, player_alive = get_var, player_present, player_alive
-local get_dynamic_player = get_dynamic_player
+local get_var, get_player, get_dynamic_player = get_var, get_player, get_dynamic_player
+local player_present, player_alive, lookup_tag, cprint = player_present, player_alive, lookup_tag, cprint
 
-local COLORS, EVENTS, PIRATED = CONFIG.CONSOLE_COLORS, CONFIG.EVENTS, CONFIG.KNOWN_PIRATED_HASHES
+local COLORS, EVENTS, EVENT_COLORS = CONFIG.CONSOLE_COLORS, CONFIG.EVENTS, CONFIG.EVENT_COLORS
+local PIRATED, TIMESTAMP, LOGO = CONFIG.KNOWN_PIRATED_HASHES, CONFIG.TIMESTAMP, CONFIG.LOGO
+local SENSITIVE, COMMAND_MASK = CONFIG.SENSITIVE_COMMANDS, CONFIG.COMMAND_MASK
 
+-- Returns the pointer at sig_scan(pattern) + offset, or fallback if the scan fails
+-- or the value falls outside Halo's data range.
+---@param pattern  string Signature to scan for.
+---@param offset   number Offset from the match to the pointer.
+---@param fallback number Hardcoded address used when the scan fails.
+---@return number address
 local function safeSigScan(pattern, offset, fallback)
     local hit = sig_scan(pattern)
     if hit == 0 then return fallback end
 
-    local target = hit + (offset or 0)
-    local value = read_dword(target)
+    local value = read_dword(hit + offset)
     if type(value) ~= 'number' then return fallback end
     if value < 0x400000 or value > 0x800000 then return fallback end
     return value
 end
 
+---@param color string | number | nil Color name from CONSOLE_COLORS, a raw color number, or nil.
+---@return number color_number
 local function getColor(color)
+    if type(color) == 'number' then return color end
+    if type(color) ~= 'string' then return COLORS.white end
     return COLORS[color] or COLORS.white
 end
 
-local function readWideString(address, length)
-    if not address or type(address) ~= 'number' or length == nil then return '' end
-
-    local t, j = {}, 1
-    for i = 0, (length - 1) * 2, 2 do
-        local b = read_byte(address + i)
-        if b ~= 0 then
-            t[j], j = string_char(math_floor(b)), j + 1
-        end
+-- Reads a UTF-16LE string. Stops at the first null code unit.
+---@param address   number Memory address of the string.
+---@param max_chars number Maximum number of characters to read.
+---@return string value
+local function readWideString(address, max_chars)
+    local chars = {}
+    for i = 0, (max_chars - 1) * 2, 2 do
+        local lo = read_byte(address + i)
+        if lo == 0 then break end
+        chars[#chars + 1] = string_char(math_floor(lo))
     end
-    return table_concat(t)
+    return table_concat(chars)
 end
 
+---@return string server_name
 local function getServerName()
-    local addr = safeSigScan(
-        "F3ABA1????????BA????????C740??????????E8????????668B0D", 3, halo_type == 'PC' and 0x745B80 or 0x6C7960
-    )
-    if not addr then return '' end
-    return readWideString(addr + 0x8, 0x42)
+    if not network_struct then return '' end
+    return readWideString(network_struct + 0x8, 0x42)
 end
 
-local function formatLog(msg, args)
-    if not msg then return '' end
-    args = args or {}
-    return (msg:gsub("($[%w_]+)", function (token)
-        return args[token] ~= nil and tostring(args[token]) or token
+-- Replaces $tokens in the template. Unknown tokens are left as they are.
+---@param template string
+---@param args     table<string, any>
+---@return string message
+local function formatMessageVars(template, args)
+    return (template:gsub("%$[%w_]+", function (token)
+        local value = args[token]
+        return value ~= nil and tostring(value) or token
     end))
 end
 
-local function getEvent(name, event_type)
-    local event = EVENTS[name] or {}
-    return event_type and event[event_type] or event
+---@param format string os.date format string.
+---@return string timestamp
+local function getTimestamp(format)
+    return os_date(TIMESTAMP.utc and '!' .. format or format)
 end
 
+---@param event_name string       Key in CONFIG.EVENTS.
+---@param event_type number | nil Sub-type for events that have several templates.
+---@return table | nil entry { template, notify }
+local function getEvent(event_name, event_type)
+    local event = EVENTS[event_name]
+    if not event then return nil end
+    if event_type then return event[event_type] end
+    return event
+end
+
+---@param event_name string             Key in CONFIG.EVENTS.
+---@param args       table<string, any> Placeholder values. `event_type` selects the template.
 local function log(event_name, args)
-    local normalized_args = args or {}
-    local event = getEvent(event_name, normalized_args.event_type)
-    if event and event[2] then
-        cprint(formatLog(event[1], normalized_args), getColor(CONFIG.EVENT_COLORS[event_name] or "white"))
+    args = args or {}
+
+    local event = getEvent(event_name, args.event_type)
+    if not event or not event[2] or type(event[1]) ~= 'string' then return end
+
+    local message = formatMessageVars(event[1], args)
+    ---@diagnostic disable-next-line: unnecessary-if
+    if TIMESTAMP.prefix then
+        message = string_format('[%s] %s', getTimestamp(TIMESTAMP.prefix_format), message)
     end
+
+    cprint(message, getColor(EVENT_COLORS[event_name]))
 end
 
-local function getTag(class, name)
+---@param class string Tag class, e.g. "jpt!".
+---@param name  string Tag path.
+---@return number | nil tag_id Tag meta ID, or nil if the tag does not exist.
+local function getTagId(class, name)
     local tag = lookup_tag(class, name)
     return tag ~= 0 and read_dword(tag + 0xC) or nil
 end
 
-local function getTeamPlay()
-    return ffa and "FFA" or "Team Play"
-end
-
-local function getscorelimit()
+---@return number score_limit
+local function getScoreLimit()
     if not gametype_base then return 0 end
     return read_byte(gametype_base + 0x58)
 end
 
+---@return table<string, string | nil> args
+local function getGameArgs()
+    return { ["$map"] = map, ["$mode"] = mode, ["$gt"] = gametype, ["$ffa"] = ffa and 'FFA' or 'Team Play' }
+end
+
+---@param hash string
+---@return string answer "YES" or "NO"
 local function isPirated(hash)
     return PIRATED[hash] and 'YES' or 'NO'
 end
 
-local function getPlayerData(player, quit)
-    if not player then return {} end
+---@param id number Player index.
+---@return number level Admin level, 0 if none.
+local function getAdminLevel(id)
+    return tonumber(get_var(id, '$lvl')) or 0
+end
+
+---@param player  NotifyPlayer
+---@param leaving boolean | nil True during EVENT_LEAVE, when $pn has not dropped yet.
+---@return table<string, string | number> args
+local function getPlayerData(player, leaving)
+    local total = tonumber(get_var(0, '$pn')) or 0
+    if leaving then total = total - 1 end
 
     return {
-        ["$total"] = tonumber(get_var(0, '$pn'))--[[@cast -?]] - (quit and 1 or 0),
+        ["$total"] = total,
         ["$name"] = player.name,
         ["$ip"] = player.ip,
         ["$hash"] = player.hash,
         ["$id"] = player.id,
-        ["$lvl"] = player.level and player.level() or 0,
-        ["$ping"] = get_var(player.id, "$ping"),
+        ["$lvl"] = getAdminLevel(player.id),
+        ["$ping"] = get_var(player.id, '$ping'),
         ["$pirated"] = isPirated(player.hash)
     }
 end
 
----@param id       number
----@param name     string
----@param fallback string
----@return string
+---@param id       number Player index.
+---@param name     string Variable name, e.g. "$ip".
+---@param fallback string Returned when the variable is empty or "n/a".
+---@return string value
 local function safeGetVar(id, name, fallback)
     local value = get_var(id, name)
     return value ~= nil and value ~= 'n/a' and value ~= '' and value or fallback
 end
 
----@param id number
+---@param id number Player index.
 ---@return NotifyPlayer
 local function newPlayer(id)
     return {
@@ -312,231 +395,267 @@ local function newPlayer(id)
         ip = safeGetVar(id, '$ip', 'unknown'),
         name = safeGetVar(id, '$name', 'Unknown'),
         team = safeGetVar(id, '$team', 'FFA'),
-        hash = safeGetVar(id, '$hash', ''),
-        level = function () return tonumber(safeGetVar(id, '$lvl', '0')) or 0 end
+        hash = safeGetVar(id, '$hash', '')
     }
 end
 
-local function formatTime(lap_time)
-    if gametype ~= "race" then return nil end
-    if lap_time == 0 or lap_time == math_huge then return "00:00.000" end
-
-    local ms = math_floor(lap_time * 1000 + 0.5)
-    local m = math_floor(ms / 60000)
-    ms = ms - m * 60000
-    local s = math_floor(ms / 1000)
-
-    return string_format("%02d:%02d.%03d", m, s, ms - s * 1000)
+---@param id     number  Player index.
+---@param silent boolean True to skip the join notification.
+local function registerPlayer(id, silent)
+    players[id] = newPlayer(id)
+    if not silent then log("OnJoin", getPlayerData(players[id])) end
 end
 
-local function roundToHundredths(n)
-    return math_floor(n * 100 + 0.5) / 100
+---@param ticks number Lap time in ticks.
+---@return string lap_time MM:SS.mmm
+local function formatLapTime(ticks)
+    local ms = math_floor(ticks * 1000 / ticks_per_second + 0.5)
+    local minutes = math_floor(ms / 60000)
+    local seconds = math_floor((ms % 60000) / 1000)
+    return string_format('%02d:%02d.%03d', minutes, seconds, ms % 1000)
 end
 
-local function getLapTicks(address)
-    return address ~= 0 and read_word(address) or 0
+---@param id number Player index.
+---@return number ticks
+local function readLapTicks(id)
+    local static_player = get_player(id)
+    if not static_player or static_player == 0 then return 0 end
+    return read_word(static_player + lap_ticks_offset)
 end
 
-local function isCommand(str)
-    local c = str:sub(1, 1)
-    return c == "/" or c == "\\"
+---@return number | nil score_type Index into CONFIG.EVENTS.OnScore, nil for unsupported gametypes.
+local function getScoreType()
+    if gametype == 'race' then return ffa and 3 or 2 end
+    if gametype == 'slayer' then return ffa and 5 or 4 end
+    return score_types[gametype]
 end
 
+-- Strips control characters so players cannot write odd bytes to the console.
+---@param text string
+---@return string clean
+local function sanitize(text)
+    return (tostring(text):gsub('%c', ''))
+end
+
+-- Hides the arguments of commands listed in SENSITIVE_COMMANDS.
+---@param command string
+---@return string safe_command
+local function maskCommand(command)
+    local name = command:match('^%s*[\\/]*(%S+)')
+    if name and SENSITIVE[name:lower()] and command:find('%S+%s+%S') then
+        return name .. ' ' .. COMMAND_MASK
+    end
+    return command
+end
+
+---@param message string
+---@return boolean is_command
+local function isCommand(message)
+    local first = message:sub(1, 1)
+    return first == '/' or first == '\\'
+end
+
+---@param id number Player index.
+---@return boolean in_vehicle
 local function inVehicle(id)
-    local dyn = get_dynamic_player(id)
-    if not dyn or dyn == 0 then return false end
-    return dyn ~= 0 and read_dword(dyn + 0x11C) ~= 0xFFFFFFFF
+    local dyn_player = get_dynamic_player(id)
+    if not dyn_player or dyn_player == 0 then return false end
+    return read_dword(dyn_player + 0x11C) ~= 0xFFFFFFFF
 end
 
-function DisplayASCIIArt()
-    local logo = CONFIG.LOGO
-    ---@diagnostic disable-next-line: unnecessary-if
-    if not logo[1] then return end
+-- Used when the script loads mid-game, to decide whether first blood is already gone.
+---@return boolean any_kills
+local function hasAnyKills()
+    for i = 1, 16 do
+        if player_present(i) and (tonumber(get_var(i, '$kills')) or 0) > 0 then return true end
+    end
+    return false
+end
 
-    local stamp = os_date('!%a %d %b %Y %H:%M:%S')
-    local server = getServerName()
-    for _, line in ipairs(logo[2]) do
-        cprint((line[1]:gsub("$timeStamp", stamp):gsub("$serverName", server)), getColor(line[2]))
+local function displayLogo()
+    ---@diagnostic disable-next-line: unnecessary-if
+    if not LOGO.enabled then return end
+
+    local args = { ["$timeStamp"] = getTimestamp(TIMESTAMP.logo_format), ["$serverName"] = getServerName() }
+
+    for _, line in ipairs(LOGO.lines) do
+        cprint(formatMessageVars(line[1], args), getColor(line[2]))
     end
 end
 
-function OnStart(notifyFlag)
-    gametype = get_var(0, "$gt")
+---@param silent boolean True to skip the start and join notifications (script loaded mid-game).
+local function startGame(silent)
+    gametype = get_var(0, '$gt')
     if gametype == 'n/a' then return end
 
-    DisplayASCIIArt()
+    displayLogo()
 
-    players, first_blood = {}, true
+    players = {}
     ffa = get_var(0, '$ffa') == '1'
-    mode, map = get_var(0, "$mode"), get_var(0, "$map")
-    falling = getTag('jpt!', 'globals\\falling')
-    distance = getTag('jpt!', 'globals\\distance')
-    score_limit = getscorelimit()
+    mode, map = get_var(0, '$mode'), get_var(0, '$map')
+    falling = getTagId('jpt!', 'globals\\falling')
+    distance = getTagId('jpt!', 'globals\\distance')
+    first_blood = not (silent and hasAnyKills())
 
-    if not notifyFlag or notifyFlag == 0 then
-        log("OnStart", {
-            ["$map"] = map,
-            ["$mode"] = mode,
-            ["$gt"] = gametype,
-            ["$ffa"] = getTeamPlay()
-        })
-    end
+    if not silent then log("OnStart", getGameArgs()) end
 
     for i = 1, 16 do
-        if player_present(i) then OnJoin(i, notifyFlag) end
+        if player_present(i) then registerPlayer(i, silent) end
     end
+end
+
+function OnStart()
+    startGame(false)
 end
 
 function OnEnd()
-    log("OnEnd", {
-        ["$map"] = map,
-        ["$mode"] = mode,
-        ["$gt"] = gametype,
-        ["$ffa"] = getTeamPlay()
-    })
+    log("OnEnd", getGameArgs())
 end
 
-function OnJoin(id, notifyFlag)
-    players[id] = newPlayer(id)
-    if not notifyFlag or notifyFlag == 0 then
-        log("OnJoin", getPlayerData(players[id]))
-    end
+---@param player_id number
+function OnJoin(player_id)
+    registerPlayer(player_id, false)
 end
 
-function OnQuit(id)
-    local player = players[id]
+---@param player_id number
+function OnQuit(player_id)
+    local player = players[player_id]
     if not player then return end
 
     log("OnQuit", getPlayerData(player, true))
-    players[id] = nil
+    players[player_id] = nil
 end
 
-function OnSpawn(id)
-    local player = players[id]
+---@param player_id number
+function OnSpawn(player_id)
+    local player = players[player_id]
     if not player then return end
 
-    player.last_damage, player.switched = 0, nil
+    player.last_damage, player.switched = 0, false
     log("OnSpawn", { ["$name"] = player.name })
 end
 
-function OnSwitch(id)
-    local player = players[id]
+---@param player_id number
+function OnSwitch(player_id)
+    local player = players[player_id]
     if not player then return end
 
-    player.team, player.switched = get_var(id, '$team'), true
+    player.team, player.switched = get_var(player_id, '$team'), true
     log("OnSwitch", { ["$name"] = player.name, ["$team"] = player.team })
 end
 
-function OnWarp(id)
-    local player = players[id]
-    if not player then return end
-
-    log("OnWarp", { ["$name"] = player.name })
+---@param player_id number
+function OnWarp(player_id)
+    local player = players[player_id]
+    if player then log("OnWarp", { ["$name"] = player.name }) end
 end
 
 function OnReset()
-    log("OnReset", {
-        ["$map"] = map,
-        ["$mode"] = mode,
-        ["$gt"] = gametype,
-        ["$ffa"] = getTeamPlay()
-    })
+    log("OnReset", getGameArgs())
 end
 
-function OnLogin(id)
-    local player = players[id]
+---@param player_id number
+function OnLogin(player_id)
+    local player = players[player_id]
     if player then log("OnLogin", { ["$name"] = player.name }) end
 end
 
-function OnSnap(id)
-    local player = players[id]
+---@param suspect_id number
+function OnSnap(suspect_id)
+    local player = players[suspect_id]
     if player then log("OnSnap", { ["$name"] = player.name }) end
 end
 
-function OnCommand(id, command, environment)
-    local player = players[id]
-    if not player then return true end
-
-    log("OnCommand", {
-        ["$lvl"] = player.level(),
-        ["$name"] = player.name,
-        ["$id"] = tostring(id),
-        ["$type"] = command_type[environment],
-        ["$cmd"] = command
-    })
-end
-
-function OnChat(id, message, environment)
-    local player = players[id]
-    if player and not isCommand(message) then
-        log("OnChat", {
-            ["$type"] = chat_type[environment],
+---@param executor_id number
+---@param command     string
+---@param environment number 0 = console, 1 = rcon, 2 = chat
+---@return boolean allow
+function OnCommand(executor_id, command, environment)
+    local player = players[executor_id]
+    if player then
+        log("OnCommand", {
+            ["$lvl"] = getAdminLevel(executor_id),
             ["$name"] = player.name,
-            ["$id"] = id,
-            ["$msg"] = message
+            ["$id"] = executor_id,
+            ["$type"] = command_names[environment] or 'UNKNOWN',
+            ["$cmd"] = maskCommand(sanitize(command))
         })
     end
+    return true
 end
 
-function OnScore(id)
-    local player = players[id]
-    if not player then return end
+---@param player_id number
+---@param message   string
+---@param chat_type number 0 = global, 1 = team, 2 = vehicle
+function OnChat(player_id, message, chat_type)
+    local player = players[player_id]
+    if not player or isCommand(message) then return end
 
-    local red_score = get_var(0, "$redscore")
-    local blue_score = get_var(0, "$bluescore")
-
-    ---@type number
-    local lap_time = 0
-
-    if gametype == "race" then
-        local player_ptr = get_player(id)
-        if player_ptr and player_ptr ~= 0 then
-            lap_time = roundToHundredths(getLapTicks(player_ptr + 0xC4) * tick_rate)
-        end
-    end
-
-    log("OnScore", {
-        event_type = score_event[gametype] and score_event[gametype]() or 0,
-        ["$lap_time"] = formatTime(lap_time),
-        ["$totalTeamLaps"] = player.team == "red" and red_score or blue_score,
-        ["$score"] = get_var(id, "$score"),
+    log("OnChat", {
+        ["$type"] = chat_names[chat_type] or 'UNKNOWN',
         ["$name"] = player.name,
-        ["$team"] = player.team or "FFA",
-        ["$redScore"] = red_score,
-        ["$blueScore"] = blue_score,
-        ["$scorelimit"] = score_limit
+        ["$id"] = player_id,
+        ["$msg"] = sanitize(message)
     })
 end
 
-function OnDamage(victimIndex, _, metaId)
-    local victim = players[tonumber(victimIndex)]
-    if victim then victim.last_damage = metaId end
+---@param player_id number
+function OnScore(player_id)
+    local player = players[player_id]
+    local score_type = getScoreType()
+    if not player or not score_type then return end
+
+    local red_score = get_var(0, '$redscore')
+    local blue_score = get_var(0, '$bluescore')
+    local lap_time = gametype == 'race' and formatLapTime(readLapTicks(player_id)) or formatLapTime(0)
+
+    log("OnScore", {
+        event_type = score_type,
+        ["$lap_time"] = lap_time,
+        ["$totalTeamLaps"] = player.team == 'red' and red_score or blue_score,
+        ["$score"] = get_var(player_id, '$score'),
+        ["$name"] = player.name,
+        ["$team"] = player.team,
+        ["$redScore"] = red_score,
+        ["$blueScore"] = blue_score,
+        ["$scorelimit"] = getScoreLimit()
+    })
 end
 
-function OnDeath(victimIndex, killerIndex)
-    local victim = tonumber(victimIndex)
-    local victim_data = players[victim]
-    if not victim_data then return end
+---@param victim_id     number
+---@param _             number Causer index (unused).
+---@param damage_tag_id number
+function OnDamage(victim_id, _, damage_tag_id)
+    local victim = players[tonumber(victim_id)]
+    if victim then victim.last_damage = damage_tag_id end
+end
 
-    local killer = tonumber(killerIndex)
-    local killer_data = killer and players[killer]
+---@param victim_id number
+---@param killer_id string "-1" = falling, server or distance damage, "0" = non-player source, "1+" = player index
+function OnDeath(victim_id, killer_id)
+    local victim_index = tonumber(victim_id)
+    local victim = players[victim_index]
+    if not victim then return end
+
+    local killer_index = tonumber(killer_id)
+    local killer = killer_index and players[killer_index]
     local event_type = 10
 
-    if killer == -1 and not victim_data.switched then
-        event_type = (victim_data.last_damage == falling or victim_data.last_damage == distance) and 8 or 9
-    elseif killer == 0 then
+    if killer_index == -1 and not victim.switched then
+        local last = victim.last_damage
+        event_type = (last == falling or last == distance) and 8 or 9
+    elseif killer_index == 0 then
         event_type = 7
-    elseif killer and killer > 0 then
-        if killer == victim then
+    elseif killer_index and killer_index > 0 then
+        if killer_index == victim_index then
             event_type = 5
-        elseif not ffa and killer_data and victim_data.team == killer_data.team then
+        elseif not ffa and killer and victim.team == killer.team then
             event_type = 6
-            ---@diagnostic disable-next-line: unnecessary-if
         elseif first_blood then
             first_blood, event_type = false, 1
-        elseif not player_alive(killer) then
+        elseif not player_alive(killer_index) then
             event_type = 2
-        elseif inVehicle(victim) then
+        elseif inVehicle(killer_index) then
             event_type = 3
         else
             event_type = 4
@@ -545,17 +664,26 @@ function OnDeath(victimIndex, killerIndex)
 
     log("OnDeath", {
         event_type = event_type,
-        ["$killerName"] = killer_data and killer_data.name or "",
-        ["$victimName"] = victim_data.name
+        ["$killerName"] = killer and killer.name or 'Unknown',
+        ["$victimName"] = victim.name
     })
 end
 
+---@param message string
 function OnError(message)
     cprint('[notify_me] Lua error: ' .. tostring(message), getColor('red'))
 end
 
 function OnScriptLoad()
-    gametype_base = safeSigScan("B9360000008BF3BF78545F00", 0x8, halo_type == 'PC' and 0x671320 or 0x5F5478)
+    gametype_base = safeSigScan( -- The gametype signature only matches on CE, so PC always uses the fallback.
+        "B9360000008BF3BF????????", 0x8,
+        halo_type == 'PC' and 0x671320 or 0x5F5478
+    )
+    network_struct = safeSigScan(
+        "F3ABA1????????BA????????C740??????????E8????????668B0D",
+        0x3,
+        halo_type == 'PC' and 0x745B80 or 0x6C7960
+    )
 
     register_callback(cb.EVENT_CHAT, 'OnChat')
     register_callback(cb.EVENT_COMMAND, 'OnCommand')
@@ -571,8 +699,9 @@ function OnScriptLoad()
     register_callback(cb.EVENT_LOGIN, 'OnLogin')
     register_callback(cb.EVENT_MAP_RESET, 'OnReset')
     register_callback(cb.EVENT_TEAM_SWITCH, 'OnSwitch')
+    register_callback(cb.EVENT_WARP, 'OnWarp')
 
-    OnStart(1)
+    startGame(true)
 end
 
 function OnScriptUnload()
