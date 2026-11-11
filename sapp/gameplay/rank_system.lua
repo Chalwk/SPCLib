@@ -236,6 +236,7 @@ local function safeScan(signature, offset)
     local hit = sig_scan(signature)
     if hit == 0 then return nil end
 
+    ---@diagnostic disable-next-line: param-type-mismatch
     local pointer = read_dword(hit + offset)
     if not pointer or pointer < 0x400000 or pointer > 0x800000 then return nil end
     return pointer
@@ -244,6 +245,7 @@ end
 ---@return string path The instance directory passed to the server with -path
 local function getProfilePath()
     local address = safeScan("68??????008D54245468", 0x1) or (halo_type == "PC" and 0x635610 or 0x5B9630)
+    ---@diagnostic disable-next-line: param-type-mismatch
     return read_string(address)
 end
 
@@ -281,6 +283,7 @@ end
 ---@return boolean
 local function isAdmin(player_id)
     if player_id == 0 then return true end
+    ---@diagnostic disable-next-line: param-type-mismatch
     return (tonumber(get_var(player_id, "$lvl")) or -1) >= SETRANK_ADMIN_LEVEL
 end
 
@@ -316,6 +319,7 @@ local function abbreviateRank(rank_name)
 
     local initials = {}
     for i = 1, math_min(3, #words) do
+        if not words[i] then break end
         initials[i] = words[i]:sub(1, 1)
     end
     return table_concat(initials)

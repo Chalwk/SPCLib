@@ -44,7 +44,7 @@ full_build = ""
 gametype = "slayer"
 
 --- Local player index (0-15). nil until assigned after joining a server.
----@type integer | nil
+---@type number | nil
 local_player_index = nil
 
 --- Currently loaded map name.
@@ -79,14 +79,14 @@ server_type = "none"
 function set_callback(event, callback_name, priority) end
 
 --- Runs the callback every interval until it returns false or the timer is stopped.
----@param interval_ms   integer
+---@param interval_ms   number
 ---@param callback_name string                          Name of a global function
 ---@param ...           boolean | number | string | nil Forwarded to the callback
 ---@return integer timer_id
 function set_timer(interval_ms, callback_name, ...) end
 
 --- Stopping a timer that no longer exists raises an error.
----@param timer_id integer
+---@param timer_id number
 function stop_timer(timer_id) end
 
 -- Output -----------------------------------------------------------------------------------
@@ -137,36 +137,36 @@ function execute_chimera_command(command, save) end
 -- Players, objects and tags ----------------------------------------------------------------
 
 --- Player table pointer, or nil. No index returns the local player.
----@param index? integer
+---@param index? number
 ---@return integer | nil address
 function get_player(index) end
 
 --- Pointer to the player's current object, or nil if the player is dead. No index returns the local player.
----@param index? integer
+---@param index? number
 ---@return integer | nil address
 function get_dynamic_player(index) end
 
 --- Dynamic object pointer for an object id, or nil.
----@param object_id integer
+---@param object_id number
 ---@return integer | nil address
 function get_object(object_id) end
 
 --- Raises an error if the id is invalid.
----@param object_id integer
+---@param object_id number
 function delete_object(object_id) end
 
 --- Spawned client side only in multiplayer. Other players do not see the object.
 ---@overload fun(tag_class: string, tag_path: string, x: number, y: number, z: number): integer
----@param tag_id  integer
+---@param tag_id  number
 ---@param x       number
 ---@param y       number
 ---@param z       number
----@param parent? integer
+---@param parent? number
 ---@return integer object_id
 function spawn_object(tag_id, x, y, z, parent) end
 
 --- With a class and path, returns the tag id. With a tag id, returns the tag entry pointer.
----@overload fun(tag_id: integer): integer | nil
+---@overload fun(tag_id: number): integer | nil
 ---@param tag_class string Four-letter class, e.g. "weap"
 ---@param tag_path  string
 ---@return integer | nil tag
@@ -175,202 +175,202 @@ function get_tag(tag_class, tag_path) end
 -- Memory -----------------------------------------------------------------------------------
 
 --- Reads a signed 8-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_i8(address) end
 
 --- Reads an unsigned 8-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_u8(address) end
 
 --- Reads a signed 16-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_i16(address) end
 
 --- Reads an unsigned 16-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_u16(address) end
 
 --- Reads a signed 32-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_i32(address) end
 
 --- Reads an unsigned 32-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_u32(address) end
 
 --- Reads an unsigned 8-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_byte(address) end
 
 --- Reads an unsigned 16-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_word(address) end
 
 --- Reads an unsigned 32-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_dword(address) end
 
 --- Reads a signed 8-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_char(address) end
 
 --- Reads a signed 16-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_short(address) end
 
 --- Reads a signed 32-bit integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_int(address) end
 
 --- Reads an integer.
----@param address integer
+---@param address number
 ---@return integer
 function read_long(address) end
 
 --- Reads a 32-bit float.
----@param address integer
+---@param address number
 ---@return number
 function read_f32(address) end
 
 --- Reads a 64-bit float.
----@param address integer
+---@param address number
 ---@return number
 function read_f64(address) end
 
 --- Reads a 32-bit float.
----@param address integer
+---@param address number
 ---@return number
 function read_float(address) end
 
 --- Reads a 64-bit float.
----@param address integer
+---@param address number
 ---@return number
 function read_double(address) end
 
 --- Writes a signed 8-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_i8(address, value) end
 
 --- Writes an unsigned 8-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_u8(address, value) end
 
 --- Writes a signed 16-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_i16(address, value) end
 
 --- Writes an unsigned 16-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_u16(address, value) end
 
 --- Writes a signed 32-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_i32(address, value) end
 
 --- Writes an unsigned 32-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_u32(address, value) end
 
 --- Writes an unsigned 8-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_byte(address, value) end
 
 --- Writes an unsigned 16-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_word(address, value) end
 
 --- Writes an unsigned 32-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_dword(address, value) end
 
 --- Writes a signed 8-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_char(address, value) end
 
 --- Writes a signed 16-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_short(address, value) end
 
 --- Writes a signed 32-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_int(address, value) end
 
 --- Writes an integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_long(address, value) end
 
 --- Writes a 32-bit float.
----@param address integer
+---@param address number
 ---@param value   number
 function write_f32(address, value) end
 
 --- Writes a 64-bit float.
----@param address integer
+---@param address number
 ---@param value   number
 function write_f64(address, value) end
 
 --- Writes a 32-bit float.
----@param address integer
+---@param address number
 ---@param value   number
 function write_float(address, value) end
 
 --- Writes a 64-bit float.
----@param address integer
+---@param address number
 ---@param value   number
 function write_double(address, value) end
 
----@param address   integer
----@param bit_index integer Less than 32
+---@param address   number
+---@param bit_index number Less than 32
 ---@return integer bit 0 or 1
 function read_bit(address, bit_index) end
 
----@param address   integer
----@param bit_index integer           Less than 32
----@param value     boolean | integer
+---@param address   number
+---@param bit_index number            Less than 32
+---@param value     boolean | number
 function write_bit(address, bit_index, value) end
 
 --- Reads a null-terminated string.
----@param address integer
+---@param address number
 ---@return string
 function read_string8(address) end
 
 --- Writes a null-terminated string.
----@param address integer
+---@param address number
 ---@param value   string
 function write_string8(address, value) end
 
 --- Alias of read_string8.
----@param address integer
+---@param address number
 ---@return string
 function read_string(address) end
 
 --- Alias of write_string8.
----@param address integer
+---@param address number
 ---@param value   string
 function write_string(address, value) end
 

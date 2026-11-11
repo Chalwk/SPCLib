@@ -171,6 +171,16 @@ api_version = '1.12.0.0'
 
 -- Configuration ends here -----------------------------------------------------------------------
 
+---@class NotifyPlayer
+---@field id          number
+---@field last_damage number
+---@field switched    boolean | nil
+---@field ip          string
+---@field name        string
+---@field team        string
+---@field hash        string
+---@field level       fun(): number
+---@type table<number, NotifyPlayer | nil>
 local players = {}
 local tick_rate = 1 / 30
 local score_limit, gametype_base, gametype, mode, map
@@ -215,15 +225,16 @@ local function readWideString(address, length)
     for i = 0, (length - 1) * 2, 2 do
         local b = read_byte(address + i)
         if b ~= 0 then
-            t[j], j = string_char(b), j + 1
+            t[j], j = string_char(math_floor(b)), j + 1
         end
     end
     return table_concat(t)
 end
 
 local function getServerName()
-    local addr = safeSigScan("F3ABA1????????BA????????C740??????????E8????????668B0D", 3,
-        halo_type == 'PC' and 0x745B80 or 0x6C7960)
+    local addr = safeSigScan(
+        "F3ABA1????????BA????????C740??????????E8????????668B0D", 3, halo_type == 'PC' and 0x745B80 or 0x6C7960
+    )
     if not addr then return '' end
     return readWideString(addr + 0x8, 0x42)
 end
@@ -271,7 +282,7 @@ local function getPlayerData(player, quit)
     if not player then return {} end
 
     return {
-        ["$total"] = tonumber(get_var(0, '$pn')) - (quit and 1 or 0),
+        ["$total"] = tonumber(get_var(0, '$pn'))--[[@cast -?]] - (quit and 1 or 0),
         ["$name"] = player.name,
         ["$ip"] = player.ip,
         ["$hash"] = player.hash,
@@ -282,11 +293,17 @@ local function getPlayerData(player, quit)
     }
 end
 
+---@param id       number
+---@param name     string
+---@param fallback string
+---@return string
 local function safeGetVar(id, name, fallback)
     local value = get_var(id, name)
     return value ~= nil and value ~= 'n/a' and value ~= '' and value or fallback
 end
 
+---@param id number
+---@return NotifyPlayer
 local function newPlayer(id)
     return {
         id = id,
@@ -327,11 +344,13 @@ end
 
 local function inVehicle(id)
     local dyn = get_dynamic_player(id)
+    if not dyn or dyn == 0 then return false end
     return dyn ~= 0 and read_dword(dyn + 0x11C) ~= 0xFFFFFFFF
 end
 
 function DisplayASCIIArt()
     local logo = CONFIG.LOGO
+    ---@diagnostic disable-next-line: unnecessary-if
     if not logo[1] then return end
 
     local stamp = os_date('!%a %d %b %Y %H:%M:%S')
@@ -386,31 +405,33 @@ end
 
 function OnQuit(id)
     local player = players[id]
-    if player then
-        log("OnQuit", getPlayerData(player, true))
-        players[id] = nil
-    end
+    if not player then return end
+
+    log("OnQuit", getPlayerData(player, true))
+    players[id] = nil
 end
 
 function OnSpawn(id)
     local player = players[id]
-    if player then
-        player.last_damage, player.switched = 0, nil
-        log("OnSpawn", { ["$name"] = player.name })
-    end
+    if not player then return end
+
+    player.last_damage, player.switched = 0, nil
+    log("OnSpawn", { ["$name"] = player.name })
 end
 
 function OnSwitch(id)
     local player = players[id]
-    if player then
-        player.team, player.switched = get_var(id, '$team'), true
-        log("OnSwitch", { ["$name"] = player.name, ["$team"] = player.team })
-    end
+    if not player then return end
+
+    player.team, player.switched = get_var(id, '$team'), true
+    log("OnSwitch", { ["$name"] = player.name, ["$team"] = player.team })
 end
 
 function OnWarp(id)
     local player = players[id]
-    if player then log("OnWarp", { ["$name"] = player.name }) end
+    if not player then return end
+
+    log("OnWarp", { ["$name"] = player.name })
 end
 
 function OnReset()
@@ -463,6 +484,8 @@ function OnScore(id)
 
     local red_score = get_var(0, "$redscore")
     local blue_score = get_var(0, "$bluescore")
+
+    ---@type number
     local lap_time = 0
 
     if gametype == "race" then
@@ -508,6 +531,7 @@ function OnDeath(victimIndex, killerIndex)
             event_type = 5
         elseif not ffa and killer_data and victim_data.team == killer_data.team then
             event_type = 6
+            ---@diagnostic disable-next-line: unnecessary-if
         elseif first_blood then
             first_blood, event_type = false, 1
         elseif not player_alive(killer) then
@@ -531,8 +555,7 @@ function OnError(message)
 end
 
 function OnScriptLoad()
-    gametype_base = safeSigScan("B9360000008BF3BF78545F00", 0x8,
-        halo_type == 'PC' and 0x671320 or 0x5F5478)
+    gametype_base = safeSigScan("B9360000008BF3BF78545F00", 0x8, halo_type == 'PC' and 0x671320 or 0x5F5478)
 
     register_callback(cb.EVENT_CHAT, 'OnChat')
     register_callback(cb.EVENT_COMMAND, 'OnCommand')

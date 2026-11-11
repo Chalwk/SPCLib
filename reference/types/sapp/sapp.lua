@@ -12,7 +12,7 @@
 halo_type = nil
 
 --- Process ID of the server.
----@type integer
+---@type number
 pid = nil
 
 --- Lua API version of the loaded SAPP build.
@@ -40,7 +40,7 @@ function OnScriptUnload() end
 ---@param message string The Lua error message
 function OnError(message) end
 
----@alias SappEvent integer
+---@alias SappEvent number
 
 --- Event ids for register_callback. Hover a field for the callback signature.
 ---@class SappCallbackIds
@@ -144,16 +144,16 @@ function unregister_callback(event) end
 -- Variables --------------------------------------------------------------------------------
 
 --- Always returns a string. Wrap in tonumber() for math.
----@param player_id integer               0 for global variables
+---@param player_id number                0 for globals; 1-16 for players
 ---@param variable  SappVariable | string
 ---@return string
 function get_var(player_id, variable) end
 
 --- Returns false if the variable is not defined.
----@param player_id integer
+---@param player_id number                0 for globals; 1-16 for players
 ---@param name      string  Variable name without the leading "$"
 ---@param value     string
----@param copy_id?  integer
+---@param copy_id?  number
 ---@return boolean
 function set_var(player_id, name, value, copy_id) end
 
@@ -178,113 +178,113 @@ function del_var(name) end
 -- A bad address crashes the server.
 
 --- Reads an unsigned 8-bit integer.
----@param address integer
----@return integer
+---@param address number
+---@return number
 function read_byte(address) end
 
 --- Reads a signed 8-bit integer.
----@param address integer
----@return integer
+---@param address number
+---@return number
 function read_char(address) end
 
 --- Reads an unsigned 16-bit integer.
----@param address integer
----@return integer
+---@param address number
+---@return number
 function read_word(address) end
 
 --- Reads a signed 16-bit integer.
----@param address integer
----@return integer
+---@param address number
+---@return number
 function read_short(address) end
 
 --- Reads an unsigned 32-bit integer.
----@param address integer
----@return integer
+---@param address number
+---@return number
 function read_dword(address) end
 
 --- Reads a signed 32-bit integer.
----@param address integer
----@return integer
+---@param address number
+---@return number
 function read_int(address) end
 
 --- Reads a 32-bit float.
----@param address integer
+---@param address number
 ---@return number
 function read_float(address) end
 
 --- Reads a 64-bit float.
----@param address integer
+---@param address number
 ---@return number
 function read_double(address) end
 
 --- Writes an unsigned 8-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_byte(address, value) end
 
 --- Writes a signed 8-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_char(address, value) end
 
 --- Writes an unsigned 16-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_word(address, value) end
 
 --- Writes a signed 16-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_short(address, value) end
 
 --- Writes an unsigned 32-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_dword(address, value) end
 
 --- Writes a signed 32-bit integer.
----@param address integer
----@param value   integer
+---@param address number
+---@param value   number
 function write_int(address, value) end
 
 --- Writes a 32-bit float.
----@param address integer
+---@param address number
 ---@param value   number
 function write_float(address, value) end
 
 --- Writes a 64-bit float.
----@param address integer
+---@param address number
 ---@param value   number
 function write_double(address, value) end
 
 --- Reads a null-terminated 8-bit string. UTF-16LE fields (names) read as "", use a wide string helper.
----@param address integer
----@param length? integer
+---@param address number
+---@param length? number
 ---@return string
 function read_string(address, length) end
 
 --- Writes a null-terminated 8-bit string.
----@param address integer
+---@param address number
 ---@param value   string
 function write_string(address, value) end
 
----@param address integer
----@param bit     integer Bit index
----@return integer bit 0 or 1
+---@param address number
+---@param bit     number Bit index
+---@return number bit 0 or 1
 function read_bit(address, bit) end
 
----@param address integer
----@param bit     integer Bit index
----@param value   integer 0 or 1
+---@param address number
+---@param bit     number Bit index
+---@param value   number 0 or 1
 function write_bit(address, bit, value) end
 
----@param address integer
+---@param address number
 ---@return number x
 ---@return number y
 ---@return number z
 function read_vector3d(address) end
 
----@param address integer
+---@param address number
 ---@param x       number
 ---@param y       number
 ---@param z       number
@@ -301,13 +301,13 @@ function safe_write(enabled) end
 --- Finds a byte pattern ("??" is a wildcard). Returns the match address, or 0.
 --- Guard against 0 before dereferencing.
 ---@param signature string
----@return integer address
+---@return number address
 function sig_scan(signature) end
 
 -- Messaging --------------------------------------------------------------------------------
 
 --- In-game chat, one player.
----@param player_id integer
+---@param player_id number
 ---@param message   string
 function say(player_id, message) end
 
@@ -316,78 +316,79 @@ function say(player_id, message) end
 function say_all(message) end
 
 --- One player's console (~).
----@param player_id integer
+---@param player_id number
 ---@param message   string
 function rprint(player_id, message) end
 
---- Server console only. color = foreground + (background * 16), each 0-15.
+--- Server console only. color is 0-255: foreground + (background * 16), each 0-15.
 ---@param message string
----@param color?  integer
+---@param color?  number Color id 0-255
 function cprint(message, color) end
 
 -- Players and objects ----------------------------------------------------------------------
 
----@param player_id integer
+--- Player indices are 1-16; 0 is reserved for global/server context where supported.
+---@param player_id number
 ---@return boolean
 function player_present(player_id) end
 
----@param player_id integer
+---@param player_id number
 ---@return boolean
 function player_alive(player_id) end
 
 --- Static player table address.
----@param player_id integer
----@return integer address
+---@param player_id number
+---@return number address
 function get_player(player_id) end
 
 --- Dynamic player object address, or 0 if the player is dead.
----@param player_id integer
----@return integer address
+---@param player_id number
+---@return number address
 function get_dynamic_player(player_id) end
 
 --- Object address, or 0 if the id is invalid.
----@param object_id integer
----@return integer address
+---@param object_id number
+---@return number address
 function get_object_memory(object_id) end
 
 --- SAPP index (1-16) to Halo index (0-15).
----@param player_index integer
----@return integer real_index
+---@param player_index number
+---@return number real_index
 function to_real_index(player_index) end
 
 --- Halo index (0-15) to SAPP index (1-16).
----@param real_index integer
----@return integer player_index
+---@param real_index number
+---@return number player_index
 function to_player_index(real_index) end
 
 --- Adds a death and applies the respawn time.
----@param player_id integer
+---@param player_id number
 function kill(player_id) end
 
 --- Returns success. Silently fails if the player is dead or has 4 weapons.
----@param object_id integer
----@param player_id integer
+---@param object_id number
+---@param player_id number
 ---@return boolean
 function assign_weapon(object_id, player_id) end
 
----@param player_id integer
+---@param player_id number
 function drop_weapon(player_id) end
 
----@param vehicle_id integer
----@param player_id  integer
----@param seat       string | integer
+---@param vehicle_id number
+---@param player_id  number
+---@param seat       string | number
 function enter_vehicle(vehicle_id, player_id, seat) end
 
----@param player_id integer
+---@param player_id number
 function exit_vehicle(player_id) end
 
 --- No effect if the player is already camouflaged.
----@param player_id integer
----@param ticks     integer
+---@param player_id number
+---@param ticks     number
 function camo(player_id, ticks) end
 
----@param object_id integer
----@param player_id integer
+---@param object_id number
+---@param player_id number
 ---@return boolean
 function powerup_interact(object_id, player_id) end
 
@@ -398,8 +399,8 @@ function powerup_interact(object_id, player_id) end
 ---@param y?        number
 ---@param z?        number
 ---@param rotation? number  Radians
----@param tag_id?   integer Overrides tag_class and tag_path
----@return integer object_id
+---@param tag_id?   number Overrides tag_class and tag_path
+---@return number object_id
 function spawn_object(tag_class, tag_path, x, y, z, rotation, tag_id) end
 
 --- Spawns at a named location (see loc_add).
@@ -407,27 +408,27 @@ function spawn_object(tag_class, tag_path, x, y, z, rotation, tag_id) end
 ---@param tag_path  string
 ---@param location  string
 ---@param rotation? number  Radians
----@param tag_id?   integer Overrides tag_class and tag_path
----@return integer object_id
+---@param tag_id?   number Overrides tag_class and tag_path
+---@return number object_id
 function spawn_object_location(tag_class, tag_path, location, rotation, tag_id) end
 
----@param tag_id    integer
----@param player_id integer Parent/owner
+---@param tag_id    number
+---@param player_id number Parent/owner
 ---@param x         number
 ---@param y         number
 ---@param z         number
 ---@param rx?       number  Radians
 ---@param ry?       number  Radians
 ---@param rz?       number  Radians
----@return integer object_id
+---@return number object_id
 function spawn_projectile(tag_id, player_id, x, y, z, rx, ry, rz) end
 
 --- Destroying flags, oddballs or non-SAPP vehicles may crash the server.
----@param object_id integer
+---@param object_id number
 function destroy_object(object_id) end
 
 --- Syncs loaded and unloaded ammo.
----@param object_id integer
+---@param object_id number
 function sync_ammo(object_id) end
 
 --- 3D raycast. The direction vector is multiplied by the reach in world units.
@@ -438,43 +439,43 @@ function sync_ammo(object_id) end
 ---@param vx                number
 ---@param vy                number
 ---@param vz                number
----@param ignore_object_id? integer
+---@param ignore_object_id? number
 ---@return boolean success
 ---@return number hit_x
 ---@return number hit_y
 ---@return number hit_z
----@return integer hit_object_id 0xFFFFFFFF for map geometry or no hit
+---@return number hit_object_id 0xFFFFFFFF for map geometry or no hit
 function intersect(x, y, z, vx, vy, vz, ignore_object_id) end
 
 --- Returns the tag address, or 0 if not found. Use the tag id form on protected maps.
----@overload fun(tag_id: integer): integer
+---@overload fun(tag_id: number): number
 ---@param tag_class string Four-letter class, e.g. "weap"
 ---@param tag_name  string
----@return integer address
+---@return number address
 function lookup_tag(tag_class, tag_name) end
 
 -- Commands and timers ----------------------------------------------------------------------
 
 --- player_id runs the command on a player's behalf. echo = true raises EVENT_ECHO with the output.
 ---@param command    string
----@param player_id? integer
+---@param player_id? number
 ---@param echo?      boolean
 function execute_command(command, player_id, echo) end
 
 --- Splits on ";". Use single-quoted Lua strings with double-quoted arguments.
 ---@param commands   string
----@param player_id? integer
+---@param player_id? number
 ---@param echo?      boolean
 function execute_command_sequence(commands, player_id, echo) end
 
 --- The upper bound is exclusive: rand(1, 4) returns 1-3.
----@param min? integer
----@param max? integer
----@return integer
+---@param min? number
+---@param max? number
+---@return number
 function rand(min, max) end
 
 --- Calls a global function once after delay ms. The callback returns true to repeat. Returns nil.
----@param delay         integer Milliseconds
+---@param delay         number Milliseconds
 ---@param callback_name string  Name of a global function
 ---@param ...           any     Forwarded to the callback
 function timer(delay, callback_name, ...) end
