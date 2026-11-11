@@ -330,7 +330,7 @@ function exitvehicle(player) end
 -- Timers and server ------------------------------------------------------------------------
 
 --- Calls a global function after delay ms. The callback receives (timer_id, count, ...) and
---- returns 1 to repeat or 0 to stop.
+--- returns truthy to repeat or falsy to stop.
 ---@param delay integer Milliseconds
 ---@param callback_name string Name of a global function
 ---@param ... any Forwarded to the callback
