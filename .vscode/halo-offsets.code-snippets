@@ -1,0 +1,866 @@
+{
+  "obj_tagid read": {
+    "scope": "lua",
+    "prefix": "obj_tagid",
+    "description": "object + 0x0: Tag ID",
+    "body": [
+      "read_dword(${1:object} + 0x0)"
+    ]
+  },
+  "obj_type read": {
+    "scope": "lua",
+    "prefix": "obj_type",
+    "description": "object + 0xB4: Object type",
+    "body": [
+      "read_byte(${1:object} + 0xB4)"
+    ]
+  },
+  "obj_team read": {
+    "scope": "lua",
+    "prefix": "obj_team",
+    "description": "object + 0xB8: Object team (0 red, 1 blue, -1 non-game)",
+    "body": [
+      "read_short(${1:object} + 0xB8)"
+    ]
+  },
+  "obj_radius read": {
+    "scope": "lua",
+    "prefix": "obj_radius",
+    "description": "object + 0xAC: Bounding radius",
+    "body": [
+      "read_float(${1:object} + 0xAC)"
+    ]
+  },
+  "obj_owner read": {
+    "scope": "lua",
+    "prefix": "obj_owner",
+    "description": "object + 0xC0: Player object owner ID",
+    "body": [
+      "read_dword(${1:object} + 0xC0)"
+    ]
+  },
+  "obj_parent read": {
+    "scope": "lua",
+    "prefix": "obj_parent",
+    "description": "object + 0xC4: Parent object ID",
+    "body": [
+      "read_dword(${1:object} + 0xC4)"
+    ]
+  },
+  "obj_maxhealth read": {
+    "scope": "lua",
+    "prefix": "obj_maxhealth",
+    "description": "object + 0xD8: Maximum health",
+    "body": [
+      "read_float(${1:object} + 0xD8)"
+    ]
+  },
+  "obj_maxshield read": {
+    "scope": "lua",
+    "prefix": "obj_maxshield",
+    "description": "object + 0xDC: Maximum shields",
+    "body": [
+      "read_float(${1:object} + 0xDC)"
+    ]
+  },
+  "dyn_health read": {
+    "scope": "lua",
+    "prefix": "dyn_health",
+    "description": "dyn_player + 0xE0: Health (0.0-1.0)",
+    "body": [
+      "read_float(${1:dyn_player} + 0xE0)"
+    ]
+  },
+  "set_dyn_health write": {
+    "scope": "lua",
+    "prefix": "set_dyn_health",
+    "description": "Write dyn_player + 0xE0: Health (0.0-1.0)",
+    "body": [
+      "write_float(${1:dyn_player} + 0xE0, ${2:value})"
+    ]
+  },
+  "dyn_shields read": {
+    "scope": "lua",
+    "prefix": "dyn_shields",
+    "description": "dyn_player + 0xE4: Shields (0.0-1.0)",
+    "body": [
+      "read_float(${1:dyn_player} + 0xE4)"
+    ]
+  },
+  "set_dyn_shields write": {
+    "scope": "lua",
+    "prefix": "set_dyn_shields",
+    "description": "Write dyn_player + 0xE4: Shields (0.0-1.0)",
+    "body": [
+      "write_float(${1:dyn_player} + 0xE4, ${2:value})"
+    ]
+  },
+  "dyn_weapon read": {
+    "scope": "lua",
+    "prefix": "dyn_weapon",
+    "description": "dyn_player + 0x118: Current weapon object ID",
+    "body": [
+      "read_dword(${1:dyn_player} + 0x118)"
+    ]
+  },
+  "dyn_vehicle read": {
+    "scope": "lua",
+    "prefix": "dyn_vehicle",
+    "description": "dyn_player + 0x11C: Vehicle object ID (0xFFFFFFFF = on foot)",
+    "body": [
+      "read_dword(${1:dyn_player} + 0x11C)"
+    ]
+  },
+  "dyn_keys read": {
+    "scope": "lua",
+    "prefix": "dyn_keys",
+    "description": "dyn_player + 0x208: Key/action input flags (bit 4 = flashlight)",
+    "body": [
+      "read_word(${1:dyn_player} + 0x208)"
+    ]
+  },
+  "dyn_movekey read": {
+    "scope": "lua",
+    "prefix": "dyn_movekey",
+    "description": "dyn_player + 0x2A3: Movement key input state",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x2A3)"
+    ]
+  },
+  "dyn_reloadkey read": {
+    "scope": "lua",
+    "prefix": "dyn_reloadkey",
+    "description": "dyn_player + 0x2A4: Reload key input state",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x2A4)"
+    ]
+  },
+  "dyn_seat read": {
+    "scope": "lua",
+    "prefix": "dyn_seat",
+    "description": "dyn_player + 0x2F0: Vehicle seat index",
+    "body": [
+      "read_word(${1:dyn_player} + 0x2F0)"
+    ]
+  },
+  "dyn_weaponslot read": {
+    "scope": "lua",
+    "prefix": "dyn_weaponslot",
+    "description": "dyn_player + 0x2F2: Current weapon slot (0-3)",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x2F2)"
+    ]
+  },
+  "dyn_frags read": {
+    "scope": "lua",
+    "prefix": "dyn_frags",
+    "description": "dyn_player + 0x31E: Frag grenades",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x31E)"
+    ]
+  },
+  "set_dyn_frags write": {
+    "scope": "lua",
+    "prefix": "set_dyn_frags",
+    "description": "Write dyn_player + 0x31E: Frag grenades",
+    "body": [
+      "write_byte(${1:dyn_player} + 0x31E, ${2:value})"
+    ]
+  },
+  "dyn_plasmas read": {
+    "scope": "lua",
+    "prefix": "dyn_plasmas",
+    "description": "dyn_player + 0x31F: Plasma grenades",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x31F)"
+    ]
+  },
+  "set_dyn_plasmas write": {
+    "scope": "lua",
+    "prefix": "set_dyn_plasmas",
+    "description": "Write dyn_player + 0x31F: Plasma grenades",
+    "body": [
+      "write_byte(${1:dyn_player} + 0x31F, ${2:value})"
+    ]
+  },
+  "dyn_zoomlevel read": {
+    "scope": "lua",
+    "prefix": "dyn_zoomlevel",
+    "description": "dyn_player + 0x320: Biped zoom level (0xFF = unzoomed)",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x320)"
+    ]
+  },
+  "set_dyn_zoomlevel write": {
+    "scope": "lua",
+    "prefix": "set_dyn_zoomlevel",
+    "description": "Write dyn_player + 0x320: Biped zoom level (0xFF = unzoomed)",
+    "body": [
+      "write_byte(${1:dyn_player} + 0x320, ${2:value})"
+    ]
+  },
+  "dyn_invis read": {
+    "scope": "lua",
+    "prefix": "dyn_invis",
+    "description": "dyn_player + 0x37C: Invisibility (1.0 = invisible)",
+    "body": [
+      "read_float(${1:dyn_player} + 0x37C)"
+    ]
+  },
+  "set_dyn_invis write": {
+    "scope": "lua",
+    "prefix": "set_dyn_invis",
+    "description": "Write dyn_player + 0x37C: Invisibility (1.0 = invisible)",
+    "body": [
+      "write_float(${1:dyn_player} + 0x37C, ${2:value})"
+    ]
+  },
+  "dyn_damager read": {
+    "scope": "lua",
+    "prefix": "dyn_damager",
+    "description": "dyn_player + 0x43C: Most recent damager player object ID",
+    "body": [
+      "read_dword(${1:dyn_player} + 0x43C)"
+    ]
+  },
+  "dyn_bumped read": {
+    "scope": "lua",
+    "prefix": "dyn_bumped",
+    "description": "dyn_player + 0x4FC: Bumped object ID",
+    "body": [
+      "read_dword(${1:dyn_player} + 0x4FC)"
+    ]
+  },
+  "dyn_weaponkey read": {
+    "scope": "lua",
+    "prefix": "dyn_weaponkey",
+    "description": "dyn_player + 0x47C: Weapon switch key input state",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x47C)"
+    ]
+  },
+  "dyn_grenadekey read": {
+    "scope": "lua",
+    "prefix": "dyn_grenadekey",
+    "description": "dyn_player + 0x47E: Grenade switch key input state",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x47E)"
+    ]
+  },
+  "dyn_zoomstate read": {
+    "scope": "lua",
+    "prefix": "dyn_zoomstate",
+    "description": "dyn_player + 0x480: Zoom state (0 = unzoomed)",
+    "body": [
+      "read_word(${1:dyn_player} + 0x480)"
+    ]
+  },
+  "dyn_trigger read": {
+    "scope": "lua",
+    "prefix": "dyn_trigger",
+    "description": "dyn_player + 0x490: Primary trigger / shooting state",
+    "body": [
+      "read_float(${1:dyn_player} + 0x490)"
+    ]
+  },
+  "dyn_crouch read": {
+    "scope": "lua",
+    "prefix": "dyn_crouch",
+    "description": "dyn_player + 0x50C: Crouch scale (0 standing, 1 crouched)",
+    "body": [
+      "read_float(${1:dyn_player} + 0x50C)"
+    ]
+  },
+  "sp_team read": {
+    "scope": "lua",
+    "prefix": "sp_team",
+    "description": "static_player + 0x20: Team (0 red, 1 blue)",
+    "body": [
+      "read_byte(${1:static_player} + 0x20)"
+    ]
+  },
+  "sp_respawn read": {
+    "scope": "lua",
+    "prefix": "sp_respawn",
+    "description": "static_player + 0x2C: Respawn timer (ticks)",
+    "body": [
+      "read_dword(${1:static_player} + 0x2C)"
+    ]
+  },
+  "set_sp_respawn write": {
+    "scope": "lua",
+    "prefix": "set_sp_respawn",
+    "description": "Write static_player + 0x2C: Respawn timer (ticks)",
+    "body": [
+      "write_dword(${1:static_player} + 0x2C, ${2:value})"
+    ]
+  },
+  "sp_growth read": {
+    "scope": "lua",
+    "prefix": "sp_growth",
+    "description": "static_player + 0x30: Respawn time growth (ticks)",
+    "body": [
+      "read_dword(${1:static_player} + 0x30)"
+    ]
+  },
+  "set_sp_growth write": {
+    "scope": "lua",
+    "prefix": "set_sp_growth",
+    "description": "Write static_player + 0x30: Respawn time growth (ticks)",
+    "body": [
+      "write_dword(${1:static_player} + 0x30, ${2:value})"
+    ]
+  },
+  "sp_biped read": {
+    "scope": "lua",
+    "prefix": "sp_biped",
+    "description": "static_player + 0x34: Player biped object ID",
+    "body": [
+      "read_dword(${1:static_player} + 0x34)"
+    ]
+  },
+  "sp_lastbiped read": {
+    "scope": "lua",
+    "prefix": "sp_lastbiped",
+    "description": "static_player + 0x38: Last biped object ID",
+    "body": [
+      "read_dword(${1:static_player} + 0x38)"
+    ]
+  },
+  "sp_color read": {
+    "scope": "lua",
+    "prefix": "sp_color",
+    "description": "static_player + 0x60: FFA color index (0-17)",
+    "body": [
+      "read_byte(${1:static_player} + 0x60)"
+    ]
+  },
+  "set_sp_color write": {
+    "scope": "lua",
+    "prefix": "set_sp_color",
+    "description": "Write static_player + 0x60: FFA color index (0-17)",
+    "body": [
+      "write_byte(${1:static_player} + 0x60, ${2:value})"
+    ]
+  },
+  "sp_camo read": {
+    "scope": "lua",
+    "prefix": "sp_camo",
+    "description": "static_player + 0x68: Active camo timer (> 0 = camouflaged)",
+    "body": [
+      "read_word(${1:static_player} + 0x68)"
+    ]
+  },
+  "sp_speed read": {
+    "scope": "lua",
+    "prefix": "sp_speed",
+    "description": "static_player + 0x6C: Speed multiplier (1.0 = normal)",
+    "body": [
+      "read_float(${1:static_player} + 0x6C)"
+    ]
+  },
+  "set_sp_speed write": {
+    "scope": "lua",
+    "prefix": "set_sp_speed",
+    "description": "Write static_player + 0x6C: Speed multiplier (1.0 = normal)",
+    "body": [
+      "write_float(${1:static_player} + 0x6C, ${2:value})"
+    ]
+  },
+  "sp_killstreak read": {
+    "scope": "lua",
+    "prefix": "sp_killstreak",
+    "description": "static_player + 0x96: Lifetime killstreak",
+    "body": [
+      "read_word(${1:static_player} + 0x96)"
+    ]
+  },
+  "sp_kills read": {
+    "scope": "lua",
+    "prefix": "sp_kills",
+    "description": "static_player + 0x9C: Kills",
+    "body": [
+      "read_word(${1:static_player} + 0x9C)"
+    ]
+  },
+  "set_sp_kills write": {
+    "scope": "lua",
+    "prefix": "set_sp_kills",
+    "description": "Write static_player + 0x9C: Kills",
+    "body": [
+      "write_word(${1:static_player} + 0x9C, ${2:value})"
+    ]
+  },
+  "sp_assists read": {
+    "scope": "lua",
+    "prefix": "sp_assists",
+    "description": "static_player + 0xA4: Assists",
+    "body": [
+      "read_word(${1:static_player} + 0xA4)"
+    ]
+  },
+  "set_sp_assists write": {
+    "scope": "lua",
+    "prefix": "set_sp_assists",
+    "description": "Write static_player + 0xA4: Assists",
+    "body": [
+      "write_word(${1:static_player} + 0xA4, ${2:value})"
+    ]
+  },
+  "sp_betrays read": {
+    "scope": "lua",
+    "prefix": "sp_betrays",
+    "description": "static_player + 0xAC: Betrays (+ suicides)",
+    "body": [
+      "read_word(${1:static_player} + 0xAC)"
+    ]
+  },
+  "sp_deaths read": {
+    "scope": "lua",
+    "prefix": "sp_deaths",
+    "description": "static_player + 0xAE: Deaths",
+    "body": [
+      "read_word(${1:static_player} + 0xAE)"
+    ]
+  },
+  "set_sp_deaths write": {
+    "scope": "lua",
+    "prefix": "set_sp_deaths",
+    "description": "Write static_player + 0xAE: Deaths",
+    "body": [
+      "write_word(${1:static_player} + 0xAE, ${2:value})"
+    ]
+  },
+  "sp_suicides read": {
+    "scope": "lua",
+    "prefix": "sp_suicides",
+    "description": "static_player + 0xB0: Suicides",
+    "body": [
+      "read_word(${1:static_player} + 0xB0)"
+    ]
+  },
+  "sp_hilltime read": {
+    "scope": "lua",
+    "prefix": "sp_hilltime",
+    "description": "static_player + 0xC4: KOTH hill time (ticks) / CTF flag steals",
+    "body": [
+      "read_word(${1:static_player} + 0xC4)"
+    ]
+  },
+  "sp_laps read": {
+    "scope": "lua",
+    "prefix": "sp_laps",
+    "description": "static_player + 0xC6: Race laps / CTF flag returns",
+    "body": [
+      "read_word(${1:static_player} + 0xC6)"
+    ]
+  },
+  "sp_score read": {
+    "scope": "lua",
+    "prefix": "sp_score",
+    "description": "static_player + 0xC8: CTF score / Oddball kills",
+    "body": [
+      "read_word(${1:static_player} + 0xC8)"
+    ]
+  },
+  "set_sp_score write": {
+    "scope": "lua",
+    "prefix": "set_sp_score",
+    "description": "Write static_player + 0xC8: CTF score / Oddball kills",
+    "body": [
+      "write_word(${1:static_player} + 0xC8, ${2:value})"
+    ]
+  },
+  "sp_ping read": {
+    "scope": "lua",
+    "prefix": "sp_ping",
+    "description": "static_player + 0xDC: Ping (ms)",
+    "body": [
+      "read_dword(${1:static_player} + 0xDC)"
+    ]
+  },
+  "sp_tkcount read": {
+    "scope": "lua",
+    "prefix": "sp_tkcount",
+    "description": "static_player + 0xE0: Teamkill count",
+    "body": [
+      "read_dword(${1:static_player} + 0xE0)"
+    ]
+  },
+  "sp_tktimer read": {
+    "scope": "lua",
+    "prefix": "sp_tktimer",
+    "description": "static_player + 0xE4: Teamkill timer (ticks)",
+    "body": [
+      "read_dword(${1:static_player} + 0xE4)"
+    ]
+  },
+  "wpn_overheat read": {
+    "scope": "lua",
+    "prefix": "wpn_overheat",
+    "description": "weapon_object + 0x240: Overheat (0-1)",
+    "body": [
+      "read_float(${1:weapon_object} + 0x240)"
+    ]
+  },
+  "set_wpn_overheat write": {
+    "scope": "lua",
+    "prefix": "set_wpn_overheat",
+    "description": "Write weapon_object + 0x240: Overheat (0-1)",
+    "body": [
+      "write_float(${1:weapon_object} + 0x240, ${2:value})"
+    ]
+  },
+  "wpn_reserve read": {
+    "scope": "lua",
+    "prefix": "wpn_reserve",
+    "description": "weapon_object + 0x2B6: Reserve ammo",
+    "body": [
+      "read_word(${1:weapon_object} + 0x2B6)"
+    ]
+  },
+  "set_wpn_reserve write": {
+    "scope": "lua",
+    "prefix": "set_wpn_reserve",
+    "description": "Write weapon_object + 0x2B6: Reserve ammo",
+    "body": [
+      "write_word(${1:weapon_object} + 0x2B6, ${2:value})"
+    ]
+  },
+  "wpn_mag read": {
+    "scope": "lua",
+    "prefix": "wpn_mag",
+    "description": "weapon_object + 0x2B8: Rounds in magazine",
+    "body": [
+      "read_word(${1:weapon_object} + 0x2B8)"
+    ]
+  },
+  "set_wpn_mag write": {
+    "scope": "lua",
+    "prefix": "set_wpn_mag",
+    "description": "Write weapon_object + 0x2B8: Rounds in magazine",
+    "body": [
+      "write_word(${1:weapon_object} + 0x2B8, ${2:value})"
+    ]
+  },
+  "wpn_reserve2 read": {
+    "scope": "lua",
+    "prefix": "wpn_reserve2",
+    "description": "weapon_object + 0x2C6: Secondary reserve ammo",
+    "body": [
+      "read_word(${1:weapon_object} + 0x2C6)"
+    ]
+  },
+  "set_wpn_reserve2 write": {
+    "scope": "lua",
+    "prefix": "set_wpn_reserve2",
+    "description": "Write weapon_object + 0x2C6: Secondary reserve ammo",
+    "body": [
+      "write_word(${1:weapon_object} + 0x2C6, ${2:value})"
+    ]
+  },
+  "wpn_mag2 read": {
+    "scope": "lua",
+    "prefix": "wpn_mag2",
+    "description": "weapon_object + 0x2C8: Secondary rounds in magazine",
+    "body": [
+      "read_word(${1:weapon_object} + 0x2C8)"
+    ]
+  },
+  "set_wpn_mag2 write": {
+    "scope": "lua",
+    "prefix": "set_wpn_mag2",
+    "description": "Write weapon_object + 0x2C8: Secondary rounds in magazine",
+    "body": [
+      "write_word(${1:weapon_object} + 0x2C8, ${2:value})"
+    ]
+  },
+  "veh_driver read": {
+    "scope": "lua",
+    "prefix": "veh_driver",
+    "description": "vehicle_object + 0x324: Driver unit object ID (0xFFFFFFFF = empty)",
+    "body": [
+      "read_dword(${1:vehicle_object} + 0x324)"
+    ]
+  },
+  "veh_gunner read": {
+    "scope": "lua",
+    "prefix": "veh_gunner",
+    "description": "vehicle_object + 0x328: Gunner unit object ID",
+    "body": [
+      "read_dword(${1:vehicle_object} + 0x328)"
+    ]
+  },
+  "veh_passenger read": {
+    "scope": "lua",
+    "prefix": "veh_passenger",
+    "description": "vehicle_object + 0x32C: Passenger unit object ID",
+    "body": [
+      "read_dword(${1:vehicle_object} + 0x32C)"
+    ]
+  },
+  "veh_abandoned read": {
+    "scope": "lua",
+    "prefix": "veh_abandoned",
+    "description": "vehicle_object + 0x330: Time abandoned (ticks)",
+    "body": [
+      "read_dword(${1:vehicle_object} + 0x330)"
+    ]
+  },
+  "veh_entryscale read": {
+    "scope": "lua",
+    "prefix": "veh_entryscale",
+    "description": "vehicle_object + 0x338: Vehicle entry scale",
+    "body": [
+      "read_float(${1:vehicle_object} + 0x338)"
+    ]
+  },
+  "veh_flashint read": {
+    "scope": "lua",
+    "prefix": "veh_flashint",
+    "description": "vehicle_object + 0x340: Flashlight intensity scale",
+    "body": [
+      "read_float(${1:vehicle_object} + 0x340)"
+    ]
+  },
+  "veh_flashenergy read": {
+    "scope": "lua",
+    "prefix": "veh_flashenergy",
+    "description": "vehicle_object + 0x344: Flashlight energy remaining",
+    "body": [
+      "read_float(${1:vehicle_object} + 0x344)"
+    ]
+  },
+  "tag_class read": {
+    "scope": "lua",
+    "prefix": "tag_class",
+    "description": "tag_entry + 0x0: Tag class dword",
+    "body": [
+      "read_dword(${1:tag_entry} + 0x0)"
+    ]
+  },
+  "tag_meta read": {
+    "scope": "lua",
+    "prefix": "tag_meta",
+    "description": "tag_entry + 0xC: Meta ID",
+    "body": [
+      "read_dword(${1:tag_entry} + 0xC)"
+    ]
+  },
+  "tag_data read": {
+    "scope": "lua",
+    "prefix": "tag_data",
+    "description": "tag_entry + 0x14: Pointer to tag data",
+    "body": [
+      "read_dword(${1:tag_entry} + 0x14)"
+    ]
+  },
+  "gt_type read": {
+    "scope": "lua",
+    "prefix": "gt_type",
+    "description": "gametype_base + 0x30: Game type code (1 ctf, 2 slayer, 3 oddball, 4 king, 5 race)",
+    "body": [
+      "read_byte(${1:gametype_base} + 0x30)"
+    ]
+  },
+  "gt_teamplay read": {
+    "scope": "lua",
+    "prefix": "gt_teamplay",
+    "description": "gametype_base + 0x34: Team play (0 off, 1 on)",
+    "body": [
+      "read_byte(${1:gametype_base} + 0x34)"
+    ]
+  },
+  "gt_lives read": {
+    "scope": "lua",
+    "prefix": "gt_lives",
+    "description": "gametype_base + 0x50: Lives (0 = unlimited)",
+    "body": [
+      "read_byte(${1:gametype_base} + 0x50)"
+    ]
+  },
+  "gt_scorelimit read": {
+    "scope": "lua",
+    "prefix": "gt_scorelimit",
+    "description": "gametype_base + 0x58: Score limit",
+    "body": [
+      "read_byte(${1:gametype_base} + 0x58)"
+    ]
+  },
+  "gt_friendlyfire read": {
+    "scope": "lua",
+    "prefix": "gt_friendlyfire",
+    "description": "gametype_base + 0x6C: Friendly fire (0 off, 1 on)",
+    "body": [
+      "read_byte(${1:gametype_base} + 0x6C)"
+    ]
+  },
+  "gt_timelimit read": {
+    "scope": "lua",
+    "prefix": "gt_timelimit",
+    "description": "gametype_base + 0x78: Time limit (ticks)",
+    "body": [
+      "read_dword(${1:gametype_base} + 0x78)"
+    ]
+  },
+  "obj_pos read": {
+    "scope": "lua",
+    "prefix": "obj_pos",
+    "description": "object + 0x5C: World position",
+    "body": [
+      "local ${2:x}, ${3:y}, ${4:z} = read_vector3d(${1:object} + 0x5C)"
+    ]
+  },
+  "set_obj_pos write": {
+    "scope": "lua",
+    "prefix": "set_obj_pos",
+    "description": "Write object + 0x5C: World position",
+    "body": [
+      "write_vector3d(${1:object} + 0x5C, ${2:x}, ${3:y}, ${4:z})"
+    ]
+  },
+  "obj_vel read": {
+    "scope": "lua",
+    "prefix": "obj_vel",
+    "description": "object + 0x68: Velocity (WU per tick)",
+    "body": [
+      "local ${2:vx}, ${3:vy}, ${4:vz} = read_vector3d(${1:object} + 0x68)"
+    ]
+  },
+  "set_obj_vel write": {
+    "scope": "lua",
+    "prefix": "set_obj_vel",
+    "description": "Write object + 0x68: Velocity (WU per tick)",
+    "body": [
+      "write_vector3d(${1:object} + 0x68, ${2:x}, ${3:y}, ${4:z})"
+    ]
+  },
+  "obj_fwd read": {
+    "scope": "lua",
+    "prefix": "obj_fwd",
+    "description": "object + 0x74: Forward vector",
+    "body": [
+      "local ${2:fx}, ${3:fy}, ${4:fz} = read_vector3d(${1:object} + 0x74)"
+    ]
+  },
+  "set_obj_fwd write": {
+    "scope": "lua",
+    "prefix": "set_obj_fwd",
+    "description": "Write object + 0x74: Forward vector",
+    "body": [
+      "write_vector3d(${1:object} + 0x74, ${2:x}, ${3:y}, ${4:z})"
+    ]
+  },
+  "dyn_aim read": {
+    "scope": "lua",
+    "prefix": "dyn_aim",
+    "description": "dyn_player + 0x230: Aim vector",
+    "body": [
+      "local ${2:aim_x}, ${3:aim_y}, ${4:aim_z} = read_vector3d(${1:dyn_player} + 0x230)"
+    ]
+  },
+  "sp_altpos read": {
+    "scope": "lua",
+    "prefix": "sp_altpos",
+    "description": "static_player + 0xF8: Alternate world position",
+    "body": [
+      "local ${2:x}, ${3:y}, ${4:z} = read_vector3d(${1:static_player} + 0xF8)"
+    ]
+  },
+  "set_sp_altpos write": {
+    "scope": "lua",
+    "prefix": "set_sp_altpos",
+    "description": "Write static_player + 0xF8: Alternate world position",
+    "body": [
+      "write_vector3d(${1:static_player} + 0xF8, ${2:x}, ${3:y}, ${4:z})"
+    ]
+  },
+  "dyn_weaponslotN read": {
+    "scope": "lua",
+    "prefix": "dyn_weaponslot_id",
+    "description": "dyn_player + 0x2F8 + (slot * 4): weapon object ID in slot (0-3)",
+    "body": [
+      "read_dword(${1:dyn_player} + 0x2F8 + (${2:slot} * 4))"
+    ]
+  },
+  "dyn_flags bit": {
+    "scope": "lua",
+    "prefix": "dyn_flag",
+    "description": "dyn_player + 0x106 flag bit (2 health empty, 3 shield empty, 4 overshield, 11 invulnerable, 12 recharging)",
+    "body": [
+      "read_bit(${1:dyn_player} + 0x106, ${2:bit})"
+    ]
+  },
+  "obj_flags bit": {
+    "scope": "lua",
+    "prefix": "obj_flag",
+    "description": "object + 0x10 flag bit (0 no collision, 5 ignore physics)",
+    "body": [
+      "read_bit(${1:object} + 0x10, ${2:bit})"
+    ]
+  },
+  "set_obj_flags bit": {
+    "scope": "lua",
+    "prefix": "set_obj_flag",
+    "description": "Write object + 0x10 flag bit (0 no collision, 5 ignore physics)",
+    "body": [
+      "write_bit(${1:object} + 0x10, ${2:bit}, ${3:value})"
+    ]
+  },
+  "sp_name read": {
+    "scope": "lua",
+    "prefix": "sp_name",
+    "description": "static_player + 0x4: name (UTF-16LE, needs readWideString from Common Reference)",
+    "body": [
+      "readWideString(${1:static_player} + 0x4, 12)"
+    ]
+  },
+  "tag_name read": {
+    "scope": "lua",
+    "prefix": "tag_name",
+    "description": "tag_entry + 0x10: tag path",
+    "body": [
+      "read_string(read_dword(${1:tag_entry} + 0x10))"
+    ]
+  },
+  "tag_array read": {
+    "scope": "lua",
+    "prefix": "tag_array",
+    "description": "Tag table array pointer (0x40440000 on PC and CE)",
+    "body": [
+      "read_dword(0x40440000)"
+    ]
+  },
+  "tag_count read": {
+    "scope": "lua",
+    "prefix": "tag_count",
+    "description": "Tag count (0x40440000 + 0xC)",
+    "body": [
+      "read_dword(0x40440000 + 0xC)"
+    ]
+  },
+  "tag_entry lookup": {
+    "scope": "lua",
+    "prefix": "tag_entry",
+    "description": "Address of a tag entry by index",
+    "body": [
+      "${1:tag_array} + (${2:tag_index} * 0x20)"
+    ]
+  },
+  "obj_tagindex read": {
+    "scope": "lua",
+    "prefix": "obj_tagindex",
+    "description": "object tag index (low word of the tag ID)",
+    "body": [
+      "read_word(${1:object})"
+    ]
+  },
+  "veh_pos2 read": {
+    "scope": "lua",
+    "prefix": "veh_pos2",
+    "description": "vehicle_object + 0x348: extra position X and Y",
+    "body": [
+      "read_float(${1:vehicle_object} + 0x348), read_float(${1:vehicle_object} + 0x34C)"
+    ]
+  }
+}

@@ -298,9 +298,49 @@ function safe_read(enabled) end
 ---@param enabled boolean
 function safe_write(enabled) end
 
+--- Known signatures. The comment shows the pointer name and how to resolve it from the match.
+--- slayer_globals is left out on purpose: its pattern embeds a CE address, use the hardcoded pointer.
+---@alias SappSignature
+--- | "A3??????00A1??????0033DB3BC3" # banlist_header: read_dword(sig + 1)
+--- | "68??????00E8??????0083C41068" # banlist_path_address: read_dword(sig + 0x1)
+--- | "CCCCC605??????0000E8??????0085C0" # banlist_path_address2: read_dword(sig + 0x4)
+--- | "CCCCBA??????002BD08A08" # broadcast_game_address: read_dword(sig + 0x3)
+--- | "751768??????0068??????00BA" # broadcast_version_address: read_dword(sig + 0x3)
+--- | "741F8B482085C9750C" # color_patch1: patch address, use sig as is
+--- | "EB1F8B482085C9750C" # color_patch2: patch address, use sig as is
+--- | "68??????0068??????0068000401006A00" # computer_name_address: read_dword(sig + 0x1)
+--- | "8B3C85????????3BF9741FE8????????8B8E2C0200008B4610" # ctf_globals: read_dword(sig + 3)
+--- | "A1????????8B480C894D00" # gameinfo_header: read_dword(sig + 0x1)
+--- | "B9360000008BF3BF????????" # gametype_base (CE only): read_dword(sig + 0x8), PC needs the hardcoded 0x671320
+--- | "BE??????008BC68B4DF064890D000000005F5E5B8BE55DC36A0C" # hardware_info_address: read_dword(sig + 0x1)
+--- | "8B42348A8C28D500000084C9" # kill_message_address: read_dword(sig + 3)
+--- | "BF??????00F3ABB96B000000" # koth_globals: read_dword(sig + 0x1)
+--- | "740ABB????5C00E8????0300" # logfile_path_address (CE only): read_dword(sig + 0x3)
+--- | "66A3??????00890D??????00C3" # map_name_address: read_dword(sig + 0x2)
+--- | "B8??????00E8??????0032C983F813" # map_name_address2: read_dword(sig + 0x1)
+--- | "F3ABA1????????BA????????C740??????????E8????????668B0D" # network_struct: read_dword(sig + 3)
+--- | "8B??3883C404????74??57FFD0" # nonslayer_score_patch: patch address, sig + 0x8
+--- | "8B0D????????8B513425FFFF00008D" # object_header_pointer: read_dword(sig + 2)
+--- | "BF??????00F3ABB951000000" # oddball_globals: read_dword(sig + 0x1)
+--- | "DDD8A1??????008944244835" # player_header_pointer: read_dword(sig + 0x3)
+--- | "68??????008D54245468" # profile_path_address: read_dword(sig + 0x1)
+--- | "BF??????00F3ABB952000000" # race_globals: read_dword(sig + 0x1)
+--- | "B8????????E8??000000A1????????55" # rcon_failed_address: read_dword(sig + 1)
+--- | "7740BA??????008D9B000000008A01" # rcon_password_address: read_dword(sig + 0x3)
+--- | "BA??????008BC72BD78A08880C024084C975F68B442404" # server_ip_argument: read_dword(sig + 0x1)
+--- | "F3ABA3??????00A3??????00A2??????00C705" # server_password_address: read_dword(sig + 0x3)
+--- | "0000BE??????005657C605" # server_path_address: read_dword(sig + 0x3)
+--- | "668B0D??????000BF2C605" # server_port_address: read_dword(sig + 0x3)
+--- | "5733C0B910000000BFE8E05B00F3ABB910000000" # slayer_globals (CE only): read_dword(sig + 19)
+--- | "74178B94242808000052518B8C24280800005157FFD083C4108B8424240800003BF8530F94C383FFFF" # slayer_score_patch: patch address, use sig as is
+--- | "33C0BF??????00F3AB881D" # stats_globals: read_dword(sig + 0x3)
+--- | "8B510C6A018915????????E8????????83C404" # sv_map_reset_tick_address: read_dword(sig + 7)
+--- | "8B2D????????807D0000C644240600" # tick_counter_sig: read_dword(read_dword(sig + 2)) + 0xC
+--- | "8B0D????????83C8FF85C97E17" # timelimit_address: read_dword(sig + 2)
+
 --- Finds a byte pattern ("??" is a wildcard). Returns the match address, or 0.
 --- Guard against 0 before dereferencing.
----@param signature string
+---@param signature string | SappSignature
 ---@return number address
 function sig_scan(signature) end
 
@@ -324,6 +364,26 @@ function rprint(player_id, message) end
 ---@param message string
 ---@param color?  number Color id 0-255
 function cprint(message, color) end
+
+---@alias TagClass
+--- | "weap" # Weapon
+--- | "vehi" # Vehicle
+--- | "eqip" # Equipment (powerups, grenades)
+--- | "proj" # Projectile
+--- | "bipd" # Biped
+--- | "scen" # Scenery
+--- | "mach" # Device machine
+--- | "ctrl" # Device control
+--- | "lifi" # Device light fixture
+--- | "garb" # Garbage
+--- | "plac" # Placeholder
+--- | "ssce" # Sound scenery
+--- | "jpt!" # Damage effect
+--- | "effe" # Effect
+--- | "snd!" # Sound
+--- | "bitm" # Bitmap
+--- | "matg" # Globals
+--- | "scnr" # Scenario
 
 -- Players and objects ----------------------------------------------------------------------
 
@@ -393,7 +453,7 @@ function camo(player_id, ticks) end
 function powerup_interact(object_id, player_id) end
 
 --- Returns the object id (0 on failure). Pass "" for class and path when spawning by tag_id.
----@param tag_class string
+---@param tag_class TagClass | string
 ---@param tag_path  string
 ---@param x?        number
 ---@param y?        number
@@ -404,7 +464,7 @@ function powerup_interact(object_id, player_id) end
 function spawn_object(tag_class, tag_path, x, y, z, rotation, tag_id) end
 
 --- Spawns at a named location (see loc_add).
----@param tag_class string
+---@param tag_class TagClass | string
 ---@param tag_path  string
 ---@param location  string
 ---@param rotation? number Radians
@@ -449,7 +509,7 @@ function intersect(x, y, z, vx, vy, vz, ignore_object_id) end
 
 --- Returns the tag address, or 0 if not found. Use the tag id form on protected maps.
 ---@overload fun(tag_id: number): number
----@param tag_class string Four-letter class, e.g. "weap"
+---@param tag_class TagClass | string Four-letter class, e.g. "weap"
 ---@param tag_name  string
 ---@return number address
 function lookup_tag(tag_class, tag_name) end
