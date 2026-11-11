@@ -7,6 +7,21 @@
 
 ---@alias PhasorGame "PC"|"CE"
 
+-- Script lifecycle -------------------------------------------------------------------------
+
+--- Required. Phasor refuses to load the script without it.
+---@return integer version Must return 200
+function GetRequiredVersion() end
+
+--- Required. Called once when the script is loaded.
+---@param process_id number The process ID of the server
+---@param game PhasorGame "PC" or "CE"
+---@param persistent boolean True if the script is persistent
+function OnScriptLoad(process_id, game, persistent) end
+
+--- Optional. Called once when the script is unloaded.
+function OnScriptUnload() end
+
 -- Memory -----------------------------------------------------------------------------------
 
 --- bit_offset is 0-7 and counted from data + data_offset.

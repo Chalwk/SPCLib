@@ -23,6 +23,12 @@
 
 ---@alias ChimeraGametype "ctf"|"slayer"|"oddball"|"king"|"race"
 
+-- Script lifecycle -------------------------------------------------------------------------
+
+--- Required. The script refuses to load without it.
+---@type number
+clua_version = nil
+
 -- Globals ----------------------------------------------------------------------------------
 
 --- Chimera build number (Git commit count).
