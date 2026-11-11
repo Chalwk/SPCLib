@@ -1,11 +1,21 @@
 {
-  "$schema": "https://raw.githubusercontent.com/EmmyLuaLs/emmylua-analyzer-rust/refs/heads/main/crates/emmylua_code_analysis/resources/schema.json",
   "runtime": {
     "version": "Lua5.5"
   },
   "workspace": {
     "library": [
-      "../reference/types/chimera"
+      "${workspaceFolder}/../reference/types"
+    ],
+    "packageDirs": [
+      "chimera"
+    ]
+  },
+  "diagnostics": {
+    "workspaceDelay": -1,
+    "workspaceEvent": "None",
+    "enable": true,
+    "disable": [
+      "undefined-global"
     ]
   }
 }

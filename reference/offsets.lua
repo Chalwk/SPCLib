@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global, global-in-non-module, param-type-mismatch, need-check-nil, redundant-parameter, assign-type-mismatch, unnecessary-if
 -- Addresses and Offsets
 -- Created by Wizard, edited by aLTis
 
