@@ -1,11 +1,11 @@
 ---@meta
 -- Phasor 2.0 Lua API for EmmyLua and lua-language-server.
 -- Runtime is Lua 5.2.
--- 
+--
 -- Copyright (c) 2026 Jericho Crosby (Chalwk).
--- 
+--
 
----@alias PhasorGame "PC"|"CE"
+---@alias PhasorGame "PC" | "CE"
 
 -- Script lifecycle -------------------------------------------------------------------------
 
@@ -14,9 +14,9 @@
 function GetRequiredVersion() end
 
 --- Required. Called once when the script is loaded.
----@param process_id number The process ID of the server
----@param game PhasorGame "PC" or "CE"
----@param persistent boolean True if the script is persistent
+---@param process_id number     The process ID of the server
+---@param game       PhasorGame "PC" or "CE"
+---@param persistent boolean    True if the script is persistent
 function OnScriptLoad(process_id, game, persistent) end
 
 --- Optional. Called once when the script is unloaded.
@@ -25,16 +25,16 @@ function OnScriptUnload() end
 -- Memory -----------------------------------------------------------------------------------
 
 --- bit_offset is 0-7 and counted from data + data_offset.
----@param data integer
+---@param data        integer
 ---@param data_offset integer
----@param bit_offset integer
+---@param bit_offset  integer
 ---@return integer bit 0 or 1
 function readbit(data, data_offset, bit_offset) end
 
----@param data_addr integer
+---@param data_addr   integer
 ---@param data_offset integer
----@param bit_offset integer
----@param bit integer 0 or 1
+---@param bit_offset  integer
+---@param bit         integer 0 or 1
 function writebit(data_addr, data_offset, bit_offset, bit) end
 
 --- Reads an unsigned 8-bit integer.
@@ -79,42 +79,42 @@ function readdouble(address) end
 
 --- Writes an unsigned 8-bit integer.
 ---@param address integer
----@param value integer
+---@param value   integer
 function writebyte(address, value) end
 
 --- Writes a signed 8-bit integer.
 ---@param address integer
----@param value integer
+---@param value   integer
 function writechar(address, value) end
 
 --- Writes an unsigned 16-bit integer.
 ---@param address integer
----@param value integer
+---@param value   integer
 function writeword(address, value) end
 
 --- Writes a signed 16-bit integer.
 ---@param address integer
----@param value integer
+---@param value   integer
 function writeshort(address, value) end
 
 --- Writes an unsigned 32-bit integer.
 ---@param address integer
----@param value integer
+---@param value   integer
 function writedword(address, value) end
 
 --- Writes a signed 32-bit integer.
 ---@param address integer
----@param value integer
+---@param value   integer
 function writeint(address, value) end
 
 --- Writes a 32-bit float.
 ---@param address integer
----@param value number
+---@param value   number
 function writefloat(address, value) end
 
 --- Writes a 64-bit float.
 ---@param address integer
----@param value number
+---@param value   number
 function writedouble(address, value) end
 
 ---@param address integer
@@ -123,7 +123,7 @@ function writedouble(address, value) end
 function readstring(address, length) end
 
 ---@param address integer
----@param value string
+---@param value   string
 ---@param length? integer
 function writestring(address, value, length) end
 
@@ -134,7 +134,7 @@ function writestring(address, value, length) end
 function readwidestring(address, length) end
 
 ---@param address integer
----@param value string
+---@param value   string
 ---@param length? integer
 function writewidestring(address, value, length) end
 
@@ -145,7 +145,7 @@ function writewidestring(address, value, length) end
 function say(message) end
 
 --- In-game chat, one player.
----@param player integer
+---@param player  integer
 ---@param message string
 function privatesay(player, message) end
 
@@ -162,7 +162,7 @@ function hprint(message) end
 function respond(message) end
 
 --- Displays text in a player's console.
----@param player integer
+---@param player  integer
 ---@param message string
 function sendconsoletext(player, message) end
 
@@ -170,7 +170,7 @@ function sendconsoletext(player, message) end
 
 --- Player table address, or nil if the slot is empty.
 ---@param player integer
----@return integer|nil address
+---@return integer | nil address
 function getplayer(player) end
 
 ---@param player integer
@@ -183,7 +183,7 @@ function getname(player) end
 function gethash(player) end
 
 ---@param player integer
----@return string|nil ip
+---@return string | nil ip
 function getip(player) end
 
 --- 0 red, 1 blue.
@@ -210,13 +210,13 @@ function kill(player) end
 function isinvehicle(player) end
 
 --- duration in seconds, 0 lasts until death.
----@param player integer
+---@param player   integer
 ---@param duration number
 function applycamo(player, duration) end
 
 --- Movement multiplier, default 1.0.
 ---@param player integer
----@param speed number
+---@param speed  number
 function setspeed(player, speed) end
 
 ---@param player integer
@@ -235,7 +235,7 @@ function rresolveplayer(rcon_id) end
 
 --- Executes a server command in the context of a player.
 ---@param command string
----@param player integer Player memory id (0-15)
+---@param player  integer Player memory id (0-15)
 function svcmdplayer(command, player) end
 
 -- Objects ----------------------------------------------------------------------------------
@@ -252,7 +252,7 @@ function getplayerobjectid(player) end
 
 --- Returns the player memory id associated with an object, or nil if it is not a player object.
 ---@param object_id integer
----@return integer|nil player
+---@return integer | nil player
 function objectidtoplayer(object_id) end
 
 --- A player in a vehicle returns the vehicle's coordinates.
@@ -270,27 +270,27 @@ function gettagid(tag_type, tag_name) end
 
 --- Returns the tag path and class for a map tag id.
 ---@param map_id integer
----@return string|nil tag_name
----@return string|nil tag_type
+---@return string | nil tag_name
+---@return string | nil tag_type
 function gettaginfo(map_id) end
 
 --- Moves an object to absolute coordinates.
 ---@param object_id integer
----@param x number
----@param y number
----@param z number
+---@param x         number
+---@param y         number
+---@param z         number
 function movobjectcoords(object_id, x, y, z) end
 
 --- respawn_time: seconds, 0 never, -1 gametype default. For weapons, grenades and powerups
 --- recycle is ignored and respawn_time becomes the delay before the object is destroyed.
----@param tag_type string Four-letter class
----@param tag_name string
----@param parent_id integer -1 for none
+---@param tag_type     string      Four-letter class
+---@param tag_name     string
+---@param parent_id    integer - 1 for none
 ---@param respawn_time number
----@param recycle boolean true respawns, false destroys
----@param x number
----@param y number
----@param z number
+---@param recycle      boolean     true respawns, false destroys
+---@param x            number
+---@param y            number
+---@param z            number
 ---@return integer object_id
 function createobject(tag_type, tag_name, parent_id, respawn_time, recycle, x, y, z) end
 
@@ -299,18 +299,18 @@ function createobject(tag_type, tag_name, parent_id, respawn_time, recycle, x, y
 function destroyobject(object_id) end
 
 ---@param object_id integer
----@param x number
----@param y number
----@param z number
+---@param x         number
+---@param y         number
+---@param z         number
 function movobjcoords(object_id, x, y, z) end
 
 --- Teleports to a named location such as "redbase".
 ---@param object_id integer
----@param name string
+---@param name      string
 function movobjname(object_id, name) end
 
 --- Gives a weapon to a player who has fewer than 4.
----@param player integer
+---@param player    integer
 ---@param object_id integer
 function assignweapon(player, object_id) end
 
@@ -319,9 +319,9 @@ function assignweapon(player, object_id) end
 function updateammo(weapon_id) end
 
 --- seat: 0 driver, 1 passenger, 2 gunner. The player must not already be in a vehicle.
----@param player integer
+---@param player     integer
 ---@param vehicle_id integer
----@param seat integer
+---@param seat       integer
 function entervehicle(player, vehicle_id, seat) end
 
 ---@param player integer
@@ -331,9 +331,9 @@ function exitvehicle(player) end
 
 --- Calls a global function after delay ms. The callback receives (timer_id, count, ...) and
 --- returns truthy to repeat or falsy to stop.
----@param delay integer Milliseconds
----@param callback_name string Name of a global function
----@param ... any Forwarded to the callback
+---@param delay         integer Milliseconds
+---@param callback_name string  Name of a global function
+---@param ...           any     Forwarded to the callback
 ---@return integer timer_id
 function registertimer(delay, callback_name, ...) end
 
@@ -341,9 +341,9 @@ function registertimer(delay, callback_name, ...) end
 function removetimer(timer_id) end
 
 --- Player arguments in the command must be RCON ids. Set get_response to true to capture output.
----@param command string
+---@param command       string
 ---@param get_response? boolean
----@return string[]|nil response
+---@return string[] | nil response
 function svcmd(command, get_response) end
 
 --- Sets the multiplier for damage lookup processing.
@@ -353,7 +353,7 @@ function odl_multiplier(multiplier) end
 --- String helpers ---------------------------------------------------------------------------
 
 --- Splits a string using the supplied delimiter.
----@param value string
+---@param value     string
 ---@param delimiter string
 ---@return string[] parts
 function tokenizestring(value, delimiter) end
