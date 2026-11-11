@@ -10,7 +10,7 @@ DESCRIPTION:      Displays kill count to players after each kill
                   Default message format: "Kill Counter: X"
                   Customize by editing the 'output' variable
 
-Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
+Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
@@ -28,13 +28,12 @@ function OnDeath(Victim, Killer)
     local killer = tonumber(Killer)
     local victim = tonumber(Victim)
 
-    if (killer > 0 and killer ~= victim) then
-        local kills = tonumber(get_var(killer, '$kills'))
-        local str = output:gsub('$kills', kills)
-        rprint(killer, str)
-    end
+    if killer == nil or victim == nil then return end
+    if killer <= 0 or killer == victim then return end
+
+    local kills = get_var(killer, '$kills')
+    local str = output:gsub('$kills', kills)
+    rprint(killer, str)
 end
 
-function OnScriptUnload()
-    -- N/A
-end
+function OnScriptUnload() end

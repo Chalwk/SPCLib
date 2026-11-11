@@ -33,6 +33,7 @@ local MVP_MESSAGES = {
     ['AnotherPlayerName'] = "Welcome, $name! Glad you could join us!"
 }
 
+---@type string[]
 local GENERAL_MESSAGES = {
     "Welcome to the server, $name!", "Hello $name, glad to have you!", "Hey $name, enjoy your stay!"
 }

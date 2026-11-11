@@ -22,9 +22,8 @@ local floor, format = math.floor, string.format
 local get_var, timer = get_var, timer
 local player_present, rprint = player_present, rprint
 
-local timelimit_address, tick_counter_address, sv_map_reset_tick_address
-local game_started
-local disabled = {}
+local timelimit_address, tick_counter_address, sv_map_reset_tick_address = 0.0, 0.0, 0.0
+local game_started, disabled = false, {}
 
 local function SecondsToTime(seconds)
     seconds = floor(seconds)
@@ -42,10 +41,6 @@ local function getTimeRemaining()
 end
 
 function OnScriptLoad()
-    register_callback(cb.EVENT_COMMAND, "OnCommand")
-    register_callback(cb.EVENT_GAME_END, "OnEnd")
-    register_callback(cb.EVENT_GAME_START, "OnStart")
-
     local tick_counter_sig = sig_scan("8B2D????????807D0000C644240600")
     if tick_counter_sig == 0 then return end
 
@@ -59,19 +54,21 @@ function OnScriptLoad()
     sv_map_reset_tick_address = read_dword(sv_map_reset_tick_sig + 7)
     tick_counter_address = read_dword(read_dword(tick_counter_sig + 2)) + 0xC
 
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
+
     OnStart() -- in case script is loaded mid-game
 end
 
 function OnStart()
     if get_var(0, '$gt') == "n/a" then return end
-    game_started = true
-    disabled = {}
+    game_started, disabled = true, {}
     timer(1000 * DISPLAY_INTERVAL, "GameCountdown")
 end
 
 function OnEnd()
-    game_started = false
-    disabled = {}
+    game_started, disabled = false, {}
 end
 
 function OnCommand(id, command)
