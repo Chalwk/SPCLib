@@ -24,24 +24,24 @@
 
 - [Overview](#overview)
 - [SAPP, Phasor and Chimera](#sapp-phasor-and-chimera)
-    - [Platform comparison](#platform-comparison)
+  - [Platform comparison](#platform-comparison)
 - [Scripts and docs](#scripts-and-docs)
-    - [Script categories](#script-categories)
-    - [Script boilerplate and placement](#script-boilerplate-and-placement)
+  - [Script categories](#script-categories)
+  - [Script boilerplate and placement](#script-boilerplate-and-placement)
 - [SAPP archive and mirrors](#sapp-archive-and-mirrors)
 - [Web tools](#web-tools)
-    - [Script Browser](#script-browserscript_browser)
-    - [Hash Checker](#hash-checkerhash_checker)
-    - [HaloDiscordBot](#halodiscordbothalo_discord_bot)
+  - [Script Browser](#script-browser)
+  - [Hash Checker](#hash-checker)
+  - [HaloDiscordBot](#halodiscordbot)
 - [Halo CE installer](#halo-ce-installer)
-    - [Installer](#installer)
-    - [1.0.10 patch](#1010-patch)
-    - [LAA patches](#laa-patches)
+  - [Installer](#installer)
+  - [1.0.10 patch](#1010-patch)
+  - [LAA patches](#laa-patches)
 - [Community hubs](#community-hubs)
 - [Clans (past and present)](#clans-past-and-present)
 - [Contributing](#contributing)
-    - [Submit feature request](#submit-feature-request)
-    - [Report issue](#report-issue)
+  - [Submit feature request](#submit-feature-request)
+  - [Report issue](#report-issue)
 - [License](#license)
 
 ---
@@ -76,7 +76,7 @@ supported in SPCLib.
 How the three environments differ. See the linked guides for detail.
 
 | Aspect                     | SAPP                                                                                                | Phasor                                                                        | Chimera                                                     |
-|----------------------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------|
+| -------------------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------- |
 | Side                       | Server                                                                                              | Server                                                                        | Client                                                      |
 | Lua runtime                | LuaJIT (Lua 5.1)                                                                                    | Lua 5.2                                                                       | Lua 5.5.1                                                   |
 | Required boilerplate       | `api_version = "1.12.0.0"` plus `OnScriptLoad()`                                                    | `GetRequiredVersion()` returning `200` plus `OnScriptLoad()`                  | `clua_version = 2.056` plus `set_callback(...)`             |
@@ -111,7 +111,7 @@ SAPP and Phasor Lua scripts are grouped by folder:
 - `utility`: server configuration, spawning, map control and misc tools
 
 | Platform             | Resource                                     | Description                                                                                     |
-|----------------------|----------------------------------------------|-------------------------------------------------------------------------------------------------|
+| -------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | Scripts and releases | [SAPP Scripts][sapp_scripts]                 | Server-side Lua scripts                                                                         |
 |                      | [Phasor Scripts][phasor_scripts]             | Server-side Lua scripts                                                                         |
 |                      | [Chimera Scripts][chimera_scripts]           | Client-side Lua scripts                                                                         |
@@ -269,7 +269,7 @@ JDK integration that pipes Halo server events into Discord as rich embeds.
 Activity varies across hubs. Some are active, others are legacy archives.
 
 | Hub                                                                          | Description                                                                                    |
-|------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | Chalwk - Code & Chill, [Discord][chalwk_discord]                             | Community server for all my projects, support and general chat.                                |
 | Open Carnage, [Website][opencarnage_website], [Discord][opencarnage_discord] | Former major CE modding forum, now read-only after DDoS attacks.                               |
 | Chimera, [Forum][chimera_forum], [Discord][chimera_discord]                  | Essential client-side mod with map downloads, renderer fixes and quality-of-life improvements. |

@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "name": "SAPP",
+      "path": "sapp"
+    },
+    {
+      "name": "Phasor",
+      "path": "phasor"
+    },
+    {
+      "name": "Chimera",
+      "path": "chimera"
+    }
+  ]
+}

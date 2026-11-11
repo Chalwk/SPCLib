@@ -361,7 +361,7 @@ function OnTick()
     get_total_checkpoints()
     if not total_checkpoints then return end
 
-    local vehicle_name, kmh = "", 0
+    local vehicle_name, kmh = "", 0.0
     local current_idx = 0
 
     local checkpoint_mask = read_dword(checkpoint_addr) -- (0-indexed)
@@ -372,25 +372,29 @@ function OnTick()
     current_idx = last_idx
 
     local vehicle_obj = get_player_vehicle(player)
-    if vehicle_obj then
-        if vehicle_obj ~= last_vehicle_obj then
-            last_vehicle_obj = vehicle_obj
-            last_vehicle_name = get_vehicle_name_cached(vehicle_obj)
-        end
-        vehicle_name = last_vehicle_name
+    if not vehicle_obj then goto continue end
 
-        local vx = read_float(vehicle_obj + 0x68)
-        local vy = read_float(vehicle_obj + 0x6C)
-        local vz = read_float(vehicle_obj + 0x70)
-        kmh = math_sqrt(vx * vx + vy * vy + vz * vz) * FACTOR
+    if vehicle_obj ~= last_vehicle_obj then
+        last_vehicle_obj = vehicle_obj
+        last_vehicle_name = get_vehicle_name_cached(vehicle_obj)
     end
+    vehicle_name = last_vehicle_name
+
+    local vx = read_float(vehicle_obj--[[@cast -?]] + 0x68)
+    local vy = read_float(vehicle_obj--[[@cast -?]] + 0x6C)
+    local vz = read_float(vehicle_obj--[[@cast -?]] + 0x70)
+    kmh = math_sqrt(vx * vx + vy * vy + vz * vz) * FACTOR
+
+    ::continue::
 
     if not lap_finished and total_checkpoints > 0 then
         if not lap_started and current_idx > 0 then
             lap_started = true
+            ---@diagnostic disable-next-line: assign-type-mismatch
             start_time_seconds = os_clock()
             current_time_seconds = 0
         elseif lap_started and not lap_finished then
+            ---@diagnostic disable-next-line: assign-type-mismatch
             current_time_seconds = os_clock() - start_time_seconds
             if current_idx >= total_checkpoints then
                 lap_finished = true
@@ -406,6 +410,7 @@ function OnTick()
     msg_params[1][1] = map
     local speed_params = msg_params[2]
     speed_params[1] = vehicle_name
+    ---@diagnostic disable-next-line: assign-type-mismatch
     speed_params[2] = kmh
     msg_params[3][1] = tostring(current_idx)
     msg_params[3][2] = tostring(total_checkpoints)

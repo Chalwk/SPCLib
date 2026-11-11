@@ -1,0 +1,9 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+  "runtime.version": "Lua 5.2",
+  "workspace.library": [
+    "../reference/types/phasor"
+  ],
+  "workspace.checkThirdParty": false,
+  "completion.callSnippet": "Replace"
+}

@@ -2,9 +2,9 @@ name: Greetings
 
 on:
   pull_request:
-    types: [ opened ]  # Optional: Trigger only on opened pull requests
+    types: [ opened ]
   issues:
-    types: [ opened ]  # Optional: Trigger only on opened issues
+    types: [ opened ]
 
 jobs:
   greeting:

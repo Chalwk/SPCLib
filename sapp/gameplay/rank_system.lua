@@ -1,21 +1,23 @@
 --[[
-============================================================================================
+=====================================================================================
 SCRIPT NAME:    rank_system.lua
-DESCRIPTION:    This is a progression system that tracks kills, deaths,
-                awards credits, and you advance through ranks & grades.
+DESCRIPTION:    Progression system. Players earn credits (cR) from kills and
+                objectives, lose them for suicides, betrayals and falling, and
+                move through ranks and grades as their credit total changes.
+                Stats are saved by player name.
 
-EARN CREDITS FROM:
-                - First Blood (+20 cR)
-                - Kill while dead (e.g., sticky) (+12 cR)
-                - Roadkill (+15 cR)
-                - Standard PvP kill (+15 cR)
-                - Scoring events (CTF flag cap  +40 cR, race lap +8 cR)
-                * Additional streak bonuses:
-                  - 3 kills (+10 cR)
-                  - 5 kills (+15 cR)
-                  - 10 kills (+20 cR)
-                  and higher streaks scale further.
-                * Lose credits on suicide/betrayal/falling
+CREDITS (defaults, see KILL_CREDITS, MILESTONES, SCORING_CREDITS and KOTH):
+                - First blood                +20
+                - Kill while dead (sticky)   +12
+                - Roadkill                   +15
+                - Standard PvP kill          +15
+                - CTF flag capture           +40
+                - Race lap                   +8
+                - Streak bonus               +10 at 3 kills, +15 at 5, +20 at 10,
+                                             scaling up to +50 at 50
+                - Suicide                    -8
+                - Betrayal                   -10 (deducted from the betrayer)
+                - Falling or distance        -6
 
 RANKS: [ rank | grade threshold(s) ]
                 - Recruit           |  0
@@ -33,278 +35,312 @@ RANKS: [ rank | grade threshold(s) ]
                 - General           |  47000, 48000, 49000, 50000
 
 COMMANDS:
-                - /rank                            - Show your current rank and progress
-                - /ranks                           - List all ranks and credit thresholds
-                - /top                             - Show top 10 players
-                - /setrank <id> <rank_id> <grade>  - admin only, self-explanatory
+                - /rank                                 - Show your rank and progress
+                - /ranks                                - List all ranks and thresholds
+                - /top                                  - Show the leaderboard
+                - /setrank <player_id> <rank_id> <grade> - Admin only, sets a player's rank
 
-LAST UPDATED:   2 June 2026
+LAST UPDATED:   11 November 2026
 
 Copyright (c) 2017-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
-============================================================================================
+=====================================================================================
 ]]
-
--- CONFIG START ------------------------------------------------------------------------------------------------
 
 api_version = "1.12.0.0"
 
--- ========================= GENERAL SETTINGS =========================
-local SAVE_FILE = "ranks.txt" -- DB file name
-local SAVE_ON_LEAVE = false   -- Save stats when player leaves (true/false)
-local SHOW_TOP_END = true     -- Show top players when game ends (true/false)
-local SETRANK_ADMIN_LEVEL = 4 -- Permission level for /setrank
-local TOP_PLAYERS_COUNT = 10  -- Number of top players to display in /top command
+-- CONFIG START ------------------------------------------------------------------------------------------------
 
--- ========================= RANK CONFIG =========================
--- Format: { "Rank", { grade thresholds } }
+local SAVE_FILE = "ranks.txt" -- Written to <instance>\sapp\
+local SAVE_ON_LEAVE = false   -- Also save every time a player leaves
+local SHOW_TOP_END = true     -- Broadcast the leaderboard when a game ends
+local SETRANK_ADMIN_LEVEL = 4 -- Minimum admin level for /setrank (the console is always allowed)
+local TOP_PLAYERS_COUNT = 10  -- Entries shown by /top
+
+-- Each grade threshold is the credit total needed to reach that grade.
+-- Keep ranks in ascending order.
 local RANKS = {
-    { "Recruit", { 0 } }, { "Apprentice", { 3000, 6000 } }, { "Private", { 9000, 12000 } },
-    { "Corporal", { 13000, 14000 } }, { "Sergeant", { 15000, 16000, 17000, 18000 } },
-    { "Gunnery Sergeant", { 19000, 20000, 21000, 22000 } }, { "Lieutenant", { 23000, 24000, 25000, 26000 } },
-    { "Captain", { 27000, 28000, 29000, 30000 } }, { "Major", { 31000, 32000, 33000, 34000 } },
-    { "Commander", { 35000, 36000, 37000, 38000 } }, { "Colonel", { 39000, 40000, 41000, 42000 } },
-    { "Brigadier", { 43000, 44000, 45000, 46000 } }, { "General", { 47000, 48000, 49000, 50000 } }
+    { name = "Recruit", grades = { 0 } }, { name = "Apprentice", grades = { 3000, 6000 } },
+    { name = "Private", grades = { 9000, 12000 } }, { name = "Corporal", grades = { 13000, 14000 } },
+    { name = "Sergeant", grades = { 15000, 16000, 17000, 18000 } },
+    { name = "Gunnery Sergeant", grades = { 19000, 20000, 21000, 22000 } },
+    { name = "Lieutenant", grades = { 23000, 24000, 25000, 26000 } },
+    { name = "Captain", grades = { 27000, 28000, 29000, 30000 } },
+    { name = "Major", grades = { 31000, 32000, 33000, 34000 } },
+    { name = "Commander", grades = { 35000, 36000, 37000, 38000 } },
+    { name = "Colonel", grades = { 39000, 40000, 41000, 42000 } },
+    { name = "Brigadier", grades = { 43000, 44000, 45000, 46000 } },
+    { name = "General", grades = { 47000, 48000, 49000, 50000 } }
 }
 
--- ========================= KILL STREAK CONFIG  =========================
--- Milestones and corresponding bonus credits
--- Format: [streak] = bonus
+-- [kill streak] = bonus credits, awarded on top of the kill credits
 local MILESTONES = { [3] = 10, [5] = 15, [10] = 20, [15] = 25, [20] = 30, [25] = 35, [30] = 40, [40] = 45, [50] = 50 }
 
--- ========================= KILL TYPE CREDITS CONFIG =========================
--- Each kill type maps to a single number:
--- positive -> awarded to the killer
--- negative -> deducted from the victim
--- zero     -> no effect
+-- Positive values are awarded to the killer. Negative values are deducted from the player at fault
+-- (the victim for suicide and falling, the killer for betrayal). Zero disables the type.
 local KILL_CREDITS = {
-    [1] = 20,  -- first blood
-    [2] = 12,  -- kill someone while dead (i.e., w/sticky)
-    [3] = 15,  -- run someone over
-    [4] = 15,  -- pvp
-    [5] = -8,  -- suicide
-    [6] = -10, -- betrayal
-    [7] = 0,   -- squashed
-    [8] = -6,  -- falling/distance
-    [9] = 0,   -- killed by server
-    [10] = 0   -- generic/unknown death
+    first_blood = 20,
+    grave = 12,   -- killer was already dead (e.g. a sticky going off)
+    roadkill = 15,
+    pvp = 15,
+    suicide = -8,
+    betrayal = -10,
+    squashed = 0, -- killed by an unoccupied vehicle
+    falling = -6, -- falling or distance damage
+    server = 0,
+    unknown = 0
 }
 
--- ========================= SCORING CREDITS CONFIG =========================
--- Set credits to 0 to disable scoring
+-- Credits per scoring event, 0 disables. CTF pays the capturing player only.
 local SCORING_CREDITS = {
-    ctf = 40,        -- flag capture (scoring player only - not whole team)
-    race = 8,        -- lap complete
-    king = { 0, 30 } -- KING format: credits, interval (award credits every interval)
+    ctf = 40, -- flag capture
+    race = 8  -- lap complete
 }
+
+-- King of the Hill pays `credits` for every `interval` seconds spent on the hill. 0 disables.
+local KOTH = { credits = 0, interval = 30 }
+
+-- Private lines sent to a player on join. Leave empty to disable.
+local WELCOME_MESSAGES = {}
 
 local MESSAGES = {
     RANK_UP_HEADER = "=== RANK UP ===",
     RANK_UP = "%s: %s G%d",
-    ---
     RANK_DOWN_HEADER = "=== RANK DOWN ===",
     RANK_DOWN = "%s: %s G%d",
-    --
-    KILL = "+%d cR",
-    STREAK_SUFFIX = " + Streak",
-    --
+
+    CREDIT_KILL = "%+d cR (kill)",
+    CREDIT_STREAK = "%+d cR (streak)",
+    CREDIT_SCORE = "%+d cR (score)",
+    CREDIT_HILL = "%+d cR (hill)",
+    CREDIT_LOSS = "%+d cR",
+
     RANK_HEADER = "=== Rank ===",
     RANK_CURRENT = "%s: G%d",
     RANK_CREDITS = "Credits: %d cR",
     RANK_STATS = "Kills: %d  Deaths: %d  K/D: %.2f",
     RANK_NEXT = "Next: %s: G%d in %d cR",
-    --
+    RANK_MAX = "Maximum rank reached!",
+
     RANKS_HEADER = "=== Available Ranks ===",
     RANKS_LINE = "%d. %s: %s",
-    RANK_MAX = "Maximum rank reached!",
-    --
-    NO_PERMISSION = "You do not have permission to use this command.",
-    --
+
     TOP_HEADER = "=== Top %d ===",
     TOP_LINE = "%d. %s - %s - %s%d",
-    --
+
+    NO_PERMISSION = "You do not have permission to use this command.",
+    NO_PLAYER_DATA = "Player data not available.",
+    SET_RANK_USAGE = "Usage: /setrank <player_id> <rank_id> <grade>",
+    NOT_A_NUMBER = "%s must be a whole number.",
+    PLAYER_NOT_FOUND = "Player not found or not online.",
+    INVALID_RANK_ID = "Valid rank IDs are 1-%d.",
+    INVALID_GRADE = "Valid grades for %s are 1-%d.",
     SET_RANK_HEADER = "Rank updated for %s",
-    SET_RANK_INFO = "New Rank: %s, G%d",
-    --
-    CREDIT_CHANGE = "%+d cR",
-    CREDIT_LOSS = "-%d cR",
-    --
-    WELCOME_MESSAGE_HEADER = "",
-    WELCOME_MESSAGE = ""
+    SET_RANK_INFO = "New Rank: %s, G%d"
 }
 
--- ========================= NAME FILTERING =========================
--- Players with these names will NOT have their stats saved.
--- Set name to false (or remove it) to allow saving
-local NAME_FILTER = {
-    ["Butcher"] = true,
-    ["Caboose"] = true,
-    ["Crazy"] = true,
-    ["Cupid"] = true,
-    ["Darling"] = true,
-    ["Dasher"] = true,
-    ["Disco"] = true,
-    ["Donut"] = true,
-    ["Dopey"] = true,
-    ["Ghost"] = true,
-    ["Goat"] = true,
-    ["Grumpy"] = true,
-    ["Hambone"] = true,
-    ["Hollywood"] = true,
-    ["Howard"] = true,
-    ["Jack"] = true,
-    ["Killer"] = true,
-    ["King"] = true,
-    ["New001"] = true,
-    ["Noodle"] = true,
-    ["Nuevo"] = true,
-    ["Penguin"] = true,
-    ["Pirate"] = true,
-    ["Prancer"] = true,
-    ["Saucy"] = true,
-    ["Shadow"] = true,
-    ["Sleepy"] = true,
-    ["Snake"] = true,
-    ["Sneak"] = true,
-    ["Stompy"] = true,
-    ["Stumpy"] = true,
-    ["The Bear"] = true,
-    ["The Big L"] = true,
-    ["Tooth"] = true,
-    ["Walla Walla"] = true,
-    ["Weasel"] = true,
-    ["Wheezy"] = true,
-    ["Whicker"] = true,
-    ["Whisp"] = true,
-    ["Wilshire"] = true
+-- Players using these names get fresh stats every session and are never saved or ranked.
+-- These are Halo's default and placeholder profile names.
+local FILTERED_NAMES = {
+    "Butcher", "Caboose", "Crazy", "Cupid", "Darling", "Dasher", "Disco", "Donut", "Dopey", "Ghost", "Goat", "Grumpy",
+    "Hambone", "Hollywood", "Howard", "Jack", "Killer", "King", "New001", "Noodle", "Nuevo", "Penguin", "Pirate",
+    "Prancer", "Saucy", "Shadow", "Sleepy", "Snake", "Sneak", "Stompy", "Stumpy", "The Bear", "The Big L", "Tooth",
+    "Walla Walla", "Weasel", "Wheezy", "Whicker", "Whisp", "Wilshire"
 }
--- CONFIG END ------------------------------------------------------------------------------------------------
 
--- localized these for performance
-local get_player = get_player
-local read_word = read_word
-local read_dword = read_dword
-local lookup_tag = lookup_tag
-local get_dynamic_player = get_dynamic_player
-local get_var = get_var
-local player_present = player_present
-local player_alive = player_alive
-local rprint = rprint
-local cprint = cprint
-local read_string = read_string
+-- CONFIG END --------------------------------------------------------------------------------------------------
 
 local io_open = io.open
-local math_abs = math.abs
-local math_min = math.min
 local math_floor = math.floor
+local math_max = math.max
+local math_min = math.min
 local string_format = string.format
-local string_gmatch = string.gmatch
-local tonumber = tonumber
-local tostring = tostring
-local pairs = pairs
-local ipairs = ipairs
-local table_sort = table.sort
 local table_concat = table.concat
+local table_sort = table.sort
 
--- cached so I don't have to recompute abbreviations a million times -_-
-local rank_abbrev_cache = {}
-local players = {}           -- active players indexed by id
+-- Kill types that increase the killer's kill count. Betrayals are deliberately left out.
+local COUNTS_AS_KILL = { first_blood = true, grave = true, roadkill = true, pvp = true }
 
-local stats_db = {}          -- persistent stats keyed by player name
-local rank_lookup = {}       -- rank name -> index
-local threshold_entries = {} -- all rank thresholds sorted
+---@class PlayerStats
+---@field kills   number
+---@field deaths  number
+---@field credits number
+---@field rank    string
+---@field grade   number
 
-local game_over = nil
-local first_blood_flag = true
-local falling_tag_id = nil
-local distance_tag_id = nil
-local ffa_flag = false
-local gametype = nil
-local koth_globals, stats_globals
+---@class PlayerData
+---@field id              number        Player index (1-16)
+---@field name            string
+---@field stats           PlayerStats   Shared with `stats_db` unless the name is filtered
+---@field team            string
+---@field switched        boolean | nil True from a team switch until the next spawn
+---@field last_damage     number | nil  Tag ID of the last damage received
+---@field last_hill_award number        Hill time (seconds) already paid out this game
 
-local KOTH_CREDITS = SCORING_CREDITS.king[1]
-local KOTH_INTERVAL = SCORING_CREDITS.king[2]
+---@class ThresholdEntry
+---@field credits    number
+---@field rank_name  string
+---@field rank_index number
+---@field grade      number
 
-local function is_filtered_name(name)
-    return NAME_FILTER[name] == true
+---@type table<number, PlayerData>
+local players = {}
+---@type table<string, PlayerStats>
+local stats_db = {}
+---@type table<string, number>
+local rank_lookup = {}
+---@type ThresholdEntry[]
+local threshold_entries = {}
+---@type table<string, string>
+local rank_abbreviations = {}
+---@type table<string, boolean>
+local filtered_names = {}
+
+for _, name in ipairs(FILTERED_NAMES) do
+    filtered_names[name] = true
 end
 
+local save_path
+local stats_globals
+local gametype
+local is_ffa = false
+local first_blood_pending = true
+local falling_tag_id, distance_tag_id
+
+-- Bumped on every game start and end. A timer started in an earlier session stops itself.
+local game_session = 0
+
+---@param str       string
+---@param delimiter string
+---@return string[] tokens
 local function tokenize(str, delimiter)
-    local args, n = {}, 0
-    for token in string_gmatch(str, "([^" .. delimiter .. "]+)") do
-        n = n + 1
-        args[n] = token
+    local tokens = {}
+    for token in str:gmatch("([^" .. delimiter .. "]+)") do
+        tokens[#tokens + 1] = token
     end
-    return args
+    return tokens
 end
 
-local function get_config_path()
-    return read_string(read_dword(sig_scan('68??????008D54245468') + 0x1))
+---@param value string | nil
+---@return number | nil integer
+local function parseInteger(value)
+    local number = tonumber(value)
+    return number and number == math_floor(number) and number or nil
 end
 
-local function respond(id, msg)
-    if id == 0 then
-        cprint(msg) -- sapp terminal
+---@param signature string Byte pattern to scan for
+---@param offset    number Offset from the match to the pointer
+---@return number | nil pointer Resolved pointer, or nil if the scan failed or the value looks wrong
+local function safeScan(signature, offset)
+    local hit = sig_scan(signature)
+    if hit == 0 then return nil end
+
+    local pointer = read_dword(hit + offset)
+    if not pointer or pointer < 0x400000 or pointer > 0x800000 then return nil end
+    return pointer
+end
+
+---@return string path The instance directory passed to the server with -path
+local function getProfilePath()
+    local address = safeScan("68??????008D54245468", 0x1) or (halo_type == "PC" and 0x635610 or 0x5B9630)
+    return read_string(address)
+end
+
+---@param tag_class string
+---@param tag_name  string
+---@return number | nil tag_id
+local function getTagId(tag_class, tag_name)
+    local tag = lookup_tag(tag_class, tag_name)
+    if tag == 0 then return nil end
+
+    local meta_id = read_dword(tag + 0xC)
+    return meta_id ~= 0 and meta_id or nil
+end
+
+---@param player_id number 0 targets the server console
+---@param message   string
+local function respond(player_id, message)
+    if player_id == 0 then
+        cprint(message)
     else
-        rprint(id, msg)
+        rprint(player_id, message)
     end
 end
 
-local function rprint_all(msg)
-    for i = 1, 16 do
-        if player_present(i) then
-            rprint(i, msg)
+---@param message string
+local function rprintAll(message)
+    for player_id = 1, 16 do
+        if player_present(player_id) then
+            rprint(player_id, message)
         end
     end
 end
 
-local function is_admin(id)
-    if id == 0 then return true end
-    return tonumber(get_var(id, '$lvl')) >= SETRANK_ADMIN_LEVEL
+---@param player_id number
+---@return boolean
+local function isAdmin(player_id)
+    if player_id == 0 then return true end
+    return (tonumber(get_var(player_id, "$lvl")) or -1) >= SETRANK_ADMIN_LEVEL
 end
 
--- default stats
-local function default_stats()
-    return { kills = 0, deaths = 0, credits = 0, rank = "Recruit", grade = 1 }
+---@return PlayerStats
+local function defaultStats()
+    return { kills = 0, deaths = 0, credits = 0, rank = RANKS[1].name, grade = 1 }
 end
 
--- turns 1500 into "1.5k", 2300 into "2.3k", etc. looks cleaner on leaderboards (I think?)
-local function format_credits(cr)
-    if cr < 1000 then return tostring(cr) end
-    local whole = math_floor(cr / 1000)
-    local decimal = math_floor((cr % 1000) / 100)
-    if decimal == 0 then return whole .. "k" end
-    return whole .. "." .. decimal .. "k"
+---@param stats PlayerStats
+---@return boolean
+local function hasProgress(stats)
+    return stats.kills > 0 or stats.deaths > 0 or stats.credits > 0
 end
 
--- takes "Gunnery Sergeant" -> "GSe" or "Private" -> "Pri"
-local function abbreviate_rank(rank_name)
+-- 1500 becomes "1.5k", 2000 becomes "2k"
+---@param credits number
+---@return string
+local function formatCredits(credits)
+    if credits < 1000 then return tostring(credits) end
+
+    local whole = math_floor(credits / 1000)
+    local tenths = math_floor((credits % 1000) / 100)
+    return tenths == 0 and whole .. "k" or whole .. "." .. tenths .. "k"
+end
+
+-- Multi-word names use initials (Gunnery Sergeant becomes GS), single words use the first three
+-- letters (Private becomes Pri).
+---@param rank_name string
+---@return string
+local function abbreviateRank(rank_name)
     local words = tokenize(rank_name, "%s")
-    if #words > 1 then
-        local abbr = ""
-        local limit = math_min(3, #words)
-        for i = 1, limit do
-            abbr = abbr .. words[i]:sub(1, 1)
-        end
-        return abbr
-    else
-        return rank_name:sub(1, 3)
+    if #words <= 1 then return rank_name:sub(1, 3) end
+
+    local initials = {}
+    for i = 1, math_min(3, #words) do
+        initials[i] = words[i]:sub(1, 1)
     end
+    return table_concat(initials)
 end
 
--- build sorted list of all grade thresholds for binary search later
-local function build_rank_tables()
-    local entry_count = 0
-    for i, rank in ipairs(RANKS) do
-        rank_lookup[rank[1]] = i
-        local thresholds = rank[2]
-        for grade = 1, #thresholds do
-            entry_count = entry_count + 1
-            threshold_entries[entry_count] = {
-                credits = thresholds[grade],
-                rank_name = rank[1],
-                rank_index = i,
+---@param rank_name string
+---@return string
+local function getRankAbbreviation(rank_name)
+    local abbreviation = rank_abbreviations[rank_name]
+    if not abbreviation then
+        abbreviation = abbreviateRank(rank_name)
+        rank_abbreviations[rank_name] = abbreviation
+    end
+    return abbreviation
+end
+
+-- Flattens every grade of every rank into one list sorted by credits, for binary search.
+local function buildRankTables()
+    for rank_index, rank in ipairs(RANKS) do
+        rank_lookup[rank.name] = rank_index
+        for grade, credits in ipairs(rank.grades) do
+            threshold_entries[#threshold_entries + 1] = {
+                credits = credits,
+                rank_name = rank.name,
+                rank_index = rank_index,
                 grade = grade
             }
         end
@@ -312,463 +348,497 @@ local function build_rank_tables()
     table_sort(threshold_entries, function (a, b) return a.credits < b.credits end)
 end
 
--- find highest rank threshold <= current credits (binary search)
-local function find_threshold_index(credits)
-    local entries = threshold_entries
-    local lo, hi = 1, #entries
-    local idx = 0
-    while lo <= hi do
-        local mid = math_floor((lo + hi) / 2)
-        if entries[mid].credits <= credits then
-            idx = mid
-            lo = mid + 1
+-- Index of the highest threshold at or below `credits`, or 0 if there is none.
+---@param credits number
+---@return number index
+local function findThresholdIndex(credits)
+    local low, high, found = 1, #threshold_entries, 0
+    while low <= high do
+        local mid = math_floor((low + high) / 2)
+        if threshold_entries[mid].credits <= credits then
+            found = mid
+            low = mid + 1
         else
-            hi = mid - 1
+            high = mid - 1
         end
     end
-    return idx
+    return found
 end
 
-local function save_stats()
-    local f = io_open(SAVE_FILE, "w")
-    if not f then return end
-    local write = f.write
-    for name, s in pairs(stats_db) do
-        if not is_filtered_name(name) and (s.kills > 0 or s.deaths > 0) then
-            write(f, table_concat({ name, s.kills, s.deaths, s.credits, s.rank, s.grade }, ";") .. "\n")
+local function saveStats()
+    local file = io_open(save_path, "w")
+    if not file then
+        cprint("rank_system: could not write " .. save_path, 12)
+        return
+    end
+
+    for name, stats in pairs(stats_db) do
+        if hasProgress(stats) then
+            local fields = { name, stats.kills, stats.deaths, stats.credits, stats.rank, stats.grade }
+            file:write(table_concat(fields, ";"), "\n")
         end
     end
-    f:close()
+    file:close()
 end
 
-local function load_stats()
-    local f = io_open(SAVE_FILE, "r")
-    if not f then return end
-    for line in f:lines() do
-        local p = tokenize(line, ";")
-        if #p >= 6 then
-            stats_db[p[1]] = {
-                kills = tonumber(p[2]) or 0,
-                deaths = tonumber(p[3]) or 0,
-                credits = tonumber(p[4]) or 0,
-                rank = p[5],
-                grade = tonumber(p[6]) or 1
+local function loadStats()
+    local file = io_open(save_path, "r")
+    if not file then return end
+
+    for line in file:lines() do
+        -- Name is matched greedily so a ";" inside a name does not shift the other fields.
+        local name, kills, deaths, credits, rank, grade = line:match("^(.+);(%d+);(%d+);(%d+);([^;]+);(%d+)%s*$")
+
+        if name and not filtered_names[name] then
+            stats_db[name] = {
+                kills = tonumber(kills),
+                deaths = tonumber(deaths),
+                credits = tonumber(credits),
+                rank = rank,
+                grade = tonumber(grade)
             }
         end
     end
-    f:close()
+    file:close()
 end
 
--- recalc player's rank based on credits, announce if changed
-local function refresh_rank(pl, silent)
-    local s = pl.stats
-    local old_rank, old_grade = s.rank, s.grade
+-- Recomputes rank and grade from credits and announces the change unless `silent`.
+---@param player PlayerData
+---@param silent boolean | nil
+local function refreshRank(player, silent)
+    local stats = player.stats
+    local old_rank, old_grade = stats.rank, stats.grade
 
-    local idx = find_threshold_index(s.credits)
-    local best = threshold_entries[idx] or threshold_entries[1]
-    if not best then return nil end
+    local entry = threshold_entries[findThresholdIndex(stats.credits)] or threshold_entries[1]
+    stats.rank, stats.grade = entry.rank_name, entry.grade
 
-    s.rank = best.rank_name
-    s.grade = best.grade
-
-    if silent or (old_rank == s.rank and old_grade == s.grade) then return end
+    if silent or (old_rank == stats.rank and old_grade == stats.grade) then return end
 
     local old_rank_index = rank_lookup[old_rank] or 0
-    local promoted = (best.rank_index > old_rank_index) or (old_rank == s.rank and s.grade > old_grade)
+    local promoted = entry.rank_index > old_rank_index
+        or (entry.rank_index == old_rank_index and entry.grade > old_grade)
 
-    local is_promoted = promoted
-    local header_line = is_promoted and MESSAGES.RANK_UP_HEADER or MESSAGES.RANK_DOWN_HEADER
-    local rank_line = string_format(is_promoted and MESSAGES.RANK_UP or MESSAGES.RANK_DOWN, pl.name, s.rank, s.grade)
+    rprintAll(promoted and MESSAGES.RANK_UP_HEADER or MESSAGES.RANK_DOWN_HEADER)
+    rprintAll(string_format(promoted and MESSAGES.RANK_UP or MESSAGES.RANK_DOWN, player.name, stats.rank, stats.grade))
+end
 
-    for i = 1, 16 do
-        if player_present(i) then
-            rprint(i, header_line)
-            rprint(i, rank_line)
-        end
+-- Credits never drop below zero.
+---@param player PlayerData
+---@param amount number     Positive to award, negative to deduct
+local function addCredits(player, amount)
+    player.stats.credits = math_max(0, player.stats.credits + amount)
+    refreshRank(player, false)
+end
+
+---@param player_id number
+---@return number streak Kills since the player's last respawn
+local function getKillStreak(player_id)
+    local static_player = get_player(player_id)
+    return static_player ~= 0 and read_word(static_player + 0x98) or 0
+end
+
+---@param player_id number
+---@return number seconds Cumulative hill time this game
+local function getHillTime(player_id)
+    return read_word(stats_globals + to_real_index(player_id) * 0x30 + 0x1E)
+end
+
+---@param player_id number
+---@return boolean
+local function isInVehicle(player_id)
+    local dyn_player = get_dynamic_player(player_id)
+    return dyn_player ~= 0 and read_dword(dyn_player + 0x11C) ~= 0xFFFFFFFF
+end
+
+local function resetGameState()
+    is_ffa = get_var(0, "$ffa") == "1"
+    falling_tag_id = getTagId("jpt!", "globals\\falling")
+    distance_tag_id = getTagId("jpt!", "globals\\distance")
+    first_blood_pending = true
+end
+
+-- Claims first blood when it applies, so call it once per death.
+---@param victim_id number
+---@param victim    PlayerData
+---@param killer_id number | nil - 1 server, 0 non-player source, 1+ player index
+---@param killer    PlayerData | nil
+---@return string kill_type A key of KILL_CREDITS
+local function getKillType(victim_id, victim, killer_id, killer)
+    if not killer_id then return "unknown" end
+
+    if killer_id == -1 then
+        if victim.switched then return "unknown" end
+
+        local last = victim.last_damage
+        local is_fall = last and (last == falling_tag_id or last == distance_tag_id)
+        return is_fall and "falling" or "server"
     end
+
+    if killer_id == 0 then return "squashed" end
+    if killer_id == victim_id then return "suicide" end
+    if not is_ffa and killer and killer.team == victim.team then return "betrayal" end
+
+    if first_blood_pending then
+        first_blood_pending = false
+        return "first_blood"
+    end
+
+    if not player_alive(killer_id) then return "grave" end
+    ---@diagnostic disable-next-line: param-type-mismatch
+    if isInVehicle(killer_id) then return "roadkill" end
+    return "pvp"
 end
 
-local function get_current_streak(id)
-    local player_ptr = get_player(id)
-    if player_ptr == 0 then return 0 end
-    return read_word(player_ptr + 0x98)
-end
-
-local function get_player_koth_hill_time(id)
-    local stats_base = stats_globals + to_real_index(id) * 0x30
-    return read_word(stats_base + 0x1E) -- whole seconds (cumulative, resets on quit, value is 0 on join)
-end
-
-local function get_tag_id(class, name)
-    local tag = lookup_tag(class, name)
-    return tag ~= 0 and read_dword(tag + 0xC) or nil
-end
-
-local function in_vehicle(id)
-    local dyn = get_dynamic_player(id)
-    return dyn ~= 0 and read_dword(dyn + 0x11C) ~= 0xFFFFFFFF
-end
-
--- apply credit change for a kill, handle streak bonuses, update rank
-local function apply_kill_credits(killer, victim, kill_type)
+---@param killer    PlayerData | nil
+---@param victim    PlayerData
+---@param kill_type string           A key of KILL_CREDITS
+local function applyKillCredits(killer, victim, kill_type)
     local change = KILL_CREDITS[kill_type]
     if not change or change == 0 then return end
 
-    local is_reward = change > 0
-    local target = is_reward and killer or victim
-    if not target then return end
+    if change < 0 then
+        local offender = kill_type == "betrayal" and killer or victim
+        if not offender then return end
 
-    local amount = math_abs(change)
-    if is_reward and killer then
-        local streak = get_current_streak(killer.id)
-        local streak_bonus = MILESTONES[streak]
+        respond(offender.id, string_format(MESSAGES.CREDIT_LOSS, change))
+        addCredits(offender, change)
+        return
+    end
 
-        if streak_bonus then
-            amount = amount + streak_bonus
-            respond(killer.id, string_format(MESSAGES.KILL, streak_bonus) .. MESSAGES.STREAK_SUFFIX)
+    if not killer then return end
+
+    respond(killer.id, string_format(MESSAGES.CREDIT_KILL, change))
+
+    local bonus = MILESTONES[getKillStreak(killer.id)]
+    if bonus then
+        respond(killer.id, string_format(MESSAGES.CREDIT_STREAK, bonus))
+    end
+
+    addCredits(killer, change + (bonus or 0))
+end
+
+---@return string[] lines
+local function getLeaderboardLines()
+    local entries = {}
+    for name, stats in pairs(stats_db) do
+        if hasProgress(stats) then
+            entries[#entries + 1] = { name = name, stats = stats }
         end
     end
 
-    local new_credits = target.stats.credits + (is_reward and amount or -amount)
-    if not is_reward and new_credits < 0 then new_credits = 0 end
-    target.stats.credits = new_credits
+    table_sort(entries, function (a, b)
+        if a.stats.credits ~= b.stats.credits then return a.stats.credits > b.stats.credits end
+        return a.name < b.name
+    end)
 
-    if is_reward then
-        respond(target.id, string_format(MESSAGES.CREDIT_CHANGE .. " (kill)", amount))
-    else
-        respond(target.id, string_format(MESSAGES.CREDIT_LOSS, amount))
-    end
+    local count = math_min(TOP_PLAYERS_COUNT, #entries)
+    local lines = { string_format(MESSAGES.TOP_HEADER, count) }
+    for i = 1, count do
+        local entry = entries[i]
+        if not entry then break end -- todo: double-check this
 
-    refresh_rank(target, false)
-end
-
-local function reset_game_state()
-    ffa_flag = get_var(0, "$ffa") == "1"
-    falling_tag_id = get_tag_id('jpt!', 'globals\\falling')
-    distance_tag_id = get_tag_id('jpt!', 'globals\\distance')
-    first_blood_flag = true
-    game_over = false
-end
-
--- build leaderboard lines (top N players by credits)
-local function get_top_leaderboard()
-    local leaderboard = {}
-    local count = 0
-    for name, stats in pairs(stats_db) do
-        count = count + 1
-        leaderboard[count] = { name = name, stats = stats }
-    end
-
-    if count == 0 then
-        return { string_format(MESSAGES.TOP_HEADER, 0) }
-    end
-
-    table_sort(leaderboard, function (a, b) return a.stats.credits > b.stats.credits end)
-
-    local display_count = math_min(TOP_PLAYERS_COUNT, count)
-    local lines = { string_format(MESSAGES.TOP_HEADER, display_count) }
-    for i = 1, display_count do
-        local entry = leaderboard[i]
-        local s = entry.stats
-        local credits_fmt = format_credits(s.credits)
-        local rank_abbr = rank_abbrev_cache[s.rank] or abbreviate_rank(s.rank)
-        lines[#lines + 1] = string_format(MESSAGES.TOP_LINE, i, entry.name, credits_fmt, rank_abbr, s.grade)
+        lines[#lines + 1] = string_format(
+            MESSAGES.TOP_LINE, 
+            i, 
+            entry.name, 
+            formatCredits(entry.stats.credits), 
+            getRankAbbreviation(entry.stats.rank),
+            entry.stats.grade
+        )
     end
     return lines
 end
 
--- show top stats to a specific player or broadcast to all (end of game)
-local function show_top_stats(id)
-    local lines = get_top_leaderboard()
-    if id then
-        for i = 1, #lines do
-            rprint(id, lines[i])
-        end
-    else
-        for i = 1, #lines do
-            rprint_all(lines[i])
+---@param player_id number | nil Omit to broadcast to everyone
+local function showTopStats(player_id)
+    for _, line in ipairs(getLeaderboardLines()) do
+        if player_id then
+            respond(player_id, line)
+        else
+            rprintAll(line)
         end
     end
 end
 
--- show rank info for a player (target is active player table entry)
-local function show_rank(id, target)
-    if not target then
-        respond(id, "Player data not available.")
+---@param player_id number
+---@param player    PlayerData | nil
+local function showRank(player_id, player)
+    if not player then
+        respond(player_id, MESSAGES.NO_PLAYER_DATA)
         return
     end
 
-    local s = target.stats
-    local idx = find_threshold_index(s.credits)
-    local next_rank = threshold_entries[idx + 1] -- nil if at max
+    local stats = player.stats
+    local next_entry = threshold_entries[findThresholdIndex(stats.credits) + 1]
+    local kd_ratio = stats.deaths > 0 and stats.kills / stats.deaths or stats.kills
 
-    respond(id, MESSAGES.RANK_HEADER)
-    respond(id, string_format(MESSAGES.RANK_CURRENT, s.rank, s.grade))
-    respond(id, string_format(MESSAGES.RANK_CREDITS, s.credits))
+    respond(player_id, MESSAGES.RANK_HEADER)
+    respond(player_id, string_format(MESSAGES.RANK_CURRENT, stats.rank, stats.grade))
+    respond(player_id, string_format(MESSAGES.RANK_CREDITS, stats.credits))
+    respond(player_id, string_format(MESSAGES.RANK_STATS, stats.kills, stats.deaths, kd_ratio))
 
-    local kd = s.deaths > 0 and s.kills / s.deaths or s.kills
-    respond(id, string_format(MESSAGES.RANK_STATS, s.kills, s.deaths, kd))
-
-    if next_rank then
-        local msg = MESSAGES.RANK_NEXT
-        respond(id, string_format(msg, next_rank.rank_name, next_rank.grade, next_rank.credits - s.credits))
+    if next_entry then
+        respond(
+            player_id,
+            string_format(
+                MESSAGES.RANK_NEXT, 
+                next_entry.rank_name, 
+                next_entry.grade, 
+                next_entry.credits - stats.credits
+            )
+        )
     else
-        respond(id, MESSAGES.RANK_MAX)
+        respond(player_id, MESSAGES.RANK_MAX)
     end
 end
 
-function OnJoin(id)
-    local name = get_var(id, "$name")
-    local stats = stats_db[name]
+---@param player_id number
+local function registerPlayer(player_id)
+    local name = get_var(player_id, "$name")
+    local is_filtered = filtered_names[name]
+
+    local stats = not is_filtered and stats_db[name] or nil
     if not stats then
-        stats = default_stats()
-        stats_db[name] = stats
+        stats = defaultStats()
+        if not is_filtered then stats_db[name] = stats end
     end
 
-    local new_player = {
-        id = id,
+    local player = {
+        id = player_id,
         name = name,
         stats = stats,
-        team = get_var(id, '$team'),
-        switched = nil,
-        last_damage = nil,
-        last_hill_award_time = 0
+        team = get_var(player_id, "$team"),
+        last_hill_award = 0
     }
 
-    players[id] = new_player
-    refresh_rank(new_player, true)
+    players[player_id] = player
+    refreshRank(player, true)
+end
 
-    if MESSAGES.WELCOME_MESSAGE_HEADER ~= "" and MESSAGES.WELCOME_MESSAGE ~= "" then
-        rprint(id, MESSAGES.WELCOME_MESSAGE_HEADER)
-        rprint(id, MESSAGES.WELCOME_MESSAGE)
+---@param player_id number
+---@param args      string[]
+local function handleSetRank(player_id, args)
+    if not isAdmin(player_id) then
+        respond(player_id, MESSAGES.NO_PERMISSION)
+        return
+    end
+
+    if #args < 4 then
+        respond(player_id, MESSAGES.SET_RANK_USAGE)
+        return
+    end
+
+    local target_id = parseInteger(args[2])
+    if not target_id then
+        respond(player_id, string_format(MESSAGES.NOT_A_NUMBER, "Player ID"))
+        return
+    end
+
+    local target = players[target_id]
+    if not target then
+        respond(player_id, MESSAGES.PLAYER_NOT_FOUND)
+        return
+    end
+
+    local rank_id = parseInteger(args[3])
+    if not rank_id then
+        respond(player_id, string_format(MESSAGES.NOT_A_NUMBER, "Rank ID"))
+        return
+    end
+
+    ---@diagnostic disable-next-line: undefined-field
+    local rank = RANKS[rank_id]
+    if not rank then
+        respond(player_id, string_format(MESSAGES.INVALID_RANK_ID, #RANKS))
+        return
+    end
+
+    local grade = parseInteger(args[4])
+    if not grade then
+        respond(player_id, string_format(MESSAGES.NOT_A_NUMBER, "Grade"))
+        return
+    end
+
+    local credits = rank.grades[grade]
+    if not credits then
+        respond(player_id, string_format(MESSAGES.INVALID_GRADE, rank.name, #rank.grades))
+        return
+    end
+
+    target.stats.credits = credits
+    refreshRank(target, false)
+    saveStats()
+
+    respond(player_id, string_format(MESSAGES.SET_RANK_HEADER, target.name))
+    respond(player_id, string_format(MESSAGES.SET_RANK_INFO, rank.name, grade))
+end
+
+---@param player_id number
+local function handleRank(player_id)
+    showRank(player_id, players[player_id])
+end
+
+---@param player_id number
+local function handleRanks(player_id)
+    respond(player_id, MESSAGES.RANKS_HEADER)
+    for rank_index, rank in ipairs(RANKS) do
+        respond(player_id, string_format(MESSAGES.RANKS_LINE, rank_index, rank.name, table_concat(rank.grades, ", ")))
     end
 end
 
-function OnLeave(id)
-    if SAVE_ON_LEAVE then save_stats() end
-    players[id] = nil
+---@type table<string, fun(player_id: number, args: string[])>
+local COMMANDS = { rank = handleRank, ranks = handleRanks, top = showTopStats, setrank = handleSetRank }
+
+function OnScriptLoad()
+    save_path = getProfilePath() .. "\\sapp\\" .. SAVE_FILE
+    stats_globals = safeScan("33C0BF??????00F3AB881D", 0x3) or (halo_type == "PC" and 0x639878 or 0x5BD898)
+
+    buildRankTables()
+    loadStats()
+
+    register_callback(cb.EVENT_JOIN, "OnJoin")
+    register_callback(cb.EVENT_LEAVE, "OnLeave")
+    register_callback(cb.EVENT_DIE, "OnDie")
+    register_callback(cb.EVENT_SCORE, "OnScore")
+    register_callback(cb.EVENT_SPAWN, "OnSpawn")
+    register_callback(cb.EVENT_COMMAND, "OnCommand")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_TEAM_SWITCH, "OnTeamSwitch")
+    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamageApplication")
+
+    OnGameStart() -- in case the script was loaded mid-game
 end
 
--- track last damage source for falling/distance
-function OnDamage(victim, _, meta_id)
-    victim = players[victim]
-    if not victim then return end
-    victim.last_damage = meta_id
-end
+function OnScriptUnload() saveStats() end
 
-function OnDeath(victim, killer)
-    killer = tonumber(killer) -- killer id comes as string
+function OnGameStart()
+    gametype = get_var(0, "$gt")
+    if gametype == "n/a" then return end
 
-    local victim_data = players[victim]
-    if not victim_data then return end
+    game_session = game_session + 1
+    resetGameState()
 
-    local killer_data = killer and players[killer] or nil
-    local kill_type = 10
-
-    -- figure out what kind of death this is
-    if killer == -1 and not victim_data.switched then -- server kill (falling, distance, etc)
-        local last = victim_data.last_damage
-        kill_type = (last == falling_tag_id or last == distance_tag_id) and 8 or 9
-    elseif killer == 0 then
-        kill_type = 7 -- squashed by unoccupied vehicle
-    elseif killer and killer > 0 then
-        if killer == victim then
-            kill_type = 5 -- suicide
-        elseif not ffa_flag and killer_data and victim_data.team == killer_data.team then
-            kill_type = 6 -- betrayal
-        elseif first_blood_flag then
-            first_blood_flag, kill_type = false, 1
-        elseif not player_alive(killer) then
-            kill_type = 2 -- killed from grave (post-death sticky etc)
-        elseif in_vehicle(victim) then
-            kill_type = 3 -- roadkill
-        else
-            kill_type = 4 -- pvp
+    players = {}
+    for player_id = 1, 16 do
+        if player_present(player_id) then
+            registerPlayer(player_id)
         end
     end
 
-    victim_data.stats.deaths = victim_data.stats.deaths + 1
-    if killer_data and killer > 0 and killer ~= victim then
-        killer_data.stats.kills = killer_data.stats.kills + 1
-    end
-
-    apply_kill_credits(killer_data, victim_data, kill_type)
-    refresh_rank(victim_data, false)
-end
-
-function OnCommand(id, cmd)
-    local args = tokenize(cmd, " ")
-    if not args then return false end
-
-    local c = (args[1] or ""):lower()
-
-    if c == "rank" then
-        show_rank(id, players[id])
-        return false
-    elseif c == "ranks" then
-        respond(id, MESSAGES.RANKS_HEADER)
-        for i, rank in ipairs(RANKS) do
-            respond(id, string_format(MESSAGES.RANKS_LINE, i, rank[1], table_concat(rank[2], ", ")))
-        end
-        return false
-    elseif c == "top" then
-        show_top_stats(id)
-        return false
-    elseif c == "setrank" then
-        if not is_admin(id) then
-            respond(id, MESSAGES.NO_PERMISSION)
-            return false
-        end
-
-        if not args[2] or not args[3] or not args[4] then
-            respond(id, "Usage: /setrank <id> <rank> <grade>")
-            return false
-        end
-
-        local target_id = tonumber(args[2])
-        if not target_id then
-            respond(id, "Player ID must be a number!")
-            return false
-        end
-
-        local target = players[target_id]
-        if not target then
-            respond(id, "Player not found or not online.")
-            return false
-        end
-
-        local rid = tonumber(args[3])
-        if not rid then
-            respond(id, "Rank ID must be a number!")
-            return false
-        end
-        if rid < 1 or rid > #RANKS then
-            respond(id, "Valid Rank IDs are 1-" .. #RANKS)
-            return false
-        end
-
-        local grade = tonumber(args[4])
-        if not grade then
-            respond(id, "Grade must be a number.")
-            return false
-        end
-        if grade < 1 or grade > #RANKS[rid][2] then
-            respond(id, "Valid grades: 1-" .. #RANKS[rid][2])
-            return false
-        end
-
-        target.stats.credits = RANKS[rid][2][grade]
-        refresh_rank(target, false)
-        save_stats()
-
-        respond(id, string_format(MESSAGES.SET_RANK_HEADER, target.name))
-        respond(id, string_format(MESSAGES.SET_RANK_INFO, RANKS[rid][1], grade))
-        return false
+    ---@diagnostic disable-next-line: unnecessary-if
+    if gametype == "king" and KOTH.credits > 0 and KOTH.interval > 0 then
+        timer(1000, "KothTimer", game_session)
     end
 end
 
 function OnGameEnd()
-    game_over = true
-    save_stats()
-    if SHOW_TOP_END then show_top_stats() end
+    game_session = game_session + 1
+    saveStats()
+    ---@diagnostic disable-next-line: unnecessary-if
+    if SHOW_TOP_END then showTopStats() end
 end
 
-function OnSwitch(id)
-    local player = players[id]
-    if not player then return end
-    player.team = get_var(id, '$team')
-    player.switched = true
-end
+---@param session number The game_session the timer was started in
+---@return boolean repeat_timer
+function KothTimer(session)
+    if session ~= game_session then return false end
 
-function OnSpawn(id)
-    local player = players[id]
-    if not player then return end
-    player.last_damage = nil
-    player.switched = nil
-end
+    for player_id, player in pairs(players) do
+        local elapsed = getHillTime(player_id) - player.last_hill_award
+        local intervals = math_floor(elapsed / KOTH.interval)
 
-function OnScore(id) -- supports ctf/race
-    local player = players[id]
-    if not player then return end
+        if intervals > 0 then
+            local award = intervals * KOTH.credits
+            player.last_hill_award = player.last_hill_award + intervals * KOTH.interval
 
-    local reward = SCORING_CREDITS[gametype]
-    if not reward or reward == 0 then return end
-
-    player.stats.credits = player.stats.credits + reward
-    refresh_rank(player, false)
-    respond(id, string_format(MESSAGES.CREDIT_CHANGE .. " (score)", reward))
-end
-
-function KothTimer()
-    if game_over then return false end
-
-    for i = 1, 16 do
-        local pl = players[i]
-        if pl and player_present(i) and player_alive(i) then
-            local hill_time = get_player_koth_hill_time(i)
-            if hill_time == 0 then goto next end
-            local last = pl.last_hill_award_time or 0
-
-            local intervals = math_floor((hill_time - last) / KOTH_INTERVAL)
-            if intervals > 0 then
-                local award = intervals * KOTH_CREDITS
-                pl.stats.credits = pl.stats.credits + award
-                pl.last_hill_award_time = last + (intervals * KOTH_INTERVAL)
-                refresh_rank(pl, false)
-                respond(pl.id, string_format(MESSAGES.CREDIT_CHANGE, award) .. " (hill)")
-            end
+            respond(player_id, string_format(MESSAGES.CREDIT_HILL, award))
+            addCredits(player, award)
         end
-        ::next::
     end
     return true
 end
 
-function OnStart()
-    gametype = get_var(0, "$gt")
-    if gametype == "n/a" then return end
-
-    reset_game_state()
-    for i = 1, 16 do
-        if player_present(i) then
-            OnJoin(i)
-        end
-    end
-
-    if KOTH_CREDITS > 0 and gametype == "king" then
-        timer(1000, "KothTimer")
+---@param player_id number
+function OnJoin(player_id)
+    registerPlayer(player_id)
+    for _, line in ipairs(WELCOME_MESSAGES) do
+        rprint(player_id, line)
     end
 end
 
--- resolve SAPP directory (root path where mapcycle.txt is), init caches, load stats
-function OnScriptLoad()
-    local config_path = get_config_path()
-    SAVE_FILE = config_path .. "\\sapp\\" .. SAVE_FILE
-
-    for _, rank_entry in ipairs(RANKS) do
-        local rank_name = rank_entry[1]
-        rank_abbrev_cache[rank_name] = abbreviate_rank(rank_name)
-    end
-
-    build_rank_tables()
-    load_stats()
-
-    register_callback(cb.EVENT_JOIN, "OnJoin")
-    register_callback(cb.EVENT_DIE, "OnDeath")
-    register_callback(cb.EVENT_SCORE, "OnScore")
-    register_callback(cb.EVENT_LEAVE, "OnLeave")
-    register_callback(cb.EVENT_SPAWN, "OnSpawn")
-    register_callback(cb.EVENT_COMMAND, "OnCommand")
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
-    register_callback(cb.EVENT_TEAM_SWITCH, 'OnSwitch')
-    register_callback(cb.EVENT_GAME_START, "OnStart")
-    register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamage")
-
-    koth_globals = read_dword(sig_scan("BF??????00F3ABB96B000000") + 0x1)
-    stats_globals = read_dword(sig_scan("33C0BF??????00F3AB881D") + 0x3)
-
-    OnStart() -- in case script is loaded mid-game
+---@param player_id number
+function OnLeave(player_id)
+    ---@diagnostic disable-next-line: unnecessary-if
+    if SAVE_ON_LEAVE then saveStats() end
+    players[player_id] = nil
 end
 
-function OnScriptUnload()
-    save_stats()
+---@param player_id number
+function OnSpawn(player_id)
+    local player = players[player_id]
+    if not player then return end
+
+    player.last_damage = nil
+    player.switched = nil
+end
+
+---@param player_id number
+function OnTeamSwitch(player_id)
+    local player = players[player_id]
+    if not player then return end
+
+    player.team = get_var(player_id, "$team")
+    player.switched = true
+end
+
+-- Remembers the last damage tag so a server kill can be told apart as falling or distance damage.
+---@param victim_id     number
+---@param causer_id     number
+---@param damage_tag_id number
+function OnDamageApplication(victim_id, causer_id, damage_tag_id)
+    local victim = players[victim_id]
+    ---@diagnostic disable-next-line: unnecessary-if
+    if victim then victim.last_damage = damage_tag_id end
+end
+
+---@param victim_id     number
+---@param killer_source string "-1" server, "0" non-player source, "1+" player index
+function OnDie(victim_id, killer_source)
+    local victim = players[victim_id]
+    if not victim then return end
+
+    local killer_id = tonumber(killer_source)
+    local killer = killer_id and players[killer_id]
+    local kill_type = getKillType(victim_id, victim, killer_id, killer)
+
+    victim.stats.deaths = victim.stats.deaths + 1
+    if killer and COUNTS_AS_KILL[kill_type] then
+        killer.stats.kills = killer.stats.kills + 1
+    end
+
+    applyKillCredits(killer, victim, kill_type)
+end
+
+-- CTF captures and race laps.
+---@param player_id number
+function OnScore(player_id)
+    local player = players[player_id]
+    local credits = SCORING_CREDITS[gametype]
+    if not player or not credits or credits == 0 then return end
+
+    respond(player_id, string_format(MESSAGES.CREDIT_SCORE, credits))
+    addCredits(player, credits)
+end
+
+---@param player_id number
+---@param command   string
+---@return boolean | nil allow Returns false for commands handled here
+function OnCommand(player_id, command)
+    local args = tokenize(command, " ")
+    local handler = COMMANDS[(args[1] or ""):lower()]
+    if not handler then return end
+
+    handler(player_id, args)
+    return false
 end

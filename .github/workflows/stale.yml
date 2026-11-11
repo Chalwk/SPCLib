@@ -2,18 +2,18 @@ name: Mark stale issues and pull requests
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # This workflow will run daily at midnight UTC
+    - cron: "0 0 * * *"  # midnight UTC
 
 jobs:
   stale:
-    runs-on: ubuntu-latest  # Specify the type of virtual machine to run the job
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Mark Stale Issues and PRs  # Added step name for clarity
-        uses: actions/stale@v1  # Use the stale action
+      - name: Mark Stale Issues and PRs
+        uses: actions/stale@v1
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}  # Token for repository access
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           stale-issue-message: 'This issue has been marked as stale due to inactivity. Please comment or update to keep it open.'
           stale-pr-message: 'This pull request has been marked as stale due to inactivity. Please comment or update to keep it open.'
-          stale-issue-label: 'no-issue-activity'  # Label to apply to stale issues
-          stale-pr-label: 'no-pr-activity'  # Label to apply to stale pull requests
+          stale-issue-label: 'no-issue-activity'
+          stale-pr-label: 'no-pr-activity'
