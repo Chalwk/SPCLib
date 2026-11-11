@@ -150,8 +150,8 @@ function unregister_callback(event) end
 function get_var(player_id, variable) end
 
 --- Returns false if the variable is not defined.
----@param player_id number                0 for globals; 1-16 for players
----@param name      string  Variable name without the leading "$"
+---@param player_id number 0 for globals; 1-16 for players
+---@param name      string Variable name without the leading "$"
 ---@param value     string
 ---@param copy_id?  number
 ---@return boolean
@@ -398,7 +398,7 @@ function powerup_interact(object_id, player_id) end
 ---@param x?        number
 ---@param y?        number
 ---@param z?        number
----@param rotation? number  Radians
+---@param rotation? number Radians
 ---@param tag_id?   number Overrides tag_class and tag_path
 ---@return number object_id
 function spawn_object(tag_class, tag_path, x, y, z, rotation, tag_id) end
@@ -407,7 +407,7 @@ function spawn_object(tag_class, tag_path, x, y, z, rotation, tag_id) end
 ---@param tag_class string
 ---@param tag_path  string
 ---@param location  string
----@param rotation? number  Radians
+---@param rotation? number Radians
 ---@param tag_id?   number Overrides tag_class and tag_path
 ---@return number object_id
 function spawn_object_location(tag_class, tag_path, location, rotation, tag_id) end
@@ -417,9 +417,9 @@ function spawn_object_location(tag_class, tag_path, location, rotation, tag_id) 
 ---@param x         number
 ---@param y         number
 ---@param z         number
----@param rx?       number  Radians
----@param ry?       number  Radians
----@param rz?       number  Radians
+---@param rx?       number Radians
+---@param ry?       number Radians
+---@param rz?       number Radians
 ---@return number object_id
 function spawn_projectile(tag_id, player_id, x, y, z, rx, ry, rz) end
 
@@ -476,6 +476,6 @@ function rand(min, max) end
 
 --- Calls a global function once after delay ms. The callback returns true to repeat. Returns nil.
 ---@param delay         number Milliseconds
----@param callback_name string  Name of a global function
----@param ...           any     Forwarded to the callback
+---@param callback_name string Name of a global function
+---@param ...           any    Forwarded to the callback
 function timer(delay, callback_name, ...) end

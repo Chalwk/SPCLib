@@ -350,7 +350,7 @@ function write_double(address, value) end
 function read_bit(address, bit_index) end
 
 ---@param address   number
----@param bit_index number            Less than 32
+---@param bit_index number           Less than 32
 ---@param value     boolean | number
 function write_bit(address, bit_index, value) end
 
