@@ -9,19 +9,36 @@
 
 --- Platform of the running server. Case sensitive.
 ---@type HaloType
-halo_type = "PC"
+halo_type = nil
 
 --- Process ID of the server.
 ---@type integer
-pid = 0
+pid = nil
 
 --- Lua API version of the loaded SAPP build.
 ---@type string
-lua_api_version = ""
+lua_api_version = nil
 
 --- Loaded SAPP version.
 ---@type string
-sapp_version = ""
+sapp_version = nil
+
+-- Script lifecycle -------------------------------------------------------------------------
+
+--- Required. The script refuses to load without it.
+---@type string
+api_version = nil
+
+--- Required. Called once when the script is loaded. Register callbacks here.
+function OnScriptLoad() end
+
+--- Optional. Called once when the script is unloaded.
+function OnScriptUnload() end
+
+--- Optional. Called when a Lua error occurs in this script. Not registered
+--- with register_callback.
+---@param message string The Lua error message
+function OnError(message) end
 
 ---@alias SappEvent integer
 
@@ -140,10 +157,18 @@ function get_var(player_id, variable) end
 ---@return boolean
 function set_var(player_id, name, value, copy_id) end
 
---- Creates a custom variable. Types: 0 global str, 1 global int, 2 global float,
---- 3 player str, 4 player int, 5 player float.
+--- Variable type ids for add_var.
+---@alias SappVarType
+---| 0 # Global string
+---| 1 # Global integer
+---| 2 # Global float
+---| 3 # Player string
+---| 4 # Player integer
+---| 5 # Player float
+
+--- Creates a custom variable.
 ---@param name string
----@param type 0|1|2|3|4|5
+---@param type SappVarType
 function add_var(name, type) end
 
 ---@param name string
@@ -418,7 +443,7 @@ function sync_ammo(object_id) end
 ---@return number hit_x
 ---@return number hit_y
 ---@return number hit_z
----@return integer hit_object_id
+---@return integer hit_object_id 0xFFFFFFFF for map geometry or no hit
 function intersect(x, y, z, vx, vy, vz, ignore_object_id) end
 
 --- Returns the tag address, or 0 if not found. Use the tag id form on protected maps.
