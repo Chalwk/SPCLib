@@ -13,6 +13,8 @@ LICENSE:          MIT License
 =====================================================================================
 ]]
 
+-- todo: rewrite this bullshit
+
 -- CONFIG start ---------------------------------------
 local WEAPON = 'weapons\\pistol\\pistol'
 local STARTING_PRIMARY_AMMO = 1
@@ -99,7 +101,7 @@ function OnPlayerKill(killer, victim, mode)
 end
 
 function OnDamageLookup(_, _, mapId, _)
-    if mapId == pistol_bullet_tag then odl_flags(2, 1) end
+    --if mapId == pistol_bullet_tag then odl_flags(2, 1) end
 end
 
 function OnScriptUnload() end
