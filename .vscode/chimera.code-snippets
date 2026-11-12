@@ -863,6 +863,107 @@
       "read_float(${1:vehicle_object} + 0x348), read_float(${1:vehicle_object} + 0x34C)"
     ]
   },
+  "Chimera OnCommand callback": {
+    "scope": "lua",
+    "prefix": "chimera OnCommand",
+    "description": "Chimera 'command' event callback (set_callback(\"command\", \"OnCommand\"))",
+    "body": [
+      "function OnCommand(cmd)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Chimera OnFrame callback": {
+    "scope": "lua",
+    "prefix": "chimera OnFrame",
+    "description": "Chimera 'frame' event callback (set_callback(\"frame\", \"OnFrame\"))",
+    "body": [
+      "function OnFrame()",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Chimera OnPreFrame callback": {
+    "scope": "lua",
+    "prefix": "chimera OnPreFrame",
+    "description": "Chimera 'preframe' event callback (set_callback(\"preframe\", \"OnPreFrame\"))",
+    "body": [
+      "function OnPreFrame()",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Chimera OnPreCamera callback": {
+    "scope": "lua",
+    "prefix": "chimera OnPreCamera",
+    "description": "Chimera 'precamera' event callback (set_callback(\"precamera\", \"OnPreCamera\"))",
+    "body": [
+      "function OnPreCamera(x, y, z, fov, ox1, oy1, oz1, ox2, oy2, oz2)",
+      "\t$0",
+      "\treturn x, y, z, fov, ox1, oy1, oz1, ox2, oy2, oz2",
+      "end"
+    ]
+  },
+  "Chimera OnTick callback": {
+    "scope": "lua",
+    "prefix": "chimera OnTick",
+    "description": "Chimera 'tick' event callback (set_callback(\"tick\", \"OnTick\"))",
+    "body": [
+      "function OnTick()",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Chimera OnPreTick callback": {
+    "scope": "lua",
+    "prefix": "chimera OnPreTick",
+    "description": "Chimera 'pretick' event callback (set_callback(\"pretick\", \"OnPreTick\"))",
+    "body": [
+      "function OnPreTick()",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Chimera OnMapPreload callback": {
+    "scope": "lua",
+    "prefix": "chimera OnMapPreload",
+    "description": "Chimera 'map preload' event callback (set_callback(\"map preload\", \"OnMapPreload\"))",
+    "body": [
+      "function OnMapPreload()",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Chimera OnMapLoad callback": {
+    "scope": "lua",
+    "prefix": "chimera OnMapLoad",
+    "description": "Chimera 'map load' event callback (set_callback(\"map load\", \"OnMapLoad\"))",
+    "body": [
+      "function OnMapLoad()",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Chimera OnRconMessage callback": {
+    "scope": "lua",
+    "prefix": "chimera OnRconMessage",
+    "description": "Chimera 'rcon_message' event callback (set_callback(\"rcon_message\", \"OnRconMessage\"))",
+    "body": [
+      "function OnRconMessage(msg)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Chimera OnScriptUnload callback": {
+    "scope": "lua",
+    "prefix": "chimera OnScriptUnload",
+    "description": "Chimera 'unload' event callback (set_callback(\"unload\", \"OnScriptUnload\"))",
+    "body": [
+      "function OnScriptUnload()",
+      "\t$0",
+      "end"
+    ]
+  },
   "Chimera script skeleton": {
     "scope": "lua",
     "prefix": "chimera_script",
@@ -870,11 +971,11 @@
     "body": [
       "clua_version = 2.056",
       "",
-      "function on_tick()",
-      "\t$0",
-      "end",
+      "set_callback(\"tick\", \"OnTick\")",
       "",
-      "set_callback(\"tick\", \"on_tick\")"
+      "function OnTick()",
+      "\t$0",
+      "end"
     ]
   }
 }

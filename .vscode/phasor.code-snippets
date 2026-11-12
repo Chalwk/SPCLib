@@ -871,6 +871,271 @@
       "readfloat(${1:vehicle_object} + 0x348), readfloat(${1:vehicle_object} + 0x34C)"
     ]
   },
+  "Phasor OnNewGame callback": {
+    "scope": "lua",
+    "prefix": "phasor OnNewGame",
+    "description": "Phasor OnNewGame callback (cache tag IDs here)",
+    "body": [
+      "function OnNewGame(map)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Phasor OnGameEnd callback": {
+    "scope": "lua",
+    "prefix": "phasor OnGameEnd",
+    "description": "Phasor OnGameEnd callback (stage 1=F1, 2=postgame, 3=quit)",
+    "body": [
+      "function OnGameEnd(stage)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Phasor OnServerChat callback": {
+    "scope": "lua",
+    "prefix": "phasor OnServerChat",
+    "description": "Phasor OnServerChat callback (return false to block, or true, new_msg, new_type to rewrite)",
+    "body": [
+      "function OnServerChat(player, chat_type, message)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnServerCommand callback": {
+    "scope": "lua",
+    "prefix": "phasor OnServerCommand",
+    "description": "Phasor OnServerCommand callback (return false to block)",
+    "body": [
+      "function OnServerCommand(player, command)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnServerCommandAttempt callback": {
+    "scope": "lua",
+    "prefix": "phasor OnServerCommandAttempt",
+    "description": "Phasor OnServerCommandAttempt callback (bad rcon password)",
+    "body": [
+      "function OnServerCommandAttempt(player, command, password)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnNameRequest callback": {
+    "scope": "lua",
+    "prefix": "phasor OnNameRequest",
+    "description": "Phasor OnNameRequest callback (return true, new_name to change name)",
+    "body": [
+      "function OnNameRequest(hash, name)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnBanCheck callback": {
+    "scope": "lua",
+    "prefix": "phasor OnBanCheck",
+    "description": "Phasor OnBanCheck callback (return false to ban)",
+    "body": [
+      "function OnBanCheck(hash, ip)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnPlayerJoin callback": {
+    "scope": "lua",
+    "prefix": "phasor OnPlayerJoin",
+    "description": "Phasor OnPlayerJoin callback",
+    "body": [
+      "function OnPlayerJoin(player)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Phasor OnPlayerLeave callback": {
+    "scope": "lua",
+    "prefix": "phasor OnPlayerLeave",
+    "description": "Phasor OnPlayerLeave callback (clean up per-player state)",
+    "body": [
+      "function OnPlayerLeave(player)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Phasor OnPlayerKill callback": {
+    "scope": "lua",
+    "prefix": "phasor OnPlayerKill",
+    "description": "Phasor OnPlayerKill callback (mode: 0=server,1=fall,2=guardian,3=vehicle,4=pvp,5=betray,6=suicide)",
+    "body": [
+      "function OnPlayerKill(killer, victim, mode)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Phasor OnKillMultiplier callback": {
+    "scope": "lua",
+    "prefix": "phasor OnKillMultiplier",
+    "description": "Phasor OnKillMultiplier callback (double/triple kill, spree, etc.)",
+    "body": [
+      "function OnKillMultiplier(player, multiplier)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Phasor OnPlayerSpawn callback": {
+    "scope": "lua",
+    "prefix": "phasor OnPlayerSpawn",
+    "description": "Phasor OnPlayerSpawn callback (fires before OnPlayerSpawnEnd)",
+    "body": [
+      "function OnPlayerSpawn(player)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Phasor OnPlayerSpawnEnd callback": {
+    "scope": "lua",
+    "prefix": "phasor OnPlayerSpawnEnd",
+    "description": "Phasor OnPlayerSpawnEnd callback (position/colour changes visible)",
+    "body": [
+      "function OnPlayerSpawnEnd(player)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Phasor OnWeaponAssignment callback": {
+    "scope": "lua",
+    "prefix": "phasor OnWeaponAssignment",
+    "description": "Phasor OnWeaponAssignment callback (return new tag id to override)",
+    "body": [
+      "function OnWeaponAssignment(player, object_id, slot, weapon_map_id)",
+      "\t$0",
+      "\treturn weapon_map_id",
+      "end"
+    ]
+  },
+  "Phasor OnWeaponReload callback": {
+    "scope": "lua",
+    "prefix": "phasor OnWeaponReload",
+    "description": "Phasor OnWeaponReload callback (return false to block)",
+    "body": [
+      "function OnWeaponReload(player, weapon_object_id)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnObjectCreationAttempt callback": {
+    "scope": "lua",
+    "prefix": "phasor OnObjectCreationAttempt",
+    "description": "Phasor OnObjectCreationAttempt callback (return false to block, or new tag id)",
+    "body": [
+      "function OnObjectCreationAttempt(map_id, parent_id, player)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnObjectCreation callback": {
+    "scope": "lua",
+    "prefix": "phasor OnObjectCreation",
+    "description": "Phasor OnObjectCreation callback (object has just been created)",
+    "body": [
+      "function OnObjectCreation(object_id)",
+      "\t$0",
+      "end"
+    ]
+  },
+  "Phasor OnObjectInteraction callback": {
+    "scope": "lua",
+    "prefix": "phasor OnObjectInteraction",
+    "description": "Phasor OnObjectInteraction callback (return false to block pickup/etc.)",
+    "body": [
+      "function OnObjectInteraction(player, object_id, map_id)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnTeamDecision callback": {
+    "scope": "lua",
+    "prefix": "phasor OnTeamDecision",
+    "description": "Phasor OnTeamDecision callback (return new team: 0=Red, 1=Blue)",
+    "body": [
+      "function OnTeamDecision(team)",
+      "\t$0",
+      "\treturn team",
+      "end"
+    ]
+  },
+  "Phasor OnTeamChange callback": {
+    "scope": "lua",
+    "prefix": "phasor OnTeamChange",
+    "description": "Phasor OnTeamChange callback (return false to block)",
+    "body": [
+      "function OnTeamChange(player, old_team, new_team, voluntary)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnDamageLookup callback": {
+    "scope": "lua",
+    "prefix": "phasor OnDamageLookup",
+    "description": "Phasor OnDamageLookup callback (configure odl_ modifiers)",
+    "body": [
+      "function OnDamageLookup(receiver, causer, map_id)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnDamageApplication callback": {
+    "scope": "lua",
+    "prefix": "phasor OnDamageApplication",
+    "description": "Phasor OnDamageApplication callback (return false to block, or new damage)",
+    "body": [
+      "function OnDamageApplication(receiver, causer, map_id, location, backtap)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnVehicleEntry callback": {
+    "scope": "lua",
+    "prefix": "phasor OnVehicleEntry",
+    "description": "Phasor OnVehicleEntry callback (return false to block entry)",
+    "body": [
+      "function OnVehicleEntry(player, vehicle_id, seat, map_id, voluntary)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnVehicleEject callback": {
+    "scope": "lua",
+    "prefix": "phasor OnVehicleEject",
+    "description": "Phasor OnVehicleEject callback (return false to block exit)",
+    "body": [
+      "function OnVehicleEject(player, voluntary)",
+      "\t$0",
+      "\treturn true",
+      "end"
+    ]
+  },
+  "Phasor OnClientUpdate callback": {
+    "scope": "lua",
+    "prefix": "phasor OnClientUpdate",
+    "description": "Phasor OnClientUpdate callback (30 Hz per player — keep light)",
+    "body": [
+      "function OnClientUpdate(player)",
+      "\t$0",
+      "end"
+    ]
+  },
   "Phasor script skeleton": {
     "scope": "lua",
     "prefix": "phasor_script",
@@ -885,6 +1150,7 @@
       "end",
       "",
       "function OnScriptUnload()",
+      "\t$0",
       "end"
     ]
   }
