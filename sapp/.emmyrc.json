@@ -4,7 +4,7 @@
   },
   "workspace": {
     "library": [
-      "${workspaceFolder}/../reference/types"
+      "${workspaceFolder}/../reference/apis"
     ],
     "packageDirs": [
       "sapp"
