@@ -168,14 +168,14 @@ function OnScriptLoad()
         http_initialized = true
     end
 
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
 
     timer(100, "ProcessHTTP")
-    OnGameStart() -- in case the script is loaded mid-game
+    OnStart() -- in case the script is loaded mid-game
 end
 
-function OnGameStart()
+function OnStart()
     game_running = false
     if get_var(0, "$gt") ~= "n/a" then
         game_running = true
@@ -183,7 +183,7 @@ function OnGameStart()
     end
 end
 
-function OnGameEnd()
+function OnEnd()
     game_running = false
 end
 

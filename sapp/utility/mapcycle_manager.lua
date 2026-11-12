@@ -273,7 +273,7 @@ end
 function OnScriptLoad()
 
     register_callback(cb.EVENT_COMMAND, 'OnCommand')
-    register_callback(cb.EVENT_GAME_END, 'OnGameEnd')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
     register_callback(cb.EVENT_GAME_START, 'OnStart')
     register_callback(cb.EVENT_JOIN, 'OnJoin')
     register_callback(cb.EVENT_LEAVE, 'OnQuit')
@@ -383,7 +383,7 @@ local function adjustMapCycleBasedOnPlayerCount()
     return false
 end
 
-function OnGameEnd()
+function OnEnd()
     adjustMapCycleBasedOnPlayerCount()
     if next_map_flag then
         loadMap(nil, 'next')

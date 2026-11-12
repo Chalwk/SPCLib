@@ -133,7 +133,7 @@ function OnScriptLoad()
 
     -- Register needed Event Callbacks:
 
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     register_callback(cb.EVENT_TICK, "OnTick")
     register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamageApplication")
 
@@ -157,7 +157,7 @@ function OnScriptUnload()
     -- Not Used
 end
 
-function OnGameStart()
+function OnStart()
     red_flag, blue_flag = read_dword(globals + 0x8), read_dword(globals + 0xC)
 end
 

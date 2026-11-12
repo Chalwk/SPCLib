@@ -86,9 +86,9 @@ local gmatch, lower = string.gmatch, string.lower
 
 function OnScriptLoad()
     register_callback(cb.EVENT_CHAT, "OnPlayerChat")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     register_callback(cb.EVENT_COMMAND, "OnServerCommand")
-    OnGameStart()
+    OnStart()
 end
 
 local function Respond(Ply, Str, Color)
@@ -107,7 +107,7 @@ local function TeamPlay()
     return false
 end
 
-function OnGameStart()
+function OnStart()
     if (get_var(0, "$gt") ~= "n/a") then
         team_play = TeamPlay()
 

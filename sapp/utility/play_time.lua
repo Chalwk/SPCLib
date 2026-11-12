@@ -95,9 +95,9 @@ function OnScriptLoad()
     -- register needed event callbacks:
     --
 
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
     register_callback(cb.EVENT_JOIN, "OnPlayerConnect")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     register_callback(cb.EVENT_COMMAND, "OnServerCommand")
     register_callback(cb.EVENT_LEAVE, "OnPlayerDisconnect")
     --
@@ -109,11 +109,11 @@ function OnScriptUnload()
     TimePlayed:UpdateJSON()
 end
 
-function OnGameStart()
+function OnStart()
     TimePlayed:CheckFile()
 end
 
-function OnGameEnd()
+function OnEnd()
     TimePlayed:UpdateJSON("event_game_end")
 end
 

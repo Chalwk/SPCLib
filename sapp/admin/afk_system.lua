@@ -262,11 +262,11 @@ function OnScriptLoad()
     register_callback(cb.EVENT_JOIN, "OnJoin")
     register_callback(cb.EVENT_LEAVE, "OnLeave")
     register_callback(cb.EVENT_COMMAND, "OnCommand")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
-    OnGameStart()
+    register_callback(cb.EVENT_GAME_START, "OnStart")
+    OnStart()
 end
 
-function OnGameStart()
+function OnStart()
     if get_var(0, "$gt") == "n/a" then return end
     players = {}
     for i = 1, 16 do

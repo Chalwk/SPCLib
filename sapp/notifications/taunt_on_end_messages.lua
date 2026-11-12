@@ -21,10 +21,10 @@ function OnScriptUnload()
 end
 
 function OnScriptLoad()
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
 end
 
-function OnGameEnd(PlayerIndex)
+function OnEnd(PlayerIndex)
     local kills = tonumber(get_var(PlayerIndex, "$kills"))
     if kills == 0 then
         say(PlayerIndex, "You have no kills... noob alert!")

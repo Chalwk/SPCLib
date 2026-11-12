@@ -3286,7 +3286,7 @@ function OnQuit(id)
     end
 end
 
-function OnGameStart()
+function OnStart()
     if get_var(0, '$gt') == 'n/a' then return end
 
     AdminManager.login_session_cache = AdminManager.login_session_cache or {}
@@ -3462,7 +3462,7 @@ function OnCommand(id, command)
     return true
 end
 
-function OnGameEnd()
+function OnEnd()
     AdminManager:updateAliases()
 end
 
@@ -3473,11 +3473,11 @@ end
 function AdminManager:load()
     register_callback(cb['EVENT_JOIN'], 'OnJoin')
     register_callback(cb['EVENT_LEAVE'], 'OnQuit')
-    register_callback(cb['EVENT_GAME_START'], 'OnGameStart')
+    register_callback(cb['EVENT_GAME_START'], 'OnStart')
     register_callback(cb['EVENT_TICK'], 'OnTick')
     register_callback(cb['EVENT_CHAT'], 'OnChat')
     register_callback(cb['EVENT_COMMAND'], 'OnCommand')
-    register_callback(cb['EVENT_GAME_END'], 'OnGameEnd')
+    register_callback(cb['EVENT_GAME_END'], 'OnEnd')
 
     local dir = read_string(read_dword(sig_scan('68??????008D54245468') + 0x1))
     self.data_dir = dir .. '\\sapp\\'
@@ -3508,7 +3508,7 @@ function AdminManager:load()
     self:setDefaultCommands()
     self:setAdmins()
 
-    OnGameStart()
+    OnStart()
 end
 
 function OnScriptLoad()

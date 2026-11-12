@@ -1013,21 +1013,21 @@
     ],
     "description": "SAPP EVENT_ECHO callback"
   },
-  "SAPP OnGameEnd callback": {
+  "SAPP OnEnd callback": {
     "scope": "lua",
-    "prefix": "sapp OnGameEnd",
+    "prefix": "sapp OnEnd",
     "body": [
-      "function OnGameEnd()",
+      "function OnEnd()",
       "\t$0",
       "end"
     ],
     "description": "SAPP EVENT_GAME_END callback"
   },
-  "SAPP OnGameStart callback": {
+  "SAPP OnStart callback": {
     "scope": "lua",
-    "prefix": "sapp OnGameStart",
+    "prefix": "sapp OnStart",
     "body": [
-      "function OnGameStart()",
+      "function OnStart()",
       "\t$0",
       "end"
     ],

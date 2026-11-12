@@ -88,9 +88,9 @@ function OnScriptLoad()
 
     -- Register needed event callbacks:
     register_callback(cb.EVENT_CHAT, "OnPlayerChat")
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
     register_callback(cb.EVENT_JOIN, "OnPlayerConnect")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     register_callback(cb.EVENT_COMMAND, "OnServerCommand")
     register_callback(cb.EVENT_LEAVE, "OnPlayerDisconnect")
     register_callback(cb.EVENT_WEAPON_PICKUP, "OnWeaponPickup")
@@ -110,14 +110,14 @@ function OnScriptUnload()
     --
 end
 
-function OnGameStart()
+function OnStart()
     if (get_var(0, "$gt") ~= "n/a") then
         game_over = false
         mod:Init()
     end
 end
 
-function OnGameEnd()
+function OnEnd()
     game_over = true
 end
 

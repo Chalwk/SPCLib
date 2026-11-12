@@ -853,11 +853,11 @@ end
 
 function OnScriptLoad()
     loadOverrides()
-    register_callback(cb['EVENT_GAME_START'], "OnGameStart")
-    OnGameStart() -- in case the script was loaded mid-game
+    register_callback(cb['EVENT_GAME_START'], "OnStart")
+    OnStart() -- in case the script was loaded mid-game
 end
 
-function OnGameStart()
+function OnStart()
     if get_var(0, '$gt') == 'n/a' then return end
 
     if get_var(0, '$ffa') == '1' then

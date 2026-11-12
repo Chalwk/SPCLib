@@ -66,7 +66,7 @@ function OnScriptLoad()
     register_callback(cb.EVENT_LEAVE, "OnPlayerLeave")
     register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
     register_callback(cb.EVENT_COMMAND, "OnCommandReceived")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
 
     TeleportManager:CheckFile(true)
 end
@@ -75,7 +75,7 @@ function OnScriptUnload()
     -- Cleanup actions can be added here
 end
 
-function OnGameStart()
+function OnStart()
     TeleportManager:CheckFile(true)
 end
 

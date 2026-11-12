@@ -166,18 +166,18 @@ local function initVehicles()
 end
 
 function OnScriptLoad()
-    register_callback(cb.EVENT_GAME_START, 'OnGameStart')
-    register_callback(cb.EVENT_GAME_END, 'OnGameEnd')
-    OnGameStart()
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    OnStart()
 end
 
-function OnGameStart()
+function OnStart()
     if get_var(0, '$gt') ~= 'n/a' then
         initVehicles()
     end
 end
 
-function OnGameEnd()
+function OnEnd()
     unregister_callback(cb.EVENT_TICK)
 end
 

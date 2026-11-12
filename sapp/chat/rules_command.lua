@@ -63,11 +63,11 @@ local game_started = false                       -- Flag to track if the game ha
 -- Load script and register callbacks
 function OnScriptLoad()
     register_callback(cb.EVENT_COMMAND, "HandleCommand")
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     register_callback(cb.EVENT_TICK, "OnTick")
 
-    OnGameStart() -- Initialize game state
+    OnStart() -- Initialize game state
 end
 
 -- Handle custom command for displaying rules
@@ -87,7 +87,7 @@ function ShowAnnouncement()
 end
 
 -- Initialize game state when the game starts
-function OnGameStart()
+function OnStart()
     game_started = true
     if get_var(0, "$gt") ~= "n/a" then
         timer(1000 * interval, "ShowAnnouncement") -- Schedule announcements
@@ -95,7 +95,7 @@ function OnGameStart()
 end
 
 -- Reset game state when the game ends
-function OnGameEnd()
+function OnEnd()
     game_started = false
 end
 

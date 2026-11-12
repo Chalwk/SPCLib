@@ -3,7 +3,7 @@
 SCRIPT NAME:      auto_eject.lua
 DESCRIPTION:      Prevents players from entering vehicles.
 
-Copyright (c) 2025 Jericho Crosby (Chalwk)
+Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
@@ -11,30 +11,26 @@ LICENSE:          MIT License
 
 api_version = '1.12.0.0'
 
-local function blockVehicleEntry(player)
-    local dyn_player = get_dynamic_player(player)
-    if dyn_player ~= 0 and read_dword(dyn_player + 0x11C) ~= 0xFFFFFFFF then
-        exit_vehicle(player)
-    end
-end
-
--- Poll all players every 1 second
-function DelayedTick()
+function CheckVehicles()
     for i = 1, 16 do
         if player_alive(i) then
-            blockVehicleEntry(i)
+            local dyn = get_dynamic_player(i)
+            if dyn ~= 0 and read_dword(dyn + 0x11C) ~= 0xFFFFFFFF then
+                exit_vehicle(i)
+            end
         end
     end
+    return true
 end
 
 function OnScriptLoad()
     register_callback(cb.EVENT_GAME_START, 'OnStart')
-    OnStart()
+    OnStart() -- in case script is loaded mid-game
 end
 
 function OnStart()
     if get_var(0, '$gt') == 'n/a' then return end
-    timer(1000, 'DelayedTick')
+    timer(1000, "CheckVehicles")
 end
 
 function OnScriptUnload() end

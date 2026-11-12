@@ -44,15 +44,15 @@ local tag_address, tag_count
 function OnScriptLoad()
     register_callback(cb.EVENT_COMMAND, "OnCommand")
     register_callback(cb.EVENT_LEAVE, "OnPlayerQuit")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
-    OnGameStart()
+    register_callback(cb.EVENT_GAME_START, "OnStart")
+    OnStart()
 end
 
 function OnScriptUnload()
     FlyingVehicles:Toggle()
 end
 
-function OnGameStart()
+function OnStart()
     if get_var(0, "$gt") ~= "n/a" then
         tag_address = read_dword(0x40440000)
         tag_count = read_dword(0x4044000C)

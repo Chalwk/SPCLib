@@ -91,12 +91,12 @@ local function process_map_mode(map, mode)
 end
 
 function OnScriptLoad()
-    register_callback(cb.EVENT_GAME_START, 'OnGameStart')
-    register_callback(cb.EVENT_GAME_END, 'OnGameEnd')
-    OnGameStart() -- Just incase (this) script is loaded mid-game
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
+    register_callback(cb.EVENT_GAME_END, 'OnEnd')
+    OnStart() -- Just incase (this) script is loaded mid-game
 end
 
-function OnGameStart()
+function OnStart()
     local gt = get_var(0, '$gt')
     if gt == 'n/a' then return end
     local map = get_var(0, '$map'):lower()
@@ -104,7 +104,7 @@ function OnGameStart()
     process_map_mode(map, mode)
 end
 
-function OnGameEnd()
+function OnEnd()
     unload_all()
 end
 

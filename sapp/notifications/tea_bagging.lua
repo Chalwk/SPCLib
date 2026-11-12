@@ -268,7 +268,7 @@ function OnDeath(id)
     }
 end
 
-function OnGameStart()
+function OnStart()
     corpses = {}
     for _, player in pairs(players) do
         player.last_x, player.last_y, player.last_z = nil, nil, nil
@@ -276,7 +276,7 @@ function OnGameStart()
     resetAllProgress()
 end
 
-function OnGameEnd()
+function OnEnd()
     corpses = {}
     resetAllProgress()
 end
@@ -316,11 +316,11 @@ function OnScriptLoad()
     register_callback(cb.EVENT_DIE, "OnDeath")
     register_callback(cb.EVENT_TICK, "OnTick")
     register_callback(cb.EVENT_COMMAND, "OnCommand")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
 
     if get_var(0, "$gt") ~= "n/a" then
-        OnGameStart()
+        OnStart()
         for id = 1, 16 do
             if player_present(id) then
                 OnJoin(id)

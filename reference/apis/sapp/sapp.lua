@@ -62,8 +62,8 @@ function OnError(message) end
 ---@field EVENT_DAMAGE_APPLICATION SappEvent OnDamageApplication(victim_id, causer_id, damage_tag_id, damage, collision_material, backtap): boolean|nil, number|nil. collision_material is a string. Return false to block, or true and a new damage value.
 ---@field EVENT_DIE                SappEvent OnDie(victim_id, killer_id). killer_id is a string: -1 server/falling/distance, 0 non-player source, 1+ player. Called after EVENT_KILL.
 ---@field EVENT_ECHO               SappEvent OnEcho(player_id, message). Output of execute_command(..., true).
----@field EVENT_GAME_END           SappEvent OnGameEnd(). Before the post game carnage report.
----@field EVENT_GAME_START         SappEvent OnGameStart(). A game begins.
+---@field EVENT_GAME_END           SappEvent OnEnd(). Before the post game carnage report.
+---@field EVENT_GAME_START         SappEvent OnStart(). A game begins.
 ---@field EVENT_JOIN               SappEvent OnJoin(player_id). Player fully joined.
 ---@field EVENT_KILL               SappEvent OnKill(killer_id, victim_id). victim_id is a string. Called before EVENT_DIE.
 ---@field EVENT_LEAVE              SappEvent OnLeave(player_id). Player disconnected.
@@ -98,8 +98,8 @@ function OnError(message) end
 --- | "OnDamageApplication"
 --- | "OnDie"
 --- | "OnEcho"
---- | "OnGameEnd"
---- | "OnGameStart"
+--- | "OnEnd"
+--- | "OnStart"
 --- | "OnJoin"
 --- | "OnKill"
 --- | "OnLeave"

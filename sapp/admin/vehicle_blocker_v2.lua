@@ -50,8 +50,8 @@ function OnScriptLoad()
     register_callback(cb.EVENT_VEHICLE_ENTER, "OnVehicleEntry")
     register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
     register_callback(cb.EVENT_LEAVE, "OnPlayerLeave")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
     register_callback(cb.EVENT_PRESPAWN, "OnPlayerPrespawn")
     mapname = get_var(0, "$map")
     VehicleSettings()
@@ -60,12 +60,12 @@ end
 function OnScriptUnload()
 end
 
-function OnGameStart(map)
+function OnStart(map)
     mapname = get_var(0, "$map")
     VehicleSettings()
 end
 
-function OnGameEnd()
+function OnEnd()
     for i = 1, 16 do
         if player_present(i) then
             players[get_var(i, "$name")].teleport_trigger = false

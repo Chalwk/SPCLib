@@ -706,17 +706,17 @@ function OnScriptLoad()
     register_callback(cb.EVENT_SCORE, "OnScore")
     register_callback(cb.EVENT_SPAWN, "OnSpawn")
     register_callback(cb.EVENT_COMMAND, "OnCommand")
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     register_callback(cb.EVENT_TEAM_SWITCH, "OnTeamSwitch")
     register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamageApplication")
 
-    OnGameStart() -- in case the script was loaded mid-game
+    OnStart() -- in case the script was loaded mid-game
 end
 
 function OnScriptUnload() saveStats() end
 
-function OnGameStart()
+function OnStart()
     gametype = get_var(0, "$gt")
     if gametype == "n/a" then return end
 
@@ -736,7 +736,7 @@ function OnGameStart()
     end
 end
 
-function OnGameEnd()
+function OnEnd()
     game_session = game_session + 1
     saveStats()
     ---@diagnostic disable-next-line: unnecessary-if

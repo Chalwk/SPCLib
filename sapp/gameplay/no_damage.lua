@@ -34,9 +34,9 @@ function OnScriptLoad()
     register_callback(cb.EVENT_LEAVE, 'OnPlayerLeave')
     register_callback(cb.EVENT_SPAWN, 'OnSpawn')
     register_callback(cb.EVENT_COMMAND, 'OnPlayerCommand')
-    register_callback(cb.EVENT_GAME_START, 'OnGameStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     register_callback(cb.EVENT_DAMAGE_APPLICATION, 'OnDamageApplication')
-    OnGameStart()
+    OnStart()
 end
 
 local function getOriginalBits(playerId)
@@ -65,7 +65,7 @@ local function modifyDamageBits(playerId)
     end
 end
 
-function OnGameStart()
+function OnStart()
     if get_var(0, '$gt') ~= 'n/a' then
         for playerId = 1, 16 do
             if player_present(playerId) then

@@ -70,7 +70,7 @@ function OnScriptLoad()
     register_callback(cb.EVENT_JOIN, "OnPlayerConnect")
     register_callback(cb.EVENT_LEAVE, "OnPlayerDisconnect")
 
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
     register_callback(cb.EVENT_GAME_START, "OnNewGame")
 
     for i = 1, 16 do
@@ -98,7 +98,7 @@ function OnNewGame()
     end
 end
 
-function OnGameEnd()
+function OnEnd()
     for i = 1, 16 do
         if player_present(i) then
             jump_status[i] = false

@@ -54,12 +54,12 @@ function OnScriptLoad()
     register_callback(cb.EVENT_JOIN, 'OnPlayerJoin')
     register_callback(cb.EVENT_LEAVE, 'OnPlayerQuit')
     register_callback(cb.EVENT_COMMAND, 'OnCommandReceived')
-    register_callback(cb.EVENT_GAME_START, 'OnGameStart')
+    register_callback(cb.EVENT_GAME_START, 'OnStart')
     register_callback(cb.EVENT_DAMAGE_APPLICATION, 'OnDamageApplication')
-    OnGameStart()
+    OnStart()
 end
 
-function OnGameStart()
+function OnStart()
     if get_var(0, '$gt') ~= 'n/a' then
         players = {}
         for playerId = 1, 16 do

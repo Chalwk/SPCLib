@@ -89,12 +89,12 @@ function OnScriptLoad()
     register_callback(cb.EVENT_TICK, "OnTick")
     register_callback(cb.EVENT_JOIN, "OnPlayerJoin")
     register_callback(cb.EVENT_LEAVE, "OnPlayerQuit")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     register_callback(cb.EVENT_COMMAND, "OnServerCommand")
-    OnGameStart()
+    OnStart()
 end
 
-function OnGameStart()
+function OnStart()
     if (get_var(0, "$gt") ~= "n/a") then
         Crash:SetCrashVehicle()
     end

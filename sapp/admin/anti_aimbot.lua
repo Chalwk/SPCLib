@@ -785,12 +785,12 @@ function OnScriptLoad()
     register_callback(cb.EVENT_JOIN, "OnJoin")
     register_callback(cb.EVENT_DIE, "OnDie")
     register_callback(cb.EVENT_LEAVE, "OnLeave")
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
-    OnGameStart() -- in case the script was loaded mid-game
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
+    OnStart() -- in case the script was loaded mid-game
 end
 
-function OnGameStart()
+function OnStart()
     if get_var(0, "$gt") == "n/a" then return end
 
     is_ffa = get_var(0, "$ffa") == "1"
@@ -802,7 +802,7 @@ function OnGameStart()
     end
 end
 
-function OnGameEnd()
+function OnEnd()
     for i = 1, 16 do
         players[i] = nil
         camera_vectors[i] = nil

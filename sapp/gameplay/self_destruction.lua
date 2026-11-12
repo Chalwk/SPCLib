@@ -48,8 +48,8 @@ function OnScriptLoad()
     register_callback(cb.EVENT_JOIN, "OnJoin")
     register_callback(cb.EVENT_LEAVE, "OnQuit")
     register_callback(cb.EVENT_SPAWN, "OnSpawn")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
-    OnGameStart()
+    register_callback(cb.EVENT_GAME_START, "OnStart")
+    OnStart()
 end
 
 local players = { }
@@ -63,7 +63,7 @@ local function InitPlayer(Ply, Reset)
     players[Ply] = nil
 end
 
-function OnGameStart()
+function OnStart()
     if (get_var(0, "$gt") ~= "n/a") then
         players = { }
         for i = 1, 16 do

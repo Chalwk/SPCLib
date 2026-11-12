@@ -17,8 +17,8 @@ function OnScriptLoad()
     register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamageApplication")
     register_callback(cb.EVENT_DIE, "OnDie")
     register_callback(cb.EVENT_ECHO, "OnEcho")
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     register_callback(cb.EVENT_JOIN, "OnJoin")
     register_callback(cb.EVENT_KILL, "OnKill")
     register_callback(cb.EVENT_LEAVE, "OnLeave")
@@ -229,11 +229,11 @@ function OnCamp(player_id) end
 
 -- `EVENT_GAME_START`
 -- Called when a game begins.
-function OnGameStart() end
+function OnStart() end
 
 -- `EVENT_GAME_END`
 -- Called when the game ends (before post game carnage report appears)
-function OnGameEnd() end
+function OnEnd() end
 
 -- `EVENT_MAP_RESET`
 -- Called when sv_map_reset is executed.

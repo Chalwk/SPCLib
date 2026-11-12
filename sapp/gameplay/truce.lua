@@ -88,7 +88,7 @@ function OnScriptLoad()
     register_callback(cb.EVENT_DAMAGE_APPLICATION, "OnDamageApplication")
     register_callback(cb.EVENT_LEAVE, "OnPlayerDisconnect")
     register_callback(cb.EVENT_JOIN, "OnPlayerConnect")
-    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_END, "OnEnd")
 end
 
 local function clearData()
@@ -121,7 +121,7 @@ function OnScriptUnload()
     clearData()
 end
 
-function OnGameEnd()
+function OnEnd()
     clearData()
 end
 

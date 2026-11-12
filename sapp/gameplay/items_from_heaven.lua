@@ -156,9 +156,9 @@ api_version = "1.12.0.0"
 
 function OnScriptLoad()
     register_callback(cb.EVENT_TICK, "OnTick")
-    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    register_callback(cb.EVENT_GAME_START, "OnStart")
     register_callback(cb.EVENT_COMMAND, "OnServerCommand")
-    OnGameStart()
+    OnStart()
 end
 
 local function NewInterval()
@@ -167,7 +167,7 @@ local function NewInterval()
     interval = math.random(min, max)
 end
 
-function OnGameStart()
+function OnStart()
     if (get_var(0, "$gt") ~= "n/a") then
 
         OnScriptUnload(true)
