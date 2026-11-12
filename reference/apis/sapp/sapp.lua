@@ -584,7 +584,7 @@ function destroy_object(object_id) end
 function sync_ammo(object_id) end
 
 --- 3D raycast. The direction vector is multiplied by the reach in world units.
---- hit_object_id is 0xFFFFFFFF for map geometry or no hit.
+--- See [Raycasting with intersect](https://chalwk.github.io/halo/sapp/utils/#raycasting-with-intersect).
 ---@param x                 number
 ---@param y                 number
 ---@param z                 number
@@ -600,6 +600,7 @@ function sync_ammo(object_id) end
 function intersect(x, y, z, vx, vy, vz, ignore_object_id) end
 
 --- Returns the tag address, or 0 if not found. Use the tag id form on protected maps.
+--- See [Players, Objects, and Actions](https://chalwk.github.io/halo/sapp/scripting-with-sapp/#players-objects-and-actions).
 ---@overload fun(tag_id: number): number
 ---@param tag_class TagClass | string Four-letter class, e.g. "weap"
 ---@param tag_name  string
