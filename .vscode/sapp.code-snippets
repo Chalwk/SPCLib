@@ -1,0 +1,1236 @@
+{
+  "SAPP obj_tagid read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_tagid",
+    "description": "object + 0x0: Tag ID",
+    "body": [
+      "read_dword(${1:object} + 0x0)"
+    ]
+  },
+  "SAPP obj_type read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_type",
+    "description": "object + 0xB4: Object type",
+    "body": [
+      "read_byte(${1:object} + 0xB4)"
+    ]
+  },
+  "SAPP obj_team read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_team",
+    "description": "object + 0xB8: Object team (0 red, 1 blue, -1 non-game)",
+    "body": [
+      "read_short(${1:object} + 0xB8)"
+    ]
+  },
+  "SAPP obj_radius read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_radius",
+    "description": "object + 0xAC: Bounding radius",
+    "body": [
+      "read_float(${1:object} + 0xAC)"
+    ]
+  },
+  "SAPP obj_owner read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_owner",
+    "description": "object + 0xC0: Player object owner ID",
+    "body": [
+      "read_dword(${1:object} + 0xC0)"
+    ]
+  },
+  "SAPP obj_parent read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_parent",
+    "description": "object + 0xC4: Parent object ID",
+    "body": [
+      "read_dword(${1:object} + 0xC4)"
+    ]
+  },
+  "SAPP obj_maxhealth read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_maxhealth",
+    "description": "object + 0xD8: Maximum health",
+    "body": [
+      "read_float(${1:object} + 0xD8)"
+    ]
+  },
+  "SAPP obj_maxshield read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_maxshield",
+    "description": "object + 0xDC: Maximum shields",
+    "body": [
+      "read_float(${1:object} + 0xDC)"
+    ]
+  },
+  "SAPP dyn_health read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_health",
+    "description": "dyn_player + 0xE0: Health (0.0-1.0)",
+    "body": [
+      "read_float(${1:dyn_player} + 0xE0)"
+    ]
+  },
+  "SAPP set_dyn_health write": {
+    "scope": "lua",
+    "prefix": "sapp_set_dyn_health",
+    "description": "Write dyn_player + 0xE0: Health (0.0-1.0)",
+    "body": [
+      "write_float(${1:dyn_player} + 0xE0, ${2:value})"
+    ]
+  },
+  "SAPP dyn_shields read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_shields",
+    "description": "dyn_player + 0xE4: Shields (0.0-1.0)",
+    "body": [
+      "read_float(${1:dyn_player} + 0xE4)"
+    ]
+  },
+  "SAPP set_dyn_shields write": {
+    "scope": "lua",
+    "prefix": "sapp_set_dyn_shields",
+    "description": "Write dyn_player + 0xE4: Shields (0.0-1.0)",
+    "body": [
+      "write_float(${1:dyn_player} + 0xE4, ${2:value})"
+    ]
+  },
+  "SAPP dyn_weapon read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_weapon",
+    "description": "dyn_player + 0x118: Current weapon object ID",
+    "body": [
+      "read_dword(${1:dyn_player} + 0x118)"
+    ]
+  },
+  "SAPP dyn_vehicle read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_vehicle",
+    "description": "dyn_player + 0x11C: Vehicle object ID (0xFFFFFFFF = on foot)",
+    "body": [
+      "read_dword(${1:dyn_player} + 0x11C)"
+    ]
+  },
+  "SAPP dyn_keys read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_keys",
+    "description": "dyn_player + 0x208: Key/action input flags (bit 4 = flashlight)",
+    "body": [
+      "read_word(${1:dyn_player} + 0x208)"
+    ]
+  },
+  "SAPP dyn_movekey read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_movekey",
+    "description": "dyn_player + 0x2A3: Movement key input state",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x2A3)"
+    ]
+  },
+  "SAPP dyn_reloadkey read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_reloadkey",
+    "description": "dyn_player + 0x2A4: Reload key input state",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x2A4)"
+    ]
+  },
+  "SAPP dyn_seat read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_seat",
+    "description": "dyn_player + 0x2F0: Vehicle seat index",
+    "body": [
+      "read_word(${1:dyn_player} + 0x2F0)"
+    ]
+  },
+  "SAPP dyn_weaponslot read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_weaponslot",
+    "description": "dyn_player + 0x2F2: Current weapon slot (0-3)",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x2F2)"
+    ]
+  },
+  "SAPP dyn_frags read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_frags",
+    "description": "dyn_player + 0x31E: Frag grenades",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x31E)"
+    ]
+  },
+  "SAPP set_dyn_frags write": {
+    "scope": "lua",
+    "prefix": "sapp_set_dyn_frags",
+    "description": "Write dyn_player + 0x31E: Frag grenades",
+    "body": [
+      "write_byte(${1:dyn_player} + 0x31E, ${2:value})"
+    ]
+  },
+  "SAPP dyn_plasmas read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_plasmas",
+    "description": "dyn_player + 0x31F: Plasma grenades",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x31F)"
+    ]
+  },
+  "SAPP set_dyn_plasmas write": {
+    "scope": "lua",
+    "prefix": "sapp_set_dyn_plasmas",
+    "description": "Write dyn_player + 0x31F: Plasma grenades",
+    "body": [
+      "write_byte(${1:dyn_player} + 0x31F, ${2:value})"
+    ]
+  },
+  "SAPP dyn_zoomlevel read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_zoomlevel",
+    "description": "dyn_player + 0x320: Biped zoom level (0xFF = unzoomed)",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x320)"
+    ]
+  },
+  "SAPP set_dyn_zoomlevel write": {
+    "scope": "lua",
+    "prefix": "sapp_set_dyn_zoomlevel",
+    "description": "Write dyn_player + 0x320: Biped zoom level (0xFF = unzoomed)",
+    "body": [
+      "write_byte(${1:dyn_player} + 0x320, ${2:value})"
+    ]
+  },
+  "SAPP dyn_invis read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_invis",
+    "description": "dyn_player + 0x37C: Invisibility (1.0 = invisible)",
+    "body": [
+      "read_float(${1:dyn_player} + 0x37C)"
+    ]
+  },
+  "SAPP set_dyn_invis write": {
+    "scope": "lua",
+    "prefix": "sapp_set_dyn_invis",
+    "description": "Write dyn_player + 0x37C: Invisibility (1.0 = invisible)",
+    "body": [
+      "write_float(${1:dyn_player} + 0x37C, ${2:value})"
+    ]
+  },
+  "SAPP dyn_damager read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_damager",
+    "description": "dyn_player + 0x43C: Most recent damager player object ID",
+    "body": [
+      "read_dword(${1:dyn_player} + 0x43C)"
+    ]
+  },
+  "SAPP dyn_bumped read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_bumped",
+    "description": "dyn_player + 0x4FC: Bumped object ID",
+    "body": [
+      "read_dword(${1:dyn_player} + 0x4FC)"
+    ]
+  },
+  "SAPP dyn_weaponkey read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_weaponkey",
+    "description": "dyn_player + 0x47C: Weapon switch key input state",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x47C)"
+    ]
+  },
+  "SAPP dyn_grenadekey read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_grenadekey",
+    "description": "dyn_player + 0x47E: Grenade switch key input state",
+    "body": [
+      "read_byte(${1:dyn_player} + 0x47E)"
+    ]
+  },
+  "SAPP dyn_zoomstate read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_zoomstate",
+    "description": "dyn_player + 0x480: Zoom state (0 = unzoomed)",
+    "body": [
+      "read_word(${1:dyn_player} + 0x480)"
+    ]
+  },
+  "SAPP dyn_trigger read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_trigger",
+    "description": "dyn_player + 0x490: Primary trigger / shooting state",
+    "body": [
+      "read_float(${1:dyn_player} + 0x490)"
+    ]
+  },
+  "SAPP dyn_crouch read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_crouch",
+    "description": "dyn_player + 0x50C: Crouch scale (0 standing, 1 crouched)",
+    "body": [
+      "read_float(${1:dyn_player} + 0x50C)"
+    ]
+  },
+  "SAPP sp_team read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_team",
+    "description": "static_player + 0x20: Team (0 red, 1 blue)",
+    "body": [
+      "read_byte(${1:static_player} + 0x20)"
+    ]
+  },
+  "SAPP sp_respawn read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_respawn",
+    "description": "static_player + 0x2C: Respawn timer (ticks)",
+    "body": [
+      "read_dword(${1:static_player} + 0x2C)"
+    ]
+  },
+  "SAPP set_sp_respawn write": {
+    "scope": "lua",
+    "prefix": "sapp_set_sp_respawn",
+    "description": "Write static_player + 0x2C: Respawn timer (ticks)",
+    "body": [
+      "write_dword(${1:static_player} + 0x2C, ${2:value})"
+    ]
+  },
+  "SAPP sp_growth read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_growth",
+    "description": "static_player + 0x30: Respawn time growth (ticks)",
+    "body": [
+      "read_dword(${1:static_player} + 0x30)"
+    ]
+  },
+  "SAPP set_sp_growth write": {
+    "scope": "lua",
+    "prefix": "sapp_set_sp_growth",
+    "description": "Write static_player + 0x30: Respawn time growth (ticks)",
+    "body": [
+      "write_dword(${1:static_player} + 0x30, ${2:value})"
+    ]
+  },
+  "SAPP sp_biped read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_biped",
+    "description": "static_player + 0x34: Player biped object ID",
+    "body": [
+      "read_dword(${1:static_player} + 0x34)"
+    ]
+  },
+  "SAPP sp_lastbiped read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_lastbiped",
+    "description": "static_player + 0x38: Last biped object ID",
+    "body": [
+      "read_dword(${1:static_player} + 0x38)"
+    ]
+  },
+  "SAPP sp_color read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_color",
+    "description": "static_player + 0x60: FFA color index (0-17)",
+    "body": [
+      "read_byte(${1:static_player} + 0x60)"
+    ]
+  },
+  "SAPP set_sp_color write": {
+    "scope": "lua",
+    "prefix": "sapp_set_sp_color",
+    "description": "Write static_player + 0x60: FFA color index (0-17)",
+    "body": [
+      "write_byte(${1:static_player} + 0x60, ${2:value})"
+    ]
+  },
+  "SAPP sp_camo read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_camo",
+    "description": "static_player + 0x68: Active camo timer (> 0 = camouflaged)",
+    "body": [
+      "read_word(${1:static_player} + 0x68)"
+    ]
+  },
+  "SAPP sp_speed read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_speed",
+    "description": "static_player + 0x6C: Speed multiplier (1.0 = normal)",
+    "body": [
+      "read_float(${1:static_player} + 0x6C)"
+    ]
+  },
+  "SAPP set_sp_speed write": {
+    "scope": "lua",
+    "prefix": "sapp_set_sp_speed",
+    "description": "Write static_player + 0x6C: Speed multiplier (1.0 = normal)",
+    "body": [
+      "write_float(${1:static_player} + 0x6C, ${2:value})"
+    ]
+  },
+  "SAPP sp_killstreak read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_killstreak",
+    "description": "static_player + 0x96: Lifetime killstreak",
+    "body": [
+      "read_word(${1:static_player} + 0x96)"
+    ]
+  },
+  "SAPP sp_kills read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_kills",
+    "description": "static_player + 0x9C: Kills",
+    "body": [
+      "read_word(${1:static_player} + 0x9C)"
+    ]
+  },
+  "SAPP set_sp_kills write": {
+    "scope": "lua",
+    "prefix": "sapp_set_sp_kills",
+    "description": "Write static_player + 0x9C: Kills",
+    "body": [
+      "write_word(${1:static_player} + 0x9C, ${2:value})"
+    ]
+  },
+  "SAPP sp_assists read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_assists",
+    "description": "static_player + 0xA4: Assists",
+    "body": [
+      "read_word(${1:static_player} + 0xA4)"
+    ]
+  },
+  "SAPP set_sp_assists write": {
+    "scope": "lua",
+    "prefix": "sapp_set_sp_assists",
+    "description": "Write static_player + 0xA4: Assists",
+    "body": [
+      "write_word(${1:static_player} + 0xA4, ${2:value})"
+    ]
+  },
+  "SAPP sp_betrays read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_betrays",
+    "description": "static_player + 0xAC: Betrays (+ suicides)",
+    "body": [
+      "read_word(${1:static_player} + 0xAC)"
+    ]
+  },
+  "SAPP sp_deaths read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_deaths",
+    "description": "static_player + 0xAE: Deaths",
+    "body": [
+      "read_word(${1:static_player} + 0xAE)"
+    ]
+  },
+  "SAPP set_sp_deaths write": {
+    "scope": "lua",
+    "prefix": "sapp_set_sp_deaths",
+    "description": "Write static_player + 0xAE: Deaths",
+    "body": [
+      "write_word(${1:static_player} + 0xAE, ${2:value})"
+    ]
+  },
+  "SAPP sp_suicides read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_suicides",
+    "description": "static_player + 0xB0: Suicides",
+    "body": [
+      "read_word(${1:static_player} + 0xB0)"
+    ]
+  },
+  "SAPP sp_hilltime read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_hilltime",
+    "description": "static_player + 0xC4: KOTH hill time (ticks) / CTF flag steals",
+    "body": [
+      "read_word(${1:static_player} + 0xC4)"
+    ]
+  },
+  "SAPP sp_laps read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_laps",
+    "description": "static_player + 0xC6: Race laps / CTF flag returns",
+    "body": [
+      "read_word(${1:static_player} + 0xC6)"
+    ]
+  },
+  "SAPP sp_score read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_score",
+    "description": "static_player + 0xC8: CTF score / Oddball kills",
+    "body": [
+      "read_word(${1:static_player} + 0xC8)"
+    ]
+  },
+  "SAPP set_sp_score write": {
+    "scope": "lua",
+    "prefix": "sapp_set_sp_score",
+    "description": "Write static_player + 0xC8: CTF score / Oddball kills",
+    "body": [
+      "write_word(${1:static_player} + 0xC8, ${2:value})"
+    ]
+  },
+  "SAPP sp_ping read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_ping",
+    "description": "static_player + 0xDC: Ping (ms)",
+    "body": [
+      "read_dword(${1:static_player} + 0xDC)"
+    ]
+  },
+  "SAPP sp_tkcount read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_tkcount",
+    "description": "static_player + 0xE0: Teamkill count",
+    "body": [
+      "read_dword(${1:static_player} + 0xE0)"
+    ]
+  },
+  "SAPP sp_tktimer read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_tktimer",
+    "description": "static_player + 0xE4: Teamkill timer (ticks)",
+    "body": [
+      "read_dword(${1:static_player} + 0xE4)"
+    ]
+  },
+  "SAPP wpn_overheat read": {
+    "scope": "lua",
+    "prefix": "sapp_wpn_overheat",
+    "description": "weapon_object + 0x240: Overheat (0-1)",
+    "body": [
+      "read_float(${1:weapon_object} + 0x240)"
+    ]
+  },
+  "SAPP set_wpn_overheat write": {
+    "scope": "lua",
+    "prefix": "sapp_set_wpn_overheat",
+    "description": "Write weapon_object + 0x240: Overheat (0-1)",
+    "body": [
+      "write_float(${1:weapon_object} + 0x240, ${2:value})"
+    ]
+  },
+  "SAPP wpn_reserve read": {
+    "scope": "lua",
+    "prefix": "sapp_wpn_reserve",
+    "description": "weapon_object + 0x2B6: Reserve ammo",
+    "body": [
+      "read_word(${1:weapon_object} + 0x2B6)"
+    ]
+  },
+  "SAPP set_wpn_reserve write": {
+    "scope": "lua",
+    "prefix": "sapp_set_wpn_reserve",
+    "description": "Write weapon_object + 0x2B6: Reserve ammo",
+    "body": [
+      "write_word(${1:weapon_object} + 0x2B6, ${2:value})"
+    ]
+  },
+  "SAPP wpn_mag read": {
+    "scope": "lua",
+    "prefix": "sapp_wpn_mag",
+    "description": "weapon_object + 0x2B8: Rounds in magazine",
+    "body": [
+      "read_word(${1:weapon_object} + 0x2B8)"
+    ]
+  },
+  "SAPP set_wpn_mag write": {
+    "scope": "lua",
+    "prefix": "sapp_set_wpn_mag",
+    "description": "Write weapon_object + 0x2B8: Rounds in magazine",
+    "body": [
+      "write_word(${1:weapon_object} + 0x2B8, ${2:value})"
+    ]
+  },
+  "SAPP wpn_reserve2 read": {
+    "scope": "lua",
+    "prefix": "sapp_wpn_reserve2",
+    "description": "weapon_object + 0x2C6: Secondary reserve ammo",
+    "body": [
+      "read_word(${1:weapon_object} + 0x2C6)"
+    ]
+  },
+  "SAPP set_wpn_reserve2 write": {
+    "scope": "lua",
+    "prefix": "sapp_set_wpn_reserve2",
+    "description": "Write weapon_object + 0x2C6: Secondary reserve ammo",
+    "body": [
+      "write_word(${1:weapon_object} + 0x2C6, ${2:value})"
+    ]
+  },
+  "SAPP wpn_mag2 read": {
+    "scope": "lua",
+    "prefix": "sapp_wpn_mag2",
+    "description": "weapon_object + 0x2C8: Secondary rounds in magazine",
+    "body": [
+      "read_word(${1:weapon_object} + 0x2C8)"
+    ]
+  },
+  "SAPP set_wpn_mag2 write": {
+    "scope": "lua",
+    "prefix": "sapp_set_wpn_mag2",
+    "description": "Write weapon_object + 0x2C8: Secondary rounds in magazine",
+    "body": [
+      "write_word(${1:weapon_object} + 0x2C8, ${2:value})"
+    ]
+  },
+  "SAPP veh_driver read": {
+    "scope": "lua",
+    "prefix": "sapp_veh_driver",
+    "description": "vehicle_object + 0x324: Driver unit object ID (0xFFFFFFFF = empty)",
+    "body": [
+      "read_dword(${1:vehicle_object} + 0x324)"
+    ]
+  },
+  "SAPP veh_gunner read": {
+    "scope": "lua",
+    "prefix": "sapp_veh_gunner",
+    "description": "vehicle_object + 0x328: Gunner unit object ID",
+    "body": [
+      "read_dword(${1:vehicle_object} + 0x328)"
+    ]
+  },
+  "SAPP veh_passenger read": {
+    "scope": "lua",
+    "prefix": "sapp_veh_passenger",
+    "description": "vehicle_object + 0x32C: Passenger unit object ID",
+    "body": [
+      "read_dword(${1:vehicle_object} + 0x32C)"
+    ]
+  },
+  "SAPP veh_abandoned read": {
+    "scope": "lua",
+    "prefix": "sapp_veh_abandoned",
+    "description": "vehicle_object + 0x330: Time abandoned (ticks)",
+    "body": [
+      "read_dword(${1:vehicle_object} + 0x330)"
+    ]
+  },
+  "SAPP veh_entryscale read": {
+    "scope": "lua",
+    "prefix": "sapp_veh_entryscale",
+    "description": "vehicle_object + 0x338: Vehicle entry scale",
+    "body": [
+      "read_float(${1:vehicle_object} + 0x338)"
+    ]
+  },
+  "SAPP veh_flashint read": {
+    "scope": "lua",
+    "prefix": "sapp_veh_flashint",
+    "description": "vehicle_object + 0x340: Flashlight intensity scale",
+    "body": [
+      "read_float(${1:vehicle_object} + 0x340)"
+    ]
+  },
+  "SAPP veh_flashenergy read": {
+    "scope": "lua",
+    "prefix": "sapp_veh_flashenergy",
+    "description": "vehicle_object + 0x344: Flashlight energy remaining",
+    "body": [
+      "read_float(${1:vehicle_object} + 0x344)"
+    ]
+  },
+  "SAPP tag_class read": {
+    "scope": "lua",
+    "prefix": "sapp_tag_class",
+    "description": "tag_entry + 0x0: Tag class dword",
+    "body": [
+      "read_dword(${1:tag_entry} + 0x0)"
+    ]
+  },
+  "SAPP tag_meta read": {
+    "scope": "lua",
+    "prefix": "sapp_tag_meta",
+    "description": "tag_entry + 0xC: Meta ID",
+    "body": [
+      "read_dword(${1:tag_entry} + 0xC)"
+    ]
+  },
+  "SAPP tag_data read": {
+    "scope": "lua",
+    "prefix": "sapp_tag_data",
+    "description": "tag_entry + 0x14: Pointer to tag data",
+    "body": [
+      "read_dword(${1:tag_entry} + 0x14)"
+    ]
+  },
+  "SAPP gt_type read": {
+    "scope": "lua",
+    "prefix": "sapp_gt_type",
+    "description": "gametype_base + 0x30: Game type code (1 ctf, 2 slayer, 3 oddball, 4 king, 5 race)",
+    "body": [
+      "read_byte(${1:gametype_base} + 0x30)"
+    ]
+  },
+  "SAPP gt_teamplay read": {
+    "scope": "lua",
+    "prefix": "sapp_gt_teamplay",
+    "description": "gametype_base + 0x34: Team play (0 off, 1 on)",
+    "body": [
+      "read_byte(${1:gametype_base} + 0x34)"
+    ]
+  },
+  "SAPP gt_lives read": {
+    "scope": "lua",
+    "prefix": "sapp_gt_lives",
+    "description": "gametype_base + 0x50: Lives (0 = unlimited)",
+    "body": [
+      "read_byte(${1:gametype_base} + 0x50)"
+    ]
+  },
+  "SAPP gt_scorelimit read": {
+    "scope": "lua",
+    "prefix": "sapp_gt_scorelimit",
+    "description": "gametype_base + 0x58: Score limit",
+    "body": [
+      "read_byte(${1:gametype_base} + 0x58)"
+    ]
+  },
+  "SAPP gt_friendlyfire read": {
+    "scope": "lua",
+    "prefix": "sapp_gt_friendlyfire",
+    "description": "gametype_base + 0x6C: Friendly fire (0 off, 1 on)",
+    "body": [
+      "read_byte(${1:gametype_base} + 0x6C)"
+    ]
+  },
+  "SAPP gt_timelimit read": {
+    "scope": "lua",
+    "prefix": "sapp_gt_timelimit",
+    "description": "gametype_base + 0x78: Time limit (ticks)",
+    "body": [
+      "read_dword(${1:gametype_base} + 0x78)"
+    ]
+  },
+  "SAPP obj_pos read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_pos",
+    "description": "object + 0x5C: World position",
+    "body": [
+      "local ${2:x}, ${3:y}, ${4:z} = read_vector3d(${1:object} + 0x5C)"
+    ]
+  },
+  "SAPP set_obj_pos write": {
+    "scope": "lua",
+    "prefix": "sapp_set_obj_pos",
+    "description": "Write object + 0x5C: World position",
+    "body": [
+      "write_vector3d(${1:object} + 0x5C, ${2:x}, ${3:y}, ${4:z})"
+    ]
+  },
+  "SAPP obj_vel read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_vel",
+    "description": "object + 0x68: Velocity (WU per tick)",
+    "body": [
+      "local ${2:vx}, ${3:vy}, ${4:vz} = read_vector3d(${1:object} + 0x68)"
+    ]
+  },
+  "SAPP set_obj_vel write": {
+    "scope": "lua",
+    "prefix": "sapp_set_obj_vel",
+    "description": "Write object + 0x68: Velocity (WU per tick)",
+    "body": [
+      "write_vector3d(${1:object} + 0x68, ${2:x}, ${3:y}, ${4:z})"
+    ]
+  },
+  "SAPP obj_fwd read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_fwd",
+    "description": "object + 0x74: Forward vector",
+    "body": [
+      "local ${2:fx}, ${3:fy}, ${4:fz} = read_vector3d(${1:object} + 0x74)"
+    ]
+  },
+  "SAPP set_obj_fwd write": {
+    "scope": "lua",
+    "prefix": "sapp_set_obj_fwd",
+    "description": "Write object + 0x74: Forward vector",
+    "body": [
+      "write_vector3d(${1:object} + 0x74, ${2:x}, ${3:y}, ${4:z})"
+    ]
+  },
+  "SAPP dyn_aim read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_aim",
+    "description": "dyn_player + 0x230: Aim vector",
+    "body": [
+      "local ${2:aim_x}, ${3:aim_y}, ${4:aim_z} = read_vector3d(${1:dyn_player} + 0x230)"
+    ]
+  },
+  "SAPP sp_altpos read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_altpos",
+    "description": "static_player + 0xF8: Alternate world position",
+    "body": [
+      "local ${2:x}, ${3:y}, ${4:z} = read_vector3d(${1:static_player} + 0xF8)"
+    ]
+  },
+  "SAPP set_sp_altpos write": {
+    "scope": "lua",
+    "prefix": "sapp_set_sp_altpos",
+    "description": "Write static_player + 0xF8: Alternate world position",
+    "body": [
+      "write_vector3d(${1:static_player} + 0xF8, ${2:x}, ${3:y}, ${4:z})"
+    ]
+  },
+  "SAPP dyn_weaponslotN read": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_weaponslot_id",
+    "description": "dyn_player + 0x2F8 + (slot * 4): weapon object ID in slot (0-3)",
+    "body": [
+      "read_dword(${1:dyn_player} + 0x2F8 + (${2:slot} * 4))"
+    ]
+  },
+  "SAPP dyn_flags bit": {
+    "scope": "lua",
+    "prefix": "sapp_dyn_flag",
+    "description": "dyn_player + 0x106 flag bit (2 health empty, 3 shield empty, 4 overshield, 11 invulnerable, 12 recharging)",
+    "body": [
+      "read_bit(${1:dyn_player} + 0x106, ${2:bit})"
+    ]
+  },
+  "SAPP obj_flags bit": {
+    "scope": "lua",
+    "prefix": "sapp_obj_flag",
+    "description": "object + 0x10 flag bit (0 no collision, 5 ignore physics)",
+    "body": [
+      "read_bit(${1:object} + 0x10, ${2:bit})"
+    ]
+  },
+  "SAPP set_obj_flags bit": {
+    "scope": "lua",
+    "prefix": "sapp_set_obj_flag",
+    "description": "Write object + 0x10 flag bit (0 no collision, 5 ignore physics)",
+    "body": [
+      "write_bit(${1:object} + 0x10, ${2:bit}, ${3:value})"
+    ]
+  },
+  "SAPP sp_name read": {
+    "scope": "lua",
+    "prefix": "sapp_sp_name",
+    "description": "static_player + 0x4: name (UTF-16LE, needs readWideString from Common Reference)",
+    "body": [
+      "readWideString(${1:static_player} + 0x4, 12)"
+    ]
+  },
+  "SAPP tag_name read": {
+    "scope": "lua",
+    "prefix": "sapp_tag_name",
+    "description": "tag_entry + 0x10: tag path",
+    "body": [
+      "read_string(read_dword(${1:tag_entry} + 0x10), 256)"
+    ]
+  },
+  "SAPP tag_array read": {
+    "scope": "lua",
+    "prefix": "sapp_tag_array",
+    "description": "Tag table array pointer (0x40440000 on PC and CE)",
+    "body": [
+      "read_dword(0x40440000)"
+    ]
+  },
+  "SAPP tag_count read": {
+    "scope": "lua",
+    "prefix": "sapp_tag_count",
+    "description": "Tag count (0x40440000 + 0xC)",
+    "body": [
+      "read_dword(0x40440000 + 0xC)"
+    ]
+  },
+  "SAPP tag_entry lookup": {
+    "scope": "lua",
+    "prefix": "sapp_tag_entry",
+    "description": "Address of a tag entry by index",
+    "body": [
+      "${1:tag_array} + (${2:tag_index} * 0x20)"
+    ]
+  },
+  "SAPP obj_tagindex read": {
+    "scope": "lua",
+    "prefix": "sapp_obj_tagindex",
+    "description": "object tag index (low word of the tag ID)",
+    "body": [
+      "read_word(${1:object})"
+    ]
+  },
+  "SAPP veh_pos2 read": {
+    "scope": "lua",
+    "prefix": "sapp_veh_pos2",
+    "description": "vehicle_object + 0x348: extra position X and Y",
+    "body": [
+      "read_float(${1:vehicle_object} + 0x348), read_float(${1:vehicle_object} + 0x34C)"
+    ]
+  },
+  "SAPP OnScriptLoad callback": {
+    "scope": "lua",
+    "prefix": "sapp OnScriptLoad",
+    "body": [
+      "function OnScriptLoad()",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP script load callback"
+  },
+  "SAPP OnScriptUnload callback": {
+    "scope": "lua",
+    "prefix": "sapp OnScriptUnload",
+    "body": [
+      "function OnScriptUnload()",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP script unload callback"
+  },
+  "SAPP OnError callback": {
+    "scope": "lua",
+    "prefix": "sapp OnError",
+    "body": [
+      "function OnError(message)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP Lua error callback"
+  },
+  "SAPP OnAlive callback": {
+    "scope": "lua",
+    "prefix": "sapp OnAlive",
+    "body": [
+      "function OnAlive(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_ALIVE callback"
+  },
+  "SAPP OnAreaEnter callback": {
+    "scope": "lua",
+    "prefix": "sapp OnAreaEnter",
+    "body": [
+      "function OnAreaEnter(player_id, area)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_AREA_ENTER callback"
+  },
+  "SAPP OnAreaExit callback": {
+    "scope": "lua",
+    "prefix": "sapp OnAreaExit",
+    "body": [
+      "function OnAreaExit(player_id, area)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_AREA_EXIT callback"
+  },
+  "SAPP OnAssist callback": {
+    "scope": "lua",
+    "prefix": "sapp OnAssist",
+    "body": [
+      "function OnAssist(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_ASSIST callback"
+  },
+  "SAPP OnBetray callback": {
+    "scope": "lua",
+    "prefix": "sapp OnBetray",
+    "body": [
+      "function OnBetray(killer_id, victim_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_BETRAY callback"
+  },
+  "SAPP OnCamp callback": {
+    "scope": "lua",
+    "prefix": "sapp OnCamp",
+    "body": [
+      "function OnCamp(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_CAMP callback"
+  },
+  "SAPP OnChat callback": {
+    "scope": "lua",
+    "prefix": "sapp OnChat",
+    "body": [
+      "function OnChat(player_id, message, chat_type)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_CHAT callback"
+  },
+  "SAPP OnCommand callback": {
+    "scope": "lua",
+    "prefix": "sapp OnCommand",
+    "body": [
+      "function OnCommand(executor_id, command, environment, rcon_password)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_COMMAND callback"
+  },
+  "SAPP OnCustom callback": {
+    "scope": "lua",
+    "prefix": "sapp OnCustom",
+    "body": [
+      "function OnCustom(player_id, event_name)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_CUSTOM callback"
+  },
+  "SAPP OnDamageApplication callback": {
+    "scope": "lua",
+    "prefix": "sapp OnDamageApplication",
+    "body": [
+      "function OnDamageApplication(victim_id, causer_id, damage_tag_id, damage, collision_material, backtap)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_DAMAGE_APPLICATION callback"
+  },
+  "SAPP OnDie callback": {
+    "scope": "lua",
+    "prefix": "sapp OnDie",
+    "body": [
+      "function OnDie(victim_id, killer_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_DIE callback"
+  },
+  "SAPP OnEcho callback": {
+    "scope": "lua",
+    "prefix": "sapp OnEcho",
+    "body": [
+      "function OnEcho(player_id, message)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_ECHO callback"
+  },
+  "SAPP OnGameEnd callback": {
+    "scope": "lua",
+    "prefix": "sapp OnGameEnd",
+    "body": [
+      "function OnGameEnd()",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_GAME_END callback"
+  },
+  "SAPP OnGameStart callback": {
+    "scope": "lua",
+    "prefix": "sapp OnGameStart",
+    "body": [
+      "function OnGameStart()",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_GAME_START callback"
+  },
+  "SAPP OnJoin callback": {
+    "scope": "lua",
+    "prefix": "sapp OnJoin",
+    "body": [
+      "function OnJoin(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_JOIN callback"
+  },
+  "SAPP OnKill callback": {
+    "scope": "lua",
+    "prefix": "sapp OnKill",
+    "body": [
+      "function OnKill(killer_id, victim_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_KILL callback"
+  },
+  "SAPP OnLeave callback": {
+    "scope": "lua",
+    "prefix": "sapp OnLeave",
+    "body": [
+      "function OnLeave(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_LEAVE callback"
+  },
+  "SAPP OnLogin callback": {
+    "scope": "lua",
+    "prefix": "sapp OnLogin",
+    "body": [
+      "function OnLogin(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_LOGIN callback"
+  },
+  "SAPP OnMapReset callback": {
+    "scope": "lua",
+    "prefix": "sapp OnMapReset",
+    "body": [
+      "function OnMapReset()",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_MAP_RESET callback"
+  },
+  "SAPP OnObjectSpawn callback": {
+    "scope": "lua",
+    "prefix": "sapp OnObjectSpawn",
+    "body": [
+      "function OnObjectSpawn(player_id, tag_id, parent_object_id, new_object_id, sapp_spawning)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_OBJECT_SPAWN callback"
+  },
+  "SAPP OnPreJoin callback": {
+    "scope": "lua",
+    "prefix": "sapp OnPreJoin",
+    "body": [
+      "function OnPreJoin(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_PREJOIN callback"
+  },
+  "SAPP OnPreSpawn callback": {
+    "scope": "lua",
+    "prefix": "sapp OnPreSpawn",
+    "body": [
+      "function OnPreSpawn(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_PRESPAWN callback"
+  },
+  "SAPP OnScore callback": {
+    "scope": "lua",
+    "prefix": "sapp OnScore",
+    "body": [
+      "function OnScore(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_SCORE callback"
+  },
+  "SAPP OnSnap callback": {
+    "scope": "lua",
+    "prefix": "sapp OnSnap",
+    "body": [
+      "function OnSnap(suspect_id, snap_score)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_SNAP callback"
+  },
+  "SAPP OnSpawn callback": {
+    "scope": "lua",
+    "prefix": "sapp OnSpawn",
+    "body": [
+      "function OnSpawn(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_SPAWN callback"
+  },
+  "SAPP OnStick callback": {
+    "scope": "lua",
+    "prefix": "sapp OnStick",
+    "body": [
+      "function OnStick(player_id, victim_id, object_id, victim_object_id, body_part)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_STICK callback"
+  },
+  "SAPP OnSuicide callback": {
+    "scope": "lua",
+    "prefix": "sapp OnSuicide",
+    "body": [
+      "function OnSuicide(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_SUICIDE callback"
+  },
+  "SAPP OnTeamSwitch callback": {
+    "scope": "lua",
+    "prefix": "sapp OnTeamSwitch",
+    "body": [
+      "function OnTeamSwitch(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_TEAM_SWITCH callback"
+  },
+  "SAPP OnTick callback": {
+    "scope": "lua",
+    "prefix": "sapp OnTick",
+    "body": [
+      "function OnTick()",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_TICK callback"
+  },
+  "SAPP OnVehicleEnter callback": {
+    "scope": "lua",
+    "prefix": "sapp OnVehicleEnter",
+    "body": [
+      "function OnVehicleEnter(player_id, seat_index)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_VEHICLE_ENTER callback"
+  },
+  "SAPP OnVehicleExit callback": {
+    "scope": "lua",
+    "prefix": "sapp OnVehicleExit",
+    "body": [
+      "function OnVehicleExit(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_VEHICLE_EXIT callback"
+  },
+  "SAPP OnWarp callback": {
+    "scope": "lua",
+    "prefix": "sapp OnWarp",
+    "body": [
+      "function OnWarp(player_id)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_WARP callback"
+  },
+  "SAPP OnWeaponDrop callback": {
+    "scope": "lua",
+    "prefix": "sapp OnWeaponDrop",
+    "body": [
+      "function OnWeaponDrop(player_id, weapon_slot)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_WEAPON_DROP callback"
+  },
+  "SAPP OnWeaponPickup callback": {
+    "scope": "lua",
+    "prefix": "sapp OnWeaponPickup",
+    "body": [
+      "function OnWeaponPickup(player_id, weapon_slot, weapon_type)",
+      "\t$0",
+      "end"
+    ],
+    "description": "SAPP EVENT_WEAPON_PICKUP callback"
+  }
+}

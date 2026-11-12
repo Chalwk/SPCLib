@@ -22,6 +22,67 @@ function OnScriptLoad(process_id, game, persistent) end
 --- Optional. Called once when the script is unloaded.
 function OnScriptUnload() end
 
+-- Callbacks --------------------------------------------------------------------------------
+
+---@alias PhasorCallbackName
+--- | "OnBanCheck"
+--- | "OnClientUpdate"
+--- | "OnDamageApplication"
+--- | "OnDamageLookup"
+--- | "OnGameEnd"
+--- | "OnKillMultiplier"
+--- | "OnNameRequest"
+--- | "OnNewGame"
+--- | "OnObjectCreation"
+--- | "OnObjectCreationAttempt"
+--- | "OnObjectInteraction"
+--- | "OnPlayerJoin"
+--- | "OnPlayerKill"
+--- | "OnPlayerLeave"
+--- | "OnPlayerSpawn"
+--- | "OnPlayerSpawnEnd"
+--- | "OnScriptLoad"
+--- | "OnScriptUnload"
+--- | "OnServerChat"
+--- | "OnServerCommand"
+--- | "OnServerCommandAttempt"
+--- | "OnTeamChange"
+--- | "OnTeamDecision"
+--- | "OnVehicleEject"
+--- | "OnVehicleEntry"
+--- | "OnWeaponAssignment"
+--- | "OnWeaponReload"
+
+--- Event callbacks. Hover a field for the callback signature.
+---@class PhasorCallbackIds
+---@field OnBanCheck              PhasorCallbackName OnBanCheck(hash, ip): boolean. Return false to ban the joining player.
+---@field OnClientUpdate          PhasorCallbackName OnClientUpdate(player). Runs 30 times per second per player; keep it light.
+---@field OnDamageApplication     PhasorCallbackName OnDamageApplication(receiver, causer, map_id, location, backtap): boolean, number|nil. Return false to block damage, or true and a new damage value.
+---@field OnDamageLookup          PhasorCallbackName OnDamageLookup(receiver, causer, map_id): boolean|nil. Return false to block the damage lookup.
+---@field OnGameEnd               PhasorCallbackName OnGameEnd(stage). stage 1 = just ended (F1), 2 = carnage report, 3 = players may quit.
+---@field OnKillMultiplier        PhasorCallbackName OnKillMultiplier(player, multiplier). multiplier: 7 double kill, 9 triple kill, 10 killtacular, 11 killing spree, 12 running riot; 16-20 = same with score.
+---@field OnNameRequest           PhasorCallbackName OnNameRequest(hash, name): boolean, string|nil. Return false to kick, or true and a new name.
+---@field OnNewGame               PhasorCallbackName OnNewGame(map). Look up and cache tags (gettagid) here.
+---@field OnObjectCreation        PhasorCallbackName OnObjectCreation(object_id). Called after an object is created.
+---@field OnObjectCreationAttempt PhasorCallbackName OnObjectCreationAttempt(map_id, parent_id, player): boolean|number. Return false to block, or a replacement tag id.
+---@field OnObjectInteraction     PhasorCallbackName OnObjectInteraction(player, object_id, map_id): boolean|nil. Return false to block the interaction.
+---@field OnPlayerJoin            PhasorCallbackName OnPlayerJoin(player). Player fully joined.
+---@field OnPlayerKill            PhasorCallbackName OnPlayerKill(killer, victim, mode). mode 0 server, 1 fall, 2 guardians, 3 vehicle, 4 player, 5 betrayal, 6 suicide.
+---@field OnPlayerLeave           PhasorCallbackName OnPlayerLeave(player). Player disconnected.
+---@field OnPlayerSpawn           PhasorCallbackName OnPlayerSpawn(player). Called before OnPlayerSpawnEnd; biped is valid.
+---@field OnPlayerSpawnEnd        PhasorCallbackName OnPlayerSpawnEnd(player). Server has announced the spawn.
+---@field OnScriptLoad            PhasorCallbackName OnScriptLoad(process_id, game, persistent). Required.
+---@field OnScriptUnload          PhasorCallbackName OnScriptUnload(). Optional; use for cleanup.
+---@field OnServerChat            PhasorCallbackName OnServerChat(player, chat_type, message): boolean, string|nil, number|nil. Return false to block, or true with a new message and/or type.
+---@field OnServerCommand         PhasorCallbackName OnServerCommand(player, command): boolean|nil. Return false to block the command.
+---@field OnServerCommandAttempt  PhasorCallbackName OnServerCommandAttempt(player, command, password): boolean|nil. Return false to block the command.
+---@field OnTeamChange            PhasorCallbackName OnTeamChange(player, old_team, new_team, voluntary): boolean|nil. Return false to prevent the team change.
+---@field OnTeamDecision          PhasorCallbackName OnTeamDecision(team): number. Return the team to assign (0 = Red, 1 = Blue).
+---@field OnVehicleEject          PhasorCallbackName OnVehicleEject(player, voluntary): boolean|nil. Return false to prevent the exit.
+---@field OnVehicleEntry          PhasorCallbackName OnVehicleEntry(player, vehicle_id, seat, map_id, voluntary): boolean|nil. Return false to prevent entry.
+---@field OnWeaponAssignment      PhasorCallbackName OnWeaponAssignment(player, object_id, slot, weapon_map_id): number. Return the weapon tag id to assign.
+---@field OnWeaponReload          PhasorCallbackName OnWeaponReload(player, weapon_object_id): boolean|nil. Return false to block the reload.
+
 -- Memory -----------------------------------------------------------------------------------
 
 --- bit_offset is 0-7 and counted from data + data_offset.
@@ -350,7 +411,7 @@ function svcmd(command, get_response) end
 ---@param multiplier number
 function odl_multiplier(multiplier) end
 
---- String helpers ---------------------------------------------------------------------------
+-- String helpers ---------------------------------------------------------------------------
 
 --- Splits a string using the supplied delimiter.
 ---@param value     string

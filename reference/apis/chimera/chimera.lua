@@ -72,9 +72,39 @@ server_type = "none"
 
 -- Callbacks and timers ---------------------------------------------------------------------
 
+--- Callback names for set_callback. These are the global function names.
+---@alias ChimeraCallbackName
+--- | "OnCommand"
+--- | "OnFrame"
+--- | "OnMapLoad"
+--- | "OnMapPreload"
+--- | "OnPreCamera"
+--- | "OnPreFrame"
+--- | "OnPreSpawn"
+--- | "OnPreTick"
+--- | "OnRconMessage"
+--- | "OnScriptUnload"
+--- | "OnSpawn"
+--- | "OnTick"
+
+--- Event names for set_callback. Hover a field for the callback signature.
+---@class ChimeraCallbackIds
+---@field command      ChimeraEvent OnCommand(cmd: string): boolean|nil. Return false to block.
+---@field frame        ChimeraEvent OnFrame(). Each rendered frame. Draw calls go here or in preframe.
+---@field map_load     ChimeraEvent OnMapLoad(). A map is being loaded.
+---@field map_preload  ChimeraEvent OnMapPreload(). Before map loading.
+---@field precamera    ChimeraEvent OnPreCamera(x, y, z, fov, fx, fy, fz, ux, uy, uz). Must return all ten values.
+---@field preframe     ChimeraEvent OnPreFrame(). Before frame processing. Draw calls go here or in frame.
+---@field prespawn     ChimeraEvent OnPreSpawn(). Before an object spawns.
+---@field pretick      ChimeraEvent OnPreTick(). Before each game tick.
+---@field rcon_message ChimeraEvent OnRconMessage(message: string): boolean|nil. Return false to block.
+---@field spawn        ChimeraEvent OnSpawn(). An object spawns.
+---@field tick         ChimeraEvent OnTick(). Each game tick (1/30 s).
+---@field unload       ChimeraEvent OnScriptUnload(). The script is unloading.
+
 --- The callback must be a global function. Priorities decide the order between scripts.
 ---@param event         ChimeraEvent | string
----@param callback_name string                Name of a global function
+---@param callback_name ChimeraCallbackName | string Name of a global function
 ---@param priority?     ChimeraPriority
 function set_callback(event, callback_name, priority) end
 
