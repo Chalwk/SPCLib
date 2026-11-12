@@ -10,20 +10,18 @@
 --- | "frame"        # Each rendered frame. Draw calls go here or in preframe.
 --- | "preframe"     # Before frame processing.
 --- | "map_load"     # A map is being loaded.
---- | "map_preload"  # Before map loading.
---- | "precamera"    # (x, y, z, fov, fx, fy, fz, ux, uy, uz). Must return all ten values.
+--- | "map_preload"  # Accepted, but not hooked in the current build.
+--- | "precamera"    # Receives camera position, FOV, forward vector, and up vector.
 --- | "rcon_message" # (message: string): boolean|nil. Return false to block.
 --- | "tick"         # Each game tick (1/30 s).
 --- | "pretick"      # Before each game tick.
 --- | "unload"       # The script is unloading.
 
----@alias ChimeraPriority "before" | "default" | "after" | "final"
-
 ---@alias ChimeraGametype "ctf" | "slayer" | "oddball" | "king" | "race"
 
 -- Script lifecycle -------------------------------------------------------------------------
 
---- Required. The script refuses to load without it.
+--- Declare the API version targeted; missing, newer, or lower-major versions produce a warning.
 ---@type number
 clua_version = nil
 
@@ -37,9 +35,9 @@ build = 0
 ---@type string
 full_build = ""
 
---- Current gametype.
----@type ChimeraGametype
-gametype = "slayer"
+--- Current gametype, or nil when hosting locally.
+---@type ChimeraGametype | nil
+gametype = nil
 
 --- Local player index (0-15). nil until assigned after joining a server.
 ---@type number | nil
@@ -57,7 +55,7 @@ map_is_protected = false
 ---@type boolean
 sandboxed = false
 
---- Filename for global scripts, map name for map scripts.
+--- Script filename including its extension (.lua or .map).
 ---@type string
 script_name = ""
 
@@ -70,7 +68,7 @@ server_type = "none"
 
 -- Callbacks and timers ---------------------------------------------------------------------
 --
--- NOTE: "spawn" and "prespawn" are accepted by set_callback at runtime but are not hooked
+-- NOTE: "map_preload", "spawn", and "prespawn" are accepted by set_callback but are not hooked
 -- into any engine event by the current Chimera build.
 
 --- Callback names for set_callback. These are the global function names.
@@ -91,32 +89,43 @@ server_type = "none"
 ---@field command      ChimeraEvent OnCommand(cmd: string): boolean|nil. Return false to block.
 ---@field frame        ChimeraEvent OnFrame(). Each rendered frame. Draw calls go here or in preframe.
 ---@field map_load     ChimeraEvent OnMapLoad(). A map is being loaded.
----@field map_preload  ChimeraEvent OnMapPreload(). Before map loading.
----@field precamera    ChimeraEvent OnPreCamera(x, y, z, fov, fx, fy, fz, ux, uy, uz). Must return all ten values.
+---@field map_preload  ChimeraEvent OnMapPreload(). Accepted, but not hooked in the current build.
+---@field precamera    ChimeraEvent OnPreCamera(x, y, z, fov, fx, fy, fz, ux, uy, uz).
 ---@field preframe     ChimeraEvent OnPreFrame(). Before frame processing. Draw calls go here or in frame.
 ---@field pretick      ChimeraEvent OnPreTick(). Before each game tick.
 ---@field rcon_message ChimeraEvent OnRconMessage(message: string): boolean|nil. Return false to block.
 ---@field tick         ChimeraEvent OnTick(). Each game tick (1/30 s).
 ---@field unload       ChimeraEvent OnScriptUnload(). The script is unloading.
 
---- The callback must be a global function. Priorities decide the order between scripts.
----@param event         ChimeraEvent | string
----@param callback_name ChimeraCallbackName | string Name of a global function
----@param priority?     ChimeraPriority
-function set_callback(event, callback_name, priority) end
+--- Register a global callback, or clear it by omitting callback_name.
+---@param event          ChimeraEvent | string
+---@param callback_name? ChimeraCallbackName | string Name of a global function
+function set_callback(event, callback_name) end
 
 --- Runs the callback every interval until it returns false or the timer is stopped.
----@param interval_ms   number
+---@param interval_ms   number                          Minimum 0.1
 ---@param callback_name string                          Name of a global function
 ---@param ...           boolean | number | string | nil Forwarded to the callback
 ---@return integer timer_id
 function set_timer(interval_ms, callback_name, ...) end
+
+--- Gets the game tick rate, or sets it when rate is supplied (minimum 0.01).
+---@param rate? number
+---@return number rate
+function tick_rate(rate) end
+
+--- Current tick count, including progress toward the next tick.
+---@return number
+function ticks() end
 
 --- Stopping a timer that no longer exists raises an error.
 ---@param timer_id number
 function stop_timer(timer_id) end
 
 -- Output -----------------------------------------------------------------------------------
+
+---@return boolean
+function console_is_open() end
 
 ---@param message string
 function hud_message(message) end
@@ -132,13 +141,29 @@ function console_out(message) end
 ---@param top    number
 ---@param right  number
 ---@param bottom number
----@param font   "small" | "large" | "ticker"
+---@param font   "small" | "large" | "ticker" | integer font tag ID
 ---@param align  "left" | "center" | "right"
 ---@param alpha  number
 ---@param red    number
 ---@param green  number
 ---@param blue   number
 function draw_text(text, left, top, right, bottom, font, align, alpha, red, green, blue) end
+
+--- Loads a UI widget by tag path or tag ID.
+---@param tag_path_or_id string | integer
+---@return boolean loaded
+function load_ui_widget(tag_path_or_id) end
+
+--- Overrides a font tag's family, size, weight, shadow, and offset.
+---@param tag_id   integer
+---@param family   string
+---@param size     integer
+---@param weight   integer
+---@param shadow_x integer
+---@param shadow_y integer
+---@param offset_x integer
+---@param offset_y integer
+function create_font_override(tag_id, family, size, weight, shadow_x, shadow_y, offset_x, offset_y) end
 
 -- Console and scripting --------------------------------------------------------------------
 
@@ -178,25 +203,24 @@ function get_dynamic_player(index) end
 ---@return integer | nil address
 function get_object(object_id) end
 
---- Raises an error if the id is invalid.
+--- Raises an error if the ID is null.
 ---@param object_id number
 function delete_object(object_id) end
 
---- Spawned client side only in multiplayer. Other players do not see the object.
+--- Spawns an object. In multiplayer, other players do not see client-side spawned objects.
 ---@overload fun(tag_class: string, tag_path: string, x: number, y: number, z: number): integer
----@param tag_id  number
----@param x       number
----@param y       number
----@param z       number
----@param parent? number
+---@param tag_id number
+---@param x      number
+---@param y      number
+---@param z      number
 ---@return integer object_id
-function spawn_object(tag_id, x, y, z, parent) end
+function spawn_object(tag_id, x, y, z) end
 
---- With a class and path, returns the tag id. With a tag id, returns the tag entry pointer.
----@overload fun(tag_id: number): integer | nil
+--- Returns a tag entry pointer for either a tag ID or class and path.
+---@overload fun(tag_id: number): integer | nil tag_entry
 ---@param tag_class string Four-letter class, e.g. "weap"
 ---@param tag_path  string
----@return integer | nil tag
+---@return integer | nil tag_entry
 function get_tag(tag_class, tag_path) end
 
 -- Memory -----------------------------------------------------------------------------------
@@ -402,10 +426,10 @@ function read_string(address) end
 function write_string(address, value) end
 
 -- Filesystem -------------------------------------------------------------------------------
--- Confined to chimera/lua/data/<script_type>/<script_name>/. Paths outside raise a scope error.
+-- Confined to chimera/lua/data/<script_type>/<script_basename>/. Paths outside raise a scope error.
 
 ---@param path string
----@return boolean ok True if created or already present
+---@return boolean ok True if created; false if already present
 function create_directory(path) end
 
 ---@param path string

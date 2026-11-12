@@ -335,13 +335,6 @@ function gettagid(tag_type, tag_name) end
 ---@return string | nil tag_type
 function gettaginfo(map_id) end
 
---- Moves an object to absolute coordinates.
----@param object_id integer
----@param x         number
----@param y         number
----@param z         number
-function movobjectcoords(object_id, x, y, z) end
-
 --- respawn_time: seconds, 0 never, -1 gametype default. For weapons, grenades and powerups
 --- recycle is ignored and respawn_time becomes the delay before the object is destroyed.
 ---@param tag_type     string      Four-letter class
@@ -359,11 +352,12 @@ function createobject(tag_type, tag_name, parent_id, respawn_time, recycle, x, y
 ---@param object_id integer
 function destroyobject(object_id) end
 
+--- Moves an object to absolute coordinates.
 ---@param object_id integer
 ---@param x         number
 ---@param y         number
 ---@param z         number
-function movobjcoords(object_id, x, y, z) end
+function movobjectcoords(object_id, x, y, z) end
 
 --- Teleports to a named location such as "redbase".
 ---@param object_id integer

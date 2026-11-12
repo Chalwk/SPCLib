@@ -59,7 +59,7 @@ function OnError(message) end
 ---@field EVENT_CHAT               SappEvent OnChat(player_id, message, chat_type): boolean|nil. Return false to block. chat_type 0 global, 1 team, 2 vehicle.
 ---@field EVENT_COMMAND            SappEvent OnCommand(executor_id, command, environment, rcon_password): boolean|nil. Return false to block. environment 0 console, 1 rcon, 2 chat.
 ---@field EVENT_CUSTOM             SappEvent OnCustom(player_id, event_name). Raised by cevent.
----@field EVENT_DAMAGE_APPLICATION SappEvent OnDamageApplication(victim_id, causer_id, damage_tag_id, damage, collision_material, backtap): boolean|nil, number|nil. collision_material is a string. Return false to block, or true and a new damage value.
+---@field EVENT_DAMAGE_APPLICATION SappEvent OnDamageApplication(victim_id, causer_id, damage_tag_id, damage, collision_material, backtap): boolean|nil, number|nil. collision_material is a string. Return false to block, or true and a new damage value (do `return true, damage * 1.5`)
 ---@field EVENT_DIE                SappEvent OnDie(victim_id, killer_id). killer_id is a string: -1 server/falling/distance, 0 non-player source, 1+ player. Called after EVENT_KILL.
 ---@field EVENT_ECHO               SappEvent OnEcho(player_id, message). Output of execute_command(..., true).
 ---@field EVENT_GAME_END           SappEvent OnEnd(). Before the post game carnage report.
@@ -79,7 +79,7 @@ function OnError(message) end
 ---@field EVENT_SUICIDE            SappEvent OnSuicide(player_id).
 ---@field EVENT_TEAM_SWITCH        SappEvent OnTeamSwitch(player_id).
 ---@field EVENT_TICK               SappEvent OnTick(). Every tick (1/30 s).
----@field EVENT_VEHICLE_ENTER      SappEvent OnVehicleEnter(player_id, seat_index). seat_index is a string.
+---@field EVENT_VEHICLE_ENTER      SappEvent OnVehicleEnter(player_id, seat_index). seat_index is a string. 0 = Driver (all vehicles); Warthog/Rocket Hog: 1 = Passenger, 2 = Gunner; Tank: 1-4 = Passenger seats; Ghost/Turret/Banshee: Driver only (slot 0)
 ---@field EVENT_VEHICLE_EXIT       SappEvent OnVehicleExit(player_id).
 ---@field EVENT_WARP               SappEvent OnWarp(player_id).
 ---@field EVENT_WEAPON_DROP        SappEvent OnWeaponDrop(player_id, weapon_slot). weapon_slot is a string (0-3).
@@ -341,7 +341,6 @@ function safe_read(enabled) end
 function safe_write(enabled) end
 
 --- Known signatures. The comment shows the pointer name and how to resolve it from the match.
---- slayer_globals is left out on purpose: its pattern embeds a CE address, use the hardcoded pointer.
 ---@alias SappSignature
 --- | "A3??????00A1??????0033DB3BC3"                                                       # banlist_header: read_dword(sig + 1)
 --- | "68??????00E8??????0083C41068"                                                       # banlist_path_address: read_dword(sig + 0x1)
@@ -382,7 +381,7 @@ function safe_write(enabled) end
 
 --- Finds a byte pattern ("??" is a wildcard). Returns the match address, or 0.
 --- Guard against 0 before dereferencing.
---- See [Signature Scanning](https://chalwk.github.io/halo/sapp/utils/#signature-scanning).
+--- See [Signature Scanning](#signature-scanning).
 ---@param signature string | SappSignature
 ---@return number address
 function sig_scan(signature) end
@@ -409,7 +408,7 @@ function rprint(player_id, message) end
 --- ```lua
 --- cprint("Hello", 10 + (0 * 16))
 --- ```
---- See [Console Colors](https://chalwk.github.io/halo/sapp/cheat-sheet/#console-colors) for color values.
+--- See [Console Colors](#console-colors) for color values.
 ---@param message string
 ---@param color?  number Console color attribute (`0-255`); combines foreground and background colors.
 function cprint(message, color) end
@@ -446,31 +445,31 @@ function player_present(player_id) end
 function player_alive(player_id) end
 
 --- Static player table address.
---- See [Players, Objects, and Actions](https://chalwk.github.io/halo/sapp/scripting-with-sapp/#players-objects-and-actions).
+--- See [Players, Objects, and Actions](#players-objects-and-actions).
 ---@param player_id number
 ---@return number address
 function get_player(player_id) end
 
 --- Dynamic player object address, or 0 if the player is dead.
---- See [Players, Objects, and Actions](https://chalwk.github.io/halo/sapp/scripting-with-sapp/#players-objects-and-actions).
+--- See [Players, Objects, and Actions](#players-objects-and-actions).
 ---@param player_id number
 ---@return number address
 function get_dynamic_player(player_id) end
 
 --- Object address, or 0 if the id is invalid.
---- See [Players, Objects, and Actions](https://chalwk.github.io/halo/sapp/scripting-with-sapp/#players-objects-and-actions).
+--- See [Players, Objects, and Actions](#players-objects-and-actions).
 ---@param object_id number
 ---@return number address
 function get_object_memory(object_id) end
 
 --- SAPP index (1-16) to Halo index (0-15).
---- See [Index Conversion](https://chalwk.github.io/halo/sapp/utils/#index-conversion).
+--- See [Index Conversion](#index-conversion).
 ---@param player_index number
 ---@return number real_index
 function to_real_index(player_index) end
 
 --- Halo index (0-15) to SAPP index (1-16).
---- See [Index Conversion](https://chalwk.github.io/halo/sapp/utils/#index-conversion).
+--- See [Index Conversion](#index-conversion).
 ---@param real_index number
 ---@return number player_index
 function to_player_index(real_index) end
@@ -585,7 +584,7 @@ function destroy_object(object_id) end
 function sync_ammo(object_id) end
 
 --- 3D raycast. The direction vector is multiplied by the reach in world units.
---- See [Raycasting with intersect](https://chalwk.github.io/halo/sapp/utils/#raycasting-with-intersect).
+--- See [Raycasting with intersect](#raycasting-with-intersect).
 ---@param x                 number
 ---@param y                 number
 ---@param z                 number
@@ -601,7 +600,7 @@ function sync_ammo(object_id) end
 function intersect(x, y, z, vx, vy, vz, ignore_object_id) end
 
 --- Returns the tag address, or 0 if not found. Use the tag id form on protected maps.
---- See [Players, Objects, and Actions](https://chalwk.github.io/halo/sapp/scripting-with-sapp/#players-objects-and-actions).
+--- See [Players, Objects, and Actions](#players-objects-and-actions).
 ---@overload fun(tag_id: number): number
 ---@param tag_class TagClass | string Four-letter class, e.g. "weap"
 ---@param tag_name  string
@@ -619,7 +618,7 @@ function execute_command(command, player_id, echo) end
 --- Splits on ";". Use single-quoted Lua strings with double-quoted arguments.
 --- Example:
 --- ```lua
---- execute_command_sequence('say_all "Hello world";god 1', true)
+--- execute_command_sequence('say_all "Hello world";god 1')
 --- ```
 ---@param commands   string
 ---@param player_id? number
