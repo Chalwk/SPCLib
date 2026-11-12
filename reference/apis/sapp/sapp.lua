@@ -84,12 +84,48 @@ function OnError(message) end
 ---@field EVENT_WEAPON_DROP        SappEvent OnWeaponDrop(player_id, weapon_slot). weapon_slot is a string (0-3).
 ---@field EVENT_WEAPON_PICKUP      SappEvent OnWeaponPickup(player_id, weapon_slot, weapon_type). Strings. weapon_type 1 weapon, 2 grenade.
 
+---@alias SappCallbackName
+--- | "OnAlive"
+--- | "OnAreaEnter"
+--- | "OnAreaExit"
+--- | "OnAssist"
+--- | "OnBetray"
+--- | "OnCamp"
+--- | "OnChat"
+--- | "OnCommand"
+--- | "OnCustom"
+--- | "OnDamageApplication"
+--- | "OnDie"
+--- | "OnEcho"
+--- | "OnGameEnd"
+--- | "OnGameStart"
+--- | "OnJoin"
+--- | "OnKill"
+--- | "OnLeave"
+--- | "OnLogin"
+--- | "OnMapReset"
+--- | "OnObjectSpawn"
+--- | "OnPreJoin"
+--- | "OnPreSpawn"
+--- | "OnScore"
+--- | "OnSnap"
+--- | "OnSpawn"
+--- | "OnStick"
+--- | "OnSuicide"
+--- | "OnTeamSwitch"
+--- | "OnTick"
+--- | "OnVehicleEnter"
+--- | "OnVehicleExit"
+--- | "OnWarp"
+--- | "OnWeaponDrop"
+--- | "OnWeaponPickup"
+
 ---@type SappCallbackIds
 cb = {}
 
 --- Registers a global function as the handler for an event.
 ---@param event         SappEvent
----@param callback_name string    Name of a global function
+---@param callback_name SappCallbackName Name of a global callback function
 function register_callback(event, callback_name) end
 
 ---@param event SappEvent
