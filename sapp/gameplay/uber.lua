@@ -581,7 +581,7 @@ end
 ---@param vehicle    VehicleInfo
 ---@param seat_id    number      Seat index to place the player in.
 local function boardVehicle(player, vehicle_id, vehicle, seat_id)
-    enter_vehicle(vehicle_id, player.id, seat_id)
+    enter_vehicle(vehicle_id, player.id, tostring(seat_id))
 
     -- Reserve the seat now so a second call in the same tick picks a different one.
     -- trackVehicle corrects this on the next tick if the game refused the entry.
@@ -843,6 +843,7 @@ local function setCallbacks(enabled)
 
     for event, callback in pairs(sapp_events) do
         if enabled then
+            ---@diagnostic disable-next-line: param-type-mismatch
             register_callback(event, callback)
         else
             unregister_callback(event)
@@ -852,11 +853,11 @@ end
 
 function OnScriptLoad()
     loadOverrides()
-    register_callback(cb['EVENT_GAME_START'], 'OnStart')
-    OnStart() -- in case the script was loaded mid-game
+    register_callback(cb['EVENT_GAME_START'], "OnGameStart")
+    OnGameStart() -- in case the script was loaded mid-game
 end
 
-function OnStart()
+function OnGameStart()
     if get_var(0, '$gt') == 'n/a' then return end
 
     if get_var(0, '$ffa') == '1' then

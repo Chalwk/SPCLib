@@ -83,8 +83,8 @@ local PLAYER = {
 }
 
 local ENFORCEMENT = {
-    COMMAND = "k",           -- "k" or "ipban"
-    IPBAN_TIME_MINUTES = 60  -- 0 means an indefinite IP ban
+    COMMAND = "k",          -- "k" or "ipban"
+    IPBAN_TIME_MINUTES = 60 -- 0 means an indefinite IP ban
 }
 
 local MESSAGES = {
@@ -178,8 +178,14 @@ local remove = table.remove
 
 local read_vector3d = read_vector3d
 local get_object_memory = get_object_memory
+
+---@type fun(player_id: number): number
 local get_dynamic_player = get_dynamic_player
-local get_var, get_player = get_var, get_player
+
+---@type fun(player_id: number): number
+local get_player = get_player
+
+local get_var = get_var
 local player_present, player_alive = player_present, player_alive
 local read_float, read_string, read_dword, read_word = read_float, read_string, read_dword, read_word
 local intersect, execute_command, cprint = intersect, execute_command, cprint
@@ -219,7 +225,7 @@ local function normalize(x, y, z)
     return x / length, y / length, z / length
 end
 
----@param ax number, ay number, az number First vector X, Y, Z components.
+---@param ax number , ay number, az number First vector X, Y, Z components.
 ---@param ax number First vector X component.
 ---@param ay number First vector Y component.
 ---@param az number First vector Z component.
@@ -332,7 +338,10 @@ local function getCollisionObjectId(player_id)
     local vehicle_id = read_dword(dyn_player + 0x11C)
     if vehicle_id ~= NO_OBJECT then return vehicle_id end
 
-    return read_dword(get_player(player_id) + 0x34)
+    local static_player = get_player(player_id)
+    if static_player == 0 then return nil end
+
+    return read_dword(static_player + 0x34)
 end
 
 ---@param player_id number Player index.
@@ -462,7 +471,7 @@ end
 ---@return number | nil object_id Object ID the ray hit, or nil if it hit nothing or only map geometry.
 local function castAimRay(shooter_id, shooter_dyn)
     local sx, sy, sz = getPlayerPosition(shooter_dyn)
-    if not sx then return nil end
+    if not sx or not sy or not sz then return nil end
 
     local aim_x, aim_y, aim_z = normalize(getCamera(shooter_dyn))
     if isZeroVector(aim_x, aim_y, aim_z) then return nil end
@@ -707,17 +716,14 @@ local function enforce(shooter_id)
     if not state then return end
 
     cprint(
-        fmt(
-            MESSAGES.ADMIN_ALERT, get_var(shooter_id, "$name"), shooter_id,
-            state.aim_score, ENFORCEMENT.COMMAND
-        ), 12
+        fmt(MESSAGES.ADMIN_ALERT, get_var(shooter_id, "$name"), shooter_id, state.aim_score, ENFORCEMENT.COMMAND), 12
     )
     local command
     ---@diagnostic disable-next-line: unnecessary-if
     if ENFORCEMENT.COMMAND == "ipban" then
         command = fmt(
-            '%s %d %d "%s"', ENFORCEMENT.COMMAND, shooter_id,
-            ENFORCEMENT.IPBAN_TIME_MINUTES, MESSAGES.PLAYER_KICK_REASON
+            '%s %d %d "%s"', ENFORCEMENT.COMMAND, shooter_id, ENFORCEMENT.IPBAN_TIME_MINUTES,
+            MESSAGES.PLAYER_KICK_REASON
         )
     else
         command = fmt('%s %d "%s"', ENFORCEMENT.COMMAND, shooter_id, MESSAGES.PLAYER_KICK_REASON)
@@ -777,14 +783,14 @@ end
 function OnScriptLoad()
     register_callback(cb.EVENT_TICK, "OnTick")
     register_callback(cb.EVENT_JOIN, "OnJoin")
-    register_callback(cb.EVENT_DIE, "OnDeath")
-    register_callback(cb.EVENT_LEAVE, "OnQuit")
-    register_callback(cb.EVENT_GAME_END, "OnEnd")
-    register_callback(cb.EVENT_GAME_START, "OnStart")
-    OnStart() -- in case the script was loaded mid-game
+    register_callback(cb.EVENT_DIE, "OnDie")
+    register_callback(cb.EVENT_LEAVE, "OnLeave")
+    register_callback(cb.EVENT_GAME_END, "OnGameEnd")
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    OnGameStart() -- in case the script was loaded mid-game
 end
 
-function OnStart()
+function OnGameStart()
     if get_var(0, "$gt") == "n/a" then return end
 
     is_ffa = get_var(0, "$ffa") == "1"
@@ -796,7 +802,7 @@ function OnStart()
     end
 end
 
-function OnEnd()
+function OnGameEnd()
     for i = 1, 16 do
         players[i] = nil
         camera_vectors[i] = nil
@@ -811,7 +817,7 @@ function OnJoin(player_id)
 end
 
 ---@param player_id number Player index.
-function OnDeath(player_id)
+function OnDie(player_id)
     local state = players[player_id]
     ---@diagnostic disable-next-line: unnecessary-if
     if state then resetLife(state) end
@@ -820,7 +826,7 @@ function OnDeath(player_id)
 end
 
 ---@param player_id number Player index.
-function OnQuit(player_id)
+function OnLeave(player_id)
     players[player_id] = nil
     camera_vectors[player_id] = nil
 end

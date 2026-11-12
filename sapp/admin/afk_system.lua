@@ -160,10 +160,9 @@ end
 local function exit_afk(player)
     player.afk = nil
 
-    ---@diagnostic disable-next-line: need-check-nil
     -- Subtract 1 death HERE and not in toggle_afk, otherwise, if the player
     -- has exactly 0 deaths before they go AFK, it will cause them to respawn (due to the -1)
-    local deaths = tonumber(get_var(player.id, "$deaths")) - 1
+    local deaths = tonumber(get_var(player.id, "$deaths"))--[[@cast -?]] - 1
     execute_command('deaths ' .. player.id .. ' ' .. deaths)
 
     broadcast(player, AFK_DEACTIVATE_MSG, true)
@@ -195,7 +194,6 @@ local function get_input_states()
         ---@diagnostic disable-next-line: unnecessary-if
         if enabled and INPUT_DEFS[name] then
             local def = INPUT_DEFS[name]
-            ---@diagnostic disable-next-line: undefined-field
             inputStates[#inputStates + 1] = { def[1], def[2], nil }
         end
     end
@@ -228,19 +226,15 @@ end
 
 local function check_afk_status(player, current_time)
     if not player.afk then
-        ---@diagnostic disable-next-line: unnecessary-if
         if not has_immunity(player.id) then
             local inactive_duration = current_time - player.lastActive
             if inactive_duration >= TOTAL_ALLOWED then
-                ---@diagnostic disable-next-line: call-non-callable
                 terminate(player)
                 return true
             elseif inactive_duration >= MAX_AFK_TIME then
                 if current_time - player.lastWarning >= WARNING_INTERVAL then
                     local timeLeft = TOTAL_ALLOWED - inactive_duration
-                    ---@diagnostic disable-next-line: undefined-field, call-non-callable
                     local msg = WARNING_MESSAGE:gsub("$time_until_kick", floor(timeLeft))
-                    ---@diagnostic disable-next-line: call-non-callable
                     broadcast(player, msg, false)
                     player.lastWarning = current_time
                 end
@@ -253,9 +247,7 @@ local function check_afk_status(player, current_time)
 
     local inactive_duration = current_time - player.lastActive
     if inactive_duration >= MAX_AFK_TIME then
-        ---@diagnostic disable-next-line: unnecessary-if
         if not has_immunity(player.id) then
-            ---@diagnostic disable-next-line: call-non-callable
             enter_afk(player)
             return true
         end
@@ -268,13 +260,13 @@ function OnScriptLoad()
     register_callback(cb.EVENT_CHAT, "OnChat")
     register_callback(cb.EVENT_TICK, "OnTick")
     register_callback(cb.EVENT_JOIN, "OnJoin")
-    register_callback(cb.EVENT_LEAVE, "OnQuit")
+    register_callback(cb.EVENT_LEAVE, "OnLeave")
     register_callback(cb.EVENT_COMMAND, "OnCommand")
-    register_callback(cb.EVENT_GAME_START, "OnStart")
-    OnStart()
+    register_callback(cb.EVENT_GAME_START, "OnGameStart")
+    OnGameStart()
 end
 
-function OnStart()
+function OnGameStart()
     if get_var(0, "$gt") == "n/a" then return end
     players = {}
     for i = 1, 16 do
@@ -292,7 +284,7 @@ function OnTick()
             players[i] = nil
         else
             local dyn = get_dynamic_player(i)
-            if dyn ~= 0 then
+            if dyn ~= 0 and dyn ~= nil then
                 process_inputs(player, dyn, current_time)
 
                 ---@diagnostic disable-next-line: unnecessary-if
@@ -342,7 +334,7 @@ function OnJoin(id)
     }
 end
 
-function OnQuit(id)
+function OnLeave(id)
     players[id] = nil
 end
 
