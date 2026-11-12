@@ -38,8 +38,8 @@ function OnScriptLoad()
     register_callback(cb.EVENT_WEAPON_PICKUP, "OnWeaponPickup")
 end
 
--- Optional error handler.
--- Called when a Lua error occurs in a script.
+--- Optional. Called when a Lua error occurs in a script. Not registered
+--- with `register_callback`.
 ---@param message string The Lua error message
 function OnError(message) end
 
@@ -264,5 +264,6 @@ function OnAlive(PlayerIndex) end
 ---@param SnapScore string The detected snap score
 function OnSnap(SuspectIndex, SnapScore) end
 
--- Called when the script is unloaded (optional cleanup).
+--- Optional. Called once when the script is unloaded. Useful for cleanup.
+--- Not registered with `register_callback`.
 function OnScriptUnload() end

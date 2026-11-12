@@ -37,11 +37,12 @@ api_version = nil
 --- Required. Called once when the script is loaded. Register callbacks here.
 function OnScriptLoad() end
 
---- Optional. Called once when the script is unloaded.
+--- Optional. Called once when the script is unloaded. Useful for cleanup.
+--- Not registered with `register_callback`.
 function OnScriptUnload() end
 
---- Optional. Called when a Lua error occurs in this script. Not registered
---- with register_callback.
+--- Optional. Called when a Lua error occurs in a script. Not registered
+--- with `register_callback`.
 ---@param message string The Lua error message
 function OnError(message) end
 
@@ -70,7 +71,7 @@ function OnError(message) end
 ---@field EVENT_MAP_RESET          SappEvent OnMapReset(). sv_map_reset was executed.
 ---@field EVENT_OBJECT_SPAWN       SappEvent OnObjectSpawn(player_id, tag_id, parent_object_id, new_object_id, sapp_spawning): boolean|nil, number|nil. Return false to block, or true and a replacement tag id.
 ---@field EVENT_PREJOIN            SappEvent OnPreJoin(player_id). get_player() is not valid yet.
----@field EVENT_PRESPAWN           SappEvent OnPreSpawn(player_id). Before the player spawns.
+---@field EVENT_PRESPAWN           SappEvent OnPreSpawn(player_id). Spawned but not yet announced; biped is valid.
 ---@field EVENT_SCORE              SappEvent OnScore(player_id). Player scores a point.
 ---@field EVENT_SNAP               SappEvent OnSnap(suspect_id, snap_score). snap_score is a string. Requires aimbot_ban.
 ---@field EVENT_SPAWN              SappEvent OnSpawn(player_id). After the player spawned.
@@ -82,7 +83,7 @@ function OnError(message) end
 ---@field EVENT_VEHICLE_EXIT       SappEvent OnVehicleExit(player_id).
 ---@field EVENT_WARP               SappEvent OnWarp(player_id).
 ---@field EVENT_WEAPON_DROP        SappEvent OnWeaponDrop(player_id, weapon_slot). weapon_slot is a string (0-3).
----@field EVENT_WEAPON_PICKUP      SappEvent OnWeaponPickup(player_id, weapon_slot, weapon_type). Strings. weapon_type 1 weapon, 2 grenade.
+---@field EVENT_WEAPON_PICKUP      SappEvent OnWeaponPickup(player_id, weapon_slot, weapon_type). Strings. weapon_type 1 weapon (weapon_slot 0-3), 2 grenade (weapon_slot 1 frag, 2 plasma).
 
 ---@alias SappCallbackName
 --- | "OnAlive"
