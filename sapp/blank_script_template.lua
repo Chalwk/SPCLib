@@ -1,3 +1,6 @@
+-- [!NOTE]
+-- Some callback arguments are strings even though they represent numbers - this is not a typo.
+
 ---@type SappApiVersion
 api_version = "1.12.0.0"
 
@@ -46,17 +49,17 @@ function OnError(message) end
 -- `EVENT_ECHO`
 -- Called when `execute_command(..., true)` echoes output.
 ---@param player_id number The player's index
----@param message string The echoed message
+---@param message   string The echoed message
 function OnEcho(player_id, message) end
 
 -- `EVENT_OBJECT_SPAWN`
 -- Called when the server attempts to spawn an object.
----@param player_id number The player who spawned it (0 if not a player)
----@param tag_id number The object's tag id
+---@param player_id        number The player who spawned it (0 if not a player)
+---@param tag_id           number The object's tag id
 ---@param parent_object_id number Parent object id (`0xFFFFFFFF` if none)
----@param new_object_id number The new object id
----@param sapp_spawning number `1` if the object was spawned by SAPP, `0` if by Halo
----@return boolean|nil allow, number|nil new_tag_id # Return `false` to block spawn, or new tag ID if replacing object type (if allow is true)
+---@param new_object_id    number The new object id
+---@param sapp_spawning    number `1` if the object was spawned by SAPP, `0` if by Halo
+---@return boolean | nil allow, number | nil new_tag_id # Return `false` to block spawn, or new tag ID if replacing object type (if allow is true)
 function OnObjectSpawn(player_id, tag_id, parent_object_id, new_object_id, sapp_spawning)
     return true
     -- To replace the object type, return allow and the new tag ID:
@@ -98,22 +101,22 @@ function OnSuicide(player_id) end
 
 -- `EVENT_STICK`
 -- Called when a player is stuck by a plasma grenade or similar.
----@param player_id number The stuck player's index
----@param victim_id number Usually the same as player_id
----@param object_id number Object id of sticky projectile
+---@param player_id        number The stuck player's index
+---@param victim_id        number Usually the same as player_id
+---@param object_id        number Object id of sticky projectile
 ---@param victim_object_id number Object id of stuck object
----@param body_part number Body part index
+---@param body_part        number Body part index
 function OnStick(player_id, victim_id, object_id, victim_object_id, body_part) end
 
 -- `EVENT_DAMAGE_APPLICATION`
 -- Called when damage is applied to a player.
----@param victim_id number Victim index
----@param causer_id number Attacker player index, or 0
----@param damage_tag_id number Damage tag id
----@param damage number Damage amount
+---@param victim_id          number Victim index
+---@param causer_id          number Attacker player index, or 0
+---@param damage_tag_id      number Damage tag id
+---@param damage             number Damage amount
 ---@param collision_material string Material hit
----@param backtap number 0|1 Whether the hit was a backtap (1 = true)
----@return boolean|nil allow, number|nil new_damage # Return `false` to block damage, or modified damage amount (if allow is true)
+---@param backtap            number 0|1 Whether the hit was a backtap (1 = true)
+---@return boolean | nil allow, number | nil new_damage # Return `false` to block damage, or modified damage amount (if allow is true)
 function OnDamageApplication(victim_id, causer_id, damage_tag_id, damage, collision_material, backtap)
     return true
     -- To modify the damage amount, return allow and the new damage value:
@@ -148,18 +151,18 @@ function OnSpawn(player_id) end
 -- `EVENT_CHAT`
 -- Called when a player sends a chat message.
 ---@param player_id number The player's index
----@param message string The chat message
+---@param message   string The chat message
 ---@param chat_type number 0|1|2 (global, team, vehicle)
----@return boolean|nil allow # Return `false` to block message
+---@return boolean | nil allow # Return `false` to block message
 function OnChat(player_id, message, chat_type) end
 
 -- `EVENT_COMMAND`
 -- Called when a command is executed.
----@param executor_id number The executor's index
----@param command string The command being executed
----@param environment number 0|1|2 (console, rcon, chat)
----@param rcon_password string|nil RCON password, if used
----@return boolean|nil allow # Return `false` to block the command
+---@param executor_id   number       The executor's index
+---@param command       string       The command being executed
+---@param environment   number       0|1|2 (console, rcon, chat)
+---@param rcon_password string | nil RCON password, if used
+---@return boolean | nil allow # Return `false` to block the command
 function OnCommand(executor_id, command, environment, rcon_password) end
 
 -- `EVENT_LOGIN`
@@ -169,26 +172,26 @@ function OnLogin(player_id) end
 
 -- `EVENT_CUSTOM`
 -- Triggered by `cevent`.
----@param player_id number 0 if not player-triggered
+---@param player_id  number 0 if not player-triggered
 ---@param event_name string The custom event name
 function OnCustom(player_id, event_name) end
 
 -- `EVENT_WEAPON_PICKUP`
 -- Triggered when player picks up a weapon or grenade.
----@param player_id number The player's index
+---@param player_id   number The player's index
 ---@param weapon_slot string Weapon slot (0-3, 0 = Slot 1) when `weapon_type` is `1`; grenade type (`1` = frag, `2` = plasma) when it is `2`
 ---@param weapon_type string `1` = weapon, `2` = grenade
 function OnWeaponPickup(player_id, weapon_slot, weapon_type) end
 
 -- `EVENT_WEAPON_DROP`
 -- Called when a player drops a weapon.
----@param player_id number The player's index
+---@param player_id   number The player's index
 ---@param weapon_slot string Weapon slot (0-3, 0 = Slot 1)
 function OnWeaponDrop(player_id, weapon_slot) end
 
 -- `EVENT_VEHICLE_ENTER`
 -- Called when a player enters a vehicle.
----@param player_id number The player's index
+---@param player_id  number The player's index
 ---@param seat_index string Vehicle seat index (varies by vehicle)
 function OnVehicleEnter(player_id, seat_index)
     --     0 = Driver (all vehicles)
@@ -205,13 +208,13 @@ function OnVehicleExit(player_id) end
 -- `EVENT_AREA_ENTER`
 -- Called when a player enters a custom area.
 ---@param player_id number The player's index
----@param area string Area name
+---@param area      string Area name
 function OnAreaEnter(player_id, area) end
 
 -- `EVENT_AREA_EXIT`
 -- Called when a player exits a custom area.
 ---@param player_id number The player's index
----@param area string Area name
+---@param area      string Area name
 function OnAreaExit(player_id, area) end
 
 -- `EVENT_WARP`
