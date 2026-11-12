@@ -815,6 +815,14 @@
       "write_bit(${1:object} + 0x10, ${2:bit}, ${3:value})"
     ]
   },
+  "CHIMERA sp_name read": {
+    "scope": "lua",
+    "prefix": "chimera_sp_name",
+    "description": "static_player + 0x4: name (UTF-16LE). See `readWideString` in Common Reference",
+    "body": [
+      "readWideString(${1:static_player} + 0x4, 12)"
+    ]
+  },
   "CHIMERA tag_name read": {
     "scope": "lua",
     "prefix": "chimera_tag_name",
@@ -844,7 +852,7 @@
     "prefix": "chimera_tag_entry",
     "description": "Address of a tag entry by index",
     "body": [
-      "${1:tag_array} + (${2:tag_index} * 0x20)"
+      "local ${3:tag_entry} = ${1:tag_array} + (${2:tag_index} * 0x20)"
     ]
   },
   "CHIMERA obj_tagindex read": {
@@ -860,7 +868,7 @@
     "prefix": "chimera_veh_pos2",
     "description": "vehicle_object + 0x348: extra position X and Y",
     "body": [
-      "read_float(${1:vehicle_object} + 0x348), read_float(${1:vehicle_object} + 0x34C)"
+      "local ${3:x}, ${4:y} = read_float(${1:vehicle_object} + 0x348), read_float(${1:vehicle_object} + 0x34C)"
     ]
   },
   "Chimera OnCommand callback": {
@@ -920,16 +928,6 @@
     "description": "Chimera 'pretick' event callback (set_callback(\"pretick\", \"OnPreTick\"))",
     "body": [
       "function OnPreTick()",
-      "\t$0",
-      "end"
-    ]
-  },
-  "Chimera OnMapPreload callback": {
-    "scope": "lua",
-    "prefix": "chimera OnMapPreload",
-    "description": "Chimera 'map preload' event callback (set_callback(\"map preload\", \"OnMapPreload\"))",
-    "body": [
-      "function OnMapPreload()",
       "\t$0",
       "end"
     ]

@@ -458,7 +458,7 @@
   "SAPP sp_score read": {
     "scope": "lua",
     "prefix": "sapp_sp_score",
-    "description": "static_player + 0xC8: CTF score / Oddball kills",
+    "description": "static_player + 0xC8: CTF score / flag scores / Oddball kills",
     "body": [
       "read_word(${1:static_player} + 0xC8)"
     ]
@@ -466,7 +466,7 @@
   "SAPP set_sp_score write": {
     "scope": "lua",
     "prefix": "sapp_set_sp_score",
-    "description": "Write static_player + 0xC8: CTF score / Oddball kills",
+    "description": "Write static_player + 0xC8: CTF score / flag scores / Oddball kills",
     "body": [
       "write_word(${1:static_player} + 0xC8, ${2:value})"
     ]
@@ -810,7 +810,7 @@
   "SAPP sp_name read": {
     "scope": "lua",
     "prefix": "sapp_sp_name",
-    "description": "static_player + 0x4: name (UTF-16LE, needs readWideString from Common Reference)",
+    "description": "static_player + 0x4: name (UTF-16LE). See `readWideString` in Common Reference.",
     "body": [
       "readWideString(${1:static_player} + 0x4, 12)"
     ]
@@ -844,7 +844,7 @@
     "prefix": "sapp_tag_entry",
     "description": "Address of a tag entry by index",
     "body": [
-      "${1:tag_array} + (${2:tag_index} * 0x20)"
+      "local ${3:tag_entry} = ${1:tag_array} + (${2:tag_index} * 0x20)"
     ]
   },
   "SAPP obj_tagindex read": {
@@ -860,7 +860,7 @@
     "prefix": "sapp_veh_pos2",
     "description": "vehicle_object + 0x348: extra position X and Y",
     "body": [
-      "read_float(${1:vehicle_object} + 0x348), read_float(${1:vehicle_object} + 0x34C)"
+      "local ${3:x}, ${4:y} = read_float(${1:vehicle_object} + 0x348), read_float(${1:vehicle_object} + 0x34C)"
     ]
   },
   "SAPP OnScriptLoad callback": {

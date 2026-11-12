@@ -852,7 +852,7 @@
     "prefix": "phasor_tag_entry",
     "description": "Address of a tag entry by index",
     "body": [
-      "${1:tag_array} + (${2:tag_index} * 0x20)"
+      "local ${3:tag_entry} = ${1:tag_array} + (${2:tag_index} * 0x20)"
     ]
   },
   "PHASOR obj_tagindex read": {
@@ -868,7 +868,7 @@
     "prefix": "phasor_veh_pos2",
     "description": "vehicle_object + 0x348: extra position X and Y",
     "body": [
-      "readfloat(${1:vehicle_object} + 0x348), readfloat(${1:vehicle_object} + 0x34C)"
+      "local ${3:x}, ${4:y} = readfloat(${1:vehicle_object} + 0x348), readfloat(${1:vehicle_object} + 0x34C)"
     ]
   },
   "Phasor OnNewGame callback": {
@@ -1031,7 +1031,7 @@
   "Phasor OnObjectCreationAttempt callback": {
     "scope": "lua",
     "prefix": "phasor OnObjectCreationAttempt",
-    "description": "Phasor OnObjectCreationAttempt callback (return false to block, or new tag id)",
+    "description": "Phasor OnObjectCreationAttempt callback.",
     "body": [
       "function OnObjectCreationAttempt(map_id, parent_id, player)",
       "\t$0",
@@ -1129,7 +1129,7 @@
   "Phasor OnClientUpdate callback": {
     "scope": "lua",
     "prefix": "phasor OnClientUpdate",
-    "description": "Phasor OnClientUpdate callback (30 Hz per player — keep light)",
+    "description": "Phasor OnClientUpdate callback",
     "body": [
       "function OnClientUpdate(player)",
       "\t$0",
