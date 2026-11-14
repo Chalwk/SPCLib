@@ -1,65 +1,73 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      get_server_name.lua
-DESCRIPTION:      Retrieves and displays the server name with:
-                  - Simple API for accessing server name
-                  - Welcome message functionality
-                  - Wide string handling
+SCRIPT NAME:    get_server_name.lua
+DESCRIPTION:    Reads the current server name from the network struct and
+                welcomes joining players with it.
 
-FEATURES:
-                  - Gets the actual server name (not map name)
-                  - Can be used for welcome messages
-                  - Lightweight implementation
+USAGE:          getServerName() - safe to call from any callback
+                                  or via: lua_call get_server_name getServerName
 
-USAGE:            Call GetServerName() to retrieve the server name string
-
-Copyright (c) 2016-2022 Jericho Crosby (Chalwk)
+Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
-===============================================================================
+================================================================================
 ]]
 
-api_version = '1.12.0.0'
+api_version = "1.12.0.0"
 
-local network_struct, server_name
+local NETWORK_STRUCT_SIG = "F3ABA1????????BA????????C740??????????E8????????668B0D"
+local NETWORK_STRUCT_OFFSET = 3
+
+local NAME_OFFSET = 0x8
+local NAME_MAX_CHARS = 0x42
+
+local network_struct
 local concat, char = table.concat, string.char
 
+local function safeScan(sig, offset)
+    local hit = sig_scan(sig)
+    if hit == 0 then return nil end
+
+    local ptr = read_dword(hit + offset)
+    if not ptr or ptr < 0x400000 or ptr > 0x800000 then return nil end
+
+    return ptr
+end
+
+local function readWideString(address, max_chars)
+    local chars = {}
+    for i = 0, (max_chars - 1) * 2, 2 do
+        local lo = read_byte(address + i)
+        if lo == 0 then break end
+        ---@diagnostic disable-next-line: param-type-mismatch
+        chars[#chars + 1] = char(lo)
+    end
+    return concat(chars)
+end
+
+local function getServerName()
+    if not network_struct then return "" end
+    return readWideString(network_struct + NAME_OFFSET, NAME_MAX_CHARS)
+end
+
 function OnScriptLoad()
-    register_callback(cb.EVENT_JOIN, 'OnJoin')
-    register_callback(cb.EVENT_GAME_START, 'OnStart')
-    network_struct = read_dword(sig_scan('F3ABA1????????BA????????C740??????????E8????????668B0D') + 3)
-    OnStart()
-end
+    register_callback(cb.EVENT_JOIN, "OnJoin")
 
-local function read_wide_string(address, length)
-    local count = 0
-    local byte_table = {}
-    for i = 1, length do
-        if read_byte(address + count) ~= 0 then
-            byte_table[i] = char(read_byte(address + count))
-        end
-        count = count + 2
-    end
-    return concat(byte_table)
-end
-
-local function GetServerName()
-    return read_wide_string(network_struct + 0x8, 0x42)
-end
-
-function OnStart()
-    if (get_var(0, '$gt') ~= 'n/a') then
-        server_name = GetServerName()
+    network_struct = safeScan(NETWORK_STRUCT_SIG, NETWORK_STRUCT_OFFSET)
+    if not network_struct then
+        cprint("[get_server_name] ERROR: network_struct not found", 12)
     end
 end
 
---
--- USE CASE EXAMPLE:
---
-function OnJoin(Ply)
-    say(Ply, 'Welcome to ' .. server_name)
+function OnJoin(player_id)
+    if not player_id or not player_present(player_id) then return end
+
+    local name = getServerName()
+    if name ~= "" then
+        say(player_id, "Welcome to " .. name)
+    end
 end
 
 function OnScriptUnload()
-    -- N/A
+    network_struct = nil
 end

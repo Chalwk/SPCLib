@@ -1,7 +1,8 @@
 --[[
 =====================================================================================
 SCRIPT NAME:      server_name_changer.lua
-DESCRIPTION:      Cycles through server names at regular intervals for dynamic branding.
+DESCRIPTION:      Cycles through server names at a fixed interval for dynamic
+                  branding.
 
 Copyright (c) 2021-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -11,41 +12,75 @@ LICENSE:          MIT License
 
 api_version = "1.12.0.0"
 
--- config starts --
--- The script will pick a new server name every 15 seconds:
-local INTERVAL = 15
+-- Config starts --
+-- Pick a new server name every N seconds (must be positive):
+local INTERVAL_SECONDS = 15
+
+-- Names cycled in order. Keep each entry shorter than NAME_MAX_CHARS (66):
 local SERVER_NAMES = {
     "My Cool Server",
     "A server!",
     " ",          -- blank
     "Ya mom!",
-    "CoronaVirus" -- repeat the structure to add more entries.
+    "CoronaVirus" -- add more entries here
 }
--- config ends --
+-- Config ends --
+
+local NETWORK_STRUCT_SIG = "F3ABA1????????BA????????C740??????????E8????????668B0D"
+local NETWORK_STRUCT_OFFSET = 3
+
+local NAME_OFFSET = 0x8
+local NAME_MAX_CHARS = 0x42
 
 local network_struct
-function OnScriptLoad()
-    network_struct = read_dword(sig_scan("F3ABA1????????BA????????C740??????????E8????????668B0D") + 3)
-    if not network_struct then
-        print("[server_name_changer] ERROR: network_struct not found")
-        return
-    end
-    timer(INTERVAL, "ChangeServerName")
+local name_index = 1
+
+local function safeScan(sig, offset)
+    local hit = sig_scan(sig)
+    if hit == 0 then return nil end
+
+    local ptr = read_dword(hit + offset)
+    if not ptr or ptr < 0x400000 or ptr > 0x800000 then return nil end
+
+    return ptr
 end
 
-local function write_widestring(address, str, len)
-    for i = 0, len - 1 do
+local function writeWideString(address, str, max_chars)
+    local length = #str
+    if length > max_chars then length = max_chars end
+
+    -- Clear the buffer (also zeroes the trailing null terminator):
+    for i = 0, max_chars - 1 do
         write_word(address + i * 2, 0)
     end
-    for i = 1, #str do
-        write_byte(address + (i - 1) * 2, string.byte(str, i))
+
+    -- Write the low byte of each ASCII character; high byte remains 0:
+    for i = 1, length do
+        write_byte(address + (i - 1) * 2, str:byte(i))
     end
 end
 
-local index = 1
+function OnScriptLoad()
+    network_struct = safeScan(NETWORK_STRUCT_SIG, NETWORK_STRUCT_OFFSET)
+    if not network_struct then
+        cprint("[server_name_changer] ERROR: network_struct not found", 12)
+        return
+    end
+
+    timer(INTERVAL_SECONDS * 1000, "ChangeServerName")
+end
+
 function ChangeServerName()
-    write_widestring(network_struct + 0x8, SERVER_NAMES[index], 0x42)
-    index = index + 1
-    if index > #SERVER_NAMES then index = 1 end
-    return true
+    if not network_struct then return false end
+
+    writeWideString(network_struct + NAME_OFFSET, SERVER_NAMES[name_index], NAME_MAX_CHARS)
+
+    name_index = name_index + 1
+    if name_index > #SERVER_NAMES then name_index = 1 end
+
+    return true -- repeat indefinitely
+end
+
+function OnScriptUnload()
+    network_struct = nil
 end

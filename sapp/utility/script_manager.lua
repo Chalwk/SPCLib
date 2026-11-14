@@ -1,12 +1,10 @@
 --[[
 ==============================================================================
 SCRIPT NAME:    script_manager.lua
-DESCRIPTION:    Dynamic script loader that automatically loads/unloads scripts
-                based on current map and game mode.
+DESCRIPTION:    Dynamic script loader that automatically loads/unloads
+                Lua scripts based on the current map and game mode.
 
-CONFIGURATION:
-                maps:  Nested table defining script associations:
-                maps[map_name][gamemode] = { 'script1', 'script2' }
+CONFIGURATION:  maps[map_name][mode_key] = { 'script1', 'script2' }
 
 Copyright (c) 2024-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -17,97 +15,100 @@ LICENSE:          MIT License
 api_version = '1.12.0.0'
 
 -- CONFIG START --
-
 local maps = {
     ['bloodgulch'] = {
-        ['LNZ-DAC'] = { 'notify_me', 'another_script' }
+        ['slayer'] = { 'notify_me', 'another_script' }
     },
     ['deathisland'] = {
-        ['ctf'] = { 'dynamic_scorelimit' },
-        ['team_race'] = { 'track_master' }
+        ['ctf']       = { 'dynamic_scorelimit' },
+        ['Team Race'] = { 'track_master' }
     }
 }
 -- CONFIG ENDS --
 
+local maps_lc = {}
 local loaded = {}
 
-local function load_script(name)
+local function normalizeConfig()
+    for map_name, modes in pairs(maps) do
+        local map_key = map_name:lower()
+        local entry = maps_lc[map_key] or {}
+        maps_lc[map_key] = entry
+
+        for mode_name, scripts in pairs(modes) do
+            entry[mode_name:lower()] = scripts
+        end
+    end
+end
+
+local function loadScript(name)
     if loaded[name] then return end
-    local ok, err = pcall(function ()
-        execute_command('lua_load "' .. name .. '"')
-        loaded[name] = true
-        cprint('[Script Manager] Loaded: ' .. name)
-    end)
-    if not ok then
-        cprint('[Script Manager] ERROR loading ' .. name .. ': ' .. tostring(err))
-        loaded[name] = nil
-    end
+
+    execute_command(string.format('lua_load "%s"', name))
+    loaded[name] = true
+    cprint('[Script Manager] Loading: ' .. name, 11)
 end
 
-local function unload_script(name)
+local function unloadScript(name)
     if not loaded[name] then return end
-    local ok, err = pcall(function ()
-        execute_command('lua_unload "' .. name .. '"')
-        loaded[name] = nil
-        cprint('[Script Manager] Unloaded: ' .. name)
-    end)
-    if not ok then
-        cprint('[Script Manager] ERROR unloading ' .. name .. ': ' .. tostring(err))
-    end
+
+    execute_command(string.format('lua_unload "%s"', name))
+    loaded[name] = nil
+    cprint('[Script Manager] Unloading: ' .. name, 11)
 end
 
-local function unload_all()
+local function unloadAll()
     local names = {}
     for name in pairs(loaded) do
-        table.insert(names, name)
+        names[#names + 1] = name
     end
-    for _, name in ipairs(names) do
-        unload_script(name)
+    for i = 1, #names do
+        unloadScript(names[i])
     end
 end
 
-local function process_map_mode(map, mode)
-    local new_scripts = maps[map] and maps[map][mode] or {}
-    local new_set = {}
-    for _, name in ipairs(new_scripts) do
-        new_set[name] = true
+local function processMapMode(map, mode)
+    local wanted = maps_lc[map] and maps_lc[map][mode] or {}
+    local wanted_set = {}
+    for i = 1, #wanted do
+        wanted_set[wanted[i]] = true
     end
 
     local to_unload = {}
     for name in pairs(loaded) do
-        if not new_set[name] then
-            table.insert(to_unload, name)
+        if not wanted_set[name] then
+            to_unload[#to_unload + 1] = name
         end
     end
-    for _, name in ipairs(to_unload) do
-        unload_script(name)
+    for i = 1, #to_unload do
+        unloadScript(to_unload[i])
     end
 
-    for _, name in ipairs(new_scripts) do
-        if not loaded[name] then
-            load_script(name)
+    for i = 1, #wanted do
+        if not loaded[wanted[i]] then
+            loadScript(wanted[i])
         end
     end
 end
 
 function OnScriptLoad()
+    normalizeConfig()
+
     register_callback(cb.EVENT_GAME_START, 'OnStart')
-    register_callback(cb.EVENT_GAME_END, 'OnEnd')
-    OnStart() -- Just incase (this) script is loaded mid-game
+
+    OnStart() -- in case script is loaded mid-game
 end
 
 function OnStart()
-    local gt = get_var(0, '$gt')
-    if gt == 'n/a' then return end
-    local map = get_var(0, '$map'):lower()
-    local mode = get_var(0, '$mode'):lower()
-    process_map_mode(map, mode)
-end
+    if get_var(0, '$gt') == 'n/a' then return end
 
-function OnEnd()
-    unload_all()
+    local map = get_var(0, '$map')
+    local mode = get_var(0, '$mode')
+    if not map or not mode then return end
+
+    processMapMode(map:lower(), mode:lower())
 end
 
 function OnScriptUnload()
-    unload_all()
+    unloadAll()
 end
