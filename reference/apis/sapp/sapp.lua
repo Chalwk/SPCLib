@@ -1,11 +1,15 @@
 ---@meta
--- SAPP Lua API (api_version "1.12.0.0") for EmmyLua and lua-language-server.
+-- SAPP Lua API definitions (api_version "1.12.0.0") for EmmyLua and lua-language-server.
 -- Runtime is LuaJIT (Lua 5.1).
 --
 -- Copyright (c) 2026 Jericho Crosby (Chalwk).
---
+
+-- Types ---------------------------------------------------------------------------------------
 
 ---@alias HaloType "PC" | "CE"
+
+--- Event id accepted by `register_callback` and `unregister_callback`.
+---@alias SappEvent number
 
 --- Platform of the running server. Case sensitive.
 ---@type HaloType
@@ -23,7 +27,7 @@ lua_api_version = nil
 ---@type string
 sapp_version = nil
 
--- Script lifecycle -------------------------------------------------------------------------
+-- Script lifecycle ----------------------------------------------------------------------------
 
 ---@alias SappApiVersion
 --- | "1.12.0.0" # SAPP 10.2.1
@@ -41,49 +45,48 @@ function OnScriptLoad() end
 --- Not registered with `register_callback`.
 function OnScriptUnload() end
 
---- Optional. Called when a Lua error occurs in a script. Not registered
---- with `register_callback`.
+--- Optional. Called when a Lua error occurs in a script. Not registered with `register_callback`.
 ---@param message string The Lua error message
 function OnError(message) end
 
----@alias SappEvent number
+-- Callback registration -----------------------------------------------------------------------
 
 --- Event ids for register_callback. Hover a field for the callback signature.
 ---@class SappCallbackIds
----@field EVENT_ALIVE              SappEvent OnAlive(player_id). Once per second while a player is alive.
----@field EVENT_AREA_ENTER         SappEvent OnAreaEnter(player_id, area). Player enters a custom area.
----@field EVENT_AREA_EXIT          SappEvent OnAreaExit(player_id, area). Player exits a custom area.
----@field EVENT_ASSIST             SappEvent OnAssist(player_id). Player gets an assist.
----@field EVENT_BETRAY             SappEvent OnBetray(killer_id, victim_id). victim_id is a string. Player kills a teammate.
----@field EVENT_CAMP               SappEvent OnCamp(player_id). Anti-camp triggers.
----@field EVENT_CHAT               SappEvent OnChat(player_id, message, chat_type): boolean|nil. Return false to block. chat_type 0 global, 1 team, 2 vehicle.
----@field EVENT_COMMAND            SappEvent OnCommand(executor_id, command, environment, rcon_password): boolean|nil. Return false to block. environment 0 console, 1 rcon, 2 chat.
----@field EVENT_CUSTOM             SappEvent OnCustom(player_id, event_name). Raised by cevent.
----@field EVENT_DAMAGE_APPLICATION SappEvent OnDamageApplication(victim_id, causer_id, damage_tag_id, damage, collision_material, backtap): boolean|nil, number|nil. collision_material is a string. Return false to block, or true and a new damage value (do `return true, damage * 1.5`)
----@field EVENT_DIE                SappEvent OnDie(victim_id, killer_id). killer_id is a string: -1 server/falling/distance, 0 non-player source, 1+ player. Called after EVENT_KILL.
----@field EVENT_ECHO               SappEvent OnEcho(player_id, message). Output of execute_command(..., true).
----@field EVENT_GAME_END           SappEvent OnEnd(). Before the post game carnage report.
----@field EVENT_GAME_START         SappEvent OnStart(). A game begins.
----@field EVENT_JOIN               SappEvent OnJoin(player_id). Player fully joined.
----@field EVENT_KILL               SappEvent OnKill(killer_id, victim_id). victim_id is a string. Called before EVENT_DIE.
----@field EVENT_LEAVE              SappEvent OnLeave(player_id). Player disconnected.
----@field EVENT_LOGIN              SappEvent OnLogin(player_id). Admin logged in.
----@field EVENT_MAP_RESET          SappEvent OnMapReset(). sv_map_reset was executed.
----@field EVENT_OBJECT_SPAWN       SappEvent OnObjectSpawn(player_id, tag_id, parent_object_id, new_object_id, sapp_spawning): boolean|nil, number|nil. Return false to block, or true and a replacement tag id.
----@field EVENT_PREJOIN            SappEvent OnPreJoin(player_id). get_player() is not valid yet.
----@field EVENT_PRESPAWN           SappEvent OnPreSpawn(player_id). Spawned but not yet announced; biped is valid.
----@field EVENT_SCORE              SappEvent OnScore(player_id). Player scores a point.
----@field EVENT_SNAP               SappEvent OnSnap(suspect_id, snap_score). snap_score is a string. Requires aimbot_ban.
----@field EVENT_SPAWN              SappEvent OnSpawn(player_id). After the player spawned.
----@field EVENT_STICK              SappEvent OnStick(player_id, victim_id, object_id, victim_object_id, body_part).
----@field EVENT_SUICIDE            SappEvent OnSuicide(player_id).
----@field EVENT_TEAM_SWITCH        SappEvent OnTeamSwitch(player_id).
----@field EVENT_TICK               SappEvent OnTick(). Every tick (1/30 s).
----@field EVENT_VEHICLE_ENTER      SappEvent OnVehicleEnter(player_id, seat_index). seat_index is a string. 0 = Driver (all vehicles); Warthog/Rocket Hog: 1 = Passenger, 2 = Gunner; Tank: 1-4 = Passenger seats; Ghost/Turret/Banshee: Driver only (slot 0)
----@field EVENT_VEHICLE_EXIT       SappEvent OnVehicleExit(player_id).
----@field EVENT_WARP               SappEvent OnWarp(player_id).
----@field EVENT_WEAPON_DROP        SappEvent OnWeaponDrop(player_id, weapon_slot). weapon_slot is a string (0-3).
----@field EVENT_WEAPON_PICKUP      SappEvent OnWeaponPickup(player_id, weapon_slot, weapon_type). Strings. weapon_type 1 weapon (weapon_slot 0-3), 2 grenade (weapon_slot 1 frag, 2 plasma).
+---@field EVENT_ALIVE              SappEvent OnAlive(player_id): Once per second while a player is alive.
+---@field EVENT_AREA_ENTER         SappEvent OnAreaEnter(player_id, area): Player enters a custom area.
+---@field EVENT_AREA_EXIT          SappEvent OnAreaExit(player_id, area): Player exits a custom area.
+---@field EVENT_ASSIST             SappEvent OnAssist(player_id): Player gets an assist.
+---@field EVENT_BETRAY             SappEvent OnBetray(killer_id, victim_id): Player kills a teammate.
+---@field EVENT_CAMP               SappEvent OnCamp(player_id): Anti-camp triggers.
+---@field EVENT_CHAT               SappEvent OnChat(player_id, message, chat_type): Player sends a chat message.
+---@field EVENT_COMMAND            SappEvent OnCommand(executor_id, command, environment, rcon_password): A command is executed.
+---@field EVENT_CUSTOM             SappEvent OnCustom(player_id, event_name): Raised by cevent.
+---@field EVENT_DAMAGE_APPLICATION SappEvent OnDamageApplication(victim_id, causer_id, damage_tag_id, damage, collision_material, backtap): Damage is applied to a player.
+---@field EVENT_DIE                SappEvent OnDie(victim_id, killer_id): Player has died. Called after EVENT_KILL.
+---@field EVENT_ECHO               SappEvent OnEcho(player_id, message): Output of `execute_command(..., true)`.
+---@field EVENT_GAME_END           SappEvent OnEnd(): The game has ended.
+---@field EVENT_GAME_START         SappEvent OnStart(): A new game began.
+---@field EVENT_JOIN               SappEvent OnJoin(player_id): Player fully joined.
+---@field EVENT_KILL               SappEvent OnKill(killer_id, victim_id): A player killed another player.
+---@field EVENT_LEAVE              SappEvent OnLeave(player_id): Player disconnected.
+---@field EVENT_LOGIN              SappEvent OnLogin(player_id): Admin logged in.
+---@field EVENT_MAP_RESET          SappEvent OnMapReset(): `sv_map_reset` was executed.
+---@field EVENT_OBJECT_SPAWN       SappEvent OnObjectSpawn(player_id, tag_id, parent_object_id, new_object_id, sapp_spawning): The server is attempting to spawn an object.
+---@field EVENT_PREJOIN            SappEvent OnPreJoin(player_id): A player is attempting to join the server. `get_player()` is not valid yet.
+---@field EVENT_PRESPAWN           SappEvent OnPreSpawn(player_id): A player has spawned. Not yet announced; biped is valid.
+---@field EVENT_SCORE              SappEvent OnScore(player_id): Player scores a point.
+---@field EVENT_SNAP               SappEvent OnSnap(suspect_id, snap_score): A player snapped. Requires `aimbot_ban`.
+---@field EVENT_SPAWN              SappEvent OnSpawn(player_id): A player has finished spawning.
+---@field EVENT_STICK              SappEvent OnStick(player_id, victim_id, object_id, victim_object_id, body_part): A player was stuck by an object (i.e., sticky grenade).
+---@field EVENT_SUICIDE            SappEvent OnSuicide(player_id): A player has committed suicide.
+---@field EVENT_TEAM_SWITCH        SappEvent OnTeamSwitch(player_id): A player has switched teams.
+---@field EVENT_TICK               SappEvent OnTick(): Called every tick (1/30 s).
+---@field EVENT_VEHICLE_ENTER      SappEvent OnVehicleEnter(player_id, seat_index): A player entered a vehicle.
+---@field EVENT_VEHICLE_EXIT       SappEvent OnVehicleExit(player_id): A player exited a vehicle.
+---@field EVENT_WARP               SappEvent OnWarp(player_id): Raised when a player exceeds the `antiwarp` limit.
+---@field EVENT_WEAPON_DROP        SappEvent OnWeaponDrop(player_id, weapon_slot): Player has dropped a weapon.
+---@field EVENT_WEAPON_PICKUP      SappEvent OnWeaponPickup(player_id, weapon_slot, weapon_type): Player has picked up a weapon.
 
 ---@alias SappCallbackName
 --- | "OnAlive"
@@ -132,8 +135,180 @@ function register_callback(event, callback_name) end
 ---@param event SappEvent
 function unregister_callback(event) end
 
---- Variable names for get_var and set_var. Global variables use player id 0.
---- Custom variables made with add_var are also accepted.
+-- Event callbacks -----------------------------------------------------------------------------
+
+--- Once per second while a player is alive.
+---@param player_id number
+function OnAlive(player_id) end
+
+--- Player enters a custom area.
+---@param player_id number
+---@param area      string
+function OnAreaEnter(player_id, area) end
+
+--- Player exits a custom area.
+---@param player_id number
+---@param area      string
+function OnAreaExit(player_id, area) end
+
+--- Player gets an assist.
+---@param player_id number
+function OnAssist(player_id) end
+
+--- Player kills a teammate.
+---@param killer_id number
+---@param victim_id string
+function OnBetray(killer_id, victim_id) end
+
+--- Anti-camp triggers.
+---@param player_id number
+function OnCamp(player_id) end
+
+--- Player sends a chat message.
+---@param player_id number
+---@param message   string
+---@param chat_type number 0 global, 1 team, 2 vehicle
+---@return boolean | nil allow Return false to block the message
+function OnChat(player_id, message, chat_type) end
+
+--- A command is executed.
+---@param executor_id   number
+---@param command       string
+---@param environment   number       0 console, 1 rcon, 2 chat
+---@param rcon_password string | nil
+---@return boolean | nil allow Return false to block the command
+function OnCommand(executor_id, command, environment, rcon_password) end
+
+--- Raised by cevent.
+---@param player_id  number 0 if not player-triggered
+---@param event_name string
+function OnCustom(player_id, event_name) end
+
+--- Damage is applied to a player.
+---@param victim_id          number
+---@param causer_id          number
+---@param damage_tag_id      number
+---@param damage             number
+---@param collision_material string
+---@param backtap            number 0|1
+---@return boolean | nil allow     Return false to block damage
+---@return number | nil new_damage Modified damage amount (when allow is true). Example: `return true, damage * 1.5`
+function OnDamageApplication(victim_id, causer_id, damage_tag_id, damage, collision_material, backtap) end
+
+--- Player has died. Called after EVENT_KILL.
+---@param victim_id number The victim's player index
+---@param killer_id string `-1` falling/server/distance, `0` non-player, `1+` player index
+function OnDie(victim_id, killer_id) end
+
+--- Output of `execute_command(..., true)`.
+---@param player_id number The player's index
+---@param message   string The echoed message
+function OnEcho(player_id, message) end
+
+--- The game has ended.
+function OnEnd() end
+
+--- A new game began.
+function OnStart() end
+
+--- Player fully joined.
+---@param player_id number
+function OnJoin(player_id) end
+
+--- A player killed another player.
+---@param killer_id number
+---@param victim_id string
+function OnKill(killer_id, victim_id) end
+
+--- Player disconnected.
+---@param player_id number
+function OnLeave(player_id) end
+
+--- Admin logged in.
+---@param player_id number
+function OnLogin(player_id) end
+
+--- `sv_map_reset` was executed.
+function OnMapReset() end
+
+--- The server is attempting to spawn an object.
+---@param player_id        number The player who spawned it (0 if not a player)
+---@param tag_id           number The object's tag id
+---@param parent_object_id number Parent object id (0xFFFFFFFF if none)
+---@param new_object_id    number The new object id
+---@param sapp_spawning    number 1 if spawned by SAPP, 0 if by Halo
+---@return boolean | nil allow     Return false to block spawn
+---@return number | nil new_tag_id Replacement tag id (when allow is true)
+function OnObjectSpawn(player_id, tag_id, parent_object_id, new_object_id, sapp_spawning) end
+
+--- A player is attempting to join the server. `get_player()` is not valid yet.
+---@param player_id number
+function OnPreJoin(player_id) end
+
+--- A player has spawned. Not yet announced; biped is valid.
+---@param player_id number
+function OnPreSpawn(player_id) end
+
+--- Player scores a point.
+---@param player_id number
+function OnScore(player_id) end
+
+--- A player snapped. Requires `aimbot_ban`.
+---@param suspect_id number
+---@param snap_score string
+function OnSnap(suspect_id, snap_score) end
+
+--- A player has finished spawning.
+---@param player_id number
+function OnSpawn(player_id) end
+
+--- A player was stuck by an object (i.e., sticky grenade).
+---@param player_id        number
+---@param victim_id        number
+---@param object_id        number
+---@param victim_object_id number
+---@param body_part        number
+function OnStick(player_id, victim_id, object_id, victim_object_id, body_part) end
+
+--- A player has committed suicide.
+---@param player_id number
+function OnSuicide(player_id) end
+
+--- A player has switched teams.
+---@param player_id number
+function OnTeamSwitch(player_id) end
+
+--- Called every tick (1/30 s).
+function OnTick() end
+
+--- A player entered a vehicle.
+---@param player_id  number
+---@param seat_index string `0` = driver (all vehicles). Warthog/Rocket Hog: `1` = passenger, `2` = gunner. Tank: `1`-`4` = passenger seats. Ghost/Turret/Banshee: driver only.
+function OnVehicleEnter(player_id, seat_index) end
+
+--- A player exited a vehicle.
+---@param player_id number
+function OnVehicleExit(player_id) end
+
+--- Raised when a player exceeds the `antiwarp` limit.
+---@param player_id number
+function OnWarp(player_id) end
+
+--- Player has dropped a weapon.
+---@param player_id   number
+---@param weapon_slot string 0-3
+function OnWeaponDrop(player_id, weapon_slot) end
+
+--- Player has picked up a weapon.
+---@param player_id   number
+---@param weapon_slot string 0-3 (or grenade type when weapon_type is 2)
+---@param weapon_type string 1 weapon, 2 grenade
+function OnWeaponPickup(player_id, weapon_slot, weapon_type) end
+
+-- Variables -----------------------------------------------------------------------------------
+
+--- Variable names for `get_var` and `set_var`. Global variables use player id 0.
+--- Custom variables made with `add_var` are also accepted.
 ---@alias SappVariable
 --- | "$afk"       # (P: player) Seconds the player has been AFK
 --- | "$app"       # (P: player) Bitfield: 1 SAPP, 2 Anticheat, 4 HAC2, 8 RefleX
@@ -183,9 +358,8 @@ function unregister_callback(event) end
 --- | "$y"         # (P: player) Player Y coordinate
 --- | "$z"         # (P: player) Player Z coordinate
 
--- Variables --------------------------------------------------------------------------------
-
 --- Always returns a string. Wrap in tonumber() for math.
+--- See [Variables](#variables) for the full list.
 ---@param player_id number                0 for globals; 1-16 for players
 ---@param variable  SappVariable | string
 ---@return string
@@ -208,7 +382,7 @@ function set_var(player_id, name, value, copy_id) end
 --- | 4 # Player integer
 --- | 5 # Player float
 
---- Creates a custom variable.
+--- Creates a custom variable. See [Variables](#variables).
 ---@param name string
 ---@param type SappVarType
 function add_var(name, type) end
@@ -216,8 +390,9 @@ function add_var(name, type) end
 ---@param name string
 function del_var(name) end
 
--- Memory -----------------------------------------------------------------------------------
--- A bad address crashes the server.
+-- Memory -------------------------------------------------------------------------------------
+-- A bad address crashes the server. Toggle safe_write() to turn write segfaults into
+-- `false` returns (at a performance cost).
 
 --- Reads an unsigned 8-bit integer.
 ---@param address number
@@ -262,41 +437,49 @@ function read_double(address) end
 --- Writes an unsigned 8-bit integer.
 ---@param address number
 ---@param value   number
+---@return boolean
 function write_byte(address, value) end
 
 --- Writes a signed 8-bit integer.
 ---@param address number
 ---@param value   number
+---@return boolean
 function write_char(address, value) end
 
 --- Writes an unsigned 16-bit integer.
 ---@param address number
 ---@param value   number
+---@return boolean
 function write_word(address, value) end
 
 --- Writes a signed 16-bit integer.
 ---@param address number
 ---@param value   number
+---@return boolean
 function write_short(address, value) end
 
 --- Writes an unsigned 32-bit integer.
 ---@param address number
 ---@param value   number
+---@return boolean
 function write_dword(address, value) end
 
 --- Writes a signed 32-bit integer.
 ---@param address number
 ---@param value   number
+---@return boolean
 function write_int(address, value) end
 
 --- Writes a 32-bit float.
 ---@param address number
 ---@param value   number
+---@return boolean
 function write_float(address, value) end
 
 --- Writes a 64-bit float.
 ---@param address number
 ---@param value   number
+---@return boolean
 function write_double(address, value) end
 
 --- Reads a null-terminated 8-bit string. UTF-16LE fields (names) read as "", use a wide string helper.
@@ -308,6 +491,7 @@ function read_string(address, length) end
 --- Writes a null-terminated 8-bit string.
 ---@param address number
 ---@param value   string
+---@return boolean
 function write_string(address, value) end
 
 ---@param address number
@@ -318,6 +502,7 @@ function read_bit(address, bit) end
 ---@param address number
 ---@param bit     number Bit index
 ---@param value   number 0 or 1
+---@return boolean
 function write_bit(address, bit, value) end
 
 ---@param address number
@@ -330,13 +515,17 @@ function read_vector3d(address) end
 ---@param x       number
 ---@param y       number
 ---@param z       number
+---@return boolean
 function write_vector3d(address, x, y, z) end
 
 --- Toggles safe mode for reads. Costs performance, leave off unless needed.
 ---@param enabled boolean
 function safe_read(enabled) end
 
---- Toggles safe mode for writes. Costs performance, leave off unless needed.
+--- Toggles safe mode for writes. When off (default), writing to an invalid address
+--- segfaults the server. When on, writes return false on failure and true on success,
+--- and read-only memory (including Halo's code) becomes writable at a performance cost.
+--- Leave off unless needed.
 ---@param enabled boolean
 function safe_write(enabled) end
 
@@ -387,7 +576,7 @@ function safe_write(enabled) end
 ---@return number address
 function sig_scan(signature) end
 
--- Messaging --------------------------------------------------------------------------------
+-- Messaging -----------------------------------------------------------------------------------
 
 --- In-game chat, one player. Prefixes with `say_prefix` if set.
 ---@param player_id number
@@ -414,6 +603,8 @@ function rprint(player_id, message) end
 ---@param color?  number Console color attribute (`0-255`); combines foreground and background colors.
 function cprint(message, color) end
 
+-- Players and objects -------------------------------------------------------------------------
+
 ---@alias TagClass
 --- | "weap" # Weapon
 --- | "vehi" # Vehicle
@@ -434,8 +625,6 @@ function cprint(message, color) end
 --- | "matg" # Globals
 --- | "scnr" # Scenario
 
--- Players and objects ----------------------------------------------------------------------
-
 --- Player indices are 1-16; 0 is reserved for global/server context where supported.
 ---@param player_id number
 ---@return boolean
@@ -446,19 +635,16 @@ function player_present(player_id) end
 function player_alive(player_id) end
 
 --- Static player table address.
---- See [Players, Objects, and Actions](#players-objects-and-actions).
 ---@param player_id number
 ---@return number address
 function get_player(player_id) end
 
 --- Dynamic player object address, or 0 if the player is dead.
---- See [Players, Objects, and Actions](#players-objects-and-actions).
 ---@param player_id number
 ---@return number address
 function get_dynamic_player(player_id) end
 
 --- Object address, or 0 if the id is invalid.
---- See [Players, Objects, and Actions](#players-objects-and-actions).
 ---@param object_id number
 ---@return number address
 function get_object_memory(object_id) end
@@ -493,6 +679,7 @@ function assign_weapon(object_id, player_id) end
 ---@param player_id number
 function drop_weapon(player_id) end
 
+--- Supports multiple occupants per seat.
 ---@param vehicle_id number
 ---@param player_id  number
 ---@param seat       string
@@ -522,6 +709,7 @@ function camo(player_id, ticks) end
 function powerup_interact(object_id, player_id) end
 
 --- Returns the object id (0 on failure). Pass "" for class and path when spawning by tag_id.
+--- x, y, z and rotation default to 0.
 --- Example:
 --- ```lua
 --- local object_id = spawn_object("weap", "weapons\\pistol\\pistol", 0, 0, 0)
@@ -601,14 +789,13 @@ function sync_ammo(object_id) end
 function intersect(x, y, z, vx, vy, vz, ignore_object_id) end
 
 --- Returns the tag address, or 0 if not found. Use the tag id form on protected maps.
---- See [Players, Objects, and Actions](#players-objects-and-actions).
 ---@overload fun(tag_id: number): number
 ---@param tag_class TagClass | string Four-letter class, e.g. "weap"
 ---@param tag_name  string
 ---@return number address
 function lookup_tag(tag_class, tag_name) end
 
--- Commands and timers ----------------------------------------------------------------------
+-- Commands and timers -------------------------------------------------------------------------
 
 --- player_id runs the command on a player's behalf. echo = true raises EVENT_ECHO with the output.
 ---@param command    string
@@ -617,6 +804,7 @@ function lookup_tag(tag_class, tag_name) end
 function execute_command(command, player_id, echo) end
 
 --- Splits on ";". Use single-quoted Lua strings with double-quoted arguments.
+--- See [execute_command_sequence() Quoting](#execute_command_sequence-quoting).
 --- Example:
 --- ```lua
 --- execute_command_sequence('say_all "Hello world";god 1')
@@ -627,12 +815,14 @@ function execute_command(command, player_id, echo) end
 function execute_command_sequence(commands, player_id, echo) end
 
 --- The upper bound is exclusive: rand(1, 4) returns 1-3.
+--- See [rand() Upper Bound](#rand-upper-bound).
 ---@param min? number
 ---@param max? number
 ---@return number
 function rand(min, max) end
 
 --- Calls a global function once after delay ms. The callback returns true to repeat. Returns nil.
+--- See [SAPP timer()](#sapp-timer).
 ---@param delay         number Milliseconds
 ---@param callback_name string Name of a global function
 ---@param ...           any    Forwarded to the callback
