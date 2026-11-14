@@ -1,9 +1,8 @@
 ---@meta
--- Chimera Lua API for EmmyLua and lua-language-server.
+-- Chimera Lua API definitions for EmmyLua and lua-language-server.
 -- Runtime is Lua 5.5.
 --
 -- Copyright (c) 2026 Jericho Crosby (Chalwk).
---
 
 ---@alias ChimeraEvent
 --- | "command"      # (cmd: string): boolean|nil. Return false to block.
