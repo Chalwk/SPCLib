@@ -1,38 +1,24 @@
 --[[
 =====================================================================================
 SCRIPT NAME:      taunt_your_players.lua
-DESCRIPTION:      Sends humorous taunts to players during gameplay, with fully
-                  customizable messages and event triggers.
+DESCRIPTION:      Sends humorous taunts to players during gameplay, with customizable
+                  messages and event triggers.
 
-CONFIGURATION:
-                  TAUNT_ON_DEATH  - Enable/disable death taunts
-                  TAUNT_ON_END    - Enable/disable end-game taunts
-
-FEATURES:
-                  - 30+ unique death taunt messages
-                  - End-game taunts based on kill count
-                  - Customizable event triggers
-                  - Randomized message selection
-                  - Kill-count specific end messages
-                  - Lightweight and server-friendly
-
-USAGE:
-                  Place in your Lua scripts directory and load with SAPP.
-                  Messages are triggered automatically according to configuration.
-
-REQUIREMENTS:     SAPP (Lua API enabled)
-
-AUTHOR:           Jericho Crosby (Chalwk)
+Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
+
+api_version = "1.12.0.0"
 
 -- CONFIG START ----------------------------------------------------------------------
 
 local TAUNT_ON_DEATH = true
 local TAUNT_ON_END = true
 
+-- Taunts shown to the player who just died.
+-- Messages containing %s are formatted with the victim's name.
 local DEATH_MESSAGES = {
     "Aw, %s, I've seen better shooting at the county fair!", "Too bad you've got manure for brains!!",
     "Hell's full of retired gamers, %s. Time you joined them!", "My horse pisses straighter than you shoot!!",
@@ -47,50 +33,68 @@ local DEATH_MESSAGES = {
     "You have perished. What a shame.", "Sell your PC. Just do it.", "You disappoint me, %s."
 }
 
+-- Taunts shown to a player based on their final kill count.
 local END_MESSAGES = {
-    [0] = "Zero kills. Noob alert!",
-    [1] = "One kill? Must be your first time here...",
-    [2] = "Two kills... not bad. But still bad!",
-    [3] = "Three kills? Relax, bro. You mad?",
-    [4] = "Four kills. Dun dun dun...",
-    [5] = "Five kills! Achieving the impossible!"
+    ["0"] = "Zero kills. Noob alert!",
+    ["1"] = "One kill? Must be your first time here...",
+    ["2"] = "Two kills... not bad. But still bad!",
+    ["3"] = "Three kills? Relax, bro. You mad?",
+    ["4"] = "Four kills. Dun dun dun...",
+    ["5"] = "Five kills! Achieving the impossible!"
 }
+
+-- Fallback for players with more than five kills.
+local END_MESSAGE_FALLBACK = "Only %d kills? That's it?"
 
 -- CONFIG END ------------------------------------------------------------------------
 
-api_version = "1.12.0.0"
+local math_random = math.random
+local string_format = string.format
+local string_find = string.find
 
-local function getMessage(tbl)
-    return tbl[math.random(#tbl)]
+-- Picks a random death taunt.
+local function pickRandom()
+    return DEATH_MESSAGES[math_random(#DEATH_MESSAGES)]
 end
 
-local function formatMessage(msg, id)
-    return string.format(msg, get_var(id, "$name"))
+--- Sends a taunt to a player, substituting %s with their name if present.
+local function tauntPlayer(player_id, message)
+    if not player_present(player_id) then return end
+
+    if string_find(message, "%s", 1, true) then
+        message = string_format(message, get_var(player_id, "$name"))
+    end
+
+    rprint(player_id, message)
 end
 
-function OnDeath(victim)
+function OnDie(victim_id)
+    ---@diagnostic disable-next-line: unnecessary-if
     if not TAUNT_ON_DEATH then return end
-    local id = tonumber(victim)
-    if not id then return end
-    rprint(id, formatMessage(getMessage(DEATH_MESSAGES), id))
+    if not victim_id or victim_id < 1 or victim_id > 16 then return end
+
+    tauntPlayer(victim_id, pickRandom())
 end
 
 function OnEnd()
+    ---@diagnostic disable-next-line: unnecessary-if
     if not TAUNT_ON_END then return end
+
     for i = 1, 16 do
         if player_present(i) then
-            local kills = tonumber(get_var(i, "$kills"))
-            local msg = END_MESSAGES[kills]
-            if msg then
-                rprint(i, msg)
-            end
+            local kills = get_var(i, "$kills")
+            local message = END_MESSAGES[kills] or string_format(END_MESSAGE_FALLBACK, kills)
+
+            tauntPlayer(i, message)
         end
     end
 end
 
 function OnScriptLoad()
+    math.randomseed(os.time())
+
+    register_callback(cb.EVENT_DIE, "OnDie")
     register_callback(cb.EVENT_GAME_END, "OnEnd")
-    register_callback(cb.EVENT_DIE, "OnDeath")
 end
 
 function OnScriptUnload() end

@@ -1,90 +1,77 @@
 --[[
 ===============================================================================
 SCRIPT NAME:      chat_ids.lua
-DESCRIPTION:      Enhances chat visibility by displaying player slot numbers:
+DESCRIPTION:      Enhances chat visibility by displaying player slot numbers.
+
                   - Appends player IDs to all chat messages
-                  - Works in both global and team chat
+                  - Works in both global, vehicle and team chat
                   - Preserves existing chat functionality
 
-CONFIGURATION:    Customize message formats in the chat table:
-                  - Global chat: [0] = "$name [$id]: $msg"
-                  - Team chat: [1] = "[$name] [$id]: $msg"
-                  - Vehicle chat: [2] = "[$name] [$id]: $msg"
-
-Copyright (c) 2014-2025 Jericho Crosby (Chalwk)
+Copyright (c) 2014-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 
--- Define chat formats
-local chat = {
-    -- global:
-    [0] = "$name [$id]: $msg",
-
-    -- team:
-    [1] = "[$name] [$id]: $msg",
-
-    -- vehicle:
-    [2] = "[$name] [$id]: $msg"
-}
-
--- Define server prefix as a constant
-local SERVER_PREFIX = "**SAPP**"
-
--- API version constant
 api_version = "1.12.0.0"
 
--- Register the callback when the script is loaded
-function OnScriptLoad()
-    register_callback(cb.EVENT_CHAT, "ShowChatIDs")
+-- CONFIG START ----------------------------------------------------------------------
+
+-- Chat message format by chat type:
+-- 0 = Global, 1 = Team, 2 = Vehicle
+local CHAT_FORMATS = { [0] = "$name [$id]: $msg", [1] = "[$name] [$id]: $msg", [2] = "[$name] [$id]: $msg" }
+
+-- The script temporarily removes the "msg_prefix" and restores
+-- it to this when its broadcast relay is done:
+local SERVER_PREFIX = "**SAPP**"
+
+-- CONFIG END ------------------------------------------------------------------------
+
+local function isChatCommand(message)
+    local first = string.sub(message, 1, 1)
+    return first == "/" or first == "\\"
 end
 
--- Helper function to check if a message is a chat command
-local function isCommand(msg)
-    return (msg:sub(1, 1) == '/' or msg:sub(1, 1) == '\\')
+local function formatMessage(template, values)
+    return (string.gsub(template, "%$(%w+)", function (key)
+        return values[key] or "$" .. key
+    end))
 end
 
--- Function to format the chat message with placeholders
-local function formatMessage(msgFormat, name, message, playerId)
-    return msgFormat:gsub('$name', name):gsub('$msg', message):gsub('$id', playerId)
-end
+local function broadcast(chat_type, message, team)
+    if chat_type == 0 then
+        say_all(message)
+        return
+    end
 
--- Function to send message to the appropriate recipients based on type
-local function sendMessageToAppropriateRecipients(type, msg, team)
-    if type == 0 then
-        say_all(msg)
-    elseif type == 1 or type == 2 then
-        for i = 1, 16 do
-            if player_present(i) and get_var(i, '$team') == team then
-                say(i, msg)
-            end
+    for i = 1, 16 do
+        if player_present(i) and get_var(i, "$team") == team then
+            say(i, message)
         end
     end
 end
 
--- Display chat messages with IDs
-function ShowChatIDs(playerId, msg, type)
-    -- Check if the message is not a chat command
-    if not isCommand(msg) then
-        local name = get_var(playerId, '$name')
-        local team = get_var(playerId, '$team')
-        local formattedMsg = chat[type]
+function OnChat(player_id, message, chat_type)
+    if isChatCommand(message) then return true end
 
-        formattedMsg = formatMessage(formattedMsg, name, msg, playerId)
+    local template = CHAT_FORMATS[chat_type]
+    if not template then return true end
 
-        -- Temporarily remove the server prefix
-        execute_command('msg_prefix ""')
+    local formatted = formatMessage(template, {
+        name = get_var(player_id, "$name"),
+        id   = player_id,
+        msg  = message
+    })
 
-        sendMessageToAppropriateRecipients(type, formattedMsg, team)
+    execute_command('msg_prefix ""')
+    broadcast(chat_type, formatted, get_var(player_id, "$team"))
+    execute_command('msg_prefix "' .. SERVER_PREFIX .. '"')
 
-        -- Restore the server prefix
-        execute_command('msg_prefix "' .. SERVER_PREFIX .. '"')
-        return false
-    end
+    return false
 end
 
--- No additional actions required when the script is unloaded
-function OnScriptUnload()
-    -- N/A
+function OnScriptLoad()
+    register_callback(cb.EVENT_CHAT, "OnChat")
 end
+
+function OnScriptUnload() end
