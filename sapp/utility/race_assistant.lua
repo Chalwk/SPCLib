@@ -15,7 +15,7 @@ LICENSE:          MIT License
 -- CONFIG START ------------------------------------------------------------
 local GRACE_PERIOD = 30                 -- Seconds to enter a vehicle
 local FORGIVENESS_PERIOD = 30           -- Seconds of continuous racing before violations reset
-local REQUIRE_DRIVER = false            -- Require a driver
+local REQUIRE_DRIVER = true             -- Require a driver
 local PASSENGERS_COUNT_AS_RACING = true -- Count passengers/gunners as racing
 
 -- Gametypes that trigger enforcement. Add others if desired (e.g. ["ctf"] = true).
@@ -247,10 +247,6 @@ function OnVehicleExit(id)
     local player = players[id]
     if not player then return end
     player.in_vehicle_since = nil
-end
-
-function OnError(message)
-    log("Lua error: " .. tostring(message), 12)
 end
 
 function CheckPlayers()
