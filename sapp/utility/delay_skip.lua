@@ -6,7 +6,7 @@ DESCRIPTION:      Prevents premature map skipping by enforcing:
                   - Level-based immunity for admins and staff.
                   - Feedback message for players attempting to skip too early.
 
-Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
+Copyright (c) 2020-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
                   https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
@@ -49,6 +49,7 @@ end
 
 function OnChat(id, msg)
     if start_time and msg:lower() == 'skip' then
+        ---@diagnostic disable-next-line: unnecessary-if
         if immune(id) then return true end
 
         local remaining = math_ceil(start_time + SKIP_DELAY - os_time())
