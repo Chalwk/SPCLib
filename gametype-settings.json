@@ -1,0 +1,555 @@
+{
+    "gametypes": {
+        "CAPTURE_THE_FLAG": {
+            "ASSAULT": {
+                "YES": "Carry your own flag into the enemy base to score.",
+                "NO": "Capture the enemy flag and return it to your own base."
+            },
+            "SINGLE_FLAG": {
+                "OFF": "Each team has its own flag.",
+                "1_MINUTE": "One flag on the map at a time, in a team base. Teams alternate offense/defense every minute.",
+                "2_MINUTES": "One flag on the map at a time, in a team base. Teams alternate offense/defense every 2 mins.",
+                "3_MINUTES": "One flag on the map at a time, in a team base. Teams alternate offense/defense every 3 mins.",
+                "5_MINUTES": "One flag on the map at a time, in a team base. Teams alternate offense/defense every 5 mins.",
+                "10_MINUTES": "One flag on the map at a time, in a team base. Teams alternate offense/defense every 10 mins."
+            },
+            "FLAG_MUST_RESET": {
+                "YES": "Cannot return the flag manually; it resets after a set time.",
+                "NO": "Walk over the flag to return it to base."
+            },
+            "SCORE_AT_HOME_TO_SCORE": {
+                "YES": "Your team's flag must be at home to score.",
+                "NO": "Can score even if your flag is held by the enemy."
+            },
+            "FORCE_FLAG_RESET": {
+                "YES": "Single flag: teams switch offense/defense only after the timer expires and the flag is idle.",
+                "NO": "Single flag: teams switch offense/defense automatically when the timer expires."
+            },
+            "CAPTURES_TO_WIN": {
+                "1": "First capture wins.",
+                "3": "3 captures to win.",
+                "5": "5 captures to win.",
+                "10": "10 captures to win.",
+                "15": "15 captures to win."
+            },
+            "TIME_LIMIT": {
+                "NONE": "No time limit. Ends only when someone wins.",
+                "10": "10min limit. Ends at limit or when someone wins.",
+                "15": "15min limit. Ends at limit or when someone wins.",
+                "20": "20min limit. Ends at limit or when someone wins.",
+                "25": "25min limit. Ends at limit or when someone wins.",
+                "30": "30min limit. Ends at limit or when someone wins.",
+                "45": "45min limit. Ends at limit or when someone wins."
+            }
+        },
+        "KING_OF_THE_HILL": {
+            "MOVING_HILL": {
+                "YES": "Hill teleports to a random location during the game.",
+                "NO": "Hill stays in the same spot."
+            },
+            "SCORE_TO_WIN": {
+                "1": "First to hold the hill for 60s wins.",
+                "2": "Hold the hill for 2mins to win.",
+                "5": "Hold the hill for 5mins to win.",
+                "10": "Hold the hill for 10min to win.",
+                "15": "Hold the hill for 15min to win."
+            },
+            "TEAM_PLAY": {
+                "YES": "Free-for-all.",
+                "NO": "Team game."
+            },
+            "TIME_LIMIT": {
+                "NONE": "No time limit. Ends only when someone wins.",
+                "10": "10min limit. Ends at limit or when someone wins.",
+                "15": "15min limit. Ends at limit or when someone wins.",
+                "20": "20min limit. Ends at limit or when someone wins.",
+                "25": "25min limit. Ends at limit or when someone wins.",
+                "30": "30min limit. Ends at limit or when someone wins.",
+                "45": "45min limit. Ends at limit or when someone wins."
+            }
+        },
+        "SLAYER": {
+            "DEATH_BONUS": {
+                "YES": "Respawn faster after each death.",
+                "NO": "Run at the same speed regardless of deaths."
+            },
+            "KILL_IN_ORDER": {
+                "YES": "Score only by killing your designated target; target changes after each kill.",
+                "NO": "Every kill scores."
+            },
+            "KILL_PENALTY": {
+                "YES": "Each kill makes you run slower.",
+                "NO": "Run at the same speed regardless of kills."
+            },
+            "KILLS_TO_WIN": {
+                "5": "5 kills to win.",
+                "10": "10 kills to win.",
+                "15": "15 kills to win.",
+                "25": "25 kills to win.",
+                "50": "50 kills to win."
+            },
+            "TEAM_PLAY": {
+                "YES": "Free-for-all.",
+                "NO": "Team game."
+            },
+            "TIME_LIMIT": {
+                "NONE": "No time limit. Ends only when someone wins.",
+                "10": "10min limit. Ends at limit or when someone wins.",
+                "15": "15min limit. Ends at limit or when someone wins.",
+                "20": "20min limit. Ends at limit or when someone wins.",
+                "25": "25min limit. Ends at limit or when someone wins.",
+                "30": "30min limit. Ends at limit or when someone wins.",
+                "45": "45min limit. Ends at limit or when someone wins."
+            }
+        },
+        "ODDBALL": {
+            "TRAIT_WITH_BALL": {
+                "NONE": "No special abilities while carrying the ball.",
+                "INVISIBLE": "Invisible while carrying the ball.",
+                "EXTRA_DAMAGE": "Extra damage while carrying the ball.",
+                "DAMAGE_RESISTANT": "More damage resistant while carrying the ball."
+            },
+            "TRAIT_WITHOUT_BALL": {
+                "NONE": "No special abilities when not carrying the ball.",
+                "INVISIBLE": "Only the ball carrier is visible; all others are invisible.",
+                "EXTRA_DAMAGE": "Non-carriers do extra damage; lost while carrying the ball.",
+                "DAMAGE_RESISTANT": "Non-carriers are more damage resistant than the ball carrier."
+            },
+            "SPEED_WITH_BALL": {
+                "NORMAL": "Same speed with or without the ball.",
+                "SLOW": "Slower than others while carrying the ball.",
+                "FAST": "Faster than others while carrying the ball."
+            },
+            "BALL_TYPE": {
+                "NORMAL": "Hold the ball as long as possible; first to hold for the specified time wins.",
+                "REVERSE_TAG": "First killer becomes IT. Kill IT to become IT. Be IT for the specified time to win. No ball.",
+                "JUGGERNAUT": "First killer becomes Juggernaut and scores all kills. Kill the Juggernaut to take his place. No ball."
+            },
+            "RANDOM_START": {
+                "YES": "Ball always appears in the same spot.",
+                "NO": "Ball appears in random locations."
+            },
+            "BALL_SPAWN_COUNT": {
+                "1": "1 ball.",
+                "2": "2 balls.",
+                "3": "3 balls.",
+                "4": "4 balls.",
+                "5": "5 balls.",
+                "6": "6 balls.",
+                "7": "7 balls.",
+                "8": "8 balls.",
+                "9": "9 balls.",
+                "10": "10 balls.",
+                "11": "11 balls.",
+                "12": "12 balls.",
+                "13": "13 balls.",
+                "14": "14 balls.",
+                "15": "15 balls.",
+                "16": "16 balls."
+            },
+            "MINUTES_POINTS_TO_WIN": {
+                "1": "Hold the ball/be IT for 1min to win. Juggernaut: 1 kill.",
+                "2": "Hold the ball/be IT for 2min to win. Juggernaut: 2 kills.",
+                "5": "Hold the ball/be IT for 5min to win. Juggernaut: 5 kills.",
+                "10": "Hold the ball/be IT for 10min to win. Juggernaut: 10 kills.",
+                "15": "Hold the ball/be IT for 15min to win. Juggernaut: 15 kills."
+            },
+            "TEAM_PLAY": {
+                "YES": "Free-for-all.",
+                "NO": "Team game."
+            },
+            "TIME_LIMIT": {
+                "NONE": "No time limit. Ends only when someone wins.",
+                "10": "10min limit. Ends at limit or when someone wins.",
+                "15": "15min limit. Ends at limit or when someone wins.",
+                "20": "20min limit. Ends at limit or when someone wins.",
+                "25": "25min limit. Ends at limit or when someone wins.",
+                "30": "30min limit. Ends at limit or when someone wins.",
+                "45": "45min limit. Ends at limit or when someone wins."
+            }
+        },
+        "RACE": {
+            "TEAM_SCORING": {
+                "MINIMUM": "Team score = lowest-scoring member.",
+                "MAXIMUM": "Team score = highest-scoring member.",
+                "SUM": "Team score = sum of members' scores."
+            },
+            "RACE_TYPE": {
+                "NORMAL": "Complete a lap by reaching all flags in order.",
+                "ANY_ORDER": "Complete a lap by touching all flags in any order.",
+                "RALLY": "One destination point; first player to reach it scores a lap."
+            },
+            "LAPS_TO_WIN": {
+                "1": "1 lap to win.",
+                "3": "3 laps to win.",
+                "5": "5 laps to win.",
+                "10": "10 laps to win.",
+                "15": "15 laps to win.",
+                "25": "25 laps to win."
+            },
+            "TEAM_PLAY": {
+                "": {
+                    "YES": "Free-for-all.",
+                    "NO": "Team game."
+                },
+                "TIME_LIMIT": {
+                    "NONE": "No time limit. Ends only when someone wins.",
+                    "10": "10min limit. Ends at limit or when someone wins.",
+                    "15": "15min limit. Ends at limit or when someone wins.",
+                    "20": "20min limit. Ends at limit or when someone wins.",
+                    "25": "25min limit. Ends at limit or when someone wins.",
+                    "30": "30min limit. Ends at limit or when someone wins.",
+                    "45": "45min limit. Ends at limit or when someone wins."
+                }
+            }
+        },
+        "shared_options": {
+            "player_options": {
+                "NUMBER_OF_LIVES": {
+                    "INFINITE": "Respawn indefinitely until the game ends or time limit is reached.",
+                    "1": "One life.",
+                    "3": "Three lives.",
+                    "5": "Five lives."
+                },
+                "MAXIMUM_HEALTH": {
+                    "50%": "Start with half health and half shields.",
+                    "100%": "Start with full health and shields.",
+                    "150%": "Start with 50% more health and shield strength.",
+                    "200%": "Start with 2x health and shield strength.",
+                    "300%": "Start with 3x health and shield strength.",
+                    "400%": "Start with 4x health and shield strength."
+                },
+                "SHIELDS": {
+                    "YES": "Shields active; harder to kill.",
+                    "NO": "Shields disabled; easier to kill."
+                },
+                "RESPAWN_TIME": {
+                    "INSTANT": "Respawn immediately after death.",
+                    "5_SECONDS": "5s respawn wait after death.",
+                    "10_SECONDS": "10s respawn wait after death.",
+                    "15_SECONDS": "15s respawn wait after death."
+                },
+                "RESPAWN_TIME_GROWTH": {
+                    "NONE": "Respawn time stays at its initial setting.",
+                    "5_SECONDS": "Each death adds 5s to respawn; each kill subtracts 5s.",
+                    "10_SECONDS": "Each death adds 10s to respawn; each kill subtracts 10s.",
+                    "15_SECONDS": "Each death adds 15s to respawn; each kill subtracts 15s."
+                },
+                "ODD_MAN_OUT": {
+                    "YES": "Odd Man Out cannot respawn until another player dies and becomes Odd Man Out.",
+                    "NO": "Respawn immediately; no waiting for another death."
+                },
+                "INVISIBLE_PLAYERS": {
+                    "YES": "All players are completely invisible.",
+                    "NO": "Players are visible unless using Active Camouflage."
+                },
+                "SUICIDE_PENALTY": {
+                    "NONE": "No penalty for suicide.",
+                    "5_SECONDS": "Suicide causes a 5s respawn wait.",
+                    "10_SECONDS": "Suicide causes a 10s respawn wait.",
+                    "15_SECONDS": "Suicide causes a 15s respawn wait."
+                }
+            },
+            "item_options": {
+                "INFINITE_GRENADES": {
+                    "YES": "Unlimited grenades.",
+                    "NO": "Max 4 grenades of each type."
+                },
+                "WEAPON_SET": {
+                    "NORMAL": "Map default weapons.",
+                    "PISTOLS": "All weapons replaced by pistols.",
+                    "RIFLES": "All weapons replaced by assault rifles and plasma rifles.",
+                    "PLASMA_WEAPONS": "All weapons replaced by plasma weapons.",
+                    "SNIPERS": "All weapons replaced by scoped sniper weapons.",
+                    "NO_SNIPING": "No sniper rifles or pistols.",
+                    "ROCKET_LAUNCHERS": "All weapons replaced by rocket launchers.",
+                    "SHOTGUNS": "All weapons replaced by shotguns.",
+                    "SHORT_RANGE": "All weapons are only effective at short range.",
+                    "HUMAN": "No Covenant-made weapons.",
+                    "COVENANT": "Only Covenant weapons.",
+                    "CLASSIC": "No flamethrower or fuel rod gun.",
+                    "HEAVY_WEAPONS": "Only the most devastating and dangerous weapons."
+                },
+                "STARTING_EQUIPMENT": {
+                    "GENERIC": "Generic starting weapons on all maps.",
+                    "CUSTOM": "Map designer's custom starting weapon set."
+                }
+            },
+            "vehicle_options": {
+                "VEHICLE_RESPAWN_TIME": {
+                    "NEVER": "Vehicles do not respawn.",
+                    "30_SECONDS": "Respawn after 30s if idle.",
+                    "60_SECONDS": "Respawn after 60s if idle.",
+                    "90_SECONDS": "Respawn after 90s if idle.",
+                    "2_MINUTES": "Respawn after 2min if idle.",
+                    "3_MINUTES": "Respawn after 3min if idle.",
+                    "5_MINUTES": "Respawn after 5min if idle."
+                },
+                "VEHICLE_SET": {
+                    "note": "Configure vehicles that spawn on the map for all players.",
+                    "DEFAULT": {
+                        "WARTHOG": "4",
+                        "GHOST": "4",
+                        "SCORPION": "4",
+                        "ROCKET_WARTHOG": "4",
+                        "BANSHEE": "4",
+                        "GUN_TURRET": "4"
+                    },
+                    "NONE": {
+                        "WARTHOG": "NONE",
+                        "GHOST": "NONE",
+                        "SCORPION": "NONE",
+                        "ROCKET_WARTHOG": "NONE",
+                        "BANSHEE": "NONE",
+                        "GUN_TURRET": "NONE"
+                    },
+                    "CUSTOM": {
+                        "WARTHOG": "<user defined number (1-4 or 'NONE')>",
+                        "GHOST": "<user defined number (1-4 or 'NONE')>",
+                        "SCORPION": "<user defined number (1-4 or 'NONE')>",
+                        "ROCKET_WARTHOG": "<user defined number (1-4 or 'NONE')>",
+                        "BANSHEE": "<user defined number (1-4 or 'NONE')",
+                        "GUN_TURRET": "<user defined number (1-4 or 'NONE')>"
+                    },
+                    "WARTHOGS": {
+                        "WARTHOG": "4",
+                        "GHOST": "NONE",
+                        "SCORPION": "NONE",
+                        "ROCKET_WARTHOG": "NONE",
+                        "BANSHEE": "NONE",
+                        "GUN_TURRET": "NONE"
+                    },
+                    "GHOSTS": {
+                        "WARTHOG": "NONE",
+                        "GHOST": "4",
+                        "SCORPION": "NONE",
+                        "ROCKET_WARTHOG": "NONE",
+                        "BANSHEE": "NONE",
+                        "GUN_TURRET": "NONE"
+                    },
+                    "SCORPIONS": {
+                        "WARTHOG": "NONE",
+                        "GHOST": "NONE",
+                        "SCORPION": "4",
+                        "ROCKET_WARTHOG": "NONE",
+                        "BANSHEE": "NONE",
+                        "GUN_TURRET": "NONE"
+                    },
+                    "ROCKET_WARTHOGS": {
+                        "WARTHOG": "NONE",
+                        "GHOST": "NONE",
+                        "SCORPION": "NONE",
+                        "ROCKET_WARTHOG": "4",
+                        "BANSHEE": "NONE",
+                        "GUN_TURRET": "NONE"
+                    },
+                    "BANSHEES": {
+                        "WARTHOG": "NONE",
+                        "GHOST": "NONE",
+                        "SCORPION": "NONE",
+                        "ROCKET_WARTHOG": "NONE",
+                        "BANSHEE": "4",
+                        "GUN_TURRET": "NONE"
+                    },
+                    "GUN_TURRETS": {
+                        "WARTHOG": "NONE",
+                        "GHOST": "NONE",
+                        "SCORPION": "NONE",
+                        "ROCKET_WARTHOG": "NONE",
+                        "BANSHEE": "NONE",
+                        "GUN_TURRET": "4"
+                    }
+                },
+                "SIDE": {
+                    "note": "Only appears if Team Play is enabled.",
+                    "RED_TEAM": {
+                        "VEHICLE_SET": {
+                            "DEFAULT": {
+                                "WARTHOG": "4",
+                                "GHOST": "4",
+                                "SCORPION": "4",
+                                "ROCKET_WARTHOG": "4",
+                                "BANSHEE": "4",
+                                "GUN_TURRET": "4"
+                            },
+                            "NONE": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "NONE",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "CUSTOM": {
+                                "WARTHOG": "<user defined number (1-4 or 'NONE')>",
+                                "GHOST": "<user defined number (1-4 or 'NONE')>",
+                                "SCORPION": "<user defined number (1-4 or 'NONE')>",
+                                "ROCKET_WARTHOG": "<user defined number (1-4 or 'NONE')>",
+                                "BANSHEE": "<user defined number (1-4 or 'NONE')",
+                                "GUN_TURRET": "<user defined number (1-4 or 'NONE')>"
+                            },
+                            "WARTHOGS": {
+                                "WARTHOG": "4",
+                                "GHOST": "NONE",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "GHOSTS": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "4",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "SCORPIONS": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "NONE",
+                                "SCORPION": "4",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "ROCKET_WARTHOGS": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "NONE",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "4",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "BANSHEES": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "NONE",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "4",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "GUN_TURRETS": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "NONE",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "4"
+                            }
+                        }
+                    },
+                    "BLUE_TEAM": {
+                        "VEHICLE_SET": {
+                            "DEFAULT": {
+                                "WARTHOG": "4",
+                                "GHOST": "4",
+                                "SCORPION": "4",
+                                "ROCKET_WARTHOG": "4",
+                                "BANSHEE": "4",
+                                "GUN_TURRET": "4"
+                            },
+                            "NONE": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "NONE",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "CUSTOM": {
+                                "WARTHOG": "<user defined number (1-4 or 'NONE')>",
+                                "GHOST": "<user defined number (1-4 or 'NONE')>",
+                                "SCORPION": "<user defined number (1-4 or 'NONE')>",
+                                "ROCKET_WARTHOG": "<user defined number (1-4 or 'NONE')>",
+                                "BANSHEE": "<user defined number (1-4 or 'NONE')",
+                                "GUN_TURRET": "<user defined number (1-4 or 'NONE')>"
+                            },
+                            "WARTHOGS": {
+                                "WARTHOG": "4",
+                                "GHOST": "NONE",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "GHOSTS": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "4",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "SCORPIONS": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "NONE",
+                                "SCORPION": "4",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "ROCKET_WARTHOGS": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "NONE",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "4",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "BANSHEES": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "NONE",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "4",
+                                "GUN_TURRET": "NONE"
+                            },
+                            "GUN_TURRETS": {
+                                "WARTHOG": "NONE",
+                                "GHOST": "NONE",
+                                "SCORPION": "NONE",
+                                "ROCKET_WARTHOG": "NONE",
+                                "BANSHEE": "NONE",
+                                "GUN_TURRET": "4"
+                            }
+                        }
+                    }
+                }
+            },
+            "indicator_options": {
+                "OBJECTIVES_INDICATOR": {
+                    "MOTION_TRACKER": "Objectives appear in your Motion Tracker.",
+                    "NAV_POINTS": "Objectives have on-screen markers.",
+                    "NONE": "Objectives are not shown in your Motion Tracker or on screen."
+                },
+                "OTHER_PLAYERS_ON_RADAR": {
+                    "ALL": "All other moving players show on your Motion Tracker.",
+                    "FRIENDS": "Friendly moving players show on your Motion Tracker.",
+                    "NO": "Other players never show on your Motion Tracker."
+                },
+                "FRIEND_INDICATORS_ON_SCREEN": {
+                    "YES": "Green triangles over teammates' heads.",
+                    "NO": "Teammates are denoted only by armor color."
+                }
+            },
+            "teamplay_options": {
+                "FRIENDLY_FIRE": {
+                    "ON": "Teammates can hurt each other with weapons/explosives.",
+                    "SHIELD_ONLY": "Friendly fire reduces shields only, not health.",
+                    "EXPLOSIVES_ONLY": "Only teammate explosives can hurt teammates.",
+                    "OFF": "Teammates cannot hurt each other."
+                },
+                "FRIENDLY_FIRE_PENALTY": {
+                    "NONE": "No respawn penalty for team kill.",
+                    "5_SECONDS": "Team kill adds 5s to your next respawn.",
+                    "10_SECONDS": "Team kill adds 10s to your next respawn.",
+                    "15_SECONDS": "Team kill adds 15s to your next respawn."
+                },
+                "AUTO_TEAM_BALANCE": {
+                    "YES": "Autobalance on; cannot join a fuller team.",
+                    "NO": "Autobalance off; players can change teams freely."
+                }
+            }
+        }
+    }
+}
