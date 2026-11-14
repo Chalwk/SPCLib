@@ -1,0 +1,2 @@
+-- DOWNLOAD FROM:
+-- https://github.com/Chalwk/SPCLib/releases/tag/AdminManager
