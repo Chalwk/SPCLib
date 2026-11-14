@@ -2,8 +2,8 @@
 =============================================================================================================
 SCRIPT NAME:    anti_aimbot.lua
 DESCRIPTION:    Anti-aimbot detection. Every tick it checks whether each living player's camera is lined up
-                with an enemy and scores the suspicious cases. When a player's score passes MAX_SCORE, the
-                configured command runs (kick by default).
+                with an enemy and scores the suspicious cases. When a player's score passes CFG.AUTO_AIM.MAX_SCORE,
+                the configured command runs (kick by default).
 
                 WHAT GETS SCORED:
                 - Snaps: a big camera jump in a single tick that ends on an enemy.
@@ -14,29 +14,31 @@ DESCRIPTION:    Anti-aimbot detection. Every tick it checks whether each living 
                   player is a strong sign.
 
                 WHAT SHAPES THE AIM CONE:
-                - Weapon: each weapon has its own modifier (see WEAPON_MODIFIERS).
+                - Weapon: each weapon has its own modifier (see CFG.WEAPON_MODIFIERS).
                 - Speed: the cone shrinks while the shooter is moving.
                 - Accuracy: the cone grows or shrinks with the shooter's hit rate this life.
 
                 COMPATIBILITY:
                 - This script currently only supports stock weapons and will not work on custom maps with
-                  custom weapon tags unless you add those custom weapon tags to the WEAPON_MODIFIERS
-                  and ENERGY_WEAPONS tables.
+                  custom weapon tags unless you add those custom weapon tags to CFG.WEAPON_MODIFIERS and
+                  CFG.ENERGY_WEAPONS.
 
                 USAGE:
-                1. Tune the CONFIG tables below for your server.
-                2. Set ENFORCEMENT.COMMAND, ENFORCEMENT.IPBAN_TIME_MINUTES, and MESSAGES.PLAYER_KICK_REASON.
+                1. Tune the CFG table below for your server.
+                2. Set CFG.ENFORCEMENT.COMMAND, CFG.ENFORCEMENT.IPBAN_TIME_MINUTES, and
+                   CFG.MESSAGES.PLAYER_KICK_REASON.
                 3. Load it. A line is printed to the server console every time it enforces.
 
                 TUNING NOTES:
-                - This is a heuristic, so start with a high MAX_SCORE and watch the console before
+                - This is a heuristic, so start with a high CFG.AUTO_AIM.MAX_SCORE and watch the console before
                   trusting it with bans.
-                - Raise MAX_SCORE to be more lenient. Lower ANGLE_THRESHOLD_DEGREES to narrow the cone.
-                - The SCORING table controls how fast each kind of event adds up.
-                - The tracking branch is off by default (SNAP_DETECTION.TRACKING_ENABLED). Steady aim
+                - Raise CFG.AUTO_AIM.MAX_SCORE to be more lenient. Lower CFG.AUTO_AIM.ANGLE_THRESHOLD_DEGREES
+                  to narrow the cone.
+                - The CFG.SCORING table controls how fast each kind of event adds up.
+                - The tracking branch is off by default (CFG.SNAP_DETECTION.TRACKING_ENABLED). Steady aim
                   during a strafing duel looks a lot like tracking, so only turn it on after testing.
 
-LAST UPDATED:   11 Nov 2026
+LAST UPDATED:   14 Nov 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -44,125 +46,237 @@ LICENSE:          MIT License
 =============================================================================================================
 ]]
 
--- CONFIGURATION --------------------------------------------------------------
-
 api_version = "1.12.0.0"
 
-local AUTO_AIM = {
-    ANGLE_THRESHOLD_DEGREES = 2.5,     -- Base aim cone around an enemy (degrees)
-    MIN_ANGLE_THRESHOLD_DEGREES = 0.2, -- Floor for the cone after all modifiers (degrees)
-    MAX_SCORE = 3000,                  -- Score that triggers enforcement
-    DYNAMIC_THRESHOLD = {
-        ENABLED = true,
-        BASE_MULTIPLIER = 1.0, -- Cone multiplier at 50% accuracy
-        ACCURACY_WEIGHT = 0.5, -- How strongly accuracy moves the multiplier (0-1)
-        MIN_MULTIPLIER = 0.8,  -- Lowest cone multiplier
-        MAX_MULTIPLIER = 1.2   -- Highest cone multiplier
+-- ============================================================================
+-- CONFIGURATION
+-- ============================================================================
+-- Every tunable lives inside CFG. The ---@class block immediately below is the
+-- single source of truth for CFG's shape; editing values never requires
+-- touching the annotations. Adding a new field means adding exactly one
+-- ---@field line here, then one key/value pair in the CFG literal.
+
+---@class DynamicThresholdConfig
+---@field ENABLED         boolean Enable accuracy-based cone adjustment.
+---@field BASE_MULTIPLIER number  Cone multiplier at 50% accuracy.
+---@field ACCURACY_WEIGHT number  How strongly accuracy moves the multiplier (0-1).
+---@field MIN_MULTIPLIER  number  Lowest cone multiplier.
+---@field MAX_MULTIPLIER  number  Highest cone multiplier.
+
+---@class AutoAimConfig
+---@field ANGLE_THRESHOLD_DEGREES     number                 Base aim cone around an enemy (degrees).
+---@field MIN_ANGLE_THRESHOLD_DEGREES number                 Floor for the cone after all modifiers (degrees).
+---@field MAX_SCORE                   number                 Score that triggers enforcement.
+---@field DYNAMIC_THRESHOLD           DynamicThresholdConfig
+
+---@class SnapDetectionConfig
+---@field BASELINE_DEGREES         number  Camera change in one tick that counts as a snap (degrees).
+---@field TRACKING_ENABLED         boolean Also score subtle camera movement while moving.
+---@field MOVING_THRESHOLD_DEGREES number  Upper limit for a subtle camera change while moving (degrees).
+---@field MOVING_SPEED             number  Minimum speed that counts as moving (m/s).
+
+---@class ScoringConfig
+---@field SNAP_ON_TARGET       number Points per degree of snap when the aim ray hits the target.
+---@field SNAP_OFF_TARGET      number Points per degree of snap when the aim ray misses the target.
+---@field TRACK_ON_TARGET      number Flat points for subtle tracking when the aim ray hits the target.
+---@field TRACK_OFF_TARGET     number Flat points for subtle tracking when the aim ray misses the target.
+---@field LOCK_DISTANCE_WEIGHT number Extra points per (lock count * distance in world units).
+
+---@class PlayerConfig
+---@field TRACE_DISTANCE   number Aim ray length (world units).
+---@field PROJECTILE_SPEED number Assumed projectile speed when leading a moving target (m/s).
+---@field MAX_LEAD_SECONDS number Cap on how far ahead of a moving target we aim (seconds).
+
+---@class EnforcementConfig
+---@field COMMAND            string Command run on enforcement ("k" or "ipban").
+---@field IPBAN_TIME_MINUTES number Ban duration for ipban (minutes); 0 = indefinite.
+
+---@class MessagesConfig
+---@field ADMIN_ALERT        string Server-console format string for the enforcement alert.
+---@field PLAYER_KICK_REASON string Reason shown to the kicked/banned player.
+
+---@class DecayConfig
+---@field POINTS_PER_SECOND number Aim score removed per second.
+---@field INTERVAL_SECONDS  number How often decay is applied (seconds).
+
+---@class VelocityAdjustedConfig
+---@field ENABLED         boolean Shrink the cone while the shooter is moving.
+---@field SPEED_THRESHOLD number  Minimum shooter speed to apply it (m/s).
+---@field ANGLE_MODIFIER  number  Cone multiplier while moving.
+
+---@class AccuracyConfig
+---@field DEFAULT      number Accuracy assumed before any shots are fired.
+---@field HISTORY_SIZE number Number of recent accuracy samples to average.
+---@field HEAT_EPSILON number Minimum heat rise that counts as an energy weapon shot.
+
+---@class PatternDetectionConfig
+---@field ENABLED            boolean Look for evenly spaced new locks.
+---@field MAX_STD_DEV        number  Max spread of the intervals to count as a pattern (seconds).
+---@field SCORE_BOOST        number  Points added when a pattern is found.
+---@field MAX_PATTERN_LENGTH number  Number of recent new locks to keep.
+---@field MIN_LOCKS          number  New locks needed before checking for a pattern.
+
+---@class EnvironmentalConfig
+---@field ENABLED             boolean Scale the score when a wall is between shooter and target.
+---@field OBSCURED_MULTIPLIER number  Score multiplier when the target is behind geometry.
+
+---@class CamoConfig
+---@field ENABLED          boolean Scale the score when the target is camouflaged.
+---@field SCORE_MULTIPLIER number  Score multiplier when the target is camouflaged.
+
+---@class AntiAimbotConfig
+---@field AUTO_AIM          AutoAimConfig
+---@field SNAP_DETECTION    SnapDetectionConfig
+---@field SCORING           ScoringConfig
+---@field PLAYER            PlayerConfig
+---@field ENFORCEMENT       EnforcementConfig
+---@field MESSAGES          MessagesConfig
+---@field DECAY             DecayConfig
+---@field VELOCITY_ADJUSTED VelocityAdjustedConfig
+---@field ACCURACY          AccuracyConfig
+---@field WEAPON_MODIFIERS  table<string, number>  Weapon tag path -> cone multiplier. "DEFAULT" is the fallback.
+---@field ENERGY_WEAPONS    table<string, boolean> Weapon tag path -> true if the weapon runs on heat instead of a magazine.
+---@field PATTERN_DETECTION PatternDetectionConfig
+---@field ENVIRONMENTAL     EnvironmentalConfig
+---@field CAMO              CamoConfig
+
+---@type AntiAimbotConfig
+local CFG = {
+    AUTO_AIM = {
+        ANGLE_THRESHOLD_DEGREES = 2.5,     -- Base aim cone around an enemy (degrees)
+        MIN_ANGLE_THRESHOLD_DEGREES = 0.2, -- Floor for the cone after all modifiers (degrees)
+        MAX_SCORE = 3000,                  -- Score that triggers enforcement
+        DYNAMIC_THRESHOLD = {
+            ENABLED = true,
+            BASE_MULTIPLIER = 1.0, -- Cone multiplier at 50% accuracy
+            ACCURACY_WEIGHT = 0.5, -- How strongly accuracy moves the multiplier (0-1)
+            MIN_MULTIPLIER = 0.8,  -- Lowest cone multiplier
+            MAX_MULTIPLIER = 1.2   -- Highest cone multiplier
+        }
+    },
+
+    SNAP_DETECTION = {
+        BASELINE_DEGREES = 6.0,         -- Camera change in one tick that counts as a snap (degrees)
+        TRACKING_ENABLED = false,       -- Also score subtle camera movement while moving (see tuning notes)
+        MOVING_THRESHOLD_DEGREES = 0.4, -- Upper limit for a subtle camera change while moving (degrees)
+        MOVING_SPEED = 0.1              -- Minimum speed that counts as moving (m/s)
+    },
+
+    SCORING = {
+        SNAP_ON_TARGET = 15,          -- Points per degree of snap when the aim ray hits the target
+        SNAP_OFF_TARGET = 5,          -- Points per degree of snap when the aim ray misses the target
+        TRACK_ON_TARGET = 4,          -- Flat points for subtle tracking when the aim ray hits the target
+        TRACK_OFF_TARGET = 10,        -- Flat points for subtle tracking when the aim ray misses the target
+        LOCK_DISTANCE_WEIGHT = 0.0015 -- Extra points per (lock count * distance in world units)
+    },
+
+    PLAYER = {
+        TRACE_DISTANCE = 250,    -- Aim ray length (world units)
+        PROJECTILE_SPEED = 30.0, -- Assumed projectile speed when leading a moving target (m/s)
+        MAX_LEAD_SECONDS = 0.3   -- Cap on how far ahead of a moving target we aim (seconds)
+    },
+
+    ENFORCEMENT = {
+        COMMAND = "k",          -- "k" or "ipban"
+        IPBAN_TIME_MINUTES = 60 -- 0 means an indefinite IP ban
+    },
+
+    MESSAGES = {
+        ADMIN_ALERT = "[anti_aimbot] %s (id %d) reached score %.0f, running '%s'",
+        PLAYER_KICK_REASON = "Aimbot detection"
+    },
+
+    DECAY = {
+        POINTS_PER_SECOND = 0.25, -- Aim score removed per second
+        INTERVAL_SECONDS = 0.25   -- How often decay is applied (seconds)
+    },
+
+    VELOCITY_ADJUSTED = {
+        ENABLED = true,        -- Shrink the cone while the shooter is moving
+        SPEED_THRESHOLD = 1.5, -- Minimum shooter speed to apply it (m/s)
+        ANGLE_MODIFIER = 0.8   -- Cone multiplier while moving
+    },
+
+    ACCURACY = {
+        DEFAULT = 0.5,        -- Accuracy assumed before any shots are fired
+        HISTORY_SIZE = 10,    -- Number of recent accuracy samples to average
+        HEAT_EPSILON = 0.0001 -- Minimum heat rise that counts as an energy weapon shot (TODO: vary per weapon)
+    },
+
+    WEAPON_MODIFIERS = {
+        ["weapons\\pistol\\pistol"] = 1.15,                   -- Accurate and kills fast
+        ["weapons\\sniper rifle\\sniper rifle"] = 0.65,       -- Needs precision, slow fire rate
+        ["weapons\\rocket launcher\\rocket launcher"] = 0.75, -- Splash damage, slow projectile
+        ["weapons\\flamethrower\\flamethrower"] = 0.50,       -- Short range, easy to stay on target
+        ["weapons\\needler\\mp_needler"] = 0.90,              -- Homing needles, kills are delayed
+        ["weapons\\shotgun\\shotgun"] = 1.40,                 -- Wide spread, deadly up close
+        ["weapons\\plasma pistol\\plasma pistol"] = 1.10,     -- Charged shot plus normal fire
+        ["weapons\\plasma rifle\\plasma rifle"] = 1.00,       -- Sustained fire, moderate tracking
+        ["weapons\\assault rifle\\assault rifle"] = 1.20,     -- Spray, but easy to track with
+        ["weapons\\plasma_cannon\\plasma_cannon"] = 0.85,     -- Slow projectile, splash
+        DEFAULT = 1.0                                         -- Any weapon not listed above
+    },
+
+    -- Weapons that run on heat instead of a magazine
+    ENERGY_WEAPONS = {
+        ["weapons\\plasma pistol\\plasma pistol"] = true,
+        ["weapons\\plasma rifle\\plasma rifle"] = true,
+        ["weapons\\plasma_cannon\\plasma_cannon"] = true
+    },
+
+    PATTERN_DETECTION = {
+        ENABLED = true,         -- Look for evenly spaced new locks
+        MAX_STD_DEV = 0.05,     -- Max spread of the intervals to count as a pattern (seconds)
+        SCORE_BOOST = 150,      -- Points added when a pattern is found
+        MAX_PATTERN_LENGTH = 5, -- Number of recent new locks to keep
+        MIN_LOCKS = 3           -- New locks needed before checking for a pattern
+    },
+
+    ENVIRONMENTAL = {
+        ENABLED = true,           -- Scale the score when a wall is between shooter and target
+        OBSCURED_MULTIPLIER = 0.3 -- Score multiplier when the target is behind geometry
+    },
+
+    CAMO = {
+        ENABLED = true,        -- Scale the score when the target is camouflaged
+        SCORE_MULTIPLIER = 2.0 -- Score multiplier when the target is camouflaged
     }
 }
 
-local SNAP_DETECTION = {
-    BASELINE_DEGREES = 6.0,         -- Camera change in one tick that counts as a snap (degrees)
-    TRACKING_ENABLED = false,       -- Also score subtle camera movement while moving (see tuning notes)
-    MOVING_THRESHOLD_DEGREES = 0.4, -- Upper limit for a subtle camera change while moving (degrees)
-    MOVING_SPEED = 0.1              -- Minimum speed that counts as moving (m/s)
-}
-
-local SCORING = {
-    SNAP_ON_TARGET = 15,          -- Points per degree of snap when the aim ray hits the target
-    SNAP_OFF_TARGET = 5,          -- Points per degree of snap when the aim ray misses the target
-    TRACK_ON_TARGET = 4,          -- Flat points for subtle tracking when the aim ray hits the target
-    TRACK_OFF_TARGET = 10,        -- Flat points for subtle tracking when the aim ray misses the target
-    LOCK_DISTANCE_WEIGHT = 0.0015 -- Extra points per (lock count * distance in world units)
-}
-
-local PLAYER = {
-    TRACE_DISTANCE = 250,    -- Aim ray length (world units)
-    PROJECTILE_SPEED = 30.0, -- Assumed projectile speed when leading a moving target (m/s)
-    MAX_LEAD_SECONDS = 0.3   -- Cap on how far ahead of a moving target we aim (seconds)
-}
-
-local ENFORCEMENT = {
-    COMMAND = "k",          -- "k" or "ipban"
-    IPBAN_TIME_MINUTES = 60 -- 0 means an indefinite IP ban
-}
-
-local MESSAGES = {
-    ADMIN_ALERT = "[anti_aimbot] %s (id %d) reached score %.0f, running '%s'",
-    PLAYER_KICK_REASON = "Aimbot detection"
-}
-
-local DECAY = {
-    POINTS_PER_SECOND = 0.25, -- Aim score removed per second
-    INTERVAL_SECONDS = 0.25   -- How often decay is applied (seconds)
-}
-
-local VELOCITY_ADJUSTED = {
-    ENABLED = true,        -- Shrink the cone while the shooter is moving
-    SPEED_THRESHOLD = 1.5, -- Minimum shooter speed to apply it (m/s)
-    ANGLE_MODIFIER = 0.8   -- Cone multiplier while moving
-}
-
-local ACCURACY = {
-    DEFAULT = 0.5,        -- Accuracy assumed before any shots are fired
-    HISTORY_SIZE = 10,    -- Number of recent accuracy samples to average
-
-    -- TODO: Vary this based on weapon
-    HEAT_EPSILON = 0.0001 -- Minimum heat rise that counts as an energy weapon shot
-}
-
-local WEAPON_MODIFIERS = {
-    ["weapons\\pistol\\pistol"] = 1.15,                   -- Accurate and kills fast
-    ["weapons\\sniper rifle\\sniper rifle"] = 0.65,       -- Needs precision, slow fire rate
-    ["weapons\\rocket launcher\\rocket launcher"] = 0.75, -- Splash damage, slow projectile
-    ["weapons\\flamethrower\\flamethrower"] = 0.50,       -- Short range, easy to stay on target
-    ["weapons\\needler\\mp_needler"] = 0.90,              -- Homing needles, kills are delayed
-    ["weapons\\shotgun\\shotgun"] = 1.40,                 -- Wide spread, deadly up close
-    ["weapons\\plasma pistol\\plasma pistol"] = 1.10,     -- Charged shot plus normal fire
-    ["weapons\\plasma rifle\\plasma rifle"] = 1.00,       -- Sustained fire, moderate tracking
-    ["weapons\\assault rifle\\assault rifle"] = 1.20,     -- Spray, but easy to track with
-    ["weapons\\plasma_cannon\\plasma_cannon"] = 0.85,     -- Slow projectile, splash
-    DEFAULT = 1.0                                         -- Any weapon not listed above
-}
-
--- Weapons that run on heat instead of a magazine
-local ENERGY_WEAPONS = {
-    ["weapons\\plasma pistol\\plasma pistol"] = true,
-    ["weapons\\plasma rifle\\plasma rifle"] = true,
-    ["weapons\\plasma_cannon\\plasma_cannon"] = true
-}
-
-local PATTERN_DETECTION = {
-    ENABLED = true,         -- Look for evenly spaced new locks
-    MAX_STD_DEV = 0.05,     -- Max spread of the intervals to count as a pattern (seconds)
-    SCORE_BOOST = 150,      -- Points added when a pattern is found
-    MAX_PATTERN_LENGTH = 5, -- Number of recent new locks to keep
-    MIN_LOCKS = 3           -- New locks needed before checking for a pattern
-}
-
-local ENVIRONMENTAL = {
-    ENABLED = true,           -- Scale the score when a wall is between shooter and target
-    OBSCURED_MULTIPLIER = 0.3 -- Score multiplier when the target is behind geometry
-}
-
-local CAMO = {
-    ENABLED = true,        -- Scale the score when the target is camouflaged
-    SCORE_MULTIPLIER = 2.0 -- Score multiplier when the target is camouflaged
-}
-
 -- END CONFIG ---------------------------------------------------------------
+
+---@class PlayerAimState
+---@field aim_score         number       Aim score for the current life.
+---@field lock_count        number       Running lock count (decays when no scoring).
+---@field last_decay_time   number       Timestamp (seconds) when decay was last applied.
+---@field lock_pattern      number[]     Timestamps (seconds) of recent new locks.
+---@field was_scoring       boolean      True if the previous tick scored (for new-lock detection).
+---@field dynamic_threshold number       Current aim cone half angle (degrees).
+---@field accuracy_history  number[]     Recent per-volley accuracy samples.
+---@field shots_fired       number       Shots fired this life.
+---@field shots_hit         number       Shots that landed on an enemy this life.
+---@field last_fire_value   number | nil Last magazine count, or heat for energy weapons.
+---@field last_weapon_id    number | nil Last held weapon object ID (for switch detection).
 
 local BASE_TAG_TABLE = 0x40440000 -- Same on PC and CE
 local TICKS_PER_SECOND = 30
 local METERS_PER_WU = 3.048
 local NO_OBJECT = 0xFFFFFFFF
 
+---@type table<number, PlayerAimState | nil>
 local players = {}
-local camera_vectors = {} -- Last camera vector per player
-local weapon_cache = {}   -- Weapon tag names, keyed by tag index
-local tick_teams = {}     -- Team of each living player this tick, false if absent or dead
-local tick_count = 0      -- Ticks since the script loaded
-local is_ffa = false      -- True when the running game has no teams
+
+---@type table<number, number[] | nil> Last camera vector per player {cx, cy, cz}.
+local camera_vectors = {}
+
+---@type table<number, string | nil> Weapon tag names, keyed by tag index.
+local weapon_cache = {}
+
+---@type table<number, string | false | nil> Team of each living player this tick, false if absent or dead.
+local tick_teams = {}
+
+local tick_count = 0 -- Ticks since the script loaded
+local is_ffa = false -- True when the running game has no teams
 
 local fmt = string.format
 
@@ -225,7 +339,6 @@ local function normalize(x, y, z)
     return x / length, y / length, z / length
 end
 
----@param ax number , ay number, az number First vector X, Y, Z components.
 ---@param ax number First vector X component.
 ---@param ay number First vector Y component.
 ---@param az number First vector Z component.
@@ -316,7 +429,6 @@ local function getWeaponName(weapon_object)
     local tag_index = read_word(weapon_object)
 
     local name = weapon_cache[tag_index]
-    ---@diagnostic disable-next-line: unnecessary-if
     if name then return name end
 
     local tag_address = read_dword(BASE_TAG_TABLE) + tag_index * 0x20
@@ -324,7 +436,6 @@ local function getWeaponName(weapon_object)
 
     name = name_pointer ~= 0 and read_string(name_pointer) or ""
     weapon_cache[tag_index] = name
-    ---@diagnostic disable-next-line: return-type-mismatch
     return name
 end
 
@@ -381,7 +492,7 @@ local function computeStats(values)
     return mean, sqrt(variance / #values)
 end
 
----@return table state Fresh per-player state.
+---@return PlayerAimState state Fresh per-player state.
 local function newState()
     return {
         aim_score = 0,
@@ -389,8 +500,8 @@ local function newState()
         last_decay_time = now(),
         lock_pattern = {},     -- Times of recent new locks
         was_scoring = false,   -- True if the previous tick scored, used to spot new locks
-        dynamic_threshold = AUTO_AIM.ANGLE_THRESHOLD_DEGREES,
-        accuracy_history = { ACCURACY.DEFAULT },
+        dynamic_threshold = CFG.AUTO_AIM.ANGLE_THRESHOLD_DEGREES,
+        accuracy_history = { CFG.ACCURACY.DEFAULT },
         shots_fired = 0,       -- Shots fired this life
         shots_hit = 0,         -- Shots that landed on an enemy this life
         last_fire_value = nil, -- Last magazine count, or heat for energy weapons
@@ -399,7 +510,7 @@ local function newState()
 end
 
 -- Accuracy history and the dynamic threshold carry over between lives.
----@param state table Per-player state to reset.
+---@param state PlayerAimState Per-player state to reset.
 local function resetLife(state)
     state.aim_score = 0
     state.lock_count = 0
@@ -412,7 +523,7 @@ local function resetLife(state)
     state.last_weapon_id = nil
 end
 
----@param state table Per-player state.
+---@param state PlayerAimState Per-player state.
 local function clearFireTracking(state)
     state.last_fire_value = nil
     state.last_weapon_id = nil
@@ -437,6 +548,7 @@ local function calculateOrientationChange(shooter_id, shooter_dyn)
         return 0
     end
 
+    ---@diagnostic disable-next-line: param-type-mismatch
     local dot = clamp(dotProduct(previous[1], previous[2], previous[3], cx, cy, cz), -1, 1)
     previous[1], previous[2], previous[3] = cx, cy, cz
 
@@ -476,7 +588,7 @@ local function castAimRay(shooter_id, shooter_dyn)
     local aim_x, aim_y, aim_z = normalize(getCamera(shooter_dyn))
     if isZeroVector(aim_x, aim_y, aim_z) then return nil end
 
-    local trace = PLAYER.TRACE_DISTANCE
+    local trace = CFG.PLAYER.TRACE_DISTANCE
     local hit, _, _, _, hit_object_id = intersect(
         sx, sy, sz, aim_x * trace, aim_y * trace, aim_z * trace, getCollisionObjectId(shooter_id)
     )
@@ -513,23 +625,24 @@ end
 -- Only runs when a shot was fired, so the history tracks shots and not ticks.
 ---@param shooter_id number Shooter player index.
 local function updateDynamicThreshold(shooter_id)
-    local config = AUTO_AIM.DYNAMIC_THRESHOLD
-    ---@diagnostic disable-next-line: unnecessary-if
+    local config = CFG.AUTO_AIM.DYNAMIC_THRESHOLD
     if not config.ENABLED then return end
 
     local state = players[shooter_id]
+    ---@cast state PlayerAimState
 
-    local accuracy = ACCURACY.DEFAULT
+    local accuracy = CFG.ACCURACY.DEFAULT
     if state.shots_fired > 0 then
         accuracy = clamp(state.shots_hit / state.shots_fired, 0, 1)
     end
     insert(state.accuracy_history, accuracy)
-    if #state.accuracy_history > ACCURACY.HISTORY_SIZE then
+    if #state.accuracy_history > CFG.ACCURACY.HISTORY_SIZE then
         remove(state.accuracy_history, 1)
     end
 
     local sum = 0
     for i = 1, #state.accuracy_history do
+        ---@diagnostic disable-next-line: assign-type-mismatch
         sum = sum + state.accuracy_history[i]
     end
     local average_accuracy = sum / #state.accuracy_history
@@ -538,7 +651,7 @@ local function updateDynamicThreshold(shooter_id)
     local multiplier = config.BASE_MULTIPLIER + config.ACCURACY_WEIGHT * (average_accuracy - 0.5) * 2
     multiplier = clamp(multiplier, config.MIN_MULTIPLIER, config.MAX_MULTIPLIER)
 
-    state.dynamic_threshold = AUTO_AIM.ANGLE_THRESHOLD_DEGREES * multiplier
+    state.dynamic_threshold = CFG.AUTO_AIM.ANGLE_THRESHOLD_DEGREES * multiplier
 end
 
 -- Counts shots from the magazine, or from heat for energy weapons, and checks each volley for a hit.
@@ -546,6 +659,7 @@ end
 ---@param shooter_dyn number Shooter dynamic player address.
 local function updateAccuracy(shooter_id, shooter_dyn)
     local state = players[shooter_id]
+    ---@cast state PlayerAimState
 
     local weapon_object, weapon_id = getWeaponObject(shooter_dyn)
     if not weapon_object then
@@ -553,7 +667,7 @@ local function updateAccuracy(shooter_id, shooter_dyn)
         return
     end
 
-    local is_energy = ENERGY_WEAPONS[getWeaponName(weapon_object)]
+    local is_energy = CFG.ENERGY_WEAPONS[getWeaponName(weapon_object)]
     local fire_value = is_energy and read_float(weapon_object + 0x240) or read_word(weapon_object + 0x2B8)
 
     -- First read, or the weapon changed: just remember where we are.
@@ -566,7 +680,7 @@ local function updateAccuracy(shooter_id, shooter_dyn)
     local shots = 0
     if is_energy then
         -- Heat goes up when the weapon fires and drifts down when idle.
-        shots = fire_value > state.last_fire_value + ACCURACY.HEAT_EPSILON and 1 or 0
+        shots = fire_value > state.last_fire_value + CFG.ACCURACY.HEAT_EPSILON and 1 or 0
     else
         ---@diagnostic disable-next-line: assign-type-mismatch
         -- Reloads and pickups raise the magazine count, so only drops count as shots.
@@ -589,17 +703,19 @@ end
 ---@param shooter_dyn number Shooter dynamic player address.
 ---@return number threshold Aim cone half angle in degrees.
 local function getAimThreshold(shooter_id, shooter_dyn)
-    local threshold = players[shooter_id].dynamic_threshold
+    local state = players[shooter_id]
+    ---@cast state PlayerAimState
+    local threshold = state.dynamic_threshold
 
-    if VELOCITY_ADJUSTED.ENABLED and getHorizontalSpeed(shooter_dyn) > VELOCITY_ADJUSTED.SPEED_THRESHOLD then
-        threshold = threshold * VELOCITY_ADJUSTED.ANGLE_MODIFIER
+    if CFG.VELOCITY_ADJUSTED.ENABLED and getHorizontalSpeed(shooter_dyn) > CFG.VELOCITY_ADJUSTED.SPEED_THRESHOLD then
+        threshold = threshold * CFG.VELOCITY_ADJUSTED.ANGLE_MODIFIER
     end
 
     local weapon_object = getWeaponObject(shooter_dyn)
     local weapon_name = weapon_object and getWeaponName(weapon_object)
-    threshold = threshold * (weapon_name and WEAPON_MODIFIERS[weapon_name] or WEAPON_MODIFIERS.DEFAULT)
+    threshold = threshold * (weapon_name and CFG.WEAPON_MODIFIERS[weapon_name] or CFG.WEAPON_MODIFIERS.DEFAULT)
 
-    return max(threshold, AUTO_AIM.MIN_ANGLE_THRESHOLD_DEGREES)
+    return max(threshold, CFG.AUTO_AIM.MIN_ANGLE_THRESHOLD_DEGREES)
 end
 
 -- Checks whether the camera is inside the aim cone around where the target will be.
@@ -618,7 +734,7 @@ local function checkAimAtTarget(shooter_dyn, target_id, threshold)
     -- Lead the target. Distance is in world units and the projectile speed is in m/s.
     local vx, vy, vz = getVelocity(target_dyn)
     local distance = vectorLength(tx - sx, ty - sy, tz - sz)
-    local lead_seconds = min(distance * METERS_PER_WU / PLAYER.PROJECTILE_SPEED, PLAYER.MAX_LEAD_SECONDS)
+    local lead_seconds = min(distance * METERS_PER_WU / CFG.PLAYER.PROJECTILE_SPEED, CFG.PLAYER.MAX_LEAD_SECONDS)
     local lead_ticks = lead_seconds * TICKS_PER_SECOND
 
     local dx = tx + vx * lead_ticks - sx
@@ -637,25 +753,26 @@ local function checkAimAtTarget(shooter_dyn, target_id, threshold)
 end
 
 -- Looks for new locks that arrive at suspiciously even intervals.
----@param state table Per-player state.
+---@param state PlayerAimState Per-player state.
 local function checkPattern(state)
     local pattern = state.lock_pattern
 
     insert(pattern, now())
-    if #pattern > PATTERN_DETECTION.MAX_PATTERN_LENGTH then
+    if #pattern > CFG.PATTERN_DETECTION.MAX_PATTERN_LENGTH then
         remove(pattern, 1)
     end
 
-    if #pattern < PATTERN_DETECTION.MIN_LOCKS then return end
+    if #pattern < CFG.PATTERN_DETECTION.MIN_LOCKS then return end
 
     local intervals = {}
     for i = 2, #pattern do
+        ---@diagnostic disable-next-line: need-check-nil
         insert(intervals, pattern[i] - pattern[i - 1])
     end
 
     local _, std_dev = computeStats(intervals)
-    if std_dev < PATTERN_DETECTION.MAX_STD_DEV then
-        state.aim_score = state.aim_score + PATTERN_DETECTION.SCORE_BOOST
+    if std_dev < CFG.PATTERN_DETECTION.MAX_STD_DEV then
+        state.aim_score = state.aim_score + CFG.PATTERN_DETECTION.SCORE_BOOST
         state.lock_pattern = {} -- Start over so one pattern is only counted once
     end
 end
@@ -669,11 +786,12 @@ end
 ---@return boolean scored True if the event added to the shooter's score.
 local function evaluateAim(shooter_id, shooter_dyn, target_id, snap_angle_deg, distance)
     local state = players[shooter_id]
+    ---@cast state PlayerAimState
 
-    local is_snap = snap_angle_deg > SNAP_DETECTION.BASELINE_DEGREES
-    local is_tracking = SNAP_DETECTION.TRACKING_ENABLED and snap_angle_deg > 0
-        and snap_angle_deg < SNAP_DETECTION.MOVING_THRESHOLD_DEGREES and getHorizontalSpeed(shooter_dyn)
-            > SNAP_DETECTION.MOVING_SPEED
+    local is_snap = snap_angle_deg > CFG.SNAP_DETECTION.BASELINE_DEGREES
+    local is_tracking = CFG.SNAP_DETECTION.TRACKING_ENABLED and snap_angle_deg > 0
+        and snap_angle_deg < CFG.SNAP_DETECTION.MOVING_THRESHOLD_DEGREES
+        and getHorizontalSpeed(shooter_dyn) > CFG.SNAP_DETECTION.MOVING_SPEED
 
     if not is_snap and not is_tracking then return false end
 
@@ -681,29 +799,29 @@ local function evaluateAim(shooter_id, shooter_dyn, target_id, snap_angle_deg, d
 
     local points
     if is_snap then
-        points = snap_angle_deg * (hit_detected and SCORING.SNAP_ON_TARGET or SCORING.SNAP_OFF_TARGET)
+        points = snap_angle_deg * (hit_detected and CFG.SCORING.SNAP_ON_TARGET or CFG.SCORING.SNAP_OFF_TARGET)
     else
-        points = hit_detected and SCORING.TRACK_ON_TARGET or SCORING.TRACK_OFF_TARGET
+        points = hit_detected and CFG.SCORING.TRACK_ON_TARGET or CFG.SCORING.TRACK_OFF_TARGET
     end
 
     -- A new lock is the first scoring tick after a gap, so a sustained lock is only one event.
     local is_new_lock = not state.was_scoring
 
     -- Lock count is read before this event is added to it.
-    local final_score = points + state.lock_count * distance * SCORING.LOCK_DISTANCE_WEIGHT
+    local final_score = points + state.lock_count * distance * CFG.SCORING.LOCK_DISTANCE_WEIGHT
     state.lock_count = state.lock_count + 1
 
-    if ENVIRONMENTAL.ENABLED and not isVisible(shooter_id, target_id) then
-        final_score = final_score * ENVIRONMENTAL.OBSCURED_MULTIPLIER
+    if CFG.ENVIRONMENTAL.ENABLED and not isVisible(shooter_id, target_id) then
+        final_score = final_score * CFG.ENVIRONMENTAL.OBSCURED_MULTIPLIER
     end
 
-    if CAMO.ENABLED and isPlayerCamouflaged(target_id) then
-        final_score = final_score * CAMO.SCORE_MULTIPLIER
+    if CFG.CAMO.ENABLED and isPlayerCamouflaged(target_id) then
+        final_score = final_score * CFG.CAMO.SCORE_MULTIPLIER
     end
 
     state.aim_score = state.aim_score + final_score
 
-    if PATTERN_DETECTION.ENABLED and is_new_lock then
+    if CFG.PATTERN_DETECTION.ENABLED and is_new_lock then
         checkPattern(state)
     end
 
@@ -716,17 +834,28 @@ local function enforce(shooter_id)
     if not state then return end
 
     cprint(
-        fmt(MESSAGES.ADMIN_ALERT, get_var(shooter_id, "$name"), shooter_id, state.aim_score, ENFORCEMENT.COMMAND), 12
+		fmt(
+            CFG.MESSAGES.ADMIN_ALERT,
+			get_var(shooter_id, "$name"),
+			shooter_id,
+			state.aim_score,
+			CFG.ENFORCEMENT.COMMAND
+		), 12
     )
     local command
-    ---@diagnostic disable-next-line: unnecessary-if
-    if ENFORCEMENT.COMMAND == "ipban" then
-        command = fmt(
-            '%s %d %d "%s"', ENFORCEMENT.COMMAND, shooter_id, ENFORCEMENT.IPBAN_TIME_MINUTES,
-            MESSAGES.PLAYER_KICK_REASON
+    if CFG.ENFORCEMENT.COMMAND == "ipban" then
+        command = fmt('%s %d %d "%s"',
+			CFG.ENFORCEMENT.COMMAND,
+			shooter_id,
+			CFG.ENFORCEMENT.IPBAN_TIME_MINUTES,
+			CFG.MESSAGES.PLAYER_KICK_REASON
         )
     else
-        command = fmt('%s %d "%s"', ENFORCEMENT.COMMAND, shooter_id, MESSAGES.PLAYER_KICK_REASON)
+        command = fmt('%s %d "%s"',
+			CFG.ENFORCEMENT.COMMAND,
+			shooter_id,
+			CFG.MESSAGES.PLAYER_KICK_REASON
+		)
     end
     execute_command(command)
 
@@ -749,9 +878,9 @@ local function processPlayerAim(shooter_id)
     -- Decay. The timer always advances so unused time is never banked.
     local current_time = now()
     local elapsed = current_time - state.last_decay_time
-    if elapsed >= DECAY.INTERVAL_SECONDS then
+    if elapsed >= CFG.DECAY.INTERVAL_SECONDS then
         state.last_decay_time = current_time
-        state.aim_score = max(0, state.aim_score - elapsed * DECAY.POINTS_PER_SECOND)
+        state.aim_score = max(0, state.aim_score - elapsed * CFG.DECAY.POINTS_PER_SECOND)
     end
 
     updateAccuracy(shooter_id, shooter_dyn)
@@ -775,7 +904,7 @@ local function processPlayerAim(shooter_id)
     end
     state.was_scoring = scoring_occurred
 
-    if state.aim_score > AUTO_AIM.MAX_SCORE then
+    if state.aim_score > CFG.AUTO_AIM.MAX_SCORE then
         enforce(shooter_id)
     end
 end
@@ -819,7 +948,6 @@ end
 ---@param player_id number Player index.
 function OnDie(player_id)
     local state = players[player_id]
-    ---@diagnostic disable-next-line: unnecessary-if
     if state then resetLife(state) end
 
     camera_vectors[player_id] = nil
