@@ -4,7 +4,7 @@ SCRIPT NAME:      race_assistant.lua
 DESCRIPTION:      Enforces vehicle usage in race gametypes with configurable
                   penalties for violations.
 
-LAST UPDATED:     2026-11-14
+LAST UPDATED:     14 Nov 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:          MIT License
@@ -13,9 +13,10 @@ LICENSE:          MIT License
 ]]
 
 -- CONFIG START ------------------------------------------------------------
-local GRACE_PERIOD = 30       -- Seconds to enter a racing vehicle (driver seat)
-local FORGIVENESS_PERIOD = 30 -- Seconds of continuous racing before violations reset
-local REQUIRE_DRIVER = true   -- true = only driver seat counts as racing; false = any seat
+local GRACE_PERIOD = 30                 -- Seconds to enter a vehicle
+local FORGIVENESS_PERIOD = 30           -- Seconds of continuous racing before violations reset
+local REQUIRE_DRIVER = false            -- Require a driver
+local PASSENGERS_COUNT_AS_RACING = true -- Count passengers/gunners as racing
 
 -- Gametypes that trigger enforcement. Add others if desired (e.g. ["ctf"] = true).
 local ENABLED_GAMETYPES = { ["race"] = true }
@@ -61,6 +62,25 @@ local get_dynamic_player = get_dynamic_player
 local execute_command = execute_command
 local register_callback = register_callback
 
+local function isRacingState(in_vehicle, is_driver)
+    if not in_vehicle then return false end
+    ---@diagnostic disable-next-line: unnecessary-if
+    if REQUIRE_DRIVER then return is_driver end
+    return is_driver or PASSENGERS_COUNT_AS_RACING
+end
+
+local function requiresDriverSeat()
+    return REQUIRE_DRIVER or not PASSENGERS_COUNT_AS_RACING
+end
+
+local function describeRule()
+    ---@diagnostic disable-next-line: unnecessary-if
+    if REQUIRE_DRIVER then return "driver-only" end
+    ---@diagnostic disable-next-line: unnecessary-if
+    if PASSENGERS_COUNT_AS_RACING then return "any-seat" end
+    return "driver-only"
+end
+
 local function log(message, color)
     ---@diagnostic disable-next-line: unnecessary-if
     if LOG_TO_CONSOLE then
@@ -99,7 +119,7 @@ local function resetPlayer(id)
     players[id].timer = getCurrentTick() + GRACE_TICKS
     players[id].warned = false
     players[id].in_vehicle_since = nil
-    players[id].was_driving = false
+    players[id].was_racing = false
     players[id].violations = players[id].violations or 0
 end
 
@@ -117,11 +137,7 @@ local function penalize(player, id, current_tick)
     rprint(id, penalty.message)
     log(
         string.format(
-            "Player %d (%s) - violation %d -> %s", 
-            id, 
-            get_var(id, '$name'), 
-            player.violations, 
-            penalty.action
+            "Player %d (%s) - violation %d -> %s", id, get_var(id, '$name'), player.violations, penalty.action
         ), 12
     )
 
@@ -177,10 +193,8 @@ function OnStart()
     game_in_progress = true
     log(
         string.format(
-            "Race enforcement active (grace %ds, forgiveness %ds, %s)", 
-            GRACE_PERIOD, 
-            FORGIVENESS_PERIOD,
-            REQUIRE_DRIVER and "driver-only" or "any-seat"
+            "Race enforcement active (grace %ds, forgiveness %ds, rule: %s)", GRACE_PERIOD, FORGIVENESS_PERIOD,
+            describeRule()
         ), 10
     )
 
@@ -219,7 +233,9 @@ function OnVehicleEnter(id, seat_index)
     if not player then return end
 
     local seat = tonumber(seat_index) or 0
-    if REQUIRE_DRIVER and seat ~= 0 then return end
+    local is_driver = seat == 0
+
+    if not isRacingState(true, is_driver) then return end
 
     player.timer = 0
     player.warned = false
@@ -242,6 +258,7 @@ function CheckPlayers()
 
     ---@diagnostic disable-next-line: need-check-nil
     local current_tick = getCurrentTick()
+    local driver_required = requiresDriverSeat()
 
     for i = 1, 16 do
         local player = proceed(i)
@@ -252,9 +269,10 @@ function CheckPlayers()
 
         local vehicle_id = read_dword(dyn--[[@cast -?]] + 0x11C)
         local in_vehicle = vehicle_id ~= 0xFFFFFFFF
-        local is_driving = in_vehicle and (not REQUIRE_DRIVER or read_word(dyn--[[@cast -?]] + 0x2F0) == 0)
+        local is_driver = in_vehicle and read_word(dyn--[[@cast -?]] + 0x2F0) == 0
+        local racing = isRacingState(in_vehicle, is_driver)
 
-        if is_driving then
+        if racing then
             if not player.in_vehicle_since then
                 player.in_vehicle_since = current_tick
             end
@@ -268,16 +286,16 @@ function CheckPlayers()
             end
             player.timer = 0
             player.warned = false
-            player.was_driving = true
+            player.was_racing = true
             goto continue
         end
 
         player.in_vehicle_since = nil
 
-        if player.was_driving then
+        if player.was_racing then
             player.timer = current_tick + GRACE_TICKS
             player.warned = false
-            player.was_driving = false
+            player.was_racing = false
         end
 
         if player.timer > 0 then
@@ -287,8 +305,13 @@ function CheckPlayers()
                 penalize(player, i, current_tick)
             elseif not player.warned and time_left_ticks <= HALF_GRACE_TICKS then
                 local s = math_ceil(time_left_ticks / TICKS_PER_SECOND)
-                if in_vehicle then
-                    rprint(i, "WARNING: Switch to the DRIVER seat in " .. s .. "s, or die!")
+                ---@diagnostic disable-next-line: unnecessary-if
+                if driver_required then
+                    if in_vehicle then
+                        rprint(i, "WARNING: Switch to the DRIVER seat in " .. s .. "s, or die!")
+                    else
+                        rprint(i, "WARNING: Enter the DRIVER seat of a vehicle in " .. s .. "s, or die!")
+                    end
                 else
                     rprint(i, "WARNING: Enter a vehicle in " .. s .. "s and race, or die!")
                 end
