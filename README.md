@@ -24,10 +24,11 @@
 
 - [Overview](#overview)
 - [SAPP, Phasor and Chimera](#sapp-phasor-and-chimera)
-  - [Platform comparison](#platform-comparison)
 - [Scripts and docs](#scripts-and-docs)
   - [Script categories](#script-categories)
-  - [Script boilerplate and placement](#script-boilerplate-and-placement)
+  - [Scripts and releases](#scripts-and-releases)
+  - [Guides and references](#guides-and-references)
+  - [Script placement](#script-placement)
 - [SAPP archive and mirrors](#sapp-archive-and-mirrors)
 - [Web tools](#web-tools)
   - [Script Browser](#script-browser)
@@ -40,8 +41,6 @@
 - [Community hubs](#community-hubs)
 - [Clans (past and present)](#clans-past-and-present)
 - [Contributing](#contributing)
-  - [Submit feature request](#submit-feature-request)
-  - [Report issue](#report-issue)
 - [License](#license)
 
 ---
@@ -51,7 +50,8 @@
 SPCLib (SAPP, Phasor and Chimera Library) is the largest public archive of Lua scripts and
 resources for the SAPP and Phasor server extensions and the Chimera client-side mod for retail
 Halo: Combat Evolved (PC) and Halo: Custom Edition (CE). Lua scripts are written and curated by
-Chalwk unless noted otherwise. Scripts, guides and reference material all live here.
+Chalwk unless noted otherwise. Scripts live in this repo. The guides and reference material are
+hosted on [chalwk.github.io][chalwk_website].
 
 ---
 
@@ -59,44 +59,27 @@ Chalwk unless noted otherwise. Scripts, guides and reference material all live h
 
 **SAPP** and **Phasor** are server-side extensions for `haloded.exe` and `haloceded.exe`. They add
 scripting, anticheat, event hooks, command handling and player management to dedicated servers.
+SAPP was developed by sehe and is the more feature-rich of the two. Neither is actively
+maintained, but both are stable in their final released versions.
 
-**SAPP** was developed by sehe and is the most feature-rich extension. It provides Lua scripting,
-anticheat, event hooks, command handling, player management and logging.
+**Chimera** is a client-side mod for Halo PC, CE and Trial. It provides event hooks, commands,
+built-in map downloads and many quality-of-life fixes, and it has its own Lua API.
 
-**Phasor** is an earlier extension with similar goals.
+Which one do you need? If you host a server, use SAPP or Phasor. If you only play and want
+client-side tweaks, use Chimera.
 
-Neither is actively maintained, but both are stable in their final released versions.
+| Platform | Runs on | Lua runtime      | Script entry point                                   |
+| -------- | ------- | ---------------- | ---------------------------------------------------- |
+| SAPP     | Server  | LuaJIT (Lua 5.1) | `api_version`, `OnScriptLoad()`, `register_callback` |
+| Phasor   | Server  | Lua 5.2          | `GetRequiredVersion()`, `OnScriptLoad()`             |
+| Chimera  | Client  | Lua 5.5.1        | `clua_version`, `set_callback`                       |
 
-**Chimera** is a client-side mod for Halo PC, CE and Trial that exposes a Lua API. It provides event
-hooks, commands, built-in map downloads and many quality-of-life fixes. Chimera scripts are fully
-supported in SPCLib.
-
-### Platform comparison
-
-How the three environments differ. See the linked guides for detail.
-
-| Aspect                     | SAPP                                                                                                | Phasor                                                                        | Chimera                                                     |
-| -------------------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| Side                       | Server                                                                                              | Server                                                                        | Client                                                      |
-| Lua runtime                | LuaJIT (Lua 5.1)                                                                                    | Lua 5.2                                                                       | Lua 5.5.1                                                   |
-| Required boilerplate       | `api_version = "1.12.0.0"` plus `OnScriptLoad()`                                                    | `GetRequiredVersion()` returning `200` plus `OnScriptLoad()`                  | `clua_version = 2.056` plus `set_callback(...)`             |
-| Player index               | API 1-16, memory 0-15. Convert with `to_real_index()` and `to_player_index()`                       | Memory 0-15, RCON 1-16. Convert with `resolveplayer()` and `rresolveplayer()` | 0-15 everywhere                                             |
-| Signature scanning         | `sig_scan`                                                                                          | Not available                                                                 | Not available                                               |
-| Platform detection         | `halo_type` global (`"PC"` or `"CE"`)                                                               | `game` arg of `OnScriptLoad`                                                  | Probe hardcoded PC/CE candidates                            |
-| Run console command        | `execute_command(cmd)`                                                                              | `svcmd(cmd)`                                                                  | `execute_script(cmd)`                                       |
-| Memory writes              | Any address, unsafe ops crash the server                                                            | Any address, unsafe ops crash the server                                      | Local player only, writing to others desyncs                |
-| Sandbox                    | None                                                                                                | None                                                                          | Map scripts sandboxed, global scripts not                   |
-| Script location            | `cg/sapp/lua/`, loaded from `cg/sapp/init.txt`                                                      | `cg/scripts/` or `cg/scripts/persistent/`                                     | `chimera/lua/scripts/global/` or `chimera/lua/scripts/map/` |
-| Reload command             | `lua_unload` then `lua_load`                                                                        | `sv_script_reload [script]`                                                   | `chimera_lua_scripts_reload` (open console with `~`)        |
-| Inter-script communication | Separate Lua environments; `lua_call` invokes loaded script functions; custom variables share state | No built-in mechanism                                                         | Global Lua variables                                        |
+The API sections of each guide double as EmmyLua / LuaLS definitions, so you can paste them into
+VS Code for completion and type hints.
 
 ---
 
 ## Scripts and docs
-
-> [!NOTE]
-> Pick the category that matches your setup: SAPP or Phasor for server-side scripting, Chimera for
-> client-side scripting.
 
 ### Script categories
 
@@ -110,95 +93,52 @@ SAPP and Phasor Lua scripts are grouped by folder:
 - `notifications`: console output, timers and event alerts
 - `utility`: server configuration, spawning, map control and misc tools
 
-| Platform             | Resource                                     | Description                                                                                     |
-| -------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Scripts and releases | [SAPP Scripts][sapp_scripts]                 | Server-side Lua scripts                                                                         |
-|                      | [Phasor Scripts][phasor_scripts]             | Server-side Lua scripts                                                                         |
-|                      | [Chimera Scripts][chimera_scripts]           | Client-side Lua scripts                                                                         |
-|                      | [Script Packages][releases]                  | Bundled projects with multiple files and resources, available as downloadable ZIP packages.     |
-| SAPP (10.2.1)        | [Lua Scripting][sapp_scripting]              | Server-side Lua API: signature scanning, globals and core functions.                            |
-|                      | [Server Guide][sapp_server_guide]            | Pre-configured package walkthrough covering file structure, launch and multi-server expansion.  |
-|                      | [Cheat Sheet][sapp_cheat_sheet]              | Pointers, signatures, variables and commands for SAPP server scripting.                         |
-|                      | [Utils][sapp_utils]                          | Conventions, helper functions and known quirks for SAPP Lua scripting.                          |
-|                      | [Lua Script Template][sapp_lua_template]     | Script skeleton and callback reference for SAPP.                                                |
-| Phasor V2 (2.0)      | [Lua Scripting][scripting_with_phasor]       | Server-side Lua scripting with version handling and hardcoded addresses.                        |
-|                      | [Server Guide][phasor_server_guide]          | Pre-configured package walkthrough covering file structure and launch.                          |
-|                      | [Lua Script Template][phasor_lua_template]   | Script skeleton and callback reference for Phasor.                                              |
-| Chimera              | [Lua Scripting][chimera_scripting]           | Client-side Lua scripting with event callbacks, script placement and version compatibility.     |
-|                      | [Lua Script Template][chimera_lua_template]  | Script skeleton and callback reference for Chimera.                                             |
-| Shared references    | [Lua References][lua_common_ref]             | Shared memory offsets, game constants and helpers for SAPP and Chimera.                         |
-|                      | [Modding Tools][modding_refs]                | Tag editing, map rebuilding, asset injection and community tooling references.                  |
-|                      | [VPS Hosting (Ubuntu 22.04)][vps_host_guide] | Full setup with Wine, VNC, firewall, SSH and fail2ban.                                          |
-|                      | [Port Forwarding][port_forwarding]           | Router config for UDP port 2302 and the server port, plus firewall rules for Windows and Linux. |
+### Scripts and releases
 
-### Script boilerplate and placement
+| Platform         | Resource                           | Description                                                                                 |
+| ---------------- | ---------------------------------- | ------------------------------------------------------------------------------------------- |
+| SAPP             | [SAPP Scripts][sapp_scripts]       | Server-side Lua scripts                                                                     |
+| Phasor           | [Phasor Scripts][phasor_scripts]   | Server-side Lua scripts                                                                     |
+| Chimera          | [Chimera Scripts][chimera_scripts] | Client-side Lua scripts                                                                     |
+| Bundled projects | [Script Packages][releases]        | Bundled projects with multiple files and resources, available as downloadable ZIP packages. |
 
-Every platform refuses to load a script that is missing its required declaration. The minimal
-skeleton and correct file location for each platform is below. See the matching guide for the full
-template and every available callback.
+### Guides and references
 
-**SAPP**: put the file in `cg/sapp/lua/<script>.lua`. Load it from `cg/sapp/init.txt` with
-`lua_load "<script>"`. The extension is omitted and lua true must be set first.
+| Platform          | Resource                                                                      | Description                                                                                                                                                           |
+| ----------------- | ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SAPP (10.2.1)     | [SAPP Server and Lua API Guide][sapp_guide]                                   | Complete guide to setting up, configuring, and running SAPP dedicated servers and writing server-side Lua scripts.                                                    |
+| Phasor V2 (2.0)   | [Phasor Server and Lua API Guide][phasor_guide]                               | Complete guide to setting up, configuring, and running Phasor dedicated servers and writing server-side Lua scripts.                                                  |
+| Chimera           | [Scripting with Chimera (Client-Side Lua)][chimera_guide]                     | Complete guide to client-side Lua scripting with Chimera.                                                                                                             |
+| Shared references | [Shared reference for SAPP, Phasor and Chimera Lua scripting][lua_common_ref] | Shared reference for SAPP, Phasor and Chimera Lua scripting: memory offsets, game constants, platform-independent helpers, and stock Halo commands.                   |
+|                   | [Modding Tools][modding_refs]                                                 | References and tools for Halo PC and Custom Edition modding, from the classic HEK to modern toolchains and asset pipelines.                                           |
+|                   | [VPS Hosting (Ubuntu 22.04)][vps_host_guide]                                  | Step-by-step guide to hosting a secure Halo PC / Custom Edition dedicated server (SAPP or Phasor) on a Vultr Ubuntu 22.04 VPS using Wine, TightVNC, UFW and fail2ban. |
+|                   | [Port Forwarding][port_forwarding]                                            | Complete guide to router port forwarding and firewall setup for hosting Halo PC and Custom Edition dedicated servers.                                                 |
 
-```lua
-api_version = "1.12.0.0"
+### Script placement
 
-function OnScriptLoad()
-    register_callback(cb.EVENT_JOIN, "OnJoin")
-end
+Paths below start from your instance folder, which is often called `cg`. Some hosting providers
+(NFO, for example) have no instance folder, so use the server root instead.
 
-function OnJoin(player_id)
-    say(player_id, "Hello, World!")
-end
+- **SAPP**
+  - **Script placement:** `<instance or server root>\sapp\lua\<script>.lua`.
+  - **Load / reload:** In `<instance or server root>\sapp\init.txt`, set `lua true`, then add
+    `lua_load "<script>"` (no `.lua` extension). You can also run `lua_load <script>` and
+    `lua_unload <script>` from the server console or rcon.
 
-function OnScriptUnload() end
-```
+- **Phasor**
+  - **Script placement:**
+    - `<instance or server root>\scripts\<script>.lua`, unloaded at the end of each game
+    - or `<instance or server root>\scripts\persistent\` to stay loaded across maps
+  - **Load / reload:** `sv_script_load <script>` (no `.lua` extension), or list the script at the
+    end of an `sv_mapcycle_add` line in `init.txt` to load it for that map only.
 
-Do signature `scans` and `get_var` lookups inside `OnScriptLoad()` or a callback, never at file
-scope.
-
-**Phasor**: put the file in `cg/scripts/<script>.lua`, or `cg/scripts/persistent/` to survive map
-changes. Load with `sv_script_load "<script>"`.
-
-```lua
-function GetRequiredVersion() return 200 end
-
-function OnScriptLoad(process_id, game, persistent)
-    -- Set up pointers and state here. game is "PC" or "CE".
-end
-
-function OnScriptUnload() end
-```
-
-**Chimera**: put the file in `chimera/lua/scripts/global/<script>.lua` (unsandboxed) or
-`chimera/lua/scripts/map/<map>.lua` (sandboxed). Reload any time with `chimera_lua_scripts_reload`
-in the console with `~`.
-
-```lua
-clua_version = 2.056
-
-set_callback("map load", "OnMapLoad")
-set_callback("tick",     "OnTick")
-
-function OnMapLoad()
-    console_out("Map: (" .. map .. ")")
-end
-
-function OnTick() end
-```
-
-> [!IMPORTANT]
-> **SAPP** scripts have separate Lua environments and cannot directly access each other's globals.
-> The `lua_call <script> <function> [arguments...]` server command can invoke a function in a loaded
-> script; custom variables (`add_var`, `set_var`, `get_var`) are used to share state. **Phasor** has
-> no built-in mechanism. **Chimera** scripts share the global Lua environment and can use global
-> variables.
-
-> [!TIP]
-> **Chimera** map scripts are sandboxed by default. Standard `io.*`, `dofile`, `load`, `require`,
-`os.execute`, and memory reads/writes outside `0x40000000` to `0x41B00000` are blocked. The built-in
-`read_file` and `write_file` functions remain available but are confined to the script's private
-data directory. Use the global folder for standard file APIs or unrestricted memory access.
+- **Chimera**
+  - **Script placement:**
+    - `chimera\lua\scripts\global\<script>.lua`, loads on start and stays active
+    - or `chimera\lua\scripts\map\<map>.lua`, loads only while that map is active
+  - **Chimera folder:** `%USERPROFILE%\Documents\My Games\Halo CE\chimera` for CE, or
+    `%USERPROFILE%\Documents\My Games\Halo\chimera` for PC.
+  - **Reload:** `chimera_lua_scripts_reload` in the console, opened with `~`
 
 ---
 
@@ -235,7 +175,7 @@ affect innocent players sharing the same cracked key.
 
 ### [HaloDiscordBot][halo_discord_bot]
 
-JDK integration that pipes Halo server events into Discord as rich embeds.
+Java Discord bot that pipes Halo server events into Discord as rich embeds.
 
 ---
 
@@ -307,18 +247,12 @@ TM, ToR, X¬, xOSHx, xT
 
 ## Contributing
 
-Bug reports and feature requests go through GitHub issues and discussion templates. See the
+Bug reports and feature requests go through GitHub issues. See the
 [Contributing Guide](CONTRIBUTING.md). All community interaction is governed by the
 [Code of Conduct](CODE_OF_CONDUCT.md). To report a security problem, see [SECURITY.md](SECURITY.md).
 
-### Submit feature request
-
-[Submit feature request][feature_request]
-
-### Report issue
-
-- [Bug report][bug_report]
-- [Feature request][feature_request]
+- [Report a bug][bug_report]
+- [Request a feature][feature_request]
 
 ---
 
@@ -336,9 +270,9 @@ Bug reports and feature requests go through GitHub issues and discussion templat
 [bug_report]: https://github.com/Chalwk/SPCLib/issues/new?assignees=Chalwk&labels=Bug%2CNeeds+Triage&template=BUG_REPORT.yaml
 [chalwk_discord]: https://discord.gg/g6ENWebHsE
 [chimera_discord]: https://discord.gg/ZwQeBE2
+[chalwk_website]: https://chalwk.github.io/
 [chimera_forum]: https://opencarnage.net/index.php?/topic/6916-chimera-download-source-code-and-discord/
-[chimera_lua_template]: https://chalwk.github.io/halo/chimera/template/
-[chimera_scripting]: https://chalwk.github.io/halo/chimera/scripting-with-chimera/
+[chimera_guide]: https://chalwk.github.io/halo/chimera/guide/
 [chimera_scripts]: chimera
 [feature_request]: https://github.com/Chalwk/SPCLib/issues/new?template=FEATURE_REQUEST.yaml
 [halo_ce_installer]: https://drive.google.com/file/d/1oO0w_25mGwjTz_R9Bhquah4FR6u2Ccmz/view?usp=sharing
@@ -352,9 +286,8 @@ Bug reports and feature requests go through GitHub issues and discussion templat
 [modding_refs]: https://chalwk.github.io/halo/modding-references/
 [opencarnage_discord]: https://discord.gg/2pf3Yjb
 [opencarnage_website]: https://opencarnage.net
-[phasor_lua_template]: https://chalwk.github.io/halo/phasor/template/
+[phasor_guide]: https://chalwk.github.io/halo/phasor/guide/
 [phasor_scripts]: phasor
-[phasor_server_guide]: https://chalwk.github.io/halo/phasor/server-guide/
 [poq_website]: http://poqclan.com/
 [port_forwarding]: https://chalwk.github.io/halo/server-port-forwarding/
 [realworld_website]: https://www.realworldce.com/
@@ -362,14 +295,9 @@ Bug reports and feature requests go through GitHub issues and discussion templat
 [reclaimers_website]: https://c20.reclaimers.net/
 [releases]: https://github.com/Chalwk/SPCLib/releases
 [repo_url]: https://github.com/Chalwk/SPCLib
-[sapp_cheat_sheet]: https://chalwk.github.io/halo/sapp/cheat-sheet/
 [sapp_downloads_dir]: assets/sapp_downloads
-[sapp_lua_template]: https://chalwk.github.io/halo/sapp/template/
-[sapp_scripting]: https://chalwk.github.io/halo/sapp/scripting-with-sapp/
+[sapp_guide]: https://chalwk.github.io/halo/sapp/guide/
 [sapp_scripts]: sapp
-[sapp_server_guide]: https://chalwk.github.io/halo/sapp/server-guide/
-[sapp_utils]: https://chalwk.github.io/halo/sapp/utils/
 [script_browser]: https://chalwk.github.io/SPCLib/tools/script-browser
-[scripting_with_phasor]: https://chalwk.github.io/halo/phasor/scripting-with-phasor/
 [vps_host_guide]: https://chalwk.github.io/halo/ubuntu-vps-hosting/
 [xg_website]: https://www.xgclan.com
