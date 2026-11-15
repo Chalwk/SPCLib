@@ -116,28 +116,31 @@ SAPP and Phasor Lua scripts are grouped by folder:
 
 ### Script placement
 
-Paths below start from your instance folder, which is often called `cg`. Some hosting providers
-(NFO, for example) have no instance folder, so use the server root instead.
+Paths below start from your instance folder, which is `cg` in the server packages. Some hosting
+providers (NFO, for example) have no `cg` folder, so use the server root instead.
 
 - **SAPP**
-  - **Script placement:** `<instance or server root>\sapp\lua\<script>.lua`.
-  - **Load / reload:** In `<instance or server root>\sapp\init.txt`, set `lua true`, then add
+  - **Script placement:** `<instance or server root>\sapp\lua\<script>.lua`
+  - **Load / reload:** Open `<instance or server root>\sapp\init.txt`, set `lua true`, then add
     `lua_load "<script>"` (no `.lua` extension). You can also run `lua_load <script>` and
-    `lua_unload <script>` from the server console or rcon.
+    `lua_unload <script>` to load/unload scirpts.
 
 - **Phasor**
   - **Script placement:**
     - `<instance or server root>\scripts\<script>.lua`, unloaded at the end of each game
     - or `<instance or server root>\scripts\persistent\` to stay loaded across maps
   - **Load / reload:** `sv_script_load <script>` (no `.lua` extension), or list the script at the
-    end of an `sv_mapcycle_add` line in `init.txt` to load it for that map only.
+    end of an `sv_mapcycle_add` line in the startup `init.txt` to load it for that map only.
 
 - **Chimera**
   - **Script placement:**
     - `chimera\lua\scripts\global\<script>.lua`, loads on start and stays active
     - or `chimera\lua\scripts\map\<map>.lua`, loads only while that map is active
-  - **Chimera folder:** `%USERPROFILE%\Documents\My Games\Halo CE\chimera` for CE, or
-    `%USERPROFILE%\Documents\My Games\Halo\chimera` for PC.
+  - **Chimera folder:**
+    - Windows, CE: `%USERPROFILE%\Documents\My Games\Halo CE\chimera`
+    - Windows, PC: `%USERPROFILE%\Documents\My Games\Halo\chimera`
+    - Linux: `~/Documents/My Games/Halo CE/chimera` or `~/Documents/My Games/Halo/chimera`,
+      depending on your setup
   - **Reload:** `chimera_lua_scripts_reload` in the console, opened with `~`
 
 ---
