@@ -1,14 +1,14 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      vehicle_blocker.lua
-DESCRIPTION:      Blocks players from entering vehicles based on team configuration.
+SCRIPT NAME:    vehicle_blocker.lua
+DESCRIPTION:    Blocks players from entering vehicles based on team configuration.
 
                   Permissions are specified per vehicle as boolean maps:
                   [0] = Red team,  [1] = Blue team,  true = allowed, false = blocked.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

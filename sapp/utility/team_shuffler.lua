@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      team_shuffler.lua
-DESCRIPTION:      Advanced team balancing system with automatic and manual shuffling,
+SCRIPT NAME:    team_shuffler.lua
+DESCRIPTION:    Advanced team balancing system with automatic and manual shuffling,
                   configurable rules, and FFA mode detection.
 
 FEATURES:		  - Automatic shuffling after configurable delay
@@ -15,8 +15,8 @@ COMMAND:
                   /shuffle - Manually shuffle teams (requires permission)
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

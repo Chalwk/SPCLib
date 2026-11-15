@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      weapon_durability_jam_system.lua
-DESCRIPTION:      Realistic weapon degradation and jamming system that adds
+SCRIPT NAME:    weapon_durability_jam_system.lua
+DESCRIPTION:    Realistic weapon degradation and jamming system that adds
                   durability mechanics to Halo's weapons.
 
 KEY FEATURES:
@@ -23,8 +23,8 @@ CONFIGURATION OPTIONS:
 LAST UPADTED:     August, 2025
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

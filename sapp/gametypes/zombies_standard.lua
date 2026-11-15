@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      zombies_standard.lua
-DESCRIPTION:      Zombie survival mode where humans fight against zombies.
+SCRIPT NAME:    zombies_standard.lua
+DESCRIPTION:    Zombie survival mode where humans fight against zombies.
                   Zombies convert humans by killing them.
 
 KEY FEATURES:
@@ -38,8 +38,8 @@ CONFIGURATION:
         - CAMO:                         Active camouflage
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

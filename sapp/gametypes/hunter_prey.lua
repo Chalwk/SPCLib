@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      hunter_prey.lua
-DESCRIPTION:      Intense free-for-all flag survival mode where players compete
+SCRIPT NAME:    hunter_prey.lua
+DESCRIPTION:    Intense free-for-all flag survival mode where players compete
                   to hold the flag for the longest cumulative time.
 
 KEY FEATURES:
@@ -20,8 +20,8 @@ CONFIGURATION OPTIONS:
                  - Free-for-all enforcement
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

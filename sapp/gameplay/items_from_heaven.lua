@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      items_from_heaven.lua
-DESCRIPTION:      Random item/vehicle spawn system
+SCRIPT NAME:    items_from_heaven.lua
+DESCRIPTION:    Random item/vehicle spawn system
                   - Spawns weapons and vehicles at random map locations
                   - Configurable spawn frequency (10-60 seconds by default)
                   - Automatic cleanup of unused items (30 second despawn timer)
@@ -15,8 +15,8 @@ DESCRIPTION:      Random item/vehicle spawn system
                   - Weapons persist while held by players
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

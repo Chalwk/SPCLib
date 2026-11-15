@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      tactical_airstrike.lua
-DESCRIPTION:      Players on a kill streak can call in an airstrike with 3 modes:
+SCRIPT NAME:    tactical_airstrike.lua
+DESCRIPTION:    Players on a kill streak can call in an airstrike with 3 modes:
                   - Target specific player
                   - Strike enemy base locations
                   - Random map coordinates
@@ -16,8 +16,8 @@ COMMANDS:
 TODO: rewrite this garbage
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

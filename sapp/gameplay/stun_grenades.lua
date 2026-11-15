@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      stun_grenades.lua
-DESCRIPTION:      Converts standard grenades into tactical stun devices that
+SCRIPT NAME:    stun_grenades.lua
+DESCRIPTION:    Converts standard grenades into tactical stun devices that
                   temporarily reduce movement speed of affected players.
 
 FEATURES:
@@ -30,8 +30,8 @@ NOTES:
 LAST UPDATED:     20/8/2025
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

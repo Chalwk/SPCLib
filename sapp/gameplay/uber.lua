@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      uber.lua
-DESCRIPTION:      Team-based vehicle transport system that lets players join a
+SCRIPT NAME:    uber.lua
+DESCRIPTION:    Team-based vehicle transport system that lets players join a
                   teammate's vehicle via chat command or crouch action.
 
 KEY FEATURES:
@@ -20,8 +20,8 @@ KEY FEATURES:
 LAST UPDATED:     12 November 2026
 
 Copyright (c) 2020-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

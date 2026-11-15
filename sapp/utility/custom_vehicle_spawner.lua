@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      custom_vehicle_spawner.lua
-DESCRIPTION:      Manages persistent vehicle spawns with:
+SCRIPT NAME:    custom_vehicle_spawner.lua
+DESCRIPTION:    Manages persistent vehicle spawns with:
                   - Automatic respawning of moved vehicles
                   - Map-specific vehicle configurations
                   - Occupancy detection
@@ -11,8 +11,8 @@ DESCRIPTION:      Manages persistent vehicle spawns with:
                   - Gametype-specific setups
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

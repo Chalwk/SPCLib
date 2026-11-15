@@ -1,11 +1,11 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      shotty_snipes.lua
-DESCRIPTION:      Shotgun/sniper rifle gameplay
+SCRIPT NAME:    shotty_snipes.lua
+DESCRIPTION:    Shotgun/sniper rifle gameplay
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

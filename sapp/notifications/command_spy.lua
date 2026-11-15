@@ -1,14 +1,14 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      command_spy.lua
-DESCRIPTION:      Command execution alerts
+SCRIPT NAME:    command_spy.lua
+DESCRIPTION:    Command execution alerts
 
 FEATURES:         - Customizable admin notification levels
                   - Sensitive command filtering
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

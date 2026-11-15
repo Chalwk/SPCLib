@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      t_slayer_team_spawns.lua
-DESCRIPTION:      Enforces team-specific spawning in Team Slayer game modes by
+SCRIPT NAME:    t_slayer_team_spawns.lua
+DESCRIPTION:    Enforces team-specific spawning in Team Slayer game modes by
                   restricting players to their team's designated spawn points.
 
 FEATURES:
@@ -20,8 +20,8 @@ USAGE:
                   Works automatically when Team Slayer is detected
 
 Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

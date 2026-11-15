@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      map_list_with_map_spec.lua
-DESCRIPTION:      Enhanced map rotation tracker with:
+SCRIPT NAME:    map_list_with_map_spec.lua
+DESCRIPTION:    Enhanced map rotation tracker with:
                   - Current/next map display
                   - Position-based map queries
                   - Map specification index tracking
@@ -20,8 +20,8 @@ CONFIGURATION:    Adjust these settings:
                   - output: Customize message formats
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

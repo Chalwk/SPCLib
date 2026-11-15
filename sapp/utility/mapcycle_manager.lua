@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      mapcycle_manager.lua
-DESCRIPTION:      Advanced map rotation system with multiple rotation modes and admin controls.
+SCRIPT NAME:    mapcycle_manager.lua
+DESCRIPTION:    Advanced map rotation system with multiple rotation modes and admin controls.
 
 FEATURES:
                   - Multiple rotation modes (classic, custom, size-based)
@@ -19,8 +19,8 @@ USAGE:
                   - System automatically handles player count adjustments when enabled
 
 Copyright (c) 2024 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

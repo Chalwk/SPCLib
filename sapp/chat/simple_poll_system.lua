@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      simple_poll_system.lua
-DESCRIPTION:      Admin-controlled in-game polling system for map votes or rule changes.
+SCRIPT NAME:    simple_poll_system.lua
+DESCRIPTION:    Admin-controlled in-game polling system for map votes or rule changes.
 
 FEATURES:
                   - Create polls with custom questions and options
@@ -19,8 +19,8 @@ USAGE:
                   /vote [number] (e.g., /vote 1 = option1)
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

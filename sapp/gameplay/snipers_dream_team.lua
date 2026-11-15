@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      snipers_dream_team.lua
-DESCRIPTION:      Comprehensive weapon/vehicle overhaul.
+SCRIPT NAME:    snipers_dream_team.lua
+DESCRIPTION:    Comprehensive weapon/vehicle overhaul.
 
 FEATURES:
                 - Overhauls 20+ weapons and vehicle armaments
@@ -34,8 +34,8 @@ WARNING: This mod significantly alters core gameplay mechanics.
          Not recommended for competitive play.
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

@@ -1,11 +1,11 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      flag_capture_notify.lua
-DESCRIPTION:      Prints a console message when a player captures a flag in CTF.
+SCRIPT NAME:    flag_capture_notify.lua
+DESCRIPTION:    Prints a console message when a player captures a flag in CTF.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

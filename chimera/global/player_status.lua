@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      player_status.lua
-DESCRIPTION:      Displays a HUD overlay of all players with their team,
+SCRIPT NAME:    player_status.lua
+DESCRIPTION:    Displays a HUD overlay of all players with their team,
                   health, shields, weapon, and ammo.
                   Updates every 15 ticks.
 
                   Command: /pstatus - Toggles display
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

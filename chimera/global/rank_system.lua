@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      rank_system.lua
-DESCRIPTION:      Rank progression system. Tracks kills, deaths, awards credits,
+SCRIPT NAME:    rank_system.lua
+DESCRIPTION:    Rank progression system. Tracks kills, deaths, awards credits,
                   and advances through ranks/grades.
 
                   Commands
@@ -11,8 +11,8 @@ DESCRIPTION:      Rank progression system. Tracks kills, deaths, awards credits,
                     /setrank <rank_id> <grade>
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

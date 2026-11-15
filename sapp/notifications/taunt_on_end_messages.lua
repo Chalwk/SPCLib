@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      taunt_on_end_messages.lua
-DESCRIPTION:      Displays humorous taunt messages based on player performance
+SCRIPT NAME:    taunt_on_end_messages.lua
+DESCRIPTION:    Displays humorous taunt messages based on player performance
                   when the game ends. Messages vary by kill count.
 
 FEATURES:
@@ -10,8 +10,8 @@ FEATURES:
                   - Lighthearted player feedback
 
 Copyright (c) 2016-2018 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

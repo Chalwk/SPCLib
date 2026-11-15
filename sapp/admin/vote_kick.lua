@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      vote_kick.lua
-DESCRIPTION:      Player-driven moderation system for removing disruptive players.
+SCRIPT NAME:    vote_kick.lua
+DESCRIPTION:    Player-driven moderation system for removing disruptive players.
 
 FEATURES:
                   - Democratic player moderation system
@@ -25,8 +25,8 @@ CONFIGURATION:
                   admin_immunity = true    - Protect admins from votes
 
 Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      countdown_timer.lua
-DESCRIPTION:      Displays a customizable countdown to all players with:
+SCRIPT NAME:    countdown_timer.lua
+DESCRIPTION:    Displays a customizable countdown to all players with:
                   - Configurable duration
                   - Formatted output message
                   - Automatic game state detection
@@ -16,8 +16,8 @@ CONFIGURATION:    Adjust these variables:
                   - output_msg: Display format string
 
 Copyright (c) 2016-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

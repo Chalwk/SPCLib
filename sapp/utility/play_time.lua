@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      play_time.lua
-DESCRIPTION:      Comprehensive player session tracking and statistics system
+SCRIPT NAME:    play_time.lua
+DESCRIPTION:    Comprehensive player session tracking and statistics system
 
 FEATURES:
                   - Tracks total connection time and join counts
@@ -28,8 +28,8 @@ USAGE EXAMPLES:
                   /playtime all     (shows stats for all players)
 
 Copyright (c) 2020-2021 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

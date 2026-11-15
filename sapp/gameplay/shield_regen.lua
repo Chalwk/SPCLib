@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      shield_regen.lua
-DESCRIPTION:      Instantly triggers shield regeneration when players take damage,
+SCRIPT NAME:    shield_regen.lua
+DESCRIPTION:    Instantly triggers shield regeneration when players take damage,
                   bypassing the normal delay period.
 
 FEATURES:
@@ -14,8 +14,8 @@ CONFIGURATION:
                  - delay: Set regeneration delay in seconds (0 for instant)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

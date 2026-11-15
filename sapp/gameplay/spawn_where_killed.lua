@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      spawn_where_killed.lua
-DESCRIPTION:      Players respawn at their death locations, creating intense revenge
+SCRIPT NAME:    spawn_where_killed.lua
+DESCRIPTION:    Players respawn at their death locations, creating intense revenge
                   opportunities and persistent combat zones.
 
 FEATURES:
@@ -22,8 +22,8 @@ NOTES:
                  - No performance impact during gameplay
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

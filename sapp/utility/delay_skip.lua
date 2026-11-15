@@ -1,14 +1,14 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      delay_skip.lua
-DESCRIPTION:      Prevents premature map skipping by enforcing:
+SCRIPT NAME:    delay_skip.lua
+DESCRIPTION:    Prevents premature map skipping by enforcing:
                   - A configurable minimum wait time before skipping a map.
                   - Level-based immunity for admins and staff.
                   - Feedback message for players attempting to skip too early.
 
 Copyright (c) 2020-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      anti_camp_v2.lua
-DESCRIPTION:      Universal camping prevention system with:
+SCRIPT NAME:    anti_camp_v2.lua
+DESCRIPTION:    Universal camping prevention system with:
                   - Continuous global monitoring
                   - Radius-based movement detection
                   - Dynamic warning at 50% of max time
@@ -10,8 +10,8 @@ DESCRIPTION:      Universal camping prevention system with:
                   - Automatic reset on spawn/disconnect
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

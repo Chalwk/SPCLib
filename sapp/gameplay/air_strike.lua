@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      air_strike.lua
-DESCRIPTION:      Simulates random airstrikes in Halo PC/CE with configurable:
+SCRIPT NAME:    air_strike.lua
+DESCRIPTION:    Simulates random airstrikes in Halo PC/CE with configurable:
                   - Rocket count per strike
                   - Strike frequency
                   - Spawn heights
@@ -13,8 +13,8 @@ DESCRIPTION:      Simulates random airstrikes in Halo PC/CE with configurable:
 LAST UPADTED:     August, 2025
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

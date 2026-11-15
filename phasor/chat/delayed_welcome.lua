@@ -1,11 +1,11 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      delayed_welcome.lua
-DESCRIPTION:      Displays a welcome message to joining players after a short delay.
+SCRIPT NAME:    delayed_welcome.lua
+DESCRIPTION:    Displays a welcome message to joining players after a short delay.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

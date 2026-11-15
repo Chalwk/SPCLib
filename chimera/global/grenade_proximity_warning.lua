@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      grenade_proximity_warning.lua
-DESCRIPTION:      Shows a warning when a live grenade is nearby and indicates its
+SCRIPT NAME:    grenade_proximity_warning.lua
+DESCRIPTION:    Shows a warning when a live grenade is nearby and indicates its
                   direction relative to the player using clock-face notation
                   (e.g., 12 = ahead, 3 = right, 6 = behind, etc.).
 
                   Command: /grenwarn - Toggle proximity warning on/off
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

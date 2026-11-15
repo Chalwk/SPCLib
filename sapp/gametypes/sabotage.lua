@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      sabotage.lua
-DESCRIPTION:      Team-based bomb defusal gameplay featuring:
+SCRIPT NAME:    sabotage.lua
+DESCRIPTION:    Team-based bomb defusal gameplay featuring:
                   - Bomb planting/defusing mechanics
                   - Configurable timers (plant/defuse/explosion)
                   - Automatic bomb respawn system
@@ -14,8 +14,8 @@ MECHANICS:
                   - Explosion awards points to planting team
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

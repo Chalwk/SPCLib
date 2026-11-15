@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      phasor_util.lua
-DESCRIPTION:      A collection of common utility functions for Phasor Lua scripting.
+SCRIPT NAME:    phasor_util.lua
+DESCRIPTION:    A collection of common utility functions for Phasor Lua scripting.
                   Functions cover player state checks, coordinate manipulation,
                   string handling, memory reading, wildcard matching, time conversion,
                   network utilities, object type detection, player health/shields,
@@ -21,8 +21,8 @@ DESCRIPTION:      A collection of common utility functions for Phasor Lua script
                       end
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

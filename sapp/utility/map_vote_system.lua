@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      map_vote_system.lua
-DESCRIPTION:      Advanced map voting system with the following features:
+SCRIPT NAME:    map_vote_system.lua
+DESCRIPTION:    Advanced map voting system with the following features:
                   - Configurable vote limits and re-voting
                   - Supports more than 6 map options
                   - Map repeat prevention
@@ -26,8 +26,8 @@ USAGE:
                   - Players vote by typing the map number (1-8 by default)
 
 Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

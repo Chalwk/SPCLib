@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      weapon_assigner.lua
-DESCRIPTION:      Custom weapon assignment system that automatically gives players
+SCRIPT NAME:    weapon_assigner.lua
+DESCRIPTION:    Custom weapon assignment system that automatically gives players
                   specific weapon loadouts based on map, game mode, and team.
                   - Configurable per map and game mode
                   - Team-specific weapon sets (Red, Blue, FFA)
@@ -10,8 +10,8 @@ DESCRIPTION:      Custom weapon assignment system that automatically gives playe
 LAST UPDATED:     7/10/2025
 
 Copyright (c) 2024-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

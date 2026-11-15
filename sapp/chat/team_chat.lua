@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      team_chat.lua
-DESCRIPTION:      Advanced team-based private chat system with invite functionality,
+SCRIPT NAME:    team_chat.lua
+DESCRIPTION:    Advanced team-based private chat system with invite functionality,
                   multiple channels, and flexible communication modes.
 
 FEATURES:
@@ -31,8 +31,8 @@ CONFIGURATION:
                   cooldown = 1.5            - Message cooldown in seconds
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

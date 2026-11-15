@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      vehicle_blocker_v2.lua
-DESCRIPTION:      Enhanced vehicle restriction system with advanced features.
+SCRIPT NAME:    vehicle_blocker_v2.lua
+DESCRIPTION:    Enhanced vehicle restriction system with advanced features.
 
 KEY IMPROVEMENTS FROM V1:
                   - More granular vehicle control
@@ -31,8 +31,8 @@ SUPPORTED VEHICLES:
 TODO: rewrite this garbage
 
 Copyright (c) 2016-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      beep_on_join.lua
-DESCRIPTION:      Plays a system beep sound when a player joins the server.
+SCRIPT NAME:    beep_on_join.lua
+DESCRIPTION:    Plays a system beep sound when a player joins the server.
                   Simple auditory alert for server administrators.
 
 FEATURES:
@@ -14,8 +14,8 @@ NOTE:              Requires server console to be in focus for beep to be audible
                    on some operating systems.
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

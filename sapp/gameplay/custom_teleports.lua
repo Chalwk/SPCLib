@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      custom_teleports.lua
-DESCRIPTION:      Creates configurable instant teleport zones that transport players
+SCRIPT NAME:    custom_teleports.lua
+DESCRIPTION:    Creates configurable instant teleport zones that transport players
                   between defined locations when entering activation areas.
 
 FEATURES:
@@ -25,8 +25,8 @@ EXAMPLE CONFIG:
 LAST UPDATED:     August 19, 2025
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

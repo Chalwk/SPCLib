@@ -1,14 +1,14 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      race_assistant.lua
-DESCRIPTION:      Enforces vehicle usage in race gametypes with configurable
+SCRIPT NAME:    race_assistant.lua
+DESCRIPTION:    Enforces vehicle usage in race gametypes with configurable
                   penalties for violations.
 
 LAST UPDATED:     14 Nov 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

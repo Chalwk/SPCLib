@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      set_respawn_time.lua
-DESCRIPTION:      Configurable respawn timer system with per-map/per-gametype settings
+SCRIPT NAME:    set_respawn_time.lua
+DESCRIPTION:    Configurable respawn timer system with per-map/per-gametype settings
                   and real-time adjustments via admin commands.
 
 FEATURES:
@@ -33,8 +33,8 @@ EXAMPLE MAP CONFIG:
                   }
 
 Copyright (c) 2021 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

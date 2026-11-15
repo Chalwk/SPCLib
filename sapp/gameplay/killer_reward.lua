@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      killer_reward.lua
-DESCRIPTION:      Drops random weapons/equipment at victim death locations
+SCRIPT NAME:    killer_reward.lua
+DESCRIPTION:    Drops random weapons/equipment at victim death locations
                   - Configurable drop conditions (consecutive kills required)
                   - Customizable drop tables (weapons and/or equipment)
                   - Detailed kill streak rewards system
@@ -15,8 +15,8 @@ DESCRIPTION:      Drops random weapons/equipment at victim death locations
                   - Player notifications about drops
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

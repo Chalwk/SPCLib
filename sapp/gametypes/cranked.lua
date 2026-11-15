@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      cranked.lua
-DESCRIPTION:      Implements Call of Duty-style Cranked mode with time-limited kill chains
+SCRIPT NAME:    cranked.lua
+DESCRIPTION:    Implements Call of Duty-style Cranked mode with time-limited kill chains
                   and explosive consequences for failing to maintain momentum.
 
 KEY FEATURES:
@@ -19,8 +19,8 @@ CONFIGURATION OPTIONS:
                  - Cross-map settings consistency
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

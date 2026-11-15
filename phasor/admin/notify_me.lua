@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      notify_me.lua
-DESCRIPTION:      Advanced console notification system.
+SCRIPT NAME:    notify_me.lua
+DESCRIPTION:    Advanced console notification system.
                   - Customizable timestamp formatting
                   - ASCII art logo display
                   - Support for all major server events
@@ -11,8 +11,8 @@ DESCRIPTION:      Advanced console notification system.
                   - Detailed death cause reporting
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

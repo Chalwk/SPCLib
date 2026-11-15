@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      current_weapon_info.lua
-DESCRIPTION:      Displays the current weapon name, primary ammo, and (if present)
+SCRIPT NAME:    current_weapon_info.lua
+DESCRIPTION:    Displays the current weapon name, primary ammo, and (if present)
                   secondary ammo in the upper-left corner of the HUD.
 
                   Command: /wpninfo - Toggle the display
@@ -9,8 +9,8 @@ DESCRIPTION:      Displays the current weapon name, primary ammo, and (if presen
                   TODO: Add support for battery powered weapons
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

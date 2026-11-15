@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      disable_fall_damage.lua
-DESCRIPTION:      Disables fall damage on configured maps
+SCRIPT NAME:    disable_fall_damage.lua
+DESCRIPTION:    Disables fall damage on configured maps
 
 Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
 LICENSE:          MIT License

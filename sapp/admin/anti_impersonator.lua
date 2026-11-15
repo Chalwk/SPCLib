@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      anti_impersonator.lua
-DESCRIPTION:      Prevents players from impersonating trusted community members.
+SCRIPT NAME:    anti_impersonator.lua
+DESCRIPTION:    Prevents players from impersonating trusted community members.
                   Verifies joining players against a whitelist of approved names
                   and their corresponding IPs and/or hashes.
 
@@ -15,8 +15,8 @@ NOTE:             - Shared hashes may trigger false positives
                   - Dynamic IPs may require regular updates to the whitelist
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

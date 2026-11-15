@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      sendconsoletext_extended.lua
-DESCRIPTION:      Extended replacement for Phasor's native sendconsoletext().
+SCRIPT NAME:    sendconsoletext_extended.lua
+DESCRIPTION:    Extended replacement for Phasor's native sendconsoletext().
                   Lets you create persistent console messages with support for:
                   ordered message queues, centered/right-aligned text, dynamic
                   message updates, pausing, shifting, timed expiration, and
@@ -83,8 +83,8 @@ DESCRIPTION:      Extended replacement for Phasor's native sendconsoletext().
                   sendconsoletext(player, "BOSS FIGHT ACTIVE", 1, 2, "center", isBossAlive)
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

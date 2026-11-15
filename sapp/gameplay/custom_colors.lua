@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      custom_colors.lua
-DESCRIPTION:      Customizes player colors with:
+SCRIPT NAME:    custom_colors.lua
+DESCRIPTION:    Customizes player colors with:
                   - Team-based colors (Red/Yellow, Blue/Blue by default)
                   - Random FFA colors from 18 options
                   - Automatic color assignment on join/team switch
@@ -17,8 +17,8 @@ COLOR REFERENCE:  0=white, 1=black, 2=red, 3=blue, 4=gray, 5=yellow
                   16=maroon, 17=salmon
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

@@ -1,14 +1,14 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      welcome_messages.lua
-DESCRIPTION:      Simple player greeting system
+SCRIPT NAME:    welcome_messages.lua
+DESCRIPTION:    Simple player greeting system
 
 CREDITS:
                   Originally requested by 'mdc81' on OpenCarnage forums
 
 Copyright (c) 2016-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

@@ -1,12 +1,12 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      custom_command_cooldowns.lua
-DESCRIPTION:      Prevents command spamming by enforcing custom cooldown timers
+SCRIPT NAME:    custom_command_cooldowns.lua
+DESCRIPTION:    Prevents command spamming by enforcing custom cooldown timers
                   per command, and player-specific usage tracking
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

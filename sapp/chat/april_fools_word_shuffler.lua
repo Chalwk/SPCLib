@@ -1,12 +1,12 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      april_fools_word_shuffler.lua
-DESCRIPTION:      Randomly scrambles player chat messages as an April Fools prank,
+SCRIPT NAME:    april_fools_word_shuffler.lua
+DESCRIPTION:    Randomly scrambles player chat messages as an April Fools prank,
                   making text appear jumbled while preserving original sender info.
 
 Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

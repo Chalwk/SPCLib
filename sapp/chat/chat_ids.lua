@@ -1,15 +1,15 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      chat_ids.lua
-DESCRIPTION:      Enhances chat visibility by displaying player slot numbers.
+SCRIPT NAME:    chat_ids.lua
+DESCRIPTION:    Enhances chat visibility by displaying player slot numbers.
 
                   - Appends player IDs to all chat messages
                   - Works in both global, vehicle and team chat
                   - Preserves existing chat functionality
 
 Copyright (c) 2014-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

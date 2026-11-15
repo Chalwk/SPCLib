@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      pagination.lua
-DESCRIPTION:      Standalone pagination library for displaying tabular data in pages.
+SCRIPT NAME:    pagination.lua
+DESCRIPTION:    Standalone pagination library for displaying tabular data in pages.
 
 FEATURES:         - Displays data in paginated format with configurable page sizes
                   - Handles page navigation and boundary checking
@@ -26,8 +26,8 @@ EXAMPLE:
     pages:Show(1, 1, 10, #data, data, command)
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

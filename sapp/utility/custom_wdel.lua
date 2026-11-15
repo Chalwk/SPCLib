@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      custom_wdel.lua
-DESCRIPTION:      Enhanced weapon deletion command that:
+SCRIPT NAME:    custom_wdel.lua
+DESCRIPTION:    Enhanced weapon deletion command that:
                   - Prevents accidental deletion of objective items (flags/oddballs)
                   - Maintains standard weapon removal functionality
                   - Provides admin permission controls
@@ -16,8 +16,8 @@ CONFIGURATION:    Adjust these settings:
                   - permission_required: Minimum admin level
 
 Copyright (c) 2021-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

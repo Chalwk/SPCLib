@@ -1,7 +1,7 @@
 --[[
 ===========================================================================
-SCRIPT NAME:      race_hud.lua
-DESCRIPTION:      Displays speed (km), map name, checkpoint progress,
+SCRIPT NAME:    race_hud.lua
+DESCRIPTION:    Displays speed (km), map name, checkpoint progress,
                   lap timer, and best time.
 
                   Commands:
@@ -11,8 +11,8 @@ DESCRIPTION:      Displays speed (km), map name, checkpoint progress,
                   Persistent stats saved to race_hud_stats.txt.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===========================================================================
 ]]
 

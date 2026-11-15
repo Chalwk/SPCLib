@@ -1,13 +1,13 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      show_player_position.lua
-DESCRIPTION:      Display your map coordinates with customizable output.
+SCRIPT NAME:    show_player_position.lua
+DESCRIPTION:    Display your map coordinates with customizable output.
 
                   Command: /show_pos - Toggle coordinate display
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

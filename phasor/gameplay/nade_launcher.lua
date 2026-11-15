@@ -1,12 +1,12 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      nade_launcher.lua
-DESCRIPTION:      Converts non-grenade projectiles into high-velocity frag grenades.
+SCRIPT NAME:    nade_launcher.lua
+DESCRIPTION:    Converts non-grenade projectiles into high-velocity frag grenades.
                   Players can toggle the effect with the /nade command.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

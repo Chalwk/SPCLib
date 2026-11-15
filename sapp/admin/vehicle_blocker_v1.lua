@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      vehicle_blocker_v1.lua
-DESCRIPTION:      Map-based vehicle entry restriction system with configurable settings.
+SCRIPT NAME:    vehicle_blocker_v1.lua
+DESCRIPTION:    Map-based vehicle entry restriction system with configurable settings.
 
 FEATURES:
                   - Per-map vehicle blocking configuration
@@ -25,8 +25,8 @@ SUPPORTED VEHICLES:
 TODO: rewrite this garbage
 
 Copyright (c) 2016-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

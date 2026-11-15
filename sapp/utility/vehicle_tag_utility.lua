@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      vehicle_tag_utility.lua
-DESCRIPTION:      Records vehicle tag names to a file when players use the tag command
+SCRIPT NAME:    vehicle_tag_utility.lua
+DESCRIPTION:    Records vehicle tag names to a file when players use the tag command
 
 KEY FEATURES:
                  - Captures vehicle tag names while players are seated in vehicles

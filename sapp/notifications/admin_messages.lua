@@ -1,13 +1,13 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      admin_messages.lua
-DESCRIPTION:      Configurable admin join message system.
+SCRIPT NAME:    admin_messages.lua
+DESCRIPTION:    Configurable admin join message system.
                   - Displays messages per admin level (1-4)
                   - Easy to configure per level and toggle display environment
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

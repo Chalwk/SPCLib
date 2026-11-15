@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      replace_weapon_projectile.lua
-DESCRIPTION:      Replaces weapon projectiles with custom projectiles while maintaining
+SCRIPT NAME:    replace_weapon_projectile.lua
+DESCRIPTION:    Replaces weapon projectiles with custom projectiles while maintaining
                   original visual effects. Includes damage multiplier configuration.
 
 FEATURES:
@@ -15,8 +15,8 @@ CONFIGURATION:
                 - Set damage multipliers (1 = normal, max 10)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

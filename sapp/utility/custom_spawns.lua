@@ -13,8 +13,8 @@ DESCRIPTION:    Custom spawn point handling for players based on map and team.
 LAST UPDATED:     12 Nov 2026
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

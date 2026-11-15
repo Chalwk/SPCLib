@@ -1,13 +1,13 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      chat_formatter.lua
-DESCRIPTION:      Chat formatter with placeholders, command filtering,
+SCRIPT NAME:    chat_formatter.lua
+DESCRIPTION:    Chat formatter with placeholders, command filtering,
                   and team-sensitive delivery. Supports global, team, and vehicle
                   chat types.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

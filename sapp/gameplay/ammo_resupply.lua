@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      ammo_resupply.lua
-DESCRIPTION:      Adds a configurable '/res' command that allows players to:
+SCRIPT NAME:    ammo_resupply.lua
+DESCRIPTION:    Adds a configurable '/res' command that allows players to:
                   - Replenish ammo, grenades, and battery
                   - Customizable resupply amounts
                   - Permission level restriction
@@ -10,8 +10,8 @@ DESCRIPTION:      Adds a configurable '/res' command that allows players to:
                   Server operators can configure all aspects of the resupply.
 
 Copyright (c) 2019-2025 Jericho Crosby
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 -- Configuration table for the resupply script

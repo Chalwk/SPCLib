@@ -1,13 +1,13 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      dynamic_score_limit.lua
-DESCRIPTION:      Automatically adjusts score limits based on player count with
+SCRIPT NAME:    dynamic_score_limit.lua
+DESCRIPTION:    Automatically adjusts score limits based on player count with
                   cstom configurations for each game type, team vs FFA mode
                   differentiation and dynamic message formatting.
 
 Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

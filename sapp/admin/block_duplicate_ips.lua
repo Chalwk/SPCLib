@@ -1,14 +1,14 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      block_duplicate_ips.lua
-DESCRIPTION:      Prevents multiple connections from the same IP address with:
+SCRIPT NAME:    block_duplicate_ips.lua
+DESCRIPTION:    Prevents multiple connections from the same IP address with:
                   - Configurable actions (kick/ban)
                   - IP whitelist support
                   - Admin notifications
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

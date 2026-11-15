@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      afk_system.lua
-DESCRIPTION:      Automated AFK management system.
+SCRIPT NAME:    afk_system.lua
+DESCRIPTION:    Automated AFK management system.
                   - Detects inactivity via movement, camera/aim, and various inputs.
                   - Configurable AFK timeout, warnings, and grace periods.
                   - Supports manual/auto AFK toggling.
@@ -9,8 +9,8 @@ DESCRIPTION:      Automated AFK management system.
                   - Sends progressive warnings and custom kick messages.
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

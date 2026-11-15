@@ -1,12 +1,12 @@
 --[[
 =======================================================================
-SCRIPT NAME:      static_ping_kicker.lua
-DESCRIPTION:      Kicks non-members when ping > 240 ms.
+SCRIPT NAME:    static_ping_kicker.lua
+DESCRIPTION:    Kicks non-members when ping > 240 ms.
                   Members (listed in MEMBERS) are fully immune.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =======================================================================
 ]]
 

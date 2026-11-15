@@ -1,14 +1,14 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      low_ammo_warning.lua
-DESCRIPTION:      A simple script that displays a warning message when your weapon's
+SCRIPT NAME:    low_ammo_warning.lua
+DESCRIPTION:    A simple script that displays a warning message when your weapon's
                   ammo is running low.
 
                   Command: /ammo_warn - Toggle low ammo display
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

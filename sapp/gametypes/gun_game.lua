@@ -1,13 +1,13 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      gun_game.lua
-DESCRIPTION:      Competitive weapon progression mode where players advance through
+SCRIPT NAME:    gun_game.lua
+DESCRIPTION:    Competitive weapon progression mode where players advance through
                   weapon tiers by scoring kills. The first player to complete all
                   levels is declared the winner.
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

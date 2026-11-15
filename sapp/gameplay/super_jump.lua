@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      super_jump.lua
-DESCRIPTION:      Grants players enhanced jumping abilities with configurable height
+SCRIPT NAME:    super_jump.lua
+DESCRIPTION:    Grants players enhanced jumping abilities with configurable height
                   and cooldown settings. Toggleable via chat command.
 
 FEATURES:
@@ -31,8 +31,8 @@ TECHNICAL NOTES:
                   - No effect while in vehicles
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

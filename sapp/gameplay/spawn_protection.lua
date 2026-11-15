@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      spawn_protection.lua
-DESCRIPTION:      Provides temporary invulnerability to newly spawned players,
+SCRIPT NAME:    spawn_protection.lua
+DESCRIPTION:    Provides temporary invulnerability to newly spawned players,
                   preventing spawn-killing while maintaining fair gameplay.
 
 FEATURES:
@@ -23,8 +23,8 @@ NOTES:
                  - No special permissions required
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

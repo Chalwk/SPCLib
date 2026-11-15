@@ -1,13 +1,13 @@
 --[[
 ====================================================================================
-SCRIPT NAME:      ban_on_sight.lua
-DESCRIPTION:      Instant IP bans with a pirate-hash safety net.
+SCRIPT NAME:    ban_on_sight.lua
+DESCRIPTION:    Instant IP bans with a pirate-hash safety net.
                   /bos <id> drops the hammer, /bos <id> -h ignores the warning.
                   /unbos <index> removes a ban, 'cause everyone deserves a second chance.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ====================================================================================
 ]]
 

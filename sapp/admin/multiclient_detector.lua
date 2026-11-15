@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      multiclient_detector.lua
-DESCRIPTION:      Advanced detection system for identifying players using multiple clients.
+SCRIPT NAME:    multiclient_detector.lua
+DESCRIPTION:    Advanced detection system for identifying players using multiple clients.
 
 FEATURES:
                   - Probability-based scoring (0-100%) with risk categories:
@@ -25,8 +25,8 @@ REQUIREMENTS:     Install to the same directory as sapp.dll
                   - Lua JSON Parser:  http://regex.info/blog/lua/json
 
 Copyright (c) 2024 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

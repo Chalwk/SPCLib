@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      geo_location.lua
-DESCRIPTION:      Geolocate joining players and optionally block countries.
+SCRIPT NAME:    geo_location.lua
+DESCRIPTION:    Geolocate joining players and optionally block countries.
                   - Shows selected details in console and to admins/player
                   - /country <player id>   - manual lookup (admin)
                   - Cache with TTL to stay within free API limits
@@ -12,8 +12,8 @@ REQUIREMENTS:     Install in the same folder as sapp.dll.
                   - SAPP HTTP Client: https://github.com/Chalwk/SAPP-HTTP
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

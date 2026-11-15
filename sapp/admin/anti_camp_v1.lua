@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      anti_camp_v1.lua
-DESCRIPTION:      Camping prevention system with:
+SCRIPT NAME:    anti_camp_v1.lua
+DESCRIPTION:    Camping prevention system with:
                   - Configurable per-map zones
                   - Dynamic radius & duration tracking
                   - Progressive warnings & punishment
@@ -9,8 +9,8 @@ DESCRIPTION:      Camping prevention system with:
                   - Automatic reset on spawn/disconnect
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

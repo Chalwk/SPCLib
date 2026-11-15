@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      mvp_join_alerts.lua
-DESCRIPTION:      Customizable join announcements with MVP recognition
+SCRIPT NAME:    mvp_join_alerts.lua
+DESCRIPTION:    Customizable join announcements with MVP recognition
                   - Personalized welcome messages for VIP players
                   - General messages for regular players
                   - Multiple identification methods (IP, hash, or exact name)
@@ -15,8 +15,8 @@ DESCRIPTION:      Customizable join announcements with MVP recognition
                   - Customizable server message prefix
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

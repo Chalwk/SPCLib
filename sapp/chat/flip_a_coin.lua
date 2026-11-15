@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      flip_a_coin.lua
-DESCRIPTION:      Simulates coin flips with statistical results
+SCRIPT NAME:    flip_a_coin.lua
+DESCRIPTION:    Simulates coin flips with statistical results
                   - Usage: !flip (default: 10,000 flips)
                   - Shows heads/tails count and percentages
                   - Includes execution time measurement
                   - Configurable permission level
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

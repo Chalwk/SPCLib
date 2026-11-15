@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      no_damage.lua
-DESCRIPTION:      Player invulnerability system with toggleable damage prevention.
+SCRIPT NAME:    no_damage.lua
+DESCRIPTION:    Player invulnerability system with toggleable damage prevention.
 
 FEATURES:
                   - Toggleable player invulnerability via command
@@ -20,8 +20,8 @@ TECHNICAL DETAILS:
                   - Handles player disconnects gracefully
 
 Copyright (c) 2023-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

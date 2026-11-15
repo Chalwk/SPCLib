@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      one_in_the_chamber.lua
-DESCRIPTION:      Intense pistol duel mode where every shot counts:
+SCRIPT NAME:    one_in_the_chamber.lua
+DESCRIPTION:    Intense pistol duel mode where every shot counts:
                   - Players start with one bullet (guaranteed one-shot kill)
                   - Earn bullets by eliminating opponents
                   - Switch to melee when out of ammo
                   - High-risk, high-reward gameplay
 
 Copyright (c) 2023-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

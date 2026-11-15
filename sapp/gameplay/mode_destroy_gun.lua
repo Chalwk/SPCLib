@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      mode_destroy_gun.lua
-DESCRIPTION:      Enables destructive weapon mode that can delete in-game objects
+SCRIPT NAME:    mode_destroy_gun.lua
+DESCRIPTION:    Enables destructive weapon mode that can delete in-game objects
                   - Toggle with: /destroygun [on/off] (requires permission level 1)
                   - Destroys any object in weapon crosshairs when fired
                   - Shows object type and name in confirmation message
@@ -13,8 +13,8 @@ DESCRIPTION:      Enables destructive weapon mode that can delete in-game object
                   Use with caution on live servers.
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

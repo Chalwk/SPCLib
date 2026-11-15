@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      team_color_voting.lua
-DESCRIPTION:      Allows players to vote for team colors to be used in the next game.
+SCRIPT NAME:    team_color_voting.lua
+DESCRIPTION:    Allows players to vote for team colors to be used in the next game.
 
 FEATURES:
                   - Vote from predefined color sets
@@ -21,8 +21,8 @@ CONFIGURATION:
                   default_color_set = 10         - Default color set ID
 
 Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

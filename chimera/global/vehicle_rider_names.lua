@@ -1,14 +1,14 @@
 --[[
 ================================================================================================
-SCRIPT NAME:      vehicle_rider_names.lua
-DESCRIPTION:      Shows driver, gunner, and passenger names when you are in a vehicle.
+SCRIPT NAME:    vehicle_rider_names.lua
+DESCRIPTION:    Shows driver, gunner, and passenger names when you are in a vehicle.
                   Can hide your own name or mark it with "(you)".
 
                   Command: /riders - Toggle rider name display on/off
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ================================================================================================
 ]]
 

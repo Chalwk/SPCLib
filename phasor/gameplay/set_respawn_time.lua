@@ -1,11 +1,11 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      set_respawn_time.lua
-DESCRIPTION:      Overrides the default respawn time for every player death.
+SCRIPT NAME:    set_respawn_time.lua
+DESCRIPTION:    Overrides the default respawn time for every player death.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

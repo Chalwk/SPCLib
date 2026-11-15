@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      timed_authentication.lua
-DESCRIPTION:      This script enforces a timed authentication challenge for players
+SCRIPT NAME:    timed_authentication.lua
+DESCRIPTION:    This script enforces a timed authentication challenge for players
                   using clan tags (e.g. LIB-) in their name. When such a player
                   joins, they must type a predefined secret phrase in chat within a
                   set number of seconds. If they fail to do so, they are
@@ -15,8 +15,8 @@ DESCRIPTION:      This script enforces a timed authentication challenge for play
                   be considered highly secure for sensitive use-cases.
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

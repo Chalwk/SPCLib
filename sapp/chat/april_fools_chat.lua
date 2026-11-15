@@ -1,12 +1,12 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      april_fools_chat.lua
-DESCRIPTION:      Randomly modifies player chat messages to appear as if they were
+SCRIPT NAME:    april_fools_chat.lua
+DESCRIPTION:    Randomly modifies player chat messages to appear as if they were
                   sent by other players.
 
 Copyright (c) 2020-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

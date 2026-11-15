@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      cyborg_spawner.lua
-DESCRIPTION:      Spawns cyborg characters at predefined locations on maps
+SCRIPT NAME:    cyborg_spawner.lua
+DESCRIPTION:    Spawns cyborg characters at predefined locations on maps
                   - Automatically places cyborgs when maps load
                   - Supports multiple official Halo maps
                   - Simple configuration for adding new maps
@@ -17,8 +17,8 @@ CONFIGURATION:    Edit the objects table to:
                   - Add/remove spawn points
 
 Copyright (c) 2016-2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 local objects = {

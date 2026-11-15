@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      live_on_3.lua
-DESCRIPTION:      Competitive match restart system with:
+SCRIPT NAME:    live_on_3.lua
+DESCRIPTION:    Competitive match restart system with:
                   - 3-2-1 countdown sequence
                   - Automatic map reset
                   - Admin permission controls
@@ -17,8 +17,8 @@ CONFIGURATION:    Adjust these settings:
                   - permission: Required admin level
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

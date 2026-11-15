@@ -1,11 +1,11 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      needles_galore.lua
-DESCRIPTION:      Needles-only gameplay
+SCRIPT NAME:    needles_galore.lua
+DESCRIPTION:    Needles-only gameplay
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

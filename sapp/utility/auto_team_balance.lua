@@ -1,7 +1,7 @@
 --[[
 ====================================================================================
-SCRIPT NAME:      auto_team_balance.lua
-DESCRIPTION:      Keeps teams fair by moving players around when the numbers get
+SCRIPT NAME:    auto_team_balance.lua
+DESCRIPTION:    Keeps teams fair by moving players around when the numbers get
                   stupid. Admins can toggle it, force an immediate check, or change
                   settings without reloading the script.
 
@@ -13,8 +13,8 @@ DESCRIPTION:      Keeps teams fair by moving players around when the numbers get
                     Settings: delay, min_players, max_diff, priority, move_cooldown
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ====================================================================================
 ]]
 

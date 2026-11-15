@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      kill_zones.lua
-DESCRIPTION:      Configurable danger zone system that:
+SCRIPT NAME:    kill_zones.lua
+DESCRIPTION:    Configurable danger zone system that:
                   - Kills players who stay too long in restricted areas
                   - Provides warnings before killing
                   - Supports team-specific zones
@@ -19,8 +19,8 @@ CONFIGURATION:    Edit the CONFIG table to:
                   - Define team-specific zones
 
 Copyright (c) 2024 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

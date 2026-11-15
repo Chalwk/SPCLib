@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      object_spawner.lua
-DESCRIPTION:      Persistent object spawning with automatic respawn.
+SCRIPT NAME:    object_spawner.lua
+DESCRIPTION:    Persistent object spawning with automatic respawn.
 
                   Spawns configured objects (weapons, vehicles, equipment, etc.) at
                   defined coordinates. The object automatically respawns after being
@@ -28,8 +28,8 @@ DESCRIPTION:      Persistent object spawning with automatic respawn.
                   tag_class options: "weap", "vehi", "eqip", "bipd" (biped), etc.
 
 Copyright (c) 2021-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

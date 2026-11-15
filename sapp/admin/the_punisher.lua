@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      the_punisher.lua
-DESCRIPTION:      Automated player punishment system for team betrayals and friendly fire.
+SCRIPT NAME:    the_punisher.lua
+DESCRIPTION:    Automated player punishment system for team betrayals and friendly fire.
 
 FEATURES:
                   - Customizable punishment thresholds
@@ -38,8 +38,8 @@ PUNISHMENT TYPES:
                   CRASH - Crashes offender's game client
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

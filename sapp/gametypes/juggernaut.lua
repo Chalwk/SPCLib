@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      juggernaut.lua
-DESCRIPTION:      Juggernaut mode where one player becomes the juggernaut with
+SCRIPT NAME:    juggernaut.lua
+DESCRIPTION:    Juggernaut mode where one player becomes the juggernaut with
                   special attributes for a limited time before passing to another.
 
 KEY FEATURES:

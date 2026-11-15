@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      weighted_weapons.lua
-DESCRIPTION:      Realistic weapon weight system that affects player movement speed
+SCRIPT NAME:    weighted_weapons.lua
+DESCRIPTION:    Realistic weapon weight system that affects player movement speed
                   with optional stamina mechanics for enhanced tactical gameplay.
 
 KEY FEATURES:
@@ -29,8 +29,8 @@ CONFIGURATION OPTIONS:
 LAST UPADTED:     August, 2025
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

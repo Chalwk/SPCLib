@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      frag_nation.lua
-DESCRIPTION:      Grenade-focused combat mode with strategic resource management
+SCRIPT NAME:    frag_nation.lua
+DESCRIPTION:    Grenade-focused combat mode with strategic resource management
                   where players must carefully conserve and earn grenade supplies.
 
 KEY FEATURES:
@@ -26,8 +26,8 @@ CONFIGURATION OPTIONS:
                  - Map object management
 
 Copyright (c) 2021-2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      damage_multiplier.lua
-DESCRIPTION:      Allows administrators to modify player damage output with customizable
+SCRIPT NAME:    damage_multiplier.lua
+DESCRIPTION:    Allows administrators to modify player damage output with customizable
                   multipliers for gameplay balancing or special events.
 
 FEATURES:
@@ -35,8 +35,8 @@ EXAMPLE SCENARIOS:
                   - Test weapon damage values
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

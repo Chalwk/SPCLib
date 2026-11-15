@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      rcon_text.lua
-DESCRIPTION:      Advanced RCON message system with comprehensive message management
+SCRIPT NAME:    rcon_text.lua
+DESCRIPTION:    Advanced RCON message system with comprehensive message management
                   capabilities for SAPP Halo Custom Edition servers.
 
                   Enhanced Features:
@@ -30,8 +30,8 @@ DESCRIPTION:      Advanced RCON message system with comprehensive message manage
                       })
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

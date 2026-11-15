@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      notify_me.lua
-DESCRIPTION:      Console notification system for SAPP servers.
+SCRIPT NAME:    notify_me.lua
+DESCRIPTION:    Console notification system for SAPP servers.
                   - Color-coded console output per event type
                   - Optional timestamp prefix with configurable format
                   - ASCII art logo with server name and timestamp
@@ -16,8 +16,8 @@ DESCRIPTION:      Console notification system for SAPP servers.
 LAST UPDATED:     11/11/2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

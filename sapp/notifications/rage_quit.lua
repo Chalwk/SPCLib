@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      rage_quit.lua
-DESCRIPTION:      Detects and announces rage quits with different message types.
+SCRIPT NAME:    rage_quit.lua
+DESCRIPTION:    Detects and announces rage quits with different message types.
                   - Detects kill-related rage quits
                   - Detects general quick disconnects
                   - Customizable detection time thresholds
                   - Custom announcement messages
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

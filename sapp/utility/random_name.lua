@@ -1,12 +1,12 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      random_name.lua
-DESCRIPTION:      Replaces player names with random names from predefined categories.
+SCRIPT NAME:    random_name.lua
+DESCRIPTION:    Replaces player names with random names from predefined categories.
                   Configure name pools in the script's CONFIG section.
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 -- CONFIG STARTS ------------------------------

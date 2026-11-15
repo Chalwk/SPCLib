@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      color_reservation.lua
-DESCRIPTION:      Reserves specific armor colors for VIP players based on their unique
+SCRIPT NAME:    color_reservation.lua
+DESCRIPTION:    Reserves specific armor colors for VIP players based on their unique
                   hash identifiers, preventing unauthorized use of reserved colors.
 
 FEATURES:
@@ -31,8 +31,8 @@ USAGE:
 NOTE:             Only works in Free-For-All (FFA) game modes
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

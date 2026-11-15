@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      vehicle_fuel.lua
-DESCRIPTION:      Adds a fuel system to vehicles with configurable consumption,
+SCRIPT NAME:    vehicle_fuel.lua
+DESCRIPTION:    Adds a fuel system to vehicles with configurable consumption,
                   refueling stations, and an on-screen fuel gauge for drivers.
 
 FEATURES:
@@ -24,8 +24,8 @@ NOTES:
                   - Script disables itself if no stations are configured for a map.
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

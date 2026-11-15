@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      ping_checker.lua
-DESCRIPTION:      Player latency monitoring system with configurable command interface
+SCRIPT NAME:    ping_checker.lua
+DESCRIPTION:    Player latency monitoring system with configurable command interface
 
 FEATURES:
                   - Real-time ping checking for any player
@@ -20,8 +20,8 @@ USAGE:
                   Self-check:       "ping" (checks your own ping)
 
 Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

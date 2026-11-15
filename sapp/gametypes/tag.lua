@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      tag.lua
-DESCRIPTION:      Dynamic tag minigame featuring:
+SCRIPT NAME:    tag.lua
+DESCRIPTION:    Dynamic tag minigame featuring:
                   - Rotating "Tagger" role with speed advantage
                   - Score-based progression system
                   - Automatic role rotation mechanics
@@ -20,8 +20,8 @@ CONFIGURATION:
                   - Set point values and intervals
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

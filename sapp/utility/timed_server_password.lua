@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      Timed Server Password
-DESCRIPTION:      Automatically removes server password after configurable duration.
+SCRIPT NAME:    Timed Server Password
+DESCRIPTION:    Automatically removes server password after configurable duration.
 
 FEATURES:
                   - Set password expiration time (seconds)
@@ -20,8 +20,8 @@ CONFIGURATION:
 DEVELOPED FOR:    BK Clan (@Rev)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

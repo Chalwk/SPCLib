@@ -1,13 +1,13 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      client_crasher.lua
-DESCRIPTION:      Crashes the client of a player when they join the server.
+SCRIPT NAME:    client_crasher.lua
+DESCRIPTION:    Crashes the client of a player when they join the server.
                   Configure the VICTIM_NAMES and VICTIM_HASHES tables to specify
                   the names and hashes of the players you want to crash.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

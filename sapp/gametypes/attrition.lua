@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      attrition.lua
-DESCRIPTION:      Implements Halo Infinite-style Attrition mode with team revival
+SCRIPT NAME:    attrition.lua
+DESCRIPTION:    Implements Halo Infinite-style Attrition mode with team revival
                   mechanics and limited respawns.
 
 KEY FEATURES:
@@ -22,8 +22,8 @@ CONFIGURATION OPTIONS:
                  - Orb object customization
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

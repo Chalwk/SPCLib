@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      server_logger.lua
-DESCRIPTION:      Advanced server logging system that replaces SAPP's default logs.
+SCRIPT NAME:    server_logger.lua
+DESCRIPTION:    Advanced server logging system that replaces SAPP's default logs.
                   Tracks player activity, game events, and admin commands with
                   customizable verbosity.
 
 LAST UPDATED:     23/9/2025
 
 Copyright (c) 2024-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

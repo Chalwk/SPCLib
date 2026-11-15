@@ -1,14 +1,14 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      custom_loadouts.lua
-DESCRIPTION:      Custom weapon loadout system with multiple pre-configured
+SCRIPT NAME:    custom_loadouts.lua
+DESCRIPTION:    Custom weapon loadout system with multiple pre-configured
                   weapon sets, automatic application on spawn, player selection,
                   admin override capabilities, custom ammo, grenade counts, a
                   selection menu, and persistent player preferences.
 
 Copyright (c) 2024-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

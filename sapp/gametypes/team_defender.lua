@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      team_defender.lua
-DESCRIPTION:      Objective-based team mode featuring:
+SCRIPT NAME:    team_defender.lua
+DESCRIPTION:    Objective-based team mode featuring:
                   - Dynamic flag control gameplay
                   - Team role specialization (carrier/defenders/attackers)
                   - Strategic point scoring system
@@ -20,8 +20,8 @@ CONFIGURATION:
                   - Nav marker options for flag carriers
 
 Copyright (c) 2021 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      freeze_players.lua
-DESCRIPTION:      Player freezing system with:
+SCRIPT NAME:    freeze_players.lua
+DESCRIPTION:    Player freezing system with:
                   - Freeze/unfreeze commands
                   - Weapon management options
                   - Customizable notifications
@@ -23,8 +23,8 @@ CONFIGURATION:    Adjust these settings:
                   - take_weapons: Toggle weapon removal
 
 Copyright (c) 2020 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

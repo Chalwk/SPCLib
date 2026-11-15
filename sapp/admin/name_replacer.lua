@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      name_replacer.lua
-DESCRIPTION:      Automated player name randomization system with blacklist protection.
+SCRIPT NAME:    name_replacer.lua
+DESCRIPTION:    Automated player name randomization system with blacklist protection.
 
 FEATURES:
                   - Automatic detection and replacement of blacklisted names
@@ -22,8 +22,8 @@ USAGE:
                   - Names are tracked throughout game session
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

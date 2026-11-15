@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      mode_enter_gun.lua
-DESCRIPTION:      Vehicle entry system using weapon targeting
+SCRIPT NAME:    mode_enter_gun.lua
+DESCRIPTION:    Vehicle entry system using weapon targeting
                   - Toggle with: /entergun [on/off] (requires permission level 1)
                   - Enter vehicles by aiming and shooting at them
                   - Supports all standard Halo vehicles
@@ -16,8 +16,8 @@ DESCRIPTION:      Vehicle entry system using weapon targeting
                   - Gun Turret
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

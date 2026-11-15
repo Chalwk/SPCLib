@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      random_grenades.lua
-DESCRIPTION:      Randomized grenade spawn system with map-specific customization
+SCRIPT NAME:    random_grenades.lua
+DESCRIPTION:    Randomized grenade spawn system with map-specific customization
 
 FEATURES:
                   - Automatic grenade assignment on player spawn
@@ -20,8 +20,8 @@ USAGE:
                   Simply load the script - no commands required
 
 Copyright (c) 2016-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

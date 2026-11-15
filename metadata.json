@@ -89,6 +89,7 @@
       "dynamic_ping_kicker": "Adaptive ping kicker: limits adjust with player count, warnings, admin immunity, logging.",
       "freeze_players": "Freeze players: weapon management, movement restriction, customizable notifications, admin permissions.",
       "geo_location": "Geolocate players on join via ip-api.com, optional country block. Display fields, /country command, cache (1h TTL), debug IP. Needs JSON, HTTP client.",
+      "health_audit": "Logging-only audit: records player ping, health/shield, damage, and death events for lobby comparisons.",
       "melee_kicker": "Melee kills instantly kick victim. Optional admin-only melee kicks. Works with flags/oddball.",
       "multiclient_detector": "Multi-client detection with probability 0-100% via port ranges, hashes, behavior. Risk categories, admin alerts.",
       "mute_system": "Mute system: manual/spam mute, command whitelist, timed mutes, anti-spam thresholds, punishments.",

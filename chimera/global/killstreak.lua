@@ -1,12 +1,12 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      killstreak.lua
-DESCRIPTION:      Announces when players reach kill streak MILESTONES
+SCRIPT NAME:    killstreak.lua
+DESCRIPTION:    Announces when players reach kill streak MILESTONES
                   (e.g., 3, 5, 10, 15+ kills).
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

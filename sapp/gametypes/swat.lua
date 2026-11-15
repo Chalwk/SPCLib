@@ -1,14 +1,14 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      swat.lua
-DESCRIPTION:      Tactical SWAT game mode featuring:
+SCRIPT NAME:    swat.lua
+DESCRIPTION:    Tactical SWAT game mode featuring:
                   - Precision-based headshot-only kills
                   - Restricted weapon loadout (pistol + sniper rifle)
                   - Competitive 25-kill victory condition (configurable)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

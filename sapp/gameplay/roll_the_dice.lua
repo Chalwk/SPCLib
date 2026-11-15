@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      roll_the_dice.lua
-DESCRIPTION:      Random effect generator with "/rtd" command. Players get one of:
+SCRIPT NAME:    roll_the_dice.lua
+DESCRIPTION:    Random effect generator with "/rtd" command. Players get one of:
                   - Random vehicle entry
                   - Random weapon assignment
                   - Inventory deletion
@@ -22,8 +22,8 @@ CONFIGURATION:
                   - Customize vehicle and weapon tables
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

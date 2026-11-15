@@ -1,14 +1,14 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      get_object_identity.lua
-DESCRIPTION:      Inspect the object targeted by an admin's crosshair.
+SCRIPT NAME:    get_object_identity.lua
+DESCRIPTION:    Inspect the object targeted by an admin's crosshair.
                   Toggle with the configured command while aiming and firing.
 
 CONFIGURATION:    COMMAND, PERMISSION_LEVEL
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

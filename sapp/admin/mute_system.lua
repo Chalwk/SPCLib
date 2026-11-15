@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      mute_system.lua
-DESCRIPTION:      Advanced player mute management system with anti-spam protection.
+SCRIPT NAME:    mute_system.lua
+DESCRIPTION:    Advanced player mute management system with anti-spam protection.
 
 FEATURES:
                   - Comprehensive mute functionality:
@@ -26,8 +26,8 @@ USAGE:
                   - System automatically handles spam detection
 
 Copyright (c) 2020 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

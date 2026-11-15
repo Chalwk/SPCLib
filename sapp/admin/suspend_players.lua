@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      suspend_players.lua
-DESCRIPTION:      Admin tool to freeze players in place, remove weapons, and mute chat.
+SCRIPT NAME:    suspend_players.lua
+DESCRIPTION:    Admin tool to freeze players in place, remove weapons, and mute chat.
                   Persists across sessions when configured.
 
 FEATURES:
@@ -26,8 +26,8 @@ USAGE:
                   /suspend all off   - Unsuspend all players
 
 Copyright (c) 2019 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

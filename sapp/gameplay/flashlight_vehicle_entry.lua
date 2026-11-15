@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      flashlight_vehicle_entry.lua
-DESCRIPTION:      Allows players to enter unoccupied vehicles by:
+SCRIPT NAME:    flashlight_vehicle_entry.lua
+DESCRIPTION:    Allows players to enter unoccupied vehicles by:
                   1. Aiming at the vehicle
                   2. Pressing flashlight key (default: L key)
 
@@ -14,8 +14,8 @@ DESCRIPTION:      Allows players to enter unoccupied vehicles by:
                   - Gun Turret
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

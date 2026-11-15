@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      list_players.lua
-DESCRIPTION:      Enhanced player listing with:
+SCRIPT NAME:    list_players.lua
+DESCRIPTION:    Enhanced player listing with:
                   - Detailed player information
                   - Clean column formatting
                   - Team/IP visibility
@@ -19,8 +19,8 @@ CONFIGURATION:    Adjust these settings:
                   - ffa_team_name: Label for FFA players
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

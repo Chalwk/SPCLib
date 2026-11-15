@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      tea_bagging.lua
-DESCRIPTION:      Detects repeated crouching near a player's death location and
+SCRIPT NAME:    tea_bagging.lua
+DESCRIPTION:    Detects repeated crouching near a player's death location and
                   announces a random taunt.
 
 COMMANDS:
                   /tbag [on|off|toggle|status|help] - Admin-only system control
 
 Copyright (c) 2019-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

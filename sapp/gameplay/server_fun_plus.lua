@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      server_fun_plus.lua
-DESCRIPTION:      Comprehensive admin fun/mod toolkit with 12+ gameplay-altering commands
+SCRIPT NAME:    server_fun_plus.lua
+DESCRIPTION:    Comprehensive admin fun/mod toolkit with 12+ gameplay-altering commands
                   for creating chaotic and entertaining server experiences.
 
 FEATURES:
@@ -28,8 +28,8 @@ CONFIGURATION:
                          consenting players/administrators. May cause gameplay disruption.
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

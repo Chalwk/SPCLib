@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      proximity_chat.lua
-DESCRIPTION:      Implements proximity-based voice chat with configurable range.
+SCRIPT NAME:    proximity_chat.lua
+DESCRIPTION:    Implements proximity-based voice chat with configurable range.
                   - Per-map range customization
                   - Adjustable range via admin command
                   - Configurable chat behavior for dead players
                   - Custom chat message formatting
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

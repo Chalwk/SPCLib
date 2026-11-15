@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      game_time_manager.lua
-DESCRIPTION:      Per-map game time manager.
+SCRIPT NAME:    game_time_manager.lua
+DESCRIPTION:    Per-map game time manager.
 
                   Supports stock game types (CTF, Slayer, Oddball, KOTH, Race)
                   and custom gametypes, e.g. "Race_005" or "My Custom Mode".
@@ -9,8 +9,8 @@ DESCRIPTION:      Per-map game time manager.
                   Add custom modes by creating a new entry in TIMELIMIT.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

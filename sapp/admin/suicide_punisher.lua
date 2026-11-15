@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      suicide_punisher.lua
-DESCRIPTION:      Automatically punishes players who commit excessive suicides
+SCRIPT NAME:    suicide_punisher.lua
+DESCRIPTION:    Automatically punishes players who commit excessive suicides
                   with configurable kick/ban actions and grace periods.
 
 FEATURES:
@@ -23,8 +23,8 @@ USAGE:
                   Punishments are applied when threshold is exceeded
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

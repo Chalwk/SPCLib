@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      grenade_launcher.lua
-DESCRIPTION:      Converts weapons into grenade launchers
+SCRIPT NAME:    grenade_launcher.lua
+DESCRIPTION:    Converts weapons into grenade launchers
                   - Toggle with: /gl [on/off] (permission level -1)
                   - Works with all standard weapons and vehicle weapons
                   - Configurable projectile behavior and velocity
@@ -14,8 +14,8 @@ DESCRIPTION:      Converts weapons into grenade launchers
                   - Warthog, Ghost, Banshee weapons
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

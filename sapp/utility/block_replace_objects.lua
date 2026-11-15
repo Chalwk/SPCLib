@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      block_replace_objects.lua
-DESCRIPTION:      Controls object spawning with:
+SCRIPT NAME:    block_replace_objects.lua
+DESCRIPTION:    Controls object spawning with:
                   - Ability to block specific objects
                   - Option to replace objects with alternatives
                   - Per-gametype configuration
@@ -19,8 +19,8 @@ CONFIGURATION:    Edit the tags table to:
                   - Organize by gametype
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

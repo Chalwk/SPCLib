@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      vpn_blocker.lua
-DESCRIPTION:      Automatically screens connecting players against IPQualityScore
+SCRIPT NAME:    vpn_blocker.lua
+DESCRIPTION:    Automatically screens connecting players against IPQualityScore
                   and removes players whose IP is positively identified as a VPN,
                   Tor node or proxy.
 
@@ -37,8 +37,8 @@ REQUIREMENTS:     Install to the same directory as sapp.dll
 LAST UPDATED:     12 Oct 2026
 
 Copyright (c) 2023-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

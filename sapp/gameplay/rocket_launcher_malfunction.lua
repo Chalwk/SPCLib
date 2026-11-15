@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      rocket_launcher_malfunction.lua
-DESCRIPTION:      Causes rocket launchers to randomly explode, killing the wielder
+SCRIPT NAME:    rocket_launcher_malfunction.lua
+DESCRIPTION:    Causes rocket launchers to randomly explode, killing the wielder
                   and nearby players. Adds chaotic gameplay elements.
 
 FEATURES:
@@ -16,8 +16,8 @@ CONFIGURATION:
                 - Customize explosion announcement message
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

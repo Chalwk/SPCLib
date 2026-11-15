@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      reg_to_play.lua
-DESCRIPTION:      Enforces mandatory player registration with timed kick system.
+SCRIPT NAME:    reg_to_play.lua
+DESCRIPTION:    Enforces mandatory player registration with timed kick system.
 
 FEATURES:
                   - 10-second registration window (configurable)
@@ -23,8 +23,8 @@ USAGE:
                   Configure settings in the CONFIG table at script top.
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

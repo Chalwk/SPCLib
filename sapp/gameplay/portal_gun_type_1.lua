@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      portal_gun_type_1.lua
-DESCRIPTION:      Teleportation tool that works by aiming and shooting.
+SCRIPT NAME:    portal_gun_type_1.lua
+DESCRIPTION:    Teleportation tool that works by aiming and shooting.
                   - Works while in vehicles
                   - No crouching required to teleport
                   - Admin-configurable permissions
                   - Persistent activation (optional)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

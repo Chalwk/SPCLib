@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      auto_message.lua
-DESCRIPTION:      Automated rotating message system that broadcasts:
+SCRIPT NAME:    auto_message.lua
+DESCRIPTION:    Automated rotating message system that broadcasts:
                   - Scheduled announcements to all players
                   - Multi-line messages
                   - Optional console output for monitoring
@@ -10,8 +10,8 @@ DESCRIPTION:      Automated rotating message system that broadcasts:
 LAST UPDATED:     22 May 2026
 
 Copyright (c) 2024-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      liberty_vehicle_spawner.lua
-DESCRIPTION:      On-demand vehicle spawning system with:
+SCRIPT NAME:    liberty_vehicle_spawner.lua
+DESCRIPTION:    On-demand vehicle spawning system with:
                   - Chat command activation
                   - Automatic player entry
                   - Custom map support
@@ -28,8 +28,8 @@ CONFIGURATION:
 LAST UPDATED:     31 May 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

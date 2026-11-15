@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      self_destruction.lua
-DESCRIPTION:      Allows players to self-destruct using the flashlight key,
+SCRIPT NAME:    self_destruction.lua
+DESCRIPTION:    Allows players to self-destruct using the flashlight key,
                   with configurable cooldown period and explosion effects.
 
 FEATURES:
@@ -19,8 +19,8 @@ CONFIGURATION:
                  - on_ready: Custom ready notification message
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

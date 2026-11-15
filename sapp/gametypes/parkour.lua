@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      parkour.lua
-DESCRIPTION:      Halo SAPP/Lua parkour plugin.
+SCRIPT NAME:    parkour.lua
+DESCRIPTION:    Halo SAPP/Lua parkour plugin.
                   - Allows players to run custom parkour courses on maps.
                   - Tracks checkpoints, start/finish lines, and player progression.
                   - Supports in-order or free checkpoint completion.
@@ -27,8 +27,8 @@ REQUIREMENTS:     Install to the same directory as sapp.dll
 LAST UPDATED:     2/10/2025
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      health_regeneration.lua
-DESCRIPTION:      Automatic health regeneration system
+SCRIPT NAME:    health_regeneration.lua
+DESCRIPTION:    Automatic health regeneration system
                   - Gradually restores player health over time
                   - Dynamic regeneration rate (faster when more injured)
                   - Caps at full health (1.0)
@@ -9,8 +9,8 @@ DESCRIPTION:      Automatic health regeneration system
                   - Simple configuration (adjust HEALTH_INCREMENT)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

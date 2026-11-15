@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      teleport_manager.lua
-DESCRIPTION:      Advanced teleport system with location memory and map-linked warps.
+SCRIPT NAME:    teleport_manager.lua
+DESCRIPTION:    Advanced teleport system with location memory and map-linked warps.
 
 FEATURES:
                   - Map-specific warp persistence
@@ -34,8 +34,8 @@ REQUIREMENTS:     Install to the same directory as sapp.dll
                   - Lua JSON Parser:  http://regex.info/blog/lua/json
 
 Copyright (c) 2020 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

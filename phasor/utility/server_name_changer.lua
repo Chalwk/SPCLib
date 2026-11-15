@@ -1,11 +1,11 @@
 --[[
 ========================================================================================
-SCRIPT NAME:      server_name_changer.lua
-DESCRIPTION:      Cycles through server names at regular intervals for dynamic branding.
+SCRIPT NAME:    server_name_changer.lua
+DESCRIPTION:    Cycles through server names at regular intervals for dynamic branding.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ========================================================================================
 ]]
 

@@ -1,11 +1,11 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      clear_chat.lua
-DESCRIPTION:      Provides admin command to clear in-game chat.
+SCRIPT NAME:    clear_chat.lua
+DESCRIPTION:    Provides admin command to clear in-game chat.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 -- CONFIG START ----------------------

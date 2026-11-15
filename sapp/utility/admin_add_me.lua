@@ -1,14 +1,14 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      admin_add_me.lua
-DESCRIPTION:      Grants admin privileges via "/admin me" command
+SCRIPT NAME:    admin_add_me.lua
+DESCRIPTION:    Grants admin privileges via "/admin me" command
                   - Sets level 4 admin by default (configurable)
                   - Only works for pre-approved players, IPs, or hashes
                   - Blocks known pirated game copies
 
 Copyright (c) 2016-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

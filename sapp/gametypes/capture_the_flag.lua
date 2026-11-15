@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      capture_the_flag.lua
-DESCRIPTION:      Adds full CTF gameplay to any Slayer (FFA/Team) game mode by
+SCRIPT NAME:    capture_the_flag.lua
+DESCRIPTION:    Adds full CTF gameplay to any Slayer (FFA/Team) game mode by
                   spawning a single neutral flag that players must capture and
                   return to designated team bases.
 
@@ -16,8 +16,8 @@ FEATURES:
                   - Weapon tag verification for flag detection
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

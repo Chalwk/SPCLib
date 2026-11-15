@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      vanish.lua
-DESCRIPTION:      Allows players to become invisible/invulnerable and unvanish on command.
+SCRIPT NAME:    vanish.lua
+DESCRIPTION:    Allows players to become invisible/invulnerable and unvanish on command.
 
 FEATURES:
                   - Toggle vanish mode with /vanish command
@@ -25,8 +25,8 @@ CONFIGURATION:
 LAST UPADTED:     20/8/2025
 
 Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]] --
 

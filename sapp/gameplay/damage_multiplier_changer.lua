@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      damage_multiplier_changer.lua
-DESCRIPTION:      Customizes weapon and damage effects with:
+SCRIPT NAME:    damage_multiplier_changer.lua
+DESCRIPTION:    Customizes weapon and damage effects with:
                   - Configurable damage multipliers
                   - Support for all weapon types
                   - Vehicle damage adjustments
@@ -18,8 +18,8 @@ CONFIGURATION:    Edit the multipliers table to:
                   - 1 = normal damage, <1 = reduced, >1 = increased
 
 Copyright (c) 2019 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

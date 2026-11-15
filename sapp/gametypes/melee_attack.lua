@@ -1,11 +1,11 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      melee_attack.lua
-DESCRIPTION:      Brutal melee-only combat mode
+SCRIPT NAME:    melee_attack.lua
+DESCRIPTION:    Brutal melee-only combat mode
 
 Copyright (c) 2023-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

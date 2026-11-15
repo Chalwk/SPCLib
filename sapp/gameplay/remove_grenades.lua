@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      remove_grenades.lua
-DESCRIPTION:      Removes grenades after spawn on a per-gamemode basis.
+SCRIPT NAME:    remove_grenades.lua
+DESCRIPTION:    Removes grenades after spawn on a per-gamemode basis.
 
 FEATURES:
                   - Removes grenades after player spawn
@@ -21,8 +21,8 @@ LIMITATIONS:
                   Only removes grenades after spawn
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

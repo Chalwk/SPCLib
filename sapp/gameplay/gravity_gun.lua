@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      gravity_gun.lua
-DESCRIPTION:      Half-Life style gravity gun
+SCRIPT NAME:    gravity_gun.lua
+DESCRIPTION:    Half-Life style gravity gun
                   - Command: ggun [on/off] (permission level -1)
                   - Pick up objects by aiming and shooting
                   - Launch objects with secondary fire
                   - Works with vehicles, weapons, equipment, and devices
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

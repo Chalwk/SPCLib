@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      restart_mapcycle.lua
-DESCRIPTION:      Automatically restarts the map cycle when server becomes empty.
+SCRIPT NAME:    restart_mapcycle.lua
+DESCRIPTION:    Automatically restarts the map cycle when server becomes empty.
 
 FEATURES:
                   - Restarts map cycle after configurable delay
@@ -24,8 +24,8 @@ BEHAVIOR:
                   - Executes 'mapcycle_begin' when timer completes
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

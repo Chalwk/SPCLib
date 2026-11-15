@@ -1,11 +1,11 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      ping_spike_watch.lua
-DESCRIPTION:      Tracks ping, rolling average, and sudden spikes.
+SCRIPT NAME:    ping_spike_watch.lua
+DESCRIPTION:    Tracks ping, rolling average, and sudden spikes.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

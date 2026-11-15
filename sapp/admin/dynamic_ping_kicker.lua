@@ -1,13 +1,13 @@
 --[[
 =======================================================================
-SCRIPT NAME:      dynamic_ping_kicker.lua
-DESCRIPTION:      Enforces server ping limits with optional scaling
+SCRIPT NAME:    dynamic_ping_kicker.lua
+DESCRIPTION:    Enforces server ping limits with optional scaling
                   based on player count. Includes warning system,
                   grace periods, and basic admin/name immunity.
 
 Copyright (c) 2020-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =======================================================================
 ]]
 

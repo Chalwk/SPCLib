@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      ctf_flag_position_logger.lua
-DESCRIPTION:      Logs precise coordinates of Capture The Flag (CTF) flag spawn points
+SCRIPT NAME:    ctf_flag_position_logger.lua
+DESCRIPTION:    Logs precise coordinates of Capture The Flag (CTF) flag spawn points
                   at the start of each game. Ideal for map data collection or custom
                   CTF scripting.
 

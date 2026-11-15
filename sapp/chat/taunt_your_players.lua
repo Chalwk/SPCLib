@@ -1,12 +1,12 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      taunt_your_players.lua
-DESCRIPTION:      Sends humorous taunts to players during gameplay, with customizable
+SCRIPT NAME:    taunt_your_players.lua
+DESCRIPTION:    Sends humorous taunts to players during gameplay, with customizable
                   messages and event triggers.
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

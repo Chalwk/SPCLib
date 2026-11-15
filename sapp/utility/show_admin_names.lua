@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      show_admin_names.lua
-DESCRIPTION:      Identifies and displays all online administrators with their
+SCRIPT NAME:    show_admin_names.lua
+DESCRIPTION:    Identifies and displays all online administrators with their
                   permission levels via simple chat command.
 
 FEATURES:
@@ -15,8 +15,8 @@ USAGE:
                   Output format: "AdminName [level: X]"
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

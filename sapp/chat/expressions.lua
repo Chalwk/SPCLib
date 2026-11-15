@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      expressions.lua
-DESCRIPTION:      Chat system that responds to triggers with random phrases.
+SCRIPT NAME:    expressions.lua
+DESCRIPTION:    Chat system that responds to triggers with random phrases.
 
                   Triggers:
                   - !cuss       Exclamations
@@ -11,8 +11,8 @@ DESCRIPTION:      Chat system that responds to triggers with random phrases.
                   Type these in chat as-is.
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

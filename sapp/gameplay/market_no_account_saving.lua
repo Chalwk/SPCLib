@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      market_no_account_saving.lua
-DESCRIPTION:      Session-based economy system with purchasable perks
+SCRIPT NAME:    market_no_account_saving.lua
+DESCRIPTION:    Session-based economy system with purchasable perks
                   - Players earn/deduct money for in-game actions
                   - Temporary perks available for purchase
                   - Admin-controlled economy management
@@ -19,8 +19,8 @@ DESCRIPTION:      Session-based economy system with purchasable perks
                   - Economy balancing
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

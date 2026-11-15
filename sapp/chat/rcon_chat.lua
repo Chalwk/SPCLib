@@ -1,12 +1,12 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      rcon_chat.lua
-DESCRIPTION:      Redirects in-game chat messages to RCON with customizable formatting.
+SCRIPT NAME:    rcon_chat.lua
+DESCRIPTION:    Redirects in-game chat messages to RCON with customizable formatting.
                   Supports global, team, and vehicle chat modes.
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

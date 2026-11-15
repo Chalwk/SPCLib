@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      portal_gun_type_2.lua
-DESCRIPTION:      Teleportation tool that requires crouching and shooting to activate.
+SCRIPT NAME:    portal_gun_type_2.lua
+DESCRIPTION:    Teleportation tool that requires crouching and shooting to activate.
                   - Works only while on foot (no vehicle support)
                   - Requires crouching to teleport
                   - Admin-configurable permissions
                   - Persistent activation (optional)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

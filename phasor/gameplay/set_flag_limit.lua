@@ -1,12 +1,12 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      set_flag_limit.lua
-DESCRIPTION:      Forces a custom score (flag capture) limit for CTF games.
+SCRIPT NAME:    set_flag_limit.lua
+DESCRIPTION:    Forces a custom score (flag capture) limit for CTF games.
                   Works on both PC and CE, and reapplies on every new game.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

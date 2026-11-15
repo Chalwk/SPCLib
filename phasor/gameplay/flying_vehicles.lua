@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      flying_vehicles.lua
-DESCRIPTION:      Enables flying capability for ground vehicles
+SCRIPT NAME:    flying_vehicles.lua
+DESCRIPTION:    Enables flying capability for ground vehicles
                   - Toggle with: fly [on/off]
                   - Configurable per vehicle type
                   - Auto-reset when server empties (configurable)
@@ -11,8 +11,8 @@ DESCRIPTION:      Enables flying capability for ground vehicles
                   - Warthog
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

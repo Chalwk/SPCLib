@@ -1,13 +1,13 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      ping_display.lua
-DESCRIPTION:      Displays your current ping in milliseconds on the HUD.
+SCRIPT NAME:    ping_display.lua
+DESCRIPTION:    Displays your current ping in milliseconds on the HUD.
 
                   Command: /ping - Toggle ping display on/off
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

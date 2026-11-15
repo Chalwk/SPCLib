@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      mode_spawn_gun.lua
-DESCRIPTION:      Advanced object spawning system using weapon targeting
+SCRIPT NAME:    mode_spawn_gun.lua
+DESCRIPTION:    Advanced object spawning system using weapon targeting
                   - Spawn objects by aiming and shooting
                   - Over 40 spawnable items (vehicles, weapons, equipment, projectiles)
                   - Automatic cleanup system
@@ -22,8 +22,8 @@ DESCRIPTION:      Advanced object spawning system using weapon targeting
                   - Projectiles (all weapon projectiles)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

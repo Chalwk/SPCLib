@@ -1,13 +1,13 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      tip_rotator.lua
-DESCRIPTION:      Cycles through short gameplay tips and reminders on the HUD.
+SCRIPT NAME:    tip_rotator.lua
+DESCRIPTION:    Cycles through short gameplay tips and reminders on the HUD.
 
                   Command: /tips - Toggle tip rotator on/off
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      console_logo.lua
-DESCRIPTION:      Displays custom ASCII art in server console with:
+SCRIPT NAME:    console_logo.lua
+DESCRIPTION:    Displays custom ASCII art in server console with:
                   - Automatic timestamp and server name insertion
                   - Color-coded text support
                   - Multi-line formatting
@@ -17,8 +17,8 @@ CREATION TIP:     Generate ASCII art at:
                   (Use 'KBAN' font for best results)
 
 Copyright (c) 2021 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      force_chat.lua
-DESCRIPTION:      Forces a player to send a chat message
+SCRIPT NAME:    force_chat.lua
+DESCRIPTION:    Forces a player to send a chat message
                   - Command: /fc <player#> <message>
                   - Output format: "PlayerName: message"
                   - Requires permission level 1
                   - Works with all players (including Chimera users)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

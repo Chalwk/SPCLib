@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      color_changer.lua
-DESCRIPTION:      Allows players to change their armor color via command with
+SCRIPT NAME:    color_changer.lua
+DESCRIPTION:    Allows players to change their armor color via command with
                   admin-level restrictions and 18 color options.
 
 FEATURES:
@@ -27,8 +27,8 @@ CONFIGURATION:
                   - Add/remove color options as needed
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

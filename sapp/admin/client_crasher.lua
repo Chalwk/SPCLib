@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      client_crasher.lua
-DESCRIPTION:      Anti-cheat enforcement tool that:
+SCRIPT NAME:    client_crasher.lua
+DESCRIPTION:    Anti-cheat enforcement tool that:
                   - Crashes clients of banned players/cheaters
                   - Works via in-game vehicle exploit
                   - Supports automatic and manual triggering
@@ -18,8 +18,8 @@ CONFIGURATION:    Edit Crash table to:
                   - Adjust crash iterations
 
 Copyright (c) 2020-2021 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

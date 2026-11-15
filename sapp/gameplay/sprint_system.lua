@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      sprint_system.lua
-DESCRIPTION:      Advanced stamina-based sprinting system with toggle controls,
+SCRIPT NAME:    sprint_system.lua
+DESCRIPTION:    Advanced stamina-based sprinting system with toggle controls,
                   exhaustion mechanics, and real-time HUD feedback.
 
 FEATURES:
@@ -30,8 +30,8 @@ USAGE:
 LAST UPDATED:     20/8/2025
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

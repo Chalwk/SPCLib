@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      report_system.lua
-DESCRIPTION:      In-game player reporting.
+SCRIPT NAME:    report_system.lua
+DESCRIPTION:    In-game player reporting.
                   - /s_report <id> <reason>  - file a report against a player
                   - /s_report <reason>       - file a bug / general report
                   - /reports [page]          - view current reports (admins)
@@ -10,8 +10,8 @@ DESCRIPTION:      In-game player reporting.
                   Auto-expires old reports, prevents spam.
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

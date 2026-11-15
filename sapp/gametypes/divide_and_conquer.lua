@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      divide_and_conquer.lua
-DESCRIPTION:      Team conversion warfare where kills convert enemies to allies,
+SCRIPT NAME:    divide_and_conquer.lua
+DESCRIPTION:    Team conversion warfare where kills convert enemies to allies,
                   creating dynamic team shifts and strategic gameplay.
 
 KEY FEATURES:
@@ -17,8 +17,8 @@ KEY FEATURES:
 LAST UPDATED:    21/8/2025
 
 Copyright (c) 2023-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

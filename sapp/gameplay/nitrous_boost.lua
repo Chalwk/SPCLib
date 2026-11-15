@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      nitrous_boost.lua
-DESCRIPTION:      Vehicle nitrous boost system with:
+SCRIPT NAME:    nitrous_boost.lua
+DESCRIPTION:    Vehicle nitrous boost system with:
                   - Flashlight key toggle for activation/deactivation
                   - Boost multiplier applied to vehicle velocity
                   - Finite nitrous resource with configurable drain & regen rates
@@ -10,8 +10,8 @@ DESCRIPTION:      Vehicle nitrous boost system with:
                   - State persistence across vehicle entry/exit
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

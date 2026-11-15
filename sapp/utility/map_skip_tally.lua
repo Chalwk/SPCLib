@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      map_skip_tally.lua
-DESCRIPTION:      Tracks and persists map skip votes across game sessions.
+SCRIPT NAME:    map_skip_tally.lua
+DESCRIPTION:    Tracks and persists map skip votes across game sessions.
 
 COMMANDS:
                   skip       - Register a skip vote
@@ -12,8 +12,8 @@ REQUIREMENTS:     Install to the same directory as sapp.dll
                   - Lua JSON Parser:  http://regex.info/blog/lua/json
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

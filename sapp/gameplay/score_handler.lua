@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      score_handler.lua
-DESCRIPTION:      Advanced scoring system with configurable points and custom messages.
+SCRIPT NAME:    score_handler.lua
+DESCRIPTION:    Advanced scoring system with configurable points and custom messages.
 
                   Awards points for kills, flag captures, flag carrier kills, assists, first blood,
                   headshots, assassinations, killing sprees, multikills, and more. Handles special
@@ -10,8 +10,8 @@ DESCRIPTION:      Advanced scoring system with configurable points and custom me
                   damage-source mapping for weapons, grenades, melee, and vehicles.
 
 Copyright (c) 2021-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

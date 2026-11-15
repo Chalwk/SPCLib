@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      auto_lead.lua
-DESCRIPTION:      Automatically configures projectile lead settings per map and
+SCRIPT NAME:    auto_lead.lua
+DESCRIPTION:    Automatically configures projectile lead settings per map and
                   gametype combination. Features:
                   - Map-specific no-lead configurations
                   - Gametype-specific overrides
@@ -13,8 +13,8 @@ CONFIGURATION:    Edit the settings table to define:
                   - Default behavior for unlisted maps
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

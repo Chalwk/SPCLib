@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      survival_slayer.lua
-DESCRIPTION:      Time-based survival mode featuring:
+SCRIPT NAME:    survival_slayer.lua
+DESCRIPTION:    Time-based survival mode featuring:
                   - Countdown life timer for all players
                   - Time bonus awarded for kills (+10 seconds)
                   - Victory condition: First to reach kill limit (15)
@@ -19,8 +19,8 @@ CONFIGURATION:
                   - Configurable win condition (default: 15 kills)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

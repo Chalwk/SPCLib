@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      truce.lua
-DESCRIPTION:      Enables players to establish temporary truces preventing mutual
+SCRIPT NAME:    truce.lua
+DESCRIPTION:    Enables players to establish temporary truces preventing mutual
                   damage, with request/accept system and admin controls.
 
 
@@ -36,8 +36,8 @@ MESSAGE TEMPLATES:
 TODO: rewrite this garbage
 
 Copyright (c) 2016-2019 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

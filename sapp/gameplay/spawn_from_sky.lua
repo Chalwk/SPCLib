@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      spawn_from_sky.lua
-DESCRIPTION:      Makes players spawn high above the ground (35 world units) when joining,
+SCRIPT NAME:    spawn_from_sky.lua
+DESCRIPTION:    Makes players spawn high above the ground (35 world units) when joining,
                   creating a dramatic falling spawn effect.
 
 FEATURES:
@@ -25,8 +25,8 @@ NOTES:
                  - Works automatically with no player input needed
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

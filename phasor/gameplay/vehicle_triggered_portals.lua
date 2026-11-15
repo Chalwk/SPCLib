@@ -1,13 +1,13 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      vehicle_triggered_portals.lua
-DESCRIPTION:      When a player sitting in the correct seat of a valid vehicle enters
+SCRIPT NAME:    vehicle_triggered_portals.lua
+DESCRIPTION:    When a player sitting in the correct seat of a valid vehicle enters
                   a portal sphere, the entire vehicle is teleported to the
                   destination coordinates.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

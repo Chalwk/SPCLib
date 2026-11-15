@@ -1,15 +1,15 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      tag_enforcer.lua
-DESCRIPTION:      This script prevents unauthorized players from using the clan tag
+SCRIPT NAME:    tag_enforcer.lua
+DESCRIPTION:    This script prevents unauthorized players from using the clan tag
                   (e.g. LIB-) in their name. It verifies each joining player against a
                   whitelist of official members identified by their IP address and/or
                   CD hash. If a player has the clan tag but is not recognized as an
                   official member, they are automatically kicked.
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

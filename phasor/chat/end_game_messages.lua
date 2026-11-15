@@ -1,11 +1,11 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      end_game_messages.lua
-DESCRIPTION:      Sends messages to players when the game ends.
+SCRIPT NAME:    end_game_messages.lua
+DESCRIPTION:    Sends messages to players when the game ends.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

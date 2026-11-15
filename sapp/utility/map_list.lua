@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      map_list.lua
-DESCRIPTION:      Map rotation information system with:
+SCRIPT NAME:    map_list.lua
+DESCRIPTION:    Map rotation information system with:
                   - Current/next map display
                   - Position lookup functionality
                   - Clean output formatting
@@ -18,8 +18,8 @@ USAGE:
                   /whatis [num]  - Shows details for specific rotation slot
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 

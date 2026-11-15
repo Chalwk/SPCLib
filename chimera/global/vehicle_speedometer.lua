@@ -1,12 +1,12 @@
 --[[
 ===========================================================================
-SCRIPT NAME:      vehicle_speedometer.lua
-DESCRIPTION:      HUD that displays map name, vehicle name,
+SCRIPT NAME:    vehicle_speedometer.lua
+DESCRIPTION:    HUD that displays map name, vehicle name,
                   and speed (km/h) at the top-left.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===========================================================================
 ]]
 

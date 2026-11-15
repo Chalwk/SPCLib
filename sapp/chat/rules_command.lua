@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      rules_command.lua
-DESCRIPTION:      Displays server rules to players via chat command with timed
+SCRIPT NAME:    rules_command.lua
+DESCRIPTION:    Displays server rules to players via chat command with timed
                   announcements and formatted console output.
 
 FEATURES:
@@ -28,8 +28,8 @@ DEPENDENCIES:
                   Requires rcon_text.lua for formatted text display
 
 Copyright (c) 2021-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

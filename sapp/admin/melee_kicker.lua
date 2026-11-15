@@ -1,7 +1,7 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      melee_kicker.lua
-DESCRIPTION:      Forces instant kick for players killed by melee attacks
+SCRIPT NAME:    melee_kicker.lua
+DESCRIPTION:    Forces instant kick for players killed by melee attacks
                   - Applies to all melee weapon types (including flag/ball melee)
                   - Optional admin-only restriction
                   - Lightweight implementation with minimal configuration
@@ -11,8 +11,8 @@ DESCRIPTION:      Forces instant kick for players killed by melee attacks
                   Not recommended for competitive play.
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

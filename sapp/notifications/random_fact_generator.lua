@@ -1,14 +1,14 @@
 --[[
 =====================================================================================
-SCRIPT NAME:      random_fact_generator.lua
-DESCRIPTION:      Periodically announces random Chuck Norris facts
+SCRIPT NAME:    random_fact_generator.lua
+DESCRIPTION:    Periodically announces random Chuck Norris facts
 
 REQUIREMENTS:     Install to the same directory as sapp.dll
                   - SAPP-HTTP Client: https://github.com/Chalwk/SAPP-HTTP
 
 Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 

@@ -1,7 +1,7 @@
 --[[
 ===============================================================================
-SCRIPT NAME:      item_sky_spawner.lua
-DESCRIPTION:      Random item spawner that drops weapons/vehicles from the sky:
+SCRIPT NAME:    item_sky_spawner.lua
+DESCRIPTION:    Random item spawner that drops weapons/vehicles from the sky:
                   - Configurable spawn locations per map
                   - Random item selection
                   - Automatic cleanup system
@@ -19,8 +19,8 @@ CONFIGURATION:    Adjust these settings:
                   - coordinates: Map-specific drop points
 
 Copyright (c) 2021 Jericho Crosby (Chalwk)
-LICENSE:          MIT License
-                  https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:        MIT License
+                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
 
