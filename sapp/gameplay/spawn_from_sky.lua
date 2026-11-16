@@ -20,7 +20,7 @@ CONFIGURATION:
                  - Second array position = Blue team
 
 NOTES:
-                 - 1 world unit ≈ 10 feet (3.048 meters)
+                 - 1 world unit ~10 feet (3.048 meters)
                  - Players are temporarily godded to prevent fall damage
                  - Works automatically with no player input needed
 

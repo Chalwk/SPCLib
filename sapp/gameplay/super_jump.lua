@@ -25,7 +25,7 @@ USAGE:
                   3. Type "/superjump off" to deactivate
 
 TECHNICAL NOTES:
-                  - 1 world unit ≈ 10 feet (3.048 meters)
+                  - 1 world unit ~10 feet (3.048 meters)
                   - Cooldown timer resets on spawn
                   - Works in all game modes
                   - No effect while in vehicles

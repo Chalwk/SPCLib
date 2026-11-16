@@ -3,15 +3,16 @@
 SCRIPT NAME:    score_handler.lua
 DESCRIPTION:    Advanced scoring system with configurable points and custom messages.
 
-                  Awards points for kills, flag captures, flag carrier kills, assists, first blood,
-                  headshots, assassinations, killing sprees, multikills, and more. Handles special
-                  cases like suicide, betrayal, team change penalty, fall damage, vehicle squash,
-                  and “killed from the grave”. Includes optional zombie mode (infection points) and
-                  damage-source mapping for weapons, grenades, melee, and vehicles.
+                Awards points for kills, flag captures, flag carrier kills, assists,
+                first blood, headshots, assassinations, killing sprees, multikills,
+                and more. Handles special cases like suicide, betrayal, team change
+                penalty, fall damage, vehicle squash, and "killed from the grave".
+                Includes optional zombie mode (infection points) and damage-source
+                mapping for weapons, grenades, melee, and vehicles.
 
 Copyright (c) 2021-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+LICENSE:    MIT License
+            https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 =====================================================================================
 ]]
 
@@ -56,7 +57,7 @@ local config = {
         { 50, 2, 5, "Spree" } -- 2 points every 5 kills after 50
     },
 
-    -- Multi‑kill bonuses
+    -- Multi-kill bonuses
     multi_kill = {
         { 2, 1, "Combo Kill" },
         { 3, 1, "Combo Kill" },
@@ -380,7 +381,7 @@ function OnDeath(victim, killer, _)
     local is_squashed = (killer == 0) -- squashed by vehicle
     local is_betrayal = (team_play and not is_suicide and kdata and kdata.team == vdata.team)
 
-    -- Determine if it was a team‑change death (server kill shortly after team switch)
+    -- Determine if it was a team-change death (server kill shortly after team switch)
     local is_team_change_penalty = (is_server and vdata.team_change)
 
     -- Fall damage detection
@@ -389,7 +390,7 @@ function OnDeath(victim, killer, _)
     -- Reset team_change flag
     vdata.team_change = false
 
-    -- PvP kill (non‑betrayal)
+    -- PvP kill (non-betrayal)
     if killer > 0 and not is_betrayal and killer ~= victim then
         maybe_first_blood(killer)
         apply_multi_kill(killer)

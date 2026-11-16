@@ -55,8 +55,6 @@ local Crash = {
         },
         names = {
             -- Anyone who joins with these names will be crashed!
-            "TᑌᗰᗷᗩᑕᑌᒪOᔕ",
-            "TUMBACULOS",
             "A55hol3"
             --
         }
