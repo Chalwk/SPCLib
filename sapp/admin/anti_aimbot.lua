@@ -48,14 +48,6 @@ LICENSE:        MIT License
 
 api_version = "1.12.0.0"
 
--- ============================================================================
--- CONFIGURATION
--- ============================================================================
--- Every tunable lives inside CFG. The ---@class block immediately below is the
--- single source of truth for CFG's shape; editing values never requires
--- touching the annotations. Adding a new field means adding exactly one
--- ---@field line here, then one key/value pair in the CFG literal.
-
 ---@class DynamicThresholdConfig
 ---@field ENABLED         boolean Enable accuracy-based cone adjustment.
 ---@field BASE_MULTIPLIER number  Cone multiplier at 50% accuracy.
@@ -140,6 +132,23 @@ api_version = "1.12.0.0"
 ---@field ENVIRONMENTAL     EnvironmentalConfig
 ---@field CAMO              CamoConfig
 
+---@class PlayerAimState
+---@field aim_score         number       Aim score for the current life.
+---@field lock_count        number       Running lock count (decays when no scoring).
+---@field last_decay_time   number       Timestamp (seconds) when decay was last applied.
+---@field lock_pattern      number[]     Timestamps (seconds) of recent new locks.
+---@field was_scoring       boolean      True if the previous tick scored (for new-lock detection).
+---@field dynamic_threshold number       Current aim cone half angle (degrees).
+---@field accuracy_history  number[]     Recent per-volley accuracy samples.
+---@field shots_fired       number       Shots fired this life.
+---@field shots_hit         number       Shots that landed on an enemy this life.
+---@field last_fire_value   number | nil Last magazine count, or heat for energy weapons.
+---@field last_weapon_id    number | nil Last held weapon object ID (for switch detection).
+
+--
+-- CONFIGURATION STARTS
+--
+
 ---@type AntiAimbotConfig
 local CFG = {
     AUTO_AIM = {
@@ -177,7 +186,7 @@ local CFG = {
     },
 
     ENFORCEMENT = {
-        COMMAND = "k",          -- "k" or "ipban"
+        COMMAND = "k",          -- "k" or "ipban". Set to "NONE" for logging only.
         IPBAN_TIME_MINUTES = 60 -- 0 means an indefinite IP ban
     },
 
@@ -204,17 +213,17 @@ local CFG = {
     },
 
     WEAPON_MODIFIERS = {
-        ["weapons\\pistol\\pistol"] = 1.15,                   -- Accurate and kills fast
-        ["weapons\\sniper rifle\\sniper rifle"] = 0.65,       -- Needs precision, slow fire rate
-        ["weapons\\rocket launcher\\rocket launcher"] = 0.75, -- Splash damage, slow projectile
-        ["weapons\\flamethrower\\flamethrower"] = 0.50,       -- Short range, easy to stay on target
-        ["weapons\\needler\\mp_needler"] = 0.90,              -- Homing needles, kills are delayed
-        ["weapons\\shotgun\\shotgun"] = 1.40,                 -- Wide spread, deadly up close
-        ["weapons\\plasma pistol\\plasma pistol"] = 1.10,     -- Charged shot plus normal fire
-        ["weapons\\plasma rifle\\plasma rifle"] = 1.00,       -- Sustained fire, moderate tracking
-        ["weapons\\assault rifle\\assault rifle"] = 1.20,     -- Spray, but easy to track with
-        ["weapons\\plasma_cannon\\plasma_cannon"] = 0.85,     -- Slow projectile, splash
-        DEFAULT = 1.0                                         -- Any weapon not listed above
+        ["weapons\\pistol\\pistol"] = 1.15,
+        ["weapons\\sniper rifle\\sniper rifle"] = 0.65,
+        ["weapons\\rocket launcher\\rocket launcher"] = 0.75,
+        ["weapons\\flamethrower\\flamethrower"] = 0.50,
+        ["weapons\\needler\\mp_needler"] = 0.90,
+        ["weapons\\shotgun\\shotgun"] = 1.40,
+        ["weapons\\plasma pistol\\plasma pistol"] = 1.10,
+        ["weapons\\plasma rifle\\plasma rifle"] = 1.00,
+        ["weapons\\assault rifle\\assault rifle"] = 1.20,
+        ["weapons\\plasma_cannon\\plasma_cannon"] = 0.85,
+        DEFAULT = 1.0 -- Any weapon not listed above
     },
 
     -- Weapons that run on heat instead of a magazine
@@ -243,20 +252,9 @@ local CFG = {
     }
 }
 
--- END CONFIG ---------------------------------------------------------------
-
----@class PlayerAimState
----@field aim_score         number       Aim score for the current life.
----@field lock_count        number       Running lock count (decays when no scoring).
----@field last_decay_time   number       Timestamp (seconds) when decay was last applied.
----@field lock_pattern      number[]     Timestamps (seconds) of recent new locks.
----@field was_scoring       boolean      True if the previous tick scored (for new-lock detection).
----@field dynamic_threshold number       Current aim cone half angle (degrees).
----@field accuracy_history  number[]     Recent per-volley accuracy samples.
----@field shots_fired       number       Shots fired this life.
----@field shots_hit         number       Shots that landed on an enemy this life.
----@field last_fire_value   number | nil Last magazine count, or heat for energy weapons.
----@field last_weapon_id    number | nil Last held weapon object ID (for switch detection).
+--
+-- CONFIGURATION ENDS
+--
 
 local BASE_TAG_TABLE = 0x40440000 -- Same on PC and CE
 local TICKS_PER_SECOND = 30
@@ -283,12 +281,10 @@ local fmt = string.format
 local sqrt = math.sqrt
 local acos = math.acos
 local deg = math.deg
-local max = math.max
-local min = math.min
 local abs = math.abs
+local min, max = math.min, math.max
 
-local insert = table.insert
-local remove = table.remove
+local insert, remove = table.insert, table.remove
 
 local read_vector3d = read_vector3d
 local get_object_memory = get_object_memory
@@ -834,30 +830,22 @@ local function enforce(shooter_id)
     if not state then return end
 
     cprint(
-		fmt(
-            CFG.MESSAGES.ADMIN_ALERT,
-			get_var(shooter_id, "$name"),
-			shooter_id,
-			state.aim_score,
-			CFG.ENFORCEMENT.COMMAND
-		), 12
+        fmt(
+            CFG.MESSAGES.ADMIN_ALERT, get_var(shooter_id, "$name"), shooter_id, state.aim_score, CFG.ENFORCEMENT.COMMAND
+        ), 12
     )
-    local command
-    if CFG.ENFORCEMENT.COMMAND == "ipban" then
-        command = fmt('%s %d %d "%s"',
-			CFG.ENFORCEMENT.COMMAND,
-			shooter_id,
-			CFG.ENFORCEMENT.IPBAN_TIME_MINUTES,
-			CFG.MESSAGES.PLAYER_KICK_REASON
-        )
-    else
-        command = fmt('%s %d "%s"',
-			CFG.ENFORCEMENT.COMMAND,
-			shooter_id,
-			CFG.MESSAGES.PLAYER_KICK_REASON
-		)
+    if CFG.ENFORCEMENT.COMMAND ~= "NONE" then
+        local command
+        if CFG.ENFORCEMENT.COMMAND == "ipban" then
+            command = fmt(
+                '%s %d %d "%s"', CFG.ENFORCEMENT.COMMAND, shooter_id, CFG.ENFORCEMENT.IPBAN_TIME_MINUTES,
+                CFG.MESSAGES.PLAYER_KICK_REASON
+            )
+        else
+            command = fmt('%s %d "%s"', CFG.ENFORCEMENT.COMMAND, shooter_id, CFG.MESSAGES.PLAYER_KICK_REASON)
+        end
+        execute_command(command)
     end
-    execute_command(command)
 
     resetLife(state)
 end
