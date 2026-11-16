@@ -2,27 +2,15 @@
 ===============================================================================
 SCRIPT NAME:    cyborg_spawner.lua
 DESCRIPTION:    Spawns cyborg characters at predefined locations on maps
-                  - Automatically places cyborgs when maps load
-                  - Supports multiple official Halo maps
-                  - Simple configuration for adding new maps
 
-FEATURES:
-                  - Precisely positioned spawn points
-                  - Map-specific configurations
-                  - Lightweight implementation
-
-CONFIGURATION:    Edit the objects table to:
-                  - Add new maps with spawn coordinates
-                  - Adjust existing spawn positions
-                  - Add/remove spawn points
-
-Copyright (c) 2016-2022 Jericho Crosby (Chalwk)
+Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
                 https://github.com/Chalwk/SPCLib/blob/master/LICENSE
 ===============================================================================
 ]]
-local objects = {
 
+-- CONFIG
+local objects = {
     ['bloodgulch'] = {
         { 95.68, -155.46, 2.92 },
         { 79.05, -141.19, 2.16 },
@@ -58,14 +46,6 @@ local objects = {
         { 13.87, 20.15, -0.97 },
         { 4.77, 16.61, 1.8 },
         { 17.14, 19.12, 5.18 }
-    },
-
-    ['beavercreek'] = {
-        { 1.97, 0.59, 0.42 },
-        { 17.63, 14.12, 2.72 },
-        { 3.16, -9.81, -4.78 },
-        { 18.76, -16.37, -2.28 },
-        { 4.17, -19, 5.22 }
     },
 
     ['carousel'] = {
@@ -180,33 +160,37 @@ local objects = {
         { 0.08, -1.15, -2.3 }
     }
 }
+-- CONFIG END
 
 api_version = '1.12.0.0'
-local cyborg = { 'bipd', 'characters\\cyborg_mp\\cyborg_mp' }
 
 function OnScriptLoad()
     register_callback(cb.EVENT_GAME_START, 'OnStart')
+    OnStart() -- in case the script is loaded mid-game
 end
 
-local function GetTag(Class, Name)
-    local tag = lookup_tag(Class, Name)
-    return (tag ~= 0 and read_dword(tag + 0xC)) or nil
+local function getTagId(class, name)
+    local tag = lookup_tag(class, name)
+    if tag == 0 then return nil end
+    local meta_id = read_dword(tag + 0xC)
+    return meta_id ~= 0 and meta_id or nil
 end
+
 
 function OnStart()
-    if (get_var(0, '$gt') ~= 'n/a') then
-        local map = get_var(0, '$map')
-        local spawns = objects[map]
-        local tag = GetTag(unpack(cyborg))
+    if get_var(0, '$gt') == 'n/a' then return end
 
-        if (spawns and tag) then
-            for _, v in ipairs(spawns) do
-                spawn_object('', '', v[1], v[2], v[3], 0, tag)
-            end
-        end
+    local map = get_var(0, '$map')
+    local locations = objects[map]
+    if not locations then return end
+
+    local cyborg_tag_id = getTagId("bipd", "characters\\cyborg_mp\\cyborg_mp")
+    if not cyborg_tag_id then return end
+
+    for i = 1, #locations do
+        local x, y, z = locations[i][1], locations[i][2], locations[i][3]
+        spawn_object("", "", x, y, z, 0, cyborg_tag_id)
     end
 end
 
-function OnScriptUnload()
-    -- N/A
-end
+function OnScriptUnload() end
