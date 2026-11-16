@@ -6,11 +6,11 @@ Phasor, and Chimera. This document explains how to report a vulnerability and wh
 ## Supported Versions
 
 This repository is an archive. Scripts carry their own version information, and fixes are applied to
-the latest version on `master`.
+the latest version on `main`.
 
 | Version            | Supported |
 |--------------------|-----------|
-| Latest on `master` | Yes       |
+| Latest on `main` | Yes       |
 | Older commits      | No        |
 | Forks              | No        |
 

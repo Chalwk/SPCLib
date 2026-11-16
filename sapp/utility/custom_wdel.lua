@@ -6,7 +6,7 @@ DESCRIPTION:    Removes a player's non-objective weapons while protecting flags
 
 Copyright (c) 2021-2026 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

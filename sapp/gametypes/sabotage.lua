@@ -15,7 +15,7 @@ MECHANICS:
 
 Copyright (c) 2022 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

@@ -16,7 +16,7 @@ NOTE:             - Shared hashes may trigger false positives
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

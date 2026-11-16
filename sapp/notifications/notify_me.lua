@@ -17,7 +17,7 @@ LAST UPDATED:     11/11/2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

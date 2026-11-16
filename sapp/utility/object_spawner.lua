@@ -29,7 +29,7 @@ DESCRIPTION:    Persistent object spawning with automatic respawn.
 
 Copyright (c) 2021-2026 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

@@ -7,7 +7,7 @@ DESCRIPTION:    When a player sitting in the correct seat of a valid vehicle ent
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

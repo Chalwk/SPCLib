@@ -9,7 +9,7 @@ COMMANDS:
 
 Copyright (c) 2019-2026 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

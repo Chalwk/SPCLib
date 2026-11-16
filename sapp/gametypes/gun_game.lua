@@ -7,7 +7,7 @@ DESCRIPTION:    Competitive weapon progression mode where players advance throug
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

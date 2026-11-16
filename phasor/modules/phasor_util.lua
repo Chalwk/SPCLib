@@ -22,7 +22,7 @@ DESCRIPTION:    A collection of common utility functions for Phasor Lua scriptin
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

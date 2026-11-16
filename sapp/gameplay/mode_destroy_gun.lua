@@ -14,7 +14,7 @@ DESCRIPTION:    Enables destructive weapon mode that can delete in-game objects
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

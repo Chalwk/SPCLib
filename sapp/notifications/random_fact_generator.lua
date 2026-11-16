@@ -8,7 +8,7 @@ REQUIREMENTS:     Install to the same directory as sapp.dll
 
 Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

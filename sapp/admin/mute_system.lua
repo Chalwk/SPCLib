@@ -18,7 +18,7 @@ FEATURES:
 
 REQUIREMENTS:     Install to the same directory as sapp.dll
                   - Lua JSON Parser:   http://regex.info/blog/lua/json
-                  - Page Browsing Lib: https://github.com/Chalwk/SPCLib/blob/master/misc/libraries/page_browsing_lib.lua
+                  - Page Browsing Lib: https://github.com/Chalwk/SPCLib/blob/main/misc/libraries/page_browsing_lib.lua
 
 USAGE:
                   - Configure settings in the MuteSystem table
@@ -27,7 +27,7 @@ USAGE:
 
 Copyright (c) 2020 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

@@ -10,7 +10,7 @@ DESCRIPTION:    Per-map game time manager.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/master/LICENSE
+                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 
