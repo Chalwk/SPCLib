@@ -1,50 +1,40 @@
 --[[
+===============================================================================
+SCRIPT NAME:    vehicle_library.lua
+DESCRIPTION:    Configuration data for stock and custom vehicles, including seat roles and display names.
 
-==================================
-VEHICLE CONFIGURATION
-==================================
+STRUCTURE:      vehicle_tag (string):       The tag path of the vehicle (e.g., 'vehicles\\warthog\\mp_warthog')
+                seat_roles (table):         A table mapping seat indices to their role names
+                enabled (boolean):          Whether this vehicle is enabled
+                display_name (string):      Vehicle name (label)
 
-STRUCTURE:
-    {vehicle_tag, seat_roles, enabled/disabled, display_name, insertion_order}
 
-PARAMETERS:
-    vehicle_tag (string):       The tag path of the vehicle (e.g., 'vehicles\\warthog\\mp_warthog')
-    seat_roles (table):         A table mapping seat indices to their role names
-                                    Example: {[0] = 'driver', [1] = 'passenger', [2] = 'gunner'}
-    enabled (boolean):          Whether this vehicle is enabled for Uber calls
-    display_name (string):      The name shown to players when entering this vehicle
-    insertion_order (table):    The order in which seats should be filled for THIS VEHICLE
-                                    Example: {0, 2, 1} means try driver first, then gunner, then passenger
+USAGE:          local vehicle_library = require("vehicle_library")
+                local banshee
 
-IMPORTANT NOTES:
+                for i = 1, #vehicle_library do
+                    local vehicle = vehicle_library[i]
+                    if vehicle[1] == "vehicles\\banshee\\banshee_mp" then
+                        banshee = vehicle
+                        break
+                    end
+                end
 
-1. VEHICLE WHITELIST:
-   - This table defines which vehicles can be called via Uber
-   - Vehicles NOT listed here can still be used normally but won't be available for Uber calls
-   - Vehicles listed with enabled=false will prevent Uber calls and may eject players (if configured)
+                if banshee then
+                    local tag_path = banshee[1]
+                    local seat_roles = banshee[2]
+                    local enabled = banshee[3]
+                    local display_name = banshee[4]
+                end
 
-2. SEAT ROLES:
-   - The script respects the roles defined for each vehicle
-   - Even if a seat is listed in insertion_order, only players who can occupy that role will be placed there
-   - Example: In a Warthog, seat 2 is the gunner seat - only players who can be gunners will be placed there
 
-3. INSERTION ORDER:
-   - Each vehicle can have its own insertion order priority
-   - This determines which seats get filled first when multiple seats are available
-   - Seats are tried in the order specified until a valid, empty seat is found
-
-4. VEHICLE SELECTION SYSTEM:
-   - The script prioritizes vehicles with fewer occupants
-
-BEHAVIOR EXAMPLES:
-   - If Banshee is NOT in this table: Players can use it normally but can't call Uber to it
-   - If Banshee IS listed but enabled=false: Players will be prevented from using it for Uber
-   - If a vehicle has no driver: Passengers may be ejected after a delay (if configured)
+Copyright (c) 2026 Jericho Crosby (Chalwk)
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+=====================================================================================
 ]]
 
 return {
-
-    -- Format: {tag_path, seat_roles, enabled, display_name, insertion_order}
 
     --================--
     -- STOCK VEHICLES:
@@ -58,8 +48,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Chain Gun Hog',
-        { 0, 2, 1 }
+        'Chain Gun Hog'
     },
 
     {
@@ -70,8 +59,47 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Rocket Hog',
-        { 0, 2, 1 }
+        'Rocket Hog'
+    },
+
+    {
+        'vehicles\\banshee\\banshee_mp',
+        {
+            [0] = 'driver'
+        },
+        true,
+        'Banshee'
+    },
+
+    {
+        'vehicles\\c gun turret\\c gun turret_mp',
+        {
+            [0] = 'gunner'
+        },
+        true,
+        'Turret'
+    },
+
+    {
+        'vehicles\\scorpion\\scorpion_mp',
+        {
+            [0] = 'driver',
+            [1] = 'passenger',
+            [2] = 'passenger',
+            [3] = 'passenger',
+            [4] = 'passenger'
+        },
+        true,
+        'Tank'
+    },
+
+    {
+        'vehicles\\ghost\\ghost_mp',
+        {
+            [0] = 'driver'
+        },
+        true,
+        'Ghost'
     },
 
     --================--
@@ -87,8 +115,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'H3 Warthog',
-        { 0, 2, 1 }
+        'H3 Warthog'
     },
 
     -- [h3]_sandtrap
@@ -99,8 +126,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Mongoose',
-        { 0, 1 }
+        'Mongoose'
     },
 
     -- [h3]_sandtrap
@@ -112,8 +138,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'H2 Warthog',
-        { 0, 2, 1 }
+        'H2 Warthog'
     },
 
     -- [FBI]bloodgulch
@@ -125,8 +150,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'H2 Warthog',
-        { 0, 2, 1 }
+        'H2 Warthog'
     },
 
     -- [h3style]containment
@@ -138,8 +162,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'CWarthog',
-        { 0, 2, 1 }
+        'CWarthog'
     },
 
     -- arctic_battleground, artillery_zone, battleforbloodgulch, bloodground_aco, cold_war, doomsday, esther, separated
@@ -151,8 +174,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Missile Warthog',
-        { 0, 2, 1 }
+        'Missile Warthog'
     },
 
     -- atephobia
@@ -163,8 +185,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Warthog',
-        { 0, 2, 1 }
+        'Warthog'
     },
 
     -- atephobia
@@ -175,8 +196,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'RWarthog',
-        { 0, 2, 1 }
+        'RWarthog'
     },
 
     -- atomic
@@ -187,8 +207,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Dangermobile',
-        { 0, 1 }
+        'Dangermobile'
     },
 
     -- atomic
@@ -199,8 +218,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Doombuggy',
-        { 0, 1 }
+        'Doombuggy'
     },
 
     -- battle
@@ -212,8 +230,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Civilian Hog',
-        { 0, 2, 1 }
+        'Civilian Hog'
     },
 
     -- bc_raceway_final_mp
@@ -224,8 +241,7 @@ return {
             [2] = 'passenger'
         },
         true,
-        'Warthog',
-        { 0, 2 }
+        'Warthog'
     },
 
     -- bc_raceway_final_mp
@@ -236,8 +252,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Warthog',
-        { 0, 1 }
+        'Warthog'
     },
 
     -- bc_raceway_final_mp
@@ -248,8 +263,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Warthog',
-        { 0, 1 }
+        'Warthog'
     },
 
     -- bc_raceway_final_mp
@@ -260,8 +274,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Warthog',
-        { 0, 1 }
+        'Warthog'
     },
 
     -- bc_raceway_final_mp
@@ -272,8 +285,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Warthog',
-        { 0, 1 }
+        'Warthog'
     },
 
     -- bc_raceway_final_mp
@@ -284,8 +296,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Warthog',
-        { 0, 1 }
+        'Warthog'
     },
 
     -- beryl_rescue, casualty_isle__v2, erosion
@@ -297,8 +308,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Art Rocket Warthog',
-        { 0, 2, 1 }
+        'Art Rocket Warthog'
     },
 
     -- beryl_rescue, delta_ruined, destiny, grove_final
@@ -310,8 +320,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Art CWarthog',
-        { 0, 2, 1 }
+        'Art CWarthog'
     },
 
     -- Bigass
@@ -323,8 +332,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'H2 Warthog',
-        { 0, 2, 1 }
+        'H2 Warthog'
     },
 
     -- Bigass
@@ -336,8 +344,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Rocket Warthog',
-        { 0, 2, 1 }
+        'Rocket Warthog'
     },
 
     -- bob_omb_battlefield, coldsnap, combat_arena, extinction, frozen-path, hypothermia_race, hypothermia_v0.1, hypothermia_v0.2, hypo_v0.3
@@ -349,8 +356,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'G Warthog',
-        { 0, 2, 1 }
+        'G Warthog'
     },
 
     -- bumper_cars_v2
@@ -362,8 +368,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Civilian Warthog',
-        { 0, 2, 1 }
+        'Civilian Warthog'
     },
 
     -- bumper_cars_v2
@@ -375,8 +380,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Warthog C',
-        { 0, 2, 1 }
+        'Warthog C'
     },
 
     -- camden_place
@@ -388,8 +392,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Flame Warthog',
-        { 0, 2, 1 }
+        'Flame Warthog'
     },
 
     -- celebration_island, hornets_nest
@@ -401,8 +404,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'H3 Rocket Hog',
-        { 0, 2, 1 }
+        'H3 Rocket Hog'
     },
 
     -- cityscape-adrenaline
@@ -414,8 +416,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Warthog',
-        { 0, 2, 1 }
+        'Warthog'
     },
 
     -- cityscape-adrenaline
@@ -427,8 +428,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Warthog',
-        { 0, 2, 1 }
+        'Warthog'
     },
 
     -- cmt_cliffrun
@@ -440,8 +440,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'CMT Chaingun Hog',
-        { 0, 2, 1 }
+        'CMT Chaingun Hog'
     },
 
     -- cmt_cliffrun
@@ -453,8 +452,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'CMT Rocket Hog',
-        { 0, 2, 1 }
+        'CMT Rocket Hog'
     },
 
     -- cnr_island, desertdunestwo
@@ -465,8 +463,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Rancher',
-        { 0, 1 }
+        'Rancher'
     },
 
     -- cnr_island
@@ -477,8 +474,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Sultan',
-        { 0, 1 }
+        'Sultan'
     },
 
     -- cold_war
@@ -490,8 +486,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'H2 Warthog',
-        { 0, 2, 1 }
+        'H2 Warthog'
     },
 
     -- coldsnap
@@ -503,8 +498,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Warthog',
-        { 0, 2, 1 }
+        'Warthog'
     },
 
     -- combat_arena
@@ -516,8 +510,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Gauss Hog',
-        { 0, 2, 1 }
+        'Gauss Hog'
     },
 
     -- concealed_custom
@@ -529,8 +522,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Legend Warthog',
-        { 0, 2, 1 }
+        'Legend Warthog'
     },
 
     -- concealed_custom
@@ -542,8 +534,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Legend Rocket Warthog',
-        { 0, 2, 1 }
+        'Legend Rocket Warthog'
     },
 
     -- cursed-beavercreek, cursed-bloodgulch, cursed-chillout, cursed-damnation, cursed-deathisland, cursed-derelict, cursed-hangemhigh, cursed-sidewinder, cursed-wizard
@@ -555,8 +546,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'C Warthog',
-        { 0, 2, 1 }
+        'C Warthog'
     },
 
     -- deathrace, Human_Landscape, Jeep_Cliffs
@@ -568,8 +558,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Civilian Hog',
-        { 0, 2, 1 }
+        'Civilian Hog'
     },
 
     -- desert_storm_v2
@@ -580,8 +569,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Transport Hog',
-        { 0, 1 }
+        'Transport Hog'
     },
 
     -- desertdunestwo
@@ -592,8 +580,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Walton',
-        { 0, 1 }
+        'Walton'
     },
 
     -- discovery
@@ -605,8 +592,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Realistic Warthog',
-        { 0, 2, 1 }
+        'Realistic Warthog'
     },
 
     -- facing_worldsrx, gladiators_brawl, huh-what_3
@@ -617,8 +603,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Puma',
-        { 0, 1 }
+        'Puma'
     },
 
     -- first
@@ -630,8 +615,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Snow Civilian Hog',
-        { 0, 2, 1 }
+        'Snow Civilian Hog'
     },
 
     -- fox_island_insane
@@ -643,8 +627,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Rav Hog',
-        { 0, 2, 1 }
+        'Rav Hog'
     },
 
     -- gauntlet_race
@@ -656,8 +639,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Warthog',
-        { 0, 2, 1 }
+        'Warthog'
     },
 
     -- gladiators_brawl
@@ -669,8 +651,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Flamehog',
-        { 0, 2, 1 }
+        'Flamehog'
     },
 
     -- glenns_castle, hypo_v0.3, hypothermia_race, hypothermia_v0.1, hypothermia_v0.2
@@ -681,8 +662,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Civvi',
-        { 0, 1 }
+        'Civvi'
     },
 
     -- glupo_aco
@@ -693,8 +673,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Sandking',
-        { 0, 1 }
+        'Sandking'
     },
 
     -- green_canyon
@@ -706,8 +685,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Fixed Rocket Warthog',
-        { 0, 2, 1 }
+        'Fixed Rocket Warthog'
     },
 
     -- green_canyon
@@ -719,8 +697,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Fixed Warthog',
-        { 0, 2, 1 }
+        'Fixed Warthog'
     },
 
     -- Halloween_Gulch_V2
@@ -732,8 +709,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Hell Rocket Warthog V2',
-        { 0, 2, 1 }
+        'Hell Rocket Warthog V2'
     },
 
     -- Halloween_Gulch_V2
@@ -745,8 +721,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Hellhog V2',
-        { 0, 2, 1 }
+        'Hellhog V2'
     },
 
     -- hillbilly mudbog
@@ -758,8 +733,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'RPC Hog',
-        { 0, 2, 1 }
+        'RPC Hog'
     },
 
     -- hogracing_day, hogracing_night
@@ -770,8 +744,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Puma XT',
-        { 0, 1 }
+        'Puma XT'
     },
 
     -- hornets_nest
@@ -783,8 +756,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'H3 Warthog',
-        { 0, 2, 1 }
+        'H3 Warthog'
     },
 
     -- hq_racetrack
@@ -796,8 +768,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Smiley Hog',
-        { 0, 2, 1 }
+        'Smiley Hog'
     },
 
     -- hydrolysis
@@ -809,8 +780,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'New Boat Hog',
-        { 0, 2, 1 }
+        'New Boat Hog'
     },
 
     -- Mongoose_Point
@@ -821,8 +791,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Mongoose',
-        { 0, 1 }
+        'Mongoose'
     },
 
     -- Mongoose_Point
@@ -833,8 +802,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Mongoose',
-        { 0, 1 }
+        'Mongoose'
     },
 
     -- liberty_nightglow
@@ -845,8 +813,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Quad',
-        { 0, 1 }
+        'Quad'
     },
 
     -- liberty_blockfort_race
@@ -857,8 +824,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Quad',
-        { 0, 1 }
+        'Quad'
     },
 
     -- liberty_blockfort_race
@@ -869,8 +835,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Warthog',
-        { 0, 1 }
+        'Warthog'
     },
 
     -- liberty_blockfort_race
@@ -881,8 +846,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Rocket hog',
-        { 0, 1 }
+        'Rocket hog'
     },
 
     -- liberty_blockfort_race
@@ -893,8 +857,7 @@ return {
             [1] = 'passenger'
         },
         true,
-        'Rocket hog',
-        { 0, 1 }
+        'Rocket hog'
     },
 
     -- mystic_mod
@@ -906,8 +869,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Warthog',
-        { 0, 2, 1 }
+        'Warthog'
     },
 
     -- mystic_mod
@@ -919,8 +881,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Warthog',
-        { 0, 2, 1 }
+        'Warthog'
     },
 
     -- The-Right-of-Passage_a30
@@ -932,8 +893,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'BM Warthog',
-        { 0, 2, 1 }
+        'BM Warthog'
     },
 
     -- The-Right-of-Passage_a30
@@ -945,8 +905,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Hell Rocket Warthog',
-        { 0, 2, 1 }
+        'Hell Rocket Warthog'
     },
 
     -- tsce_multiplayerv1
@@ -958,8 +917,7 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Chain Gun Hog',
-        { 0, 2, 1 }
+        'Chain Gun Hog'
     },
 
     -- tsce_multiplayerv1
@@ -971,7 +929,6 @@ return {
             [2] = 'gunner'
         },
         true,
-        'Rocket Hog',
-        { 0, 2, 1 }
+        'Rocket Hog'
     }
 }

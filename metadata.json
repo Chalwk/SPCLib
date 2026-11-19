@@ -72,7 +72,10 @@
     "wordbuster": "Advanced profanity filter (21 languages, leet-speak detection). Warns, kicks/bans, admin immunity, in-game word list management."
   },
   "LIBRARIES": {
-    "json": "Dependency-free JSON encoder and decoder in pure Lua, with array/object helpers and explicit null support. Compatible with SAPP, Phasor, and Chimera."
+    "json": "Dependency-free JSON encoder and decoder in pure Lua, with array/object helpers and explicit null support. Compatible with SAPP, Phasor, and Chimera.",
+    "map_coordinates": "Coordinates for standard maps, organized by spawn type.",
+    "pagination": "Cross-platform pagination for tabular data, with page bounds and adaptive output for SAPP, Phasor, and Chimera.",
+    "vehicle_library": "Configuration data for stock and custom vehicles, including seat roles and display names."
   },
   "SAPP": {
     "admin": {
@@ -216,10 +219,7 @@
       "zombies_standard": "Basic zombies: convert on kill, simple speed/respawn adjustments, zombie camo, win when all infected."
     },
     "modules": {
-      "map_coordinates": "Library of spawn/teleport coordinates for all standard maps, for reuse.",
-      "pagination": "Pagination library: config page size, navigation, boundary checks, flexible formatting, hints.",
-      "rcon_text": "Advanced RCON messages: multi-format, priority queues (Low-High-Critical), display modes (persistent/timed/repeating), grouping, player/global, conditional, lifecycle management.",
-      "uber_vehicles": "Vehicle config library for Uber system: tag paths, seats, enabled status, display names, insertion order, whitelist. Stock/custom vehicles."
+      "rcon_text": "Advanced RCON messages: multi-format, priority queues (Low-High-Critical), display modes (persistent/timed/repeating), grouping, player/global, conditional, lifecycle management."
     },
     "notifications": {
       "admin_messages": "Admin join announcements per level, chat/RCON output, customizable formatting, colors, toggleable.",

@@ -29,7 +29,6 @@
   - [Scripts and releases](#scripts-and-releases)
   - [Guides and references](#guides-and-references)
   - [Script placement](#script-placement)
-    - [Shared libraries](#shared-libraries)
 - [SAPP archive and mirrors](#sapp-archive-and-mirrors)
 - [Web tools](#web-tools)
   - [Script Browser](#script-browser)
@@ -101,7 +100,7 @@ SAPP and Phasor Lua scripts are grouped by folder:
 | SAPP             | [SAPP Scripts][sapp_scripts]       | Server-side Lua scripts                                                                     |
 | Phasor           | [Phasor Scripts][phasor_scripts]   | Server-side Lua scripts                                                                     |
 | Chimera          | [Chimera Scripts][chimera_scripts] | Client-side Lua scripts                                                                     |
-| Shared libraries | [Lua Libraries][lua_libraries]     | Runtime-neutral Lua libraries for SAPP, Phasor, and Chimera                                 |
+| Shared libraries | [Lua Libraries][lua_libraries]     | Cross-compatible Lua code and data libraries for SAPP, Phasor, and Chimera                  |
 | Bundled projects | [Script Packages][releases]        | Bundled projects with multiple files and resources, available as downloadable ZIP packages. |
 
 ### Guides and references
@@ -144,10 +143,6 @@ providers (NFO, for example) have no `cg` folder, so use the server root instead
     - Linux: `~/Documents/My Games/Halo CE/chimera` or `~/Documents/My Games/Halo/chimera`,
       depending on your setup
   - **Reload:** `chimera_lua_scripts_reload` in the console, opened with `~`
-
-#### Shared libraries
-
-The [`libraries`][lua_libraries] folder contains Lua libraries that can be used by SAPP, Phasor, or Chimera.
 
 ---
 
