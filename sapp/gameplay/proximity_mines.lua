@@ -22,8 +22,8 @@ FEATURES:         - Vehicle-based mine deployment system
 LAST UPDATED:     2026-05-31 (converted TRIGGER_RADIUS to feet)
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

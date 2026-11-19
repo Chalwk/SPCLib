@@ -11,8 +11,8 @@ DESCRIPTION:    Advanced console notification system.
                   - Detailed death cause reporting
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

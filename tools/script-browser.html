@@ -10,7 +10,7 @@
     <meta name="color-scheme" content="dark">
     <title>SPCLib · Script Browser</title>
     <meta name="description"
-        content="Live search and filter for all SPCLib Lua scripts for SAPP, Phasor, and Chimera for Halo PC / Custom Edition.">
+        content="Live search and filter for SPCLib Lua scripts and shared libraries for SAPP, Phasor, and Chimera.">
     <meta name="robots" content="index, follow">
     <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpg">
     <link href="../assets/css/core.css" rel="stylesheet">
@@ -143,6 +143,11 @@
             color: #ffccbc;
         }
 
+        .tag-library {
+            background: #006064;
+            color: #b2ebf2;
+        }
+
         .script-desc {
             font-size: 0.8rem;
             color: #b9d0f0;
@@ -254,7 +259,7 @@
         <div class="header">
             <div>
                 <h1>Script Browser</h1>
-                <p class="sub">SPCLib scripts · SAPP / Phasor / Chimera</p>
+                <p class="sub">SPCLib scripts and libraries · SAPP / Phasor / Chimera</p>
             </div>
             <div aria-live="polite" class="stat-card" id="statusCard" style="background:#0c1120;">
                 <span id="statusMsg">🌐 Loading metadata from GitHub…</span>
@@ -335,6 +340,7 @@
             { key: 'SAPP', label: 'SAPP', icon: '🖥️' },
             { key: 'PHASOR', label: 'Phasor', icon: '⚡' },
             { key: 'CHIMERA', label: 'Chimera', icon: '🐉' },
+            { key: 'LIBRARIES', label: 'Libraries', icon: '📚' },
             { key: 'RELEASES', label: 'Releases', icon: '📦' }
         ];
 
@@ -348,7 +354,6 @@
         let filteredScriptsCache = [];
         let debounceTimer = null;
 
-        /* ----------------------- Utilities ----------------------- */
         function escapeHtml(str) {
             if (!str) return '';
             return String(str).replace(/[&<>"']/g, (m) => ({
@@ -365,6 +370,7 @@
 
         function buildSourceUrl(platform, category, fileName) {
             if (platform === 'CHIMERA') return `${GITHUB_BASE}/chimera/global/${fileName}.lua`;
+            if (platform === 'LIBRARIES') return `${GITHUB_BASE}/libraries/${fileName}.lua`;
             if (platform === 'RELEASES') {
                 const tag = RELEASE_TAG_MAP[fileName] || fileName;
                 return `https://github.com/Chalwk/SPCLib/releases/tag/${tag}`;
@@ -374,6 +380,7 @@
 
         function buildDownloadUrl(platform, category, fileName) {
             if (platform === 'CHIMERA') return `${RAW_BASE}/chimera/global/${fileName}.lua`;
+            if (platform === 'LIBRARIES') return `${RAW_BASE}/libraries/${fileName}.lua`;
             if (platform === 'RELEASES') return buildSourceUrl(platform, category, fileName);
             return `${RAW_BASE}/${platform.toLowerCase()}/${category}/${fileName}.lua`;
         }
@@ -426,13 +433,25 @@
                             isRelease: false
                         });
                     }
+                } else if (platformKey === 'LIBRARIES') {
+                    for (const [fileName, description] of Object.entries(platformData)) {
+                        scripts.push({
+                            platform: platformKey,
+                            category: 'library',
+                            fileName,
+                            description: typeof description === 'string' ? description : '',
+                            sourceUrl: buildSourceUrl('LIBRARIES', 'library', fileName),
+                            downloadUrl: buildDownloadUrl('LIBRARIES', 'library', fileName),
+                            isRelease: false
+                        });
+                    }
                 }
             }
             return scripts;
         }
 
         function getPlatformTagClass(platform) {
-            const map = { SAPP: 'tag-sapp', PHASOR: 'tag-phasor', CHIMERA: 'tag-chimera', RELEASES: 'tag-release' };
+            const map = { SAPP: 'tag-sapp', PHASOR: 'tag-phasor', CHIMERA: 'tag-chimera', LIBRARIES: 'tag-library', RELEASES: 'tag-release' };
             return map[platform] || 'tag-sapp';
         }
 

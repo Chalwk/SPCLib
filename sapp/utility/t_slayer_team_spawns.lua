@@ -20,8 +20,8 @@ USAGE:
                   Works automatically when Team Slayer is detected
 
 Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

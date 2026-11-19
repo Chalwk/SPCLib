@@ -3,30 +3,30 @@
 SCRIPT NAME:    multiclient_detector.lua
 DESCRIPTION:    Advanced detection system for identifying players using multiple clients.
 
-FEATURES:
-                  - Probability-based scoring (0-100%) with risk categories:
+FEATURES:       - Probability-based scoring (0-100%) with risk categories:
                     * Low (0-40%)
                     * Moderate (41-60%)
                     * High (61-80%)
                     * Very High (81-100%)
-                  - Detection methods:
+                - Detection methods:
                     * Known pirated client hashes
                     * Network port analysis
                     * Client behavior patterns
-                  - Admin command (/mc) to check players
-                  - Automatic high-risk player notifications
+                - Admin command (/mc) to check players
+                - Automatic high-risk player notifications
 
 USAGE:
                   - System runs automatically on player join
                   - Admins can manually check players with /mc [playerID]
                   - Configure known hashes and port ranges in config
 
-REQUIREMENTS:     Install to the same directory as sapp.dll
-                  - Lua JSON Parser:  http://regex.info/blog/lua/json
+REQUIRED:       - json.lua (JSON library). Get from:
+                    https://github.com/Chalwk/SPCLib/blob/main/libraries/json.lua
+                    Save it to the server root (same location as sapp.dll/strings.dll)
 
-Copyright (c) 2024 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+Copyright (c) 2024-2026 Jericho Crosby (Chalwk)
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 
@@ -56,7 +56,7 @@ local Multiclient = {
 
 local players = {}
 local open = io.open
-local json = loadfile('./json.lua')()
+local json = require('json')
 
 api_version = '1.12.0.0'
 
@@ -68,7 +68,7 @@ function Multiclient:LoadDB()
         content = file:read('*all')
         file:close()
     end
-    local data = json:decode(content) or {}
+    local data = json.decode(content) or {}
     return data
 end
 
@@ -76,7 +76,8 @@ end
 function Multiclient:Update()
     local file = open(self.file, 'w')
     if file then
-        file:write(json:encode_pretty(self.db))
+        local encoded = json.encode(self.db, { indent = 2 })
+        if encoded then file:write(encoded) end
         file:close()
     end
 end

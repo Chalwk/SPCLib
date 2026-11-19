@@ -8,14 +8,13 @@ DESCRIPTION:    Advanced racing tracker and leaderboard system with:
                 - Announcements: personal bests, map records, checkpoint times
                   performance up to 50, top finishes threshold 0.95, participation penalty for <3 maps)
 
-COMMANDS:       - /stats [name|id|all]   - personal stats on current map
-                - /top [page]            - top laps on current map
-                - /reset                 - reset checkpoint progress
-                                           OR: Press melee key.
+COMMANDS:       - /stats [name|id|all]   personal stats on current map
+                - /top [page]            top laps on current map
+                - /reset                 reset checkpoint progress OR: Press melee key.
 
-REQUIRED:       json.lua (JSON library). Get from:
-                https://github.com/Chalwk/SPCLib/blob/main/sapp/modules/json.lua
-                Save it to the server root (same location as sapp.dll/strings.dll)
+REQUIRED:       - json.lua (JSON library). Get from:
+                    https://github.com/Chalwk/SPCLib/blob/main/libraries/json.lua
+                    Save it to the server root (same location as sapp.dll/strings.dll)
                 
 
 SCORING:        Map Record: +200 per map held
@@ -23,11 +22,11 @@ SCORING:        Map Record: +200 per map held
                 Participation: <3 maps > 50% penalty
                 Tiebreakers: map records > top finishes
 
-LAST UPDATED:   19 Nov 2026
+LAST UPDATED:   20 Nov 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

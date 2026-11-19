@@ -18,12 +18,14 @@ COMMAND SYNTAX:
     /alias search <partial_name> [page] - Fuzzy search for names containing text.
     /alias help                         - Show command usage help.
 
-REQUIREMENTS:   Install to the same directory as sapp.dll
-                    http://regex.info/blog/lua/json
 
-Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+REQUIRED:       - json.lua (JSON library). Get from:
+                    https://github.com/Chalwk/SPCLib/blob/main/libraries/json.lua
+                    Save it to the server root (same location as sapp.dll/strings.dll)
+
+Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 
@@ -602,14 +604,12 @@ local function loadAliasesDB()
     f:close()
 
     if content and content ~= '' then
-        local success, result = pcall(function ()
-            return json:decode(content)
-        end)
+        local success, result, decode_err = pcall(json.decode, content)
         if success and result then
             aliases_db = { ip_records = result.ip_records or {}, hash_records = result.hash_records or {} }
             return true
         else
-            cprint("[alias_system] Error parsing aliases database: " .. tostring(result), 12)
+            cprint("[alias_system] Error parsing aliases database: " .. tostring(decode_err or result), 12)
             aliases_db = DEFAULT_DB
             return false
         end
@@ -627,7 +627,9 @@ local function saveAliasesDB()
     end
 
     local success, json_str = pcall(function ()
-        return json:encode(aliases_db)
+        local encoded, err = json.encode(aliases_db)
+        if not encoded then error(err) end
+        return encoded
     end)
 
     if not success then
@@ -687,11 +689,11 @@ end
 
 function OnScriptLoad()
     local success, result = pcall(function ()
-        return loadfile('json.lua')()
+        return require('json')
     end)
 
     if not success or not result then
-        cprint("[alias_system] Failed to load json.lua. Make sure the file exists and is valid.", 12)
+        cprint("[alias_system] Failed to load the json module. Install libraries/json.lua in the Lua module search path.", 12)
         return
     end
     json = result

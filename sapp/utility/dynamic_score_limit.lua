@@ -6,8 +6,8 @@ DESCRIPTION:    Automatically adjusts score limits based on player count with
                   differentiation and dynamic message formatting.
 
 Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

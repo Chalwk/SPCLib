@@ -4,8 +4,8 @@ SCRIPT NAME:    melee_attack.lua
 DESCRIPTION:    Brutal melee-only combat mode
 
 Copyright (c) 2023-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

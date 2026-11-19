@@ -5,8 +5,8 @@ DESCRIPTION:    Kicks (or optionally bans) players who join with a disallowed na
                   Names are matched case-insensitively; optional wildcard support.
 
 Copyright (c) 2024-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

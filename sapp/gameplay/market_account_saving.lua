@@ -2,24 +2,25 @@
 =====================================================================================
 SCRIPT NAME:    market_account_saving.lua
 DESCRIPTION:    In-game economy system with purchasable perks and account management
-                  - Players earn money for kills and objectives
-                  - Spend money on temporary power-ups and abilities
-                  - Persistent account system with login/registration
-                  - Admin-controlled economy management
+                    - Players earn money for kills and objectives
+                    - Spend money on temporary power-ups and abilities
+                    - Persistent account system with login/registration
+                    - Admin-controlled economy management
 
-                  Key Features:
-                  - 8 purchasable perks with cooldowns (God Mode, Camo, Teleport, etc.)
-                  - Automatic money rewards/deductions for gameplay events
-                  - Account system with password protection
-                  - Admin fund management tools
-                  - Automatic cleanup of inactive accounts
+                Key Features:
+                    - 8 purchasable perks with cooldowns (God Mode, Camo, Teleport, etc.)
+                    - Automatic money rewards/deductions for gameplay events
+                    - Account system with password protection
+                    - Admin fund management tools
+                    - Automatic cleanup of inactive accounts
 
-REQUIREMENTS:     Install to the same directory as sapp.dll
-                  - Lua JSON Parser:  http://regex.info/blog/lua/json
+REQUIRED:       - json.lua (JSON library). Get from:
+                    https://github.com/Chalwk/SPCLib/blob/main/libraries/json.lua
+                    Save it to the server root (same location as sapp.dll/strings.dll)
 
-Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
+LICENSE:    MIT License
+            https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 
@@ -160,7 +161,7 @@ local Account = {
 local players = { }
 local ffa, falling, distance, first_blood
 
-local json = loadfile('./json.lua')()
+local json = require('json')
 local floor = math.floor
 
 local match, gsub = string.match, string.gsub
@@ -198,7 +199,8 @@ end
 local function WriteToFile(self, t)
     local file = open(self.dir, 'w')
     if (file) then
-        file:write(json:encode_pretty(t))
+        local encoded = json.encode(t, { indent = 2 })
+        if encoded then file:write(encoded) end
         file:close()
     end
 end
@@ -253,7 +255,7 @@ function Account:CheckFile(ScriptLoad)
             content = file:read('*all')
             file:close()
         end
-        local data = json:decode(content)
+        local data = json.decode(content)
         if (not data) then
             WriteToFile(self, {})
         end

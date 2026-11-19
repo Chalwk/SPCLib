@@ -6,8 +6,8 @@ DESCRIPTION:    Crashes the client of a player when they join the server.
                   the names and hashes of the players you want to crash.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

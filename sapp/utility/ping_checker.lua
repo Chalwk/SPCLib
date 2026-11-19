@@ -20,8 +20,8 @@ USAGE:
                   Self-check:       "ping" (checks your own ping)
 
 Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

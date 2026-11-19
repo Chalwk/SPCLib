@@ -19,8 +19,8 @@ USAGE:
                   - System automatically handles player count adjustments when enabled
 
 Copyright (c) 2024 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

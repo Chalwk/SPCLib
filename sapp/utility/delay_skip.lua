@@ -7,8 +7,8 @@ DESCRIPTION:    Prevents premature map skipping by enforcing:
                   - Feedback message for players attempting to skip too early.
 
 Copyright (c) 2020-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

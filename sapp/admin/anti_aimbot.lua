@@ -7,8 +7,8 @@ DESCRIPTION:    See https://chalwk.github.io/halo/sapp/anti-aimbot/ for setup/co
 LAST UPDATED:   19 Nov 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =============================================================================================================
 ]]
 

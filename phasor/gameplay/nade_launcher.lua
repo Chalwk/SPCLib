@@ -5,8 +5,8 @@ DESCRIPTION:    Converts non-grenade projectiles into high-velocity frag grenade
                   Players can toggle the effect with the /nade command.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

@@ -8,8 +8,8 @@ DESCRIPTION:    Intense pistol duel mode where every shot counts:
                   - High-risk, high-reward gameplay
 
 Copyright (c) 2023-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

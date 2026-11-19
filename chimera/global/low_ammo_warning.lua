@@ -7,8 +7,8 @@ DESCRIPTION:    A simple script that displays a warning message when your weapon
                   Command: /ammo_warn - Toggle low ammo display
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

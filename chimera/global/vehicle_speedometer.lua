@@ -5,8 +5,8 @@ DESCRIPTION:    HUD that displays map name, vehicle name,
                   and speed (km/h) at the top-left.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===========================================================================
 ]]
 

@@ -7,8 +7,8 @@ DESCRIPTION:    Shows driver, gunner, and passenger names when you are in a vehi
                   Command: /riders - Toggle rider name display on/off
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ================================================================================================
 ]]
 

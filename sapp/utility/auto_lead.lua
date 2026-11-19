@@ -13,8 +13,8 @@ CONFIGURATION:    Edit the settings table to define:
                   - Default behavior for unlisted maps
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

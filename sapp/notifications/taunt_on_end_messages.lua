@@ -10,8 +10,8 @@ FEATURES:
                   - Lighthearted player feedback
 
 Copyright (c) 2016-2018 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

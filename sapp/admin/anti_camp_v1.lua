@@ -9,8 +9,8 @@ DESCRIPTION:    Camping prevention system with:
                   - Automatic reset on spawn/disconnect
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

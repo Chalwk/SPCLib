@@ -2,33 +2,34 @@
 =====================================================================================
 SCRIPT NAME:    parkour.lua
 DESCRIPTION:    Halo SAPP/Lua parkour plugin.
-                  - Allows players to run custom parkour courses on maps.
-                  - Tracks checkpoints, start/finish lines, and player progression.
-                  - Supports in-order or free checkpoint completion.
-                  - Records player statistics (best times, averages, completions) globally and per map.
-                  - Provides commands for teleporting to checkpoints, resetting runs, and viewing leaderboards.
-                  - Handles respawning at checkpoints, death limits, and course restarts.
-                  - Includes optional visual aids (flags and oddball markers) for starts, finishes, and checkpoints.
-                  - Fully configurable per map via the CONFIG table.
+                    - Allows players to run custom parkour courses on maps.
+                    - Tracks checkpoints, start/finish lines, and player progression.
+                    - Supports in-order or free checkpoint completion.
+                    - Records player statistics (best times, averages, completions) globally and per map.
+                    - Provides commands for teleporting to checkpoints, resetting runs, and viewing leaderboards.
+                    - Handles respawning at checkpoints, death limits, and course restarts.
+                    - Includes optional visual aids (flags and oddball markers) for starts, finishes, and checkpoints.
+                    - Fully configurable per map via the CONFIG table.
 
-CONFIGURATION:    spawn_flags: Set to true to spawn flag poles at start/finish lines
-                  spawn_checkpoint_markers: Set to true to spawn visual markers at checkpoints
-                  restart_after: Number of deaths after which player is reset to start
-                  respawn_time: Set the respawn timer (seconds), set nil to disable
-                  running_speed: Player speed while running the course
-                  start: Coordinates for start line and spawn point (x, y, z, yaw)
-                  finish: Coordinates for finish line (x, y, z)
-                  in_order: If true, checkpoints must be crossed in order
-                  checkpoints: List of checkpoint positions and yaw (x, y, z, yaw)
+CONFIGURATION:  spawn_flags: Set to true to spawn flag poles at start/finish lines
+                spawn_checkpoint_markers: Set to true to spawn visual markers at checkpoints
+                restart_after: Number of deaths after which player is reset to start
+                respawn_time: Set the respawn timer (seconds), set nil to disable
+                running_speed: Player speed while running the course
+                start: Coordinates for start line and spawn point (x, y, z, yaw)
+                finish: Coordinates for finish line (x, y, z)
+                in_order: If true, checkpoints must be crossed in order
+                checkpoints: List of checkpoint positions and yaw (x, y, z, yaw)
 
-REQUIREMENTS:     Install to the same directory as sapp.dll
-                  - Lua JSON Parser:  http://regex.info/blog/lua/json
+REQUIRED:       - json.lua (JSON library). Get from:
+                    https://github.com/Chalwk/SPCLib/blob/main/libraries/json.lua
+                    Save it to the server root (same location as sapp.dll/strings.dll)
 
-LAST UPDATED:     2/10/2025
+LAST UPDATED:   20 Nov 2026
 
-Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 
@@ -98,7 +99,7 @@ api_version = '1.12.0.0'
 local ANTI_CAMP_RADIUS = CONFIG.ANTI_CAMP_RADIUS * CONFIG.ANTI_CAMP_RADIUS
 local CLAIM_RADIUS = CONFIG.CLAIM_RADIUS * CONFIG.CLAIM_RADIUS
 
-local json = loadfile('json.lua')()
+local json = require('json')
 local math_floor, math_huge, math_abs = math.floor, math.huge, math.abs
 local table_insert, table_sort = table.insert, table.sort
 local string_format = string.format
@@ -190,14 +191,19 @@ local function readJSON(file_path, default)
     local content = file:read("*a")
     file:close()
     if content == "" then return default end
-    local success, data = pcall(json.decode, json, content)
+    local success, data = pcall(json.decode, content)
     return success and data or default
 end
 
 local function writeJSON(file_path, data)
     local file = io.open(file_path, "w")
     if not file then return false end
-    file:write(json:encode(data))
+    local encoded, err = json.encode(data)
+    if not encoded then
+        file:close()
+        return false, err
+    end
+    file:write(encoded)
     file:close()
     return true
 end

@@ -4,8 +4,8 @@ SCRIPT NAME:    auto_eject.lua
 DESCRIPTION:    Prevents players from entering vehicles.
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

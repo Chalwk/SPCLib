@@ -26,8 +26,8 @@ USAGE:
                   - Players vote by typing the map number (1-8 by default)
 
 Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

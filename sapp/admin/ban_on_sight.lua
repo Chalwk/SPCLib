@@ -6,8 +6,8 @@ DESCRIPTION:    Instant IP bans with a pirate-hash safety net.
                   /unbos <index> removes a ban, 'cause everyone deserves a second chance.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ====================================================================================
 ]]
 

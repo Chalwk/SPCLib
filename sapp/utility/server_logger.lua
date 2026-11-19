@@ -8,8 +8,8 @@ DESCRIPTION:    Advanced server logging system that replaces SAPP's default logs
 LAST UPDATED:   18 Nov 2026
 
 Copyright (c) 2024-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

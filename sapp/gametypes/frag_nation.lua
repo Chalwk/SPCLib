@@ -26,8 +26,8 @@ CONFIGURATION OPTIONS:
                  - Map object management
 
 Copyright (c) 2021-2022 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

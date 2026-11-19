@@ -34,8 +34,8 @@ WARNING: This mod significantly alters core gameplay mechanics.
          Not recommended for competitive play.
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

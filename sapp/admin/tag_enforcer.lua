@@ -8,8 +8,8 @@ DESCRIPTION:    This script prevents unauthorized players from using the clan ta
                   official member, they are automatically kicked.
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

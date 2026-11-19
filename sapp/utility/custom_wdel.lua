@@ -5,8 +5,8 @@ DESCRIPTION:    Removes a player's non-objective weapons while protecting flags
                 and oddballs. Supports self, all players, and player IDs.
 
 Copyright (c) 2021-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

@@ -71,6 +71,9 @@
     "sapp_server_templates": "Ready-to-run SAPP server templates for Halo PC/CE. Includes SAPP, map vote, sample Lua, Windows/Linux launchers. Extract and run.",
     "wordbuster": "Advanced profanity filter (21 languages, leet-speak detection). Warns, kicks/bans, admin immunity, in-game word list management."
   },
+  "LIBRARIES": {
+    "json": "Dependency-free JSON encoder and decoder in pure Lua, with array/object helpers and explicit null support. Compatible with SAPP, Phasor, and Chimera."
+  },
   "SAPP": {
     "admin": {
       "admin_manager": "Drop-in replacement: hierarchical levels, IP/hash/name bans, admin chat, command spy, alias lookup, SHA-256 hashing, per-level join messages, JSON storage.",

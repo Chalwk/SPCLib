@@ -8,8 +8,8 @@ DESCRIPTION:    Implements proximity-based voice chat with configurable range.
                   - Custom chat message formatting
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

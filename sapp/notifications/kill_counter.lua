@@ -11,8 +11,8 @@ DESCRIPTION:    Displays kill count to players after each kill
                   Customize by editing the 'output' variable
 
 Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

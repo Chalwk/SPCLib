@@ -15,8 +15,8 @@ DESCRIPTION:    Customizable join announcements with MVP recognition
                   - Customizable server message prefix
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

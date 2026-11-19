@@ -11,8 +11,8 @@ DESCRIPTION:    Chat system that responds to triggers with random phrases.
                   Type these in chat as-is.
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

@@ -6,8 +6,8 @@ DESCRIPTION:    Configurable admin join message system.
                   - Easy to configure per level and toggle display environment
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

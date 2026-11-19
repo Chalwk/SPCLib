@@ -7,8 +7,8 @@ DESCRIPTION:    Team-based objective mode where players must collect enemy dog t
 LAST UPDATED:     21/09/2025
 
 Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

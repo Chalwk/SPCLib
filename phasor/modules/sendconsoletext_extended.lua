@@ -83,8 +83,8 @@ DESCRIPTION:    Extended replacement for Phasor's native sendconsoletext().
                   sendconsoletext(player, "BOSS FIGHT ACTIVE", 1, 2, "center", isBossAlive)
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

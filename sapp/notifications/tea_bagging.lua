@@ -8,8 +8,8 @@ COMMANDS:
                   /tbag [on|off|toggle|status|help] - Admin-only system control
 
 Copyright (c) 2019-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

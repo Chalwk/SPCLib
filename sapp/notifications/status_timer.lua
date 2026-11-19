@@ -17,8 +17,8 @@ USAGE:
                   Output format: "Players: X/Y" (current/max)
 
 Copyright (c) 2024 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

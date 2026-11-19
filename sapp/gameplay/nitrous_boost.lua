@@ -10,8 +10,8 @@ DESCRIPTION:    Vehicle nitrous boost system with:
                   - State persistence across vehicle entry/exit
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

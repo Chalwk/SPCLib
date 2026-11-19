@@ -4,8 +4,8 @@ SCRIPT NAME:    drive_as_gunner.lua
 DESCRIPTION:    Allows players to drive as gunners in specified vehicles.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===========================================================================
 ]]
 

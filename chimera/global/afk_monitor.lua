@@ -10,8 +10,8 @@ DESCRIPTION:    Warns when any player hasn't moved for a configurable time.
                     /afkradius <units>  - movement tolerance (default 0.01)
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

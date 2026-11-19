@@ -28,8 +28,8 @@ DESCRIPTION:    Persistent object spawning with automatic respawn.
                   tag_class options: "weap", "vehi", "eqip", "bipd" (biped), etc.
 
 Copyright (c) 2021-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

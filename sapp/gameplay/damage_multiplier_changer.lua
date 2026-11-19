@@ -18,8 +18,8 @@ CONFIGURATION:    Edit the multipliers table to:
                   - 1 = normal damage, <1 = reduced, >1 = increased
 
 Copyright (c) 2019 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

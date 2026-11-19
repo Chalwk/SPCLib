@@ -4,14 +4,14 @@ SCRIPT NAME:    play_time.lua
 DESCRIPTION:    Comprehensive player session tracking and statistics system
 
 FEATURES:
-                  - Tracks total connection time and join counts
-                  - Detailed time breakdown (years/weeks/days/hours/minutes/seconds)
-                  - Multiple query options:
+                - Tracks total connection time and join counts
+                - Detailed time breakdown (years/weeks/days/hours/minutes/seconds)
+                - Multiple query options:
                     * Individual players (/playtime <ID>)
                     * All players (/playtime all)
                     * Self-check (/playtime me)
-                  - Persistent JSON data storage
-                  - Automatic tracking on join/leave
+                - Persistent JSON data storage
+                - Automatic tracking on join/leave
 
 CONFIGURATION:
                   command:          Primary command trigger (default: "playtime")
@@ -19,17 +19,18 @@ CONFIGURATION:
                   output:           Customizable response templates
                   ClientIndexType:  Player identification method (1=IP:PORT, 2=IP, 3=Hash)
 
-REQUIREMENTS:     Install to the same directory as sapp.dll
-                  - Lua JSON Parser:  http://regex.info/blog/lua/json
+REQUIRED:       - json.lua (JSON library). Get from:
+                    https://github.com/Chalwk/SPCLib/blob/main/libraries/json.lua
+                    Save it to the server root (same location as sapp.dll/strings.dll)
 
 USAGE EXAMPLES:
                   /playtime         (shows your own stats)
                   /playtime 3       (shows stats for player ID 3)
                   /playtime all     (shows stats for all players)
 
-Copyright (c) 2020-2021 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+Copyright (c) 2020-2026 Jericho Crosby (Chalwk)
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 
@@ -89,7 +90,7 @@ local TimePlayed = {
 
 -- Preload JSON Interpreter Library:
 --
-local json = (loadfile "json.lua")()
+local json = require("json")
 
 function OnScriptLoad()
     -- register needed event callbacks:
@@ -125,7 +126,8 @@ function TimePlayed:UpdateJSON(TYPE)
         if (db) then
             local file = assert(io.open(self.dir, "w"))
             if (file) then
-                file:write(json:encode_pretty(db))
+                local encoded = json.encode(db, { indent = 2 })
+                if encoded then file:write(encoded) end
                 file:close()
             end
         end
@@ -350,12 +352,13 @@ function TimePlayed:CheckFile(ScriptLoad)
 
             -- Load an existing database or create a new one:
             --
-            local db = json:decode(content)
+            local db = json.decode(content)
             if (not db) then
                 file = assert(io.open(self.dir, "w"))
                 if (file) then
                     db = {}
-                    file:write(json:encode_pretty(db))
+                    local encoded = json.encode(db, { indent = 2 })
+                    if encoded then file:write(encoded) end
                     file:close()
                 end
             end

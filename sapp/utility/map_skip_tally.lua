@@ -4,16 +4,17 @@ SCRIPT NAME:    map_skip_tally.lua
 DESCRIPTION:    Tracks and persists map skip votes across game sessions.
 
 COMMANDS:
-                  skip       - Register a skip vote
-                  tally     - View current map's skip count
-                  tallydetails - View your personal skip contributions
+                skip            - Register a skip vote
+                tally           - View current map's skip count
+                tallydetails    - View your personal skip contributions
 
-REQUIREMENTS:     Install to the same directory as sapp.dll
-                  - Lua JSON Parser:  http://regex.info/blog/lua/json
+REQUIRED:       - json.lua (JSON library). Get from:
+                    https://github.com/Chalwk/SPCLib/blob/main/libraries/json.lua
+                    Save it to the server root (same location as sapp.dll/strings.dll)
 
-Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+Copyright (c) 2022-2026 Jericho Crosby (Chalwk)
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 
@@ -27,7 +28,7 @@ local deduct_on_quit = true
 
 local dir, map, mode
 local skipped, records, player_skips = {}, {}, {}
-local json = (loadfile "json.lua")()              -- Load JSON library
+local json = require("json")                      -- Load shared JSON library
 local open = io.open
 
 -- Script Initialization
@@ -49,7 +50,12 @@ local function Write(content)
         cprint("Error opening file for writing: " .. err)
         return
     end
-    file:write(json:encode_pretty(content))
+    local encoded = json.encode(content, { indent = 2 })
+    if not encoded then
+        file:close()
+        return false
+    end
+    file:write(encoded)
     file:close()
 end
 
@@ -69,11 +75,15 @@ function OnStart()
             cprint("Error opening file for reading: " .. err)
         end
 
-        local data, decode_err = json:decode(content) or {}
+        local data, decode_err
+        if content ~= "" then
+            data, decode_err = json.decode(content)
+        end
         if decode_err then
             cprint("Error decoding JSON data: " .. decode_err)
             return
         end
+        data = data or {}
 
         data[map] = data[map] or {}
         data[map][mode] = data[map][mode] or 0

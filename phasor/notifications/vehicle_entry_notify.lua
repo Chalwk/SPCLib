@@ -4,8 +4,8 @@ SCRIPT NAME:    vehicle_entry_notify.lua
 DESCRIPTION:    Notifies server console when a player enters a vehicle.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

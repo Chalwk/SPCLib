@@ -5,8 +5,8 @@ DESCRIPTION:    Allows players to set a custom respawn point using /tac.
                   Point can be toggled, cleared, or checked; one-time or persistent.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

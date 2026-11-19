@@ -15,8 +15,8 @@ NOTE:             - Shared hashes may trigger false positives
                   - Dynamic IPs may require regular updates to the whitelist
 
 Copyright (c) 2019-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

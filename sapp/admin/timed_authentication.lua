@@ -15,8 +15,8 @@ DESCRIPTION:    This script enforces a timed authentication challenge for player
                   be considered highly secure for sensitive use-cases.
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

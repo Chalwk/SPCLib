@@ -28,8 +28,8 @@ DEPENDENCIES:
                   Requires rcon_text.lua for formatted text display
 
 Copyright (c) 2021-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

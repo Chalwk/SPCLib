@@ -4,8 +4,8 @@ SCRIPT NAME:    infinite_ammo.lua
 DESCRIPTION:    Continuously grants all players unlimited ammunition.
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

@@ -17,8 +17,8 @@ COLOR REFERENCE:  0=white, 1=black, 2=red, 3=blue, 4=gray, 5=yellow
                   16=maroon, 17=salmon
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

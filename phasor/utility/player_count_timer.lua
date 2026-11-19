@@ -4,8 +4,8 @@ SCRIPT NAME:    player_count_timer.lua
 DESCRIPTION:    Periodically broadcasts the current number of players in the server.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

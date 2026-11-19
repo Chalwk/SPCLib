@@ -3,39 +3,38 @@
 SCRIPT NAME:    teleport_manager.lua
 DESCRIPTION:    Advanced teleport system with location memory and map-linked warps.
 
-FEATURES:
-                  - Map-specific warp persistence
-                  - Location history tracking (/back command)
-                  - Warp overwrite protection
-                  - Paginated warp listings
-                  - JSON-based storage system
-                  - Permission-based command access
-                  - Player position restoration
+FEATURES:       - Map-specific warp persistence
+                - Location history tracking (/back command)
+                - Warp overwrite protection
+                - Paginated warp listings
+                - JSON-based storage system
+                - Permission-based command access
+                - Player position restoration
 
-COMMANDS:
-                  /setwarp [name] [-o]    - Create/overwrite warp points
-                  /warp [name]            - Teleport to saved location
-                  /delwarp [name]         - Delete existing warp
-                  /warplist [page]        - Browse available warps (paginated)
-                  /back                   - Return to previous location
+COMMANDS:       /setwarp [name] [-o]    Create/overwrite warp points
+                /warp [name]            Teleport to saved location
+                /delwarp [name]         Delete existing warp
+                /warplist [page]        Browse available warps (paginated)
+                /back                   Return to previous location
 
 CONFIGURATION:
-                  file = "teleports.json"  - Warp point storage file
-                  max_results = 5          - Warps per page in listings
-                  commands = {             - Command permissions:
+                file = "teleports.json"         Warp point storage file
+                max_results = 5                 Warps per page in listings
+                commands = {                    Command permissions:
                     warp = {permission = 1},
                     back = {permission = 1},
                     setwarp = {permission = 1},
                     delwarp = {permission = 1},
                     warplist = {permission = 1}
-                  }
+                }
 
-REQUIREMENTS:     Install to the same directory as sapp.dll
-                  - Lua JSON Parser:  http://regex.info/blog/lua/json
+REQUIRED:       - json.lua (JSON library). Get from:
+                    https://github.com/Chalwk/SPCLib/blob/main/libraries/json.lua
+                    Save it to the server root (same location as sapp.dll/strings.dll)
 
-Copyright (c) 2020 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+Copyright (c) 2020-2026 Jericho Crosby (Chalwk)
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 
@@ -56,7 +55,7 @@ local TeleportManager = {
 }
 
 local floor, format = math.floor, string.format
-local json = loadfile('./json.lua')()
+local json = require('json')
 
 -- Initialization
 function OnScriptLoad()
@@ -311,12 +310,13 @@ local function read_file(fileName)
 end
 
 function TeleportManager:LoadRecords()
-    local records = json:decode(read_file(self.dir))
+    local records = json.decode(read_file(self.dir))
     return records or {}
 end
 
 function TeleportManager:SaveRecords(records)
-    write_file(self.dir, json:encode(records, { indent = true }))
+    local encoded = json.encode(records, { indent = 2 })
+    if encoded then write_file(self.dir, encoded) end
 end
 
 function TeleportManager:FileExists(file_path)
@@ -324,8 +324,8 @@ function TeleportManager:FileExists(file_path)
 end
 
 function TeleportManager:CreateFile(file_path)
-    local initial_content = json:encode({}, { indent = true })
-    write_file(file_path, initial_content)
+    local initial_content = json.encode({}, { indent = 2 })
+    if initial_content then write_file(file_path, initial_content) end
 end
 
 -- Utility Functions

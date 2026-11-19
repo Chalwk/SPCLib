@@ -7,8 +7,8 @@ DESCRIPTION:    Custom weapon loadout system with multiple pre-configured
                   selection menu, and persistent player preferences.
 
 Copyright (c) 2024-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

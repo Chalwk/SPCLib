@@ -4,8 +4,8 @@ SCRIPT NAME:    dynamic_race_laps.lua
 DESCRIPTION:    Automatically adjusts lap score limit based on player count.
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

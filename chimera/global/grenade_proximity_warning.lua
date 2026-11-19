@@ -8,8 +8,8 @@ DESCRIPTION:    Shows a warning when a live grenade is nearby and indicates its
                   Command: /grenwarn - Toggle proximity warning on/off
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

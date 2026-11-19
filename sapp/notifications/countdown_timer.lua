@@ -16,8 +16,8 @@ CONFIGURATION:    Adjust these variables:
                   - output_msg: Display format string
 
 Copyright (c) 2016-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

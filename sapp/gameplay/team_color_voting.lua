@@ -21,8 +21,8 @@ CONFIGURATION:
                   default_color_set = 10         - Default color set ID
 
 Copyright (c) 2020-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

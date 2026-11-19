@@ -23,8 +23,8 @@ CONFIGURATION:    Adjust these settings:
                   - take_weapons: Toggle weapon removal
 
 Copyright (c) 2020 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

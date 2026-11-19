@@ -9,8 +9,8 @@ DESCRIPTION:    Displays the current weapon name, primary ammo, and (if present)
                   TODO: Add support for battery powered weapons
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

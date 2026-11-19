@@ -7,8 +7,8 @@ DESCRIPTION:    Grants admin privileges via "/admin me" command
                   - Blocks known pirated game copies
 
 Copyright (c) 2016-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

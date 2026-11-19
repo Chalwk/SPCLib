@@ -20,8 +20,8 @@ CONFIGURATION:
                   - Nav marker options for flag carriers
 
 Copyright (c) 2021 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

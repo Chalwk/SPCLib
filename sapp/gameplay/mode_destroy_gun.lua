@@ -13,8 +13,8 @@ DESCRIPTION:    Enables destructive weapon mode that can delete in-game objects
                   Use with caution on live servers.
 
 Copyright (c) 2022-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

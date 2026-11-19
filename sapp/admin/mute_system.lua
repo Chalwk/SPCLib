@@ -4,30 +4,31 @@ SCRIPT NAME:    mute_system.lua
 DESCRIPTION:    Advanced player mute management system with anti-spam protection.
 
 FEATURES:
-                  - Comprehensive mute functionality:
+                - Comprehensive mute functionality:
                     * Timed mutes with duration display
                     * Manual and automatic spam-based muting
                     * Whitelist system for protected players
-                  - Anti-spam system with configurable thresholds
-                  - Command whitelisting for muted players
-                  - Persistent mute storage through game sessions
-                  - Admin commands:
+                - Anti-spam system with configurable thresholds
+                - Command whitelisting for muted players
+                - Persistent mute storage through game sessions
+                - Admin commands:
                     * /mute <pid> <time>
                     * /unmute <pid>
                     * /mutes (view active mutes)
 
-REQUIREMENTS:     Install to the same directory as sapp.dll
-                  - Lua JSON Parser:   http://regex.info/blog/lua/json
-                  - Page Browsing Lib: https://github.com/Chalwk/SPCLib/blob/main/misc/libraries/page_browsing_lib.lua
+REQUIRED:       - json.lua (JSON library). Get from:
+                    https://github.com/Chalwk/SPCLib/blob/main/libraries/json.lua
+                    Save it to the server root (same location as sapp.dll/strings.dll)
+                - Page Browsing Lib: https://github.com/Chalwk/SPCLib/blob/main/misc/libraries/page_browsing_lib.lua
 
 USAGE:
                   - Configure settings in the MuteSystem table
                   - Use admin commands to manage mutes
                   - System automatically handles spam detection
 
-Copyright (c) 2020 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+Copyright (c) 2020-2026 Jericho Crosby (Chalwk)
+LICENSE:    MIT License
+            https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 
@@ -157,7 +158,7 @@ api_version = "1.12.0.0"
 local floor = math.floor
 local time_scale = 1 / 30
 local script_version = 1.2
-local json = (loadfile "json.lua")()
+local json = require("json")
 local PageBrowser = (loadfile "page_browsing_lib.lua")()
 local gsub, sub = string.gsub, string.sub
 local gmatch, format, lower = string.gmatch, string.format, string.lower
@@ -439,7 +440,8 @@ function MuteSystem:UpdateDatabase(IP, UnMute, CleanArray)
                     mutes[IP] = self.players[IP]
                 end
                 self:UpdateMuteIndex()
-                file:write(json:encode_pretty(mutes))
+                local encoded = json.encode(mutes, { indent = 2 })
+                if encoded then file:write(encoded) end
                 io.close(file)
             end
         end
@@ -505,7 +507,7 @@ function MuteSystem:GetMutes()
     local file = io.open(self.dir, "r")
     if (file) then
         local data = file:read("*all")
-        mutes = json:decode(data)
+        mutes = json.decode(data)
         file:close()
     end
     return mutes
@@ -526,11 +528,12 @@ function MuteSystem:CheckFile()
             io.close(file)
         end
 
-        local mutes = json:decode(content)
+        local mutes = json.decode(content)
         if (not mutes) then
             file = assert(io.open(self.dir, "w"))
             if (file) then
-                file:write(json:encode_pretty({}))
+                local encoded = json.encode({}, { indent = 2 })
+                if encoded then file:write(encoded) end
                 io.close(file)
             end
             return

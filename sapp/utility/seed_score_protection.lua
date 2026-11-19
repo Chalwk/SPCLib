@@ -8,8 +8,8 @@ CONFIGURATION:    - Edit 'bots' table to customize protected seed names
                   - Set 'preventNegatives' to false to allow negative scores
 
 Copyright (c) 2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

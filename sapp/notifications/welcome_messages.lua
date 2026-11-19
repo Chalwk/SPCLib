@@ -7,8 +7,8 @@ CREDITS:
                   Originally requested by 'mdc81' on OpenCarnage forums
 
 Copyright (c) 2016-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

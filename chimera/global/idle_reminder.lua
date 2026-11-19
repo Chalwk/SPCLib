@@ -6,8 +6,8 @@ DESCRIPTION:    Displays a reminder if you haven't moved for a while.
                   Command: /idle - Toggle idle reminder
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

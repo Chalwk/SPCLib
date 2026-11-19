@@ -5,8 +5,8 @@ DESCRIPTION:    Grants a temporary speed boost when a player picks up
                   Active Camouflage (or other configured equipment).
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

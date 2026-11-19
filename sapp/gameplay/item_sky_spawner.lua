@@ -19,8 +19,8 @@ CONFIGURATION:    Adjust these settings:
                   - coordinates: Map-specific drop points
 
 Copyright (c) 2021 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

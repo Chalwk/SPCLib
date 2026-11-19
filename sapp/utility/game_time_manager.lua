@@ -9,8 +9,8 @@ DESCRIPTION:    Per-map game time manager.
                   Add custom modes by creating a new entry in TIMELIMIT.
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

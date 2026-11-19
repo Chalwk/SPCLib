@@ -7,13 +7,14 @@ DESCRIPTION:    Geolocate joining players and optionally block countries.
                   - Cache with TTL to stay within free API limits
                   - Uses ip-api.com JSON format
 
-REQUIREMENTS:     Install in the same folder as sapp.dll.
-                  - Lua JSON Parser:  http://regex.info/blog/lua/json
-                  - SAPP HTTP Client: https://github.com/Chalwk/SAPP-HTTP
+REQUIRED:       - json.lua (JSON library). Get from:
+                    https://github.com/Chalwk/SPCLib/blob/main/libraries/json.lua
+                    Save it to the server root (same location as sapp.dll/strings.dll)
+                - SAPP HTTP Client: https://github.com/Chalwk/SAPP-HTTP
 
 Copyright (c) 2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 
@@ -56,7 +57,7 @@ local CACHE_TTL = 3600
 local DEBUG_FORCE_IP = ""
 -- END CONFIG --
 
-local json = (loadfile "json.lua")()
+local json = require("json")
 local ffi = require("ffi")
 local sapp_http = ffi.load("sapp_http")
 
@@ -137,7 +138,7 @@ end
 local function parse_json_response(raw)
     if not raw then return nil, "empty response" end
 
-    local ok, data = pcall(json.decode, json, raw)
+    local ok, data = pcall(json.decode, raw)
     if not ok or not data then
         return nil, "invalid JSON"
     end

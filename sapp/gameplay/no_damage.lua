@@ -20,8 +20,8 @@ TECHNICAL DETAILS:
                   - Handles player disconnects gracefully
 
 Copyright (c) 2023-2025 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

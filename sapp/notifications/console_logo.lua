@@ -17,8 +17,8 @@ CREATION TIP:     Generate ASCII art at:
                   (Use 'KBAN' font for best results)
 
 Copyright (c) 2021 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 ===============================================================================
 ]]
 

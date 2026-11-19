@@ -4,8 +4,8 @@ SCRIPT NAME:    admin_chat.lua
 DESCRIPTION:    Admin-only chat system for "secure" communication.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 

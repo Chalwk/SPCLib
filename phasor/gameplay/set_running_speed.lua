@@ -4,8 +4,8 @@ SCRIPT NAME:    set_running_speed.lua
 DESCRIPTION:    Sets a custom movement speed for all players on spawn.
 
 Copyright (c) 2016-2026 Jericho Crosby (Chalwk)
-LICENSE:        MIT License
-                https://github.com/Chalwk/SPCLib/blob/main/LICENSE
+LICENSE:    MIT License
+			https://github.com/Chalwk/SPCLib/blob/main/LICENSE
 =====================================================================================
 ]]
 
