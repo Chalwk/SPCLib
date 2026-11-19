@@ -92,7 +92,9 @@ local function classify(t)
     if forced == "object" then return "object" end
     if forced == "array" then return "array", #t end
 
-    local count, max, sequence = 0, 0, true
+    local count, sequence = 0, true
+    ---@type number
+    local max = 0
     for k in pairs(t) do
         count = count + 1
         if type(k) ~= "number" or k < 1 or k ~= floor(k) then
@@ -106,13 +108,20 @@ local function classify(t)
     return "object"
 end
 
+---@class JsonEncodeCtx
+---@field indent    string | nil
+---@field sort_keys boolean
+---@field max_depth integer
+
+-- Forward declaration; assigned below. The explicit type stops need-check-nil on recursive calls.
+---@type fun(v: any, buf: string[], ctx: JsonEncodeCtx, level: integer, stack: table<table, boolean>)
 local encodeValue
 
 ---@param v     table
----@param buf   table
----@param ctx   table
----@param level number
----@param stack table
+---@param buf   string[]
+---@param ctx   JsonEncodeCtx
+---@param level integer
+---@param stack table<table, boolean>
 local function encodeTable(v, buf, ctx, level, stack)
     if stack[v] then error("circular reference detected", 0) end
     if level >= ctx.max_depth then error("maximum nesting depth exceeded", 0) end
@@ -195,7 +204,7 @@ end
 
 --- Encodes a Lua value as a JSON string.
 ---@param value any Value to encode (nil, boolean, number, string, table, or json.null).
----@param opts? { indent?: number | string, sort_keys?: boolean, max_depth?: number }
+---@param opts? { indent?: number | string, sort_keys?: boolean, max_depth?: integer }
 ---   `indent`: spaces per level (number) or indent string for pretty output. Default: compact.
 ---   `sort_keys`: sort object keys for stable output. Default: true.
 ---   `max_depth`: maximum nesting depth. Default: 200.
@@ -204,7 +213,7 @@ function json.encode(value, opts)
     opts = opts or {}
 
     local indent = opts.indent
-    if type(indent) == "number" then indent = indent > 0 and str_rep(" ", indent) or nil end
+    if type(indent) == "number" then indent = indent > 0 and str_rep(" ", floor(indent)) or nil end
     if indent == "" then indent = nil end
 
     local ctx = { indent = indent, sort_keys = opts.sort_keys ~= false, max_depth = opts.max_depth or 200 }
@@ -221,8 +230,9 @@ local escapes = { ['"'] = '"', ['\\'] = '\\', ['/'] = '/', b = '\b', f = '\f', n
 
 -- Raises a decode error with line and column information (caught by json.decode).
 ---@param str string
----@param pos number
+---@param pos integer
 ---@param msg string
+---@return never
 local function fail(str, pos, msg)
     local line, last, i = 1, 0, 1
     while true do
@@ -236,14 +246,14 @@ local function fail(str, pos, msg)
 end
 
 ---@param str string
----@param pos number
----@return number pos Position of the next non-whitespace character.
+---@param pos integer
+---@return integer pos Position of the next non-whitespace character.
 local function skip(str, pos)
     return str_find(str, "[^ \t\r\n]", pos) or (#str + 1)
 end
 
 -- Converts a Unicode code point to UTF-8 bytes (no `utf8` library in Lua 5.1).
----@param cp number
+---@param cp integer
 ---@return string
 local function utf8Encode(cp)
     if cp < 0x80 then
@@ -259,8 +269,8 @@ local function utf8Encode(cp)
 end
 
 ---@param str string
----@param pos number Position of the opening quote.
----@return string value, number next_pos
+---@param pos integer Position of the opening quote.
+---@return string value, integer next_pos
 local function parseString(str, pos)
     local buf, n = {}, 0
     local i = pos + 1
@@ -285,14 +295,16 @@ local function parseString(str, pos)
                 if not hex then fail(str, s, "invalid unicode escape") end
 
                 local cp = tonumber(hex, 16)
+                ---@cast cp integer
                 i = s + 6
 
                 if cp >= 0xD800 and cp <= 0xDBFF then -- high surrogate: needs a low surrogate
-                    local lo = str_match(str, "^\\u(%x%x%x%x)", i)
-                    lo = lo and tonumber(lo, 16)
+                    local lo_hex = str_match(str, "^\\u(%x%x%x%x)", i)
+                    local lo = lo_hex and tonumber(lo_hex, 16)
                     if not lo or lo < 0xDC00 or lo > 0xDFFF then
                         fail(str, s, "invalid surrogate pair")
                     end
+                    ---@cast lo integer
                     cp = 0x10000 + (cp - 0xD800) * 0x400 + (lo - 0xDC00)
                     i = i + 6
                 elseif cp >= 0xDC00 and cp <= 0xDFFF then
@@ -315,8 +327,8 @@ local function parseString(str, pos)
 end
 
 ---@param str string
----@param pos number
----@return number value, number next_pos
+---@param pos integer
+---@return number value, integer next_pos
 local function parseNumber(str, pos)
     local _, e = str_find(str, "^-?0", pos)
     if e then
@@ -340,11 +352,24 @@ local function parseNumber(str, pos)
         fail(str, e + 1, "invalid exponent")
     end
 
-    return tonumber(str_sub(str, pos, e)), e + 1
+    local value = tonumber(str_sub(str, pos, e))
+    ---@cast value number
+    return value, e + 1
 end
 
+---@class JsonDecodeCtx
+---@field null      table | nil
+---@field max_depth integer
+
+-- Forward declaration; assigned below. The explicit type stops need-check-nil on recursive calls.
+---@type fun(str: string, pos: integer, depth: integer, ctx: JsonDecodeCtx): any, integer
 local parseValue
 
+---@param str   string
+---@param pos   integer Position of the opening bracket.
+---@param depth integer
+---@param ctx   JsonDecodeCtx
+---@return table value, integer next_pos
 local function parseArray(str, pos, depth, ctx)
     local arr, n = {}, 0
 
@@ -369,6 +394,11 @@ local function parseArray(str, pos, depth, ctx)
     end
 end
 
+---@param str   string
+---@param pos   integer Position of the opening brace.
+---@param depth integer
+---@param ctx   JsonDecodeCtx
+---@return table value, integer next_pos
 local function parseObject(str, pos, depth, ctx)
     local obj = {}
 
@@ -403,6 +433,11 @@ local function parseObject(str, pos, depth, ctx)
     end
 end
 
+---@param str   string
+---@param pos   integer
+---@param depth integer
+---@param ctx   JsonDecodeCtx
+---@return any value, integer next_pos
 parseValue = function (str, pos, depth, ctx)
     local c = str_byte(str, pos)
 
@@ -425,10 +460,11 @@ parseValue = function (str, pos, depth, ctx)
     end
 
     fail(str, pos, "unexpected character '" .. str_sub(str, pos, pos) .. "'")
+    return nil, pos -- unreachable (fail always throws); satisfies the 2-value return annotation
 end
 
 ---@param str string
----@param ctx table
+---@param ctx JsonDecodeCtx
 local function parseDocument(str, ctx)
     local pos = 1
     if str_sub(str, 1, 3) == "\239\187\191" then pos = 4 end -- skip UTF-8 BOM
@@ -445,7 +481,7 @@ end
 
 --- Decodes a JSON string into a Lua value.
 ---@param str   string JSON text.
----@param opts? { null_as_nil?: boolean, max_depth?: number }
+---@param opts? { null_as_nil?: boolean, max_depth?: integer }
 ---   `null_as_nil`: decode `null` as `nil` instead of `json.null`. Default: false.
 ---   `max_depth`: maximum nesting depth. Default: 200.
 ---@return any value, string | nil error_message On failure: `nil, error_message`.
