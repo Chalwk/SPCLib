@@ -13,15 +13,17 @@ COMMANDS:       - /stats [name|id|all]   - personal stats on current map
                 - /reset                 - reset checkpoint progress
                                            OR: Press melee key.
 
-REQUIRED:       * Lua JSON Parser: http://regex.info/blog/lua/json
-                  Place json.lua in the same directory as sapp.dll
+REQUIRED:       json.lua (JSON library). Get from:
+                https://github.com/Chalwk/SPCLib/blob/main/sapp/modules/json.lua
+                Save it to the server root (same location as sapp.dll/strings.dll)
+                
 
 SCORING:        Map Record: +200 per map held
                 Top Finishes: laps within 95% of record (tiebreaker)
                 Participation: <3 maps > 50% penalty
                 Tiebreakers: map records > top finishes
 
-LAST UPDATED:     9 Nov 2026
+LAST UPDATED:   19 Nov 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
@@ -130,12 +132,12 @@ local get_dynamic_player = get_dynamic_player
 local to_real_index = to_real_index
 local read_string = read_string
 
+local json
 local race_globals, race_mode, game_over
 local race_checkpoint_count
 local map_record_cache = {}
 local players, stats = {}, {}
 local current_map = ""
-local json
 
 local function fmt(str, ...)
     return select('#', ...) > 0 and string_format(str, ...) or str
@@ -251,29 +253,38 @@ end
 
 -- load stats JSON, return default if fails
 local function load_stats(default)
+    if not json then return default end
+
     local file = io_open(STATS_FILE, "r")
     if not file then return default end
     local content = file:read("*a")
     file:close()
     if content == "" then return default end
 
-    ---@diagnostic disable-next-line: param-type-mismatch, need-check-nil
-    local success, data = pcall(json.decode, json, content)
-    return success and data or default
+    local data, err = json.decode(content)
+    if type(data) ~= "table" then
+        print("ERROR: Failed to parse " .. STATS_FILE .. ": " .. tostring(err))
+        return default
+    end
+
+    return data
 end
 
 local function save_stats()
     if not json then return false end
+
+    local text, err = json.encode(stats)
+    if not text then
+        print("ERROR: Failed to encode stats: " .. tostring(err))
+        return false
+    end
+
     local file = io_open(STATS_FILE, "w")
     if not file then return false end
 
-    -- Wrap the write so a serialization error cannot crash the server.
-    local ok = pcall(function ()
-        ---@diagnostic disable-next-line: call-non-callable, need-check-nil
-        file:write(json:encode(stats))
-    end)
+    file:write(text)
     file:close()
-    return ok
+    return true
 end
 
 -- Compute map records from player data and update cache
@@ -677,15 +688,15 @@ function OnScriptLoad()
         STATS_FILE = config_path .. "\\sapp\\" .. STATS_FILE
     end
 
-    local ok, json_module = pcall(dofile, "json.lua")
+    local ok, json_module = pcall(require, "json")
     if ok and type(json_module) == "table" then
         json = json_module
     else
-        print("ERROR: Failed to load json.lua. Stats will not be saved/loaded.")
+        print("ERROR: Failed to load json via require. Stats will not be saved/loaded.")
+        print("package.path = " .. tostring(package.path))
         json = nil
     end
 
-    -- Load stats
     if json then
         stats = load_stats({})
     else
