@@ -1,44 +1,10 @@
 --[[
 =============================================================================================================
 SCRIPT NAME:    anti_aimbot.lua
-DESCRIPTION:    Anti-aimbot detection. Every tick it checks whether each living player's camera is lined up
-                with an enemy and scores the suspicious cases. When a player's score passes CFG.AUTO_AIM.MAX_SCORE,
-                the configured command runs (kick by default).
+DESCRIPTION:    See https://chalwk.github.io/halo/sapp/anti-aimbot/ for setup/configuration documentation.
 
-                WHAT GETS SCORED:
-                - Snaps: a big camera jump in a single tick that ends on an enemy.
-                - Tracking: tiny camera movement while the player is moving and the crosshair sits on an enemy.
-                - Pattern: new locks that arrive at suspiciously even intervals.
-                - Visibility: points are scaled down when there is a wall between shooter and target.
-                - Camo: points are scaled up when the target is camouflaged, since landing hits on an invisible
-                  player is a strong sign.
 
-                WHAT SHAPES THE AIM CONE:
-                - Weapon: each weapon has its own modifier (see CFG.WEAPON_MODIFIERS).
-                - Speed: the cone shrinks while the shooter is moving.
-                - Accuracy: the cone grows or shrinks with the shooter's hit rate this life.
-
-                COMPATIBILITY:
-                - This script currently only supports stock weapons and will not work on custom maps with
-                  custom weapon tags unless you add those custom weapon tags to CFG.WEAPON_MODIFIERS and
-                  CFG.ENERGY_WEAPONS.
-
-                USAGE:
-                1. Tune the CFG table below for your server.
-                2. Set CFG.ENFORCEMENT.COMMAND, CFG.ENFORCEMENT.IPBAN_TIME_MINUTES, and
-                   CFG.MESSAGES.PLAYER_KICK_REASON.
-                3. Load it. A line is printed to the server console every time it enforces.
-
-                TUNING NOTES:
-                - This is a heuristic, so start with a high CFG.AUTO_AIM.MAX_SCORE and watch the console before
-                  trusting it with bans.
-                - Raise CFG.AUTO_AIM.MAX_SCORE to be more lenient. Lower CFG.AUTO_AIM.ANGLE_THRESHOLD_DEGREES
-                  to narrow the cone.
-                - The CFG.SCORING table controls how fast each kind of event adds up.
-                - The tracking branch is off by default (CFG.SNAP_DETECTION.TRACKING_ENABLED). Steady aim
-                  during a strafing duel looks a lot like tracking, so only turn it on after testing.
-
-LAST UPDATED:   14 Nov 2026
+LAST UPDATED:   19 Nov 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:        MIT License
@@ -59,6 +25,7 @@ api_version = "1.12.0.0"
 ---@field ANGLE_THRESHOLD_DEGREES     number                 Base aim cone around an enemy (degrees).
 ---@field MIN_ANGLE_THRESHOLD_DEGREES number                 Floor for the cone after all modifiers (degrees).
 ---@field MAX_SCORE                   number                 Score that triggers enforcement.
+---@field WARN_SCORE                  number                 Score that prints a console warning, once per life (0 disables).
 ---@field DYNAMIC_THRESHOLD           DynamicThresholdConfig
 
 ---@class SnapDetectionConfig
@@ -85,6 +52,8 @@ api_version = "1.12.0.0"
 
 ---@class MessagesConfig
 ---@field ADMIN_ALERT        string Server-console format string for the enforcement alert.
+---@field IMMUNE_ALERT       string Server-console format string for an alert on an immune admin (name, id, score, level).
+---@field WARNING_ALERT      string Server-console format string for the warning (name, id, score, limit).
 ---@field PLAYER_KICK_REASON string Reason shown to the kicked/banned player.
 
 ---@class DecayConfig
@@ -116,6 +85,16 @@ api_version = "1.12.0.0"
 ---@field ENABLED          boolean Scale the score when the target is camouflaged.
 ---@field SCORE_MULTIPLIER number  Score multiplier when the target is camouflaged.
 
+---@class ImmunityConfig
+---@field LEVELS table<number, boolean> Admin levels exempt from enforcement (true = exempt).
+
+---@class TriggerWeightingConfig
+---@field ENABLED          boolean Raise a snap's score when the shooter fires soon after it.
+---@field WINDOW_TICKS     number  Ticks after a snap in which firing counts (30 ticks = 1 second).
+---@field SCORE_MULTIPLIER number  Multiplier applied to the snap's score when the shooter fires in the window.
+---@field ACTIVE_THRESHOLD number  Trigger value above this counts as firing.
+---@field LOG_VALUES       boolean Print a player's trigger value whenever it changes (for checking the offset).
+
 ---@class AntiAimbotConfig
 ---@field AUTO_AIM          AutoAimConfig
 ---@field SNAP_DETECTION    SnapDetectionConfig
@@ -131,19 +110,26 @@ api_version = "1.12.0.0"
 ---@field PATTERN_DETECTION PatternDetectionConfig
 ---@field ENVIRONMENTAL     EnvironmentalConfig
 ---@field CAMO              CamoConfig
+---@field IMMUNITY          ImmunityConfig
+---@field TRIGGER_WEIGHTING TriggerWeightingConfig
 
 ---@class PlayerAimState
----@field aim_score         number       Aim score for the current life.
----@field lock_count        number       Running lock count (decays when no scoring).
----@field last_decay_time   number       Timestamp (seconds) when decay was last applied.
----@field lock_pattern      number[]     Timestamps (seconds) of recent new locks.
----@field was_scoring       boolean      True if the previous tick scored (for new-lock detection).
----@field dynamic_threshold number       Current aim cone half angle (degrees).
----@field accuracy_history  number[]     Recent per-volley accuracy samples.
----@field shots_fired       number       Shots fired this life.
----@field shots_hit         number       Shots that landed on an enemy this life.
----@field last_fire_value   number | nil Last magazine count, or heat for energy weapons.
----@field last_weapon_id    number | nil Last held weapon object ID (for switch detection).
+---@field aim_score          number       Aim score for the current life.
+---@field lock_count         number       Running lock count (decays when no scoring).
+---@field last_decay_time    number       Timestamp (seconds) when decay was last applied.
+---@field lock_pattern       number[]     Timestamps (seconds) of recent new locks.
+---@field was_scoring        boolean      True if the previous tick scored (for new-lock detection).
+---@field dynamic_threshold  number       Current aim cone half angle (degrees).
+---@field accuracy_history   number[]     Recent per-volley accuracy samples.
+---@field shots_fired        number       Shots fired this life.
+---@field shots_hit          number       Shots that landed on an enemy this life.
+---@field last_fire_value    number | nil Last magazine count, or heat for energy weapons.
+---@field last_weapon_id     number | nil Last held weapon object ID (for switch detection).
+---@field warned             boolean      True once the warning has printed this life.
+---@field trigger_active     boolean      True if the trigger was active this tick.
+---@field snap_tick          number | nil Tick of a scored snap still waiting for the shooter to fire.
+---@field snap_points        number       Score of that snap, used to size the firing bonus.
+---@field last_trigger_value number | nil Last trigger value printed by LOG_VALUES.
 
 --
 -- CONFIGURATION STARTS
@@ -155,6 +141,7 @@ local CFG = {
         ANGLE_THRESHOLD_DEGREES = 2.5,     -- Base aim cone around an enemy (degrees)
         MIN_ANGLE_THRESHOLD_DEGREES = 0.2, -- Floor for the cone after all modifiers (degrees)
         MAX_SCORE = 3000,                  -- Score that triggers enforcement
+        WARN_SCORE = 1500,                 -- Score that prints a console warning, once per life (0 disables)
         DYNAMIC_THRESHOLD = {
             ENABLED = true,
             BASE_MULTIPLIER = 1.0, -- Cone multiplier at 50% accuracy
@@ -190,8 +177,28 @@ local CFG = {
         IPBAN_TIME_MINUTES = 60 -- 0 means an indefinite IP ban
     },
 
+    IMMUNITY = {
+        -- Admin levels exempt from enforcement (true = exempt). They are still scored and still alerted.
+        LEVELS = {
+            [1] = true,
+            [2] = true,
+            [3] = true,
+            [4] = true
+        }
+    },
+
+    TRIGGER_WEIGHTING = {
+        ENABLED = false,        -- Raise a snap's score when the shooter fires soon after it (see tuning notes)
+        WINDOW_TICKS = 6,       -- Ticks after a snap in which firing counts (30 ticks = 1 second)
+        SCORE_MULTIPLIER = 1.5, -- Multiplier applied to the snap's score when the shooter fires in the window
+        ACTIVE_THRESHOLD = 0,   -- Trigger value above this counts as firing
+        LOG_VALUES = false      -- Print a player's trigger value whenever it changes (to check the offset)
+    },
+
     MESSAGES = {
         ADMIN_ALERT = "[anti_aimbot] %s (id %d) reached score %.0f, running '%s'",
+        IMMUNE_ALERT = "[anti_aimbot] %s (id %d) reached score %.0f, admin level %d is immune, no action taken",
+        WARNING_ALERT = "[anti_aimbot] %s (id %d) reached warning score %.0f (limit %.0f)",
         PLAYER_KICK_REASON = "Aimbot detection"
     },
 
@@ -260,6 +267,7 @@ local BASE_TAG_TABLE = 0x40440000 -- Same on PC and CE
 local TICKS_PER_SECOND = 30
 local METERS_PER_WU = 3.048
 local NO_OBJECT = 0xFFFFFFFF
+local TRIGGER_OFFSET = 0x490 -- Primary trigger / shooting state (float) in the dynamic player
 
 ---@type table<number, PlayerAimState | nil>
 local players = {}
@@ -470,6 +478,14 @@ local function isEnemy(shooter_id, target_id)
     return is_ffa or target_team ~= tick_teams[shooter_id]
 end
 
+-- Immune players are still scored. Only the action at the limit is skipped.
+---@param player_id number Player index.
+---@return boolean immune, number | nil level True if the player's admin level is exempt, and that level.
+local function isImmune(player_id)
+    local level = tonumber(get_var(player_id, "$lvl"))
+    return level ~= nil and CFG.IMMUNITY.LEVELS[level] == true, level
+end
+
 ---@param values number[] Samples to measure.
 ---@return number mean, number std_dev Average and population standard deviation of the samples.
 local function computeStats(values)
@@ -494,14 +510,19 @@ local function newState()
         aim_score = 0,
         lock_count = 0,
         last_decay_time = now(),
-        lock_pattern = {},     -- Times of recent new locks
-        was_scoring = false,   -- True if the previous tick scored, used to spot new locks
+        lock_pattern = {},       -- Times of recent new locks
+        was_scoring = false,     -- True if the previous tick scored, used to spot new locks
         dynamic_threshold = CFG.AUTO_AIM.ANGLE_THRESHOLD_DEGREES,
         accuracy_history = { CFG.ACCURACY.DEFAULT },
-        shots_fired = 0,       -- Shots fired this life
-        shots_hit = 0,         -- Shots that landed on an enemy this life
-        last_fire_value = nil, -- Last magazine count, or heat for energy weapons
-        last_weapon_id = nil   -- Last held weapon, used to spot weapon switches
+        shots_fired = 0,         -- Shots fired this life
+        shots_hit = 0,           -- Shots that landed on an enemy this life
+        last_fire_value = nil,   -- Last magazine count, or heat for energy weapons
+        last_weapon_id = nil,    -- Last held weapon, used to spot weapon switches
+        warned = false,          -- True once the warning has printed this life
+        trigger_active = false,  -- True if the trigger was active this tick
+        snap_tick = nil,         -- Tick of a scored snap still waiting for the shooter to fire
+        snap_points = 0,         -- Score of that snap
+        last_trigger_value = nil -- Last value printed by TRIGGER_WEIGHTING.LOG_VALUES
     }
 end
 
@@ -517,6 +538,10 @@ local function resetLife(state)
     state.shots_hit = 0
     state.last_fire_value = nil
     state.last_weapon_id = nil
+    state.warned = false
+    state.trigger_active = false
+    state.snap_tick = nil
+    state.snap_points = 0
 end
 
 ---@param state PlayerAimState Per-player state.
@@ -694,6 +719,43 @@ local function updateAccuracy(shooter_id, shooter_dyn)
     state.last_fire_value = fire_value
 end
 
+-- Adds the firing bonus on top of the snap's score.
+---@param state PlayerAimState Per-player state.
+local function applyFiringBonus(state)
+    state.aim_score = state.aim_score + state.snap_points * (CFG.TRIGGER_WEIGHTING.SCORE_MULTIPLIER - 1)
+    state.snap_tick = nil
+end
+
+-- Samples the trigger once per tick. A scored snap waits up to WINDOW_TICKS for the shooter to fire.
+---@param shooter_id  number Shooter player index.
+---@param shooter_dyn number Shooter dynamic player address.
+local function updateTrigger(shooter_id, shooter_dyn)
+    local config = CFG.TRIGGER_WEIGHTING
+    if not (config.ENABLED or config.LOG_VALUES) then return end
+
+    local state = players[shooter_id]
+    ---@cast state PlayerAimState
+
+    local value = read_float(shooter_dyn + TRIGGER_OFFSET)
+
+    if config.LOG_VALUES and value ~= state.last_trigger_value then
+        state.last_trigger_value = value
+        cprint(fmt("[anti_aimbot] %s trigger value %.3f", get_var(shooter_id, "$name"), value), 11)
+    end
+
+    if not config.ENABLED then return end
+
+    state.trigger_active = value > config.ACTIVE_THRESHOLD
+
+    if not state.snap_tick then return end
+
+    if tick_count - state.snap_tick > config.WINDOW_TICKS then
+        state.snap_tick = nil
+    elseif state.trigger_active then
+        applyFiringBonus(state)
+    end
+end
+
 -- Cone size for this tick: dynamic threshold, then speed, then weapon, then the floor.
 ---@param shooter_id  number Shooter player index.
 ---@param shooter_dyn number Shooter dynamic player address.
@@ -817,6 +879,13 @@ local function evaluateAim(shooter_id, shooter_dyn, target_id, snap_angle_deg, d
 
     state.aim_score = state.aim_score + final_score
 
+    -- A snap waits for the shooter to fire. If the trigger is already down, the bonus applies now.
+    if CFG.TRIGGER_WEIGHTING.ENABLED and is_snap then
+        state.snap_tick = tick_count
+        state.snap_points = final_score
+        if state.trigger_active then applyFiringBonus(state) end
+    end
+
     if CFG.PATTERN_DETECTION.ENABLED and is_new_lock then
         checkPattern(state)
     end
@@ -828,6 +897,13 @@ end
 local function enforce(shooter_id)
     local state = players[shooter_id]
     if not state then return end
+
+    local immune, level = isImmune(shooter_id)
+    if immune then
+        cprint(fmt(CFG.MESSAGES.IMMUNE_ALERT, get_var(shooter_id, "$name"), shooter_id, state.aim_score, level), 13)
+        resetLife(state)
+        return
+    end
 
     cprint(
         fmt(
@@ -872,6 +948,7 @@ local function processPlayerAim(shooter_id)
     end
 
     updateAccuracy(shooter_id, shooter_dyn)
+    updateTrigger(shooter_id, shooter_dyn)
 
     local orientation_change = calculateOrientationChange(shooter_id, shooter_dyn)
     local threshold = getAimThreshold(shooter_id, shooter_dyn)
@@ -891,6 +968,17 @@ local function processPlayerAim(shooter_id)
         state.lock_count = max(0, state.lock_count - 0.5)
     end
     state.was_scoring = scoring_occurred
+
+    local warn_score = CFG.AUTO_AIM.WARN_SCORE
+    if warn_score > 0 and not state.warned and state.aim_score >= warn_score then
+        state.warned = true
+        cprint(
+            fmt(
+                CFG.MESSAGES.WARNING_ALERT, get_var(shooter_id, "$name"), shooter_id, state.aim_score,
+                CFG.AUTO_AIM.MAX_SCORE
+            ), 14
+        )
+    end
 
     if state.aim_score > CFG.AUTO_AIM.MAX_SCORE then
         enforce(shooter_id)
