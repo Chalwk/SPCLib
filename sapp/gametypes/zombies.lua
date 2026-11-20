@@ -1,59 +1,44 @@
 --[[
 =====================================================================================
-SCRIPT NAME:    zombies_advanced.lua
+SCRIPT NAME:    zombies.lua
 DESCRIPTION:    Zombie survival mode where humans fight against zombies.
-                  Zombies convert humans by killing them.
-
-KEY FEATURES:
-                 - Team conversion mechanics (humans to zombies)
-                 - Zombies use melee weapons only (and carry no grenades)
-                 - Configurable attributes for both teams
-                 - Victory condition: when all humans are eliminated
-                 - Player count-based game activation
-                 - Cancellable countdown timer before the match starts
-                 - Team shuffling with at least one human guaranteed
-                 - Death message suppression during rounds
-                 - Alpha Zombie and Standard Zombie types
-                 - Last Man Standing bonus for the final human
-                 - Dynamic alpha zombie count based on player population
-                 - Team-swap protection during a round
-                 - Works on MOST custom maps, including ones with obfuscated/protected tags.
+                Zombies convert humans by killing them.
 
 CONFIGURATION:
-    - REQUIRED_PLAYERS:           Minimum players needed to start (default: 2)
-    - COUNTDOWN_DELAY:            Countdown duration in seconds (default: 5)
-    - CURE_THRESHOLD:             Infections needed for a zombie to become human again
-                                  (default: 6, 0 disables curing)
-    - CONSECUTIVE:                true = the infections must happen in a single life
-                                  false = infections accumulate across lives
-    - SERVER_PREFIX:              Server message prefix (default: "**ZOMBIES**")
-    - ZOMBIFY_ON_SUICIDE:         Convert humans to zombies on suicide (default: true)
-    - ZOMBIFY_ON_FALL_DAMAGE:     Convert humans to zombies on fall damage (default: true)
-    - LAST_MAN_NAV:               Enable navigation waypoints for Last Man Standing (default: true)
-    - END_ON_NO_PLAYERS:          End the round when no zombies remain (default: true)
-    - SHOW_ZOMBIE_TYPE_MESSAGES:  Show messages when a player converts to a zombie (default: false)
-    - ATTRIBUTES_COMMAND_ENABLED: Enable "/attributes" command (default: true)
-    - ATTRIBUTES_COMMAND:         Command to show player attributes (default: "attributes")
-    - ZOMBIE_COUNT:               Dynamic alpha zombie count based on player population
-                                  Format: {min players, max players, zombie count}
-                                  Example: {1, 4, 1} = 1 alpha zombie for 1-4 players
+    
+    - REQUIRED_PLAYERS:             Minimum players needed to start (default: 2)
+    - COUNTDOWN_DELAY:              Countdown duration in seconds (default: 5)
+    - CURE_THRESHOLD:               Infections needed for a zombie to become human again
+    - CONSECUTIVE:                  true = the infections must happen in a single life
+                                    false = infections accumulate across lives
+    - SERVER_PREFIX:                Server message prefix (default: "**ZOMBIES**")
+    - ZOMBIFY_ON_SUICIDE:           Convert humans to zombies on suicide (default: true)
+    - ZOMBIFY_ON_FALL_DAMAGE:       Convert humans to zombies on fall damage (default: true)
+    - LAST_MAN_NAV:                 Enable navigation waypoints for Last Man Standing (default: true)
+    - END_ON_NO_PLAYERS:            End the round when no zombies remain (default: true)
+    - SHOW_ZOMBIE_TYPE_MESSAGES:    Show messages when a player converts to a zombie (default: false)
+    - ATTRIBUTES_COMMAND_ENABLED:   Enable "/attributes" command (default: true)
+    - ATTRIBUTES_COMMAND:           Command to show player attributes (default: "attributes")
+    - ZOMBIE_COUNT:                 Dynamic alpha zombie count based on player population
+                                        Format: {min players, max players, zombie count}
+                                        Example: {1, 4, 1} = 1 alpha zombie for 1-4 players
 
     - Team Attributes:
-        * alpha_zombies:          Enhanced zombies with better stats
-        * standard_zombies:       Regular zombies
-        * humans:                 Default human players
-        * last_man_standing:      Enhanced human attributes for last remaining player
+        - alpha_zombies:            Enhanced zombies with better stats
+        - standard_zombies:         Regular zombies
+        - humans:                   Default human players
+        - last_man_standing:        Enhanced human attributes for last remaining player
 
-      Each team type has configurable:
-        - SPEED:                  Movement multiplier
-        - HEALTH:                 Health multiplier
-        - RESPAWN_TIME:           Respawn delay (seconds)
-        - DAMAGE_MULTIPLIER:      Damage amplification
-        - CAMO:                   Active camouflage (while crouched)
-        - GRENADES:               Number of frag/plasma grenades (0-7)
-        - HEALTH_REGEN:           Health regeneration per tick (Last Man Standing only)
+    - Each team type has configurable:
+        - SPEED:                    Movement multiplier
+        - HEALTH:                   Health multiplier
+        - RESPAWN_TIME:             Respawn delay (seconds)
+        - DAMAGE_MULTIPLIER:        Damage amplification
+        - CAMO:                     Active camouflage (while crouched)
+        - GRENADES:                 Number of frag/plasma grenades (0-7)
+        - HEALTH_REGEN:             Health regeneration per tick (Last Man Standing only)
 
-LAST UPDATED: 14 Nov 2026
+LAST UPDATED: 20 Nov 2026
 
 Copyright (c) 2025-2026 Jericho Crosby (Chalwk)
 LICENSE:    MIT License
