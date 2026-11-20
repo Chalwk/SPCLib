@@ -74,6 +74,7 @@
   "LIBRARIES": {
     "json": "Dependency-free JSON encoder and decoder in pure Lua, with array/object helpers and explicit null support. Compatible with SAPP, Phasor, and Chimera.",
     "map_coordinates": "Coordinates for standard maps, organized by spawn type.",
+    "netgame_flags": "SAPP-only netgame objective API for CTF flags, KOTH hills, Oddball, and Race checkpoints.",
     "pagination": "Cross-platform pagination for tabular data, with page bounds and adaptive output for SAPP, Phasor, and Chimera.",
     "vehicle_library": "Configuration data for stock and custom vehicles, including seat roles and display names."
   },
