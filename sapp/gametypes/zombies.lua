@@ -89,7 +89,7 @@ LICENSE:    MIT License
 ---@field ZOMBIE_COUNT               ZombieCountRange[]
 ---@field ATTRIBUTES                 table<PlayerType, TeamAttributes>
 
--- Configuration starts ---------------------------------------------------------------
+-- CONFIG STARTS --------------------------------------------------------------
 
 ---@type ZombieConfig
 local CONFIG = {
@@ -146,7 +146,7 @@ local CONFIG = {
         }
     }
 }
--- Configuration ends ---------------------------------------------------------------
+-- CONFIG ENDS --------------------------------------------------------------
 
 api_version = '1.12.0.0'
 

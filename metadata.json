@@ -215,8 +215,7 @@
       "swat": "SWAT: headshot-only with pistol/sniper, no other weapons/vehicles. Config: infinite ammo, bottomless clip, score limits, loadouts.",
       "tag": "Tag: Tagger chases Runners, tag transfers role. Runners score over time, Tagger bonus per tag. Config rotation, speed, scores, duration.",
       "team_defender": "Team Defender: hold flag for double team points, assist bonus. Roles: carrier, defenders, attackers. Random flag spawn, config respawn, multipliers.",
-      "zombies_advanced": "Zombies: humans vs zombies, convert on kill, Alpha/Standard types, Last Man Standing bonuses, camo, vehicle restrictions, config attributes.",
-      "zombies_standard": "Basic zombies: convert on kill, simple speed/respawn adjustments, zombie camo, win when all infected."
+      "zombies": "Zombies: humans vs zombies, convert on kill, Alpha/Standard types, Last Man Standing bonuses, camo, vehicle restrictions, config attributes."
     },
     "modules": {
       "rcon_text": "Advanced RCON messages: multi-format, priority queues (Low-High-Critical), display modes (persistent/timed/repeating), grouping, player/global, conditional, lifecycle management."
